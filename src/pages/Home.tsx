@@ -107,10 +107,12 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
   )
 }
 
-function firstSentences(text: string): string {
+function firstSentences(text: string, max = 190): string {
   const plain = text.replace(/\*\*|\*|`/g, '')
-  const parts = plain.split(/(?<=[.!?])\s+/)
-  return parts.slice(0, 2).join(' ')
+  const first = plain.split(/(?<=[.!?])\s+/)[0] ?? plain
+  if (first.length <= max) return first
+  const cut = first.slice(0, max)
+  return `${cut.slice(0, cut.lastIndexOf(' '))} …`
 }
 
 export function Home() {

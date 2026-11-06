@@ -214,6 +214,10 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
       <div className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={`${title} – Pfeiltasten wechseln die Schritte`}>
         {svg}
       </div>
+      <p className="dg-swipe-hint" aria-hidden="true">
+        Diagramm seitlich wischen
+        <Icon name="arrowRight" size={14} />
+      </p>
       <div className="dg-controls">
         <button type="button" className="btn btn--secondary btn--small" onClick={() => go(step - 1)} disabled={step < 0}>
           <Icon name="chevronLeft" size={16} />

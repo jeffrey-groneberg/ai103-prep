@@ -695,6 +695,15 @@
   color: var(--ink-3);
 }
 
+.match-chip__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.dg-swipe-hint {
+  display: none;
+}
+
 .match__rows {
   display: grid;
   gap: var(--s2);
@@ -1138,9 +1147,20 @@
   .dg-canvas {
     padding: var(--s2);
     overflow-x: auto;
+    overscroll-behavior-x: contain;
   }
 
   .dg-canvas .dg-svg {
     min-width: 640px;
+  }
+
+  .dg-swipe-hint {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 6px var(--s3) 0;
+    font-size: 12px;
+    color: var(--ink-3);
   }
 }

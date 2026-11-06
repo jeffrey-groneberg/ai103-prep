@@ -283,7 +283,7 @@ function MatchArea({
           {targets.map((t) => (
             <li key={t.id} className="match-chip" draggable={!revealed} onDragStart={() => setDragTarget(t.id)}>
               <Icon name="drag" size={14} className="bl-item__grip" />
-              {renderInline(tx(t.text, lang))}
+              <span className="match-chip__text">{renderInline(tx(t.text, lang))}</span>
             </li>
           ))}
         </ul>

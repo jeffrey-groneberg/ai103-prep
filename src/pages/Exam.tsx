@@ -179,7 +179,7 @@ function Runner({ session }: { session: ExamSession }) {
     const record: ExamRecord = {
       id: session.id,
       finishedAt: new Date().toISOString(),
-      minutesUsed: Math.min(session.minutes, Math.round((Date.now() - new Date(session.startedAt).getTime()) / 60_000)),
+      minutesUsed: Math.min(session.minutes, Math.max(1, Math.ceil((Date.now() - new Date(session.startedAt).getTime()) / 60_000))),
       minutes: session.minutes,
       questionIds: session.questionIds,
       answers: session.answers,

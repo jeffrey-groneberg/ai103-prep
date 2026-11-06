@@ -9,3 +9,4 @@ test-results/
 .impeccable/questions/
 .impeccable/live/
 *.local
+dist-lessons/
