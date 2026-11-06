@@ -45,6 +45,11 @@ svg {
   display: block;
 }
 
+/* Icons keep their size in flex rows, even when the text beside them wraps. */
+.icon {
+  flex-shrink: 0;
+}
+
 button,
 input,
 select,

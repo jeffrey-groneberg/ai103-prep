@@ -91,7 +91,7 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
             <Diagram diagram={lesson.diagrams[0]} lang={lang} mini />
           </Link>
         )}
-        <p className="next-card__summary">{lesson ? firstSentences(tx(lesson.summary, lang)) : 'Die Lektion für dieses Modul wird gerade vorbereitet.'}</p>
+        <p className="next-card__summary" lang={lesson ? lang : undefined}>{lesson ? firstSentences(tx(lesson.summary, lang)) : 'Die Lektion für dieses Modul wird gerade vorbereitet.'}</p>
       </div>
       <div className="next-card__actions">
         <Link to={primary.to} className="btn btn--primary btn--large">

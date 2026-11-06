@@ -119,7 +119,9 @@ function ChoiceList({
               <span className="choice__letter" aria-hidden="true">
                 {LETTERS[i]}
               </span>
-              <span className="choice__text">{renderInline(tx(o.text, lang))}</span>
+              <span className="choice__text" lang={lang}>
+                {renderInline(tx(o.text, lang))}
+              </span>
               {revealed && (o.correct || picked) && (
                 <span className="choice__verdict">
                   <Icon name={o.correct ? 'checkCircle' : 'dismissCircle'} size={20} />
@@ -127,7 +129,11 @@ function ChoiceList({
                 </span>
               )}
             </label>
-            {revealed && <p className="choice__why">{renderInline(tx(o.why, lang))}</p>}
+            {revealed && (
+              <p className="choice__why" lang={lang}>
+                {renderInline(tx(o.why, lang))}
+              </p>
+            )}
           </div>
         )
       })}
@@ -186,7 +192,9 @@ function BuildList({
           {pool.map((item) => (
             <li key={item.id} className="bl-item" draggable={!revealed} onDragStart={() => setDragId(item.id)}>
               <Icon name="drag" size={16} className="bl-item__grip" />
-              <span className="bl-item__text">{renderInline(tx(item.text, lang))}</span>
+              <span className="bl-item__text" lang={lang}>
+                {renderInline(tx(item.text, lang))}
+              </span>
               <button type="button" className="icon-btn" onClick={() => add(item.id)} disabled={revealed} aria-label="In den Antwortbereich verschieben">
                 <Icon name="arrowRight" size={16} />
               </button>
@@ -215,7 +223,9 @@ function BuildList({
                 }}
               >
                 <span className="bl-item__num">{idx + 1}</span>
-                <span className="bl-item__text">{renderInline(tx(item.text, lang))}</span>
+                <span className="bl-item__text" lang={lang}>
+                  {renderInline(tx(item.text, lang))}
+                </span>
                 {!revealed && (
                   <span className="bl-item__actions">
                     <button type="button" className="icon-btn" onClick={() => move(idx, -1)} disabled={idx === 0} aria-label="Nach oben">
@@ -240,7 +250,7 @@ function BuildList({
           <h4>Richtige Reihenfolge</h4>
           <ol className="reveal-list">
             {q.items.map((item) => (
-              <li key={item.id}>
+              <li key={item.id} lang={lang}>
                 <strong>{renderInline(tx(item.text, lang))}</strong>
                 <span>{renderInline(tx(item.why, lang))}</span>
               </li>
@@ -284,7 +294,9 @@ function MatchArea({
           {targets.map((t) => (
             <li key={t.id} className="match-chip" draggable={!revealed} onDragStart={() => setDragTarget(t.id)}>
               <Icon name="drag" size={14} className="bl-item__grip" />
-              <span className="match-chip__text">{renderInline(tx(t.text, lang))}</span>
+              <span className="match-chip__text" lang={lang}>
+                {renderInline(tx(t.text, lang))}
+              </span>
             </li>
           ))}
         </ul>
@@ -298,7 +310,9 @@ function MatchArea({
             const ok = revealed && value === p.answer
             return (
               <li key={p.id} className={`match-row${revealed ? (ok ? ' is-correct' : ' is-wrong') : ''}`}>
-                <div className="match-row__prompt">{renderInline(tx(p.prompt, lang))}</div>
+                <div className="match-row__prompt" lang={lang}>
+                  {renderInline(tx(p.prompt, lang))}
+                </div>
                 <div
                   className={`match-slot${value ? ' is-filled' : ''}`}
                   onDragOver={(e) => e.preventDefault()}
@@ -314,7 +328,7 @@ function MatchArea({
                   <select id={`${q.id}-${p.id}`} value={value ?? ''} disabled={revealed} onChange={(e) => setPair(p.id, e.target.value || null)}>
                     <option value="">Wert wählen …</option>
                     {targets.map((t) => (
-                      <option key={t.id} value={t.id}>
+                      <option key={t.id} value={t.id} lang={lang}>
                         {tx(t.text, lang).replace(/`/g, '')}
                       </option>
                     ))}
@@ -325,10 +339,10 @@ function MatchArea({
                   <p className="match-row__why">
                     {!ok && (
                       <>
-                        Richtig: <strong>{renderInline(tx(targetById.get(p.answer)?.text, lang))}</strong>.{' '}
+                        Richtig: <strong lang={lang}>{renderInline(tx(targetById.get(p.answer)?.text, lang))}</strong>.{' '}
                       </>
                     )}
-                    {renderInline(tx(p.why, lang))}
+                    <span lang={lang}>{renderInline(tx(p.why, lang))}</span>
                   </p>
                 )}
               </li>
@@ -413,10 +427,10 @@ function CodeCompletion({
                   <strong>
                     Lücke {i + 1}: <code>{correctOpt.code}</code>
                   </strong>
-                  <span>{renderInline(tx(correctOpt.why, lang))}</span>
+                  <span lang={lang}>{renderInline(tx(correctOpt.why, lang))}</span>
                   {pick && !pick.correct && (
                     <span className="reveal-list__wrong">
-                      Deine Wahl <code>{pick.code}</code>: {renderInline(tx(pick.why, lang))}
+                      Deine Wahl <code>{pick.code}</code>: <span lang={lang}>{renderInline(tx(pick.why, lang))}</span>
                     </span>
                   )}
                 </li>
@@ -434,9 +448,11 @@ export function CasePanel({ caseStudy, lang }: { caseStudy: CaseStudy; lang: Lan
     <aside className="case-panel" aria-label="Fallstudie">
       <h3 className="case-panel__title">
         <Icon name="document" size={20} />
-        Fallstudie: {tx(caseStudy.title, lang)}
+        <span>
+          Fallstudie: <span lang={lang}>{tx(caseStudy.title, lang)}</span>
+        </span>
       </h3>
-      <RichText text={tx(caseStudy.scenario, lang)} className="case-panel__body" />
+      <RichText text={tx(caseStudy.scenario, lang)} className="case-panel__body" lang={lang} />
     </aside>
   )
 }
@@ -447,7 +463,7 @@ export function QuestionView({ question: q, lang, answer, onChange, revealed, se
       {caseStudy && <CasePanel caseStudy={caseStudy} lang={lang} />}
       <div className="question__main">
         {!examMode && <QuestionMeta q={q} />}
-        <RichText text={tx(q.stem, lang)} className="question__stem" />
+        <RichText text={tx(q.stem, lang)} className="question__stem" lang={lang} />
         {q.code && <CodeBlock code={q.code} />}
         {(q.type === 'single' || q.type === 'multi') && <ChoiceList q={q} lang={lang} answer={answer} onChange={onChange} revealed={revealed} seed={seed} />}
         {q.type === 'order' && <BuildList q={q} lang={lang} answer={answer} onChange={onChange} revealed={revealed} seed={seed} />}
@@ -466,7 +482,7 @@ export function Explanation({ q, lang, answer }: { q: Question; lang: Lang; answ
       <p className="explanation__score">
         {r.correct ? 'Vollständig richtig.' : r.score > 0 ? `Teilweise richtig: ${r.partsCorrect} von ${r.parts} Teilen.` : 'Nicht richtig.'}
       </p>
-      <RichText text={tx(q.explanation, lang)} className="explanation__text" />
+      <RichText text={tx(q.explanation, lang)} className="explanation__text" lang={lang} />
       <div className="explanation__links">
         {mod && (
           <Link to={`/lernen/${mod.id}`} className="link-inline">

@@ -163,6 +163,7 @@ Alles nach `--` reicht npm an das Skript weiter.
 | `npm run validate` | Fragen, Lektionen, Diagramme, Modelle und Abdeckung prüfen |
 | `npm run validate -- --matrix` | Wie oben und zusätzlich `docs/coverage.md` neu schreiben |
 | `npm run validate -- --only foundry-iq` | Nur die genannten Module prüfen (mehrere mit Komma) |
+| `npm run audit:diagrams` | Alle 60 Diagramme im Browser rendern und prüfen, auf Englisch und Deutsch: Textüberlauf, Pfeile, Beschriftungen, Schritte. Braucht den laufenden `npm run dev`; beim ersten Mal `npx playwright install chromium`. Bilder und Bericht landen in `audit-diagrams/` |
 | `npm run check:learn` | Live-Abgleich mit Learn-Katalog, Study Guide und Model retirement schedule |
 | `npm run models:refresh` | Lokale Kopie des Model retirement schedule aktualisieren |
 | `npm run check:links` | Alle Quell-Links prüfen |
@@ -190,7 +191,7 @@ src/
   pages/                 Start, Lernen, Lektion, Üben, Prüfung, Wiederholen, Fortschritt, Abdeckung, Ressourcen
   styles/                Design-Tokens und Styles
 scripts/                 validate-content, check-learn, check-links, model-lifecycle, source-titles,
-                         export-lessons, gen-icons
+                         export-lessons, gen-icons, audit-diagrams
 tests/                   Vitest: Bewertung, Prüfung, Leitner, Inhaltsprüfung, Geometrie, Diagramm-Vorschau,
                          App-Smoke-Test, kompletter Fragenkatalog
 docs/                    content-guide.md (Regeln und geprüfte Fakten), coverage.md (generiert)

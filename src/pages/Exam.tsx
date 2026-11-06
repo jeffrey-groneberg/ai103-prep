@@ -420,7 +420,7 @@ function Results({ record }: { record: ExamRecord }) {
                     <Icon name={r.correct ? 'checkCircle' : 'dismissCircle'} size={20} />
                     <span className="result-item__num">{i + 1}</span>
                     <span className={`domain-chip domain-${q.domain}`}>{q.domain}</span>
-                    <span className="result-item__stem">{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
+                    <span className="result-item__stem" lang={lang}>{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
                     {!r.correct && r.score > 0 && <span className="tag">{Math.round(r.score * 100)} %</span>}
                   </summary>
                   <div className="result-item__body">

@@ -114,7 +114,7 @@ function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang })
   const path = summaryPath(diagram)
   const flat = (t: Parameters<typeof tx>[0]) => tx(t, lang).replace(/\s*\n\s*/g, ' ')
   return (
-    <div className="dg-summary" role="img" aria-label={`${flat(diagram.title)}: ${path.map((p) => flat(p.node.label)).join(', ')}`}>
+    <div className="dg-summary" lang={lang} role="img" aria-label={`${flat(diagram.title)}: ${path.map((p) => flat(p.node.label)).join(', ')}`}>
       {path.map(({ node: n, linked }, i) => (
         <Fragment key={n.id}>
           {i > 0 && (linked ? <Icon name="arrowRight" size={18} className="dg-summary__arrow" /> : <span className="dg-summary__gap" aria-hidden="true" />)}
@@ -257,6 +257,7 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
   const svg = (
     <svg
       className="dg-svg"
+      lang={lang}
       viewBox={`0 0 ${diagram.width} ${diagram.height}`}
       role="img"
       aria-labelledby={`${uid}-t ${uid}-d`}
@@ -320,8 +321,14 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
   return (
     <figure className="dg" aria-label={title}>
       <figcaption className="dg-head">
-        <h3 className="dg-title">{title}</h3>
-        {diagram.caption && <p className="dg-caption">{tx(diagram.caption, lang)}</p>}
+        <h3 className="dg-title" lang={lang}>
+          {title}
+        </h3>
+        {diagram.caption && (
+          <p className="dg-caption" lang={lang}>
+            {tx(diagram.caption, lang)}
+          </p>
+        )}
       </figcaption>
       <div ref={canvasRef} className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={`${title} – Pfeiltasten wechseln die Schritte`}>
         {svg}
@@ -380,9 +387,11 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
           <>
             <p className="dg-narration__title">
               <span className="dg-narration__num">{step + 1}</span>
-              {tx(active.title, lang)}
+              <span lang={lang}>{tx(active.title, lang)}</span>
             </p>
-            <p className="dg-narration__text">{renderInline(tx(active.text, lang))}</p>
+            <p className="dg-narration__text" lang={lang}>
+              {renderInline(tx(active.text, lang))}
+            </p>
           </>
         ) : (
           <p className="dg-narration__text dg-narration__text--hint">
@@ -392,7 +401,7 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
       </div>
       <ul className="dg-legend" aria-label="Legende">
         {usedTones.map((t) => (
-          <li key={t}>
+          <li key={t} lang={lang}>
             <span className={`dg-swatch tone-${t}`} aria-hidden="true" />
             {TONE_LABEL[t][lang]}
           </li>

@@ -143,12 +143,12 @@ export function LessonPage() {
             <>
               <section id="worum" className="lesson-section">
                 <h2>Worum geht’s</h2>
-                <RichText text={tx(lesson.summary, lang)} className="lesson-lead" />
+                <RichText text={tx(lesson.summary, lang)} className="lesson-lead" lang={lang} />
                 <div className="callout callout--exam">
                   <Icon name="target" size={20} />
                   <div>
                     <p className="callout__title">So wird’s geprüft</p>
-                    <RichText text={tx(lesson.examFocus, lang)} />
+                    <RichText text={tx(lesson.examFocus, lang)} lang={lang} />
                   </div>
                 </div>
               </section>
@@ -162,7 +162,7 @@ export function LessonPage() {
 
               <section id="konzepte" className="lesson-section">
                 <h2>Kernkonzepte</h2>
-                <dl className="concepts">
+                <dl className="concepts" lang={lang}>
                   {lesson.concepts.map((c) => (
                     <div key={c.term} className="concept">
                       <dt>{c.term}</dt>
@@ -175,7 +175,7 @@ export function LessonPage() {
               {lesson.comparison && (
                 <section id="vergleich" className="lesson-section">
                   <h2>Welcher Dienst wofür</h2>
-                  <div className="table-wrap" tabIndex={0} role="region" aria-label={tx(lesson.comparison.title, lang)}>
+                  <div className="table-wrap" tabIndex={0} role="region" aria-label={tx(lesson.comparison.title, lang)} lang={lang}>
                     <table className="compare">
                       <caption>{tx(lesson.comparison.title, lang)}</caption>
                       <thead>
@@ -211,10 +211,10 @@ export function LessonPage() {
                 <h2>So sieht’s im Code aus</h2>
                 {lesson.code.map((c, i) => (
                   <div key={i} className="code-sample">
-                    <h3>{tx(c.title, lang)}</h3>
+                    <h3 lang={lang}>{tx(c.title, lang)}</h3>
                     <CodeBlock code={c.code} />
                     {c.notes.length > 0 && (
-                      <ul className="code-notes">
+                      <ul className="code-notes" lang={lang}>
                         {c.notes.map((n, ni) => (
                           <li key={ni}>{renderInline(tx(n, lang))}</li>
                         ))}
@@ -226,7 +226,7 @@ export function LessonPage() {
 
               <section id="fallen" className="lesson-section">
                 <h2>Prüfungsfallen</h2>
-                <ul className="traps">
+                <ul className="traps" lang={lang}>
                   {lesson.traps.map((t, i) => (
                     <li key={i}>
                       <Icon name="warning" size={20} />
@@ -238,7 +238,7 @@ export function LessonPage() {
 
               <section id="merke" className="lesson-section">
                 <h2>Merksätze</h2>
-                <ul className="takeaways">
+                <ul className="takeaways" lang={lang}>
                   {lesson.takeaways.map((t, i) => (
                     <li key={i}>
                       <Icon name="lightbulb" size={20} />

@@ -124,7 +124,7 @@ export function Review() {
                   return (
                     <li key={id}>
                       <span className={`domain-chip domain-${q.domain}`}>{q.domain}</span>
-                      <span className="upcoming__stem">{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
+                      <span className="upcoming__stem" lang={lang}>{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
                       <span className="upcoming__due">{relativeDue(c.due)}</span>
                     </li>
                   )
@@ -150,7 +150,7 @@ export function Review() {
               {wrong.slice(0, 12).map((q) => (
                 <li key={q.id}>
                   <Icon name="dismissCircle" size={18} className="ink-bad" />
-                  <span className="wrong-list__stem">{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
+                  <span className="wrong-list__stem" lang={lang}>{tx(q.stem, lang).replace(/[`*]/g, '')}</span>
                   <Link to={`/lernen/${q.module}`} className="link-inline">
                     {moduleById.get(q.module)?.title}
                   </Link>

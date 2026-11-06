@@ -75,11 +75,13 @@ Anatomy (the app renders it in this order):
 
 ### Diagram rules
 
-- Canvas width 960; height 240–460. Coordinates are top-left based.
-- Nodes: `w ≥ 120`, `h` 56–80. Label capacity ≈ `(w − 16) / 7.4` characters per line, sub capacity ≈ `(w − 16) / 6.2`; `actor` nodes reserve another 26 px for the person icon. Use `\n` for a second label line. Product names stay English (plain string); generic words get `{ en, de }`.
-- Edge labels render as pills `chars × 6.4 + 14` px wide and 20 px high, centered on the edge midpoint. The gap between two connected nodes must exceed that width (plus ~20 px) for labelled edges; keep labels ≤ 18 characters. Unlabelled edges need ≥ 40 px.
-- Lay out flows left → right or top → bottom in rows/columns so straight arrows never cross a node. Use `via` points for detours. The validator uses the renderer's geometry (`src/lib/geometry.ts`): an arrow through another node is an error, a label pill on a node is a warning.
-- `groups` draw containment (Foundry resource ⊃ project, "Your app", "Azure AI Search"). Keep 20 px padding; groups must contain their nodes completely; leave 30 px at the top of a group for its label.
+- Canvas width is always 960; when a diagram needs room, make it taller, not wider. Coordinates are top-left based.
+- Nodes: aim for `w ≥ 120` and `h` 56–80. Text is measured with the app font's real glyph widths (`src/lib/text-metrics.ts`), per shape and per language: as a rough guide a label line holds `(w − 16) / 7.4` characters and a sub line `(w − 16) / 6.2`; `actor` nodes reserve 26 px more for the person icon, and pills, diamonds and stores (cylinders) lose room to their curves. The validator reports the exact width or height a line needs. Use `\n` for a second line. Product names stay English (plain string); generic words get `{ en, de }`.
+- Arrows start and end on each shape's drawn outline (pill ends, cylinder lids, diamond points, the doc fold), so leave at least 40 px between connected nodes; under 20 px the arrowhead hides the arrow and the validator fails it.
+- Edge labels are pills 20 px high and as wide as their measured text plus 18 px. A label sits on its arrow when at least 20 px of arrow stays visible on each side; otherwise it is placed beside the arrow (above or right first, then below or left), clear of nodes, group titles, other labels and arrows. A label with no free spot is an error. Keep labels ≤ 18 characters.
+- Lay out flows left → right or top → bottom in rows/columns so straight arrows never cross a node. Use `via` points for detours. The validator uses the renderer's geometry (`src/lib/geometry.ts`) and fails an arrow through a node or a group title, two arrows drawn on top of each other (a shared trunk that fans out from one source or into one target is fine), overlapping nodes, nodes outside the canvas and text that does not fit.
+- `groups` draw containment (Foundry resource ⊃ project, "Your app", "Azure AI Search"). Keep 20 px padding; a node must sit fully inside or fully outside a group, groups may nest but not partly overlap, and the top 30 px of a group belong to its title.
+- In each step, the endpoints of a lit arrow stay readable as context; still put every node the step talks about into its `focus`.
 - Tones encode meaning (never color alone, labels always present): `user` people, `app` your code/SDK, `foundry` Foundry platform resources, `model` models/deployments, `data` stores/indexes/files, `tool` tools/functions/MCP, `safety` guardrails/identity/security, `external` external systems/web, `neutral` other.
 - Shapes: `box` (default), `pill` (events/messages), `store` (databases, indexes, storage), `doc` (documents/files), `actor` (people), `diamond` (decisions).
 - 3–6 steps. Each step focuses the nodes/edges/groups it talks about and explains one idea in 1–3 sentences.
@@ -88,5 +90,5 @@ Anatomy (the app renders it in this order):
 
 1. Research the module: open the training module page and its units, then the product docs and code samples (Microsoft Learn MCP tools: `microsoft_docs_search`, `microsoft_docs_fetch`, `microsoft_code_sample_search`).
 2. Write the lesson, then the questions.
-3. Run `npm run validate -- --only <module-id>[,<module-id>…]` until there are no errors (fix warnings too).
+3. Run `npm run validate -- --only <module-id>[,<module-id>…]` until there are no errors (fix warnings too). After diagram changes, also run the render audit with the app running (`npm run dev`, then `npm run audit:diagrams -- audit-diagrams http://localhost:5173/ <module-id>`) and look at the PNGs it writes.
 4. Never edit files owned by another module.
