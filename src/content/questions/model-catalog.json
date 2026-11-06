@@ -1,0 +1,916 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "model-catalog",
+  "questions": [
+    {
+      "id": "q-model-catalog-01",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.1.1",
+      "module": "model-catalog",
+      "difficulty": 1,
+      "stem": { "en": "Match each workload to the type of model you would look for in the Foundry model catalog.", "de": "Ordne jeden Workload dem Modelltyp zu, nach dem du im Foundry-Modellkatalog suchen würdest." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Solve multi-step math and science problems where accuracy matters more than speed", "de": "Mehrstufige Mathe- und Naturwissenschaftsaufgaben lösen, bei denen Genauigkeit wichtiger ist als Tempo" },
+          "answer": "t1",
+          "why": { "en": "Reasoning models spend more time processing a request and are strongest in areas such as science, coding and math.", "de": "Reasoning-Modelle verwenden mehr Zeit auf eine Anfrage und sind besonders stark in Naturwissenschaften, Coding und Mathe." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Run on an edge device with modest hardware and a tight budget", "de": "Auf einem Edge-Gerät mit bescheidener Hardware und knappem Budget laufen" },
+          "answer": "t2",
+          "why": { "en": "Small language models trade some capability for efficiency and suit on-device and edge inference.", "de": "Small Language Models tauschen etwas Leistung gegen Effizienz und eignen sich für Inferenz auf dem Gerät und am Edge." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Answer questions about defects that are visible in product photos", "de": "Fragen zu Mängeln beantworten, die auf Produktfotos sichtbar sind" },
+          "answer": "t3",
+          "why": { "en": "Multimodal models accept text and images in the same prompt and reason over both.", "de": "Multimodale Modelle nehmen Text und Bilder im selben Prompt entgegen und werten beides aus." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Turn product descriptions into vectors for semantic search", "de": "Produktbeschreibungen für die semantische Suche in Vektoren umwandeln" },
+          "answer": "t4",
+          "why": { "en": "Embedding models convert text into numeric vectors for similarity search and RAG.", "de": "Embedding-Modelle wandeln Text in numerische Vektoren für Ähnlichkeitssuche und RAG um." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Reasoning model", "de": "Reasoning-Modell" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Small language model (SLM)", "de": "Small Language Model (SLM)" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Multimodal model with image input", "de": "Multimodales Modell mit Bildeingabe" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Embedding model", "de": "Embedding-Modell" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Image generation model", "de": "Bildgenerierungsmodell" }
+        }
+      ],
+      "explanation": { "en": "Pick the model type from the task: reasoning models for hard multi-step problems, SLMs for efficiency and edge, multimodal models for image input, embedding models for vector search.", "de": "Wähle den Modelltyp nach der Aufgabe: Reasoning-Modelle für schwierige mehrstufige Probleme, SLMs für Effizienz und Edge, multimodale Modelle für Bildeingaben, Embedding-Modelle für Vektorsuche." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/2-explore-model-catalog",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/foundry-models-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-02",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.1",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "You must choose a model for a code-review assistant. Code quality matters most, the budget is moderate, and you want a short list that you can test on your own repositories. How should you use the leaderboards in the Foundry portal?", "de": "Du sollst ein Modell für einen Code-Review-Assistenten auswählen. Codequalität zählt am meisten, das Budget ist moderat, und du willst eine kurze Liste, die du mit deinen eigenen Repositories testen kannst. Wie nutzt du die Leaderboards im Foundry-Portal?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Start with the Coding scenario leaderboard, check the quality-versus-cost trade-off chart, compare up to three candidates side by side, then evaluate them on your own data", "de": "Mit dem Szenario-Leaderboard Coding starten, das Trade-off-Diagramm Qualität gegen Kosten prüfen, bis zu drei Kandidaten direkt vergleichen und sie dann mit deinen eigenen Daten evaluieren" },
+          "correct": true,
+          "why": { "en": "Scenario leaderboards target a specific capability, trade-off charts show the quality-cost balance, and public benchmarks still need confirming on your data.", "de": "Szenario-Leaderboards zielen auf eine bestimmte Fähigkeit, Trade-off-Diagramme zeigen die Balance aus Qualität und Kosten, und öffentliche Benchmarks musst du trotzdem mit deinen Daten bestätigen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Pick the model with the highest overall quality index", "de": "Das Modell mit dem höchsten Gesamt-Quality-Index nehmen" },
+          "correct": false,
+          "why": { "en": "The quality index averages many task types and ignores cost; for a specific use case, start with the matching scenario leaderboard.", "de": "Der Quality Index mittelt über viele Aufgabentypen und ignoriert Kosten; für einen konkreten Anwendungsfall startest du mit dem passenden Szenario-Leaderboard." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Pick the model with the lowest attack success rate on HarmBench", "de": "Das Modell mit der niedrigsten Attack Success Rate bei HarmBench nehmen" },
+          "correct": false,
+          "why": { "en": "That is a safety signal only; it says nothing about coding quality or cost.", "de": "Das ist nur ein Sicherheitssignal; über Codequalität oder Kosten sagt es nichts." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Pick the model with the highest WMDP score", "de": "Das Modell mit dem höchsten WMDP-Score nehmen" },
+          "correct": false,
+          "why": { "en": "A higher WMDP score means more knowledge in hazardous domains — a safety concern, not a coding metric.", "de": "Ein höherer WMDP-Score bedeutet mehr Wissen in gefährlichen Bereichen – ein Sicherheitsrisiko, keine Coding-Kennzahl." }
+        }
+      ],
+      "explanation": { "en": "Shortlist with the scenario leaderboard and trade-off charts, compare a few models side by side, and confirm the choice with evaluations on your own data.", "de": "Erstelle die Shortlist mit Szenario-Leaderboard und Trade-off-Diagrammen, vergleiche wenige Modelle direkt und bestätige die Wahl mit Evaluierungen auf deinen eigenen Daten." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/model-benchmarks",
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/benchmark-model-in-catalog"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-03",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "A European insurer builds a claims chatbot. Prompts and responses may be processed only inside the EU, traffic is bursty and hard to predict, and the company wants to pay only for what it uses. Which deployment type should you choose?", "de": "Ein europäischer Versicherer baut einen Schaden-Chatbot. Prompts und Antworten dürfen nur innerhalb der EU verarbeitet werden, der Traffic ist sprunghaft und schwer vorherzusagen, und das Unternehmen will nur zahlen, was es nutzt. Welchen Deployment-Typ wählst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Data Zone Standard in an EU region", "de": "Data Zone Standard in einer EU-Region" },
+          "correct": true,
+          "why": { "en": "It keeps processing inside the EU data zone and bills per token, which suits bursty traffic.", "de": "Es hält die Verarbeitung in der EU-Datenzone und rechnet pro Token ab – passend für sprunghaften Traffic." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Global Standard", "de": "Global Standard" },
+          "correct": false,
+          "why": { "en": "Global types may process prompts in any Azure region, which breaks the EU-only requirement.", "de": "Globale Typen dürfen Prompts in jeder Azure-Region verarbeiten – das verletzt die Vorgabe „nur EU“." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Data Zone Provisioned", "de": "Data Zone Provisioned" },
+          "correct": false,
+          "why": { "en": "It keeps data in the zone, but you pay for reserved PTUs every hour — a poor fit for unpredictable traffic and pay-per-use.", "de": "Die Daten bleiben in der Zone, aber du zahlst stündlich für reservierte PTUs – schlecht für unvorhersehbaren Traffic und nutzungsbasierte Abrechnung." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Data Zone Batch", "de": "Data Zone Batch" },
+          "correct": false,
+          "why": { "en": "Batch is asynchronous with a 24-hour target turnaround — unusable for an interactive chatbot.", "de": "Batch arbeitet asynchron mit einem Ziel von 24 Stunden – für einen interaktiven Chatbot unbrauchbar." }
+        }
+      ],
+      "explanation": { "en": "Residency decides the scope (Global, Data Zone or geography); traffic pattern and billing preference decide standard, provisioned or batch.", "de": "Die Datenresidenz bestimmt den Bereich (Global, Data Zone oder Geografie); Trafficmuster und Abrechnungswunsch bestimmen Standard, Provisioned oder Batch." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-04",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "Unless stated otherwise, none of these workloads has data residency restrictions. Match each one to the best deployment type.", "de": "Sofern nicht anders angegeben, hat keiner dieser Workloads Datenresidenz-Vorgaben. Ordne jedem den passendsten Deployment-Typ zu." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Summarize 400,000 archived tickets overnight; results within a day at the lowest cost", "de": "400.000 archivierte Tickets über Nacht zusammenfassen; Ergebnisse innerhalb eines Tages zu minimalen Kosten" },
+          "answer": "t1",
+          "why": { "en": "Batch processes a file of requests with a 24-hour target at 50 % less than Global Standard, using separate quota.", "de": "Batch verarbeitet eine Datei mit Requests mit 24-Stunden-Ziel zu 50 % weniger Kosten als Global Standard und mit eigenem Kontingent." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Test a freshly fine-tuned model for a day; no SLA needed", "de": "Ein frisch feinabgestimmtes Modell einen Tag lang testen; kein SLA nötig" },
+          "answer": "t2",
+          "why": { "en": "Developer deployments exist to evaluate fine-tuned models: 24-hour lifetime, no SLA.", "de": "Developer-Deployments dienen zum Evaluieren feinabgestimmter Modelle: 24 Stunden Lebensdauer, kein SLA." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Serve a high-volume customer chat that needs consistently low latency", "de": "Einen Kundenchat mit hohem Volumen bedienen, der durchgehend niedrige Latenz braucht" },
+          "answer": "t3",
+          "why": { "en": "Provisioned throughput reserves capacity with low latency variance; without residency limits, Global Provisioned is the recommended choice.", "de": "Provisioned Throughput reserviert Kapazität mit geringer Latenzschwankung; ohne Residenz-Vorgaben ist Global Provisioned die empfohlene Wahl." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Keep processing inside one Azure geography with reserved throughput", "de": "Die Verarbeitung in einer Azure-Geografie halten, mit reserviertem Durchsatz" },
+          "answer": "t4",
+          "why": { "en": "Regional Provisioned combines processing within one Azure geography with reserved PTUs.", "de": "Regional Provisioned verbindet Verarbeitung innerhalb einer Azure-Geografie mit reservierten PTUs." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Global Batch", "de": "Global Batch" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Developer", "de": "Developer" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Global Provisioned", "de": "Global Provisioned" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Regional Provisioned", "de": "Regional Provisioned" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Data Zone Standard", "de": "Data Zone Standard" }
+        }
+      ],
+      "explanation": { "en": "Batch for asynchronous bulk work, Developer for fine-tuned tests, Provisioned for steady latency-sensitive load — and the prefix (Global, Data Zone, Regional) for where processing may happen.", "de": "Batch für asynchrone Massenarbeit, Developer für Fine-Tuning-Tests, Provisioned für gleichmäßige, latenzkritische Last – und das Präfix (Global, Data Zone, Regional) dafür, wo verarbeitet werden darf." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-05",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "skills": [
+        "1.4.1"
+      ],
+      "module": "model-catalog",
+      "difficulty": 3,
+      "stem": { "en": "Your team wants to run an open-source model from the Hugging Face collection that is not offered as a Serverless API deployment. Foundry should manage the GPUs, serving runtime and patching, and your security team requires that prompts and responses are screened for harmful content. What should you do?", "de": "Dein Team will ein Open-Source-Modell aus der Hugging-Face-Collection betreiben, das nicht als Serverless-API-Deployment angeboten wird. Foundry soll GPUs, Serving-Runtime und Patches verwalten, und dein Security-Team verlangt, dass Prompts und Antworten auf schädliche Inhalte geprüft werden. Was tust du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Deploy it with managed compute (preview) and call the Azure AI Content Safety APIs from your application", "de": "Es mit Managed Compute (Preview) bereitstellen und aus deiner Anwendung die Azure-AI-Content-Safety-APIs aufrufen" },
+          "correct": true,
+          "why": { "en": "Managed compute hosts open-source models on Foundry-managed GPUs; in the public preview, built-in content filtering isn't part of its data path, so you call Content Safety yourself.", "de": "Managed Compute hostet Open-Source-Modelle auf von Foundry verwalteten GPUs; in der Public Preview gehört integrierte Inhaltsfilterung nicht zum Datenpfad, also rufst du Content Safety selbst auf." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Create a Global Standard deployment and keep the default content filter", "de": "Ein Global-Standard-Deployment anlegen und den Standard-Content-Filter beibehalten" },
+          "correct": false,
+          "why": { "en": "Serverless API deployments cover Foundry Models sold by Azure and select partner models — not this Hugging Face model.", "de": "Serverless-API-Deployments decken Foundry Models sold by Azure und ausgewählte Partnermodelle ab – nicht dieses Hugging-Face-Modell." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Deploy it with managed compute (preview) and turn on the deployment's built-in content filter", "de": "Es mit Managed Compute (Preview) bereitstellen und den integrierten Content-Filter des Deployments aktivieren" },
+          "correct": false,
+          "why": { "en": "Content filtering isn't available for managed compute in the public preview.", "de": "Inhaltsfilterung ist für Managed Compute in der Public Preview nicht verfügbar." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Create a Developer deployment", "de": "Ein Developer-Deployment anlegen" },
+          "correct": false,
+          "why": { "en": "Developer deployments only evaluate fine-tuned models for 24 hours.", "de": "Developer-Deployments evaluieren nur feinabgestimmte Modelle für 24 Stunden." }
+        }
+      ],
+      "explanation": { "en": "Serverless API is the preferred option whenever a model supports it; open-source models without it use managed compute (preview), where you add Content Safety screening yourself.", "de": "Serverless API ist die bevorzugte Option, sobald ein Modell sie unterstützt; Open-Source-Modelle ohne diese Option nutzen Managed Compute (Preview), wo du die Content-Safety-Prüfung selbst ergänzt." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/deployments-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/deploy-models-managed"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-06",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "Which TWO statements about Foundry deployment types are correct?", "de": "Welche ZWEI Aussagen zu Foundry-Deployment-Typen sind richtig?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Data Zone deployments process prompts and responses only inside the Microsoft-defined data zone (US, EU or APAC), while data at rest stays in the Azure geography.", "de": "Data-Zone-Deployments verarbeiten Prompts und Antworten nur innerhalb der von Microsoft definierten Datenzone (US, EU oder APAC), ruhende Daten bleiben in der Azure-Geografie." },
+          "correct": true,
+          "why": { "en": "That is how data zone processing and data residency at rest are defined.", "de": "Genau so sind Verarbeitung in der Datenzone und Datenresidenz ruhender Daten definiert." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Provisioned deployments are billed per PTU per hour, whether or not requests are sent.", "de": "Provisioned-Deployments werden pro PTU und Stunde abgerechnet – egal, ob Requests kommen." },
+          "correct": true,
+          "why": { "en": "PTUs reserve capacity; the hourly meter runs from creation until deletion, regardless of tokens consumed.", "de": "PTUs reservieren Kapazität; der Stundenzähler läuft von der Erstellung bis zur Löschung, unabhängig vom Tokenverbrauch." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Global Batch jobs consume the same TPM quota as your online Global Standard deployments.", "de": "Global-Batch-Jobs verbrauchen dasselbe TPM-Kontingent wie deine Online-Deployments mit Global Standard." },
+          "correct": false,
+          "why": { "en": "Batch has a separate enqueued-token quota, so online workloads aren't disrupted.", "de": "Batch hat ein eigenes Kontingent für eingereihte Tokens, damit Online-Workloads nicht gestört werden." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Developer deployments include an SLA and a data residency guarantee.", "de": "Developer-Deployments enthalten ein SLA und eine Datenresidenz-Garantie." },
+          "correct": false,
+          "why": { "en": "They have neither; they exist for 24-hour evaluation of fine-tuned models.", "de": "Sie haben beides nicht; sie dienen der 24-stündigen Evaluierung feinabgestimmter Modelle." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "New models usually become available as Standard (regional) deployments first.", "de": "Neue Modelle sind meist zuerst als Standard-Deployments (regional) verfügbar." },
+          "correct": false,
+          "why": { "en": "The launch order is Global first, then Data Zone, then geography-based types.", "de": "Die Reihenfolge ist: zuerst Global, dann Data Zone, dann geografiebasierte Typen." }
+        }
+      ],
+      "explanation": { "en": "Know each deployment type by three properties: where inference is processed, how you pay, and what it is for.", "de": "Merke dir jeden Deployment-Typ über drei Eigenschaften: wo die Inferenz verarbeitet wird, wie du zahlst und wofür er gedacht ist." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-07",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "module": "model-catalog",
+      "difficulty": 1,
+      "stem": { "en": "You are starting a new chat feature. There are no data residency requirements, traffic is still unknown, and you want the newest models. Which deployment type does Microsoft recommend as the starting point?", "de": "Du startest ein neues Chat-Feature. Es gibt keine Datenresidenz-Vorgaben, der Traffic ist noch unbekannt, und du willst die neuesten Modelle. Welchen Deployment-Typ empfiehlt Microsoft als Ausgangspunkt?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Global Standard", "de": "Global Standard" },
+          "correct": true,
+          "why": { "en": "It gets new models first and has the lowest price, the broadest region coverage and the highest default quota.", "de": "Er bekommt neue Modelle zuerst und hat den niedrigsten Preis, die breiteste Regionsabdeckung und das höchste Standardkontingent." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Standard (regional)", "de": "Standard (regional)" },
+          "correct": false,
+          "why": { "en": "Geography-based types get new models last and have more limited availability; use them for geography residency.", "de": "Geografiebasierte Typen bekommen neue Modelle zuletzt und sind eingeschränkter verfügbar; nutze sie für Residenz in einer Geografie." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Global Provisioned", "de": "Global Provisioned" },
+          "correct": false,
+          "why": { "en": "Reserved PTUs only pay off for steady, predictable high volume.", "de": "Reservierte PTUs lohnen sich nur bei gleichmäßig hohem, planbarem Volumen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Instant access (preview)", "de": "Instant Access (Preview)" },
+          "correct": false,
+          "why": { "en": "Instant access isn't a deployment type: it calls supported models without a deployment, in preview and only in West US 3.", "de": "Instant Access ist kein Deployment-Typ: Er ruft unterstützte Modelle ohne Deployment auf – in der Preview und nur in West US 3." }
+        }
+      ],
+      "explanation": { "en": "Default to Global Standard and switch only when data residency, reserved throughput or batch processing requires another type.", "de": "Starte standardmäßig mit Global Standard und wechsle nur, wenn Datenresidenz, reservierter Durchsatz oder Batch-Verarbeitung einen anderen Typ verlangen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/instant-models"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-08",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.3",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "A pay-as-you-go Global Standard deployment powers a regulated workflow. The team wants to avoid behavior changes from automatic version updates, but the deployment must not stop working when its model version is retired. Which version upgrade option should you set?", "de": "Ein nutzungsbasiert abgerechnetes Global-Standard-Deployment trägt einen regulierten Workflow. Das Team will Verhaltensänderungen durch automatische Versionsupdates vermeiden, aber das Deployment darf nicht ausfallen, wenn seine Modellversion ausgemustert wird. Welche Versions-Upgrade-Option setzt du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`OnceNewDefaultVersionAvailable`", "de": "`OnceNewDefaultVersionAvailable`" },
+          "correct": false,
+          "why": { "en": "The deployment upgrades as soon as a new default version is designated — exactly the change the team wants to avoid.", "de": "Das Deployment wechselt, sobald eine neue Standardversion festgelegt wird – genau die Änderung, die das Team vermeiden will." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`OnceCurrentVersionExpired`", "de": "`OnceCurrentVersionExpired`" },
+          "correct": true,
+          "why": { "en": "The deployment stays on its version and upgrades automatically only when that version is retired.", "de": "Das Deployment bleibt auf seiner Version und wechselt erst automatisch, wenn diese Version ausgemustert wird." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`NoAutoUpgrade`", "de": "`NoAutoUpgrade`" },
+          "correct": false,
+          "why": { "en": "The deployment never upgrades and stops working when its version is retired.", "de": "Das Deployment wechselt nie und funktioniert nicht mehr, sobald seine Version ausgemustert ist." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Switch the workload to a Developer deployment", "de": "Den Workload auf ein Developer-Deployment umstellen" },
+          "correct": false,
+          "why": { "en": "Developer deployments are temporary (24 hours) and meant for evaluating fine-tuned models.", "de": "Developer-Deployments sind kurzlebig (24 Stunden) und für die Evaluierung feinabgestimmter Modelle gedacht." }
+        }
+      ],
+      "explanation": { "en": "`OnceNewDefaultVersionAvailable` follows new defaults, `OnceCurrentVersionExpired` upgrades only at retirement, and `NoAutoUpgrade` never upgrades and stops at retirement. Provisioned deployments aren't auto-upgraded at all; you migrate them yourself.", "de": "`OnceNewDefaultVersionAvailable` folgt neuen Standardversionen, `OnceCurrentVersionExpired` wechselt erst bei Ausmusterung, und `NoAutoUpgrade` wechselt nie und fällt bei Ausmusterung aus. Provisioned-Deployments werden gar nicht automatisch aktualisiert; die migrierst du selbst." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/model-versions",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/working-with-models"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-09",
+      "type": "code",
+      "domain": "D1",
+      "skill": "1.2.3",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "You script deployments with the Azure management SDK for Python. The deployment must process data only in the EU data zone (the Foundry resource is in an EU region), bill per token, and use your custom content filter policy `strict-filter`. Complete the code.", "de": "Du skriptest Deployments mit dem Azure Management SDK für Python. Das Deployment darf Daten nur in der EU-Datenzone verarbeiten (die Foundry-Ressource liegt in einer EU-Region), soll pro Token abrechnen und deine eigene Content-Filter-Richtlinie `strict-filter` nutzen. Vervollständige den Code." },
+      "template": "from azure.identity import DefaultAzureCredential\nfrom azure.mgmt.cognitiveservices import CognitiveServicesManagementClient\nfrom azure.mgmt.cognitiveservices.models import Deployment, DeploymentModel, DeploymentProperties, Sku\nclient = CognitiveServicesManagementClient(DefaultAzureCredential(), \"<subscription-id>\")\nclient.deployments.{{b1}}(\n    \"rg-ai\", \"contoso-foundry\", \"support-chat\",\n    Deployment(\n        sku=Sku(name=\"{{b2}}\", capacity=50),\n        properties=DeploymentProperties(\n            model=DeploymentModel(format=\"OpenAI\", name=\"<model>\", version=\"<version>\"),\n            {{b3}}=\"strict-filter\",\n        ),\n    ),\n).result()",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "begin_create_or_update",
+              "correct": true,
+              "why": { "en": "Creating a deployment is a long-running ARM operation; the `begin_` method returns a poller and `.result()` waits for it.", "de": "Ein Deployment anzulegen ist eine lang laufende ARM-Operation; die `begin_`-Methode liefert einen Poller, und `.result()` wartet darauf." }
+            },
+            {
+              "id": "b",
+              "code": "create",
+              "correct": false,
+              "why": { "en": "The deployments operations have no `create` method; creating and updating both use `begin_create_or_update`.", "de": "Die Deployment-Operationen haben keine Methode `create`; Anlegen und Aktualisieren laufen beide über `begin_create_or_update`." }
+            },
+            {
+              "id": "c",
+              "code": "get",
+              "correct": false,
+              "why": { "en": "`get` reads an existing deployment; it doesn't create one.", "de": "`get` liest ein bestehendes Deployment; anlegen kann es keines." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "DataZoneStandard",
+              "correct": true,
+              "why": { "en": "Pay-per-token processing inside the data zone of the resource's region — the EU zone here.", "de": "Abrechnung pro Token mit Verarbeitung in der Datenzone der Ressourcenregion – hier der EU-Zone." }
+            },
+            {
+              "id": "b",
+              "code": "GlobalStandard",
+              "correct": false,
+              "why": { "en": "Global processing may happen in any Azure region.", "de": "Globale Verarbeitung darf in jeder Azure-Region stattfinden." }
+            },
+            {
+              "id": "c",
+              "code": "DataZoneProvisionedManaged",
+              "correct": false,
+              "why": { "en": "It stays in the zone but bills reserved PTUs per hour instead of tokens.", "de": "Bleibt zwar in der Zone, rechnet aber reservierte PTUs pro Stunde statt Tokens ab." }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "rai_policy_name",
+              "correct": true,
+              "why": { "en": "Names the content filter (guardrail) policy that applies to the deployment.", "de": "Benennt die Content-Filter-Richtlinie (Guardrail), die für das Deployment gilt." }
+            },
+            {
+              "id": "b",
+              "code": "version_upgrade_option",
+              "correct": false,
+              "why": { "en": "Controls automatic model version upgrades, not content filtering.", "de": "Steuert automatische Modellversions-Upgrades, keine Inhaltsfilterung." }
+            },
+            {
+              "id": "c",
+              "code": "spillover_deployment_name",
+              "correct": false,
+              "why": { "en": "Names a standard deployment that takes overflow from a provisioned deployment.", "de": "Benennt ein Standard-Deployment, das Überlauf eines Provisioned-Deployments übernimmt." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "A deployment is defined by its SKU (deployment type plus capacity), its model (format, name, version) and properties such as the content filter policy, the version upgrade option or a spillover target.", "de": "Ein Deployment wird durch seine SKU (Deployment-Typ plus Kapazität), sein Modell (Format, Name, Version) und Eigenschaften wie Content-Filter-Richtlinie, Versions-Upgrade-Option oder Spillover-Ziel definiert." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/python/api/azure-mgmt-cognitiveservices/azure.mgmt.cognitiveservices.models.deploymentproperties",
+        "https://learn.microsoft.com/en-us/python/api/azure-mgmt-cognitiveservices/azure.mgmt.cognitiveservices.operations.deploymentsoperations",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-10",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.2.3",
+      "skills": [
+        "1.3.4"
+      ],
+      "module": "model-catalog",
+      "difficulty": 3,
+      "stem": { "en": "An administrator assigns the built-in policy **Foundry model deployments should only use approved models** with the `Deny` effect and a single allowed asset ID: `azureml://registries/azure-openai/models/gpt-5` (no trailing slash). Which TWO outcomes should you expect?", "de": "Ein Admin weist die integrierte Richtlinie **Foundry model deployments should only use approved models** mit dem Effekt `Deny` und genau einer erlaubten Asset-ID zu: `azureml://registries/azure-openai/models/gpt-5` (ohne abschließenden Schrägstrich). Welche ZWEI Ergebnisse erwartest du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Deploying GPT-5.2 is also allowed, because asset IDs match as a prefix; a trailing slash would limit the rule to GPT-5.", "de": "Auch GPT-5.2 darf bereitgestellt werden, weil Asset-IDs als Präfix abgeglichen werden; ein abschließender Schrägstrich würde die Regel auf GPT-5 begrenzen." },
+          "correct": true,
+          "why": { "en": "Asset IDs are prefix matches — `…/gpt-5` also matches `gpt-5.2` and `gpt-5.4`.", "de": "Asset-IDs werden als Präfix verglichen – `…/gpt-5` passt auch auf `gpt-5.2` und `gpt-5.4`." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Models that aren't approved stay visible in the catalog, but their Deploy action is disabled with the reason.", "de": "Nicht freigegebene Modelle bleiben im Katalog sichtbar, aber ihre Aktion „Deploy“ ist mit Begründung deaktiviert." },
+          "correct": true,
+          "why": { "en": "The policy is evaluated at deployment time; the catalog doesn't hide models.", "de": "Die Richtlinie wird beim Deployment ausgewertet; der Katalog blendet keine Modelle aus." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Models that aren't approved disappear from the model catalog.", "de": "Nicht freigegebene Modelle verschwinden aus dem Modellkatalog." },
+          "correct": false,
+          "why": { "en": "The catalog keeps showing them so developers can see what was blocked and why.", "de": "Der Katalog zeigt sie weiter an, damit Entwickler:innen sehen, was blockiert ist und warum." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The policy blocks non-approved deployments the moment the assignment is created.", "de": "Die Richtlinie blockiert nicht freigegebene Deployments im Moment der Zuweisung." },
+          "correct": false,
+          "why": { "en": "New assignments need time to take effect — wait at least 15 minutes before testing.", "de": "Neue Zuweisungen brauchen Zeit – warte mindestens 15 Minuten, bevor du testest." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Model router can still route prompts to models that aren't approved.", "de": "Model Router kann Prompts weiterhin an nicht freigegebene Modelle leiten." },
+          "correct": false,
+          "why": { "en": "Model router only routes to models that satisfy the assigned deployment policies.", "de": "Model Router leitet nur an Modelle weiter, die die zugewiesenen Deployment-Richtlinien erfüllen." }
+        }
+      ],
+      "explanation": { "en": "Govern deployments with the approved-models policy (by publisher or asset ID) and mind prefix matching and propagation delay. A companion policy can block preview models or allow only models sold directly by Azure.", "de": "Steuere Deployments mit der Richtlinie für freigegebene Modelle (nach Publisher oder Asset-ID) und beachte Präfixabgleich und Verzögerung. Eine ergänzende Richtlinie kann Preview-Modelle sperren oder nur direkt von Azure verkaufte Modelle zulassen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/model-deployment-policy"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-11",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.3.1",
+      "module": "model-catalog",
+      "difficulty": 3,
+      "stem": { "en": "A Global Standard deployment has 300K TPM assigned, and your token metrics are well below that, yet the app gets intermittent HTTP 429 responses. The `x-ratelimit-limit-tokens` header shows a value lower than 300K, and the error says the service is experiencing high demand. What should you do first?", "de": "Ein Global-Standard-Deployment hat 300K TPM zugewiesen, deine Token-Metriken liegen deutlich darunter, und trotzdem bekommt die App sporadisch HTTP 429. Der Header `x-ratelimit-limit-tokens` zeigt einen Wert unter 300K, und die Fehlermeldung spricht von hoher Auslastung des Dienstes. Was tust du zuerst?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Retry with exponential backoff that honors `retry-after-ms`, and consider provisioned throughput if the workload needs consistent capacity", "de": "Mit exponentiellem Backoff unter Beachtung von `retry-after-ms` wiederholen und Provisioned Throughput erwägen, falls der Workload gleichbleibende Kapazität braucht" },
+          "correct": true,
+          "why": { "en": "A lower effective limit with unchanged quota points to capacity throttling or a temporary rate-limit adjustment in the shared pool; it is transient, and PTUs give guaranteed capacity.", "de": "Ein niedrigeres effektives Limit bei unverändertem Kontingent deutet auf Kapazitätsdrosselung oder eine vorübergehende Limitanpassung im geteilten Pool hin; das ist vorübergehend, und PTUs garantieren Kapazität." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Submit a quota increase request for the model", "de": "Eine Kontingenterhöhung für das Modell beantragen" },
+          "correct": false,
+          "why": { "en": "Your quota didn't run out; the docs warn that treating capacity-related 429s as quota problems leads to the wrong fix.", "de": "Dein Kontingent ist nicht erschöpft; die Doku warnt, dass kapazitätsbedingte 429er als Kontingentproblem behandelt zur falschen Lösung führen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Raise `max_output_tokens` so that fewer requests are needed", "de": "`max_output_tokens` erhöhen, damit weniger Requests nötig sind" },
+          "correct": false,
+          "why": { "en": "Output limits don't change throttling; the tokens actually generated count toward TPM anyway.", "de": "Ausgabelimits ändern nichts an der Drosselung; tatsächlich generierte Tokens zählen ohnehin zum TPM." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Move the deployment to the Developer type", "de": "Das Deployment auf den Typ Developer umstellen" },
+          "correct": false,
+          "why": { "en": "Developer deployments are for fine-tuned model evaluation, have no SLA and expire after 24 hours.", "de": "Developer-Deployments dienen der Evaluierung feinabgestimmter Modelle, haben kein SLA und laufen nach 24 Stunden ab." }
+        }
+      ],
+      "explanation": { "en": "Read the 429 before acting: \"rate limit exceeded\" points to quota allocation, while high-demand messages or a reduced `x-ratelimit-limit-tokens` point to transient capacity limits — retry with backoff, and use PTUs for guaranteed throughput.", "de": "Lies den 429 genau, bevor du handelst: „Rate limit exceeded“ deutet auf die Kontingentzuteilung, Meldungen über hohe Auslastung oder ein gesenktes `x-ratelimit-limit-tokens` auf vorübergehende Kapazitätsgrenzen – wiederhole mit Backoff und nutze PTUs für garantierten Durchsatz." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/quota"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-12",
+      "type": "order",
+      "domain": "D1",
+      "skill": "1.3.1",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "Your production chat moves to provisioned throughput. Put the steps in order.", "de": "Dein produktiver Chat zieht auf Provisioned Throughput um. Bringe die Schritte in die richtige Reihenfolge." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Estimate the PTUs from expected requests per minute and input and output token sizes (capacity calculator)", "de": "Die PTUs aus erwarteten Requests pro Minute sowie Ein- und Ausgabetokens schätzen (Kapazitätsrechner)" },
+          "why": { "en": "Sizing comes first; the PTU need depends on request shape, the output-to-input ratio and the cache rate.", "de": "Die Dimensionierung kommt zuerst; der PTU-Bedarf hängt von Request-Profil, Verhältnis von Aus- zu Eingabe und Cache-Rate ab." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Check PTU quota and available capacity for the model in the target region", "de": "PTU-Kontingent und verfügbare Kapazität für das Modell in der Zielregion prüfen" },
+          "why": { "en": "Quota is a limit, not a guarantee; capacity must actually be available in the region.", "de": "Kontingent ist eine Obergrenze, keine Garantie; die Kapazität muss in der Region tatsächlich verfügbar sein." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Create the provisioned deployment", "de": "Das Provisioned-Deployment anlegen" },
+          "why": { "en": "Creating the deployment allocates the capacity and holds it for the deployment's lifetime.", "de": "Beim Anlegen wird die Kapazität zugeteilt und für die Lebensdauer des Deployments gehalten." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Buy an Azure Reservation for that deployment type to lock in the discounted hourly rate", "de": "Eine Azure Reservation für diesen Deployment-Typ kaufen, um den rabattierten Stundenpreis zu sichern" },
+          "why": { "en": "Reservations are a billing discount and don't guarantee capacity, so you buy them after the deployment exists.", "de": "Reservierungen sind ein Abrechnungsrabatt ohne Kapazitätsgarantie – du kaufst sie, wenn das Deployment existiert." }
+        }
+      ],
+      "explanation": { "en": "Size → verify quota and capacity → deploy → reserve. Buying the reservation first risks paying for a discount you can't use.", "de": "Dimensionieren → Kontingent und Kapazität prüfen → bereitstellen → reservieren. Wer zuerst reserviert, riskiert einen Rabatt, den er nicht nutzen kann." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-13",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.3.1",
+      "skills": [
+        "2.3.4"
+      ],
+      "module": "model-catalog",
+      "difficulty": 3,
+      "stem": { "en": "A retailer runs (1) a customer chat whose prompts range from simple FAQs to complex questions, with variable traffic, and (2) a nightly job that summarizes the day's reviews and must finish by the next afternoon. Which TWO changes reduce cost without breaking these requirements?", "de": "Ein Händler betreibt (1) einen Kundenchat mit Prompts von einfachen FAQs bis zu komplexen Fragen bei schwankendem Traffic und (2) einen nächtlichen Job, der die Bewertungen des Tages zusammenfasst und bis zum nächsten Nachmittag fertig sein muss. Welche ZWEI Änderungen senken die Kosten, ohne diese Anforderungen zu verletzen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Serve the chat through a model router deployment in Cost routing mode", "de": "Den Chat über ein Model-Router-Deployment im Routing-Modus Cost bedienen" },
+          "correct": true,
+          "why": { "en": "Model router sends simple prompts to smaller, cheaper models and complex ones to stronger models; Cost mode favors the most cost-effective model within a wider quality band.", "de": "Model Router schickt einfache Prompts an kleinere, günstigere Modelle und komplexe an stärkere; der Modus Cost bevorzugt innerhalb eines breiteren Qualitätsbands das günstigste Modell." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Run the nightly job on a Global Batch deployment", "de": "Den nächtlichen Job auf einem Global-Batch-Deployment ausführen" },
+          "correct": true,
+          "why": { "en": "Batch costs 50 % less than Global Standard and targets completion within 24 hours, which fits an overnight job.", "de": "Batch kostet 50 % weniger als Global Standard und zielt auf Fertigstellung innerhalb von 24 Stunden – passend für einen Nachtjob." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Move the chat to Regional Provisioned throughput", "de": "Den Chat auf Regional Provisioned Throughput umstellen" },
+          "correct": false,
+          "why": { "en": "PTUs are billed every hour regardless of use; with variable traffic you would pay for idle capacity.", "de": "PTUs werden stündlich unabhängig von der Nutzung abgerechnet; bei schwankendem Traffic zahlst du für ungenutzte Kapazität." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Run the chat on a Developer deployment", "de": "Den Chat auf einem Developer-Deployment betreiben" },
+          "correct": false,
+          "why": { "en": "Developer is for 24-hour evaluation of fine-tuned models without an SLA — not for production traffic.", "de": "Developer dient der 24-stündigen Evaluierung feinabgestimmter Modelle ohne SLA – nicht für Produktions-Traffic." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Increase the TPM allocation of the chat deployment", "de": "Die TPM-Zuteilung des Chat-Deployments erhöhen" },
+          "correct": false,
+          "why": { "en": "TPM is a rate limit, not a price; raising it doesn't lower the cost per token.", "de": "TPM ist ein Ratenlimit, kein Preis; eine Erhöhung senkt die Kosten pro Token nicht." }
+        }
+      ],
+      "explanation": { "en": "Match the cost lever to the workload: routing for mixed prompt complexity, batch for work that can wait, PTUs only for steady high volume.", "de": "Wähle den Kostenhebel passend zum Workload: Routing bei gemischter Prompt-Komplexität, Batch für Arbeit, die warten kann, PTUs nur bei gleichmäßig hohem Volumen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-router",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/deployment-types",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-14",
+      "type": "code",
+      "domain": "D1",
+      "skill": "1.3.1",
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "Your app must cope with throttling: the SDK should retry up to five times with backoff, and if a call still fails with HTTP 429, you log how long the service asks you to wait. `token_provider` and `prompt` already exist. Complete the code.", "de": "Deine App soll mit Drosselung umgehen: Das SDK soll bis zu fünfmal mit Backoff wiederholen, und scheitert ein Aufruf trotzdem mit HTTP 429, protokollierst du, wie lange der Dienst warten lässt. `token_provider` und `prompt` existieren bereits. Vervollständige den Code." },
+      "template": "import openai\nfrom openai import OpenAI\n\nclient = OpenAI(\n    base_url=\"https://<resource>.openai.azure.com/openai/v1/\",\n    api_key=token_provider,\n    {{b1}}=5,\n)\ntry:\n    reply = client.responses.create(model=\"support-chat\", input=prompt)\nexcept openai.{{b2}} as err:\n    wait_ms = err.response.headers.get(\"{{b3}}\")\n    print(\"Throttled, retry after\", wait_ms, \"ms\")",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "max_retries",
+              "correct": true,
+              "why": { "en": "Configures the SDK's built-in retry with exponential backoff (default 2) for 429 and transient errors.", "de": "Konfiguriert die eingebaute Wiederholung des SDK mit exponentiellem Backoff (Standard 2) für 429 und vorübergehende Fehler." }
+            },
+            {
+              "id": "b",
+              "code": "retry_after_ms",
+              "correct": false,
+              "why": { "en": "Not a client parameter; `retry-after-ms` is a response header.", "de": "Kein Client-Parameter; `retry-after-ms` ist ein Antwort-Header." }
+            },
+            {
+              "id": "c",
+              "code": "timeout",
+              "correct": false,
+              "why": { "en": "Limits how long a request may take; it doesn't add retries.", "de": "Begrenzt, wie lange ein Request dauern darf; Wiederholungen bringt es nicht." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "RateLimitError",
+              "correct": true,
+              "why": { "en": "The exception the `openai` SDK raises for HTTP 429.", "de": "Die Exception, die das `openai`-SDK bei HTTP 429 auslöst." }
+            },
+            {
+              "id": "b",
+              "code": "AuthenticationError",
+              "correct": false,
+              "why": { "en": "Raised for HTTP 401, for example a missing or invalid token.", "de": "Wird bei HTTP 401 ausgelöst, etwa bei fehlendem oder ungültigem Token." }
+            },
+            {
+              "id": "c",
+              "code": "BadRequestError",
+              "correct": false,
+              "why": { "en": "Raised for HTTP 400, for example a prompt that exceeds the context window.", "de": "Wird bei HTTP 400 ausgelöst, etwa bei einem Prompt, der das Kontextfenster sprengt." }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "retry-after-ms",
+              "correct": true,
+              "why": { "en": "Included in 429 responses: the recommended wait in milliseconds before retrying.", "de": "Steht in 429-Antworten: die empfohlene Wartezeit in Millisekunden vor dem nächsten Versuch." }
+            },
+            {
+              "id": "b",
+              "code": "x-ratelimit-limit-tokens",
+              "correct": false,
+              "why": { "en": "Shows the deployment's token limit, not how long to wait.", "de": "Zeigt das Tokenlimit des Deployments, nicht die Wartezeit." }
+            },
+            {
+              "id": "c",
+              "code": "x-ms-spillover-deployment",
+              "correct": false,
+              "why": { "en": "A request header that enables spillover for provisioned deployments, not a throttling hint.", "de": "Ein Request-Header, der Spillover für Provisioned-Deployments aktiviert – kein Drosselungshinweis." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "Let the SDK retry 429s with backoff (`max_retries`), honor `retry-after-ms`, and watch the `x-ratelimit-remaining-*` headers to slow down before you hit the limit. Failed requests still count toward the per-minute limit, so never retry without backing off.", "de": "Lass das SDK 429er mit Backoff wiederholen (`max_retries`), beachte `retry-after-ms` und beobachte die Header `x-ratelimit-remaining-*`, um vor dem Limit abzubremsen. Fehlgeschlagene Requests zählen weiter zum Minutenlimit – wiederhole also nie ohne Backoff." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/quota"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-15",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.3.1",
+      "skills": [
+        "1.2.3"
+      ],
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "A Global Provisioned deployment serves your chat. During daily peaks it is fully used and returns HTTP 429. Overflow requests should be served automatically without changing the client, and only the overflow should be billed per token. What should you configure?", "de": "Ein Global-Provisioned-Deployment bedient deinen Chat. In den täglichen Spitzen ist es voll ausgelastet und liefert HTTP 429. Überlauf-Requests sollen automatisch bedient werden, ohne den Client zu ändern, und nur der Überlauf soll pro Token abgerechnet werden. Was konfigurierst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Spillover: set `spilloverDeploymentName` on the provisioned deployment to a standard deployment of the same model and version in the same Foundry resource", "de": "Spillover: `spilloverDeploymentName` am Provisioned-Deployment auf ein Standard-Deployment desselben Modells und derselben Version in derselben Foundry-Ressource setzen" },
+          "correct": true,
+          "why": { "en": "Spillover redirects requests the provisioned deployment can't serve (such as 429s) to the standard deployment; only those requests are billed per token.", "de": "Spillover leitet Requests, die das Provisioned-Deployment nicht bedienen kann (etwa 429er), an das Standard-Deployment um; nur diese werden pro Token abgerechnet." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Put model router in front of the provisioned deployment", "de": "Model Router vor das Provisioned-Deployment schalten" },
+          "correct": false,
+          "why": { "en": "Model router chooses a model per prompt; it doesn't move overflow from a provisioned to a standard deployment.", "de": "Model Router wählt pro Prompt ein Modell; Überlauf von einem Provisioned- zu einem Standard-Deployment verschiebt er nicht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Send peak traffic to a Global Batch deployment", "de": "Spitzen-Traffic an ein Global-Batch-Deployment schicken" },
+          "correct": false,
+          "why": { "en": "Batch is asynchronous with a 24-hour target — not suitable for live chat traffic.", "de": "Batch arbeitet asynchron mit 24-Stunden-Ziel – ungeeignet für Live-Chat-Traffic." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Raise `max_retries` in the client", "de": "`max_retries` im Client erhöhen" },
+          "correct": false,
+          "why": { "en": "Retries only wait for the same exhausted capacity, and they require a client change.", "de": "Wiederholungen warten nur auf dieselbe erschöpfte Kapazität und erfordern eine Clientänderung." }
+        }
+      ],
+      "explanation": { "en": "Spillover is the built-in safety valve for provisioned deployments: enable it on the deployment, or per request with the `x-ms-spillover-deployment` header.", "de": "Spillover ist das eingebaute Überdruckventil für Provisioned-Deployments: am Deployment aktivieren oder pro Request über den Header `x-ms-spillover-deployment`." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/spillover-traffic-management",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-16",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.1.4",
+      "module": "model-catalog",
+      "difficulty": 1,
+      "stem": { "en": "You evaluate a deployed model in the Foundry portal with your own test dataset. Put the steps in order.", "de": "Du evaluierst ein bereitgestelltes Modell im Foundry-Portal mit deinem eigenen Test-Dataset. Bringe die Schritte in die richtige Reihenfolge." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Select **Model** as the evaluation target and choose the deployment", "de": "**Model** als Evaluierungsziel wählen und das Deployment auswählen" },
+          "why": { "en": "The target decides what the evaluation runs against: model, agent, dataset or traces.", "de": "Das Ziel bestimmt, wogegen die Evaluierung läuft: Modell, Agent, Dataset oder Traces." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Choose your existing dataset (CSV or JSONL) as the data source", "de": "Dein vorhandenes Dataset (CSV oder JSONL) als Datenquelle wählen" },
+          "why": { "en": "The test inputs come next; model evaluations always score individual turns.", "de": "Danach folgen die Testeingaben; Modell-Evaluierungen bewerten immer einzelne Gesprächsrunden." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Map dataset fields such as `query`, `context` and `ground_truth` to the evaluator inputs", "de": "Dataset-Felder wie `query`, `context` und `ground_truth` den Evaluator-Eingängen zuordnen" },
+          "why": { "en": "Field mapping tells each evaluator where to find its inputs.", "de": "Die Feldzuordnung sagt jedem Evaluator, wo er seine Eingaben findet." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Select the evaluators (testing criteria), with a GPT deployment as judge for AI-assisted metrics", "de": "Die Evaluatoren (Testing Criteria) wählen, mit einem GPT-Deployment als Richter für KI-gestützte Metriken" },
+          "why": { "en": "Evaluators are chosen once the data shape is known; AI-assisted quality metrics need a judge model.", "de": "Evaluatoren wählst du, wenn die Datenstruktur feststeht; KI-gestützte Qualitätsmetriken brauchen ein Richtermodell." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Submit, then review the aggregate scores and the per-row results", "de": "Absenden und dann die Gesamtwerte und Ergebnisse je Zeile prüfen" },
+          "why": { "en": "The run executes asynchronously; results show metrics overall and for each test case.", "de": "Der Lauf ist asynchron; die Ergebnisse zeigen Metriken insgesamt und pro Testfall." }
+        }
+      ],
+      "explanation": { "en": "Target → data → field mapping → evaluators → submit and review. Automated evaluation turns playground impressions into repeatable numbers.", "de": "Ziel → Daten → Feldzuordnung → Evaluatoren → absenden und prüfen. Automatisierte Evaluierung macht aus Playground-Eindrücken wiederholbare Zahlen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluate-generative-ai-app"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-17",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.1.4",
+      "skills": [
+        "1.4.2"
+      ],
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "You evaluate a RAG chatbot. Your dataset contains `query`, the retrieved `context` and the bot's `response`, but no reference answers. Which TWO evaluators can you run on this data?", "de": "Du evaluierst einen RAG-Chatbot. Dein Dataset enthält `query`, den abgerufenen `context` und die `response` des Bots, aber keine Referenzantworten. Welche ZWEI Evaluatoren kannst du auf diesen Daten ausführen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Groundedness", "de": "Groundedness" },
+          "correct": true,
+          "why": { "en": "It checks whether the response is supported by the context and needs `response` and `context` (plus a judge model).", "de": "Prüft, ob die Antwort durch den Kontext gedeckt ist, und braucht `response` und `context` (plus ein Richtermodell)." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Relevance", "de": "Relevance" },
+          "correct": true,
+          "why": { "en": "It checks whether the response addresses the query and needs only `query` and `response`.", "de": "Prüft, ob die Antwort auf die Frage eingeht, und braucht nur `query` und `response`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Response Completeness", "de": "Response Completeness" },
+          "correct": false,
+          "why": { "en": "It measures recall against the expected answer, so it needs `ground_truth`.", "de": "Misst die Vollständigkeit gegenüber der erwarteten Antwort und braucht daher `ground_truth`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "F1 score", "de": "F1 Score" },
+          "correct": false,
+          "why": { "en": "F1 measures token overlap with a ground-truth answer, which this dataset doesn't have.", "de": "F1 misst die Token-Überlappung mit einer Referenzantwort, die dieses Dataset nicht hat." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Document Retrieval", "de": "Document Retrieval" },
+          "correct": false,
+          "why": { "en": "It needs labeled relevance judgments per document (`retrieval_ground_truth`).", "de": "Braucht gelabelte Relevanzurteile pro Dokument (`retrieval_ground_truth`)." }
+        }
+      ],
+      "explanation": { "en": "Groundedness (precision against the context) and relevance (fit to the query) work without reference answers; response completeness, F1, BLEU and document retrieval need ground truth.", "de": "Groundedness (Präzision gegenüber dem Kontext) und Relevance (Passung zur Frage) funktionieren ohne Referenzantworten; Response Completeness, F1, BLEU und Document Retrieval brauchen Ground Truth." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/rag-evaluators",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-model-catalog-18",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.1",
+      "skills": [
+        "2.1.6"
+      ],
+      "module": "model-catalog",
+      "difficulty": 1,
+      "stem": { "en": "You deployed the model `Phi-4-mini-instruct` with the deployment name `phi-summarizer` (Global Standard) in the Foundry resource `contoso-ai`. Which call reaches it with the OpenAI SDK?", "de": "Du hast das Modell `Phi-4-mini-instruct` mit dem Deployment-Namen `phi-summarizer` (Global Standard) in der Foundry-Ressource `contoso-ai` bereitgestellt. Welcher Aufruf erreicht es mit dem OpenAI SDK?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`OpenAI(base_url=\"https://contoso-ai.openai.azure.com/openai/v1/\", api_key=token_provider)`, then `chat.completions.create(model=\"phi-summarizer\", messages=...)`", "de": "`OpenAI(base_url=\"https://contoso-ai.openai.azure.com/openai/v1/\", api_key=token_provider)`, dann `chat.completions.create(model=\"phi-summarizer\", messages=...)`" },
+          "correct": true,
+          "why": { "en": "Deployments in the Foundry resource are reachable on its `/openai/v1/` route, and `model` takes the deployment name.", "de": "Deployments der Foundry-Ressource sind über deren `/openai/v1/`-Route erreichbar, und `model` erwartet den Deployment-Namen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The same client, but with `model=\"Phi-4-mini-instruct\"`", "de": "Derselbe Client, aber mit `model=\"Phi-4-mini-instruct\"`" },
+          "correct": false,
+          "why": { "en": "Requests are routed by deployment name; the catalog model name only works if the deployment carries that name.", "de": "Requests werden über den Deployment-Namen geroutet; der Katalogname funktioniert nur, wenn das Deployment genau so heißt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The Anthropic SDK with `base_url=\"https://contoso-ai.services.ai.azure.com/anthropic\"`", "de": "Das Anthropic SDK mit `base_url=\"https://contoso-ai.services.ai.azure.com/anthropic\"`" },
+          "correct": false,
+          "why": { "en": "That endpoint and SDK are for Anthropic Claude models deployed in Foundry.", "de": "Dieser Endpoint und dieses SDK sind für Anthropic-Claude-Modelle in Foundry gedacht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The same client, passing the model's catalog asset ID (`azureml://registries/…/Phi-4-mini-instruct/versions/1`) as `model`", "de": "Derselbe Client, mit der Katalog-Asset-ID des Modells (`azureml://registries/…/Phi-4-mini-instruct/versions/1`) als `model`" },
+          "correct": false,
+          "why": { "en": "Asset IDs identify catalog models, for example in Azure Policy; inference uses the deployment name.", "de": "Asset-IDs identifizieren Katalogmodelle, etwa in Azure Policy; für die Inferenz zählt der Deployment-Name." }
+        }
+      ],
+      "explanation": { "en": "To consume a deployment, combine the right endpoint (`/openai/v1/` for the OpenAI SDK) with the deployment name in `model` and a Microsoft Entra token (or key).", "de": "Um ein Deployment zu nutzen, kombinierst du den richtigen Endpoint (`/openai/v1/` für das OpenAI SDK) mit dem Deployment-Namen in `model` und einem Microsoft-Entra-Token (oder Key)." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/create-model-deployments",
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

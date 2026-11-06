@@ -1,0 +1,207 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "language-mcp-agent",
+  "questions": [
+    {
+      "id": "q-language-mcp-agent-01",
+      "type": "order",
+      "domain": "D4",
+      "skill": "4.1.1",
+      "skills": ["2.2.3"],
+      "module": "language-mcp-agent",
+      "difficulty": 1,
+      "stem": {
+        "en": "You want a Foundry agent that extracts named entities by using the Azure Language MCP server, configured entirely in the Foundry portal. Put the steps in order.",
+        "de": "Du möchtest einen Foundry-Agent, der benannte Entitäten über den Azure-Language-MCP-Server extrahiert – vollständig im Foundry-Portal konfiguriert. Bringe die Schritte in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Deploy a model, for example gpt-4.1, in the Foundry project", "de": "Ein Modell, etwa gpt-4.1, im Foundry-Projekt bereitstellen" },
+          "why": { "en": "The agent needs a model deployment to reason and to choose tools.", "de": "Der Agent braucht ein Modell-Deployment, um zu schlussfolgern und Tools zu wählen." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Create the agent with that model and give it instructions", "de": "Den Agent mit diesem Modell anlegen und ihm Anweisungen geben" },
+          "why": { "en": "An agent definition references a model deployment, and the tool is later attached to this existing agent.", "de": "Eine Agent-Definition verweist auf ein Modell-Deployment, und das Tool wird später an diesen bestehenden Agent gehängt." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "On the Tools page, connect Azure Language in Foundry Tools with your Foundry resource name and key, then select Use in an agent and choose your agent", "de": "Auf der Seite Tools Azure Language in Foundry Tools mit dem Namen deiner Foundry-Ressource und dem Key verbinden, dann Use in an agent wählen und deinen Agent auswählen" },
+          "why": { "en": "This creates the connection that authenticates calls to the Language MCP endpoint and attaches the tool to the agent you created.", "de": "Das erstellt die Verbindung, die Aufrufe an den Language-MCP-Endpoint authentifiziert, und hängt das Tool an den Agent, den du angelegt hast." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "In the agent playground, send a text analysis prompt and approve the first MCP tool call", "de": "Im Agent-Playground einen Prompt zur Textanalyse senden und den ersten MCP-Tool-Aufruf freigeben" },
+          "why": { "en": "The tool can only be called once it's attached, and the first MCP call asks for approval (once or always).", "de": "Das Tool kann erst aufgerufen werden, wenn es angehängt ist, und der erste MCP-Aufruf fragt nach einer Freigabe (einmalig oder dauerhaft)." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Open the Logs pane to see which Language tools ran with which input and result", "de": "Den Logs-Bereich öffnen, um zu sehen, welche Language-Tools mit welcher Eingabe und welchem Ergebnis liefen" },
+          "why": { "en": "The logs can only show tool calls after the agent has made them.", "de": "Die Logs zeigen Tool-Aufrufe erst, nachdem der Agent sie ausgeführt hat." }
+        }
+      ],
+      "explanation": {
+        "en": "Model → agent → connect and attach the Language tool → test with approval → verify the tool calls in the logs. Mentioning the Azure Language tool in the agent instructions helps the model use it.",
+        "de": "Modell → Agent → Language-Tool verbinden und anhängen → mit Freigabe testen → Tool-Aufrufe in den Logs prüfen. Wenn die Agent-Anweisungen das Azure-Language-Tool erwähnen, nutzt das Modell es zuverlässiger."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/develop-text-analysis-agent-language-mcp/03-connect-use-language-mcp",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/foundry-tools-agents"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-language-mcp-agent-02",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.1",
+      "skills": ["2.2.3"],
+      "module": "language-mcp-agent",
+      "difficulty": 2,
+      "stem": {
+        "en": "An agent in Microsoft Foundry is connected to the Azure Language MCP server, and you haven't written any routing logic. A user asks: \"Which language is this review written in, and which people does it mention?\" What happens?",
+        "de": "Ein Agent in Microsoft Foundry ist mit dem Azure-Language-MCP-Server verbunden, und du hast keine Routing-Logik geschrieben. Ein Nutzer fragt: „In welcher Sprache ist diese Bewertung geschrieben, und welche Personen werden erwähnt?“ Was passiert?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The agent's model matches the request against the tool descriptions it received from the MCP server and can call the language detection and entity recognition tools in the same turn", "de": "Das Modell des Agents gleicht die Anfrage mit den Tool-Beschreibungen ab, die es vom MCP-Server erhalten hat, und kann Sprachenerkennung und Entitätserkennung in derselben Runde aufrufen" },
+          "correct": true,
+          "why": { "en": "MCP provides dynamic tool discovery: the agent receives the tool catalog at runtime, and the model selects one or more tools for the prompt.", "de": "MCP bietet dynamische Tool-Erkennung: Der Agent erhält den Tool-Katalog zur Laufzeit, und das Modell wählt ein oder mehrere Tools für den Prompt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The MCP server parses the prompt and decides which Azure Language features to run", "de": "Der MCP-Server analysiert den Prompt und entscheidet, welche Azure-Language-Funktionen laufen" },
+          "correct": false,
+          "why": { "en": "The server exposes and executes tools; choosing the tools is the job of the agent's model.", "de": "Der Server stellt Tools bereit und führt sie aus; die Auswahl trifft das Modell des Agents." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The request fails because each MCP tool must be attached to a separate agent", "de": "Die Anfrage schlägt fehl, weil jedes MCP-Tool an einen eigenen Agent gehängt werden muss" },
+          "correct": false,
+          "why": { "en": "One MCP tool connection gives a single agent access to all tools the server exposes, unless `allowed_tools` restricts them.", "de": "Eine MCP-Tool-Verbindung gibt einem einzigen Agent Zugriff auf alle Tools des Servers, sofern `allowed_tools` sie nicht einschränkt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The agent calls only one tool per turn, so the user must ask a second question for the people", "de": "Der Agent ruft pro Runde nur ein Tool auf, daher muss der Nutzer für die Personen eine zweite Frage stellen" },
+          "correct": false,
+          "why": { "en": "An agent can call several tools in one turn and combine their results into a single answer.", "de": "Ein Agent kann in einer Runde mehrere Tools aufrufen und ihre Ergebnisse zu einer Antwort kombinieren." }
+        }
+      ],
+      "explanation": {
+        "en": "With MCP, tool selection is dynamic: the agent reads the server's tool list and descriptions at runtime and can combine several tools in one response — no routing code is required.",
+        "de": "Mit MCP ist die Tool-Auswahl dynamisch: Der Agent liest Tool-Liste und Beschreibungen des Servers zur Laufzeit und kann mehrere Tools in einer Antwort kombinieren – Routing-Code ist nicht nötig."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/develop-text-analysis-agent-language-mcp/02-understand-language-mcp",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-language-mcp-agent-03",
+      "type": "code",
+      "domain": "D4",
+      "skill": "4.1.2",
+      "skills": ["2.2.3"],
+      "module": "language-mcp-agent",
+      "difficulty": 2,
+      "stem": {
+        "en": "You create a prompt agent that redacts personal data in support tickets by using the Azure Language MCP server. The Language key must not appear in code, and every tool call must wait for approval from your application. Complete the code.",
+        "de": "Du erstellst einen Prompt-Agent, der personenbezogene Daten in Support-Tickets über den Azure-Language-MCP-Server schwärzt. Der Language-Key darf nicht im Code stehen, und jeder Tool-Aufruf muss auf die Freigabe deiner Anwendung warten. Vervollständige den Code."
+      },
+      "template": "tool = {{b1}}(\n    server_label=\"azure-language\",\n    server_url=\"https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview\",\n    {{b2}}=\"language-connection\",\n    require_approval=\"always\",\n)\nproject.agents.create_version(agent_name=\"pii-agent\", definition=PromptAgentDefinition(\n    model=\"gpt-4.1\", instructions=\"Redact PII with the Azure Language tool.\", tools=[tool]))\nopenai = project.get_openai_client(agent_name=\"pii-agent\")\nconv = openai.conversations.create()\nresp = openai.responses.create(conversation=conv.id, input=ticket_text)\napprovals = [McpApprovalResponse(type=\"mcp_approval_response\", approve=True,\n             approval_request_id=i.id) for i in resp.output if i.type == \"{{b3}}\"]\nresp = openai.responses.create(conversation=conv.id, input=approvals)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "MCPTool", "correct": true, "why": { "en": "Defines a remote MCP server as an agent tool with `server_label` and `server_url`.", "de": "Definiert einen Remote-MCP-Server als Agent-Tool mit `server_label` und `server_url`." } },
+            { "id": "b", "code": "FunctionTool", "correct": false, "why": { "en": "Describes a function that your own code executes; it has no `server_url`.", "de": "Beschreibt eine Funktion, die dein eigener Code ausführt; eine `server_url` gibt es dort nicht." } },
+            { "id": "c", "code": "OpenApiTool", "correct": false, "why": { "en": "Calls a REST API described by an OpenAPI specification, not an MCP server.", "de": "Ruft eine per OpenAPI-Spezifikation beschriebene REST-API auf, keinen MCP-Server." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "project_connection_id", "correct": true, "why": { "en": "References the project connection that stores the `Ocp-Apim-Subscription-Key` credential, so no key appears in code.", "de": "Verweist auf die Projektverbindung mit dem Credential `Ocp-Apim-Subscription-Key` – so steht kein Key im Code." } },
+            { "id": "b", "code": "headers", "correct": false, "why": { "en": "Headers would carry the key from your code, which is exactly what the requirement forbids.", "de": "Headers würden den Key aus deinem Code mitschicken – genau das verbietet die Anforderung." } },
+            { "id": "c", "code": "server_description", "correct": false, "why": { "en": "Only adds descriptive context for the model; it doesn't authenticate anything.", "de": "Ergänzt nur beschreibenden Kontext für das Modell; authentifiziert wird damit nichts." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "mcp_approval_request", "correct": true, "why": { "en": "With `require_approval=\"always\"`, the response contains these items, each naming the tool and arguments to review.", "de": "Mit `require_approval=\"always\"` enthält die Antwort diese Items, jeweils mit Tool und Argumenten zur Prüfung." } },
+            { "id": "b", "code": "function_call", "correct": false, "why": { "en": "This item type is produced when the model calls a function tool, not an MCP tool.", "de": "Dieser Item-Typ entsteht, wenn das Modell ein Function Tool aufruft, kein MCP-Tool." } },
+            { "id": "c", "code": "message", "correct": false, "why": { "en": "A message item holds the assistant's text, not a pending tool call.", "de": "Ein Message-Item enthält den Text des Assistenten, keinen ausstehenden Tool-Aufruf." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Define the server with `MCPTool`, take credentials from `project_connection_id`, and with `require_approval=\"always\"` answer each `mcp_approval_request` with an `mcp_approval_response` in the same conversation.",
+        "de": "Definiere den Server mit `MCPTool`, beziehe die Credentials über `project_connection_id` und beantworte mit `require_approval=\"always\"` jedes `mcp_approval_request` mit einem `mcp_approval_response` in derselben Conversation."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol",
+        "https://learn.microsoft.com/en-us/python/api/azure-ai-projects/azure.ai.projects.models.mcptool",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/foundry-tools-agents"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-language-mcp-agent-04",
+      "type": "multi",
+      "domain": "D4",
+      "skill": "4.1.2",
+      "skills": ["1.4.4", "2.2.3"],
+      "module": "language-mcp-agent",
+      "difficulty": 3,
+      "stem": {
+        "en": "A healthcare prompt agent in Foundry Agent Service must redact PII from patient messages by using the Azure Language MCP server. During a pilot, developers ran the local Language MCP server on their laptops. For production, security requires that the agent can call only the PII redaction tool. Which TWO actions should you take?",
+        "de": "Ein Healthcare-Prompt-Agent in Foundry Agent Service soll PII aus Patientennachrichten über den Azure-Language-MCP-Server schwärzen. In einem Pilot haben Entwickler den lokalen Language-MCP-Server auf ihren Laptops betrieben. Für die Produktion verlangt die Security, dass der Agent nur das PII-Schwärzungstool aufrufen kann. Welche ZWEI Maßnahmen solltest du ergreifen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set `allowed_tools` to a list that contains only the name of the PII redaction tool", "de": "`allowed_tools` auf eine Liste setzen, die nur den Namen des PII-Schwärzungstools enthält" },
+          "correct": true,
+          "why": { "en": "A nonempty `allowed_tools` list limits the agent to the named tools; selecting tools in the catalog UI has the same effect.", "de": "Eine nicht leere `allowed_tools`-Liste beschränkt den Agent auf die genannten Tools; die Tool-Auswahl im Katalog wirkt genauso." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set `server_url` to the remote endpoint `https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview`", "de": "`server_url` auf den Remote-Endpoint `https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview` setzen" },
+          "correct": true,
+          "why": { "en": "Foundry Agent Service only accepts remote MCP endpoints, and the Language MCP server is available remotely on your Foundry resource.", "de": "Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints, und der Language-MCP-Server ist remote über deine Foundry-Ressource erreichbar." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Set `allowed_tools` to an empty list (`[]`)", "de": "`allowed_tools` auf eine leere Liste (`[]`) setzen" },
+          "correct": false,
+          "why": { "en": "An empty list doesn't block anything; it allows every tool that the server exposes.", "de": "Eine leere Liste blockiert nichts; sie erlaubt jedes Tool, das der Server anbietet." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Keep `server_url` pointing at the local server on a developer laptop, for example `http://localhost:8000`", "de": "`server_url` weiter auf den lokalen Server eines Entwickler-Laptops zeigen lassen, etwa `http://localhost:8000`" },
+          "correct": false,
+          "why": { "en": "The Agent Service runtime can't reach a local server; a self-hosted MCP server must first be published at a reachable URL, for example on Azure Container Apps.", "de": "Die Laufzeit von Agent Service erreicht keinen lokalen Server; ein selbst gehosteter MCP-Server muss erst unter einer erreichbaren URL veröffentlicht werden, etwa auf Azure Container Apps." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Set `require_approval` to `never`", "de": "`require_approval` auf `never` setzen" },
+          "correct": false,
+          "why": { "en": "This removes human review and doesn't limit which tools the agent can call.", "de": "Das entfernt die menschliche Prüfung und schränkt nicht ein, welche Tools der Agent aufrufen kann." }
+        }
+      ],
+      "explanation": {
+        "en": "Agents in Foundry Agent Service need a remote MCP endpoint, and a nonempty `allowed_tools` list is how you restrict them to specific tools. Keep approvals on for sensitive data.",
+        "de": "Agents in Foundry Agent Service brauchen einen Remote-MCP-Endpoint, und mit einer nicht leeren `allowed_tools`-Liste beschränkst du sie auf bestimmte Tools. Lass Freigaben bei sensiblen Daten aktiv."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/foundry-tools-agents"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

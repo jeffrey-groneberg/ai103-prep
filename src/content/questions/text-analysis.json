@@ -1,0 +1,255 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "text-analysis",
+  "questions": [
+    {
+      "id": "q-text-analysis-01",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.1",
+      "module": "text-analysis",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your company processes supplier emails with a model deployed in Microsoft Foundry. A downstream system must receive JSON that always contains exactly the fields `supplier`, `order_id` and `delivery_date`, with no extra fields. Which approach should you use?",
+        "de": "Dein Unternehmen verarbeitet Lieferanten-E-Mails mit einem in Microsoft Foundry bereitgestellten Modell. Ein nachgelagertes System muss JSON erhalten, das immer genau die Felder `supplier`, `order_id` und `delivery_date` enthält – ohne zusätzliche Felder. Welchen Ansatz solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Use structured outputs: pass a JSON schema (for example a Pydantic model via `responses.parse(text_format=...)`) with all fields required and `additionalProperties: false`", "de": "Structured Outputs nutzen: ein JSON-Schema übergeben (etwa ein Pydantic-Modell über `responses.parse(text_format=...)`) mit allen Feldern als Pflicht und `additionalProperties: false`" },
+          "correct": true,
+          "why": { "en": "Structured outputs make the model follow the supplied JSON schema, and the SDK returns the parsed object in `output_parsed`.", "de": "Structured Outputs lassen das Modell dem übergebenen JSON-Schema folgen, und das SDK liefert das geparste Objekt in `output_parsed`." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Enable JSON mode and describe the three fields in the instructions", "de": "Den JSON-Modus aktivieren und die drei Felder in den Anweisungen beschreiben" },
+          "correct": false,
+          "why": { "en": "JSON mode guarantees syntactically valid JSON only; it doesn't enforce your schema, so fields can be missing or added.", "de": "Der JSON-Modus garantiert nur syntaktisch gültiges JSON; dein Schema erzwingt er nicht, Felder können also fehlen oder hinzukommen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Call `extract_key_phrases()` in Azure Language and map the phrases to the fields", "de": "`extract_key_phrases()` in Azure Language aufrufen und die Phrasen den Feldern zuordnen" },
+          "correct": false,
+          "why": { "en": "Key phrase extraction returns a flat list of main concepts, not named fields — and it's a legacy feature that retires on March 31, 2029.", "de": "Die Schlüsselwortextraktion liefert eine flache Liste zentraler Begriffe, keine benannten Felder – und sie ist eine Legacy-Funktion, die am 31. März 2029 eingestellt wird." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Ask for JSON in the prompt and set `temperature` to 0", "de": "Im Prompt nach JSON fragen und `temperature` auf 0 setzen" },
+          "correct": false,
+          "why": { "en": "A low temperature reduces randomness but gives no guarantee that the output matches a schema.", "de": "Eine niedrige Temperatur verringert Zufall, garantiert aber nicht, dass die Ausgabe einem Schema entspricht." }
+        }
+      ],
+      "explanation": {
+        "en": "When code depends on exact fields, use structured outputs (`text.format` in the Responses API, `response_format` in Chat Completions). JSON mode guarantees valid JSON, not schema adherence.",
+        "de": "Wenn Code von exakten Feldern abhängt, nutze Structured Outputs (`text.format` in der Responses API, `response_format` bei Chat Completions). Der JSON-Modus garantiert gültiges JSON, aber keine Schematreue."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/key-phrase-extraction/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-text-analysis-02",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.1",
+      "module": "text-analysis",
+      "difficulty": 1,
+      "stem": {
+        "en": "You build a Python app that receives support tickets in many languages. For each ticket, the app must identify the language and then extract people, organizations and dates by using Azure Language in Foundry Tools. Which sequence of `TextAnalyticsClient` calls should you use?",
+        "de": "Du baust eine Python-App, die Support-Tickets in vielen Sprachen erhält. Für jedes Ticket muss die App die Sprache erkennen und anschließend Personen, Organisationen und Datumsangaben mit Azure Language in Foundry Tools extrahieren. Welche Abfolge von `TextAnalyticsClient`-Aufrufen solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`detect_language()`, then `recognize_entities()` with `language` set to the detected `iso6391_name`", "de": "`detect_language()`, danach `recognize_entities()` mit `language` gleich dem erkannten `iso6391_name`" },
+          "correct": true,
+          "why": { "en": "Language detection returns the ISO 639-1 code; passing it to prebuilt NER avoids the English default and returns categories such as Person, Organization and DateTime.", "de": "Die Sprachenerkennung liefert den ISO-639-1-Code; übergibst du ihn an die vorgefertigte NER, vermeidest du den englischen Standard und erhältst Kategorien wie Person, Organization und DateTime." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`detect_language()`, then `recognize_linked_entities()`", "de": "`detect_language()`, danach `recognize_linked_entities()`" },
+          "correct": false,
+          "why": { "en": "Entity linking disambiguates entities against Wikipedia instead of categorizing them, and it's a legacy feature that is being retired.", "de": "Entity Linking ordnet Entitäten Wikipedia-Einträgen zu, statt sie zu kategorisieren, und ist eine Legacy-Funktion, die eingestellt wird." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`extract_key_phrases()`, then `recognize_entities()` without a language", "de": "`extract_key_phrases()`, danach `recognize_entities()` ohne Sprachangabe" },
+          "correct": false,
+          "why": { "en": "Key phrases don't identify the language, and without `language` the NER call assumes English.", "de": "Schlüsselwörter bestimmen keine Sprache, und ohne `language` nimmt der NER-Aufruf Englisch an." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`recognize_pii_entities()` with `domain_filter=\"phi\"`", "de": "`recognize_pii_entities()` mit `domain_filter=\"phi\"`" },
+          "correct": false,
+          "why": { "en": "The PHI domain filter limits PII detection to protected health information; it neither identifies the language nor performs general entity extraction.", "de": "Der PHI-Domänenfilter beschränkt die PII-Erkennung auf geschützte Gesundheitsdaten; er erkennt weder die Sprache noch extrahiert er allgemeine Entitäten." }
+        }
+      ],
+      "explanation": {
+        "en": "Prebuilt NER (`recognize_entities`) extracts categorized entities without training. Detect the language first and pass its code, because the default language for each call is English.",
+        "de": "Die vorgefertigte NER (`recognize_entities`) extrahiert kategorisierte Entitäten ohne Training. Erkenne zuerst die Sprache und übergib ihren Code, denn die Standardsprache jedes Aufrufs ist Englisch."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/python/api/azure-ai-textanalytics/azure.ai.textanalytics.textanalyticsclient",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-text-analysis-03",
+      "type": "multi",
+      "domain": "D4",
+      "skill": "4.1.2",
+      "module": "text-analysis",
+      "difficulty": 2,
+      "stem": {
+        "en": "A contact center shares chat transcripts with an analytics partner. You call the `PiiEntityRecognition` task of the Azure Language analyze-text REST API. Only US Social Security numbers and phone numbers may be hidden; customer names must stay readable. Each hidden value must be replaced by a label that shows which type of data was removed. Which TWO settings should you configure?",
+        "de": "Ein Contact Center gibt Chat-Transkripte an einen Analysepartner weiter. Du rufst den Task `PiiEntityRecognition` der analyze-text-REST-API von Azure Language auf. Nur US-Sozialversicherungsnummern und Telefonnummern dürfen verborgen werden; Kundennamen müssen lesbar bleiben. Jeder verborgene Wert muss durch eine Kennzeichnung ersetzt werden, die zeigt, welcher Datentyp entfernt wurde. Welche ZWEI Einstellungen solltest du konfigurieren?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`piiCategories` set to `USSocialSecurityNumber` and `PhoneNumber`", "de": "`piiCategories` auf `USSocialSecurityNumber` und `PhoneNumber` setzen" },
+          "correct": true,
+          "why": { "en": "Listing categories limits detection and redaction to those types, so names (Person) stay in the text.", "de": "Gelistete Kategorien begrenzen Erkennung und Schwärzung auf diese Typen – Namen (Person) bleiben also im Text." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A redaction policy with `policyKind` set to `entityMask`", "de": "Eine Schwärzungsrichtlinie mit `policyKind` gleich `entityMask`" },
+          "correct": true,
+          "why": { "en": "`entityMask` replaces each value with its entity type and a counter, for example `[PHONENUMBER_1]`.", "de": "`entityMask` ersetzt jeden Wert durch seinen Entitätstyp und einen Zähler, etwa `[PHONENUMBER_1]`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A redaction policy with `policyKind` set to `characterMask` and `redactionCharacter` set to `#`", "de": "Eine Schwärzungsrichtlinie mit `policyKind` gleich `characterMask` und `redactionCharacter` gleich `#`" },
+          "correct": false,
+          "why": { "en": "Character masking hides each value with repeated characters but doesn't show which type of data was removed.", "de": "Zeichenmaskierung verbirgt jeden Wert mit wiederholten Zeichen, zeigt aber nicht, welcher Datentyp entfernt wurde." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A redaction policy with `policyKind` set to `syntheticReplacement`", "de": "Eine Schwärzungsrichtlinie mit `policyKind` gleich `syntheticReplacement`" },
+          "correct": false,
+          "why": { "en": "Synthetic replacement inserts realistic fake values, which disguises the data instead of labeling its type.", "de": "Synthetische Ersetzung fügt realistische Ersatzwerte ein – das tarnt die Daten, statt ihren Typ zu kennzeichnen." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "`confidenceScoreThreshold` with a `default` value of `0.9`", "de": "`confidenceScoreThreshold` mit einem `default`-Wert von `0.9`" },
+          "correct": false,
+          "why": { "en": "A confidence threshold drops low-confidence detections; it neither restricts the entity types nor changes how values are masked.", "de": "Ein Konfidenzschwellenwert verwirft unsichere Erkennungen; er schränkt weder die Entitätstypen ein noch ändert er die Art der Maskierung." }
+        }
+      ],
+      "explanation": {
+        "en": "Use `piiCategories` to choose *what* is detected and a redaction policy to choose *how* it is hidden: `characterMask` (default), `entityMask`, `syntheticReplacement` or `noMask`.",
+        "de": "Mit `piiCategories` wählst du, *was* erkannt wird, mit einer Schwärzungsrichtlinie, *wie* es verborgen wird: `characterMask` (Standard), `entityMask`, `syntheticReplacement` oder `noMask`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-text-analysis-04",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.2",
+      "skills": ["1.4.1"],
+      "module": "text-analysis",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your company starts a new project that must classify customer reviews as positive, neutral, negative or mixed, describe the reviewer's tone (for example sarcastic or frustrated) and flag reviews that contain hate speech or violent threats. The solution must stay supported for at least five years. What should you use?",
+        "de": "Dein Unternehmen startet ein neues Projekt, das Kundenbewertungen als positiv, neutral, negativ oder gemischt einstufen, die Tonalität der Verfassenden beschreiben (zum Beispiel sarkastisch oder frustriert) und Bewertungen mit Hassrede oder Gewaltdrohungen markieren muss. Die Lösung muss mindestens fünf Jahre unterstützt bleiben. Was solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A Foundry model with structured outputs for sentiment and tone, plus Azure AI Content Safety text analysis (the service behind Foundry guardrails) for hate and violence", "de": "Ein Foundry-Modell mit Structured Outputs für Stimmung und Tonalität, dazu die Textanalyse von Azure AI Content Safety (der Dienst hinter den Foundry-Guardrails) für Hass und Gewalt" },
+          "correct": true,
+          "why": { "en": "Azure Language sentiment analysis retires on March 31, 2029 and new projects should use Foundry models; hate and violence are harm categories that Content Safety detects.", "de": "Die Stimmungsanalyse von Azure Language wird am 31. März 2029 eingestellt, neue Projekte sollen Foundry-Modelle nutzen; Hass und Gewalt sind Schadenskategorien, die Content Safety erkennt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Azure Language sentiment analysis with opinion mining for all three requirements", "de": "Die Stimmungsanalyse von Azure Language mit Opinion Mining für alle drei Anforderungen" },
+          "correct": false,
+          "why": { "en": "It's a legacy capability that retires on March 31, 2029, it doesn't describe tone, and it doesn't detect hate or violence.", "de": "Es ist eine Legacy-Funktion mit Einstellung am 31. März 2029, sie beschreibt keine Tonalität und erkennt weder Hass noch Gewalt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Azure Language PII detection for tone and harmful content", "de": "Die PII-Erkennung von Azure Language für Tonalität und schädliche Inhalte" },
+          "correct": false,
+          "why": { "en": "PII detection finds personal data such as names and phone numbers; it doesn't analyze tone or harm.", "de": "Die PII-Erkennung findet personenbezogene Daten wie Namen und Telefonnummern; Tonalität oder Schaden analysiert sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Azure AI Content Safety text analysis for sentiment, tone and harmful content", "de": "Die Textanalyse von Azure AI Content Safety für Stimmung, Tonalität und schädliche Inhalte" },
+          "correct": false,
+          "why": { "en": "Content Safety scores hate, sexual, violence and self-harm severity; it doesn't classify sentiment or tone.", "de": "Content Safety bewertet den Schweregrad von Hass, sexuellen Inhalten, Gewalt und Selbstverletzung; Stimmung oder Tonalität stuft es nicht ein." }
+        }
+      ],
+      "explanation": {
+        "en": "Match each task to its tool: sentiment and tone → a Foundry model (legacy Language sentiment retires March 31, 2029); hate, sexual, violence and self-harm → Azure AI Content Safety and Foundry guardrails; personal data → PII detection.",
+        "de": "Ordne jede Aufgabe ihrem Werkzeug zu: Stimmung und Tonalität → Foundry-Modell (die Legacy-Stimmungsanalyse wird am 31. März 2029 eingestellt); Hass, sexuelle Inhalte, Gewalt, Selbstverletzung → Azure AI Content Safety und Foundry-Guardrails; personenbezogene Daten → PII-Erkennung."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-text-analysis-05",
+      "type": "match",
+      "domain": "D4",
+      "skill": "4.1.4",
+      "module": "text-analysis",
+      "difficulty": 2,
+      "stem": {
+        "en": "A bank adapts its text analysis to domain-specific requirements. Match each requirement to the most appropriate customization.",
+        "de": "Eine Bank passt ihre Textanalyse an fachspezifische Anforderungen an. Ordne jede Anforderung der passendsten Anpassung zu."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Extract internal product codes such as `LN-4417` as a new entity type; hundreds of labeled sample documents exist", "de": "Interne Produktcodes wie `LN-4417` als neuen Entitätstyp extrahieren; Hunderte beschriftete Beispieldokumente liegen vor" },
+          "answer": "t1",
+          "why": { "en": "Custom NER trains a model on your labeled text to extract entity categories that the prebuilt model doesn't know.", "de": "Custom NER trainiert ein Modell auf deinen beschrifteten Texten, um Entitätskategorien zu extrahieren, die das vorgefertigte Modell nicht kennt." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "PII detection must leave the bank's public head-office address in the text instead of redacting it", "de": "Die PII-Erkennung soll die öffentliche Adresse der Bankzentrale im Text lassen, statt sie zu schwärzen" },
+          "answer": "t2",
+          "why": { "en": "Values listed in `valueExclusionPolicy` are neither detected nor redacted, even if their category is enabled.", "de": "Werte in `valueExclusionPolicy` werden weder erkannt noch geschwärzt, selbst wenn ihre Kategorie aktiv ist." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Customers write `BAN` when they mean an international bank account number, and PII detection must recognize that context", "de": "Kundschaft schreibt `BAN`, wenn eine internationale Kontonummer gemeint ist, und die PII-Erkennung soll diesen Kontext erkennen" },
+          "answer": "t3",
+          "why": { "en": "`entitySynonyms` map your own vocabulary to supported entity types such as the international bank account number type.", "de": "`entitySynonyms` ordnen dein eigenes Vokabular unterstützten Entitätstypen zu, etwa dem Typ für internationale Kontonummern." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Produce a compliance summary of each contract with fixed sections (obligations, deadlines, risks) as JSON", "de": "Für jeden Vertrag eine Compliance-Zusammenfassung mit festen Abschnitten (Pflichten, Fristen, Risiken) als JSON erzeugen" },
+          "answer": "t4",
+          "why": { "en": "A prompted Foundry model with a JSON schema can generate domain summaries and enforce the sections as required fields.", "de": "Ein gepromptetes Foundry-Modell mit JSON-Schema kann fachliche Zusammenfassungen erzeugen und die Abschnitte als Pflichtfelder erzwingen." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Custom named entity recognition (custom NER)", "de": "Custom Named Entity Recognition (Custom NER)" } },
+        { "id": "t2", "text": { "en": "`valueExclusionPolicy` in the PII request", "de": "`valueExclusionPolicy` in der PII-Anfrage" } },
+        { "id": "t3", "text": { "en": "`entitySynonyms` in the PII request", "de": "`entitySynonyms` in der PII-Anfrage" } },
+        { "id": "t4", "text": { "en": "A Foundry model with instructions and a JSON schema (structured outputs)", "de": "Ein Foundry-Modell mit Anweisungen und JSON-Schema (Structured Outputs)" } },
+        { "id": "t5", "text": { "en": "`overlapPolicy` set to `allowOverlap` in the NER request", "de": "`overlapPolicy` gleich `allowOverlap` in der NER-Anfrage" } }
+      ],
+      "explanation": {
+        "en": "Adapt prebuilt PII with parameters (`valueExclusionPolicy`, `entitySynonyms`), add new entity types with custom NER, and generate free-form domain outputs such as compliance summaries with a prompted model plus a schema.",
+        "de": "Passe die vorgefertigte PII-Erkennung über Parameter an (`valueExclusionPolicy`, `entitySynonyms`), ergänze neue Entitätstypen mit Custom NER und erzeuge freie Fachausgaben wie Compliance-Zusammenfassungen mit einem geprompteten Modell plus Schema."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/adapt-to-domain-pii",
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/custom-named-entity-recognition/overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

@@ -1,0 +1,347 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "genai-tools",
+  "questions": [
+    {
+      "id": "q-genai-tools-01",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.1.3",
+      "skills": ["2.2.2"],
+      "module": "genai-tools",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your app gives a model a `get_order_status` function tool. Put the steps of one complete function-calling round trip in order.",
+        "de": "Deine App stellt einem Modell das Function-Tool `get_order_status` bereit. Bringe die Schritte eines vollständigen Function-Calling-Durchlaufs in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Call `responses.create()` with the user input and a `tools` list that holds the function's name, description and JSON-schema `parameters`", "de": "`responses.create()` mit der Nutzereingabe und einer `tools`-Liste aufrufen, die Name, Beschreibung und JSON-Schema-`parameters` der Funktion enthält" },
+          "why": { "en": "The model can only request functions that you describe in `tools`.", "de": "Das Modell kann nur Funktionen anfordern, die du in `tools` beschreibst." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "The model returns a `function_call` item with the function name, JSON `arguments` and a `call_id`", "de": "Das Modell liefert ein `function_call`-Item mit Funktionsname, JSON-`arguments` und einer `call_id`" },
+          "why": { "en": "The model decides that a call is needed but executes nothing itself.", "de": "Das Modell entscheidet, dass ein Aufruf nötig ist, führt aber selbst nichts aus." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Your code parses and validates the arguments, then runs the function", "de": "Dein Code parst und prüft die Argumente und führt dann die Funktion aus" },
+          "why": { "en": "Execution stays under your control, so validate the inputs before you act on them.", "de": "Die Ausführung bleibt unter deiner Kontrolle – prüfe die Eingaben also, bevor du danach handelst." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Your code sends a `function_call_output` item with the same `call_id`, for example together with `previous_response_id`", "de": "Dein Code sendet ein `function_call_output`-Item mit derselben `call_id`, zum Beispiel zusammen mit `previous_response_id`" },
+          "why": { "en": "The `call_id` links the result to the request so the model can use it.", "de": "Die `call_id` verknüpft das Ergebnis mit der Anforderung, damit das Modell es nutzen kann." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "The model returns the final answer in `output_text`", "de": "Das Modell liefert die finale Antwort in `output_text`" },
+          "why": { "en": "With the function result in context, the model completes its response.", "de": "Mit dem Funktionsergebnis im Kontext schließt das Modell seine Antwort ab." }
+        }
+      ],
+      "explanation": {
+        "en": "Function calling is a round trip: describe the function → the model requests a call (`function_call`) → your code executes it → you return `function_call_output` with the same `call_id` → the model answers.",
+        "de": "Function Calling ist ein Rundlauf: Funktion beschreiben → das Modell fordert einen Aufruf an (`function_call`) → dein Code führt ihn aus → du gibst `function_call_output` mit derselben `call_id` zurück → das Modell antwortet."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/function-calling"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-02",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.1.3",
+      "module": "genai-tools",
+      "difficulty": 2,
+      "stem": {
+        "en": "A finance assistant must compute statistics on a CSV file that the user uploads, draw a chart of the results, and add this week's exchange rates published on public websites. Which TWO tools should you include in `tools`?",
+        "de": "Ein Finanzassistent soll Statistiken über eine vom Nutzer hochgeladene CSV-Datei berechnen, ein Diagramm der Ergebnisse zeichnen und die in dieser Woche auf öffentlichen Websites veröffentlichten Wechselkurse ergänzen. Welche ZWEI Tools gehören in `tools`?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`code_interpreter`", "de": "`code_interpreter`" },
+          "correct": true,
+          "why": { "en": "It writes and runs Python in a sandboxed container to analyze data files and create charts or files.", "de": "Es schreibt und führt Python in einem abgeschotteten Container aus, um Datendateien zu analysieren und Diagramme oder Dateien zu erzeugen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`web_search`", "de": "`web_search`" },
+          "correct": true,
+          "why": { "en": "It retrieves current public web information and returns it with URL citations.", "de": "Es ruft aktuelle öffentliche Webinformationen ab und liefert sie mit URL-Quellenangaben." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`file_search`", "de": "`file_search`" },
+          "correct": false,
+          "why": { "en": "It finds relevant passages in indexed documents; it doesn't run calculations or plot charts.", "de": "Es findet relevante Passagen in indexierten Dokumenten; Berechnungen oder Diagramme erstellt es nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`image_generation`", "de": "`image_generation`" },
+          "correct": false,
+          "why": { "en": "It creates images from text prompts; it doesn't compute statistics from your data.", "de": "Es erzeugt Bilder aus Text-Prompts; Statistiken aus deinen Daten berechnet es nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Computation and charts → `code_interpreter`; current public facts → `web_search`; your own documents → `file_search`.",
+        "de": "Berechnungen und Diagramme → `code_interpreter`; aktuelle öffentliche Fakten → `web_search`; eigene Dokumente → `file_search`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/web-search"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-03",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.3",
+      "module": "genai-tools",
+      "difficulty": 2,
+      "stem": {
+        "en": "In the order-tracking step of a workflow, the model sometimes answers from memory instead of calling your `get_order_status` function. In this step it must call that function on every request. Which request setting should you use?",
+        "de": "Im Sendungsverfolgungs-Schritt eines Workflows antwortet das Modell manchmal aus dem Gedächtnis, statt deine Funktion `get_order_status` aufzurufen. In diesem Schritt muss es die Funktion bei jeder Anfrage aufrufen. Welche Einstellung im Request nutzt du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`tool_choice={\"type\": \"function\", \"name\": \"get_order_status\"}`", "de": "`tool_choice={\"type\": \"function\", \"name\": \"get_order_status\"}`" },
+          "correct": true,
+          "why": { "en": "A named function in `tool_choice` forces the model to call exactly that function.", "de": "Eine benannte Funktion in `tool_choice` zwingt das Modell, genau diese Funktion aufzurufen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`tool_choice=\"auto\"`", "de": "`tool_choice=\"auto\"`" },
+          "correct": false,
+          "why": { "en": "This is the default: the model decides whether to call a tool — the behavior you want to change.", "de": "Das ist der Standard: Das Modell entscheidet, ob es ein Tool aufruft – genau das Verhalten, das du ändern willst." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`parallel_tool_calls=False`", "de": "`parallel_tool_calls=False`" },
+          "correct": false,
+          "why": { "en": "It only stops the model from requesting several calls at once; it doesn't force any call.", "de": "Es verhindert nur, dass das Modell mehrere Aufrufe gleichzeitig anfordert; einen Aufruf erzwingt es nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`tool_choice=\"none\"`", "de": "`tool_choice=\"none\"`" },
+          "correct": false,
+          "why": { "en": "This prevents tool calls, so the model can only answer with a message.", "de": "Das unterbindet Tool-Aufrufe, das Modell kann also nur mit einer Nachricht antworten." }
+        }
+      ],
+      "explanation": {
+        "en": "`tool_choice` controls tool use: `auto` (default) lets the model decide, `required` forces some tool call, a named function forces that function, and `none` disables tools.",
+        "de": "`tool_choice` steuert die Tool-Nutzung: `auto` (Standard) lässt das Modell entscheiden, `required` erzwingt irgendeinen Tool-Aufruf, eine benannte Funktion erzwingt genau diese, und `none` schaltet Tools ab."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/rest/api/microsoft-foundry/azureopenai/responses",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/function-calling"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-04",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.3",
+      "skills": ["1.4.4"],
+      "module": "genai-tools",
+      "difficulty": 3,
+      "stem": {
+        "en": "A bank's advisor app needs current market news in its answers. Compliance requires that prompt data never leaves the bank's compliance and geographic boundary and stays covered by the Microsoft Data Protection Addendum (DPA). A developer suggests adding `{\"type\": \"web_search\"}` with `filters.allowed_domains` limited to three trusted news sites. What should you conclude?",
+        "de": "Die Berater-App einer Bank braucht aktuelle Marktnachrichten in ihren Antworten. Die Compliance verlangt, dass Prompt-Daten die Compliance- und Geo-Grenze der Bank nie verlassen und durch das Microsoft Data Protection Addendum (DPA) abgedeckt bleiben. Ein Entwickler schlägt vor, `{\"type\": \"web_search\"}` mit `filters.allowed_domains` auf drei vertrauenswürdige Nachrichtenseiten zu beschränken. Was folgerst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The proposal doesn't meet the requirement: web search uses Grounding with Bing, so data flows outside the compliance and geo boundary and the DPA doesn't apply", "de": "Der Vorschlag erfüllt die Anforderung nicht: Die Websuche nutzt Grounding with Bing, Daten fließen also aus der Compliance- und Geo-Grenze heraus, und das DPA gilt nicht" },
+          "correct": true,
+          "why": { "en": "The web search docs state exactly this. Domain filters change which sources are searched, not where your data goes.", "de": "Genau das steht in der Doku zur Websuche. Domain-Filter ändern, welche Quellen durchsucht werden, nicht, wohin deine Daten gehen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "It meets the requirement, because `allowed_domains` keeps all traffic inside the bank's region", "de": "Er erfüllt die Anforderung, weil `allowed_domains` den gesamten Datenverkehr in der Region der Bank hält" },
+          "correct": false,
+          "why": { "en": "Domain filtering only limits the result sources; the query still goes to Grounding with Bing.", "de": "Domain-Filter begrenzen nur die Ergebnisquellen; die Anfrage geht trotzdem an Grounding with Bing." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "It meets the requirement if you use `web_search_preview`, which stays inside the Foundry resource", "de": "Er erfüllt die Anforderung, wenn du `web_search_preview` nutzt, das in der Foundry-Ressource bleibt" },
+          "correct": false,
+          "why": { "en": "`web_search_preview` is the older preview version of the web search tool — supported but not recommended — not an in-boundary alternative.", "de": "`web_search_preview` ist die ältere Vorschauversion des Websuche-Tools – unterstützt, aber nicht empfohlen – und keine Alternative innerhalb der Grenze." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "It meets the requirement, because the Foundry resource is deployed in the bank's geography", "de": "Er erfüllt die Anforderung, weil die Foundry-Ressource in der Geografie der Bank bereitgestellt ist" },
+          "correct": false,
+          "why": { "en": "The resource region doesn't extend to Grounding with Bing; the docs say your data flows outside your compliance and geo boundary.", "de": "Die Region der Ressource gilt nicht für Grounding with Bing; laut Doku fließen deine Daten aus deiner Compliance- und Geo-Grenze heraus." }
+        }
+      ],
+      "explanation": {
+        "en": "Treat `web_search` as an external data flow: it uses Grounding with Bing outside the DPA. If that's unacceptable, leave the tool off — admins can even block it for a whole subscription.",
+        "de": "Betrachte `web_search` als externen Datenfluss: Es nutzt Grounding with Bing außerhalb des DPA. Ist das inakzeptabel, lass das Tool weg – Admins können es sogar für eine ganze Subscription sperren."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/web-search"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-05",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.1.2",
+      "module": "genai-tools",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so the model answers from a PDF that you index for the `file_search` tool.",
+        "de": "Vervollständige den Code so, dass das Modell aus einem PDF antwortet, das du für das Tool `file_search` indexierst."
+      },
+      "template": "vector_store = client.vector_stores.{{b1}}(name=\"hr-policies\")\nwith open(\"travel_policy.pdf\", \"rb\") as f:\n    client.vector_stores.files.{{b2}}(\n        vector_store_id=vector_store.id, file=f\n    )\n\nresponse = client.responses.create(\n    model=\"gpt-4.1\",\n    input=\"What is the hotel limit per night in Paris?\",\n    tools=[{\"type\": \"file_search\", \"{{b3}}\": [vector_store.id]}],\n)\nprint(response.output_text)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "create", "correct": true, "why": { "en": "Creates the vector store and returns its ID.", "de": "Legt den Vector Store an und liefert seine ID." } },
+            { "id": "b", "code": "search", "correct": false, "why": { "en": "Searches an existing vector store; it doesn't create one.", "de": "Durchsucht einen vorhandenen Vector Store; einen neuen legt es nicht an." } },
+            { "id": "c", "code": "retrieve", "correct": false, "why": { "en": "Reads an existing vector store by its ID.", "de": "Liest einen vorhandenen Vector Store über seine ID." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "upload_and_poll", "correct": true, "why": { "en": "Uploads the file, adds it to the store and waits until parsing, chunking and embedding are finished.", "de": "Lädt die Datei hoch, fügt sie dem Store hinzu und wartet, bis Parsen, Chunking und Embedding fertig sind." } },
+            { "id": "b", "code": "list", "correct": false, "why": { "en": "Lists the files that are already in the store.", "de": "Listet die Dateien auf, die bereits im Store liegen." } },
+            { "id": "c", "code": "retrieve", "correct": false, "why": { "en": "Reads one existing vector store file; it uploads nothing.", "de": "Liest eine vorhandene Vector-Store-Datei; hochgeladen wird nichts." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "vector_store_ids", "correct": true, "why": { "en": "The required list of vector stores that file_search searches.", "de": "Die Pflichtliste der Vector Stores, die file_search durchsucht." } },
+            { "id": "b", "code": "file_ids", "correct": false, "why": { "en": "`file_ids` lists input files for a code interpreter container, not stores to search.", "de": "`file_ids` listet Eingabedateien für einen Code-Interpreter-Container, keine zu durchsuchenden Stores." } },
+            { "id": "c", "code": "max_num_results", "correct": false, "why": { "en": "An optional cap (1–50) on returned results; it doesn't tell the tool which store to search.", "de": "Eine optionale Obergrenze (1–50) für Ergebnisse; welcher Store durchsucht wird, legt sie nicht fest." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "file_search needs three things: a vector store (`create`), ingested files (`upload_and_poll`) and a tool definition that names the store in `vector_store_ids`.",
+        "de": "file_search braucht drei Dinge: einen Vector Store (`create`), verarbeitete Dateien (`upload_and_poll`) und eine Tool-Definition, die den Store in `vector_store_ids` nennt."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/file-search",
+        "https://learn.microsoft.com/en-us/rest/api/microsoft-foundry/azureopenai/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-06",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.2",
+      "skills": ["1.1.3"],
+      "module": "genai-tools",
+      "difficulty": 1,
+      "stem": {
+        "en": "You add a policy PDF to a vector store that your `file_search` tool uses. What does the service do with the file?",
+        "de": "Du fügst einem Vector Store, den dein `file_search`-Tool nutzt, ein Richtlinien-PDF hinzu. Was macht der Dienst mit der Datei?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "It parses, chunks and embeds the file automatically and stores it for keyword and semantic search", "de": "Er parst die Datei automatisch, zerlegt sie in Chunks, bettet sie ein und speichert sie für Keyword- und semantische Suche" },
+          "correct": true,
+          "why": { "en": "Vector stores handle ingestion for you; at query time file_search runs a hybrid search and reranks the hits.", "de": "Vector Stores übernehmen die Aufnahme für dich; bei der Anfrage sucht file_search hybrid und rankt die Treffer neu." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "It waits until you create embeddings with your own embedding deployment", "de": "Er wartet, bis du mit einem eigenen Embedding-Deployment Embeddings erzeugst" },
+          "correct": false,
+          "why": { "en": "file_search generates and stores the embeddings itself; you don't run an embedding pipeline.", "de": "file_search erzeugt und speichert die Embeddings selbst; du betreibst keine Embedding-Pipeline." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "It sends the file to Grounding with Bing so it can be found on the web", "de": "Er schickt die Datei an Grounding with Bing, damit sie im Web gefunden wird" },
+          "correct": false,
+          "why": { "en": "Files stay in the vector store; Bing is used by the web search tool, not by file search.", "de": "Dateien bleiben im Vector Store; Bing nutzt das Websuche-Tool, nicht die Dateisuche." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "It puts the whole file into every prompt so the model can read it", "de": "Er packt die ganze Datei in jeden Prompt, damit das Modell sie lesen kann" },
+          "correct": false,
+          "why": { "en": "Only the most relevant chunks go into the model context, not the entire file.", "de": "Nur die relevantesten Chunks landen im Modellkontext, nicht die ganze Datei." }
+        }
+      ],
+      "explanation": {
+        "en": "file_search is managed RAG: ingestion (parse, chunk, embed) happens when you add files; retrieval (query rewrite, hybrid search, reranking) happens for each question.",
+        "de": "file_search ist verwaltetes RAG: Die Aufnahme (parsen, chunken, einbetten) passiert beim Hinzufügen der Dateien, das Retrieval (Query umschreiben, hybride Suche, Reranking) bei jeder Frage."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/file-search"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-genai-tools-07",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.2.3",
+      "skills": ["1.1.4"],
+      "module": "genai-tools",
+      "difficulty": 2,
+      "stem": {
+        "en": "You're building a Foundry agent for a logistics company. Match each requirement to the tool you should add to the agent.",
+        "de": "Du baust einen Foundry-Agent für ein Logistikunternehmen. Ordne jede Anforderung dem Tool zu, das du dem Agent hinzufügen solltest."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Ground answers in an Azure AI Search index that the search team already maintains", "de": "Antworten auf einen Azure-AI-Search-Index stützen, den das Suchteam bereits pflegt" },
+          "answer": "t1",
+          "why": { "en": "For existing search indexes the docs point to the Azure AI Search tool rather than file search.", "de": "Für vorhandene Suchindizes verweist die Doku auf das Azure AI Search Tool statt auf die Dateisuche." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Call the carrier's tracking REST API, which is described by an OpenAPI specification", "de": "Die Tracking-REST-API des Spediteurs aufrufen, die über eine OpenAPI-Spezifikation beschrieben ist" },
+          "answer": "t2",
+          "why": { "en": "The OpenAPI tool calls any REST API that an OpenAPI specification describes.", "de": "Das OpenAPI Tool ruft jede REST-API auf, die eine OpenAPI-Spezifikation beschreibt." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Run a pricing function inside your own application process", "de": "Eine Preisfunktion innerhalb deines eigenen Anwendungsprozesses ausführen" },
+          "answer": "t3",
+          "why": { "en": "Function calling executes client-side: the agent requests the call, and your code runs it.", "de": "Function Calling wird clientseitig ausgeführt: Der Agent fordert den Aufruf an, dein Code führt ihn aus." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Use tools that a partner exposes on a remote Model Context Protocol server", "de": "Tools nutzen, die ein Partner auf einem entfernten Model-Context-Protocol-Server anbietet" },
+          "answer": "t4",
+          "why": { "en": "The MCP tool connects agents to remote MCP servers.", "de": "Das MCP Tool verbindet Agents mit entfernten MCP-Servern." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Azure AI Search tool", "de": "Azure AI Search Tool" } },
+        { "id": "t2", "text": { "en": "OpenAPI tool", "de": "OpenAPI Tool" } },
+        { "id": "t3", "text": { "en": "Function calling", "de": "Function Calling" } },
+        { "id": "t4", "text": { "en": "MCP tool", "de": "MCP Tool" } },
+        { "id": "t5", "text": { "en": "File search", "de": "Dateisuche (file search)" } }
+      ],
+      "explanation": {
+        "en": "Existing search index → Azure AI Search tool; uploaded documents → file search; a REST API with an OpenAPI spec → OpenAPI tool; your own code → function calling; an MCP server → MCP tool.",
+        "de": "Vorhandener Suchindex → Azure AI Search Tool; hochgeladene Dokumente → Dateisuche; REST-API mit OpenAPI-Spezifikation → OpenAPI Tool; eigener Code → Function Calling; MCP-Server → MCP Tool."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/file-search",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/capability-reference",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/toolbox-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

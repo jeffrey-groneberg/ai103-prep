@@ -1,0 +1,547 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "image-generation",
+  "questions": [
+    {
+      "id": "q-image-generation-01",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.1",
+      "module": "image-generation",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your marketing app turns campaign copy into original images. It still calls a `dall-e-3` deployment, and every request now fails. What should you do?",
+        "de": "Deine Marketing-App macht aus Kampagnentexten neue Bilder. Sie ruft noch ein `dall-e-3`-Deployment auf, und jede Anfrage schlägt inzwischen fehl. Was solltest du tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Deploy a GPT-image model such as `gpt-image-2` and call `images.generate()` with the new deployment name", "de": "Ein GPT-image-Modell wie `gpt-image-2` bereitstellen und `images.generate()` mit dem neuen Deployment-Namen aufrufen" },
+          "correct": true,
+          "why": { "en": "`dall-e-3` was retired on March 4, 2026; GPT-image models replace it for image generation.", "de": "`dall-e-3` wurde am 4. März 2026 eingestellt; GPT-image-Modelle ersetzen es für die Bildgenerierung." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Redeploy `dall-e-3` in another region", "de": "`dall-e-3` in einer anderen Region neu bereitstellen" },
+          "correct": false,
+          "why": { "en": "The model is retired: new deployments aren't possible and existing deployments no longer work.", "de": "Das Modell ist eingestellt: Neue Deployments sind nicht möglich, und bestehende funktionieren nicht mehr." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Send the copy to a `gpt-4.1` deployment with `responses.create()` and no tools", "de": "Den Text mit `responses.create()` ohne Tools an ein `gpt-4.1`-Deployment senden" },
+          "correct": false,
+          "why": { "en": "gpt-4.1 accepts images as input but outputs only text; without an image generation tool it can't create images.", "de": "gpt-4.1 nimmt Bilder als Eingabe, gibt aber nur Text aus; ohne Bildgenerierungs-Tool erzeugt es keine Bilder." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Call `videos.create()` on a `sora-2` deployment and extract a still frame", "de": "`videos.create()` auf einem `sora-2`-Deployment aufrufen und ein Standbild extrahieren" },
+          "correct": false,
+          "why": { "en": "Sora 2 is a video model; using it for still images is slow, costly and not its purpose.", "de": "Sora 2 ist ein Videomodell; es für Standbilder zu nutzen ist langsam, teuer und nicht sein Zweck." }
+        }
+      ],
+      "explanation": {
+        "en": "Text-to-image in Foundry today means a GPT-image (or FLUX) deployment and `images.generate()`. `dall-e-3` is retired.",
+        "de": "Text-zu-Bild bedeutet in Foundry heute ein GPT-image- (oder FLUX-)Deployment und `images.generate()`. `dall-e-3` ist eingestellt."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-02",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.1",
+      "module": "image-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "A retailer wants one new lifestyle image that combines four existing product photos — a bag, a scarf, a hat and sunglasses — into a beach scene. The team uses a `gpt-image-1.5` deployment. Which approach should you use?",
+        "de": "Ein Händler möchte ein neues Lifestyle-Bild, das vier vorhandene Produktfotos – Tasche, Schal, Hut und Sonnenbrille – zu einer Strandszene kombiniert. Das Team nutzt ein `gpt-image-1.5`-Deployment. Welchen Ansatz solltest du wählen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Call `images.edit()` with the four photos as `image` inputs and a prompt that describes the beach scene", "de": "`images.edit()` mit den vier Fotos als `image`-Eingaben und einem Prompt aufrufen, der die Strandszene beschreibt" },
+          "correct": true,
+          "why": { "en": "The edit endpoint accepts several input images plus a prompt, so the model can use them as references for a new composition.", "de": "Der Edit-Endpunkt akzeptiert mehrere Eingabebilder plus Prompt – das Modell kann sie als Referenzen für eine neue Komposition nutzen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Call `images.generate()` and paste the four photo URLs into the prompt", "de": "`images.generate()` aufrufen und die vier Foto-URLs in den Prompt einfügen" },
+          "correct": false,
+          "why": { "en": "`images.generate()` takes a text prompt only; URLs in the prompt are just text, not images.", "de": "`images.generate()` nimmt nur einen Text-Prompt; URLs im Prompt sind bloß Text, keine Bilder." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Call `images.edit()` with the bag photo as `image` and the other three photos as masks", "de": "`images.edit()` mit dem Taschenfoto als `image` und den anderen drei Fotos als Masken aufrufen" },
+          "correct": false,
+          "why": { "en": "A mask is one PNG whose transparent pixels mark the area to edit in the first image; it isn't a way to pass reference images.", "de": "Eine Maske ist ein einzelnes PNG, dessen transparente Pixel den Bearbeitungsbereich im ersten Bild markieren; damit übergibt man keine Referenzbilder." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Call `responses.create()` on a `gpt-4.1` deployment with four `input_image` parts and no tools", "de": "`responses.create()` auf einem `gpt-4.1`-Deployment mit vier `input_image`-Teilen und ohne Tools aufrufen" },
+          "correct": false,
+          "why": { "en": "A vision model analyzes images and returns text; without the image generation tool no image is produced.", "de": "Ein Vision-Modell analysiert Bilder und gibt Text zurück; ohne Bildgenerierungs-Tool entsteht kein Bild." }
+        }
+      ],
+      "explanation": {
+        "en": "Reference images go to `images.edit()` as input images together with a prompt. A mask only limits the edit area of the first image.",
+        "de": "Referenzbilder gehen als Eingabebilder zusammen mit einem Prompt an `images.edit()`. Eine Maske begrenzt nur den Bearbeitungsbereich des ersten Bildes."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/reference-preview-latest"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-03",
+      "type": "match",
+      "domain": "D3",
+      "skill": "3.1.1",
+      "module": "image-generation",
+      "difficulty": 3,
+      "stem": {
+        "en": "A design studio evaluates image generation options in Microsoft Foundry. Match each requirement to the model or API that fits best.",
+        "de": "Ein Designstudio bewertet Optionen zur Bildgenerierung in Microsoft Foundry. Ordne jeder Anforderung das passendste Modell bzw. die passendste API zu."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Keep the same mascot consistent across a series of edits through the OpenAI-compatible `images/edits` endpoint", "de": "Dasselbe Maskottchen über eine Reihe von Bearbeitungen konsistent halten – über den OpenAI-kompatiblen Endpunkt `images/edits`" },
+          "answer": "t1",
+          "why": { "en": "FLUX.1 Kontext [pro] specializes in in-context editing with character consistency and is available through the Images API.", "de": "FLUX.1 Kontext [pro] ist auf In-Context-Bearbeitung mit Figurentreue spezialisiert und über die Images API verfügbar." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Apply one style to up to eight product photos in a single request and fix the `seed`", "de": "Einen Stil auf bis zu acht Produktfotos in einer Anfrage anwenden und den `seed` festlegen" },
+          "answer": "t2",
+          "why": { "en": "FLUX.2 [pro] supports multi-reference editing with up to eight images, and the BFL provider API exposes parameters such as `seed`.", "de": "FLUX.2 [pro] unterstützt Bearbeitung mit bis zu acht Referenzbildern, und die BFL-Provider-API bietet Parameter wie `seed`." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Let users refine one picture over several chat turns", "de": "Nutzer ein Bild über mehrere Chat-Runden verfeinern lassen" },
+          "answer": "t3",
+          "why": { "en": "The Responses API's image generation tool supports multi-turn image creation and editing inside a conversation.", "de": "Das Bildgenerierungs-Tool der Responses API unterstützt mehrstufiges Erzeugen und Bearbeiten innerhalb einer Unterhaltung." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Fast, competitively priced text-to-image without reference images", "de": "Schnelles, preisgünstiges Text-zu-Bild ohne Referenzbilder" },
+          "answer": "t4",
+          "why": { "en": "FLUX1.1 [pro] is built for fast text-to-image generation with strong prompt adherence and competitive pricing.", "de": "FLUX1.1 [pro] ist für schnelles Text-zu-Bild mit guter Prompt-Treue und konkurrenzfähigen Preisen gebaut." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`FLUX.1-Kontext-pro` via the Images API", "de": "`FLUX.1-Kontext-pro` über die Images API" } },
+        { "id": "t2", "text": { "en": "`FLUX.2-pro` via the BFL provider API", "de": "`FLUX.2-pro` über die BFL-Provider-API" } },
+        { "id": "t3", "text": { "en": "Responses API with the `image_generation` tool", "de": "Responses API mit dem Tool `image_generation`" } },
+        { "id": "t4", "text": { "en": "`FLUX-1.1-pro`", "de": "`FLUX-1.1-pro`" } },
+        { "id": "t5", "text": { "en": "`sora-2` with `input_reference`", "de": "`sora-2` mit `input_reference`" } }
+      ],
+      "explanation": {
+        "en": "Pick image models by job: character-consistent editing (FLUX.1 Kontext [pro]), multi-reference editing with fine control (FLUX.2 via the provider API), conversational refinement (Responses API image tool), fast text-to-image (FLUX1.1 [pro]). Sora 2 generates videos, not images.",
+        "de": "Wähle Bildmodelle nach Aufgabe: figurentreue Bearbeitung (FLUX.1 Kontext [pro]), Multi-Referenz-Bearbeitung mit Feinsteuerung (FLUX.2 über die Provider-API), Verfeinerung im Dialog (Bild-Tool der Responses API), schnelles Text-zu-Bild (FLUX1.1 [pro]). Sora 2 erzeugt Videos, keine Bilder."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-flux",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-04",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.3",
+      "module": "image-generation",
+      "difficulty": 1,
+      "stem": {
+        "en": "You inpaint a product photo with `images.edit()` and a mask. Which mask marks the area the model should repaint?",
+        "de": "Du bearbeitest ein Produktfoto per Inpainting mit `images.edit()` und einer Maske. Welche Maske markiert den Bereich, den das Modell neu malen soll?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A PNG with the same dimensions as the photo in which the area to repaint is fully transparent", "de": "Ein PNG mit denselben Abmessungen wie das Foto, in dem der neu zu malende Bereich vollständig transparent ist" },
+          "correct": true,
+          "why": { "en": "The mask's fully transparent pixels (alpha 0) define the edit area; it must be a PNG with the same size as the image.", "de": "Die vollständig transparenten Pixel der Maske (Alpha 0) legen den Bearbeitungsbereich fest; sie muss ein PNG in derselben Größe wie das Bild sein." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A black-and-white PNG in which white pixels mark the area to repaint", "de": "Ein Schwarz-Weiß-PNG, in dem weiße Pixel den neu zu malenden Bereich markieren" },
+          "correct": false,
+          "why": { "en": "Color values don't define the edit area — transparency does.", "de": "Farbwerte legen den Bearbeitungsbereich nicht fest – Transparenz tut es." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A JPEG in which the area to repaint is painted red", "de": "Ein JPEG, in dem der neu zu malende Bereich rot übermalt ist" },
+          "correct": false,
+          "why": { "en": "The mask must be a PNG, and a JPEG has no transparency to mark the area.", "de": "Die Maske muss ein PNG sein, und ein JPEG hat keine Transparenz, um den Bereich zu markieren." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A smaller PNG thumbnail in which the area to keep is transparent", "de": "Ein kleineres PNG-Thumbnail, in dem der zu behaltende Bereich transparent ist" },
+          "correct": false,
+          "why": { "en": "The mask must match the input image's dimensions, and transparency marks what changes, not what stays.", "de": "Die Maske muss die Abmessungen des Eingabebildes haben, und Transparenz markiert, was sich ändert – nicht, was bleibt." }
+        }
+      ],
+      "explanation": {
+        "en": "Mask rule: PNG, same dimensions as the image, fully transparent = edit. Everything that isn't transparent is preserved.",
+        "de": "Maskenregel: PNG, gleiche Abmessungen wie das Bild, vollständig transparent = bearbeiten. Alles, was nicht transparent ist, bleibt erhalten."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/reference-preview-latest"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-05",
+      "type": "code",
+      "domain": "D3",
+      "skill": "3.1.3",
+      "module": "image-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so that only the sky in `street.png` is replaced and the edited image is saved.",
+        "de": "Vervollständige den Code so, dass nur der Himmel in `street.png` ersetzt und das bearbeitete Bild gespeichert wird."
+      },
+      "template": "with open(\"street.png\", \"rb\") as img, open(\"sky-mask.png\", \"rb\") as mask:\n    result = client.images.{{b1}}(\n        model=\"gpt-image-1.5\",          # deployment name\n        image=img,\n        {{b2}}=mask,\n        prompt=\"The same street at sunset under an orange sky\",\n    )\n\nwith open(\"street-sunset.png\", \"wb\") as f:\n    f.write(base64.b64decode(result.data[0].{{b3}}))",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "edit", "correct": true, "why": { "en": "Edits input images with a prompt; it's the images call that accepts a mask.", "de": "Bearbeitet Eingabebilder mit einem Prompt; es ist der Bildaufruf, der eine Maske akzeptiert." } },
+            { "id": "b", "code": "generate", "correct": false, "why": { "en": "Creates new images from text and takes no input image or mask.", "de": "Erzeugt neue Bilder aus Text und nimmt weder Eingabebild noch Maske." } },
+            { "id": "c", "code": "inpaint", "correct": false, "why": { "en": "No such method exists; inpainting is `images.edit()` with a `mask`.", "de": "Diese Methode gibt es nicht; Inpainting ist `images.edit()` mit einer `mask`." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "mask", "correct": true, "why": { "en": "The mask's transparent pixels limit the edit to the sky.", "de": "Die transparenten Pixel der Maske begrenzen die Änderung auf den Himmel." } },
+            { "id": "b", "code": "background", "correct": false, "why": { "en": "Sets the output background (transparent, opaque or auto), not the edit area.", "de": "Legt den Hintergrund der Ausgabe fest (transparent, opaque oder auto), nicht den Bearbeitungsbereich." } },
+            { "id": "c", "code": "input_reference", "correct": false, "why": { "en": "That's the Sora 2 `videos.create()` parameter for a first-frame image.", "de": "Das ist der Sora-2-Parameter von `videos.create()` für ein Bild als ersten Frame." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "b64_json", "correct": true, "why": { "en": "GPT-image models always return base64-encoded image data.", "de": "GPT-image-Modelle liefern immer Base64-kodierte Bilddaten." } },
+            { "id": "b", "code": "url", "correct": false, "why": { "en": "GPT-image models don't return image URLs; `response_format` isn't supported.", "de": "GPT-image-Modelle liefern keine Bild-URLs; `response_format` wird nicht unterstützt." } },
+            { "id": "c", "code": "content", "correct": false, "why": { "en": "Image data items have no `content` field; the bytes are in `b64_json`.", "de": "Bilddaten-Elemente haben kein Feld `content`; die Bytes stehen in `b64_json`." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Inpainting = `images.edit(image=…, mask=…, prompt=…)`; decode `data[0].b64_json` to get the image bytes.",
+        "de": "Inpainting = `images.edit(image=…, mask=…, prompt=…)`; dekodiere `data[0].b64_json`, um die Bildbytes zu erhalten."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/reference-preview-latest"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-06",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.3",
+      "module": "image-generation",
+      "difficulty": 3,
+      "stem": {
+        "en": "A fashion brand uses a `gpt-image-1-mini` deployment and a mask to recolor only the jacket in model photos. The jacket changes correctly, but the model's face also changes slightly, which brand rules forbid. What should you change?",
+        "de": "Eine Modemarke nutzt ein `gpt-image-1-mini`-Deployment und eine Maske, um auf Model-Fotos nur die Jacke umzufärben. Die Jacke ändert sich korrekt, aber auch das Gesicht des Models verändert sich leicht – das verbieten die Markenregeln. Was solltest du ändern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Switch to a model that supports input fidelity, such as `gpt-image-1.5`, keep the jacket mask and set `input_fidelity=\"high\"`", "de": "Auf ein Modell mit Input-Fidelity wechseln, etwa `gpt-image-1.5`, die Jackenmaske behalten und `input_fidelity=\"high\"` setzen" },
+          "correct": true,
+          "why": { "en": "High input fidelity preserves features, especially faces, more accurately; gpt-image-1-mini supports neither input fidelity nor dedicated face preservation.", "de": "Hohe Input-Fidelity erhält Merkmale, besonders Gesichter, genauer; gpt-image-1-mini unterstützt weder Input-Fidelity noch eine eigene Gesichtserhaltung." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep `gpt-image-1-mini` and set `quality=\"high\"`", "de": "`gpt-image-1-mini` behalten und `quality=\"high\"` setzen" },
+          "correct": false,
+          "why": { "en": "Quality controls rendering detail and speed, not how faithfully the input's features are kept.", "de": "Quality steuert Detailgrad und Tempo, nicht, wie treu Merkmale der Eingabe erhalten bleiben." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Add \"keep the face identical\" to the prompt and set `n=10` to pick the best result", "de": "„Gesicht unverändert lassen“ in den Prompt schreiben und `n=10` setzen, um das beste Ergebnis auszuwählen" },
+          "correct": false,
+          "why": { "en": "More variations from the same model don't add face preservation; they only multiply work and quota use.", "de": "Mehr Varianten desselben Modells bringen keine Gesichtserhaltung; sie vervielfachen nur Aufwand und Quota-Verbrauch." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Switch to `FLUX-1.1-pro` and call `images.edit()`", "de": "Auf `FLUX-1.1-pro` wechseln und `images.edit()` aufrufen" },
+          "correct": false,
+          "why": { "en": "Through the Images API, FLUX1.1 [pro] supports only image generation, not edits.", "de": "Über die Images API unterstützt FLUX1.1 [pro] nur die Generierung, keine Bearbeitung." }
+        }
+      ],
+      "explanation": {
+        "en": "When edits must keep faces or fine features intact, combine a mask with `input_fidelity=\"high\"` on a model that supports it — gpt-image-1-mini doesn't.",
+        "de": "Wenn Bearbeitungen Gesichter oder feine Merkmale erhalten müssen, kombinierst du eine Maske mit `input_fidelity=\"high\"` auf einem Modell, das es unterstützt – gpt-image-1-mini tut das nicht."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-flux"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-07",
+      "type": "code",
+      "domain": "D3",
+      "skill": "3.1.5",
+      "module": "image-generation",
+      "difficulty": 2,
+      "caseId": "case-northwind-media",
+      "stem": {
+        "en": "Northwind Media needs the product cut-outs described in requirement 1 of the case study. Complete the request.",
+        "de": "Northwind Media braucht die Freisteller aus Anforderung 1 des Fallbeispiels. Vervollständige die Anfrage."
+      },
+      "template": "result = client.images.generate(\n    model=\"gpt-image-1.5\",              # Northwind's deployment\n    prompt=\"Studio shot of the Aurora water bottle, centered, no text\",\n    n={{b1}},\n    background=\"{{b2}}\",\n    output_format=\"{{b3}}\",\n)\nfor i, item in enumerate(result.data):\n    with open(f\"aurora_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(item.b64_json))",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "3", "correct": true, "why": { "en": "The case requires three variations per request; `n` accepts 1–10.", "de": "Das Fallbeispiel verlangt drei Varianten pro Anfrage; `n` akzeptiert 1–10." } },
+            { "id": "b", "code": "1", "correct": false, "why": { "en": "That's the default and returns a single image, not three variations.", "de": "Das ist der Standard und liefert ein einzelnes Bild, keine drei Varianten." } },
+            { "id": "c", "code": "12", "correct": false, "why": { "en": "Above the maximum of 10 images per request.", "de": "Über dem Maximum von 10 Bildern pro Anfrage." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "transparent", "correct": true, "why": { "en": "Produces the transparent background the shop requires.", "de": "Erzeugt den transparenten Hintergrund, den der Shop verlangt." } },
+            { "id": "b", "code": "opaque", "correct": false, "why": { "en": "Forces a filled background — the opposite of a cut-out.", "de": "Erzwingt einen gefüllten Hintergrund – das Gegenteil eines Freistellers." } },
+            { "id": "c", "code": "auto", "correct": false, "why": { "en": "The default; the model chooses the background, so transparency isn't guaranteed.", "de": "Der Standard; das Modell wählt den Hintergrund, Transparenz ist also nicht garantiert." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "png", "correct": true, "why": { "en": "A transparent background requires PNG output.", "de": "Ein transparenter Hintergrund erfordert PNG als Ausgabe." } },
+            { "id": "b", "code": "jpeg", "correct": false, "why": { "en": "JPEG can't store transparency.", "de": "JPEG kann keine Transparenz speichern." } },
+            { "id": "c", "code": "bmp", "correct": false, "why": { "en": "Not a supported output format; the docs list PNG and JPEG.", "de": "Kein unterstütztes Ausgabeformat; die Doku nennt PNG und JPEG." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Transparent cut-outs need `background=\"transparent\"` together with `output_format=\"png\"`; variations come from `n` (1–10, default 1).",
+        "de": "Transparente Freisteller brauchen `background=\"transparent\"` zusammen mit `output_format=\"png\"`; Varianten liefert `n` (1–10, Standard 1)."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/reference-preview-latest"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-08",
+      "type": "multi",
+      "domain": "D3",
+      "skill": "3.1.5",
+      "module": "image-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "Art directors review many draft images from a `gpt-image-1.5` deployment before they order final renders. You must reduce how long each draft takes to generate. Which TWO settings should you use for drafts?",
+        "de": "Art Directors sichten viele Entwurfsbilder aus einem `gpt-image-1.5`-Deployment, bevor sie finale Renderings beauftragen. Du musst die Generierungszeit jedes Entwurfs verkürzen. Welche ZWEI Einstellungen solltest du für Entwürfe verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`quality=\"low\"`", "de": "`quality=\"low\"`" },
+          "correct": true,
+          "why": { "en": "Lower-quality images generate faster; the default is high.", "de": "Bilder mit niedrigerer Qualität entstehen schneller; Standard ist high." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`size=\"1024x1024\"`", "de": "`size=\"1024x1024\"`" },
+          "correct": true,
+          "why": { "en": "Square images generate faster than the portrait or landscape sizes.", "de": "Quadratische Bilder entstehen schneller als Hoch- oder Querformate." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`stream=True` with `partial_images=2`", "de": "`stream=True` mit `partial_images=2`" },
+          "correct": false,
+          "why": { "en": "Streaming shows partial images earlier and improves perceived latency, but the final image isn't rendered faster.", "de": "Streaming zeigt Zwischenbilder früher und verbessert die gefühlte Wartezeit, das fertige Bild entsteht aber nicht schneller." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`n=4`", "de": "`n=4`" },
+          "correct": false,
+          "why": { "en": "More images per request add generation work; each image isn't produced any faster.", "de": "Mehr Bilder pro Anfrage bedeuten mehr Generierungsarbeit; jedes einzelne Bild entsteht dadurch nicht schneller." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "`input_fidelity=\"high\"`", "de": "`input_fidelity=\"high\"`" },
+          "correct": false,
+          "why": { "en": "An edit parameter that makes the model match input images more closely; it doesn't speed up generation.", "de": "Ein Edit-Parameter, der Eingabebilder genauer treffen lässt; er beschleunigt die Generierung nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "For faster drafts, lower `quality` and prefer square sizes. Streaming only improves perceived latency, and `n` multiplies the work.",
+        "de": "Für schnellere Entwürfe senkst du `quality` und bevorzugst quadratische Größen. Streaming verbessert nur die gefühlte Wartezeit, und `n` vervielfacht die Arbeit."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-09",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.3.1",
+      "module": "image-generation",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your app calls `images.generate()`. Some requests fail with \"Your task failed as a result of our safety system\", others with \"Generated image was filtered as a result of our safety system\". What is the difference?",
+        "de": "Deine App ruft `images.generate()` auf. Manche Anfragen scheitern mit „Your task failed as a result of our safety system“, andere mit „Generated image was filtered as a result of our safety system“. Was ist der Unterschied?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The first means the prompt was blocked before generation; the second means the generated image was filtered", "de": "Die erste bedeutet, dass der Prompt vor der Generierung blockiert wurde; die zweite, dass das erzeugte Bild gefiltert wurde" },
+          "correct": true,
+          "why": { "en": "Filtering applies to the prompt (input) and to the generated image (output), and each case has its own message.", "de": "Gefiltert wird der Prompt (Eingabe) und das erzeugte Bild (Ausgabe), und jeder Fall hat eine eigene Meldung." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The first means the generated image was filtered; the second means the prompt was blocked", "de": "Die erste bedeutet, dass das erzeugte Bild gefiltert wurde; die zweite, dass der Prompt blockiert wurde" },
+          "correct": false,
+          "why": { "en": "This reverses the two cases.", "de": "Das vertauscht die beiden Fälle." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Both mean the deployment exceeded its images-per-minute quota", "de": "Beide bedeuten, dass das Deployment sein Kontingent an Bildern pro Minute überschritten hat" },
+          "correct": false,
+          "why": { "en": "Rate limits return HTTP 429, not a safety-system message.", "de": "Ratenlimits liefern HTTP 429, keine Meldung des Sicherheitssystems." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Both come from the Content Provenance Detection API checking the output", "de": "Beide stammen von der Content Provenance Detection API, die die Ausgabe prüft" },
+          "correct": false,
+          "why": { "en": "Provenance detection reports C2PA and watermark signals; it doesn't block generation.", "de": "Die Provenance-Erkennung meldet C2PA- und Wasserzeichensignale; sie blockiert keine Generierung." }
+        }
+      ],
+      "explanation": {
+        "en": "Image guardrails act twice: a flagged prompt stops the request before any image is made, and a flagged output image is withheld. Handle both cases in your app.",
+        "de": "Bild-Guardrails greifen zweimal: Ein markierter Prompt stoppt die Anfrage, bevor ein Bild entsteht, und ein markiertes Ausgabebild wird zurückgehalten. Behandle beide Fälle in deiner App."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/default-safety-policies"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-10",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.3.3",
+      "module": "image-generation",
+      "difficulty": 2,
+      "caseId": "case-northwind-media",
+      "stem": {
+        "en": "Northwind Media must meet requirement 3 of the case study with its current publishing pipeline. What should you recommend?",
+        "de": "Northwind Media muss Anforderung 3 des Fallbeispiels mit seiner aktuellen Veröffentlichungspipeline erfüllen. Was empfiehlst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Keep the Content Credentials intact through the pipeline — or publish the original files — and verify each published file with the Content Provenance Detection API", "de": "Die Content Credentials in der Pipeline erhalten – oder die Originaldateien veröffentlichen – und jede veröffentlichte Datei mit der Content Provenance Detection API prüfen" },
+          "correct": true,
+          "why": { "en": "Cropping, resizing and format conversion can strip C2PA metadata, so check the file that is actually published.", "de": "Zuschneiden, Skalieren und Formatkonvertierung können C2PA-Metadaten entfernen – prüfe daher die Datei, die tatsächlich veröffentlicht wird." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Ask the model in every prompt to paint the words \"AI generated\" into a corner of the image", "de": "Das Modell in jedem Prompt bitten, die Worte „AI generated“ in eine Bildecke zu malen" },
+          "correct": false,
+          "why": { "en": "Painted text isn't cryptographically signed, can be cropped away or faked, and third parties can't verify it.", "de": "Gemalter Text ist nicht kryptografisch signiert, lässt sich wegschneiden oder fälschen, und Dritte können ihn nicht verifizieren." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Add `content_credentials=True` to every `images.generate()` call", "de": "Jedem `images.generate()`-Aufruf `content_credentials=True` hinzufügen" },
+          "correct": false,
+          "why": { "en": "No such parameter exists; supported image models attach Content Credentials themselves (the default guardrail lists them for image outputs).", "de": "Diesen Parameter gibt es nicht; unterstützte Bildmodelle hängen Content Credentials selbst an (die Standard-Guardrail führt sie für Bildausgaben)." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Run Azure AI Content Safety image analysis on every published file", "de": "Jede veröffentlichte Datei mit der Bildanalyse von Azure AI Content Safety prüfen" },
+          "correct": false,
+          "why": { "en": "Image analysis rates harm categories such as violence; it says nothing about provenance.", "de": "Die Bildanalyse bewertet Schadenskategorien wie Gewalt; über die Herkunft sagt sie nichts." }
+        }
+      ],
+      "explanation": {
+        "en": "Provenance relies on signed C2PA Content Credentials, plus invisible watermarks where available. Protect them during post-processing and verify the final file — and remember that \"no provenance detected\" doesn't prove an image isn't AI-generated.",
+        "de": "Der Herkunftsnachweis beruht auf signierten C2PA-Content-Credentials, ergänzt um unsichtbare Wasserzeichen, wo verfügbar. Schütze sie in der Nachbearbeitung und prüfe die finale Datei – und denk daran: „keine Herkunft erkannt“ beweist nicht, dass ein Bild nicht KI-generiert ist."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/content-safety/provenance-disclosure",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/how-to/how-to-provenance-detection",
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/default-safety-policies"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-image-generation-11",
+      "type": "multi",
+      "domain": "D3",
+      "skill": "3.3.3",
+      "module": "image-generation",
+      "difficulty": 3,
+      "stem": {
+        "en": "A brand agency's image generator on a `gpt-image-1.5` deployment must (1) block prompts that mention competitor brand names, (2) refuse requests for well-known studio cartoon characters and (3) refuse ads that show real public figures. Which TWO actions meet all three rules with the least custom code?",
+        "de": "Der Bildgenerator einer Markenagentur auf einem `gpt-image-1.5`-Deployment muss (1) Prompts mit Namen von Konkurrenzmarken blockieren, (2) Anfragen nach bekannten Zeichentrickfiguren großer Studios ablehnen und (3) Werbung mit realen Prominenten ablehnen. Welche ZWEI Maßnahmen erfüllen alle drei Regeln mit dem wenigsten eigenen Code?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Create a custom blocklist with the competitor names and attach it to the guardrail's input filter", "de": "Eine eigene Blockliste mit den Namen der Konkurrenzmarken anlegen und dem Eingabefilter der Guardrail zuordnen" },
+          "correct": true,
+          "why": { "en": "Custom blocklists filter use-case-specific terms such as competitor names in prompts.", "de": "Eigene Blocklisten filtern anwendungsspezifische Begriffe wie Konkurrenznamen in Prompts." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep the default guardrail (Microsoft.DefaultV2) assigned to the deployment", "de": "Die Standard-Guardrail (Microsoft.DefaultV2) dem Deployment zugewiesen lassen" },
+          "correct": true,
+          "why": { "en": "For image generation models it already screens prompts for protected art and studio characters and for depictions of public figures.", "de": "Für Bildgenerierungsmodelle prüft sie Prompts bereits auf geschützte Kunst und Studio-Figuren sowie auf Darstellungen von Prominenten." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Enable document attack detection and list the competitor names as attack patterns", "de": "Die Erkennung von Dokumentangriffen aktivieren und die Konkurrenznamen als Angriffsmuster hinterlegen" },
+          "correct": false,
+          "why": { "en": "Prompt Shields detect injection attacks; they don't take custom term lists.", "de": "Prompt Shields erkennen Injection-Angriffe; eigene Begriffslisten nehmen sie nicht entgegen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Raise the blocking level of all four harm categories to High", "de": "Die Blockierstufe aller vier Schadenskategorien auf High setzen" },
+          "correct": false,
+          "why": { "en": "Harm categories cover hate, sexual, violence and self-harm — not brand names, characters or public figures — and High causes more false positives.", "de": "Die Schadenskategorien decken Hass, sexuelle Inhalte, Gewalt und Selbstverletzung ab – nicht Markennamen, Figuren oder Prominente – und High erzeugt mehr Fehlalarme." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Run every generated image through the Content Provenance Detection API", "de": "Jedes erzeugte Bild durch die Content Provenance Detection API schicken" },
+          "correct": false,
+          "why": { "en": "Provenance detection reports C2PA and watermark signals; it doesn't enforce content rules.", "de": "Die Provenance-Erkennung meldet C2PA- und Wasserzeichensignale; Inhaltsregeln setzt sie nicht durch." }
+        }
+      ],
+      "explanation": {
+        "en": "Rely on the built-in image guardrail for studio characters and public figures, and add custom blocklists for organization-specific terms such as competitor brands.",
+        "de": "Verlass dich bei Studio-Figuren und Prominenten auf die integrierte Bild-Guardrail und ergänze eigene Blocklisten für organisationsspezifische Begriffe wie Konkurrenzmarken."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/default-safety-policies",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/use-blocklists",
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

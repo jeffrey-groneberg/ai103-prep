@@ -1,0 +1,354 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "translation",
+  "questions": [
+    {
+      "id": "q-translation-01",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.3",
+      "module": "translation",
+      "difficulty": 1,
+      "stem": {
+        "en": "You call Azure Translator text translation with API version `2026-06-06`. Translations into Spanish must come from your GPT deployment named `contoso-gpt` instead of the default system. What should you set?",
+        "de": "Du rufst die Textübersetzung von Azure Translator mit der API-Version `2026-06-06` auf. Übersetzungen ins Spanische sollen von deinem GPT-Deployment namens `contoso-gpt` statt vom Standardsystem kommen. Was solltest du setzen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`\"deploymentName\": \"contoso-gpt\"` in the Spanish entry of the `targets` array", "de": "`\"deploymentName\": \"contoso-gpt\"` im spanischen Eintrag des `targets`-Arrays" },
+          "correct": true,
+          "why": { "en": "In `2026-06-06` each target selects its model: the default `general` is NMT, and the name of an LLM deployment selects LLM translation (which requires a Foundry resource).", "de": "In `2026-06-06` wählt jedes Ziel sein Modell: Der Standard `general` ist NMT, und der Name eines LLM-Deployments wählt die LLM-Übersetzung (dafür ist eine Foundry-Ressource nötig)." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The query parameter `category=contoso-gpt`", "de": "Der Query-Parameter `category=contoso-gpt`" },
+          "correct": false,
+          "why": { "en": "`category` is the v3.0 parameter that selects a Custom Translator model, not an LLM deployment.", "de": "`category` ist der v3.0-Parameter, der ein Custom-Translator-Modell auswählt, kein LLM-Deployment." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`\"model\": \"contoso-gpt\"` at the top level of the request body", "de": "`\"model\": \"contoso-gpt\"` auf oberster Ebene des Request-Bodys" },
+          "correct": false,
+          "why": { "en": "`model` is a parameter of the OpenAI Responses and Chat Completions APIs, not a Translator request property.", "de": "`model` ist ein Parameter der OpenAI-APIs Responses und Chat Completions, keine Eigenschaft einer Translator-Anfrage." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The query parameter `to=contoso-gpt`", "de": "Der Query-Parameter `to=contoso-gpt`" },
+          "correct": false,
+          "why": { "en": "`to` is the v3.0 target-language parameter and expects language codes such as `es`.", "de": "`to` ist der v3.0-Parameter für die Zielsprache und erwartet Sprachcodes wie `es`." }
+        }
+      ],
+      "explanation": {
+        "en": "API `2026-06-06` moves target settings into a `targets` array; `deploymentName` selects NMT (`general`), a custom model ID or your LLM deployment.",
+        "de": "API `2026-06-06` verlagert Zieleinstellungen in ein `targets`-Array; `deploymentName` wählt NMT (`general`), eine Custom-Modell-ID oder dein LLM-Deployment."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/2026-06-06/translate-api",
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-02",
+      "type": "multi",
+      "domain": "D4",
+      "skill": "4.1.3",
+      "module": "translation",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your app uses Azure Translator v3.0: the Translate operation with `to=fr&to=de` and the Detect operation. You migrate the app to API version `2026-06-06`. Which TWO changes are required?",
+        "de": "Deine App nutzt Azure Translator v3.0: die Translate-Operation mit `to=fr&to=de` und die Detect-Operation. Du migrierst die App auf die API-Version `2026-06-06`. Welche ZWEI Änderungen sind erforderlich?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Send an `inputs` array in which each item has a `targets` array with the target languages", "de": "Ein `inputs`-Array senden, in dem jeder Eintrag ein `targets`-Array mit den Zielsprachen hat" },
+          "correct": true,
+          "why": { "en": "`2026-06-06` replaces the `to` parameter with `targets` and wraps texts in `inputs`; results come back in `value`.", "de": "`2026-06-06` ersetzt den Parameter `to` durch `targets` und packt Texte in `inputs`; Ergebnisse kommen in `value` zurück." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Replace the Detect calls with language detection in Azure Language", "de": "Die Detect-Aufrufe durch die Sprachenerkennung von Azure Language ersetzen" },
+          "correct": true,
+          "why": { "en": "Detect is no longer supported in `2026-06-06`; the migration guide points to Azure Language language detection.", "de": "Detect wird in `2026-06-06` nicht mehr unterstützt; der Migrationsleitfaden verweist auf die Sprachenerkennung von Azure Language." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Keep calling `/detect` and only change `api-version` to `2026-06-06`", "de": "`/detect` weiter aufrufen und nur `api-version` auf `2026-06-06` ändern" },
+          "correct": false,
+          "why": { "en": "The Detect method was removed, so the call doesn't work with the new version.", "de": "Die Detect-Methode wurde entfernt, der Aufruf funktioniert mit der neuen Version also nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Replace the Detect calls with BreakSentence, which also reports the detected language", "de": "Die Detect-Aufrufe durch BreakSentence ersetzen, das ebenfalls die erkannte Sprache meldet" },
+          "correct": false,
+          "why": { "en": "BreakSentence was removed in `2026-06-06` as well.", "de": "BreakSentence wurde in `2026-06-06` ebenfalls entfernt." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Keep the v3.0 request body and change only the `api-version` value", "de": "Den v3.0-Request-Body behalten und nur den Wert von `api-version` ändern" },
+          "correct": false,
+          "why": { "en": "`2026-06-06` has breaking changes in the request and response schema; it isn't a drop-in replacement.", "de": "`2026-06-06` bringt Breaking Changes im Anfrage- und Antwortschema; es ist kein Drop-in-Ersatz." }
+        }
+      ],
+      "explanation": {
+        "en": "`2026-06-06` isn't a drop-in upgrade: use `inputs` and `targets` (response: `value`) and replace removed methods — Detect → Azure Language detection, BreakSentence → your own sentence splitting, Dictionary Lookup → adaptive custom translation.",
+        "de": "`2026-06-06` ist kein Drop-in-Upgrade: Nutze `inputs` und `targets` (Antwort: `value`) und ersetze entfernte Methoden – Detect → Sprachenerkennung von Azure Language, BreakSentence → eigene Satztrennung, Dictionary Lookup → adaptive Custom Translation."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/how-to/migrate-to-2026-06-06",
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/2026-06-06/translate-api"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-03",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.3",
+      "skills": ["1.3.1"],
+      "module": "translation",
+      "difficulty": 3,
+      "stem": {
+        "en": "A retailer translates about 40 million characters of product catalog text per month into 12 languages and wants the lowest cost per character. It also translates a few hundred marketing slogans per month that must use a formal tone and gender-specific wording. The Translator capability comes from a Foundry resource without a private endpoint. What should you recommend?",
+        "de": "Ein Händler übersetzt monatlich rund 40 Millionen Zeichen Produktkatalogtext in 12 Sprachen und möchte die niedrigsten Kosten pro Zeichen. Außerdem übersetzt er monatlich einige Hundert Marketing-Slogans, die einen formellen Ton und geschlechtsspezifische Formulierungen verwenden müssen. Translator stammt aus einer Foundry-Ressource ohne Private Endpoint. Was solltest du empfehlen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Keep the catalog on NMT (`general`) and send the slogans to an LLM deployment with `tone` and `gender` set in the target", "de": "Den Katalog bei NMT (`general`) belassen und die Slogans an ein LLM-Deployment mit `tone` und `gender` im Ziel senden" },
+          "correct": true,
+          "why": { "en": "The docs recommend keeping high-volume baseline traffic on NMT (billed per character) and reserving LLM translation (billed per token) for tone, gender or adaptive needs.", "de": "Die Doku empfiehlt, Grundlast mit hohem Volumen bei NMT zu lassen (Abrechnung pro Zeichen) und LLM-Übersetzung (Abrechnung pro Token) für Ton, Gender oder adaptive Anforderungen zu reservieren." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Send all text to the LLM deployment so that both workloads get the same quality", "de": "Alle Texte an das LLM-Deployment senden, damit beide Workloads dieselbe Qualität bekommen" },
+          "correct": false,
+          "why": { "en": "LLM translation is billed by tokens and allows fewer, smaller texts per request (50 elements of up to 5,000 characters), which makes it the costly choice for bulk catalog text.", "de": "LLM-Übersetzung wird pro Token abgerechnet und erlaubt weniger und kleinere Texte pro Anfrage (50 Elemente à bis zu 5.000 Zeichen) – für Katalogtext in Masse die teure Wahl." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Train a Custom Translator model that produces formal, gender-specific slogans", "de": "Ein Custom-Translator-Modell trainieren, das formelle, geschlechtsspezifische Slogans liefert" },
+          "correct": false,
+          "why": { "en": "Custom Translator adapts terminology and style from parallel data, but the `tone` and `gender` controls exist only for LLM-based translation.", "de": "Custom Translator passt Terminologie und Stil aus Paralleldaten an, die Steuerungen `tone` und `gender` gibt es aber nur bei LLM-basierter Übersetzung." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Prompt a chat model through the Responses API to translate the catalog in batches", "de": "Ein Chat-Modell über die Responses API prompten, um den Katalog stapelweise zu übersetzen" },
+          "correct": false,
+          "why": { "en": "You'd pay per token and have to build your own quality, terminology and scaling pipeline, while Translator NMT already covers this high-volume scenario.", "de": "Du zahlst pro Token und müsstest eigene Pipelines für Qualität, Terminologie und Skalierung bauen, obwohl Translator NMT dieses Szenario mit hohem Volumen bereits abdeckt." }
+        }
+      ],
+      "explanation": {
+        "en": "Route by need: NMT for high-volume, cost-sensitive text; an LLM deployment (Foundry resource, no private endpoint) when you need tone, gender or adaptive custom translation.",
+        "de": "Leite nach Bedarf: NMT für kostensensiblen Text in großen Mengen; ein LLM-Deployment (Foundry-Ressource, kein Private Endpoint), wenn du Ton, Gender oder adaptive Custom Translation brauchst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/2026-06-06/translate-api"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-04",
+      "type": "match",
+      "domain": "D4",
+      "skill": "4.1.3",
+      "module": "translation",
+      "difficulty": 2,
+      "stem": {
+        "en": "Match each requirement to the Azure Translator capability that meets it.",
+        "de": "Ordne jede Anforderung der Azure-Translator-Funktion zu, die sie erfüllt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Translate 3,000 contracts stored in Azure Blob Storage and keep their layout", "de": "3.000 Verträge aus Azure Blob Storage übersetzen und ihr Layout behalten" },
+          "answer": "t1",
+          "why": { "en": "Batch translation handles many and large files and reads from and writes to Blob Storage containers.", "de": "Die Batch-Übersetzung verarbeitet viele und große Dateien und liest aus bzw. schreibt in Blob-Storage-Container." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Translate one uploaded .docx file on demand and return it directly, without a storage account", "de": "Eine hochgeladene .docx-Datei bei Bedarf übersetzen und direkt zurückgeben, ohne Speicherkonto" },
+          "answer": "t2",
+          "why": { "en": "The synchronous API translates a single file and returns the translated document in the response; no Blob Storage is needed.", "de": "Die synchrone API übersetzt eine einzelne Datei und gibt das übersetzte Dokument in der Antwort zurück; Blob Storage ist nicht nötig." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Show Japanese product names in Latin characters for a search index", "de": "Japanische Produktnamen für einen Suchindex in lateinischen Buchstaben anzeigen" },
+          "answer": "t3",
+          "why": { "en": "Transliterate converts text from one script (for example `Jpan`) to another (`Latn`) without translating it.", "de": "Transliterate wandelt Text von einer Schrift (etwa `Jpan`) in eine andere (`Latn`) um, ohne ihn zu übersetzen." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Mark offensive words in translated chat messages instead of passing them through unchanged", "de": "Anstößige Wörter in übersetzten Chatnachrichten markieren, statt sie unverändert durchzureichen" },
+          "answer": "t4",
+          "why": { "en": "Profanity handling can leave (`NoAction`), mark (`Marked`) or delete (`Deleted`) profanities; `Marked` uses asterisks or tags.", "de": "Die Profanity-Behandlung kann Schimpfwörter belassen (`NoAction`), markieren (`Marked`) oder löschen (`Deleted`); `Marked` nutzt Sternchen oder Tags." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Asynchronous batch document translation", "de": "Asynchrone Batch-Dokumentübersetzung" } },
+        { "id": "t2", "text": { "en": "Synchronous single-file document translation", "de": "Synchrone Einzeldatei-Dokumentübersetzung" } },
+        { "id": "t3", "text": { "en": "Transliteration", "de": "Transliteration" } },
+        { "id": "t4", "text": { "en": "`profanityAction` set to `Marked`", "de": "`profanityAction` gleich `Marked`" } },
+        { "id": "t5", "text": { "en": "Adaptive custom translation", "de": "Adaptive Custom Translation" } }
+      ],
+      "explanation": {
+        "en": "Files → document translation (synchronous for one file, batch with Blob Storage for many); scripts → transliteration; offensive words → `profanityAction`.",
+        "de": "Dateien → Dokumentübersetzung (synchron für eine Datei, Batch mit Blob Storage für viele); Schriften → Transliteration; anstößige Wörter → `profanityAction`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/document-translation/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/2026-06-06/translate-api"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-05",
+      "type": "code",
+      "domain": "D4",
+      "skill": "4.2.4",
+      "module": "translation",
+      "difficulty": 2,
+      "stem": {
+        "en": "A call-center app must translate a caller's Spanish (Mexico) speech from the microphone into English text in real time by using Azure Speech in Foundry Tools. Complete the code.",
+        "de": "Eine Callcenter-App soll die Sprache eines Anrufers auf Spanisch (Mexiko) vom Mikrofon in Echtzeit in englischen Text übersetzen – mit Azure Speech in Foundry Tools. Vervollständige den Code."
+      },
+      "template": "config = speechsdk.translation.SpeechTranslationConfig(\n    token_credential=DefaultAzureCredential(),\n    endpoint=\"https://<resource>.cognitiveservices.azure.com/\",\n)\nconfig.{{b1}} = \"es-MX\"\nconfig.{{b2}}(\"en\")\nrecognizer = speechsdk.translation.TranslationRecognizer(\n    translation_config=config,\n    audio_config=speechsdk.audio.AudioConfig(use_default_microphone=True),\n)\nresult = recognizer.recognize_once_async().get()\nif result.reason == speechsdk.ResultReason.TranslatedSpeech:\n    print(result.{{b3}})",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "speech_recognition_language", "correct": true, "why": { "en": "Sets the source locale the recognizer listens for, such as `es-MX`.", "de": "Setzt das Quell-Locale, auf das der Recognizer hört, etwa `es-MX`." } },
+            { "id": "b", "code": "speech_synthesis_language", "correct": false, "why": { "en": "Controls the language of synthesized speech output, not the language being recognized.", "de": "Steuert die Sprache der synthetisierten Ausgabe, nicht die Sprache, die erkannt wird." } },
+            { "id": "c", "code": "voice_name", "correct": false, "why": { "en": "Selects the voice for synthesized translations; it doesn't define the input language.", "de": "Wählt die Stimme für synthetisierte Übersetzungen; die Eingabesprache legt es nicht fest." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "add_target_language", "correct": true, "why": { "en": "Adds a target language code; each call adds one more translation to the result.", "de": "Fügt einen Zielsprachcode hinzu; jeder Aufruf ergänzt eine weitere Übersetzung im Ergebnis." } },
+            { "id": "b", "code": "remove_target_language", "correct": false, "why": { "en": "Removes a previously added target language instead of adding one.", "de": "Entfernt eine zuvor hinzugefügte Zielsprache, statt eine hinzuzufügen." } },
+            { "id": "c", "code": "set_profanity", "correct": false, "why": { "en": "Sets how profanity is handled; it doesn't add a target language.", "de": "Legt fest, wie mit Schimpfwörtern umgegangen wird; eine Zielsprache fügt es nicht hinzu." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "translations[\"en\"]", "correct": true, "why": { "en": "`translations` is a dictionary keyed by target language code.", "de": "`translations` ist ein Dictionary mit dem Zielsprachcode als Schlüssel." } },
+            { "id": "b", "code": "text", "correct": false, "why": { "en": "`text` holds the recognized Spanish transcript, not the English translation.", "de": "`text` enthält das erkannte spanische Transkript, nicht die englische Übersetzung." } },
+            { "id": "c", "code": "audio", "correct": false, "why": { "en": "Translated audio arrives through the `synthesizing` event when a voice is configured, not as text on the recognition result.", "de": "Übersetztes Audio kommt über das Event `synthesizing`, wenn eine Stimme konfiguriert ist – nicht als Text im Erkennungsergebnis." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Speech translation = `SpeechTranslationConfig` (source locale plus target languages) → `TranslationRecognizer` → `result.translations[<code>]`. Keyless authentication requires the custom-domain endpoint.",
+        "de": "Sprachübersetzung = `SpeechTranslationConfig` (Quell-Locale plus Zielsprachen) → `TranslationRecognizer` → `result.translations[<code>]`. Schlüssellose Anmeldung erfordert den Endpoint mit Custom Domain."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-configure-azure-ad-auth",
+        "https://learn.microsoft.com/en-us/python/api/azure-cognitiveservices-speech/azure.cognitiveservices.speech.translation.speechtranslationconfig"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-06",
+      "type": "order",
+      "domain": "D4",
+      "skill": "4.2.4",
+      "module": "translation",
+      "difficulty": 1,
+      "stem": {
+        "en": "You build speech-to-speech translation from English into French, German and Italian with the Speech SDK. Because there are several target languages, you use manual synthesis. Put the steps in order.",
+        "de": "Du baust eine Speech-to-Speech-Übersetzung von Englisch nach Französisch, Deutsch und Italienisch mit dem Speech SDK. Weil es mehrere Zielsprachen gibt, nutzt du manuelle Synthese. Bringe die Schritte in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Create a `SpeechTranslationConfig`, set `speech_recognition_language` to `en-US` and add the three target languages", "de": "Eine `SpeechTranslationConfig` erstellen, `speech_recognition_language` auf `en-US` setzen und die drei Zielsprachen hinzufügen" },
+          "why": { "en": "The configuration defines credentials, source locale and targets before any recognizer exists.", "de": "Die Konfiguration legt Credentials, Quell-Locale und Ziele fest, bevor es einen Recognizer gibt." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Create a `TranslationRecognizer` with the configuration and an `AudioConfig`", "de": "Einen `TranslationRecognizer` mit der Konfiguration und einer `AudioConfig` erstellen" },
+          "why": { "en": "The recognizer needs the configuration and an audio input such as the default microphone.", "de": "Der Recognizer braucht die Konfiguration und eine Audioquelle wie das Standardmikrofon." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Call `recognize_once_async().get()` and check for `ResultReason.TranslatedSpeech`", "de": "`recognize_once_async().get()` aufrufen und auf `ResultReason.TranslatedSpeech` prüfen" },
+          "why": { "en": "Recognition happens before translation; the result holds the transcript and all translations.", "de": "Die Erkennung kommt vor der Übersetzung; das Ergebnis enthält Transkript und alle Übersetzungen." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Loop over `result.translations` to get each language code and its text", "de": "Über `result.translations` iterieren, um jeden Sprachcode und seinen Text zu erhalten" },
+          "why": { "en": "The dictionary maps each target language code to its translated text.", "de": "Das Dictionary ordnet jedem Zielsprachcode seinen übersetzten Text zu." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "For each language, set `speech_synthesis_voice_name` on a `SpeechConfig` and call `SpeechSynthesizer.speak_text_async()`", "de": "Pro Sprache `speech_synthesis_voice_name` auf einer `SpeechConfig` setzen und `SpeechSynthesizer.speak_text_async()` aufrufen" },
+          "why": { "en": "Manual synthesis turns each translation into audio with a voice that matches its language.", "de": "Die manuelle Synthese macht aus jeder Übersetzung Audio mit einer Stimme, die zur Sprache passt." }
+        }
+      ],
+      "explanation": {
+        "en": "Event-based synthesis (`voice_name` plus the `synthesizing` event) supports a single target only; for several targets, synthesize each entry of `result.translations` with a `SpeechSynthesizer`.",
+        "de": "Ereignisbasierte Synthese (`voice_name` plus Event `synthesizing`) unterstützt nur ein Ziel; bei mehreren Zielen synthetisierst du jeden Eintrag von `result.translations` mit einem `SpeechSynthesizer`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-translation-07",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.4",
+      "skills": ["1.1.1"],
+      "module": "translation",
+      "difficulty": 3,
+      "stem": {
+        "en": "A company streams a global town hall. Remote attendees must hear the speech translated into their language with minimal delay and also receive a translated transcript. The architects want an LLM-based model that processes the audio stream continuously instead of chunking it into segments. What should you use?",
+        "de": "Ein Unternehmen streamt ein globales Town Hall. Teilnehmende sollen die Rede mit minimaler Verzögerung in ihrer Sprache hören und zusätzlich ein übersetztes Transkript erhalten. Die Architekten wünschen ein LLM-basiertes Modell, das den Audiostream kontinuierlich verarbeitet, statt ihn in Segmente zu zerlegen. Was solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A `gpt-realtime-translate` deployment called through the Realtime API", "de": "Ein `gpt-realtime-translate`-Deployment, aufgerufen über die Realtime API" },
+          "correct": true,
+          "why": { "en": "GPT Realtime Translate is built for continuous, low-latency translation of live audio and returns both translated speech and a translated transcript.", "de": "GPT Realtime Translate ist für kontinuierliche Übersetzung von Live-Audio mit niedriger Latenz gebaut und liefert übersetzte Sprache und ein übersetztes Transkript." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Azure LLM Speech with `task` set to `translate` on the fast transcription endpoint", "de": "Azure LLM Speech mit `task` gleich `translate` auf dem Fast-Transcription-Endpoint" },
+          "correct": false,
+          "why": { "en": "LLM Speech translates pre-recorded audio files and returns text, not a live stream of translated speech.", "de": "LLM Speech übersetzt vorab aufgezeichnete Audiodateien und liefert Text, keinen Live-Stream übersetzter Sprache." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A Speech SDK `TranslationRecognizer` that calls `recognize_once_async()`", "de": "Ein `TranslationRecognizer` aus dem Speech SDK, der `recognize_once_async()` aufruft" },
+          "correct": false,
+          "why": { "en": "`recognize_once` returns after a single utterance, so it doesn't cover a continuous stream.", "de": "`recognize_once` endet nach einer einzelnen Äußerung und deckt daher keinen kontinuierlichen Stream ab." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Azure Translator with an LLM `deploymentName`", "de": "Azure Translator mit einem LLM-`deploymentName`" },
+          "correct": false,
+          "why": { "en": "Translator translates text, so you'd need separate transcription and synthesis steps, which add latency.", "de": "Translator übersetzt Text, du bräuchtest also getrennte Schritte für Transkription und Synthese – das kostet Latenz." }
+        }
+      ],
+      "explanation": {
+        "en": "For live, continuous speech translation with an LLM, use GPT Realtime Translate via the Realtime API. Use Azure LLM Speech `translate` for recorded files and the Speech SDK (`TranslationRecognizer`, Live Interpreter) for SDK-based real-time translation.",
+        "de": "Für kontinuierliche Live-Sprachübersetzung mit einem LLM nutzt du GPT Realtime Translate über die Realtime API. Azure LLM Speech `translate` passt für aufgezeichnete Dateien, das Speech SDK (`TranslationRecognizer`, Live Interpreter) für SDK-basierte Echtzeitübersetzung."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/gpt-realtime-translate",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/llm-speech",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

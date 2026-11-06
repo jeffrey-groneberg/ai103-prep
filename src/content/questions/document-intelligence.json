@@ -1,0 +1,476 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "document-intelligence",
+  "questions": [
+    {
+      "id": "q-document-intelligence-01",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.2.1",
+      "module": "document-intelligence",
+      "difficulty": 1,
+      "stem": {
+        "en": "You must extract tables, checkboxes and section headings from scanned project reports. You don't need any domain-specific fields. Which Document Intelligence model should you use?",
+        "de": "Du musst Tabellen, Kontrollkästchen und Abschnittsüberschriften aus gescannten Projektberichten extrahieren. Fachspezifische Felder brauchst du nicht. Welches Document-Intelligence-Modell solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`prebuilt-layout`",
+            "de": "`prebuilt-layout`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Layout adds tables, selection marks and paragraph roles such as `sectionHeading` on top of OCR.",
+            "de": "Layout ergänzt OCR um Tabellen, Auswahlfelder und Absatzrollen wie `sectionHeading`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`prebuilt-read`",
+            "de": "`prebuilt-read`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Read returns text lines, words and paragraphs but no tables, selection marks or paragraph roles.",
+            "de": "Read liefert Textzeilen, Wörter und Absätze, aber keine Tabellen, Auswahlfelder oder Absatzrollen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`prebuilt-document`",
+            "de": "`prebuilt-document`"
+          },
+          "correct": false,
+          "why": {
+            "en": "The general document model was deprecated; its key-value extraction now comes from layout's `keyValuePairs` feature.",
+            "de": "Das General-Document-Modell wurde eingestellt; seine Schlüssel-Wert-Extraktion steckt jetzt im Layout-Feature `keyValuePairs`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`prebuilt-contract`",
+            "de": "`prebuilt-contract`"
+          },
+          "correct": false,
+          "why": {
+            "en": "It extracts agreement-specific fields such as parties — domain fields this scenario doesn't need.",
+            "de": "Es extrahiert vertragsspezifische Felder wie Parteien – Fachfelder, die dieses Szenario nicht braucht."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Read = text; Layout = text plus structure (tables, selection marks, paragraph roles, sections, figures); prebuilt and custom models add typed fields.",
+        "de": "Read = Text; Layout = Text plus Struktur (Tabellen, Auswahlfelder, Absatzrollen, Abschnitte, Abbildungen); Prebuilt- und Custom-Modelle ergänzen typisierte Felder."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/prebuilt/layout?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview?view=doc-intel-4.0.0"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-document-intelligence-02",
+      "type": "match",
+      "domain": "D5",
+      "skill": "5.2.1",
+      "module": "document-intelligence",
+      "difficulty": 2,
+      "stem": {
+        "en": "A city permits office plans its Document Intelligence models. Match each document set to the best model choice.",
+        "de": "Ein städtisches Genehmigungsamt plant seine Document-Intelligence-Modelle. Ordne jede Dokumentenmenge der besten Modellwahl zu."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": {
+            "en": "Supplier invoices from hundreds of vendors",
+            "de": "Lieferantenrechnungen von Hunderten Anbietern"
+          },
+          "answer": "t1",
+          "why": {
+            "en": "A prebuilt model already covers invoices, so no labeling or training is needed.",
+            "de": "Ein Prebuilt-Modell deckt Rechnungen bereits ab – Labeling und Training entfallen."
+          }
+        },
+        {
+          "id": "p2",
+          "prompt": {
+            "en": "The office's own permit form: always the same printed layout, written in a language that custom neural models don't support; 10 labeled samples",
+            "de": "Das eigene Genehmigungsformular des Amts: immer dasselbe gedruckte Layout, in einer Sprache, die Custom-Neural-Modelle nicht unterstützen; 10 gelabelte Beispiele"
+          },
+          "answer": "t2",
+          "why": {
+            "en": "Template models fit one consistent visual layout, train in minutes and support more languages than neural models, which rules neural out here.",
+            "de": "Template-Modelle passen zu einem konsistenten visuellen Layout, trainieren in Minuten und unterstützen mehr Sprachen als Neural-Modelle – Neural scheidet hier aus."
+          }
+        },
+        {
+          "id": "p3",
+          "prompt": {
+            "en": "Inspection letters whose structure varies from writer to writer; 30 labeled samples",
+            "de": "Prüfberichte in Briefform, deren Aufbau je nach Verfasser variiert; 30 gelabelte Beispiele"
+          },
+          "answer": "t3",
+          "why": {
+            "en": "Neural models handle semi-structured and unstructured documents with one model across variations.",
+            "de": "Neural-Modelle verarbeiten teil- und unstrukturierte Dokumente mit einem Modell über alle Varianten."
+          }
+        },
+        {
+          "id": "p4",
+          "prompt": {
+            "en": "Single PDFs that bundle permit forms and inspection letters",
+            "de": "Einzelne PDFs, die Genehmigungsformulare und Prüfberichte bündeln"
+          },
+          "answer": "t4",
+          "why": {
+            "en": "The classifier identifies and splits the document types; the composed model routes each one to its extraction model.",
+            "de": "Der Classifier erkennt und trennt die Dokumenttypen; das Composed Model leitet jeden an sein Extraktionsmodell weiter."
+          }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": {
+            "en": "`prebuilt-invoice`",
+            "de": "`prebuilt-invoice`"
+          }
+        },
+        {
+          "id": "t2",
+          "text": {
+            "en": "Custom template model",
+            "de": "Custom-Template-Modell"
+          }
+        },
+        {
+          "id": "t3",
+          "text": {
+            "en": "Custom neural model",
+            "de": "Custom-Neural-Modell"
+          }
+        },
+        {
+          "id": "t4",
+          "text": {
+            "en": "Custom classifier plus composed model",
+            "de": "Custom Classifier plus Composed Model"
+          }
+        },
+        {
+          "id": "t5",
+          "text": {
+            "en": "`prebuilt-read`",
+            "de": "`prebuilt-read`"
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Prebuilt first; custom neural for varying layouts (and as the more accurate choice wherever its language support fits); custom template for one fixed layout, especially in languages neural doesn't cover; classifier plus composed model when one file mixes document types.",
+        "de": "Zuerst Prebuilt; Custom Neural für wechselnde Layouts (und als genauere Wahl, wo seine Sprachunterstützung passt); Custom Template für ein festes Layout, besonders in Sprachen, die Neural nicht abdeckt; Classifier plus Composed Model, wenn eine Datei Dokumenttypen mischt."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/custom-model?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/train/composed-models?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/overview?view=doc-intel-4.0.0"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-document-intelligence-03",
+      "type": "multi",
+      "domain": "D5",
+      "skill": "5.2.1",
+      "module": "document-intelligence",
+      "difficulty": 3,
+      "stem": {
+        "en": "You analyze A1-size engineering drawings (PDF) with `prebuilt-layout`. The text on the drawings is very small, every sheet carries a QR code with the asset ID, and you need the value of `ProjectCode`, which appears in varying places, without training a model. Which THREE add-on features should you enable?",
+        "de": "Du analysierst Konstruktionszeichnungen im Format A1 (PDF) mit `prebuilt-layout`. Der Text auf den Zeichnungen ist sehr klein, jedes Blatt trägt einen QR-Code mit der Anlagen-ID, und du brauchst den Wert von `ProjectCode`, der an wechselnden Stellen steht – ohne ein Modell zu trainieren. Welche DREI Add-on-Features solltest du aktivieren?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`ocrHighResolution`",
+            "de": "`ocrHighResolution`"
+          },
+          "correct": true,
+          "why": {
+            "en": "High-resolution extraction improves the recognition of small text on large-format documents such as A1 drawings.",
+            "de": "Die hochauflösende Extraktion verbessert die Erkennung kleiner Schrift auf großformatigen Dokumenten wie A1-Zeichnungen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`barcodes`",
+            "de": "`barcodes`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Barcode extraction decodes QR codes and returns their kind and value.",
+            "de": "Die Barcode-Extraktion dekodiert QR-Codes und liefert deren Art und Wert."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`queryFields` with `ProjectCode`",
+            "de": "`queryFields` mit `ProjectCode`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Query fields extract named fields without training — a premium add-on for up to 20 fields per request.",
+            "de": "Query Fields extrahieren benannte Felder ohne Training – ein Premium-Add-on für bis zu 20 Felder pro Anfrage."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`styleFont`",
+            "de": "`styleFont`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Font extraction reports properties such as font style and weight; it doesn't improve small-text recognition.",
+            "de": "Die Font-Extraktion meldet Eigenschaften wie Schriftstil und -stärke; kleine Schrift erkennt sie nicht besser."
+          }
+        },
+        {
+          "id": "e",
+          "text": {
+            "en": "`formulas`",
+            "de": "`formulas`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Formula extraction captures mathematical expressions in LaTeX, which this scenario doesn't need.",
+            "de": "Die Formelextraktion erfasst mathematische Ausdrücke in LaTeX – das braucht dieses Szenario nicht."
+          }
+        },
+        {
+          "id": "f",
+          "text": {
+            "en": "`languages`",
+            "de": "`languages`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Language detection predicts the language of each text line; it doesn't help with small text, codes or extra fields.",
+            "de": "Die Spracherkennung bestimmt die Sprache jeder Textzeile; bei kleiner Schrift, Codes oder Zusatzfeldern hilft sie nicht."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Match add-ons to problems: small text → `ocrHighResolution`, codes → `barcodes`, a few extra fields without training → `queryFields`. Some add-ons cost extra, and none of them work on Office files.",
+        "de": "Ordne Add-ons den Problemen zu: kleine Schrift → `ocrHighResolution`, Codes → `barcodes`, ein paar Zusatzfelder ohne Training → `queryFields`. Manche Add-ons kosten extra, und keines funktioniert mit Office-Dateien."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept/add-on-capabilities?view=doc-intel-4.0.0"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-document-intelligence-04",
+      "type": "code",
+      "domain": "D5",
+      "skill": "5.1.4",
+      "module": "document-intelligence",
+      "difficulty": 2,
+      "stem": {
+        "en": "You prepare policy documents for a RAG index and want structure-aware chunks. Complete the code.",
+        "de": "Du bereitest Versicherungsbedingungen für einen RAG-Index vor und willst strukturbewusste Chunks. Vervollständige den Code."
+      },
+      "template": "from azure.ai.documentintelligence.models import AnalyzeDocumentRequest, DocumentContentFormat\n\npoller = client.begin_analyze_document(\n    \"{{b1}}\",\n    AnalyzeDocumentRequest(url_source=policy_url),\n    output_content_format={{b2}},\n)\nresult = poller.result()\nmarkdown = result.{{b3}}   # split at headings, then embed and index the chunks",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "prebuilt-layout",
+              "correct": true,
+              "why": {
+                "en": "Layout detects headings, sections and tables, which give the Markdown its structure.",
+                "de": "Layout erkennt Überschriften, Abschnitte und Tabellen, die dem Markdown seine Struktur geben."
+              }
+            },
+            {
+              "id": "b",
+              "code": "prebuilt-read",
+              "correct": false,
+              "why": {
+                "en": "Read doesn't detect tables, paragraph roles or sections, so the output lacks the structure that semantic chunking relies on.",
+                "de": "Read erkennt weder Tabellen noch Absatzrollen oder Abschnitte – der Ausgabe fehlt die Struktur, auf die semantisches Chunking angewiesen ist."
+              }
+            },
+            {
+              "id": "c",
+              "code": "prebuilt-invoice",
+              "correct": false,
+              "why": {
+                "en": "It extracts invoice fields; policy documents need layout structure, not invoice data.",
+                "de": "Es extrahiert Rechnungsfelder; Versicherungsbedingungen brauchen Layoutstruktur, keine Rechnungsdaten."
+              }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "DocumentContentFormat.MARKDOWN",
+              "correct": true,
+              "why": {
+                "en": "Returns the top-level content as Markdown with headings and HTML tables.",
+                "de": "Liefert den Inhalt auf oberster Ebene als Markdown mit Überschriften und HTML-Tabellen."
+              }
+            },
+            {
+              "id": "b",
+              "code": "DocumentContentFormat.TEXT",
+              "correct": false,
+              "why": {
+                "en": "Plain text drops the heading and table markup that structure-aware chunking needs.",
+                "de": "Reiner Text verliert die Überschriften- und Tabellenauszeichnung, die strukturbewusstes Chunking braucht."
+              }
+            },
+            {
+              "id": "c",
+              "code": "\"html\"",
+              "correct": false,
+              "why": {
+                "en": "Not a supported value — the content format is either `text` or `markdown`.",
+                "de": "Kein unterstützter Wert – das Inhaltsformat ist entweder `text` oder `markdown`."
+              }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "content",
+              "correct": true,
+              "why": {
+                "en": "The top-level `content` holds the whole document in the requested format — here Markdown.",
+                "de": "Das oberste `content` enthält das ganze Dokument im angeforderten Format – hier Markdown."
+              }
+            },
+            {
+              "id": "b",
+              "code": "paragraphs",
+              "correct": false,
+              "why": {
+                "en": "A list of paragraph objects with roles and regions, not the Markdown string.",
+                "de": "Eine Liste von Absatzobjekten mit Rollen und Regionen, nicht der Markdown-String."
+              }
+            },
+            {
+              "id": "c",
+              "code": "documents",
+              "correct": false,
+              "why": {
+                "en": "Holds typed fields from field-extraction models, not the Markdown representation.",
+                "de": "Enthält typisierte Felder aus Extraktionsmodellen, nicht die Markdown-Darstellung."
+              }
+            }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "For RAG ingestion, analyze with `prebuilt-layout`, request `DocumentContentFormat.MARKDOWN` and chunk `result.content` along its headings.",
+        "de": "Für die RAG-Ingestion analysierst du mit `prebuilt-layout`, forderst `DocumentContentFormat.MARKDOWN` an und zerlegst `result.content` entlang der Überschriften."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/prebuilt/layout?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept/retrieval-augmented-generation?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/python/api/azure-ai-documentintelligence/azure.ai.documentintelligence.documentintelligenceclient?view=azure-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-document-intelligence-05",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.4",
+      "skills": [
+        "5.1.5"
+      ],
+      "module": "document-intelligence",
+      "difficulty": 3,
+      "caseId": "case-contoso-claims",
+      "stem": {
+        "en": "Refer to the Contoso Insurance case. How should the ingestion team process the policy wording documents to meet requirement R6?",
+        "de": "Beziehe dich auf die Fallstudie Contoso Insurance. Wie sollte das Ingestion-Team die Versicherungsbedingungen verarbeiten, um Anforderung R6 zu erfüllen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Analyze each PDF with `prebuilt-layout` and `outputContentFormat=markdown`, split the Markdown at section headings so that each table stays inside its section's chunk, then embed and index the chunks",
+            "de": "Jedes PDF mit `prebuilt-layout` und `outputContentFormat=markdown` analysieren, das Markdown an Abschnittsüberschriften teilen, sodass jede Tabelle im Chunk ihres Abschnitts bleibt, und die Chunks dann einbetten und indexieren"
+          },
+          "correct": true,
+          "why": {
+            "en": "Layout runs OCR on the scans, marks headings and keeps tables as HTML blocks in the Markdown, so chunks can follow sections without splitting tables.",
+            "de": "Layout führt OCR auf den Scans aus, kennzeichnet Überschriften und hält Tabellen als HTML-Blöcke im Markdown – so folgen Chunks den Abschnitten, ohne Tabellen zu teilen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Analyze each PDF with `prebuilt-read` and index fixed 500-character chunks",
+            "de": "Jedes PDF mit `prebuilt-read` analysieren und Chunks fester Länge von 500 Zeichen indexieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Read output has no table structure, and fixed-size windows can cut tables and sentences apart.",
+            "de": "Die Read-Ausgabe hat keine Tabellenstruktur, und Fenster fester Größe können Tabellen und Sätze zerschneiden."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Train a custom neural model that returns each policy section as a field",
+            "de": "Ein Custom-Neural-Modell trainieren, das jeden Abschnitt der Bedingungen als Feld liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "That needs labeled samples and produces extraction fields, not a chunking strategy for retrieval.",
+            "de": "Das braucht gelabelte Beispiele und liefert Extraktionsfelder, keine Chunking-Strategie für das Retrieval."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Request searchable PDF output from `prebuilt-read` and index the PDFs",
+            "de": "Mit `prebuilt-read` durchsuchbare PDFs erzeugen und diese indexieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "A searchable PDF adds a text layer for full-text search but creates no section-aware chunks.",
+            "de": "Ein durchsuchbares PDF ergänzt eine Textebene für die Volltextsuche, erzeugt aber keine abschnittsbewussten Chunks."
+          }
+        }
+      ],
+      "explanation": {
+        "en": "Layout Markdown plus heading-based semantic chunking keeps sections and tables intact, which improves grounding for agents and RAG.",
+        "de": "Layout-Markdown plus semantisches Chunking an Überschriften hält Abschnitte und Tabellen zusammen und verbessert so das Grounding für Agents und RAG."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/concept/retrieval-augmented-generation?view=doc-intel-4.0.0",
+        "https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/prebuilt/layout?view=doc-intel-4.0.0"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

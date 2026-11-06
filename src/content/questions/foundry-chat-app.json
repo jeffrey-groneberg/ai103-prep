@@ -24,7 +24,7 @@
           "id": "b",
           "text": { "en": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`", "de": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`" },
           "correct": false,
-          "why": { "en": "The plain OpenAI client handles inference only; it has no access to Foundry agents or evaluations.", "de": "Der einfache OpenAI-Client deckt nur Inferenz ab; auf Foundry-Agents oder Evaluierungen hat er keinen Zugriff." }
+          "why": { "en": "The plain OpenAI client covers the OpenAI API surface (responses, chat, files), but it has no access to Foundry project features such as agents or evaluations.", "de": "Der einfache OpenAI-Client deckt die OpenAI-API ab (Responses, Chat, Dateien), hat aber keinen Zugriff auf Foundry-Projekt-Features wie Agents oder Evaluierungen." }
         },
         {
           "id": "c",
@@ -240,6 +240,398 @@
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-06",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.1",
+      "skills": ["1.1.1"],
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your app sends every model call through the Responses API on the Azure OpenAI v1 endpoint. After you add a new Foundry Model deployment, each `responses.create()` call to it fails with `400 Model not supported`, while the other deployments keep working. What should you do?",
+        "de": "Deine App schickt jeden Modellaufruf über die Responses API am Azure-OpenAI-v1-Endpoint. Nachdem du ein neues Foundry-Model-Deployment hinzugefügt hast, scheitert jeder `responses.create()`-Aufruf darauf mit `400 Model not supported`, während die anderen Deployments weiter funktionieren. Was solltest du tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Call this deployment with `client.chat.completions.create()`, or choose a model that supports the Responses API", "de": "Dieses Deployment mit `client.chat.completions.create()` aufrufen oder ein Modell wählen, das die Responses API unterstützt" },
+          "correct": true,
+          "why": { "en": "The model behind the deployment doesn't support the Responses API. The docs say to use Chat Completions for such deployments; Azure OpenAI models and supported Foundry Models such as DeepSeek, Llama or Grok work with Responses.", "de": "Das Modell hinter dem Deployment unterstützt die Responses API nicht. Laut Doku nutzt du für solche Deployments Chat Completions; Azure-OpenAI-Modelle und unterstützte Foundry Models wie DeepSeek, Llama oder Grok funktionieren mit Responses." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Append `?api-version=preview` to the request URL", "de": "`?api-version=preview` an die Request-URL anhängen" },
+          "correct": false,
+          "why": { "en": "The `/openai/v1/` route uses implicit versioning; an API version doesn't add Responses support to a model that lacks it.", "de": "Die Route `/openai/v1/` versioniert implizit; eine API-Version verleiht einem Modell keine Responses-Unterstützung, die ihm fehlt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Redeploy the model with a higher tokens-per-minute quota", "de": "Das Modell mit einem höheren Tokens-pro-Minute-Kontingent neu bereitstellen" },
+          "correct": false,
+          "why": { "en": "Quota limits lead to throttling (`429`), not to a `400 Model not supported` error.", "de": "Kontingentgrenzen führen zu Drosselung (`429`), nicht zu einem Fehler `400 Model not supported`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Switch to `AIProjectClient` and use the client from `get_openai_client()`", "de": "Auf `AIProjectClient` wechseln und den Client aus `get_openai_client()` nutzen" },
+          "correct": false,
+          "why": { "en": "The project route serves the same Responses API, so an unsupported model returns the same error there.", "de": "Der Projektweg bietet dieselbe Responses API; ein nicht unterstütztes Modell liefert dort denselben Fehler." }
+        }
+      ],
+      "explanation": {
+        "en": "Responses API support depends on the model: Azure OpenAI models and selected Foundry Models sold by Azure support it. For any other deployment, fall back to Chat Completions.",
+        "de": "Ob die Responses API funktioniert, hängt vom Modell ab: Azure-OpenAI-Modelle und ausgewählte, von Azure verkaufte Foundry Models unterstützen sie. Für alle anderen Deployments weichst du auf Chat Completions aus."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/endpoints",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/generate-responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-07",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.1.1",
+      "skills": ["3.2.1"],
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "A field-service app sends a photo of a damaged device together with a question to a vision-capable deployment. Complete the Responses API call so the model analyzes the image in fine detail.",
+        "de": "Eine Außendienst-App schickt das Foto eines beschädigten Geräts zusammen mit einer Frage an ein bildfähiges Deployment. Vervollständige den Responses-API-Aufruf so, dass das Modell das Bild detailgenau analysiert."
+      },
+      "template": "response = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\"type\": \"{{b1}}\", \"text\": \"Which parts look damaged?\"},\n            {\"type\": \"{{b2}}\",\n             \"image_url\": f\"data:image/jpeg;base64,{photo_b64}\",\n             \"{{b3}}\": \"high\"},\n        ],\n    }],\n)\nprint(response.output_text)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "input_text", "correct": true, "why": { "en": "Text parts of a user message in the Responses API use the type `input_text`.", "de": "Textteile einer Nutzernachricht haben in der Responses API den Typ `input_text`." } },
+            { "id": "b", "code": "text", "correct": false, "why": { "en": "Not the Responses API type for text you send; input text parts are `input_text`.", "de": "Nicht der Responses-API-Typ für gesendeten Text; Eingabetext hat den Typ `input_text`." } },
+            { "id": "c", "code": "output_text", "correct": false, "why": { "en": "`output_text` marks text the model generated, not text you send.", "de": "`output_text` kennzeichnet vom Modell erzeugten Text, nicht Text, den du sendest." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "input_image", "correct": true, "why": { "en": "An `input_image` part carries the picture; its `image_url` accepts a URL or a base64 data URI.", "de": "Ein `input_image`-Teil transportiert das Bild; sein `image_url` akzeptiert eine URL oder eine Base64-Data-URI." } },
+            { "id": "b", "code": "image_url", "correct": false, "why": { "en": "In the Responses API, `image_url` is the field inside an `input_image` part, not the part type.", "de": "In der Responses API ist `image_url` das Feld innerhalb eines `input_image`-Teils, nicht der Typ." } },
+            { "id": "c", "code": "input_file", "correct": false, "why": { "en": "`input_file` is for files such as PDFs, sent with `file_data` or a file ID.", "de": "`input_file` ist für Dateien wie PDFs gedacht, gesendet mit `file_data` oder einer Datei-ID." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "detail", "correct": true, "why": { "en": "`detail` can be `low`, `high` or `auto` (default); `high` captures finer features but uses more tokens.", "de": "`detail` kann `low`, `high` oder `auto` (Standard) sein; `high` erfasst feinere Details, verbraucht aber mehr Tokens." } },
+            { "id": "b", "code": "quality", "correct": false, "why": { "en": "An `input_image` part has no `quality` property.", "de": "Ein `input_image`-Teil hat keine Eigenschaft `quality`." } },
+            { "id": "c", "code": "resolution", "correct": false, "why": { "en": "An `input_image` part has no `resolution` property; use `detail`.", "de": "Ein `input_image`-Teil hat keine Eigenschaft `resolution`; nutze `detail`." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Multimodal input in the Responses API is a list of content parts: `input_text` plus `input_image` (URL, base64 data URI or file ID), with `detail` to trade precision against tokens.",
+        "de": "Multimodale Eingaben sind in der Responses API eine Liste von Inhaltsteilen: `input_text` plus `input_image` (URL, Base64-Data-URI oder Datei-ID), mit `detail` als Abwägung zwischen Genauigkeit und Tokens."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-08",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.1.1",
+      "skills": ["1.1.1"],
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "Match each requirement to the model from the Foundry catalog that fits it best.",
+        "de": "Ordne jede Anforderung dem Modell aus dem Foundry-Katalog zu, das am besten passt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Agentic coding with the Codex CLI; the model is offered through the Responses API only", "de": "Agentisches Programmieren mit der Codex CLI; das Modell ist nur über die Responses API verfügbar" },
+          "answer": "t1",
+          "why": { "en": "The codex models are optimized for the Codex CLI and VS Code extension and are available through the Responses API only.", "de": "Die Codex-Modelle sind für die Codex CLI und die VS-Code-Erweiterung optimiert und nur über die Responses API verfügbar." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "A Phi model that accepts text, images and audio in the same request", "de": "Ein Phi-Modell, das Text, Bilder und Audio in derselben Anfrage annimmt" },
+          "answer": "t2",
+          "why": { "en": "Its catalog entry lists text, image and audio input with text output.", "de": "Laut Katalogeintrag nimmt es Text, Bilder und Audio an und liefert Text." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "A small language model for short, text-only classification prompts that need no tool calling", "de": "Ein Small Language Model für kurze, reine Text-Klassifizierungs-Prompts ohne Tool Calling" },
+          "answer": "t3",
+          "why": { "en": "Phi-4-mini is a small language model with text in and text out; the catalog lists no tool calling, which plain classification doesn't need.", "de": "Phi-4-mini ist ein Small Language Model mit Text rein, Text raus; der Katalog nennt kein Tool Calling, das reine Klassifizierung nicht braucht." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Turn product descriptions into vectors for semantic search", "de": "Produktbeschreibungen für die semantische Suche in Vektoren umwandeln" },
+          "answer": "t4",
+          "why": { "en": "Embedding models convert text to vectors and are used only with Embeddings API requests.", "de": "Embedding-Modelle wandeln Text in Vektoren um und werden nur über Embeddings-API-Anfragen genutzt." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`gpt-5.1-codex`", "de": "`gpt-5.1-codex`" } },
+        { "id": "t2", "text": { "en": "`Phi-4-multimodal-instruct`", "de": "`Phi-4-multimodal-instruct`" } },
+        { "id": "t3", "text": { "en": "`Phi-4-mini-instruct`", "de": "`Phi-4-mini-instruct`" } },
+        { "id": "t4", "text": { "en": "`text-embedding-3-large`", "de": "`text-embedding-3-large`" } },
+        { "id": "t5", "text": { "en": "`gpt-image-1`", "de": "`gpt-image-1`" } }
+      ],
+      "explanation": {
+        "en": "Choose by modality and API: code models for coding agents, multimodal models for mixed input, small models for narrow low-cost tasks, embedding models for vectors — and check each catalog entry for API and tool support.",
+        "de": "Wähle nach Modalität und API: Code-Modelle für Coding-Agents, multimodale Modelle für gemischte Eingaben, kleine Modelle für eng umrissene, günstige Aufgaben, Embedding-Modelle für Vektoren – und prüfe im Katalogeintrag, welche API und Tools unterstützt werden."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-from-partners",
+        "https://learn.microsoft.com/en-us/azure/aks/concepts-ai-ml-language-models"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-09",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.5",
+      "module": "foundry-chat-app",
+      "difficulty": 1,
+      "stem": {
+        "en": "Users of your support chat say the page looks frozen while long answers are generated. The app calls `responses.create()` and prints `output_text` once the call returns. What should you change?",
+        "de": "Nutzer deines Support-Chats sagen, die Seite wirke wie eingefroren, während lange Antworten entstehen. Die App ruft `responses.create()` auf und gibt `output_text` aus, sobald der Aufruf zurückkehrt. Was solltest du ändern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set `stream=True` and append `event.delta` for each `response.output_text.delta` event", "de": "`stream=True` setzen und für jedes `response.output_text.delta`-Event `event.delta` anhängen" },
+          "correct": true,
+          "why": { "en": "Streaming emits incremental events, so the UI can render text while the model is still generating.", "de": "Streaming liefert schrittweise Events, sodass die Oberfläche Text anzeigen kann, während das Modell noch generiert." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set `background=True` and poll `responses.retrieve()` every two seconds", "de": "`background=True` setzen und alle zwei Sekunden `responses.retrieve()` abfragen" },
+          "correct": false,
+          "why": { "en": "Polling a background task shows nothing until it reaches a terminal state; background mode targets tasks that run for minutes.", "de": "Das Abfragen einer Hintergrundaufgabe zeigt nichts, bis sie einen Endzustand erreicht; der Background-Modus ist für minutenlange Aufgaben gedacht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Lower `max_output_tokens` to 100", "de": "`max_output_tokens` auf 100 senken" },
+          "correct": false,
+          "why": { "en": "A smaller cap cuts answers short instead of making long answers feel responsive.", "de": "Ein kleineres Limit kürzt Antworten, statt lange Antworten reaktionsschnell wirken zu lassen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Pass `previous_response_id` so the service reuses the earlier context", "de": "`previous_response_id` übergeben, damit der Dienst den früheren Kontext wiederverwendet" },
+          "correct": false,
+          "why": { "en": "Chaining carries context forward; it doesn't change how output is delivered.", "de": "Verkettung trägt Kontext weiter; an der Auslieferung der Ausgabe ändert sie nichts." }
+        }
+      ],
+      "explanation": {
+        "en": "For perceived responsiveness use streaming: `stream=True` delivers `response.output_text.delta` events. Reserve background mode for tasks that may run for minutes.",
+        "de": "Für gefühlte Reaktionsschnelligkeit nutzt du Streaming: `stream=True` liefert `response.output_text.delta`-Events. Den Background-Modus hebst du dir für Aufgaben auf, die minutenlang laufen können."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-10",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.1.5",
+      "module": "foundry-chat-app",
+      "difficulty": 3,
+      "stem": {
+        "en": "A research feature calls a reasoning model through the Responses API. Some requests run for several minutes, and your web front end hits HTTP timeouts. You decide to use background mode. Which TWO statements are correct?",
+        "de": "Eine Recherchefunktion ruft ein Reasoning-Modell über die Responses API auf. Manche Anfragen laufen mehrere Minuten, und dein Web-Frontend läuft in HTTP-Timeouts. Du entscheidest dich für den Background-Modus. Welche ZWEI Aussagen sind korrekt?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Send the request with `background=True`, then poll `responses.retrieve(response.id)` while the status is `queued` or `in_progress`", "de": "Die Anfrage mit `background=True` senden und dann `responses.retrieve(response.id)` abfragen, solange der Status `queued` oder `in_progress` ist" },
+          "correct": true,
+          "why": { "en": "The call returns at once with a response ID and a queued status; you poll until the response reaches a terminal state.", "de": "Der Aufruf kehrt sofort mit einer Response-ID und dem Status queued zurück; du fragst ab, bis die Antwort einen Endzustand erreicht." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Background mode needs stored responses, so it can't be combined with `store=False`", "de": "Der Background-Modus braucht gespeicherte Antworten und lässt sich daher nicht mit `store=False` kombinieren" },
+          "correct": true,
+          "why": { "en": "The docs list `store=true` as a requirement; stateless requests aren't supported in background mode.", "de": "Die Doku nennt `store=true` als Voraussetzung; zustandslose Anfragen werden im Background-Modus nicht unterstützt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Background responses can't be streamed; you must poll", "de": "Hintergrundantworten lassen sich nicht streamen; du musst abfragen" },
+          "correct": false,
+          "why": { "en": "You can set both `background` and `stream` to true and resume a dropped stream from a `sequence_number`.", "de": "Du kannst `background` und `stream` zusammen auf true setzen und einen abgebrochenen Stream ab einer `sequence_number` fortsetzen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "To stop a running background task, delete the model deployment", "de": "Um eine laufende Hintergrundaufgabe zu stoppen, löschst du das Modell-Deployment" },
+          "correct": false,
+          "why": { "en": "Use `responses.cancel(<response_id>)`; cancelling is idempotent.", "de": "Nutze `responses.cancel(<response_id>)`; das Abbrechen ist idempotent." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Background mode is available only through the Chat Completions API", "de": "Der Background-Modus ist nur über die Chat Completions API verfügbar" },
+          "correct": false,
+          "why": { "en": "Background mode is a Responses API feature; you set `background` on `responses.create()`.", "de": "Der Background-Modus ist ein Feature der Responses API; du setzt `background` bei `responses.create()`." }
+        }
+      ],
+      "explanation": {
+        "en": "Background mode = `background=True` plus polling (or streaming) by response ID. It requires `store=true`, and `responses.cancel()` stops a task.",
+        "de": "Background-Modus = `background=True` plus Abfragen (oder Streaming) per Response-ID. Er setzt `store=true` voraus, und `responses.cancel()` stoppt eine Aufgabe."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-11",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.6",
+      "skills": ["2.1.2"],
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your RAG app uses `AIProjectClient` and `get_openai_client()` for chat. It must also create embeddings with a `text-embedding-3-large` deployment in the same Foundry resource. Which approach do the docs recommend for the embedding calls?",
+        "de": "Deine RAG-App nutzt `AIProjectClient` und `get_openai_client()` für den Chat. Zusätzlich muss sie mit einem `text-embedding-3-large`-Deployment in derselben Foundry-Ressource Embeddings erzeugen. Welchen Weg empfiehlt die Doku für die Embedding-Aufrufe?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Use the OpenAI SDK against `https://<resource>.openai.azure.com/openai/v1/`", "de": "Das OpenAI SDK gegen `https://<resource>.openai.azure.com/openai/v1/` verwenden" },
+          "correct": true,
+          "why": { "en": "The docs recommend the OpenAI SDK endpoint for embeddings because the project endpoint doesn't currently route embedding requests.", "de": "Die Doku empfiehlt für Embeddings den Endpoint des OpenAI SDK, weil der Project Endpoint Embedding-Anfragen derzeit nicht weiterleitet." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Call `embeddings.create()` on the client returned by `get_openai_client()`", "de": "`embeddings.create()` auf dem Client aus `get_openai_client()` aufrufen" },
+          "correct": false,
+          "why": { "en": "That client targets the project endpoint, which doesn't currently route embedding requests.", "de": "Dieser Client zielt auf den Project Endpoint, der Embedding-Anfragen derzeit nicht weiterleitet." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Create a second Foundry project only for embeddings", "de": "Ein zweites Foundry-Projekt nur für Embeddings anlegen" },
+          "correct": false,
+          "why": { "en": "Another project has another project endpoint with the same limitation.", "de": "Ein weiteres Projekt hat einen weiteren Project Endpoint mit derselben Einschränkung." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Send the text to the embedding deployment with `responses.create()`", "de": "Den Text mit `responses.create()` an das Embedding-Deployment senden" },
+          "correct": false,
+          "why": { "en": "Embedding models can be used only with Embeddings API requests, not with the Responses API.", "de": "Embedding-Modelle lassen sich nur über Embeddings-API-Anfragen nutzen, nicht über die Responses API." }
+        }
+      ],
+      "explanation": {
+        "en": "Use the project endpoint for project features and Responses calls, and the `/openai/v1` endpoint with the OpenAI SDK for embeddings — both clients can live in one app.",
+        "de": "Nutze den Project Endpoint für Projekt-Features und Responses-Aufrufe und den `/openai/v1`-Endpoint mit dem OpenAI SDK für Embeddings – beide Clients können in einer App leben."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-12",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.6",
+      "skills": ["1.3.4"],
+      "module": "foundry-chat-app",
+      "difficulty": 3,
+      "stem": {
+        "en": "A container app must create Foundry agents and start cloud evaluations in the project `p-support`. The security team forbids secrets in code and configuration and requires least privilege. A developer proposes storing the resource API key in Azure Key Vault and passing it to the SDK. What should you do instead?",
+        "de": "Eine Container-App soll im Projekt `p-support` Foundry-Agents anlegen und Cloud-Evaluierungen starten. Das Security-Team verbietet Geheimnisse in Code und Konfiguration und verlangt Least Privilege. Ein Entwickler schlägt vor, den API-Key der Ressource in Azure Key Vault abzulegen und an das SDK zu übergeben. Was solltest du stattdessen tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Enable a managed identity for the app, authenticate with `DefaultAzureCredential` and assign the identity the **Foundry User** role on the project", "de": "Eine Managed Identity für die App aktivieren, mit `DefaultAzureCredential` authentifizieren und der Identität die Rolle **Foundry User** auf dem Projekt zuweisen" },
+          "correct": true,
+          "why": { "en": "Agents and evaluations accept only Microsoft Entra ID, and Foundry User grants the data-plane access to build and run them — with no secret anywhere.", "de": "Agents und Evaluierungen akzeptieren nur Microsoft Entra ID, und Foundry User gewährt den Data-Plane-Zugriff, um sie zu bauen und auszuführen – ganz ohne Geheimnis." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep the Key Vault approach, because API keys work for every Foundry feature", "de": "Beim Key-Vault-Ansatz bleiben, weil API-Keys für jedes Foundry-Feature funktionieren" },
+          "correct": false,
+          "why": { "en": "API keys aren't supported for the Agents service or evaluations, so those calls would fail.", "de": "API-Keys werden für den Agents-Dienst und Evaluierungen nicht unterstützt, diese Aufrufe würden also scheitern." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Assign the app's identity the **Foundry Account Owner** role on the Foundry resource", "de": "Der Identität der App die Rolle **Foundry Account Owner** auf der Foundry-Ressource zuweisen" },
+          "correct": false,
+          "why": { "en": "It's a high-privilege role for managing the resource and keys, not the least-privileged data-plane role for building agents.", "de": "Das ist eine hoch privilegierte Rolle zur Verwaltung von Ressource und Keys, nicht die minimal nötige Data-Plane-Rolle zum Bauen von Agents." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Use the `AzureOpenAI` client with an `api_version` and the key from Key Vault", "de": "Den `AzureOpenAI`-Client mit einer `api_version` und dem Key aus Key Vault verwenden" },
+          "correct": false,
+          "why": { "en": "That client only covers model inference and still relies on a key; it adds no access to agents or evaluations.", "de": "Dieser Client deckt nur Modellinferenz ab und hängt weiter an einem Key; Zugriff auf Agents oder Evaluierungen bringt er nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "For agents and evaluations, use Microsoft Entra ID: a managed identity plus the least-privileged data-plane role (Foundry User) on the project. API keys only suit basic inference prototyping.",
+        "de": "Für Agents und Evaluierungen nutzt du Microsoft Entra ID: eine Managed Identity plus die minimal nötige Data-Plane-Rolle (Foundry User) auf dem Projekt. API-Keys taugen nur für einfache Inferenz-Prototypen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-13",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "module": "foundry-chat-app",
+      "difficulty": 1,
+      "stem": {
+        "en": "Before writing code, you want to try the same system prompt and temperature on three candidate deployments side by side and then copy a working code sample. Which Foundry portal feature should you use?",
+        "de": "Bevor du Code schreibst, willst du denselben Systemprompt und dieselbe Temperatur nebeneinander an drei Kandidaten-Deployments testen und danach ein funktionierendes Codebeispiel übernehmen. Welche Funktion des Foundry-Portals nutzt du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The Model playground's **Compare models** mode, then its **Code** tab", "de": "Den Modus **Compare models** im Model Playground und danach dessen Tab **Code**" },
+          "correct": true,
+          "why": { "en": "Compare mode runs up to three models with synced prompts and settings, and the Code tab exports multilingual code samples.", "de": "Der Vergleichsmodus führt bis zu drei Modelle mit synchronisierten Prompts und Einstellungen aus, und der Tab Code exportiert Codebeispiele in mehreren Sprachen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A cloud evaluation run across the three deployments", "de": "Einen Cloud-Evaluierungslauf über die drei Deployments" },
+          "correct": false,
+          "why": { "en": "Evaluations score datasets in batch; they aren't an interactive side-by-side prompt test with code export.", "de": "Evaluierungen bewerten Datasets im Batch; sie sind kein interaktiver Prompt-Vergleich nebeneinander mit Codeexport." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A model router deployment in Quality mode", "de": "Ein Model-Router-Deployment im Quality-Modus" },
+          "correct": false,
+          "why": { "en": "Model router picks one underlying model per request; it doesn't show models side by side.", "de": "Der Model Router wählt pro Anfrage ein zugrunde liegendes Modell; Modelle nebeneinander zeigt er nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The Agents playground with three agents", "de": "Den Agents Playground mit drei Agents" },
+          "correct": false,
+          "why": { "en": "The Agents playground is for prototyping agents with tools and knowledge; prompt and parameter comparisons belong in the Model playground.", "de": "Der Agents Playground dient zum Prototyping von Agents mit Tools und Wissen; Prompt- und Parametervergleiche gehören in den Model Playground." }
+        }
+      ],
+      "explanation": {
+        "en": "Tune system prompts and parameters interactively in the Model playground — compare up to three models — and take the generated code from the Code tab.",
+        "de": "Systemprompts und Parameter stimmst du interaktiv im Model Playground ab – mit Vergleich von bis zu drei Modellen – und übernimmst den generierten Code aus dem Tab Code."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds"
       ],
       "lastVerified": "2026-11-06"
     }

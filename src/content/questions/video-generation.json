@@ -1,0 +1,330 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "video-generation",
+  "questions": [
+    {
+      "id": "q-video-generation-01",
+      "type": "order",
+      "domain": "D3",
+      "skill": "3.1.2",
+      "module": "video-generation",
+      "difficulty": 1,
+      "stem": {
+        "en": "Put the steps to generate a video with Sora 2 from Python in the correct order.",
+        "de": "Bringe die Schritte, um mit Sora 2 aus Python ein Video zu erzeugen, in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Deploy the `sora-2` model in your Foundry project", "de": "Das Modell `sora-2` in deinem Foundry-Projekt bereitstellen" },
+          "why": { "en": "Calls target a deployment, so it must exist first.", "de": "Aufrufe zielen auf ein Deployment, also muss es zuerst existieren." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Call `videos.create()` with the model, a prompt, `size` and `seconds`", "de": "`videos.create()` mit Modell, Prompt, `size` und `seconds` aufrufen" },
+          "why": { "en": "This starts an asynchronous job and returns its `id` with status `queued`.", "de": "Das startet einen asynchronen Job und liefert dessen `id` mit Status `queued`." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Call `videos.retrieve(id)` repeatedly until the status is `completed` or `failed`", "de": "`videos.retrieve(id)` wiederholt aufrufen, bis der Status `completed` oder `failed` ist" },
+          "why": { "en": "Rendering takes minutes, so you poll the job status.", "de": "Das Rendern dauert Minuten – deshalb fragst du den Jobstatus ab." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Call `videos.download_content(id, variant=\"video\")` and write the MP4 to a file within 24 hours", "de": "`videos.download_content(id, variant=\"video\")` aufrufen und das MP4 innerhalb von 24 Stunden in eine Datei schreiben" },
+          "why": { "en": "The content exists only after completion and stays available for 24 hours.", "de": "Der Inhalt existiert erst nach Abschluss und bleibt 24 Stunden abrufbar." }
+        }
+      ],
+      "explanation": {
+        "en": "Video generation is asynchronous: deploy → create a job → poll its status → download within 24 hours.",
+        "de": "Videogenerierung ist asynchron: bereitstellen → Job anlegen → Status abfragen → innerhalb von 24 Stunden herunterladen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/4-generate-video-in-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-02",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.2",
+      "module": "video-generation",
+      "difficulty": 3,
+      "caseId": "case-northwind-media",
+      "stem": {
+        "en": "Northwind Media wants to automate the social teasers described in the case study. Which approach meets requirement 2?",
+        "de": "Northwind Media will die im Fallbeispiel beschriebenen Social-Teaser automatisieren. Welcher Ansatz erfüllt Anforderung 2?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Resize the approved still to 1280×720 and call `videos.create(model=\"sora-2\", prompt=…, size=\"1280x720\", seconds=\"12\", input_reference=<resized still>)`", "de": "Das freigegebene Still auf 1280×720 skalieren und `videos.create(model=\"sora-2\", prompt=…, size=\"1280x720\", seconds=\"12\", input_reference=<skaliertes Still>)` aufrufen" },
+          "correct": true,
+          "why": { "en": "Landscape 1280x720, 12 seconds, and a reference image that anchors the first frame and matches the size exactly.", "de": "Querformat 1280x720, 12 Sekunden und ein Referenzbild, das den ersten Frame verankert und exakt zur Größe passt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Pass the 2560×1440 still unchanged as `input_reference` with `size=\"1280x720\"` and `seconds=\"12\"`", "de": "Das 2560×1440-Still unverändert als `input_reference` mit `size=\"1280x720\"` und `seconds=\"12\"` übergeben" },
+          "correct": false,
+          "why": { "en": "The reference image's resolution must match the video size exactly.", "de": "Die Auflösung des Referenzbildes muss exakt zur Videogröße passen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Resize the still to 720×1280 and call `videos.create()` with `size=\"720x1280\"` and `seconds=\"12\"`", "de": "Das Still auf 720×1280 skalieren und `videos.create()` mit `size=\"720x1280\"` und `seconds=\"12\"` aufrufen" },
+          "correct": false,
+          "why": { "en": "720x1280 is portrait, but the teasers must be landscape.", "de": "720x1280 ist Hochformat, die Teaser müssen aber Querformat sein." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Generate a 12-second clip from text only, then call `videos.remix()` with the still as `video_id`", "de": "Einen 12-Sekunden-Clip nur aus Text erzeugen und dann `videos.remix()` mit dem Still als `video_id` aufrufen" },
+          "correct": false,
+          "why": { "en": "Remix needs the ID of a completed video; an image can't be passed as `video_id`.", "de": "Remix braucht die ID eines fertigen Videos; ein Bild lässt sich nicht als `video_id` übergeben." }
+        }
+      ],
+      "explanation": {
+        "en": "Image to video with Sora 2: choose `size` and `seconds`, then pass an `input_reference` image of exactly that size. Northwind's stills show no people, so the human-face restriction doesn't block them.",
+        "de": "Bild zu Video mit Sora 2: Wähle `size` und `seconds` und übergib ein `input_reference`-Bild in genau dieser Größe. Northwinds Stills zeigen keine Personen, die Regel zu menschlichen Gesichtern blockiert sie also nicht."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/4-generate-video-in-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-03",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.2",
+      "module": "video-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your first Sora 2 clips ignore parts of prompts such as \"A beautiful street at night, people move quickly, cinematic look, lots of action\". How should you rewrite the prompt?",
+        "de": "Deine ersten Sora-2-Clips ignorieren Teile von Prompts wie „Eine schöne Straße bei Nacht, Leute bewegen sich schnell, cineastischer Look, viel Action“. Wie solltest du den Prompt umschreiben?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Describe a single shot — framing, a concrete subject, the action in small beats, lighting and style, for example \"Wide shot, wet asphalt with neon reflections; a cyclist pedals three times, brakes and stops at a crosswalk\"", "de": "Einen einzigen Shot beschreiben – Bildausschnitt, ein konkretes Motiv, die Aktion in kleinen Schritten, Licht und Stil, etwa „Totale, nasser Asphalt mit Neonreflexen; eine Radfahrerin tritt dreimal in die Pedale, bremst und hält am Zebrastreifen“" },
+          "correct": true,
+          "why": { "en": "Specific, single-purpose shot descriptions with shot type, subject, action, setting and lighting reduce ambiguity and improve adherence.", "de": "Konkrete, auf ein Ziel fokussierte Shot-Beschreibungen mit Einstellung, Motiv, Aktion, Umgebung und Licht verringern Mehrdeutigkeit und verbessern die Prompt-Treue." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep the prompt and request `seconds=\"12\"` so the model has more time for all the action", "de": "Den Prompt beibehalten und `seconds=\"12\"` anfordern, damit das Modell mehr Zeit für die ganze Action hat" },
+          "correct": false,
+          "why": { "en": "Longer clips don't fix a vague prompt; the model follows instructions more reliably in shorter clips.", "de": "Längere Clips beheben keinen vagen Prompt; das Modell folgt Anweisungen in kürzeren Clips zuverlässiger." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Translate the prompt into Japanese, because the model handles non-Latin scripts best", "de": "Den Prompt ins Japanische übersetzen, weil das Modell nicht-lateinische Schriften am besten verarbeitet" },
+          "correct": false,
+          "why": { "en": "The docs recommend English or other Latin-script languages for the best results.", "de": "Die Doku empfiehlt Englisch oder andere Sprachen mit lateinischer Schrift für die besten Ergebnisse." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add adjectives such as \"epic\", \"4K\" and \"award-winning\" and list several scenes in one prompt", "de": "Adjektive wie „episch“, „4K“ und „preisgekrönt“ ergänzen und mehrere Szenen in einem Prompt aufzählen" },
+          "correct": false,
+          "why": { "en": "Generic adjectives stay ambiguous, and several scenes break the single-purpose rule.", "de": "Allgemeine Adjektive bleiben vage, und mehrere Szenen verletzen die Regel „ein Ziel pro Prompt“." }
+        }
+      ],
+      "explanation": {
+        "en": "Prompt Sora 2 like a storyboard: one shot, a concrete subject, action in beats, lighting and style — in English or another Latin-script language.",
+        "de": "Schreibe Prompts für Sora 2 wie ein Storyboard: ein Shot, ein konkretes Motiv, Aktion in Schritten, Licht und Stil – auf Englisch oder in einer anderen Sprache mit lateinischer Schrift."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/3-generate-video-from-prompt"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-04",
+      "type": "code",
+      "domain": "D3",
+      "skill": "3.1.4",
+      "module": "video-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "A completed Sora 2 video (`original`) needs a warmer color palette while its framing and motion stay the same. Complete the code.",
+        "de": "Ein fertiges Sora-2-Video (`original`) braucht eine wärmere Farbpalette, Bildausschnitt und Bewegung sollen gleich bleiben. Vervollständige den Code."
+      },
+      "template": "edited = client.videos.{{b1}}(\n    video_id=original.id,\n    prompt=\"Same shot, but shift the palette to warm sunset tones\",\n)\nwhile edited.status not in (\"completed\", \"failed\", \"cancelled\"):\n    time.sleep(20)\n    edited = client.videos.{{b2}}(edited.id)\n\nclient.videos.download_content(edited.id, variant=\"video\").write_to_file(\"sunset.mp4\")",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "remix", "correct": true, "why": { "en": "Starts a new job that reuses the completed video's structure, motion and framing and applies the change.", "de": "Startet einen neuen Job, der Struktur, Bewegung und Bildausschnitt des fertigen Videos übernimmt und die Änderung anwendet." } },
+            { "id": "b", "code": "retrieve", "correct": false, "why": { "en": "Reads a video's current status; it doesn't change the video.", "de": "Liest den aktuellen Status eines Videos; es ändert das Video nicht." } },
+            { "id": "c", "code": "delete", "correct": false, "why": { "en": "Removes a video from storage instead of editing it.", "de": "Entfernt ein Video aus dem Speicher, statt es zu bearbeiten." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "retrieve", "correct": true, "why": { "en": "Returns the job's current status and progress for the polling loop.", "de": "Liefert den aktuellen Status und Fortschritt des Jobs für die Abfrageschleife." } },
+            { "id": "b", "code": "list", "correct": false, "why": { "en": "Enumerates your videos with pagination; it doesn't refresh one job.", "de": "Listet deine Videos seitenweise auf; einen einzelnen Job aktualisiert es nicht." } },
+            { "id": "c", "code": "download_content", "correct": false, "why": { "en": "Fetches the finished file; it doesn't report the job status.", "de": "Holt die fertige Datei; den Jobstatus meldet es nicht." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Edit a generated video with `videos.remix(video_id, prompt)`. The remix is a new job, so you poll it with `videos.retrieve()` and download it like any other video.",
+        "de": "Ein generiertes Video bearbeitest du mit `videos.remix(video_id, prompt)`. Der Remix ist ein neuer Job – du fragst ihn mit `videos.retrieve()` ab und lädst ihn herunter wie jedes andere Video."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-05",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.4",
+      "module": "video-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "A team remixed a completed Sora 2 video with one prompt that changed the camera lens, the color palette and the weather and also added a second character. The result shows visual defects and drifts away from the original. What should the team do?",
+        "de": "Ein Team hat ein fertiges Sora-2-Video mit einem Prompt geremixt, der Objektiv, Farbpalette und Wetter änderte und zusätzlich eine zweite Figur einfügte. Das Ergebnis zeigt Bildfehler und weicht vom Original ab. Was sollte das Team tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Remix with one clearly stated change at a time, for example \"same shot, switch to an 85 mm lens\", and chain further remixes if needed", "de": "Pro Remix nur eine klar formulierte Änderung vornehmen, etwa „gleicher Shot, Wechsel auf ein 85-mm-Objektiv“, und bei Bedarf weitere Remixe anschließen" },
+          "correct": true,
+          "why": { "en": "Narrow, precise edits retain more fidelity to the source and are less likely to create visual defects.", "de": "Enge, präzise Änderungen bleiben näher an der Quelle und erzeugen seltener Bildfehler." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Call `videos.create()` again with the original prompt plus all four changes", "de": "`videos.create()` erneut mit dem ursprünglichen Prompt plus allen vier Änderungen aufrufen" },
+          "correct": false,
+          "why": { "en": "A new generation starts from scratch and loses the original's structure and framing.", "de": "Eine neue Generierung beginnt bei null und verliert Struktur und Bildausschnitt des Originals." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Pass the original MP4 as `input_reference` and repeat the prompt", "de": "Das Original-MP4 als `input_reference` übergeben und den Prompt wiederholen" },
+          "correct": false,
+          "why": { "en": "`input_reference` takes a single image (JPEG, PNG or WebP) for the first frame, not a video.", "de": "`input_reference` nimmt ein einzelnes Bild (JPEG, PNG oder WebP) für den ersten Frame, kein Video." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Request a longer clip for the remix so the model has time for all four changes", "de": "Für den Remix einen längeren Clip anfordern, damit das Modell Zeit für alle vier Änderungen hat" },
+          "correct": false,
+          "why": { "en": "The problem is the number of changes in one remix, not the duration.", "de": "Das Problem ist die Zahl der Änderungen in einem Remix, nicht die Dauer." }
+        }
+      ],
+      "explanation": {
+        "en": "Remix is for targeted adjustments: keep each remix to one clearly articulated change and chain remixes when you need more.",
+        "de": "Remix ist für gezielte Anpassungen gedacht: eine klar formulierte Änderung pro Remix und mehrere Remixe hintereinander, wenn du mehr brauchst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/3-generate-video-from-prompt"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-06",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.1.5",
+      "module": "video-generation",
+      "difficulty": 1,
+      "stem": {
+        "en": "A developer calls `videos.create(model=\"sora-2\", prompt=…)` without `size` or `seconds` and is surprised by a short, vertical clip. Which values does Sora 2 use by default?",
+        "de": "Ein Entwickler ruft `videos.create(model=\"sora-2\", prompt=…)` ohne `size` und `seconds` auf und wundert sich über einen kurzen, hochkanten Clip. Welche Werte verwendet Sora 2 standardmäßig?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`720x1280` (portrait) and 4 seconds", "de": "`720x1280` (Hochformat) und 4 Sekunden" },
+          "correct": true,
+          "why": { "en": "Those are the documented defaults; set `size=\"1280x720\"` and `seconds` explicitly for landscape or longer clips.", "de": "Das sind die dokumentierten Standardwerte; setze `size=\"1280x720\"` und `seconds` explizit für Querformat oder längere Clips." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`1280x720` (landscape) and 8 seconds", "de": "`1280x720` (Querformat) und 8 Sekunden" },
+          "correct": false,
+          "why": { "en": "Landscape and 8 seconds are valid choices, but you must request them explicitly.", "de": "Querformat und 8 Sekunden sind gültige Werte, müssen aber explizit angefordert werden." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The resolution and duration last used in the video playground", "de": "Auflösung und Dauer, die zuletzt im Video-Playground verwendet wurden" },
+          "correct": false,
+          "why": { "en": "API calls don't inherit playground settings; omitted parameters use the API defaults.", "de": "API-Aufrufe übernehmen keine Playground-Einstellungen; fehlende Parameter nutzen die API-Standardwerte." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`720x1280` (portrait) and 12 seconds", "de": "`720x1280` (Hochformat) und 12 Sekunden" },
+          "correct": false,
+          "why": { "en": "12 seconds is a valid choice but not the default; the default is 4 seconds.", "de": "12 Sekunden sind ein gültiger Wert, aber nicht der Standard; standardmäßig sind es 4 Sekunden." }
+        }
+      ],
+      "explanation": {
+        "en": "Sora 2 defaults to a 4-second portrait clip (720x1280). Always set `size` and `seconds` for the channel you publish to.",
+        "de": "Sora 2 erzeugt standardmäßig einen 4-Sekunden-Clip im Hochformat (720x1280). Setze `size` und `seconds` immer passend zum Zielkanal."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/3-generate-video-from-prompt"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-video-generation-07",
+      "type": "multi",
+      "domain": "D3",
+      "skill": "3.3.3",
+      "module": "video-generation",
+      "difficulty": 2,
+      "stem": {
+        "en": "A marketing team prepares five Sora 2 requests. Which TWO will Sora 2 reject because of its content restrictions?",
+        "de": "Ein Marketingteam bereitet fünf Sora-2-Anfragen vor. Welche ZWEI lehnt Sora 2 aufgrund seiner Inhaltsregeln ab?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "An image-to-video request whose `input_reference` is a portrait photo of a smiling employee", "de": "Eine Bild-zu-Video-Anfrage, deren `input_reference` ein Porträtfoto einer lächelnden Mitarbeiterin ist" },
+          "correct": true,
+          "why": { "en": "Input images with human faces are currently rejected.", "de": "Eingabebilder mit menschlichen Gesichtern werden derzeit abgelehnt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A prompt for a well-known actor holding the product in a TV-style ad", "de": "Ein Prompt für einen bekannten Schauspieler, der das Produkt in einem TV-Spot hält" },
+          "correct": true,
+          "why": { "en": "Sora 2 can't generate real people, including public figures.", "de": "Sora 2 erzeugt keine realen Personen, auch keine Prominenten." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "An original cartoon mascot dancing on a beach to upbeat original music", "de": "Ein selbst entworfenes Comic-Maskottchen, das am Strand zu fröhlicher, eigens komponierter Musik tanzt" },
+          "correct": false,
+          "why": { "en": "Original characters and original music are allowed; only copyrighted characters and copyrighted music are rejected.", "de": "Eigene Figuren und eigene Musik sind erlaubt; abgelehnt werden nur geschützte Figuren und geschützte Musik." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A product-only reference image of a water bottle on a rock, sized 1280x720", "de": "Ein Referenzbild nur mit Produkt – eine Wasserflasche auf einem Felsen – in 1280x720" },
+          "correct": false,
+          "why": { "en": "There are no people, and the size matches a supported resolution, so the request is fine.", "de": "Es sind keine Personen zu sehen, und die Größe passt zu einer unterstützten Auflösung – die Anfrage ist in Ordnung." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "A 12-second landscape shot of a city skyline at night", "de": "Eine 12-sekündige Querformat-Aufnahme einer Stadtsilhouette bei Nacht" },
+          "correct": false,
+          "why": { "en": "A scene without people or protected content meets the restrictions.", "de": "Eine Szene ohne Personen oder geschützte Inhalte erfüllt die Regeln." }
+        }
+      ],
+      "explanation": {
+        "en": "Sora 2 rejects real people (including public figures), input images with human faces, copyrighted characters and music, and content unsuitable for audiences under 18. Plan campaigns with original, people-free assets.",
+        "de": "Sora 2 lehnt reale Personen (auch Prominente), Eingabebilder mit menschlichen Gesichtern, geschützte Figuren und Musik sowie Inhalte ab, die nicht für Personen unter 18 geeignet sind. Plane Kampagnen mit eigenen Motiven ohne Personen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
+        "https://learn.microsoft.com/en-us/training/modules/generate-video-with-foundry/4-generate-video-in-python"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "web-iq",
+  "questions": [
+    {
+      "id": "q-web-iq-01",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.2",
+      "skills": ["2.2.3"],
+      "module": "web-iq",
+      "difficulty": 3,
+      "stem": {
+        "en": "A media-monitoring agent must find news coverage of a company, read an announcement page whose URL the user pastes, and let you cap how much content each result returns to save tokens. A separate reporting service must reuse the same retrieval through a REST API. Which web grounding option should you choose?",
+        "de": "Ein Medienbeobachtungs-Agent soll Nachrichten über ein Unternehmen finden, eine Ankündigungsseite lesen, deren URL der Nutzer einfügt, und dir erlauben, die Inhaltsmenge pro Treffer zu begrenzen, um Tokens zu sparen. Ein separater Reporting-Dienst soll dasselbe Retrieval über eine REST-API wiederverwenden. Welche Web-Grounding-Option wählst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Microsoft Web IQ, attached to the agent as an MCP tool", "de": "Microsoft Web IQ, als MCP-Tool an den Agent gehängt" },
+          "correct": true,
+          "why": { "en": "Web IQ has dedicated News and Browse methods, per-request controls such as `maxResults` and `maxLength`, and the same APIs over REST, SDK and MCP for other services.", "de": "Web IQ bietet eigene News- und Browse-Methoden, Steuerung pro Anfrage wie `maxResults` und `maxLength` und dieselben APIs per REST, SDK und MCP für andere Dienste." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Foundry's built-in Web Search tool", "de": "Das eingebaute Web Search Tool von Foundry" },
+          "correct": false,
+          "why": { "en": "It's the simplest choice for general web questions with inline citations, but it runs as a tool inside the agent — it doesn't give you dedicated News and Browse APIs that another service can call over REST.", "de": "Es ist die einfachste Wahl für allgemeine Webfragen mit Inline-Zitaten, läuft aber als Tool im Agent – eigene News- und Browse-APIs, die ein anderer Dienst per REST aufrufen kann, bietet es nicht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Grounding with Bing Custom Search", "de": "Grounding with Bing Custom Search" },
+          "correct": false,
+          "why": { "en": "It restricts grounding to the domains you configure; it doesn't add News or Browse methods.", "de": "Es beschränkt das Grounding auf die konfigurierten Domains; News- oder Browse-Methoden bringt es nicht mit." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A Foundry IQ knowledge base with a web knowledge source", "de": "Eine Foundry-IQ-Knowledge-Base mit einer Web-Knowledge-Source" },
+          "correct": false,
+          "why": { "en": "A web knowledge source returns LLM-summarized web results merged with enterprise sources; it doesn't offer News or Browse for a specific URL.", "de": "Eine Web-Knowledge-Source liefert per LLM zusammengefasste Webergebnisse, gemergt mit Unternehmensquellen; News oder Browse für eine bestimmte URL bietet sie nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Start with the Web Search tool for general web grounding. Choose Web IQ when you need specific methods (News, Images, Videos, Browse), fine-grained retrieval controls or reuse across apps through REST, SDK and MCP.",
+        "de": "Für allgemeines Web-Grounding startest du mit dem Web Search Tool. Wähle Web IQ, wenn du bestimmte Methoden (News, Images, Videos, Browse), feine Retrieval-Steuerung oder Wiederverwendung über Apps hinweg per REST, SDK und MCP brauchst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/web-iq/resources/faq",
+        "https://learn.microsoft.com/en-us/web-iq/reference/web-search",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/web-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-web-iq-02",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.1.4",
+      "module": "web-iq",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your agent will combine several Microsoft IQ services. Which TWO statements about Web IQ are correct?",
+        "de": "Dein Agent soll mehrere Microsoft-IQ-Dienste kombinieren. Welche ZWEI Aussagen über Web IQ sind richtig?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Web IQ retrieves public web information; it can't retrieve private company data.", "de": "Web IQ ruft öffentliche Webinformationen ab; private Firmendaten kann es nicht abrufen." },
+          "correct": true,
+          "why": { "en": "Web IQ covers the public web; for enterprise context Microsoft offers Foundry IQ, Work IQ and Fabric IQ.", "de": "Web IQ deckt das öffentliche Web ab; für Unternehmenskontext gibt es Foundry IQ, Work IQ und Fabric IQ." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Web IQ returns evidence; your agent's model generates the final answer.", "de": "Web IQ liefert Belege; das Modell deines Agents erzeugt die finale Antwort." },
+          "correct": true,
+          "why": { "en": "Web IQ isn't an LLM; it retrieves and ranks web content for your model to use.", "de": "Web IQ ist kein LLM; es ruft Webinhalte ab und rankt sie, damit dein Modell sie nutzen kann." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Web IQ answers questions about the signed-in user's emails and meetings.", "de": "Web IQ beantwortet Fragen zu Mails und Meetings des angemeldeten Nutzers." },
+          "correct": false,
+          "why": { "en": "That's Work IQ, which grounds agents in Microsoft 365 work signals.", "de": "Das ist Work IQ, das Agents auf Arbeitssignale aus Microsoft 365 stützt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Web IQ can only be used through a Foundry IQ knowledge base.", "de": "Web IQ lässt sich nur über eine Foundry-IQ-Knowledge-Base nutzen." },
+          "correct": false,
+          "why": { "en": "Web IQ is called directly through REST, an SDK or its MCP server; it doesn't depend on Foundry IQ.", "de": "Web IQ wird direkt per REST, SDK oder über seinen MCP-Server aufgerufen; es hängt nicht von Foundry IQ ab." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Web IQ runs inside the Azure resource you deploy, so you can reach it through a private endpoint.", "de": "Web IQ läuft in der Azure-Ressource, die du bereitstellst, daher erreichst du es über einen Private Endpoint." },
+          "correct": false,
+          "why": { "en": "The Azure resource only meters and bills; Web IQ is Microsoft-hosted at `api.microsoft.ai` and doesn't support Private Link.", "de": "Die Azure-Ressource misst nur und rechnet ab; Web IQ wird von Microsoft unter `api.microsoft.ai` gehostet und unterstützt kein Private Link." }
+        }
+      ],
+      "explanation": {
+        "en": "Web IQ = public web evidence for any model. Work IQ = Microsoft 365 work context, Foundry IQ = enterprise knowledge, Fabric IQ = business data. They complement each other.",
+        "de": "Web IQ = öffentliche Webbelege für jedes Modell. Work IQ = Microsoft-365-Arbeitskontext, Foundry IQ = Unternehmenswissen, Fabric IQ = Geschäftsdaten. Sie ergänzen einander."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/web-iq/resources/faq",
+        "https://learn.microsoft.com/en-us/web-iq/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-web-iq-03",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.2.3",
+      "module": "web-iq",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so the agent can search news and read pages at known URLs through Web IQ, and every Web IQ call waits for human approval.",
+        "de": "Vervollständige den Code so, dass der Agent über Web IQ Nachrichten suchen und Seiten unter bekannten URLs lesen kann und jeder Web-IQ-Aufruf auf eine menschliche Freigabe wartet."
+      },
+      "template": "web_iq = MCPTool(\n    server_label=\"web-iq\",\n    server_url=\"{{b1}}\",\n    allowed_tools={{b2}},\n    require_approval=\"{{b3}}\",\n    project_connection_id=\"web-iq-key\",   # stores the x-apikey credential\n)\nagent = project.agents.create_version(\n    agent_name=\"market-watch\",\n    definition=PromptAgentDefinition(model=\"gpt-5-mini\",\n        instructions=\"Use Web IQ for current news and cite source links.\", tools=[web_iq]),\n)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "https://api.microsoft.ai/v3/mcp", "correct": true, "why": { "en": "Web IQ's MCP server, where the agent discovers the tools its AppID allows.", "de": "Der MCP-Server von Web IQ, an dem der Agent die von seiner AppID erlaubten Tools findet." } },
+            { "id": "b", "code": "https://api.microsoft.ai/v3/search/web", "correct": false, "why": { "en": "That's the Web Search REST endpoint, not an MCP server.", "de": "Das ist der REST-Endpoint von Web Search, kein MCP-Server." } },
+            { "id": "c", "code": "https://webiq.microsoft.ai", "correct": false, "why": { "en": "That's the Web IQ portal for AppIDs, keys and the Playground, not an API endpoint.", "de": "Das ist das Web-IQ-Portal für AppIDs, Keys und den Playground, kein API-Endpoint." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "[\"news\", \"browse\"]", "correct": true, "why": { "en": "`news` searches articles about current events; `browse` reads a URL you already know.", "de": "`news` sucht Artikel zu aktuellen Ereignissen; `browse` liest eine URL, die du schon kennst." } },
+            { "id": "b", "code": "[\"knowledge_base_retrieve\"]", "correct": false, "why": { "en": "That's the Foundry IQ knowledge base tool, not a Web IQ tool.", "de": "Das ist das Tool einer Foundry-IQ-Knowledge-Base, kein Web-IQ-Tool." } },
+            { "id": "c", "code": "[\"search\", \"fetch_url\"]", "correct": false, "why": { "en": "No such tools exist; Web IQ's MCP tools are `web`, `news`, `images`, `videos` and `browse`.", "de": "Diese Tools gibt es nicht; die MCP-Tools von Web IQ heißen `web`, `news`, `images`, `videos` und `browse`." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "always", "correct": true, "why": { "en": "Each tool call first returns an `mcp_approval_request` that must be approved; it's also the default.", "de": "Jeder Toolaufruf liefert zuerst einen `mcp_approval_request`, der freigegeben werden muss; das ist auch der Standard." } },
+            { "id": "b", "code": "never", "correct": false, "why": { "en": "Tool calls run without any approval — the opposite of the requirement.", "de": "Toolaufrufe laufen ganz ohne Freigabe – das Gegenteil der Anforderung." } },
+            { "id": "c", "code": "on_failure", "correct": false, "why": { "en": "Not a supported value; use `always`, `never` or a per-tool dictionary.", "de": "Kein unterstützter Wert; nutze `always`, `never` oder ein Dictionary pro Tool." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Web IQ in Foundry = `MCPTool` on `https://api.microsoft.ai/v3/mcp`, `allowed_tools` chosen from `web`, `news`, `images`, `videos` and `browse`, a project connection that holds the key, and an explicit approval policy.",
+        "de": "Web IQ in Foundry = `MCPTool` auf `https://api.microsoft.ai/v3/mcp`, `allowed_tools` aus `web`, `news`, `images`, `videos` und `browse`, eine Projektverbindung mit dem Key und eine explizite Freigaberegel."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/web-iq/integrations/mcp",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-web-iq-04",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.2.3",
+      "skills": ["1.4.3"],
+      "module": "web-iq",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your agent shows employees answers that are grounded in Web IQ results. According to the Web IQ documentation, which TWO practices do the Web IQ Terms of Use require?",
+        "de": "Dein Agent zeigt Mitarbeitenden Antworten, die auf Web-IQ-Ergebnissen beruhen. Welche ZWEI Vorgehensweisen verlangen die Web-IQ-Nutzungsbedingungen laut Web-IQ-Dokumentation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Show a link back to each source used, next to the answer and reachable with a single action", "de": "Zu jeder genutzten Quelle einen Link direkt bei der Antwort anzeigen, mit einer einzigen Aktion erreichbar" },
+          "correct": true,
+          "why": { "en": "The terms require source attribution with a link back to each source used, placed near the displayed content.", "de": "Die Bedingungen verlangen eine Quellenangabe mit Link zu jeder genutzten Quelle, platziert in der Nähe des angezeigten Inhalts." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Cite only the sources the model actually used for the answer", "de": "Nur die Quellen zitieren, die das Modell für die Antwort tatsächlich genutzt hat" },
+          "correct": true,
+          "why": { "en": "If Web IQ returned 10 results and the model used 3, you display those 3.", "de": "Hat Web IQ 10 Treffer geliefert und das Modell 3 genutzt, zeigst du diese 3 an." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Save every Web IQ response in a shared database so later questions can skip the API", "de": "Jede Web-IQ-Antwort in einer gemeinsamen Datenbank speichern, damit spätere Fragen die API überspringen" },
+          "correct": false,
+          "why": { "en": "Caching or building a database of Web IQ content is prohibited outside narrow exceptions such as per-user chat history summaries.", "de": "Caching oder eine Datenbank aus Web-IQ-Inhalten ist verboten – außer in engen Ausnahmen wie Zusammenfassungen im Chatverlauf einzelner Nutzer." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Send the returned images to the model so it can describe them", "de": "Die zurückgelieferten Bilder ans Modell schicken, damit es sie beschreibt" },
+          "correct": false,
+          "why": { "en": "Actual images or videos from results may not be used for grounding or in LLM output; only their metadata and alt text count as grounding content.", "de": "Bilder oder Videos aus den Ergebnissen dürfen nicht fürs Grounding oder in LLM-Ausgaben genutzt werden; nur ihre Metadaten und Alt-Texte zählen als Grounding-Inhalt." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Show sources only when a user explicitly asks for them", "de": "Quellen nur anzeigen, wenn ein Nutzer ausdrücklich danach fragt" },
+          "correct": false,
+          "why": { "en": "Citations must stay visible with the answer; hiding them or making users request them separately isn't allowed.", "de": "Zitate müssen bei der Antwort sichtbar bleiben; sie zu verstecken oder erst auf Nachfrage zu zeigen, ist nicht erlaubt." }
+        }
+      ],
+      "explanation": {
+        "en": "Web grounding comes with display duties: visible, one-click citations for the sources actually used, no derivative databases of results, and no reuse of the returned media themselves.",
+        "de": "Web-Grounding bringt Anzeigepflichten mit: sichtbare, mit einem Klick erreichbare Zitate der tatsächlich genutzten Quellen, keine eigenen Ergebnisdatenbanken und keine Weiterverwendung der gelieferten Medien selbst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/web-iq/resources/faq"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

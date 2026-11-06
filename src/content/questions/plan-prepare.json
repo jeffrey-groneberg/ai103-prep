@@ -1,0 +1,922 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "plan-prepare",
+  "questions": [
+    {
+      "id": "q-plan-prepare-01",
+      "type": "code",
+      "domain": "D1",
+      "skill": "1.1.1",
+      "skills": [
+        "4.1.2"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "Support tickets must have personal data such as names and phone numbers redacted before they are stored. The team wants a purpose-built Foundry Tool with deterministic output instead of prompt engineering, called keylessly on its Foundry resource. Complete the code so it prints the redacted text.", "de": "Support-Tickets sollen vor dem Speichern von personenbezogenen Daten wie Namen und Telefonnummern bereinigt werden. Das Team will ein spezialisiertes Foundry Tool mit deterministischer Ausgabe statt Prompt Engineering, schlüssellos über seine Foundry-Ressource aufgerufen. Vervollständige den Code so, dass er den geschwärzten Text ausgibt." },
+      "template": "from azure.identity import DefaultAzureCredential\nfrom azure.ai.textanalytics import TextAnalyticsClient\n\nclient = TextAnalyticsClient(\n    endpoint=\"https://<resource>.{{b1}}/\",\n    credential=DefaultAzureCredential(),\n)\ntickets = [\"Call Anna Meyer at +49 170 1234567 about order 4711.\"]\nfor doc in client.{{b2}}(tickets):\n    if not doc.is_error:\n        print(doc.{{b3}})",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "cognitiveservices.azure.com",
+              "correct": true,
+              "why": { "en": "Foundry Tools such as Azure Language are called on the tool endpoint of the Foundry resource: `https://<resource>.cognitiveservices.azure.com/`.", "de": "Foundry Tools wie Azure Language werden über den Tool-Endpoint der Foundry-Ressource aufgerufen: `https://<resource>.cognitiveservices.azure.com/`." }
+            },
+            {
+              "id": "b",
+              "code": "services.ai.azure.com/api/projects/<project>",
+              "correct": false,
+              "why": { "en": "That is the project endpoint for `AIProjectClient` (agents, evaluations), not the Language text analysis endpoint.", "de": "Das ist der Project Endpoint für `AIProjectClient` (Agents, Evaluierungen), nicht der Endpoint für Language-Textanalyse." }
+            },
+            {
+              "id": "c",
+              "code": "openai.azure.com/openai/v1",
+              "correct": false,
+              "why": { "en": "That route serves OpenAI-compatible model APIs, not Azure Language operations.", "de": "Diese Route bedient OpenAI-kompatible Modell-APIs, keine Azure-Language-Operationen." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "recognize_pii_entities",
+              "correct": true,
+              "why": { "en": "Runs PII detection and returns the categorized entities plus a redacted version of each document.", "de": "Führt die PII-Erkennung aus und liefert die kategorisierten Entitäten plus eine geschwärzte Fassung jedes Dokuments." }
+            },
+            {
+              "id": "b",
+              "code": "recognize_entities",
+              "correct": false,
+              "why": { "en": "General named entity recognition: it finds entities but returns no redacted text.", "de": "Allgemeine Named Entity Recognition: Sie findet Entitäten, liefert aber keinen geschwärzten Text." }
+            },
+            {
+              "id": "c",
+              "code": "extract_key_phrases",
+              "correct": false,
+              "why": { "en": "Returns key phrases only; it neither detects nor masks personal data.", "de": "Liefert nur Schlüsselbegriffe; personenbezogene Daten werden weder erkannt noch maskiert." }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "redacted_text",
+              "correct": true,
+              "why": { "en": "The PII result contains the input text with the detected entities masked.", "de": "Das PII-Ergebnis enthält den Eingabetext mit maskierten Entitäten." }
+            },
+            {
+              "id": "b",
+              "code": "entities",
+              "correct": false,
+              "why": { "en": "Lists the detected PII entities with category and confidence; it is not the masked text.", "de": "Listet die erkannten PII-Entitäten mit Kategorie und Konfidenz auf; das ist nicht der maskierte Text." }
+            },
+            {
+              "id": "c",
+              "code": "sentiment",
+              "correct": false,
+              "why": { "en": "Belongs to sentiment analysis results, not to PII detection results.", "de": "Gehört zu Ergebnissen der Stimmungsanalyse, nicht zur PII-Erkennung." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "For a repeatable, well-defined task such as PII redaction, a Foundry Tool gives deterministic output and predictable cost: call `recognize_pii_entities` on the resource's `cognitiveservices.azure.com` endpoint and read `redacted_text`.", "de": "Für eine wiederholbare, klar umrissene Aufgabe wie PII-Schwärzung liefert ein Foundry Tool deterministische Ergebnisse und planbare Kosten: Rufe `recognize_pii_entities` am `cognitiveservices.azure.com`-Endpoint der Ressource auf und lies `redacted_text`." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview",
+        "https://learn.microsoft.com/en-us/python/api/overview/azure/ai-textanalytics-readme",
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-02",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.1.1",
+      "module": "plan-prepare",
+      "difficulty": 1,
+      "stem": { "en": "Match each requirement to the Foundry Tool that handles it without building your own model.", "de": "Ordne jede Anforderung dem Foundry Tool zu, das sie ohne eigenes Modell erledigt." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Pull vendor, totals and line items from scanned invoices with a prebuilt model", "de": "Lieferant, Summen und Positionen aus gescannten Rechnungen mit einem vorgefertigten Modell auslesen" },
+          "answer": "t1",
+          "why": { "en": "Document Intelligence offers prebuilt and custom models that extract fields from invoices, receipts and forms.", "de": "Document Intelligence bietet vorgefertigte und eigene Modelle, die Felder aus Rechnungen, Belegen und Formularen extrahieren." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Turn recorded support calls into text transcripts", "de": "Aufgezeichnete Support-Anrufe in Texttranskripte verwandeln" },
+          "answer": "t2",
+          "why": { "en": "Speech provides speech to text, plus text to speech and speech translation.", "de": "Speech bietet Speech-to-Text sowie Text-to-Speech und Sprachübersetzung." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Translate product manuals from English into twelve languages", "de": "Produkthandbücher aus dem Englischen in zwölf Sprachen übersetzen" },
+          "answer": "t3",
+          "why": { "en": "Translator translates text and documents between a large number of languages.", "de": "Translator übersetzt Texte und Dokumente zwischen sehr vielen Sprachen." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Screen user posts for hate and violence before they are published", "de": "Beiträge von Nutzer:innen vor der Veröffentlichung auf Hass und Gewalt prüfen" },
+          "answer": "t4",
+          "why": { "en": "Content Safety detects harmful content such as hate, violence, sexual and self-harm content.", "de": "Content Safety erkennt schädliche Inhalte wie Hass, Gewalt, sexuelle und selbstverletzende Inhalte." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Azure Document Intelligence in Foundry Tools", "de": "Azure Document Intelligence in Foundry Tools" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Azure Speech in Foundry Tools", "de": "Azure Speech in Foundry Tools" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Azure Translator in Foundry Tools", "de": "Azure Translator in Foundry Tools" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Azure AI Content Safety", "de": "Azure AI Content Safety" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Azure Language in Foundry Tools", "de": "Azure Language in Foundry Tools" }
+        }
+      ],
+      "explanation": { "en": "Each Foundry Tool targets one family of tasks: documents → Document Intelligence, audio → Speech, translation → Translator, harmful content → Content Safety. Azure Language covers text analysis such as PII detection or entity recognition.", "de": "Jedes Foundry Tool zielt auf eine Aufgabenfamilie: Dokumente → Document Intelligence, Audio → Speech, Übersetzung → Translator, schädliche Inhalte → Content Safety. Azure Language deckt Textanalyse wie PII-Erkennung oder Entitätserkennung ab." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/3-azure-ai-services",
+        "https://learn.microsoft.com/en-us/azure/ai-services/what-are-ai-services"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-03",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.2",
+      "skills": [
+        "1.1.4"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "Several HR and IT agents must answer employee questions from content in SharePoint, Azure Blob Storage and OneLake. Answers need citations, every employee may only see content they are allowed to access, and all agents should share the same knowledge setup. What should you use?", "de": "Mehrere HR- und IT-Agents sollen Fragen von Mitarbeitenden aus Inhalten in SharePoint, Azure Blob Storage und OneLake beantworten. Antworten brauchen Quellenangaben, jede Person darf nur Inhalte sehen, auf die sie Zugriff hat, und alle Agents sollen dasselbe Wissens-Setup teilen. Was solltest du verwenden?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A Foundry IQ knowledge base with knowledge sources for SharePoint, Blob Storage and OneLake, connected to each agent", "de": "Eine Foundry-IQ-Knowledge-Base mit Knowledge Sources für SharePoint, Blob Storage und OneLake, verbunden mit jedem Agent" },
+          "correct": true,
+          "why": { "en": "A knowledge base can be shared by multiple agents, uses agentic retrieval across several sources, returns citations and enforces user permissions at query time.", "de": "Eine Knowledge Base kann von mehreren Agents geteilt werden, nutzt Agentic Retrieval über mehrere Quellen, liefert Quellenangaben und setzt Benutzerberechtigungen zur Abfragezeit durch." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The file search tool with copies of the documents uploaded to each agent", "de": "Das File-Search-Tool mit Kopien der Dokumente, die zu jedem Agent hochgeladen werden" },
+          "correct": false,
+          "why": { "en": "File search is the lighter option for a few uploaded files; it doesn't connect SharePoint or OneLake sources or honor their permissions.", "de": "File Search ist die leichtere Option für wenige hochgeladene Dateien; es bindet weder SharePoint- noch OneLake-Quellen an und beachtet deren Berechtigungen nicht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Fine-tuning the agents' model on the documents", "de": "Das Modell der Agents auf die Dokumente feinabstimmen" },
+          "correct": false,
+          "why": { "en": "Fine-tuning changes model behavior; it adds no citable, permission-aware access to changing content. If the gap is missing context, use retrieval.", "de": "Fine-Tuning ändert das Modellverhalten; zitierbaren, berechtigungsbewussten Zugriff auf sich ändernde Inhalte bringt es nicht. Fehlt Kontext, nutze Retrieval." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Memory (preview) so the agents remember the documents across sessions", "de": "Memory (Preview), damit sich die Agents sitzungsübergreifend an die Dokumente erinnern" },
+          "correct": false,
+          "why": { "en": "Memory keeps user context and earlier turns across sessions; it isn't an enterprise knowledge store.", "de": "Memory hält Benutzerkontext und frühere Gesprächsrunden über Sitzungen hinweg fest; ein Unternehmens-Wissensspeicher ist es nicht." }
+        }
+      ],
+      "explanation": { "en": "Grounding several agents in permission-trimmed enterprise content is the job of a Foundry IQ knowledge base, which runs agentic retrieval on Azure AI Search.", "de": "Mehrere Agents in berechtigungsgefilterten Unternehmensinhalten zu verankern, ist die Aufgabe einer Foundry-IQ-Knowledge-Base, die Agentic Retrieval auf Azure AI Search ausführt." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/capabilities"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-04",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.1.2",
+      "skills": [
+        "1.1.3"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "You plan a retrieval solution in Microsoft Foundry that needs keyword plus vector (hybrid) search over two million documents. Which TWO statements are correct?", "de": "Du planst in Microsoft Foundry eine Retrieval-Lösung, die Stichwort- plus Vektorsuche (hybrid) über zwei Millionen Dokumente braucht. Welche ZWEI Aussagen sind richtig?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Azure AI Search is a separate Azure resource (`Microsoft.Search`) that Foundry reaches through a connection, so you manage its networking and access yourself.", "de": "Azure AI Search ist eine eigene Azure-Ressource (`Microsoft.Search`), die Foundry über eine Verbindung erreicht – Netzwerk und Zugriff verwaltest du dort selbst." },
+          "correct": true,
+          "why": { "en": "Connected resources such as Azure AI Search keep their own governance boundary; the Foundry resource only references them.", "de": "Verbundene Ressourcen wie Azure AI Search behalten ihre eigene Governance-Grenze; die Foundry-Ressource verweist nur auf sie." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Foundry IQ knowledge bases run on Azure AI Search and support keyword, vector and hybrid queries.", "de": "Foundry-IQ-Knowledge-Bases laufen auf Azure AI Search und unterstützen Stichwort-, Vektor- und Hybridabfragen." },
+          "correct": true,
+          "why": { "en": "Azure AI Search provides the indexing and retrieval infrastructure behind Foundry IQ, including keyword, vector and hybrid queries.", "de": "Azure AI Search liefert die Indexierungs- und Retrieval-Infrastruktur hinter Foundry IQ, inklusive Stichwort-, Vektor- und Hybridabfragen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Azure AI Search runs inside the Foundry resource and automatically inherits its private endpoint and RBAC settings.", "de": "Azure AI Search läuft innerhalb der Foundry-Ressource und erbt automatisch deren Private Endpoint und RBAC-Einstellungen." },
+          "correct": false,
+          "why": { "en": "It is an independent resource; private endpoints and role assignments must be configured on the search service itself.", "de": "Es ist eine eigenständige Ressource; Private Endpoints und Rollenzuweisungen konfigurierst du am Suchdienst selbst." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "You must fine-tune an embedding model before Azure AI Search can run vector queries.", "de": "Du musst ein Embedding-Modell feinabstimmen, bevor Azure AI Search Vektorabfragen ausführen kann." },
+          "correct": false,
+          "why": { "en": "Vector search needs embeddings, not a fine-tuned model; Foundry IQ can even generate embeddings for indexed sources automatically.", "de": "Vektorsuche braucht Embeddings, kein feinabgestimmtes Modell; Foundry IQ kann Embeddings für indexierte Quellen sogar automatisch erzeugen." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Hybrid search requires Azure Cosmos DB as the vector store for Foundry IQ.", "de": "Hybridsuche erfordert Azure Cosmos DB als Vector Store für Foundry IQ." },
+          "correct": false,
+          "why": { "en": "Foundry IQ retrieves through Azure AI Search; Cosmos DB stores agent conversations in a standard agent setup.", "de": "Foundry IQ ruft über Azure AI Search ab; Cosmos DB speichert im Standard-Agent-Setup die Agent-Konversationen." }
+        }
+      ],
+      "explanation": { "en": "For grounding and vector search, Azure AI Search is the engine (also behind Foundry IQ) — and as a connected resource it keeps its own networking, keys and roles.", "de": "Für Grounding und Vektorsuche ist Azure AI Search die Engine (auch hinter Foundry IQ) – und als verbundene Ressource behält sie eigenes Netzwerk, eigene Keys und Rollen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-05",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.2",
+      "skills": [
+        "2.2.4"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 3,
+      "stem": { "en": "Your team built a multi-agent process in the visual workflow designer of the Foundry portal: two agents run in sequence and a manager approves the result. The company plans to extend this orchestration over the next two years. What should you recommend?", "de": "Dein Team hat im visuellen Workflow-Designer des Foundry-Portals einen Multi-Agent-Prozess gebaut: Zwei Agents laufen nacheinander, eine Führungskraft genehmigt das Ergebnis. Das Unternehmen will diese Orchestrierung in den nächsten zwei Jahren ausbauen. Was empfiehlst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Export the workflow YAML, move the orchestration to Microsoft Agent Framework and deploy it as a hosted agent", "de": "Das Workflow-YAML exportieren, die Orchestrierung nach Microsoft Agent Framework überführen und als Hosted Agent bereitstellen" },
+          "correct": true,
+          "why": { "en": "Foundry retires portal workflows on December 1, 2026 and recommends Microsoft Agent Framework (declarative YAML or code), deployed as a hosted agent, for new and migrated workflows.", "de": "Foundry stellt die Portal-Workflows am 1. Dezember 2026 ein und empfiehlt für neue und migrierte Workflows Microsoft Agent Framework (deklaratives YAML oder Code), bereitgestellt als Hosted Agent." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep adding new workflows in the portal designer", "de": "Weiterhin neue Workflows im Portal-Designer anlegen" },
+          "correct": false,
+          "why": { "en": "After December 1, 2026 the visual designer and in-portal workflow execution are no longer supported.", "de": "Nach dem 1. Dezember 2026 werden der visuelle Designer und die Workflow-Ausführung im Portal nicht mehr unterstützt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Replace the process with model router so it picks the right agent for each request", "de": "Den Prozess durch Model Router ersetzen, damit er pro Anfrage den richtigen Agent wählt" },
+          "correct": false,
+          "why": { "en": "Model router picks an underlying model per prompt; it doesn't orchestrate agents or approval steps.", "de": "Model Router wählt pro Prompt ein zugrunde liegendes Modell; Agents oder Genehmigungsschritte orchestriert er nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Merge everything into one prompt agent and drop the approval step", "de": "Alles in einen einzigen Prompt Agent zusammenführen und den Genehmigungsschritt streichen" },
+          "correct": false,
+          "why": { "en": "A single agent can be simpler, but this loses the required human approval and the multi-agent structure.", "de": "Ein einzelner Agent kann einfacher sein, verliert aber die geforderte menschliche Genehmigung und die Multi-Agent-Struktur." }
+        }
+      ],
+      "explanation": { "en": "For multi-agent workflows with steps such as human approval, build on Microsoft Agent Framework and host the result in Foundry — the portal's visual workflows are being retired.", "de": "Für Multi-Agent-Workflows mit Schritten wie menschlicher Genehmigung baust du auf Microsoft Agent Framework und hostest das Ergebnis in Foundry – die visuellen Workflows im Portal werden eingestellt." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-06",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.1.2",
+      "skills": [
+        "1.1.1"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "Match each requirement to the Foundry service you would start with.", "de": "Ordne jede Anforderung dem Foundry-Dienst zu, mit dem du starten würdest." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Draft product descriptions from a few bullet points (no tools, no retrieval)", "de": "Produktbeschreibungen aus ein paar Stichpunkten entwerfen (ohne Tools, ohne Retrieval)" },
+          "answer": "t1",
+          "why": { "en": "Sending a prompt to a model is the shortest path; add an agent only when you need tools or orchestration.", "de": "Ein Prompt an ein Modell ist der kürzeste Weg; einen Agent brauchst du erst für Tools oder Orchestrierung." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Run hybrid keyword and vector search over a product catalog index", "de": "Hybride Stichwort- und Vektorsuche über einen Produktkatalog-Index ausführen" },
+          "answer": "t2",
+          "why": { "en": "Azure AI Search provides keyword, vector and hybrid queries over search indexes.", "de": "Azure AI Search bietet Stichwort-, Vektor- und Hybridabfragen über Suchindizes." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Extract one field schema from invoices, photos and recorded calls", "de": "Ein einheitliches Feldschema aus Rechnungen, Fotos und aufgezeichneten Anrufen extrahieren" },
+          "answer": "t3",
+          "why": { "en": "Content Understanding processes documents, images, audio and video into a user-defined schema with confidence scores and grounding.", "de": "Content Understanding verarbeitet Dokumente, Bilder, Audio und Video in ein selbst definiertes Schema mit Konfidenzwerten und Grounding." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Run an existing LangGraph agent with a managed endpoint, scaling and identity", "de": "Einen vorhandenen LangGraph-Agent mit verwaltetem Endpoint, Skalierung und Identität betreiben" },
+          "answer": "t4",
+          "why": { "en": "Hosted agents run your own code or container with a managed endpoint, scaling, identity and observability.", "de": "Hosted Agents führen deinen eigenen Code oder Container mit verwaltetem Endpoint, Skalierung, Identität und Observability aus." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "A model deployment called with the Responses API", "de": "Ein Modell-Deployment, aufgerufen über die Responses API" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Azure AI Search", "de": "Azure AI Search" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Azure Content Understanding in Foundry Tools", "de": "Azure Content Understanding in Foundry Tools" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "A hosted agent in Foundry Agent Service", "de": "Ein Hosted Agent in Foundry Agent Service" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Azure Translator in Foundry Tools", "de": "Azure Translator in Foundry Tools" }
+        }
+      ],
+      "explanation": { "en": "Pick the narrowest service that solves the requirement: plain generation → model deployment, hybrid or vector search → Azure AI Search, multimodal field extraction → Content Understanding, your own agent code → hosted agent.", "de": "Wähle den schlankesten Dienst, der die Anforderung löst: reine Generierung → Modell-Deployment, Hybrid- oder Vektorsuche → Azure AI Search, multimodale Feldextraktion → Content Understanding, eigener Agent-Code → Hosted Agent." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/capabilities",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-07",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.1",
+      "module": "plan-prepare",
+      "difficulty": 3,
+      "stem": { "en": "Contoso runs dozens of AI experiments and two production workloads (HR and Finance). Each production workload needs independent access control, its own quota and cost boundary, and must not be affected by incidents or quota exhaustion elsewhere. Experiments should share models and connections with minimal setup. Which Foundry topology fits?", "de": "Contoso betreibt Dutzende KI-Experimente und zwei Produktions-Workloads (HR und Finance). Jeder Produktions-Workload braucht eigene Zugriffskontrolle, eigenes Kontingent und eigenes Kostenbudget und darf nicht von Störungen oder erschöpftem Kontingent anderswo betroffen sein. Experimente sollen Modelle und Verbindungen mit minimalem Aufwand teilen. Welche Foundry-Topologie passt?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "One shared Foundry resource with a project per experiment, plus a separate Foundry resource for each production workload", "de": "Eine geteilte Foundry-Ressource mit einem Projekt pro Experiment, dazu eine eigene Foundry-Ressource für jeden Produktions-Workload" },
+          "correct": true,
+          "why": { "en": "Colocation suits exploration; for production the guidance is isolation by default — one Foundry resource per workload boundary with independent access, quota and cost.", "de": "Gemeinsame Nutzung passt zum Experimentieren; für Produktion lautet die Empfehlung standardmäßig Isolation – eine Foundry-Ressource pro Workload-Grenze mit eigenem Zugriff, Kontingent und Kosten." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "One Foundry resource with one project per workload, including production", "de": "Eine Foundry-Ressource mit einem Projekt pro Workload, auch für Produktion" },
+          "correct": false,
+          "why": { "en": "Projects in one resource share the blast radius for incidents, quota exhaustion and misconfiguration — fine for exploration, not the default for production.", "de": "Projekte in einer Ressource teilen sich den Wirkungsradius bei Störungen, erschöpftem Kontingent und Fehlkonfigurationen – gut fürs Experimentieren, nicht der Standard für Produktion." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A hub-based project per workload in the Foundry (classic) portal", "de": "Ein Hub-basiertes Projekt pro Workload im Foundry-Portal (classic)" },
+          "correct": false,
+          "why": { "en": "Hub-based projects belong to the classic experience; new investment focuses on Foundry projects, and hubs don't add the required isolation by themselves.", "de": "Hub-basierte Projekte gehören zur klassischen Oberfläche; neue Investitionen fließen in Foundry-Projekte, und Hubs bringen die geforderte Isolation nicht von selbst." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "One Foundry resource for everything and a separate API key per team", "de": "Eine Foundry-Ressource für alles und ein eigener API-Key pro Team" },
+          "correct": false,
+          "why": { "en": "Keys are resource-wide secrets with full access; they give no quota, cost or access isolation between teams.", "de": "Keys sind ressourcenweite Geheimnisse mit Vollzugriff; Kontingent-, Kosten- oder Zugriffstrennung zwischen Teams bieten sie nicht." }
+        }
+      ],
+      "explanation": { "en": "Use projects in a shared Foundry resource for colocated, experimental work and separate Foundry resources when production workloads need strict containment of access, quota and cost.", "de": "Nutze Projekte in einer geteilten Foundry-Ressource für gemeinsame, experimentelle Arbeit und separate Foundry-Ressourcen, wenn Produktions-Workloads Zugriff, Kontingent und Kosten strikt abgrenzen müssen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/planning",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-08",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.2.1",
+      "module": "plan-prepare",
+      "difficulty": 1,
+      "stem": { "en": "A bank uses the standard agent setup so that all agent data stays in its own Azure tenant. Match each kind of agent data to the resource that stores it.", "de": "Eine Bank nutzt das Standard-Agent-Setup, damit alle Agent-Daten im eigenen Azure-Tenant bleiben. Ordne jede Art von Agent-Daten der Ressource zu, die sie speichert." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Files uploaded by developers and end users", "de": "Von Entwickler:innen und Endnutzer:innen hochgeladene Dateien" },
+          "answer": "t1",
+          "why": { "en": "Bring-your-own file storage holds the files that developers and end users upload.", "de": "Der eigene Dateispeicher enthält die Dateien, die Entwickler:innen und Endnutzer:innen hochladen." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Vector stores created by the agent", "de": "Vom Agent erstellte Vector Stores" },
+          "answer": "t2",
+          "why": { "en": "Bring-your-own search holds the vector stores the agent creates.", "de": "Die eigene Suche enthält die Vector Stores, die der Agent erstellt." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Messages, conversation history and agent definitions", "de": "Nachrichten, Gesprächsverlauf und Agent-Definitionen" },
+          "answer": "t3",
+          "why": { "en": "Bring-your-own thread storage in Cosmos DB holds conversations and agent metadata; the account needs at least 3,000 RU/s in total.", "de": "Der eigene Thread-Speicher in Cosmos DB enthält Konversationen und Agent-Metadaten; das Konto braucht insgesamt mindestens 3.000 RU/s." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Azure Storage", "de": "Azure Storage" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Azure AI Search", "de": "Azure AI Search" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Azure Cosmos DB for NoSQL", "de": "Azure Cosmos DB for NoSQL" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Azure Key Vault", "de": "Azure Key Vault" }
+        }
+      ],
+      "explanation": { "en": "Standard agent setup = your Azure Storage (files), Azure AI Search (vector stores) and Azure Cosmos DB for NoSQL (conversations and agent metadata). Key Vault manages secrets, not agent data.", "de": "Standard-Agent-Setup = dein Azure Storage (Dateien), Azure AI Search (Vector Stores) und Azure Cosmos DB for NoSQL (Konversationen und Agent-Metadaten). Key Vault verwaltet Geheimnisse, keine Agent-Daten." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/standard-agent-setup"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-09",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.1",
+      "module": "plan-prepare",
+      "difficulty": 3,
+      "stem": { "en": "Several teams share one Foundry resource, each with its own project. A legal team now needs Azure Translator for document translation, and policy requires that no other team can use or see its translation workload. What should you plan?", "de": "Mehrere Teams teilen sich eine Foundry-Ressource, jedes mit eigenem Projekt. Ein Rechtsteam braucht nun Azure Translator für Dokumentübersetzungen, und eine Richtlinie verlangt, dass kein anderes Team diesen Übersetzungs-Workload nutzen oder sehen kann. Was solltest du planen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A separate Foundry resource for the legal translation workload", "de": "Eine separate Foundry-Ressource für den Übersetzungs-Workload des Rechtsteams" },
+          "correct": true,
+          "why": { "en": "Translator is available only at the Foundry resource level and has no project-level RBAC isolation, so strict isolation needs its own resource.", "de": "Translator ist nur auf Ebene der Foundry-Ressource verfügbar und kennt keine RBAC-Isolation pro Projekt – strikte Isolation braucht daher eine eigene Ressource." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A new project in the shared resource, with Foundry User assigned at project scope", "de": "Ein neues Projekt in der geteilten Ressource mit Foundry User auf Projektebene" },
+          "correct": false,
+          "why": { "en": "Project-scope roles don't isolate Translator, because its API is served from the parent resource, not from the project.", "de": "Rollen auf Projektebene isolieren Translator nicht, weil die API von der übergeordneten Ressource bedient wird, nicht vom Projekt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A Translator model deployment inside the legal team's project", "de": "Ein Translator-Modell-Deployment im Projekt des Rechtsteams" },
+          "correct": false,
+          "why": { "en": "Translator is a Foundry Tool API on the resource, not a model you deploy into a project.", "de": "Translator ist eine Foundry-Tool-API an der Ressource, kein Modell, das du in ein Projekt deployst." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Rotate the resource's API keys and give the new key only to the legal team", "de": "Die API-Keys der Ressource rotieren und den neuen Key nur dem Rechtsteam geben" },
+          "correct": false,
+          "why": { "en": "Keys are resource-wide and can't be scoped per team; other teams with role assignments on the resource still reach the Translator API.", "de": "Keys gelten ressourcenweit und lassen sich nicht pro Team einschränken; andere Teams mit Rollenzuweisungen auf der Ressource erreichen die Translator-API weiterhin." }
+        }
+      ],
+      "explanation": { "en": "Plan API scope early: newer agent-centric APIs support project-level isolation, but Translator and some other Foundry Tools work only at Foundry resource scope — isolate them with a separate resource.", "de": "Plane den API-Scope früh: Neuere, agentenzentrierte APIs unterstützen Isolation pro Projekt, Translator und einige andere Foundry Tools funktionieren aber nur auf Ebene der Foundry-Ressource – isoliere sie mit einer separaten Ressource." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/planning"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-10",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.2.1",
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "You are designing the Azure infrastructure for a production agent solution on Microsoft Foundry. Which TWO statements are correct?", "de": "Du entwirfst die Azure-Infrastruktur für eine produktive Agent-Lösung auf Microsoft Foundry. Welche ZWEI Aussagen sind richtig?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Connections created at the Foundry resource level are available to all projects in that resource.", "de": "Verbindungen auf Ebene der Foundry-Ressource stehen allen Projekten dieser Ressource zur Verfügung." },
+          "correct": true,
+          "why": { "en": "Connections can be created at resource or project level; resource-level connections are shared by every project.", "de": "Verbindungen lassen sich auf Ressourcen- oder Projektebene anlegen; Verbindungen auf Ressourcenebene teilen sich alle Projekte." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Foundry doesn't fail over between regions automatically; for multi-region availability you deploy a Foundry resource per region and route traffic in your application.", "de": "Foundry schwenkt nicht automatisch auf andere Regionen um; für Multi-Region-Verfügbarkeit stellst du eine Foundry-Ressource pro Region bereit und routest den Traffic in deiner Anwendung." },
+          "correct": true,
+          "why": { "en": "The architecture guidance states there is no automatic cross-region failover; synchronization and routing are your job.", "de": "Laut Architekturleitfaden gibt es kein automatisches regionsübergreifendes Failover; Synchronisierung und Routing übernimmst du." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "You can switch an existing project's capability settings to a different Cosmos DB account at any time.", "de": "Du kannst die Capability Settings eines bestehenden Projekts jederzeit auf ein anderes Cosmos-DB-Konto umstellen." },
+          "correct": false,
+          "why": { "en": "Capability settings can't be updated on an existing project; you delete and recreate the project with the new settings.", "de": "Capability Settings lassen sich an einem bestehenden Projekt nicht ändern; du löschst das Projekt und legst es mit den neuen Einstellungen neu an." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Each project needs its own Azure OpenAI resource to get model deployments.", "de": "Jedes Projekt braucht eine eigene Azure-OpenAI-Ressource für Modell-Deployments." },
+          "correct": false,
+          "why": { "en": "Projects reuse the model deployments of their Foundry resource.", "de": "Projekte nutzen die Modell-Deployments ihrer Foundry-Ressource mit." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "In the basic agent setup, conversations and files are stored in your own Cosmos DB and Storage accounts.", "de": "Im Basic-Agent-Setup werden Konversationen und Dateien in deinen eigenen Cosmos-DB- und Storage-Konten gespeichert." },
+          "correct": false,
+          "why": { "en": "That describes the standard setup; the basic setup keeps agent state in Microsoft-managed multitenant storage.", "de": "Das beschreibt das Standard-Setup; das Basic-Setup hält den Agent-Zustand in von Microsoft verwaltetem Multi-Tenant-Speicher." }
+        }
+      ],
+      "explanation": { "en": "Design around shared building blocks (resource-level deployments and connections), plan regional resilience yourself, and decide capability settings before you create projects.", "de": "Plane mit geteilten Bausteinen (Deployments und Verbindungen auf Ressourcenebene), sorge selbst für regionale Ausfallsicherheit und lege Capability Settings fest, bevor du Projekte anlegst." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/planning",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/standard-agent-setup"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-11",
+      "type": "order",
+      "domain": "D1",
+      "skill": "1.2.4",
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "Put the steps to set up continuous deployment for a hosted agent with the Azure Developer CLI in order.", "de": "Bringe die Schritte, um Continuous Deployment für einen Hosted Agent mit der Azure Developer CLI einzurichten, in die richtige Reihenfolge." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Initialize the agent project with `azd ai agent init` (Bicep or Terraform through `--infra`) and test it locally with `azd ai agent run`", "de": "Das Agent-Projekt mit `azd ai agent init` initialisieren (Bicep oder Terraform über `--infra`) und lokal mit `azd ai agent run` testen" },
+          "why": { "en": "The pipeline needs a working, initialized project; initialization is an authoring step, not something CI reruns.", "de": "Die Pipeline braucht ein funktionierendes, initialisiertes Projekt; die Initialisierung ist ein Authoring-Schritt, den CI nicht wiederholt." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Provision and deploy once from your machine with `azd up`", "de": "Einmal von deinem Rechner mit `azd up` provisionieren und bereitstellen" },
+          "why": { "en": "The guidance requires one successful `azd up` before you configure the pipeline.", "de": "Laut Anleitung braucht es ein erfolgreiches `azd up`, bevor du die Pipeline konfigurierst." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Run `azd pipeline config` to create the pipeline identity, repository variables and workflow file", "de": "`azd pipeline config` ausführen, um Pipeline-Identität, Repository-Variablen und Workflow-Datei anzulegen" },
+          "why": { "en": "It detects GitHub or Azure DevOps, creates the service principal, stores the variables and generates the workflow.", "de": "Es erkennt GitHub oder Azure DevOps, legt den Service Principal an, speichert die Variablen und erzeugt den Workflow." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Push to `main`: the pipeline runs `azd provision` and then `azd deploy`", "de": "Auf `main` pushen: Die Pipeline führt `azd provision` und danach `azd deploy` aus" },
+          "why": { "en": "The generated workflow provisions infrastructure first and then deploys a new agent version.", "de": "Der erzeugte Workflow provisioniert zuerst die Infrastruktur und stellt dann eine neue Agent-Version bereit." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Run `azd ai agent eval run` or a smoke test against the new version before promoting it", "de": "`azd ai agent eval run` oder einen Smoke-Test gegen die neue Version ausführen, bevor du sie freigibst" },
+          "why": { "en": "Readiness doesn't prove behavior; evaluate the exact candidate version before it takes production traffic.", "de": "Bereitschaft beweist kein korrektes Verhalten; evaluiere genau die Kandidatenversion, bevor sie Produktions-Traffic bekommt." }
+        }
+      ],
+      "explanation": { "en": "Author → first deployment → `azd pipeline config` → provision, then deploy in CI → evaluate before promotion.", "de": "Erstellen → erstes Deployment → `azd pipeline config` → in CI provisionieren, dann bereitstellen → vor der Freigabe evaluieren." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-12",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.4",
+      "skills": [
+        "1.3.4"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 1,
+      "stem": { "en": "A GitHub Actions workflow deploys your Foundry agent with `azd`. Security forbids long-lived secrets in the repository. How should the workflow sign in to Azure?", "de": "Ein GitHub-Actions-Workflow stellt deinen Foundry-Agent mit `azd` bereit. Die Security verbietet langlebige Geheimnisse im Repository. Wie sollte sich der Workflow bei Azure anmelden?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "With OpenID Connect: a federated credential on a Microsoft Entra app or managed identity, the `id-token: write` permission and `azure/login` or `azd auth login --federated-credential-provider github`", "de": "Per OpenID Connect: ein Federated Credential an einer Microsoft-Entra-App oder Managed Identity, die Berechtigung `id-token: write` und `azure/login` oder `azd auth login --federated-credential-provider github`" },
+          "correct": true,
+          "why": { "en": "Federated credentials let the workflow exchange its GitHub token for short-lived Azure tokens — no client secret is stored.", "de": "Mit Federated Credentials tauscht der Workflow sein GitHub-Token gegen kurzlebige Azure-Tokens – es wird kein Client Secret gespeichert." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Store the Foundry resource's API key as a repository secret", "de": "Den API-Key der Foundry-Ressource als Repository-Secret speichern" },
+          "correct": false,
+          "why": { "en": "A key is a long-lived secret with full resource access, and it can't provision infrastructure or deploy agents.", "de": "Ein Key ist ein langlebiges Geheimnis mit Vollzugriff auf die Ressource und kann weder Infrastruktur provisionieren noch Agents bereitstellen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Store a service principal client secret as a repository variable", "de": "Ein Client Secret eines Service Principals als Repository-Variable speichern" },
+          "correct": false,
+          "why": { "en": "That is exactly the long-lived secret the policy forbids — and variables aren't even encrypted secrets.", "de": "Genau das ist das verbotene langlebige Geheimnis – und Variablen sind nicht einmal verschlüsselte Secrets." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Use a developer's personal access token", "de": "Das persönliche Zugriffstoken einer Person aus dem Entwicklungsteam verwenden" },
+          "correct": false,
+          "why": { "en": "Pipelines shouldn't run under a person's credentials; that breaks least privilege and auditability.", "de": "Pipelines sollten nicht unter den Anmeldedaten einer Person laufen; das verletzt Least Privilege und Nachvollziehbarkeit." }
+        }
+      ],
+      "explanation": { "en": "CI/CD for Foundry signs in keylessly: GitHub OIDC with a workload identity that holds only the roles it needs, for example Foundry User and Contributor on the target project for code deployment.", "de": "CI/CD für Foundry meldet sich schlüssellos an: GitHub-OIDC mit einer Workload-Identität, die nur die nötigen Rollen hat, etwa Foundry User und Contributor auf dem Zielprojekt für Code-Deployments." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/set-up-cicd-hosted-agent",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-13",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.2.4",
+      "skills": [
+        "2.1.4"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 3,
+      "stem": { "en": "Before each release, your pipeline should compare version 3 of a Foundry agent with version 2 by using the `microsoft/ai-agent-evals` GitHub Action (preview). Which TWO statements are correct?", "de": "Vor jedem Release soll deine Pipeline Version 3 eines Foundry-Agents mit Version 2 vergleichen – mit der GitHub Action `microsoft/ai-agent-evals` (Preview). Welche ZWEI Aussagen sind richtig?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set `agent-ids` to `my-agent:2,my-agent:3`; the run summary shows scores with confidence intervals and a pairwise significance test.", "de": "Setze `agent-ids` auf `my-agent:2,my-agent:3`; die Zusammenfassung zeigt Scores mit Konfidenzintervallen und einen paarweisen Signifikanztest." },
+          "correct": true,
+          "why": { "en": "Several agent IDs are compared statistically; `baseline-agent-id` can set the baseline, otherwise the first agent is used.", "de": "Mehrere Agent-IDs werden statistisch verglichen; `baseline-agent-id` legt die Basis fest, sonst gilt der erste Agent." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The data file lists evaluator names such as `builtin.task_adherence` plus the test queries; the action invokes the agents and scores their answers.", "de": "Die Datendatei listet Evaluator-Namen wie `builtin.task_adherence` und die Testabfragen; die Action ruft die Agents auf und bewertet deren Antworten." },
+          "correct": true,
+          "why": { "en": "The JSON file holds `evaluators` and `data` items with a `query`; the action runs the agents, then the evaluators.", "de": "Die JSON-Datei enthält `evaluators` und `data`-Einträge mit einer `query`; die Action führt erst die Agents, dann die Evaluatoren aus." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Run the action on every commit to keep evaluation costs low.", "de": "Führe die Action bei jedem Commit aus, um die Evaluierungskosten niedrig zu halten." },
+          "correct": false,
+          "why": { "en": "The guidance is the opposite: to minimize cost, don't run evaluations on every commit.", "de": "Die Empfehlung lautet umgekehrt: Um Kosten zu sparen, nicht bei jedem Commit evaluieren." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The action authenticates with the Foundry resource's API key stored as a secret.", "de": "Die Action authentifiziert sich mit dem als Secret gespeicherten API-Key der Foundry-Ressource." },
+          "correct": false,
+          "why": { "en": "Microsoft Entra ID is recommended, typically `azure/login` with OpenID Connect — and evaluations don't support API keys.", "de": "Empfohlen ist Microsoft Entra ID, meist `azure/login` mit OpenID Connect – und Evaluierungen unterstützen keine API-Keys." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "The action evaluates only model deployments, so the agent must be exported as a model first.", "de": "Die Action evaluiert nur Modell-Deployments, daher muss der Agent zuerst als Modell exportiert werden." },
+          "correct": false,
+          "why": { "en": "It is built for offline evaluation of Foundry agents, referenced as `agent-name:version`.", "de": "Sie ist für die Offline-Evaluierung von Foundry-Agents gebaut, referenziert als `agent-name:version`." }
+        }
+      ],
+      "explanation": { "en": "Evaluation gates in CI/CD run agents against a fixed dataset with chosen evaluators and use statistics to separate real regressions from noise — trigger them deliberately rather than on every commit.", "de": "Evaluierungs-Gates in CI/CD lassen Agents gegen ein festes Dataset mit gewählten Evaluatoren laufen und trennen per Statistik echte Verschlechterungen vom Rauschen – starte sie gezielt statt bei jedem Commit." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-14",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.3.4",
+      "module": "plan-prepare",
+      "difficulty": 1,
+      "stem": { "en": "A partner's service principal must call one published agent through its endpoint. It must not create, change or inspect other agents. Which built-in role gives least-privilege access?", "de": "Der Service Principal eines Partners soll einen veröffentlichten Agent über dessen Endpoint aufrufen. Andere Agents darf er weder anlegen, ändern noch einsehen. Welche integrierte Rolle gewährt Zugriff nach dem Least-Privilege-Prinzip?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Foundry Agent Consumer, assigned at the agent scope with Azure CLI", "de": "Foundry Agent Consumer, mit der Azure CLI auf Agent-Ebene zugewiesen" },
+          "correct": true,
+          "why": { "en": "It only allows interacting with agent endpoints, and agent scope limits it to that one agent. The Azure portal currently assigns it only at account scope.", "de": "Die Rolle erlaubt nur die Interaktion mit Agent-Endpoints, und die Agent-Ebene beschränkt sie auf genau diesen Agent. Das Azure-Portal weist sie derzeit nur auf Kontoebene zu." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Foundry User at project scope", "de": "Foundry User auf Projektebene" },
+          "correct": false,
+          "why": { "en": "Foundry User includes data actions to build and develop — far more than calling one agent.", "de": "Foundry User enthält Data Actions zum Bauen und Entwickeln – weit mehr als das Aufrufen eines Agents." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Foundry Project Manager", "de": "Foundry Project Manager" },
+          "correct": false,
+          "why": { "en": "It manages projects, publishes agents and assigns roles — excessive for a caller.", "de": "Die Rolle verwaltet Projekte, veröffentlicht Agents und vergibt Rollen – zu viel für einen reinen Aufrufer." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Reader on the Foundry resource", "de": "Reader auf der Foundry-Ressource" },
+          "correct": false,
+          "why": { "en": "Reader is control-plane read access; it doesn't allow calling agent endpoints.", "de": "Reader ist Lesezugriff auf der Control Plane; Agent-Endpoints aufrufen darf man damit nicht." }
+        }
+      ],
+      "explanation": { "en": "Principals that only consume agents get Foundry Agent Consumer; scope it to the project or even to a single agent for least privilege.", "de": "Identitäten, die Agents nur nutzen, bekommen Foundry Agent Consumer – für minimale Rechte auf Projekt- oder sogar Agent-Ebene zugewiesen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-15",
+      "type": "code",
+      "domain": "D1",
+      "skill": "1.3.4",
+      "skills": [
+        "2.1.6"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "An Azure Container Apps app runs with a user-assigned managed identity that has the Foundry User role. Complete the code so the OpenAI client calls the Foundry resource without any API key.", "de": "Eine Azure-Container-Apps-Anwendung läuft mit einer benutzerseitig zugewiesenen Managed Identity, die die Rolle Foundry User hat. Vervollständige den Code, damit der OpenAI-Client die Foundry-Ressource ganz ohne API-Key aufruft." },
+      "template": "from azure.identity import ManagedIdentityCredential, get_bearer_token_provider\nfrom openai import OpenAI\n\ncredential = ManagedIdentityCredential(client_id=\"<identity-client-id>\")\ntoken_provider = get_bearer_token_provider(credential, \"{{b1}}\")\n\nclient = OpenAI(\n    base_url=\"https://<resource>.openai.azure.com/openai/v1/\",\n    {{b2}}=token_provider,\n)\nreply = client.responses.create(model=\"support-chat\", input=\"Hello\")",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "https://ai.azure.com/.default",
+              "correct": true,
+              "why": { "en": "Foundry accepts Microsoft Entra tokens issued for this scope.", "de": "Foundry akzeptiert Microsoft-Entra-Tokens, die für diesen Scope ausgestellt wurden." }
+            },
+            {
+              "id": "b",
+              "code": "https://management.azure.com/.default",
+              "correct": false,
+              "why": { "en": "That scope is for Azure Resource Manager (control plane), not for model calls.", "de": "Dieser Scope gilt für Azure Resource Manager (Control Plane), nicht für Modellaufrufe." }
+            },
+            {
+              "id": "c",
+              "code": "https://vault.azure.net/.default",
+              "correct": false,
+              "why": { "en": "That scope is for Azure Key Vault.", "de": "Dieser Scope gilt für Azure Key Vault." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "api_key",
+              "correct": true,
+              "why": { "en": "The `OpenAI()` client takes the token provider through `api_key`, so each request carries a fresh Entra bearer token.", "de": "Der `OpenAI()`-Client nimmt den Token-Provider über `api_key` entgegen, sodass jeder Request ein frisches Entra-Bearer-Token trägt." }
+            },
+            {
+              "id": "b",
+              "code": "azure_ad_token_provider",
+              "correct": false,
+              "why": { "en": "That parameter belongs to the `AzureOpenAI()` client, not to `OpenAI()`.", "de": "Dieser Parameter gehört zum `AzureOpenAI()`-Client, nicht zu `OpenAI()`." }
+            },
+            {
+              "id": "c",
+              "code": "credential",
+              "correct": false,
+              "why": { "en": "`OpenAI()` has no `credential` parameter; that is how `AIProjectClient` receives an Azure credential.", "de": "`OpenAI()` hat keinen `credential`-Parameter; so erhält `AIProjectClient` eine Azure-Anmeldung." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "Keyless calls combine a managed identity, a token for `https://ai.azure.com/.default` and a token provider passed as `api_key` to the OpenAI client — no secret anywhere.", "de": "Schlüssellose Aufrufe kombinieren eine Managed Identity, ein Token für `https://ai.azure.com/.default` und einen Token-Provider, der dem OpenAI-Client als `api_key` übergeben wird – nirgends ein Geheimnis." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-16",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.3.4",
+      "skills": [
+        "1.2.1"
+      ],
+      "module": "plan-prepare",
+      "difficulty": 3,
+      "stem": { "en": "Requirements: (1) the Foundry resource is reachable only from the corporate virtual network, (2) inside that network the resource name resolves to a private IP address, and (3) agents reach a private Azure AI Search service without traversing the internet. Which THREE actions meet the requirements?", "de": "Anforderungen: (1) Die Foundry-Ressource ist nur aus dem Unternehmens-VNet erreichbar, (2) im VNet wird der Ressourcenname in eine private IP-Adresse aufgelöst, und (3) Agents erreichen einen privaten Azure-AI-Search-Dienst, ohne übers Internet zu gehen. Welche DREI Maßnahmen erfüllen die Anforderungen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set public network access to Disabled and create a private endpoint for the Foundry resource in the virtual network", "de": "Den öffentlichen Netzwerkzugriff auf Disabled setzen und im VNet einen Private Endpoint für die Foundry-Ressource anlegen" },
+          "correct": true,
+          "why": { "en": "With public access disabled, the private endpoint becomes the only way in.", "de": "Bei deaktiviertem öffentlichem Zugriff wird der Private Endpoint zum einzigen Zugang." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Link the `privatelink` private DNS zone to the virtual network, or forward your custom DNS to it", "de": "Die private DNS-Zone `privatelink` mit dem VNet verknüpfen oder deinen eigenen DNS dorthin weiterleiten" },
+          "correct": true,
+          "why": { "en": "The private DNS zone resolves the usual resource FQDN to the private endpoint's IP inside the network.", "de": "Die private DNS-Zone löst den gewohnten FQDN der Ressource im Netzwerk in die IP des Private Endpoints auf." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Use virtual network injection (a subnet delegated to `Microsoft.App/environments`) or a managed virtual network for agent outbound traffic", "de": "Für den ausgehenden Agent-Traffic VNet-Injection (ein an `Microsoft.App/environments` delegiertes Subnetz) oder ein verwaltetes virtuelles Netzwerk nutzen" },
+          "correct": true,
+          "why": { "en": "Outbound isolation for agents comes from VNet injection or a managed VNet, which reach resources such as Azure AI Search over private endpoints.", "de": "Ausgehende Isolation für Agents entsteht durch VNet-Injection oder ein verwaltetes VNet, die Ressourcen wie Azure AI Search über Private Endpoints erreichen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Change the app's connection string to the private IP address of the endpoint", "de": "Den Connection String der App auf die private IP-Adresse des Endpoints ändern" },
+          "correct": false,
+          "why": { "en": "Clients keep the same connection string; DNS resolution routes them to the private IP.", "de": "Clients behalten denselben Connection String; die DNS-Auflösung leitet sie zur privaten IP." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Set the managed virtual network to Allow internet outbound to block public inbound traffic", "de": "Das verwaltete virtuelle Netzwerk auf Allow internet outbound setzen, um öffentlichen eingehenden Traffic zu blockieren" },
+          "correct": false,
+          "why": { "en": "Outbound modes govern traffic leaving the agent runtime; they don't restrict inbound access to the resource.", "de": "Ausgehende Modi steuern Traffic, der die Agent-Laufzeit verlässt; den eingehenden Zugriff auf die Ressource beschränken sie nicht." }
+        }
+      ],
+      "explanation": { "en": "Network isolation has three parts: inbound (public access off plus a private endpoint), name resolution (the `privatelink` DNS zone) and agent outbound traffic (VNet injection or a managed virtual network).", "de": "Netzwerkisolation hat drei Teile: eingehend (öffentlicher Zugriff aus plus Private Endpoint), Namensauflösung (die `privatelink`-DNS-Zone) und ausgehender Agent-Traffic (VNet-Injection oder verwaltetes virtuelles Netzwerk)." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-private-link",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/architecture",
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/managed-virtual-network"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-17",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.3.4",
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "Platform engineers hold the Foundry Account Owner role on a Foundry resource. They can create projects and deploy models, but they get an authorization error when they create an agent in a project. What is the least-privilege fix?", "de": "Plattform-Engineers haben auf einer Foundry-Ressource die Rolle Foundry Account Owner. Sie können Projekte anlegen und Modelle bereitstellen, bekommen aber beim Anlegen eines Agents in einem Projekt einen Autorisierungsfehler. Was ist die Lösung mit minimalen Rechten?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Assign them Foundry User at the project scope", "de": "Ihnen Foundry User auf Projektebene zuweisen" },
+          "correct": true,
+          "why": { "en": "Foundry Account Owner covers control-plane management but no data actions; Foundry User adds the data actions needed to build agents.", "de": "Foundry Account Owner deckt die Verwaltung auf der Control Plane ab, aber keine Data Actions; Foundry User ergänzt die Data Actions zum Bauen von Agents." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Assign them Contributor on the resource group", "de": "Ihnen Contributor auf der Ressourcengruppe zuweisen" },
+          "correct": false,
+          "why": { "en": "Contributor is also control-plane only and has no data actions for building agents.", "de": "Contributor ist ebenfalls reine Control Plane und hat keine Data Actions zum Bauen von Agents." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Give them the resource's API key", "de": "Ihnen den API-Key der Ressource geben" },
+          "correct": false,
+          "why": { "en": "Foundry Agent Service doesn't accept API keys, and keys grant full, unscoped access.", "de": "Foundry Agent Service akzeptiert keine API-Keys, und Keys gewähren vollen, unbeschränkten Zugriff." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Assign them Owner on the subscription", "de": "Ihnen Owner auf dem Abonnement zuweisen" },
+          "correct": false,
+          "why": { "en": "Owner is highly privileged yet still has no Foundry data actions.", "de": "Owner ist hoch privilegiert, hat aber trotzdem keine Foundry-Data-Actions." }
+        }
+      ],
+      "explanation": { "en": "Managing and building are separate planes: Foundry Account Owner, Owner and Contributor manage; Foundry User (or Foundry Owner) builds.", "de": "Verwalten und Bauen sind getrennte Ebenen: Foundry Account Owner, Owner und Contributor verwalten; Foundry User (oder Foundry Owner) baut." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-18",
+      "type": "order",
+      "domain": "D1",
+      "skill": "1.3.4",
+      "module": "plan-prepare",
+      "difficulty": 2,
+      "stem": { "en": "An App Service app calls a Foundry resource with an API key stored in its app settings. Put the steps to move it to keyless access without downtime in order.", "de": "Eine App-Service-App ruft eine Foundry-Ressource mit einem API-Key aus ihren App-Einstellungen auf. Bringe die Schritte, um sie ohne Ausfall auf schlüssellosen Zugriff umzustellen, in die richtige Reihenfolge." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Enable a system-assigned managed identity on the App Service app", "de": "Eine systemseitig zugewiesene Managed Identity für die App-Service-App aktivieren" },
+          "why": { "en": "The app needs a Microsoft Entra identity before it can receive a role or a token.", "de": "Die App braucht eine Microsoft-Entra-Identität, bevor sie eine Rolle oder ein Token bekommen kann." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Assign that identity the Foundry User role on the Foundry resource", "de": "Dieser Identität die Rolle Foundry User auf der Foundry-Ressource zuweisen" },
+          "why": { "en": "Without a data-plane role, token-based calls fail with HTTP 403; assignments can take a few minutes to apply.", "de": "Ohne Data-Plane-Rolle scheitern tokenbasierte Aufrufe mit HTTP 403; Zuweisungen brauchen ein paar Minuten." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Switch the code to `DefaultAzureCredential`, redeploy and remove the key from the app settings", "de": "Den Code auf `DefaultAzureCredential` umstellen, neu bereitstellen und den Key aus den App-Einstellungen entfernen" },
+          "why": { "en": "Now the app requests tokens for `https://ai.azure.com/.default` instead of sending the key.", "de": "Jetzt holt die App Tokens für `https://ai.azure.com/.default`, statt den Key zu senden." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Set `disableLocalAuth` to `true` on the Foundry resource once every caller uses tokens", "de": "`disableLocalAuth` auf der Foundry-Ressource auf `true` setzen, sobald alle Aufrufer Tokens nutzen" },
+          "why": { "en": "Disable keys only after all callers have migrated; otherwise the remaining key users break.", "de": "Keys erst abschalten, wenn alle Aufrufer migriert sind – sonst fallen die verbleibenden Key-Nutzer aus." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Send a test request with the old key and confirm HTTP 401 after the change has propagated", "de": "Einen Test-Request mit dem alten Key senden und nach der Verteilung HTTP 401 bestätigen" },
+          "why": { "en": "Disabling local authentication doesn't take effect instantly; verify that the old key is rejected.", "de": "Das Abschalten der lokalen Authentifizierung wirkt nicht sofort; prüfe, dass der alte Key abgelehnt wird." }
+        }
+      ],
+      "explanation": { "en": "Identity → role → code change → disable keys → verify. Disabling keys first causes downtime; skipping the check leaves a gap while the change propagates.", "de": "Identität → Rolle → Codeänderung → Keys abschalten → prüfen. Keys zuerst abzuschalten verursacht Ausfall; ohne Prüfung bleibt während der Verteilung eine Lücke." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry",
+        "https://learn.microsoft.com/en-us/azure/ai-services/disable-local-auth"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

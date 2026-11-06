@@ -67,9 +67,9 @@ Anatomy (the app renders it in this order):
 ### Diagram rules
 
 - Canvas width 960; height 240–460. Coordinates are top-left based.
-- Nodes: `w ≥ 120`, `h` 56–80. Label capacity ≈ `(w − 16) / 7.4` characters per line, sub capacity ≈ `(w − 16) / 6.2`. Use `\n` for a second label line. Product names stay English (plain string); generic words get `{ en, de }`.
-- Leave ≥ 40 px between nodes so arrows and their labels have room; edge labels ≤ 18 characters.
-- Lay out flows left → right or top → bottom in rows/columns so straight arrows never cross a node. Use `via` points for detours.
+- Nodes: `w ≥ 120`, `h` 56–80. Label capacity ≈ `(w − 16) / 7.4` characters per line, sub capacity ≈ `(w − 16) / 6.2`; `actor` nodes reserve another 26 px for the person icon. Use `\n` for a second label line. Product names stay English (plain string); generic words get `{ en, de }`.
+- Edge labels render as pills `chars × 6.4 + 14` px wide and 20 px high, centered on the edge midpoint. The gap between two connected nodes must exceed that width (plus ~20 px) for labelled edges; keep labels ≤ 18 characters. Unlabelled edges need ≥ 40 px.
+- Lay out flows left → right or top → bottom in rows/columns so straight arrows never cross a node. Use `via` points for detours. The validator uses the renderer's geometry (`src/lib/geometry.ts`): an arrow through another node is an error, a label pill on a node is a warning.
 - `groups` draw containment (Foundry resource ⊃ project, "Your app", "Azure AI Search"). Keep 20 px padding; groups must contain their nodes completely; leave 30 px at the top of a group for its label.
 - Tones encode meaning (never color alone, labels always present): `user` people, `app` your code/SDK, `foundry` Foundry platform resources, `model` models/deployments, `data` stores/indexes/files, `tool` tools/functions/MCP, `safety` guardrails/identity/security, `external` external systems/web, `neutral` other.
 - Shapes: `box` (default), `pill` (events/messages), `store` (databases, indexes, storage), `doc` (documents/files), `actor` (people), `diamond` (decisions).

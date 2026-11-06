@@ -19,19 +19,19 @@ export const lesson: Lesson = {
         de: 'Das Foundry SDK spricht mit dem Project Endpoint, das OpenAI SDK mit dem Azure-OpenAI-v1-Endpoint. Nur der Projektweg öffnet Agents, Evaluierungen und Tracing.',
       },
       width: 960,
-      height: 420,
+      height: 450,
       groups: [
-        { id: 'g-app', x: 10, y: 40, w: 290, h: 360, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
-        { id: 'g-res', x: 340, y: 20, w: 610, h: 390, label: 'Foundry resource', tone: 'foundry' },
-        { id: 'g-proj', x: 360, y: 60, w: 300, h: 210, label: 'Foundry project', tone: 'foundry' },
+        { id: 'g-app', x: 10, y: 40, w: 290, h: 380, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
+        { id: 'g-res', x: 340, y: 20, w: 610, h: 410, label: 'Foundry resource', tone: 'foundry' },
+        { id: 'g-proj', x: 360, y: 56, w: 300, h: 224, label: 'Foundry project', tone: 'foundry' },
       ],
       nodes: [
-        { id: 'sdkF', x: 35, y: 110, w: 240, h: 70, label: 'Foundry SDK', sub: 'AIProjectClient', tone: 'app' },
-        { id: 'sdkO', x: 35, y: 280, w: 240, h: 70, label: 'OpenAI SDK', sub: 'OpenAI(base_url=…/v1/)', tone: 'app' },
-        { id: 'epP', x: 385, y: 100, w: 250, h: 64, label: 'Project endpoint', sub: '…/api/projects/<project>', tone: 'foundry' },
-        { id: 'feat', x: 385, y: 190, w: 250, h: 64, label: 'Agents · evals · tracing', sub: { en: 'project features', de: 'Projekt-Features' }, tone: 'foundry' },
-        { id: 'epA', x: 385, y: 310, w: 250, h: 64, label: 'Azure OpenAI endpoint', sub: '…openai.azure.com/openai/v1/', tone: 'foundry' },
-        { id: 'dep', x: 705, y: 170, w: 220, h: 74, label: 'Model deployments', sub: 'gpt-4.1 · Phi-4 · …', tone: 'model', shape: 'store' },
+        { id: 'sdkF', x: 35, y: 120, w: 240, h: 70, label: 'Foundry SDK', sub: 'AIProjectClient', tone: 'app' },
+        { id: 'sdkO', x: 35, y: 300, w: 240, h: 70, label: 'OpenAI SDK', sub: 'OpenAI(base_url=…/v1/)', tone: 'app' },
+        { id: 'epP', x: 385, y: 100, w: 250, h: 60, label: 'Project endpoint', sub: '…/api/projects/<project>', tone: 'foundry' },
+        { id: 'feat', x: 385, y: 200, w: 250, h: 60, label: 'Agents · evals · tracing', sub: { en: 'project features', de: 'Projekt-Features' }, tone: 'foundry' },
+        { id: 'epA', x: 385, y: 330, w: 250, h: 64, label: 'Azure OpenAI endpoint', sub: '…openai.azure.com/openai/v1/', tone: 'foundry' },
+        { id: 'dep', x: 715, y: 190, w: 210, h: 74, label: 'Model deployments', sub: 'gpt-4.1 · DeepSeek · …', tone: 'model', shape: 'store' },
       ],
       edges: [
         { id: 'e-f-p', from: 'sdkF', to: 'epP', label: 'Entra ID' },
@@ -76,8 +76,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Project-only features', de: 'Nur über das Projekt' },
           text: {
-            en: 'Agents, evaluations, tracing, connections and datasets live in the project. Only the project client gives you access to them — the OpenAI SDK covers inference only.',
-            de: 'Agents, Evaluierungen, Tracing, Verbindungen und Datasets leben im Projekt. Nur der Projekt-Client gibt dir Zugriff darauf – das OpenAI SDK deckt nur die Inferenz ab.',
+            en: 'Agents, evaluations, tracing, connections and datasets live in the project. Only the project client gives you access to them — the OpenAI SDK covers the OpenAI API surface (models, files, fine-tuning) but no project features.',
+            de: 'Agents, Evaluierungen, Tracing, Verbindungen und Datasets leben im Projekt. Nur der Projekt-Client gibt dir Zugriff darauf – das OpenAI SDK deckt die OpenAI-API ab (Modelle, Dateien, Fine-Tuning), aber keine Projekt-Features.',
           },
           focus: ['epP', 'e-p-f', 'feat'],
         },
@@ -93,10 +93,10 @@ export const lesson: Lesson = {
       width: 960,
       height: 280,
       nodes: [
-        { id: 'u1', x: 20, y: 30, w: 150, h: 60, label: { en: 'User turn 1', de: 'Nutzer, Runde 1' }, tone: 'user', shape: 'actor' },
+        { id: 'u1', x: 10, y: 30, w: 160, h: 60, label: { en: 'User turn 1', de: 'Nutzer, Runde 1' }, tone: 'user', shape: 'actor' },
         { id: 'c1', x: 215, y: 30, w: 210, h: 60, label: 'responses.create', sub: 'input + instructions', tone: 'app' },
         { id: 'r1', x: 470, y: 30, w: 180, h: 60, label: 'Response A', sub: 'id: resp_A', tone: 'model' },
-        { id: 'u2', x: 20, y: 180, w: 150, h: 60, label: { en: 'User turn 2', de: 'Nutzer, Runde 2' }, tone: 'user', shape: 'actor' },
+        { id: 'u2', x: 10, y: 180, w: 160, h: 60, label: { en: 'User turn 2', de: 'Nutzer, Runde 2' }, tone: 'user', shape: 'actor' },
         { id: 'c2', x: 215, y: 180, w: 250, h: 60, label: 'responses.create', sub: 'previous_response_id=resp_A', tone: 'app' },
         { id: 'r2', x: 510, y: 180, w: 180, h: 60, label: 'Response B', sub: { en: 'knows turn 1', de: 'kennt Runde 1' }, tone: 'model' },
         { id: 'st', x: 735, y: 100, w: 205, h: 64, label: { en: 'Stored responses', de: 'Gespeicherte Antworten' }, sub: { en: 'retained 30 days', de: '30 Tage gespeichert' }, tone: 'data', shape: 'store' },
@@ -164,8 +164,8 @@ export const lesson: Lesson = {
     {
       term: 'Responses API',
       text: {
-        en: 'The recommended API for new chat apps. It unifies the older Chat Completions and Assistants patterns, keeps state via `previous_response_id` or conversations, and works with Azure OpenAI and Foundry direct models such as Phi.',
-        de: 'Die empfohlene API für neue Chat-Apps. Sie vereint die älteren Muster von Chat Completions und Assistants, hält den Zustand über `previous_response_id` oder Conversations und funktioniert mit Azure OpenAI und Foundry-Direktmodellen wie Phi.',
+        en: 'The recommended API for new chat apps. It unifies the older Chat Completions and Assistants patterns, keeps state via `previous_response_id` or conversations, and works with Azure OpenAI models and with Foundry Models sold by Azure that support it, such as DeepSeek, Llama or Grok.',
+        de: 'Die empfohlene API für neue Chat-Apps. Sie vereint die älteren Muster von Chat Completions und Assistants, hält den Zustand über `previous_response_id` oder Conversations und funktioniert mit Azure-OpenAI-Modellen sowie mit von Azure verkauften Foundry Models, die sie unterstützen, etwa DeepSeek, Llama oder Grok.',
       },
     },
     {
@@ -189,6 +189,13 @@ export const lesson: Lesson = {
         de: '`instructions` setzt den Systemprompt, `temperature` (0–2) oder `top_p` steuern die Zufälligkeit, `max_output_tokens` begrenzt die Antwortlänge und `stream=True` liefert schrittweise Events für reaktionsschnelle Oberflächen.',
       },
     },
+    {
+      term: 'Model playground',
+      text: {
+        en: 'The portal page you land on after deploying a model. Try system prompts and parameters (temperature, top_p, max tokens), add tools such as web search or code interpreter, compare up to three models side by side, then export a ready-to-run sample from the **Code** tab.',
+        de: 'Die Portalseite, auf der du nach dem Bereitstellen eines Modells landest. Probiere Systemprompts und Parameter (Temperatur, top_p, Max Tokens), füge Tools wie Websuche oder Code Interpreter hinzu, vergleiche bis zu drei Modelle nebeneinander und exportiere dann über den Tab **Code** ein lauffähiges Beispiel.',
+      },
+    },
   ],
   comparison: {
     title: { en: 'Foundry SDK or OpenAI SDK?', de: 'Foundry SDK oder OpenAI SDK?' },
@@ -203,7 +210,7 @@ export const lesson: Lesson = {
       [
         { en: 'Agents, evaluations, tracing', de: 'Agents, Evaluierungen, Tracing' },
         { en: 'Yes', de: 'Ja' },
-        { en: 'No — inference only', de: 'Nein – nur Inferenz' },
+        { en: 'No — OpenAI API only', de: 'Nein – nur OpenAI-API' },
       ],
       [
         { en: 'Best for', de: 'Ideal für' },
@@ -303,5 +310,6 @@ print(completion.choices[0].message.content)`,
     { title: 'Use the Azure OpenAI Responses API', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses' },
     { title: 'What is Microsoft Foundry?', url: 'https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry' },
     { title: 'Role-based access control for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry' },
+    { title: 'Microsoft Foundry Playgrounds', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds' },
   ],
 }

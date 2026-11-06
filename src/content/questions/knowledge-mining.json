@@ -1,0 +1,1094 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "knowledge-mining",
+  "questions": [
+    {
+      "id": "q-knowledge-mining-01",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.1",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Your company stores contracts as PDF files in an Azure Blob Storage container. New and updated files must become searchable in Azure AI Search within about 30 minutes, and the team doesn't want to write ingestion code. What should you configure?", "de": "Dein Unternehmen speichert Verträge als PDF-Dateien in einem Azure-Blob-Storage-Container. Neue und geänderte Dateien sollen innerhalb von etwa 30 Minuten in Azure AI Search durchsuchbar sein, und das Team möchte keinen Code für die Datenaufnahme schreiben. Was konfigurierst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A blob indexer with a `schedule` interval of `PT30M`", "de": "Einen Blob-Indexer mit dem `schedule`-Intervall `PT30M`" },
+          "correct": true,
+          "why": { "en": "Indexers pull content without custom code. For Azure Storage, change detection is automatic, so each scheduled run picks up only new and changed blobs.", "de": "Indexer holen Inhalte ohne eigenen Code ab. Für Azure Storage ist die Änderungserkennung automatisch, daher verarbeitet jeder geplante Lauf nur neue und geänderte Blobs." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A blob indexer with a `schedule` interval of `PT1M` for faster updates", "de": "Einen Blob-Indexer mit dem `schedule`-Intervall `PT1M` für schnellere Updates" },
+          "correct": false,
+          "why": { "en": "The shortest allowed interval is 5 minutes (`PT5M`). Anything more frequent requires the push model.", "de": "Das kürzeste erlaubte Intervall sind 5 Minuten (`PT5M`). Alles Häufigere erfordert das Push-Modell." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "An app that uploads changed documents through the push API every 30 minutes", "de": "Eine App, die geänderte Dokumente alle 30 Minuten über die Push-API hochlädt" },
+          "correct": false,
+          "why": { "en": "Push works with any source, but it means writing and running ingestion code, including your own PDF text extraction, which the team wants to avoid.", "de": "Push funktioniert mit jeder Quelle, bedeutet aber eigenen Aufnahmecode inklusive eigener PDF-Textextraktion – genau das will das Team vermeiden." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A knowledge store with object projections that refresh every 30 minutes", "de": "Einen Knowledge Store mit Objektprojektionen, die sich alle 30 Minuten aktualisieren" },
+          "correct": false,
+          "why": { "en": "A knowledge store is an optional output of an enrichment pipeline. It doesn't ingest content into an index and has no schedule of its own.", "de": "Ein Knowledge Store ist eine optionale Ausgabe einer Anreicherungspipeline. Er nimmt keine Inhalte in einen Index auf und hat keinen eigenen Zeitplan." }
+        }
+      ],
+      "explanation": { "en": "Indexers are the no-code pull model: give them a `schedule` (5 minutes to 24 hours, ISO 8601 format such as `PT30M`) and rely on change detection, which is automatic for Azure Storage and must be enabled for sources such as Azure SQL or Azure Cosmos DB.", "de": "Indexer sind das Pull-Modell ohne Code: Gib ihnen einen `schedule` (5 Minuten bis 24 Stunden, ISO-8601-Format wie `PT30M`) und verlass dich auf die Änderungserkennung – automatisch für Azure Storage, für Quellen wie Azure SQL oder Azure Cosmos DB musst du sie aktivieren." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-howto-schedule-indexers",
+        "https://learn.microsoft.com/en-us/azure/search/search-indexer-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-02",
+      "type": "multi",
+      "domain": "D5",
+      "skill": "5.1.1",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "A blob indexer refreshes an index of HR policies every hour. When HR deletes a file from the container, its search document stays in the index. Future deletions must be removed from the index automatically. Which TWO approaches can you use?", "de": "Ein Blob-Indexer aktualisiert stündlich einen Index mit HR-Richtlinien. Löscht HR eine Datei aus dem Container, bleibt das zugehörige Suchdokument im Index. Künftige Löschungen sollen automatisch aus dem Index verschwinden. Welche ZWEI Ansätze kannst du nutzen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Enable blob soft delete on the storage account and set a `NativeBlobSoftDeleteDeletionDetectionPolicy` on the data source", "de": "Blob-Soft-Delete im Speicherkonto aktivieren und auf der Datenquelle eine `NativeBlobSoftDeleteDeletionDetectionPolicy` setzen" },
+          "correct": true,
+          "why": { "en": "When the indexer processes a blob in the soft-deleted state, it removes the matching search document. Blob versioning must be off, and retention should be much longer than the indexer interval.", "de": "Verarbeitet der Indexer einen Blob im Soft-Delete-Zustand, entfernt er das passende Suchdokument. Blob-Versionierung muss aus sein, und die Aufbewahrung sollte deutlich länger als das Indexer-Intervall sein." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Flag files with custom metadata such as `IsDeleted=true`, add a `SoftDeleteColumnDeletionDetectionPolicy`, and delete each file only after the next indexer run", "de": "Dateien mit benutzerdefinierten Metadaten wie `IsDeleted=true` markieren, eine `SoftDeleteColumnDeletionDetectionPolicy` hinzufügen und jede Datei erst nach dem nächsten Indexer-Lauf löschen" },
+          "correct": true,
+          "why": { "en": "The indexer deletes the search document when it reads the marker. If you delete the blob first, there's nothing left for the indexer to read.", "de": "Der Indexer löscht das Suchdokument, sobald er die Markierung liest. Löschst du den Blob zuerst, gibt es für den Indexer nichts mehr zu lesen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Shorten the schedule to `PT5M`", "de": "Den Zeitplan auf `PT5M` verkürzen" },
+          "correct": false,
+          "why": { "en": "Indexers don't track deletions without a deletion detection policy, so running more often changes nothing.", "de": "Ohne Richtlinie zur Löscherkennung verfolgen Indexer keine Löschungen – häufigere Läufe ändern daran nichts." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Reset the indexer every night", "de": "Den Indexer jede Nacht zurücksetzen" },
+          "correct": false,
+          "why": { "en": "A reset reprocesses the content that still exists in the source; documents whose files are already gone remain in the index.", "de": "Ein Reset verarbeitet die Inhalte erneut, die in der Quelle noch existieren; Dokumente, deren Dateien schon weg sind, bleiben im Index." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Enable an enrichment cache on the indexer", "de": "Einen Enrichment Cache für den Indexer aktivieren" },
+          "correct": false,
+          "why": { "en": "The enrichment cache (preview) stores skill outputs to avoid reprocessing; it doesn't detect deleted source files.", "de": "Der Enrichment Cache (Vorschau) speichert Skill-Ausgaben, um Neuverarbeitung zu vermeiden; gelöschte Quelldateien erkennt er nicht." }
+        }
+      ],
+      "explanation": { "en": "For Azure Storage, change detection is built in but deletion detection isn't. Use a soft-delete strategy (native blob soft delete or a custom metadata marker) and set it up before the first indexer run, because documents deleted earlier stay orphaned even after a reset.", "de": "Für Azure Storage ist die Änderungserkennung eingebaut, die Löscherkennung nicht. Nutze eine Soft-Delete-Strategie (natives Blob-Soft-Delete oder eine Metadatenmarkierung) und richte sie vor dem ersten Indexer-Lauf ein – früher gelöschte Dokumente bleiben sonst auch nach einem Reset verwaist." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-how-to-index-azure-blob-changed-deleted"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-03",
+      "type": "match",
+      "domain": "D5",
+      "skill": "5.1.1",
+      "skills": ["5.1.2"],
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "Your team must make several content types searchable for a RAG app built on Azure AI Search. Match each content type to the ingestion approach that current guidance recommends.", "de": "Dein Team soll mehrere Inhaltstypen für eine RAG-App auf Basis von Azure AI Search durchsuchbar machen. Ordne jedem Inhaltstyp den Aufnahmeweg zu, den die aktuelle Dokumentation empfiehlt." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Scanned PDF forms whose text exists only as images", "de": "Gescannte PDF-Formulare, deren Text nur als Bild vorliegt" },
+          "answer": "t1",
+          "why": { "en": "Document cracking creates `normalized_images` when `imageAction` is set; the OCR skill then reads printed and handwritten text from them.", "de": "Das Document Cracking erzeugt `normalized_images`, wenn `imageAction` gesetzt ist; der OCR-Skill liest daraus gedruckten und handschriftlichen Text." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Product photos that users search by uploading a similar photo", "de": "Produktfotos, nach denen Nutzer suchen, indem sie ein ähnliches Foto hochladen" },
+          "answer": "t2",
+          "why": { "en": "Image-to-vector queries need a multimodal embedding model plus an equivalent vectorizer; image descriptions from the GenAI Prompt skill only support text queries.", "de": "Bild-zu-Vektor-Abfragen brauchen ein multimodales Embedding-Modell plus passenden Vectorizer; Bildbeschreibungen aus dem GenAI-Prompt-Skill unterstützen nur Textabfragen." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Recorded customer calls and training videos", "de": "Aufgezeichnete Kundengespräche und Schulungsvideos" },
+          "answer": "t3",
+          "why": { "en": "Azure AI Search natively ingests documents with text and images. Content Understanding turns audio and video into transcripts and segment descriptions that you embed and add to the index.", "de": "Azure AI Search nimmt nativ Dokumente mit Text und Bildern auf. Content Understanding macht aus Audio und Video Transkripte und Segmentbeschreibungen, die du einbettest und in den Index lädst." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Indexer with `imageAction` set to `generateNormalizedImages`, plus the OCR skill", "de": "Indexer mit `imageAction` = `generateNormalizedImages` plus OCR-Skill" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Azure Vision multimodal embeddings skill (preview) with an Azure Vision vectorizer", "de": "Azure-Vision-Skill für multimodale Embeddings (Vorschau) mit Azure-Vision-Vectorizer" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Content Understanding audio and video analyzers, then embed and upload the output", "de": "Audio- und Video-Analyzer von Content Understanding, danach Ausgabe einbetten und hochladen" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Text Split skill with `textSplitMode` set to `sentences`", "de": "Text-Split-Skill mit `textSplitMode` = `sentences`" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Knowledge store file projections", "de": "Dateiprojektionen im Knowledge Store" }
+        }
+      ],
+      "explanation": { "en": "Choose the extractor per modality: OCR (or a layout skill) for text in images, multimodal embeddings with a matching vectorizer for search by image, and Content Understanding for audio and video. Text Split only chunks text that already exists, and file projections only store images.", "de": "Wähle den Extraktor pro Modalität: OCR (oder einen Layout-Skill) für Text in Bildern, multimodale Embeddings mit passendem Vectorizer für die Suche per Bild und Content Understanding für Audio und Video. Text Split zerlegt nur vorhandenen Text, und Dateiprojektionen speichern Bilder nur ab." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/multimodal-search-overview",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-ocr",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/tutorial/build-rag-solution"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-04",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.1",
+      "skills": ["5.1.4"],
+      "module": "knowledge-mining",
+      "difficulty": 1,
+      "stem": { "en": "You add the OCR skill to a skillset so that text inside images embedded in PDF files becomes searchable. After the indexer runs, the OCR output is empty for every document. Which indexer setting is most likely missing?", "de": "Du fügst einem Skillset den OCR-Skill hinzu, damit Text in Bildern innerhalb von PDF-Dateien durchsuchbar wird. Nach dem Indexer-Lauf ist die OCR-Ausgabe bei jedem Dokument leer. Welche Indexer-Einstellung fehlt wahrscheinlich?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`imageAction` set to `generateNormalizedImages`", "de": "`imageAction` auf `generateNormalizedImages` gesetzt" },
+          "correct": true,
+          "why": { "en": "Image extraction is off by default (`none`). The OCR skill only reads `/document/normalized_images`, which document cracking creates when `imageAction` isn't `none`.", "de": "Die Bildextraktion ist standardmäßig aus (`none`). Der OCR-Skill liest nur `/document/normalized_images`, das beim Document Cracking nur entsteht, wenn `imageAction` nicht `none` ist." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`dataToExtract` set to `storageMetadata`", "de": "`dataToExtract` auf `storageMetadata` gesetzt" },
+          "correct": false,
+          "why": { "en": "That setting indexes only blob properties and metadata, no content at all; image processing requires `contentAndMetadata`.", "de": "Diese Einstellung indexiert nur Blob-Eigenschaften und Metadaten, gar keinen Inhalt; die Bildverarbeitung braucht `contentAndMetadata`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`parsingMode` set to `jsonLines`", "de": "`parsingMode` auf `jsonLines` gesetzt" },
+          "correct": false,
+          "why": { "en": "JSON parsing modes split JSON files into several search documents; image processing requires the `default` parsing mode.", "de": "JSON-Parsing-Modi teilen JSON-Dateien in mehrere Suchdokumente; die Bildverarbeitung erfordert den Parsing-Modus `default`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`maxFailedItems` set to `-1`", "de": "`maxFailedItems` auf `-1` gesetzt" },
+          "correct": false,
+          "why": { "en": "It only lets the indexer continue past failed documents; it doesn't extract images.", "de": "Damit läuft der Indexer nur über fehlerhafte Dokumente hinweg weiter; Bilder extrahiert er dadurch nicht." }
+        }
+      ],
+      "explanation": { "en": "Images are extracted during document cracking only when `imageAction` is `generateNormalizedImages` (or `generateNormalizedImagePerPage` to render whole PDF pages). Image skills such as OCR read the resulting `normalized_images` collection, and image extraction is billed by Azure AI Search.", "de": "Bilder werden beim Document Cracking nur extrahiert, wenn `imageAction` auf `generateNormalizedImages` steht (oder `generateNormalizedImagePerPage`, um ganze PDF-Seiten zu rendern). Bild-Skills wie OCR lesen die entstehende Sammlung `normalized_images`; die Bildextraktion rechnet Azure AI Search ab." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-image-scenarios",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-ocr"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-05",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 1,
+      "stem": { "en": "A product index has a `category` field. The search page must list every category with a document count and, when a user selects one, return only products in that category. Which attributes must the `category` field have?", "de": "Ein Produktindex hat ein Feld `category`. Die Suchseite soll jede Kategorie mit Dokumentanzahl auflisten und nach Auswahl einer Kategorie nur deren Produkte zurückgeben. Welche Attribute braucht das Feld `category`?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`facetable` and `filterable`", "de": "`facetable` und `filterable`" },
+          "correct": true,
+          "why": { "en": "`facetable` returns the category buckets with counts; the selected value then goes back as an OData `filter`, which requires `filterable`.", "de": "`facetable` liefert die Kategorien mit Anzahl; der gewählte Wert geht dann als OData-`filter` zurück, wofür `filterable` nötig ist." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`searchable` and `sortable`", "de": "`searchable` und `sortable`" },
+          "correct": false,
+          "why": { "en": "`searchable` enables full-text matching and `sortable` enables `orderby`; neither produces facet counts or exact filtering.", "de": "`searchable` ermöglicht Volltextsuche und `sortable` die Sortierung per `orderby`; keines liefert Facettenzählungen oder exakte Filter." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`retrievable` and `key`", "de": "`retrievable` und `key`" },
+          "correct": false,
+          "why": { "en": "`retrievable` only controls whether the field is returned, and the single `key` field uniquely identifies each document.", "de": "`retrievable` steuert nur, ob das Feld zurückgegeben wird, und das einzige `key`-Feld identifiziert jedes Dokument eindeutig." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`facetable` only", "de": "Nur `facetable`" },
+          "correct": false,
+          "why": { "en": "Facets compute the buckets, but narrowing the results to the selected value needs a filter on a `filterable` field.", "de": "Facetten berechnen die Kategorien, doch das Eingrenzen auf den gewählten Wert braucht einen Filter auf einem `filterable`-Feld." }
+        }
+      ],
+      "explanation": { "en": "Faceted navigation is a two-step pattern: facet over a `facetable` field, then filter on the chosen value with a `filterable` field. Filters match exact, case-sensitive values, and an existing field can't be made filterable without adding a new field or rebuilding the index.", "de": "Facettierte Navigation läuft in zwei Schritten: Facetten über ein `facetable`-Feld, dann Filter auf den gewählten Wert über ein `filterable`-Feld. Filter vergleichen exakte Werte mit Groß- und Kleinschreibung, und ein bestehendes Feld lässt sich nur durch ein neues Feld oder einen Index-Neuaufbau filterbar machen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-what-is-an-index",
+        "https://learn.microsoft.com/en-us/azure/search/search-filters"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-06",
+      "type": "code",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Complete the code so that one request runs keyword and vector search, lets the index vectorize the question, and reranks the merged results with the semantic ranker.", "de": "Vervollständige den Code so, dass eine Anfrage Stichwort- und Vektorsuche ausführt, die Frage vom Index vektorisieren lässt und die zusammengeführten Ergebnisse mit dem Semantic Ranker neu ordnet." },
+      "template": "# search_client is an authenticated SearchClient\nquestion = \"Which contracts allow early termination?\"\nresults = search_client.search(\n    search_text=question,\n    vector_queries=[{{b1}}(\n        text=question, k_nearest_neighbors=50, fields=\"chunk_vector\")],\n    query_type={{b2}},\n    {{b3}}=\"contracts-semantic\",\n    top=5,\n)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "VectorizableTextQuery",
+              "correct": true,
+              "why": { "en": "Sends text that the vectorizer of the vector field converts with the same embedding model used during indexing.", "de": "Schickt Text, den der Vectorizer des Vektorfelds mit demselben Embedding-Modell wie beim Indexieren umwandelt." }
+            },
+            {
+              "id": "b",
+              "code": "VectorizedQuery",
+              "correct": false,
+              "why": { "en": "Expects a precomputed `vector` from your own embedding call, not `text`.", "de": "Erwartet einen selbst berechneten `vector` aus deinem eigenen Embedding-Aufruf, keinen `text`." }
+            },
+            {
+              "id": "c",
+              "code": "VectorQuery",
+              "correct": false,
+              "why": { "en": "Base class for vector queries; the SDK expects one of its subclasses, such as `VectorizableTextQuery`.", "de": "Basisklasse für Vektorabfragen; das SDK erwartet eine Unterklasse wie `VectorizableTextQuery`." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "\"semantic\"",
+              "correct": true,
+              "why": { "en": "Turns on semantic ranking over the top 50 results of the fused hybrid ranking.", "de": "Aktiviert das semantische Ranking über die Top 50 der fusionierten hybriden Rangliste." }
+            },
+            {
+              "id": "b",
+              "code": "\"full\"",
+              "correct": false,
+              "why": { "en": "Selects the full Lucene parser for fuzzy, proximity or regex queries; it doesn't rerank anything.", "de": "Wählt den vollständigen Lucene-Parser für Fuzzy-, Proximity- oder Regex-Abfragen; neu gerankt wird damit nichts." }
+            },
+            {
+              "id": "c",
+              "code": "\"hybrid\"",
+              "correct": false,
+              "why": { "en": "Not a valid query type: a query becomes hybrid because it contains both `search_text` and `vector_queries`.", "de": "Kein gültiger Abfragetyp: Hybrid wird eine Abfrage dadurch, dass sie `search_text` und `vector_queries` enthält." }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "semantic_configuration_name",
+              "correct": true,
+              "why": { "en": "Names the semantic configuration whose title, content and keyword fields feed the ranker.", "de": "Nennt die semantische Konfiguration, deren Titel-, Inhalts- und Schlüsselwortfelder den Ranker speisen." }
+            },
+            {
+              "id": "b",
+              "code": "scoring_profile",
+              "correct": false,
+              "why": { "en": "Applies a scoring profile that boosts scores through field weights or functions; it doesn't select a semantic configuration.", "de": "Wendet ein Scoring-Profil an, das Scores über Feldgewichte oder Funktionen anhebt; eine semantische Konfiguration wählt es nicht aus." }
+            },
+            {
+              "id": "c",
+              "code": "semantic_query",
+              "correct": false,
+              "why": { "en": "Supplies a separate plain-text query string for the ranker, not the name of a configuration.", "de": "Liefert eine separate Klartextabfrage für den Ranker, nicht den Namen einer Konfiguration." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "Hybrid means `search_text` plus `vector_queries` in one call, fused with RRF. `VectorizableTextQuery` lets the index vectorizer embed the text, and `query_type=\"semantic\"` with `semantic_configuration_name` adds L2 reranking; `k_nearest_neighbors=50` gives the ranker its full input.", "de": "Hybrid heißt `search_text` plus `vector_queries` in einem Aufruf, fusioniert per RRF. `VectorizableTextQuery` lässt den Index-Vectorizer den Text einbetten, und `query_type=\"semantic\"` mit `semantic_configuration_name` ergänzt das L2-Reranking; `k_nearest_neighbors=50` liefert dem Ranker seine volle Eingabe." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/hybrid-search-how-to-query",
+        "https://learn.microsoft.com/en-us/azure/search/semantic-how-to-query-request",
+        "https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.models.vectorizabletextquery"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-07",
+      "type": "multi",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "You add a vector field for embeddings that the Azure OpenAI Embedding skill creates with a `text-embedding-3-small` deployment and `dimensions` set to 1024. Which TWO configuration choices does the vector field require?", "de": "Du fügst ein Vektorfeld für Embeddings hinzu, die der Azure-OpenAI-Embedding-Skill mit einem `text-embedding-3-small`-Deployment und `dimensions` = 1024 erzeugt. Welche ZWEI Konfigurationsentscheidungen braucht das Vektorfeld?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A vector data type such as `Collection(Edm.Single)`, with `searchable` set to `true`", "de": "Ein Vektordatentyp wie `Collection(Edm.Single)`, mit `searchable` = `true`" },
+          "correct": true,
+          "why": { "en": "Vector fields use a vector data type, most commonly `Collection(Edm.Single)`, and must be searchable to take part in vector queries.", "de": "Vektorfelder nutzen einen Vektordatentyp, meist `Collection(Edm.Single)`, und müssen durchsuchbar sein, um an Vektorabfragen teilzunehmen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`dimensions` set to 1024 and a `vectorSearchProfile` that references an algorithm configuration", "de": "`dimensions` = 1024 und ein `vectorSearchProfile`, das auf eine Algorithmuskonfiguration verweist" },
+          "correct": true,
+          "why": { "en": "The field's dimensions must equal the skill's `dimensions`; the profile assigns HNSW or exhaustive KNN, plus an optional vectorizer or compression.", "de": "Die Dimensionen des Felds müssen den `dimensions` des Skills entsprechen; das Profil weist HNSW oder exhaustive KNN zu, optional mit Vectorizer oder Komprimierung." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`dimensions` set to 1536, the maximum of the model", "de": "`dimensions` = 1536, das Maximum des Modells" },
+          "correct": false,
+          "why": { "en": "1536 is only the default when the skill doesn't set `dimensions`. These vectors have 1024 values, so a 1536 field causes a dimension mismatch.", "de": "1536 ist nur der Standard, wenn der Skill keine `dimensions` setzt. Diese Vektoren haben 1024 Werte, ein Feld mit 1536 führt zu einem Dimensionsfehler." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`filterable` and `sortable` set to `true` so that chunks can be filtered by similarity", "de": "`filterable` und `sortable` = `true`, damit sich Chunks nach Ähnlichkeit filtern lassen" },
+          "correct": false,
+          "why": { "en": "Vector fields can't be filterable, facetable or sortable; filters run on nonvector fields in the same index.", "de": "Vektorfelder können nicht filterable, facetable oder sortable sein; Filter laufen über Nicht-Vektorfelder im selben Index." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "`analyzer` set to `en.microsoft`", "de": "`analyzer` = `en.microsoft`" },
+          "correct": false,
+          "why": { "en": "Analyzers tokenize string fields for full-text search; they don't apply to vector fields.", "de": "Analyzer zerlegen Stringfelder für die Volltextsuche in Tokens; für Vektorfelder gelten sie nicht." }
+        }
+      ],
+      "explanation": { "en": "A vector field needs a vector type, `searchable`, `dimensions` that match the embedding output and a vector profile. Keep filters, facets and sorting on nonvector fields.", "de": "Ein Vektorfeld braucht einen Vektortyp, `searchable`, zur Embedding-Ausgabe passende `dimensions` und ein Vektorprofil. Filter, Facetten und Sortierung bleiben bei Nicht-Vektorfeldern." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/vector-search-how-to-create-index",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-azure-openai-embedding"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-08",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "Your vector field uses HNSW. Before go-live you must measure, on a sample of queries, how much recall the approximate search loses, without building a second index. What should you do?", "de": "Dein Vektorfeld nutzt HNSW. Vor dem Go-live musst du an Beispielabfragen messen, wie viel Recall die approximative Suche verliert – ohne einen zweiten Index aufzubauen. Was tust du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Run each sample query twice, once as usual and once with `exhaustive` set to `true`, and compare the result sets", "de": "Jede Beispielabfrage zweimal ausführen – einmal normal, einmal mit `exhaustive` = `true` – und die Ergebnismengen vergleichen" },
+          "correct": true,
+          "why": { "en": "Fields configured for HNSW also accept exhaustive KNN at query time. The brute-force results are the exact nearest neighbors, so they serve as ground truth for recall.", "de": "Für HNSW konfigurierte Felder akzeptieren zur Abfragezeit auch exhaustive KNN. Die Brute-Force-Ergebnisse sind die exakten nächsten Nachbarn und dienen als Grundwahrheit für den Recall." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Switch the vector profile to an `exhaustiveKnn` algorithm and rerun the queries", "de": "Das Vektorprofil auf einen `exhaustiveKnn`-Algorithmus umstellen und die Abfragen erneut ausführen" },
+          "correct": false,
+          "why": { "en": "A field indexed for exhaustive KNN has no HNSW graph, so you could no longer run the approximate queries you want to measure. It isn't needed either, because HNSW fields accept exhaustive queries.", "de": "Ein für exhaustive KNN indexiertes Feld hat keinen HNSW-Graphen – die approximativen Abfragen, die du messen willst, wären nicht mehr möglich. Nötig ist das auch nicht, denn HNSW-Felder akzeptieren exhaustive Abfragen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Raise `efConstruction` to 1,000 and compare the scores before and after", "de": "`efConstruction` auf 1.000 erhöhen und die Scores vorher und nachher vergleichen" },
+          "correct": false,
+          "why": { "en": "`efConstruction` changes how the graph is built during indexing; it can improve recall but never yields the exact neighbors to compare against.", "de": "`efConstruction` ändert, wie der Graph beim Indexieren aufgebaut wird; das kann den Recall verbessern, liefert aber nie die exakten Nachbarn zum Vergleich." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add a semantic configuration and compare the `@search.rerankerScore` values", "de": "Eine semantische Konfiguration ergänzen und die Werte von `@search.rerankerScore` vergleichen" },
+          "correct": false,
+          "why": { "en": "Semantic ranking rescores retrieved text; it can't reveal which true nearest neighbors the HNSW graph missed.", "de": "Semantisches Ranking bewertet bereits gefundenen Text neu; welche echten nächsten Nachbarn der HNSW-Graph verpasst hat, zeigt es nicht." }
+        }
+      ],
+      "explanation": { "en": "HNSW is approximate, fast and memory-resident (it counts against the vector index size quota); exhaustive KNN is an exact brute-force scan. Querying an HNSW field with `exhaustive` set to `true` is the simplest way to build ground truth or to handle very selective filters.", "de": "HNSW ist approximativ, schnell und liegt im Speicher (zählt gegen das Kontingent für die Vektorindexgröße); exhaustive KNN ist ein exakter Brute-Force-Scan. Ein HNSW-Feld mit `exhaustive` = `true` abzufragen, ist der einfachste Weg zu einer Grundwahrheit oder für sehr selektive Filter." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/vector-search-ranking",
+        "https://learn.microsoft.com/en-us/azure/search/search-relevance-overview",
+        "https://learn.microsoft.com/en-us/azure/search/vector-search-filters"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-09",
+      "type": "order",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 1,
+      "stem": { "en": "A hybrid query with semantic ranking targets an index whose vector field has a vectorizer. Put the processing stages in order.", "de": "Eine hybride Abfrage mit semantischem Ranking zielt auf einen Index, dessen Vektorfeld einen Vectorizer hat. Bring die Verarbeitungsschritte in die richtige Reihenfolge." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "The vectorizer converts the query text into an embedding", "de": "Der Vectorizer wandelt den Abfragetext in ein Embedding um" },
+          "why": { "en": "The vector leg can't look for nearest neighbors until it has a query vector.", "de": "Der Vektorpfad kann erst nach nächsten Nachbarn suchen, wenn ein Abfragevektor vorliegt." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Keyword (BM25) and vector (HNSW) queries run in parallel", "de": "Stichwort- (BM25) und Vektorabfrage (HNSW) laufen parallel" },
+          "why": { "en": "Both legs produce their own ranked lists from the same request.", "de": "Beide Wege erzeugen aus derselben Anfrage eigene Ranglisten." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Reciprocal Rank Fusion merges both ranked lists into one", "de": "Reciprocal Rank Fusion vereint beide Ranglisten zu einer" },
+          "why": { "en": "RRF applies whenever more than one query executes and produces the fused `@search.score`.", "de": "RRF greift, sobald mehr als eine Abfrage läuft, und erzeugt den fusionierten `@search.score`." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "The semantic ranker rescores the top 50 fused results", "de": "Der Semantic Ranker bewertet die Top 50 der fusionierten Ergebnisse neu" },
+          "why": { "en": "Semantic ranking is the L2 step after RRF and only sees the top 50.", "de": "Semantisches Ranking ist der L2-Schritt nach RRF und sieht nur die Top 50." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "The response lists results by `@search.rerankerScore`, with captions if requested", "de": "Die Antwort listet Ergebnisse nach `@search.rerankerScore`, auf Wunsch mit Captions" },
+          "why": { "en": "The final order comes from the reranker score; the RRF score stays in `@search.score`.", "de": "Die finale Reihenfolge kommt vom Reranker-Score; der RRF-Score bleibt in `@search.score` erhalten." }
+        }
+      ],
+      "explanation": { "en": "Ranking happens in levels: L1 (BM25 and vector similarity), then fused L1 (RRF), then L2 (semantic ranker). The semantic ranker only reorders what L1 found; it never searches the whole index.", "de": "Ranking geschieht in Stufen: L1 (BM25 und Vektorähnlichkeit), dann fusioniertes L1 (RRF), dann L2 (Semantic Ranker). Der Semantic Ranker ordnet nur neu, was L1 gefunden hat; er durchsucht nie den ganzen Index." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-relevance-overview",
+        "https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-10",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.2",
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "A multitenant RAG app runs vector queries with `k` set to 5 and the filter `tenantId eq 'contoso'`. Contoso owns less than 1% of all chunks. Users report that some answers are based on fewer than five chunks although more Contoso chunks exist. The query uses `vectorFilterMode` `postFilter`. What should you change?", "de": "Eine mandantenfähige RAG-App führt Vektorabfragen mit `k` = 5 und dem Filter `tenantId eq 'contoso'` aus. Contoso besitzt weniger als 1 % aller Chunks. Nutzer melden, dass manche Antworten auf weniger als fünf Chunks beruhen, obwohl mehr Contoso-Chunks existieren. Die Abfrage nutzt `vectorFilterMode` = `postFilter`. Was änderst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set `vectorFilterMode` to `preFilter`", "de": "`vectorFilterMode` auf `preFilter` setzen" },
+          "correct": true,
+          "why": { "en": "Prefiltering applies the filter during HNSW traversal, so the top `k` come only from matching documents; it returns `k` results if they exist, at a higher cost for very selective filters.", "de": "Prefiltering wendet den Filter während der HNSW-Traversierung an, sodass die Top `k` nur aus passenden Dokumenten stammen; es liefert `k` Ergebnisse, sofern vorhanden – bei sehr selektiven Filtern zu höheren Kosten." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set `vectorFilterMode` to `strictPostFilter`", "de": "`vectorFilterMode` auf `strictPostFilter` setzen" },
+          "correct": false,
+          "why": { "en": "Strict postfiltering (preview) filters the global top `k` and has the highest false-negative risk for selective filters and small `k`.", "de": "Strict Postfiltering (Vorschau) filtert die globalen Top `k` und hat bei selektiven Filtern und kleinem `k` das höchste Risiko falsch-negativer Ergebnisse." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Make the vector field `filterable`", "de": "Das Vektorfeld `filterable` machen" },
+          "correct": false,
+          "why": { "en": "Vector fields can't be filterable; filters always run on nonvector fields such as `tenantId`.", "de": "Vektorfelder können nicht filterable sein; Filter laufen immer über Nicht-Vektorfelder wie `tenantId`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add a semantic configuration and set `queryType` to `semantic`", "de": "Eine semantische Konfiguration ergänzen und `queryType` auf `semantic` setzen" },
+          "correct": false,
+          "why": { "en": "Semantic ranking only reorders results that were already retrieved; it can't bring back chunks that the filter step dropped.", "de": "Semantisches Ranking ordnet nur bereits gefundene Ergebnisse neu; vom Filterschritt verworfene Chunks holt es nicht zurück." }
+        }
+      ],
+      "explanation": { "en": "With selective filters and a small `k`, post-filtering intersects only after each shard's unfiltered top `k` and can miss matches. `preFilter`, the default for current indexes and the recommended mode, favors recall; for an extremely selective filter, also consider an `exhaustive` query.", "de": "Bei selektiven Filtern und kleinem `k` schneidet Postfiltering erst nach den ungefilterten Top `k` jedes Shards und kann Treffer verlieren. `preFilter` – Standard für aktuelle Indizes und empfohlener Modus – bevorzugt Recall; bei einem extrem selektiven Filter kommt zusätzlich eine `exhaustive`-Abfrage infrage." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/vector-search-filters"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-11",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.3",
+      "module": "knowledge-mining",
+      "difficulty": 1,
+      "stem": { "en": "A Custom Web API skill calls an Azure Function that runs a document classification model. Indexing fails with timeout errors because some batches take about three minutes. What should you change in the skill definition?", "de": "Ein Custom-Web-API-Skill ruft eine Azure Function mit einem Modell zur Dokumentklassifizierung auf. Die Indexierung scheitert an Timeouts, weil manche Batches etwa drei Minuten brauchen. Was änderst du in der Skill-Definition?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Set `timeout` to `PT230S`", "de": "`timeout` auf `PT230S` setzen" },
+          "correct": true,
+          "why": { "en": "The default timeout is 30 seconds and can be raised to a maximum of 230 seconds, which covers a three-minute (180-second) batch.", "de": "Das Standard-Timeout beträgt 30 Sekunden und lässt sich auf maximal 230 Sekunden erhöhen – genug für einen dreiminütigen Batch (180 Sekunden)." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set `timeout` to `PT10M`", "de": "`timeout` auf `PT10M` setzen" },
+          "correct": false,
+          "why": { "en": "230 seconds is the maximum, so longer values aren't accepted. Beyond that, send smaller batches or make the function faster.", "de": "230 Sekunden sind das Maximum, längere Werte werden nicht akzeptiert. Darüber hinaus helfen nur kleinere Batches oder eine schnellere Function." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Set `maxFailedItems` to `-1` in the skill", "de": "`maxFailedItems` im Skill auf `-1` setzen" },
+          "correct": false,
+          "why": { "en": "`maxFailedItems` is an indexer parameter that tolerates failed documents; it gives the function no extra time.", "de": "`maxFailedItems` ist ein Indexer-Parameter, der fehlgeschlagene Dokumente toleriert; der Function verschafft er keine zusätzliche Zeit." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add an `authResourceId` to the skill", "de": "Dem Skill eine `authResourceId` hinzufügen" },
+          "correct": false,
+          "why": { "en": "`authResourceId` enables managed identity authentication to the function; it doesn't change the time limit.", "de": "`authResourceId` aktiviert die Authentifizierung per Managed Identity bei der Function; am Zeitlimit ändert es nichts." }
+        }
+      ],
+      "explanation": { "en": "Custom Web API skills are synchronous HTTPS calls with a 30-second default timeout (`PT30S`) and a 230-second maximum (`PT230S`). Use `batchSize` (default 1,000 records per call) and `degreeOfParallelism` to balance throughput and the load on your endpoint.", "de": "Custom-Web-API-Skills sind synchrone HTTPS-Aufrufe mit 30 Sekunden Standard-Timeout (`PT30S`) und maximal 230 Sekunden (`PT230S`). Mit `batchSize` (standardmäßig 1.000 Datensätze pro Aufruf) und `degreeOfParallelism` balancierst du Durchsatz und Last auf deinem Endpoint." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-interface",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-custom-skill-web-api"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-12",
+      "type": "match",
+      "domain": "D5",
+      "skill": "5.1.3",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Match each enrichment requirement to the skill that fulfills it.", "de": "Ordne jeder Anreicherungsanforderung den Skill zu, der sie erfüllt." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Write a one-sentence natural-language description of each diagram extracted from a PDF", "de": "Für jedes aus einem PDF extrahierte Diagramm eine Beschreibung in einem Satz erzeugen" },
+          "answer": "t1",
+          "why": { "en": "The GenAI Prompt skill sends a chat completion request, including images, to a model you deploy, for example to verbalize images.", "de": "Der GenAI-Prompt-Skill schickt eine Chat-Completion-Anfrage samt Bildern an ein von dir bereitgestelltes Modell, etwa um Bilder zu verbalisieren." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Extract people, organizations and locations from contract text into separate fields", "de": "Personen, Organisationen und Orte aus Vertragstext in eigene Felder extrahieren" },
+          "answer": "t2",
+          "why": { "en": "Entity Recognition returns entities of fixed categories such as Person, Organization and Location.", "de": "Entity Recognition liefert Entitäten fester Kategorien wie Person, Organization und Location." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Store the most important terms of each document in a `keyphrases` field", "de": "Die wichtigsten Begriffe jedes Dokuments in einem Feld `keyphrases` speichern" },
+          "answer": "t3",
+          "why": { "en": "Key Phrase Extraction detects the important phrases in a block of text.", "de": "Key Phrase Extraction erkennt die wichtigen Formulierungen in einem Textblock." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Identify the language of each document so that only non-English text gets translated", "de": "Die Sprache jedes Dokuments erkennen, damit nur nicht englischer Text übersetzt wird" },
+          "answer": "t4",
+          "why": { "en": "Language Detection returns the predominant language of the text and is often paired with the Text Translation skill.", "de": "Language Detection liefert die vorherrschende Sprache des Texts und wird oft mit dem Text-Translation-Skill kombiniert." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "GenAI Prompt skill", "de": "GenAI-Prompt-Skill" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Entity Recognition skill", "de": "Entity-Recognition-Skill" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Key Phrase Extraction skill", "de": "Key-Phrase-Extraction-Skill" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Language Detection skill", "de": "Language-Detection-Skill" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Shaper skill", "de": "Shaper-Skill" }
+        }
+      ],
+      "explanation": { "en": "Language skills (language detection, entity recognition, key phrases, PII, sentiment, translation) analyze text; the GenAI Prompt skill uses your own chat model for generative tasks such as image descriptions or summaries; utility skills such as Shaper only restructure existing enrichments.", "de": "Sprach-Skills (Spracherkennung, Entitätserkennung, Schlüsselbegriffe, PII, Stimmung, Übersetzung) analysieren Text; der GenAI-Prompt-Skill nutzt dein eigenes Chatmodell für generative Aufgaben wie Bildbeschreibungen oder Zusammenfassungen; Utility-Skills wie Shaper strukturieren nur vorhandene Anreicherungen um." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-predefined-skills",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-genai-prompt"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-13",
+      "type": "order",
+      "domain": "D5",
+      "skill": "5.1.3",
+      "skills": ["5.1.4"],
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Text inside images embedded in scanned PDF files must become part of the searchable `content` field. Put the configuration elements in the order in which the pipeline uses them.", "de": "Text in Bildern, die in gescannte PDF-Dateien eingebettet sind, soll Teil des durchsuchbaren Felds `content` werden. Bring die Konfigurationselemente in die Reihenfolge, in der die Pipeline sie nutzt." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Indexer configuration `imageAction`: `generateNormalizedImages`", "de": "Indexer-Konfiguration `imageAction`: `generateNormalizedImages`" },
+          "why": { "en": "Document cracking must first produce the `normalized_images` collection.", "de": "Das Document Cracking muss zuerst die Sammlung `normalized_images` erzeugen." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "OCR skill with the context `/document/normalized_images/*`", "de": "OCR-Skill mit dem Kontext `/document/normalized_images/*`" },
+          "why": { "en": "OCR runs once per normalized image and adds a `text` node to each image.", "de": "OCR läuft einmal pro normalisiertem Bild und ergänzt bei jedem Bild einen Knoten `text`." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Text Merge skill that inserts the text of each image into the document text", "de": "Text-Merge-Skill, der den Text jedes Bilds in den Dokumenttext einfügt" },
+          "why": { "en": "The merge skill uses the OCR text and the `contentOffset` of each image to build `merged_text`.", "de": "Der Merge-Skill nutzt den OCR-Text und den `contentOffset` jedes Bilds, um `merged_text` zu bilden." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Output field mapping from `/document/merged_text` to the `content` index field", "de": "Output Field Mapping von `/document/merged_text` auf das Indexfeld `content`" },
+          "why": { "en": "Skill outputs only reach the index through output field mappings, which apply after the skillset finishes.", "de": "Skill-Ausgaben gelangen nur über Output Field Mappings in den Index; diese greifen, nachdem das Skillset fertig ist." }
+        }
+      ],
+      "explanation": { "en": "Cracking, then image skills, then text skills, then output field mappings. Without the final mapping, the merged text exists only in the in-memory enriched document and never reaches the index.", "de": "Erst Cracking, dann Bild-Skills, dann Text-Skills, dann Output Field Mappings. Ohne das abschließende Mapping existiert der zusammengeführte Text nur im angereicherten Dokument im Speicher und erreicht den Index nie." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-ocr",
+        "https://learn.microsoft.com/en-us/azure/search/search-indexer-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-14",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.3",
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "Analysts want to explore the entities and key phrases that your skillset extracts in Power BI, related to each source document. Extracted images must also be kept as files. The search index will be deleted after the pilot, but the analysis data must remain. What should you define?", "de": "Analysten möchten die vom Skillset extrahierten Entitäten und Schlüsselbegriffe in Power BI auswerten – jeweils dem Quelldokument zugeordnet. Extrahierte Bilder sollen zusätzlich als Dateien erhalten bleiben. Der Suchindex wird nach dem Pilotprojekt gelöscht, die Analysedaten müssen bleiben. Was definierst du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A `knowledgeStore` in the skillset with table projections shaped by a Shaper skill and file projections in the same projection group", "de": "Einen `knowledgeStore` im Skillset mit Tabellenprojektionen, die ein Shaper-Skill formt, und Dateiprojektionen in derselben Projektionsgruppe" },
+          "correct": true,
+          "why": { "en": "Tables in Azure Table Storage are the recommended source for Power BI, projections in one group are related through generated keys, and projections stay in Azure Storage even if the index or search service is deleted.", "de": "Tabellen in Azure Table Storage sind die empfohlene Quelle für Power BI, Projektionen einer Gruppe sind über generierte Schlüssel verknüpft, und Projektionen bleiben in Azure Storage, auch wenn Index oder Suchdienst gelöscht werden." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Output field mappings into `Collection(Edm.String)` fields of the search index", "de": "Output Field Mappings in Felder vom Typ `Collection(Edm.String)` im Suchindex" },
+          "correct": false,
+          "why": { "en": "That data lives only in the index, which will be deleted, and an index isn't a relational source for Power BI.", "de": "Diese Daten leben nur im Index, der gelöscht wird, und ein Index ist keine relationale Quelle für Power BI." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Object projections only, one JSON document per source document", "de": "Nur Objektprojektionen, ein JSON-Dokument pro Quelldokument" },
+          "correct": false,
+          "why": { "en": "Object projections keep the full JSON in Blob Storage, which suits feeds into other processes, but tables work best in Power BI and images need file projections.", "de": "Objektprojektionen speichern das vollständige JSON in Blob Storage – gut für die Weitergabe an andere Prozesse –, doch in Power BI funktionieren Tabellen am besten, und Bilder brauchen Dateiprojektionen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "An enrichment cache on the indexer", "de": "Einen Enrichment Cache am Indexer" },
+          "correct": false,
+          "why": { "en": "The enrichment cache (preview) lets the indexer reuse skill outputs; it isn't a backup of outputs or a data store for analysis.", "de": "Der Enrichment Cache (Vorschau) lässt den Indexer Skill-Ausgaben wiederverwenden; er ist kein Backup der Ausgaben und kein Datenspeicher für Analysen." }
+        }
+      ],
+      "explanation": { "en": "A knowledge store is defined by projections in the skillset: tables (Table Storage, best for Power BI), objects (JSON blobs) and files (normalized images). Projections in one group are related, and they live on independently of the index and the search service.", "de": "Ein Knowledge Store entsteht durch Projektionen im Skillset: Tabellen (Table Storage, ideal für Power BI), Objekte (JSON-Blobs) und Dateien (normalisierte Bilder). Projektionen einer Gruppe hängen zusammen und existieren unabhängig von Index und Suchdienst weiter." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/knowledge-store-projection-overview",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-intro",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-incremental-indexing-conceptual"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-15",
+      "type": "order",
+      "domain": "D5",
+      "skill": "5.1.4",
+      "skills": ["5.1.3"],
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "A RAG ingestion pipeline with integrated vectorization processes scanned and digital PDF files. Put the processing stages in the order in which the indexer runs them for each PDF.", "de": "Eine RAG-Aufnahmepipeline mit integrierter Vektorisierung verarbeitet gescannte und digitale PDF-Dateien. Bring die Verarbeitungsschritte in die Reihenfolge, in der der Indexer sie für jedes PDF ausführt." },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Document cracking extracts the text and normalized images", "de": "Document Cracking extrahiert Text und normalisierte Bilder" },
+          "why": { "en": "Cracking always comes first; with `imageAction` enabled it also produces `normalized_images`.", "de": "Cracking kommt immer zuerst; mit aktiviertem `imageAction` entstehen dabei auch `normalized_images`." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "OCR reads text in the images, and Text Merge adds it to the document text", "de": "OCR liest Text in den Bildern, und Text Merge fügt ihn in den Dokumenttext ein" },
+          "why": { "en": "Image text must be part of the document text before chunking, or scanned pages would never reach a chunk.", "de": "Bildtext muss vor dem Chunking Teil des Dokumenttexts sein, sonst landen gescannte Seiten nie in einem Chunk." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Text Split cuts the merged text into overlapping chunks", "de": "Text Split zerlegt den zusammengeführten Text in überlappende Chunks" },
+          "why": { "en": "Embedding models have input limits (8,000 tokens for the Azure OpenAI Embedding skill), so the text is split first.", "de": "Embedding-Modelle haben Eingabelimits (8.000 Tokens beim Azure-OpenAI-Embedding-Skill), deshalb wird der Text zuerst zerlegt." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "The Azure OpenAI Embedding skill creates one vector per chunk", "de": "Der Azure-OpenAI-Embedding-Skill erzeugt einen Vektor pro Chunk" },
+          "why": { "en": "With the context `/document/pages/*`, the skill runs once for every chunk.", "de": "Mit dem Kontext `/document/pages/*` läuft der Skill einmal pro Chunk." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Index projections write each chunk, its vector and the parent key as a separate search document", "de": "Index Projections schreiben jeden Chunk mit Vektor und Elternschlüssel als eigenes Suchdokument" },
+          "why": { "en": "One-to-many indexing turns every chunk into its own search document, ready for retrieval.", "de": "One-to-Many-Indexierung macht jeden Chunk zu einem eigenen Suchdokument, bereit fürs Retrieval." }
+        }
+      ],
+      "explanation": { "en": "RAG ingestion runs crack, OCR and merge, chunk, embed, project. Also add a vectorizer that uses the same embedding model to the index so that query text is vectorized the same way.", "de": "Die RAG-Aufnahme läuft so: Cracking, OCR und Merge, Chunking, Embedding, Projektion. Ergänze im Index außerdem einen Vectorizer mit demselben Embedding-Modell, damit Abfragetext genauso vektorisiert wird." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/vector-search-integrated-vectorization",
+        "https://learn.microsoft.com/en-us/azure/search/index-projections-concept-intro",
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-azure-openai-embedding"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-16",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.1.4",
+      "skills": ["5.1.3"],
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "You design a new skillset for RAG over financial reports in PDF and PPTX format. Tables often span several pages, citations must include page locations, and you want as few skills as possible for extraction and chunking. Which skill should handle extraction and chunking?", "de": "Du entwirfst ein neues Skillset für RAG über Finanzberichte im PDF- und PPTX-Format. Tabellen erstrecken sich oft über mehrere Seiten, Zitate sollen Seitenpositionen enthalten, und für Extraktion und Chunking willst du möglichst wenige Skills. Welcher Skill sollte Extraktion und Chunking übernehmen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Azure Content Understanding skill", "de": "Azure-Content-Understanding-Skill" },
+          "correct": true,
+          "why": { "en": "It's the recommended choice for new skillsets: it extracts text and images with location metadata, keeps cross-page tables together as Markdown and chunks the content itself, so no Text Split skill is needed.", "de": "Er ist die empfohlene Wahl für neue Skillsets: Er extrahiert Text und Bilder mit Positionsmetadaten, hält seitenübergreifende Tabellen als Markdown zusammen und chunkt selbst – ein Text-Split-Skill ist nicht nötig." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Document Layout skill", "de": "Document-Layout-Skill" },
+          "correct": false,
+          "why": { "en": "It remains supported for existing pipelines and can chunk in text mode, but it outputs tables as plain text and can't extract cross-page tables as one unit; the docs recommend Content Understanding for new skillsets.", "de": "Er wird für bestehende Pipelines weiter unterstützt und kann im Textmodus chunken, gibt Tabellen aber als reinen Text aus und extrahiert seitenübergreifende Tabellen nicht als Einheit; für neue Skillsets empfiehlt die Dokumentation Content Understanding." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Document Extraction skill followed by the Text Split skill", "de": "Document-Extraction-Skill, gefolgt vom Text-Split-Skill" },
+          "correct": false,
+          "why": { "en": "Document Extraction provides no text location metadata and no table extraction, and it needs a separate chunking skill.", "de": "Document Extraction liefert weder Positionsmetadaten für Text noch Tabellenextraktion und braucht einen separaten Chunking-Skill." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "OCR skill followed by the Text Split skill", "de": "OCR-Skill, gefolgt vom Text-Split-Skill" },
+          "correct": false,
+          "why": { "en": "OCR reads text from images only; it doesn't preserve tables or document structure, and chunking needs another skill.", "de": "OCR liest nur Text aus Bildern; Tabellen und Dokumentstruktur bleiben nicht erhalten, und fürs Chunking braucht es einen weiteren Skill." }
+        }
+      ],
+      "explanation": { "en": "For layout-aware RAG ingestion in new skillsets, use the Azure Content Understanding skill (generally available in REST API `2026-04-01`): extraction, location metadata, table handling and chunking in one skill. It's billed through your Foundry resource at Content Understanding prices, without the 20 free documents per indexer per day.", "de": "Für layoutbewusste RAG-Aufnahme in neuen Skillsets nutzt du den Azure-Content-Understanding-Skill (allgemein verfügbar in REST-API `2026-04-01`): Extraktion, Positionsmetadaten, Tabellenbehandlung und Chunking in einem Skill. Abgerechnet wird über deine Foundry-Ressource zu Content-Understanding-Preisen, ohne die 20 kostenlosen Dokumente pro Indexer und Tag." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-skill-content-understanding",
+        "https://learn.microsoft.com/en-us/azure/search/multimodal-search-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-17",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.3.3",
+      "skills": ["5.1.3"],
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "During a pilot, an indexer whose skillset uses the Entity Recognition and Key Phrase Extraction skills stops enriching after about 20 documents per run. The indexer execution history shows a `Time Out` message, and the skillset has no `cognitiveServices` property. What should you do?", "de": "In einem Pilotprojekt hört ein Indexer, dessen Skillset die Skills Entity Recognition und Key Phrase Extraction nutzt, pro Lauf nach etwa 20 Dokumenten mit der Anreicherung auf. Der Ausführungsverlauf zeigt die Meldung `Time Out`, und das Skillset hat keine Eigenschaft `cognitiveServices`. Was tust du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Attach a billable Microsoft Foundry resource to the skillset, for example keyless with `AIServicesByIdentity`", "de": "Dem Skillset eine kostenpflichtige Microsoft-Foundry-Ressource zuordnen, etwa schlüssellos mit `AIServicesByIdentity`" },
+          "correct": true,
+          "why": { "en": "Without an attached resource, built-in skills run only on the small free allowance. A Foundry resource, attached by key or through the managed identity of the search service, removes the limit and is used for billing.", "de": "Ohne zugeordnete Ressource laufen integrierte Skills nur im kleinen kostenlosen Kontingent. Eine Foundry-Ressource – per Schlüssel oder über die Managed Identity des Suchdiensts – hebt das Limit auf und dient der Abrechnung." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set the indexer's `maxFailedItems` to `-1`", "de": "`maxFailedItems` des Indexers auf `-1` setzen" },
+          "correct": false,
+          "why": { "en": "It only tolerates failed documents; billable skills still stop when the free allowance is used up.", "de": "Das toleriert nur fehlgeschlagene Dokumente; abrechenbare Skills stoppen trotzdem, sobald das kostenlose Kontingent aufgebraucht ist." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Raise the skill `timeout` to `PT230S`", "de": "Den `timeout` des Skills auf `PT230S` erhöhen" },
+          "correct": false,
+          "why": { "en": "A longer timeout doesn't help: the message means that the free enrichment allowance is used up, not that an endpoint responds too slowly.", "de": "Ein längeres Timeout hilft nicht: Die Meldung bedeutet, dass das kostenlose Anreicherungskontingent aufgebraucht ist, nicht dass ein Endpoint zu langsam antwortet." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add replicas to the search service", "de": "Dem Suchdienst Replikate hinzufügen" },
+          "correct": false,
+          "why": { "en": "Replicas add query capacity and availability; they don't pay for or unlock skills backed by Foundry Tools.", "de": "Replikate erhöhen Abfragekapazität und Verfügbarkeit; Skills auf Basis von Foundry Tools bezahlen oder schalten sie nicht frei." }
+        }
+      ],
+      "explanation": { "en": "Built-in skills backed by Foundry Tools are free only for a handful of documents (about 20 per indexer per day). Attach a Foundry resource by key or keyless, with the Cognitive Services User role for the managed identity of the search service; Azure AI Search still runs the skills internally and uses the resource for billing.", "de": "Integrierte Skills auf Basis von Foundry Tools sind nur für eine Handvoll Dokumente kostenlos (etwa 20 pro Indexer und Tag). Ordne eine Foundry-Ressource per Schlüssel oder schlüssellos zu – mit der Rolle Cognitive Services User für die Managed Identity des Suchdiensts; Azure AI Search führt die Skills weiterhin intern aus und nutzt die Ressource zur Abrechnung." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-attach-cognitive-services"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-18",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.3.3",
+      "module": "knowledge-mining",
+      "difficulty": 1,
+      "stem": { "en": "You must receive an alert when searches become slow for users or when the search service starts dropping queries under load. Which TWO Azure Monitor metrics should your metric alerts use?", "de": "Du willst benachrichtigt werden, wenn Suchen für Nutzer langsam werden oder der Suchdienst unter Last Abfragen verwirft. Welche ZWEI Azure-Monitor-Metriken nutzen deine Metrikwarnungen?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Search Latency", "de": "Search Latency" },
+          "correct": true,
+          "why": { "en": "Average time that queries take to complete; alert when it exceeds a threshold.", "de": "Durchschnittliche Dauer bis zum Abschluss einer Abfrage; warne, wenn sie einen Schwellenwert überschreitet." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Throttled search queries percentage", "de": "Throttled search queries percentage" },
+          "correct": true,
+          "why": { "en": "Share of queries that were dropped instead of processed because requests exceeded capacity.", "de": "Anteil der Abfragen, die verworfen statt verarbeitet wurden, weil die Anfragen die Kapazität überstiegen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Document processed count", "de": "Document processed count" },
+          "correct": false,
+          "why": { "en": "Counts documents processed by indexers, which is an ingestion signal rather than a query signal.", "de": "Zählt von Indexern verarbeitete Dokumente – ein Signal für die Aufnahme, nicht für Abfragen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Skill execution invocation count", "de": "Skill execution invocation count" },
+          "correct": false,
+          "why": { "en": "Counts skill executions during enrichment; useful for indexing, not for the query experience.", "de": "Zählt Skill-Ausführungen während der Anreicherung; nützlich fürs Indexieren, nicht für das Abfrageerlebnis." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Storage usage", "de": "Storage usage" },
+          "correct": false,
+          "why": { "en": "Tracks storage per index; it says nothing about query speed or dropped queries.", "de": "Verfolgt den Speicher pro Index; über Abfragegeschwindigkeit oder verworfene Abfragen sagt sie nichts." }
+        }
+      ],
+      "explanation": { "en": "Query health means Search Latency plus Throttled search queries percentage, with Search queries per second for load. Platform metrics are collected automatically, while resource logs need a diagnostic setting.", "de": "Abfragegesundheit heißt Search Latency plus Throttled search queries percentage, dazu Search queries per second für die Last. Plattformmetriken werden automatisch erfasst, Ressourcenprotokolle brauchen eine Diagnoseeinstellung." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/monitor-azure-cognitive-search",
+        "https://learn.microsoft.com/en-us/azure/search/monitor-azure-cognitive-search-data-reference"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-19",
+      "type": "code",
+      "domain": "D1",
+      "skill": "1.3.3",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Complete the script so that it prints how many documents failed in the most recent indexer run and the key and message of each document-level error.", "de": "Vervollständige das Skript so, dass es ausgibt, wie viele Dokumente im letzten Indexer-Lauf fehlgeschlagen sind, sowie Schlüssel und Meldung jedes Fehlers auf Dokumentebene." },
+      "template": "from azure.identity import DefaultAzureCredential\nimport azure.search.documents.indexes as idx\n\nclient = idx.{{b1}}(endpoint=search_endpoint, credential=DefaultAzureCredential())\nstatus = client.{{b2}}(\"contracts-indexer\")\nrun = status.{{b3}}\nprint(run.status, run.failed_item_count)\nfor err in run.errors:\n    print(err.key, err.error_message)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            {
+              "id": "a",
+              "code": "SearchIndexerClient",
+              "correct": true,
+              "why": { "en": "Manages data sources, skillsets and indexers, including runs and their status.", "de": "Verwaltet Datenquellen, Skillsets und Indexer – einschließlich Läufen und deren Status." }
+            },
+            {
+              "id": "b",
+              "code": "SearchIndexClient",
+              "correct": false,
+              "why": { "en": "Manages indexes and synonym maps; it has no indexer status operations.", "de": "Verwaltet Indizes und Synonymzuordnungen; Operationen für den Indexer-Status hat er nicht." }
+            },
+            {
+              "id": "c",
+              "code": "SearchClient",
+              "correct": false,
+              "why": { "en": "Lives in `azure.search.documents` and queries or uploads documents in one index.", "de": "Liegt in `azure.search.documents` und fragt Dokumente in einem Index ab oder lädt sie hoch." }
+            }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            {
+              "id": "a",
+              "code": "get_indexer_status",
+              "correct": true,
+              "why": { "en": "Returns the current status and the execution history of an indexer.", "de": "Liefert den aktuellen Status und den Ausführungsverlauf eines Indexers." }
+            },
+            {
+              "id": "b",
+              "code": "run_indexer",
+              "correct": false,
+              "why": { "en": "Starts an on-demand run and returns no execution details.", "de": "Startet einen Lauf bei Bedarf und liefert keine Ausführungsdetails." }
+            },
+            {
+              "id": "c",
+              "code": "get_indexer",
+              "correct": false,
+              "why": { "en": "Returns the indexer definition (data source, schedule, mappings), not the results of runs.", "de": "Liefert die Indexer-Definition (Datenquelle, Zeitplan, Mappings), nicht die Ergebnisse von Läufen." }
+            }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            {
+              "id": "a",
+              "code": "last_result",
+              "correct": true,
+              "why": { "en": "The most recent, or currently running, execution.", "de": "Die neueste oder gerade laufende Ausführung." }
+            },
+            {
+              "id": "b",
+              "code": "execution_history[-1]",
+              "correct": false,
+              "why": { "en": "The history is sorted newest first, so the last element is the oldest run that is kept.", "de": "Der Verlauf ist absteigend nach Zeit sortiert; das letzte Element ist also der älteste gespeicherte Lauf." }
+            },
+            {
+              "id": "c",
+              "code": "limits",
+              "correct": false,
+              "why": { "en": "Holds the execution limits of the indexer, not the results of a run.", "de": "Enthält die Ausführungslimits des Indexers, nicht die Ergebnisse eines Laufs." }
+            }
+          ]
+        }
+      ],
+      "explanation": { "en": "`SearchIndexerClient.get_indexer_status()` returns `status`, `last_result` and `execution_history` (up to 50 runs, newest first). Each run exposes `status`, `item_count`, `failed_item_count`, `errors` and `warnings`.", "de": "`SearchIndexerClient.get_indexer_status()` liefert `status`, `last_result` und `execution_history` (bis zu 50 Läufe, neuester zuerst). Jeder Lauf bietet `status`, `item_count`, `failed_item_count`, `errors` und `warnings`." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-monitor-indexers",
+        "https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.indexes.models.searchindexerstatus",
+        "https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.indexes.models.indexerexecutionresult"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-20",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.3.3",
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Match each monitoring need of an Azure AI Search solution to the tool that addresses it.", "de": "Ordne jedem Überwachungsbedarf einer Azure-AI-Search-Lösung das passende Werkzeug zu." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Inspect the inputs and outputs of each skill for one document and test a fix before you commit it to the skillset", "de": "Für ein Dokument die Ein- und Ausgaben jedes Skills prüfen und eine Korrektur testen, bevor du sie ins Skillset übernimmst" },
+          "answer": "t1",
+          "why": { "en": "A debug session loads one live document into a visual editor, caches your edits and changes the published skillset only when you commit.", "de": "Eine Debug Session lädt ein echtes Dokument in einen visuellen Editor, speichert deine Änderungen zwischen und ändert das veröffentlichte Skillset erst beim Commit." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Find which user queries return zero results and how often users click results", "de": "Herausfinden, welche Nutzerabfragen null Treffer liefern und wie oft Nutzer Ergebnisse anklicken" },
+          "answer": "t2",
+          "why": { "en": "Your app logs search and click events with a shared search ID as Application Insights custom events.", "de": "Deine App protokolliert Such- und Klickereignisse mit gemeinsamer Such-ID als benutzerdefinierte Ereignisse in Application Insights." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Review the errors and warnings, with document keys, of the latest indexer runs", "de": "Fehler und Warnungen samt Dokumentschlüsseln aus den letzten Indexer-Läufen prüfen" },
+          "answer": "t3",
+          "why": { "en": "Execution history keeps up to 50 recent runs, including item-level errors and warnings.", "de": "Der Ausführungsverlauf behält bis zu 50 letzte Läufe samt Fehlern und Warnungen auf Elementebene." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Query the duration and status of every `Query.Search` operation with KQL", "de": "Dauer und Status jeder `Query.Search`-Operation per KQL abfragen" },
+          "answer": "t4",
+          "why": { "en": "Resource logs (category `OperationLogs`, table `AzureDiagnostics`) are collected only after you create a diagnostic setting.", "de": "Ressourcenprotokolle (Kategorie `OperationLogs`, Tabelle `AzureDiagnostics`) werden erst erfasst, nachdem du eine Diagnoseeinstellung angelegt hast." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Debug session in the Azure portal", "de": "Debug Session im Azure-Portal" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Search traffic analytics with Application Insights", "de": "Search Traffic Analytics mit Application Insights" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Indexer execution history (portal or Get Indexer Status)", "de": "Indexer-Ausführungsverlauf (Portal oder Get Indexer Status)" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Resource logs sent to Log Analytics through a diagnostic setting", "de": "Ressourcenprotokolle, per Diagnoseeinstellung an Log Analytics gesendet" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Azure activity log", "de": "Azure-Aktivitätsprotokoll" }
+        }
+      ],
+      "explanation": { "en": "Ingestion problems: execution history and debug sessions. Service behavior: metrics and resource logs. Relevance for real users: search traffic analytics. The activity log only records control-plane operations, such as retrieving admin keys.", "de": "Aufnahmeprobleme: Ausführungsverlauf und Debug Sessions. Dienstverhalten: Metriken und Ressourcenprotokolle. Relevanz für echte Nutzer: Search Traffic Analytics. Das Aktivitätsprotokoll erfasst nur Vorgänge der Steuerungsebene, etwa das Abrufen von Admin-Schlüsseln." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/cognitive-search-debug-session",
+        "https://learn.microsoft.com/en-us/azure/search/search-traffic-analytics",
+        "https://learn.microsoft.com/en-us/azure/search/monitor-azure-cognitive-search-data-reference"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-21",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.3",
+      "skills": ["5.1.1"],
+      "module": "knowledge-mining",
+      "difficulty": 2,
+      "stem": { "en": "Order data lives in an on-premises system for which no indexer exists. Changes must appear in Azure AI Search within seconds. Which indexing method should you use?", "de": "Bestelldaten liegen in einem On-Premises-System, für das es keinen Indexer gibt. Änderungen sollen innerhalb von Sekunden in Azure AI Search erscheinen. Welche Indexierungsmethode verwendest du?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The push model: your code uploads JSON documents, for example with `SearchClient.upload_documents()`", "de": "Das Push-Modell: Dein Code lädt JSON-Dokumente hoch, zum Beispiel mit `SearchClient.upload_documents()`" },
+          "correct": true,
+          "why": { "en": "Push has no restrictions on data source type or frequency; for low-latency synchronization it's the only option.", "de": "Push hat keine Einschränkungen bei Quelltyp oder Häufigkeit; für Synchronisation mit geringer Latenz ist es die einzige Option." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "An indexer that runs every 5 minutes", "de": "Ein Indexer, der alle 5 Minuten läuft" },
+          "correct": false,
+          "why": { "en": "Indexers only crawl supported data sources, and 5 minutes is their shortest interval, so both requirements fail.", "de": "Indexer durchsuchen nur unterstützte Datenquellen, und 5 Minuten sind ihr kürzestes Intervall – beide Anforderungen scheitern." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A skillset with a Custom Web API skill that reads from the on-premises system", "de": "Ein Skillset mit einem Custom-Web-API-Skill, der aus dem On-Premises-System liest" },
+          "correct": false,
+          "why": { "en": "Skillsets are attached to indexers and don't run independently; they enrich documents that an indexer already retrieved.", "de": "Skillsets hängen an Indexern und laufen nicht eigenständig; sie reichern Dokumente an, die ein Indexer bereits abgerufen hat." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A knowledge store connected to the on-premises system", "de": "Ein Knowledge Store, der mit dem On-Premises-System verbunden ist" },
+          "correct": false,
+          "why": { "en": "A knowledge store is an output of enrichment in Azure Storage, not a source for the index.", "de": "Ein Knowledge Store ist eine Ausgabe der Anreicherung in Azure Storage, keine Quelle für den Index." }
+        }
+      ],
+      "explanation": { "en": "Pull (indexers) suits supported data sources, freshness in minutes and ingestion without code, and it's required for skillsets and integrated vectorization. Push (uploading JSON through the SDK or REST, up to 1,000 documents or 16 MB per batch) works with any source and for real-time sync.", "de": "Pull (Indexer) passt zu unterstützten Datenquellen, Aktualität im Minutenbereich und Aufnahme ohne Code – und ist Pflicht für Skillsets und integrierte Vektorisierung. Push (JSON-Upload per SDK oder REST, bis zu 1.000 Dokumente oder 16 MB pro Batch) funktioniert mit jeder Quelle und für Echtzeitsynchronisation." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/search-what-is-data-import",
+        "https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-knowledge-mining-22",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.1.3",
+      "skills": ["1.1.4"],
+      "module": "knowledge-mining",
+      "difficulty": 3,
+      "stem": { "en": "A Foundry agent answers employee questions from three Azure AI Search indexes: HR handbooks, IT policies and product data. Questions are often multi-part, for example comparing parental leave in two countries and naming the required form, and they depend on earlier turns of the conversation. Which TWO statements describe the most appropriate retrieval design?", "de": "Ein Foundry-Agent beantwortet Mitarbeiterfragen aus drei Azure-AI-Search-Indizes: HR-Handbücher, IT-Richtlinien und Produktdaten. Die Fragen sind oft mehrteilig – etwa ein Vergleich der Elternzeit in zwei Ländern samt benötigtem Formular – und hängen von früheren Gesprächsrunden ab. Welche ZWEI Aussagen beschreiben das passendste Retrieval-Design?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Use agentic retrieval with a knowledge base that lists each index as a knowledge source", "de": "Agentic Retrieval mit einer Knowledge Base nutzen, die jeden Index als Knowledge Source führt" },
+          "correct": true,
+          "why": { "en": "A knowledge base spans several knowledge sources and, with LLM-based query planning (preview), turns the question and chat history into focused subqueries.", "de": "Eine Knowledge Base umfasst mehrere Knowledge Sources und zerlegt Frage und Chatverlauf per LLM-basierter Abfrageplanung (Vorschau) in gezielte Teilabfragen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Each subquery is semantically reranked, and the agent receives merged content with optional references and an activity log", "de": "Jede Teilabfrage wird semantisch neu gerankt, und der Agent erhält zusammengeführte Inhalte mit optionalen Referenzen und einem Aktivitätsprotokoll" },
+          "correct": true,
+          "why": { "en": "Subqueries run in parallel, each with semantic reranking; merged content is always returned, while references and the activity log are optional.", "de": "Teilabfragen laufen parallel, jeweils mit semantischem Reranking; zusammengeführte Inhalte kommen immer zurück, Referenzen und Aktivitätsprotokoll sind optional." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Send one keyword query with `queryType` set to `full` to each index and concatenate the results", "de": "An jeden Index eine Stichwortabfrage mit `queryType` = `full` senden und die Ergebnisse aneinanderhängen" },
+          "correct": false,
+          "why": { "en": "Full Lucene syntax adds operators such as fuzzy or regex search, but it doesn't split multi-part questions, use chat history or rank results across indexes.", "de": "Die vollständige Lucene-Syntax ergänzt Operatoren wie Fuzzy- oder Regex-Suche, zerlegt aber keine mehrteiligen Fragen, nutzt keinen Chatverlauf und rankt nicht über Indizes hinweg." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Use pure vector search, because LLM-based agents require vectors", "de": "Reine Vektorsuche nutzen, weil LLM-basierte Agents Vektoren voraussetzen" },
+          "correct": false,
+          "why": { "en": "LLMs and agents don't require vectors; vectors help with similarity search, and pure vector search would lose keyword precision.", "de": "LLMs und Agents brauchen keine Vektoren; Vektoren helfen bei der Ähnlichkeitssuche, und reine Vektorsuche verlöre die Präzision der Stichwortsuche." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Set the retrieval reasoning effort to `minimal` so that the LLM can break questions into subqueries", "de": "Den Retrieval Reasoning Effort auf `minimal` setzen, damit das LLM Fragen in Teilabfragen zerlegen kann" },
+          "correct": false,
+          "why": { "en": "At `minimal` effort, query planning is skipped and queries go straight to the knowledge sources; planning needs `low` or `medium`.", "de": "Bei `minimal` entfällt die Abfrageplanung, und Abfragen gehen direkt an die Knowledge Sources; Planung braucht `low` oder `medium`." }
+        }
+      ],
+      "explanation": { "en": "Classic hybrid search with semantic ranking fits low-latency queries against one index. Agentic retrieval through a knowledge base, the engine behind Foundry IQ, fits complex, multi-source and conversational questions at the price of extra latency and token costs.", "de": "Klassische Hybridsuche mit semantischem Ranking passt zu Abfragen mit geringer Latenz gegen einen Index. Agentic Retrieval über eine Knowledge Base – die Engine hinter Foundry IQ – passt zu komplexen, quellenübergreifenden und dialogorientierten Fragen, kostet aber zusätzliche Latenz und Tokens." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-overview",
+        "https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

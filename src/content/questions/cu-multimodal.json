@@ -1,0 +1,462 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "cu-multimodal",
+  "questions": [
+    {
+      "id": "q-cu-multimodal-01",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.6",
+      "module": "cu-multimodal",
+      "difficulty": 1,
+      "stem": {
+        "en": "You analyze a 20-minute product webinar with `prebuilt-videoSearch`. How is the analysis result organized?",
+        "de": "Du analysierst ein 20-minütiges Produkt-Webinar mit `prebuilt-videoSearch`. Wie ist das Analyseergebnis aufgebaut?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`result.contents` holds one `audioVisual` content object per detected segment, each with `startTimeMs`, `endTimeMs`, Markdown (transcript and key frames) and a `Summary` field", "de": "`result.contents` enthält je erkanntem Segment ein `audioVisual`-Content-Objekt mit `startTimeMs`, `endTimeMs`, Markdown (Transkript und Keyframes) und einem Feld `Summary`" },
+          "correct": true,
+          "why": { "en": "`prebuilt-videoSearch` segments the video automatically and returns a content object for every segment.", "de": "`prebuilt-videoSearch` segmentiert das Video automatisch und liefert für jedes Segment ein Content-Objekt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "One content object with a `Segments` array field that you must first define in a field schema", "de": "Ein Content-Objekt mit einem Array-Feld `Segments`, das du zuerst in einem Feldschema definieren musst" },
+          "correct": false,
+          "why": { "en": "A `Segments` array is a pattern for custom schemas; the prebuilt segments the timeline on its own and needs no schema.", "de": "Ein `Segments`-Array ist ein Muster für eigene Schemas; der Prebuilt segmentiert die Zeitleiste selbst und braucht kein Schema." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "One content object per key frame, each holding a description of that frame", "de": "Ein Content-Objekt je Keyframe, jeweils mit einer Beschreibung dieses Bildes" },
+          "correct": false,
+          "why": { "en": "Key frames are listed inside each segment's Markdown and `keyFrameTimesMs`; they don't become separate content objects.", "de": "Keyframes stehen im Markdown und in `keyFrameTimesMs` des jeweiligen Segments; eigene Content-Objekte werden sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "One content object per speaker, each with that speaker's part of the transcript", "de": "Ein Content-Objekt je Sprecher, jeweils mit dessen Anteil am Transkript" },
+          "correct": false,
+          "why": { "en": "Speakers appear as labels in the WebVTT transcript and in `transcriptPhrases`, not as separate content objects.", "de": "Sprecher erscheinen als Kennzeichnung im WebVTT-Transkript und in `transcriptPhrases`, nicht als eigene Content-Objekte." }
+        }
+      ],
+      "explanation": {
+        "en": "Video RAG output is segment-based: iterate over `result.contents` and index each segment with its time range, Markdown and summary.",
+        "de": "Die RAG-Ausgabe für Video ist segmentbasiert: Iteriere über `result.contents` und indexiere jedes Segment mit Zeitbereich, Markdown und Zusammenfassung."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-02",
+      "type": "match",
+      "domain": "D3",
+      "skill": "3.2.6",
+      "module": "cu-multimodal",
+      "difficulty": 2,
+      "stem": {
+        "en": "You configure a custom video analyzer based on `prebuilt-video`. Match each requirement to the setting or output that delivers it.",
+        "de": "Du konfigurierst einen eigenen Video-Analyzer auf Basis von `prebuilt-video`. Ordne jede Anforderung der Einstellung oder Ausgabe zu, die sie erfüllt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Get the timestamps of every camera cut", "de": "Die Zeitstempel jedes Kameraschnitts erhalten" },
+          "answer": "t1",
+          "why": { "en": "Shot detection returns cut timestamps in `cameraShotTimesMs`, but only when `returnDetails` is `true`.", "de": "Die Shot-Erkennung liefert die Schnittzeitpunkte in `cameraShotTimesMs` – aber nur, wenn `returnDetails` auf `true` steht." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Split a news broadcast into one segment per story", "de": "Eine Nachrichtensendung in ein Segment pro Beitrag teilen" },
+          "answer": "t2",
+          "why": { "en": "Custom segmentation follows the natural-language description of a single category — video supports exactly one.", "de": "Eigene Segmentierung folgt der Beschreibung einer einzigen Kategorie in Alltagssprache – Video unterstützt genau eine." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Extract fields across the whole video as a single segment", "de": "Felder über das ganze Video als ein einziges Segment extrahieren" },
+          "answer": "t3",
+          "why": { "en": "With segmentation turned off, the service treats the entire video as one segment.", "de": "Bei ausgeschalteter Segmentierung behandelt der Dienst das ganze Video als ein Segment." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "The speech is Spanish; avoid wrong guesses from multilingual auto-detection", "de": "Gesprochen wird Spanisch; Fehlgriffe der mehrsprachigen Autoerkennung vermeiden" },
+          "answer": "t4",
+          "why": { "en": "Setting a locale switches from multilingual transcription to single-language transcription in that locale.", "de": "Eine gesetzte Locale schaltet von mehrsprachiger auf einsprachige Transkription in dieser Locale um." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`cameraShotTimesMs` with `returnDetails: true`", "de": "`cameraShotTimesMs` mit `returnDetails: true`" } },
+        { "id": "t2", "text": { "en": "`enableSegment: true` plus one `contentCategories` entry that describes where to cut", "de": "`enableSegment: true` plus ein `contentCategories`-Eintrag, der beschreibt, wo geschnitten wird" } },
+        { "id": "t3", "text": { "en": "`enableSegment: false`", "de": "`enableSegment: false`" } },
+        { "id": "t4", "text": { "en": "`locales: [\"es-ES\"]`", "de": "`locales: [\"es-ES\"]`" } },
+        { "id": "t5", "text": { "en": "`segmentPerPage: true`", "de": "`segmentPerPage: true`" } }
+      ],
+      "explanation": {
+        "en": "Video analyzers support `returnDetails`, `locales`, `enableSegment`, `contentCategories` and `omitContent`; page-based options such as `segmentPerPage` apply to documents only.",
+        "de": "Video-Analyzer unterstützen `returnDetails`, `locales`, `enableSegment`, `contentCategories` und `omitContent`; seitenbasierte Optionen wie `segmentPerPage` gelten nur für Dokumente."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/video/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/audio/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-03",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.7",
+      "module": "cu-multimodal",
+      "difficulty": 2,
+      "stem": {
+        "en": "A design document from 2025 says to use Content Understanding “pro mode” for workloads that need reasoning. Pro mode is no longer available; its current successor is agentic mode (preview). Which workload is the best fit for agentic mode?",
+        "de": "Ein Designdokument von 2025 empfiehlt für Workloads mit Reasoning-Bedarf den „Pro-Modus“ von Content Understanding. Den Pro-Modus gibt es nicht mehr; sein aktueller Nachfolger ist der agentic mode (Preview). Welcher Workload passt am besten zum agentic mode?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Checking whether the subtotals in a 60-page financial report add up to the reported totals and flagging inconsistencies", "de": "Prüfen, ob die Zwischensummen in einem 60-seitigen Finanzbericht die ausgewiesenen Summen ergeben, und Unstimmigkeiten markieren" },
+          "correct": true,
+          "why": { "en": "Agentic mode is built for multistep reasoning, calculations and validation over the evidence inside one document.", "de": "Der agentic mode ist für mehrstufiges Reasoning, Berechnungen und Prüfungen über die Belege innerhalb eines Dokuments gedacht." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Extracting the invoice number, vendor and total from 20,000 invoices a day", "de": "Rechnungsnummer, Lieferant und Summe aus 20.000 Rechnungen pro Tag extrahieren" },
+          "correct": false,
+          "why": { "en": "Straightforward field extraction fits a standard document analyzer; agentic mode consumes more tokens and takes longer.", "de": "Einfache Feldextraktion passt zu einem Standard-Dokument-Analyzer; der agentic mode verbraucht mehr Tokens und dauert länger." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Summarizing recorded customer-support calls", "de": "Aufgezeichnete Supportanrufe zusammenfassen" },
+          "correct": false,
+          "why": { "en": "Agentic mode supports document analyzers only; calls are handled by audio analyzers such as `prebuilt-audioSearch`.", "de": "Der agentic mode unterstützt nur Dokument-Analyzer; Anrufe verarbeiten Audio-Analyzer wie `prebuilt-audioSearch`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Splitting surveillance video into scenes", "de": "Überwachungsvideos in Szenen aufteilen" },
+          "correct": false,
+          "why": { "en": "Agentic mode is document-only; video splitting uses `enableSegment` with `contentCategories` in a video analyzer.", "de": "Der agentic mode gilt nur für Dokumente; Videos teilst du mit `enableSegment` und `contentCategories` in einem Video-Analyzer." }
+        }
+      ],
+      "explanation": {
+        "en": "Pro mode existed only in the retired `2025-05-01-preview` API. Today, use standard analyzers for extraction and agentic mode (`config.workflow: \"agentic\"`, API `2026-06-01-preview`) when a document answer must be reasoned out, calculated or validated.",
+        "de": "Den Pro-Modus gab es nur in der eingestellten API `2025-05-01-preview`. Heute nutzt du Standard-Analyzer für die Extraktion und den agentic mode (`config.workflow: \"agentic\"`, API `2026-06-01-preview`), wenn eine Antwort aus einem Dokument erschlossen, berechnet oder geprüft werden muss."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/agentic-mode",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/whats-new"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-04",
+      "type": "multi",
+      "domain": "D3",
+      "skill": "3.2.7",
+      "module": "cu-multimodal",
+      "difficulty": 3,
+      "stem": {
+        "en": "Contoso Finance processes 20,000 vendor invoices a day and must use generally available APIs in production. A small pilot, where preview features are allowed, must check that each invoice's line items add up to its total and that the payment terms match a terms page included in the same PDF. Which TWO actions should you take?",
+        "de": "Contoso Finance verarbeitet täglich 20.000 Lieferantenrechnungen und muss produktiv allgemein verfügbare APIs nutzen. Ein kleines Pilotprojekt, in dem Preview-Funktionen erlaubt sind, soll prüfen, ob die Positionen jeder Rechnung die Gesamtsumme ergeben und ob die Zahlungsbedingungen zu einer Bedingungsseite im selben PDF passen. Welche ZWEI Maßnahmen solltest du ergreifen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Run the daily extraction with a standard document analyzer, such as `prebuilt-invoice` or a custom analyzer, on API version `2025-11-01`", "de": "Die tägliche Extraktion mit einem Standard-Dokument-Analyzer wie `prebuilt-invoice` oder einem eigenen Analyzer auf API-Version `2025-11-01` ausführen" },
+          "correct": true,
+          "why": { "en": "`2025-11-01` is the GA API for production, and standard analyzers handle straightforward field extraction efficiently.", "de": "`2025-11-01` ist die GA-API für die Produktion, und Standard-Analyzer erledigen einfache Feldextraktion effizient." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "For the pilot, create a document analyzer with API version `2026-06-01-preview`, set `config.workflow` to `\"agentic\"` and plan about 400,000 TPM on its model deployment", "de": "Für den Pilot einen Dokument-Analyzer mit API-Version `2026-06-01-preview` anlegen, `config.workflow` auf `\"agentic\"` setzen und etwa 400.000 TPM auf dem Modell-Deployment einplanen" },
+          "correct": true,
+          "why": { "en": "Agentic mode performs calculations and validation within one input file; the docs recommend about 400,000 TPM per analyzer job to avoid 429 errors.", "de": "Der agentic mode rechnet und prüft innerhalb einer Eingabedatei; die Doku empfiehlt etwa 400.000 TPM je Analyzer-Job, um 429-Fehler zu vermeiden." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Define the line items in the pilot analyzer as `extract` fields so that their values stay verbatim", "de": "Die Positionen im Pilot-Analyzer als `extract`-Felder definieren, damit ihre Werte wörtlich bleiben" },
+          "correct": false,
+          "why": { "en": "The agentic preview doesn't support fields that use the `extract` method.", "de": "Die agentic-Preview unterstützt keine Felder mit der Methode `extract`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Recreate the earlier pro-mode analyzer with API version `2025-05-01-preview`", "de": "Den früheren Pro-Modus-Analyzer mit API-Version `2025-05-01-preview` neu anlegen" },
+          "correct": false,
+          "why": { "en": "That preview API is retired, so pro mode can't be used anymore.", "de": "Diese Preview-API ist eingestellt; den Pro-Modus kannst du nicht mehr nutzen." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Move the daily extraction to agentic mode to get the highest accuracy at the lowest cost", "de": "Die tägliche Extraktion auf den agentic mode umstellen, um höchste Genauigkeit zu niedrigsten Kosten zu erhalten" },
+          "correct": false,
+          "why": { "en": "Agentic mode uses the advanced contextualization rate, consumes more tokens, runs longer and is preview only — wrong for GA production volume.", "de": "Der agentic mode nutzt den Advanced-Kontextualisierungstarif, verbraucht mehr Tokens, dauert länger und ist nur Preview – falsch für GA-Produktionsvolumen." }
+        }
+      ],
+      "explanation": {
+        "en": "Keep production extraction on standard analyzers with the GA API. Reserve agentic mode for reasoning-heavy document checks where preview terms, extra cost and longer latency are acceptable.",
+        "de": "Produktive Extraktion bleibt auf Standard-Analyzern mit der GA-API. Den agentic mode reservierst du für reasoning-lastige Dokumentprüfungen, bei denen Preview-Bedingungen, Mehrkosten und längere Laufzeiten akzeptabel sind."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/agentic-mode",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/pricing-explainer"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-05",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.2.2",
+      "skills": ["5.1.1"],
+      "module": "cu-multimodal",
+      "difficulty": 1,
+      "stem": {
+        "en": "You ingest annual reports (PDF) into an Azure AI Search index for a RAG chatbot. Users often ask about figures that appear only in bar charts. Which Content Understanding analyzer returns index-ready Markdown that includes descriptions of the charts?",
+        "de": "Du nimmst Geschäftsberichte (PDF) in einen Azure-AI-Search-Index für einen RAG-Chatbot auf. Nutzer fragen oft nach Zahlen, die nur in Balkendiagrammen stehen. Welcher Content-Understanding-Analyzer liefert indexfertiges Markdown inklusive Beschreibungen der Diagramme?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`prebuilt-documentSearch`", "de": "`prebuilt-documentSearch`" },
+          "correct": true,
+          "why": { "en": "It extracts layout as Markdown, describes figures and represents charts as Chart.js data, which makes chart content searchable.", "de": "Er extrahiert das Layout als Markdown, beschreibt Abbildungen und stellt Diagramme als Chart.js-Daten dar – so wird Diagramminhalt durchsuchbar." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`prebuilt-read`", "de": "`prebuilt-read`" },
+          "correct": false,
+          "why": { "en": "It provides OCR text extraction without layout analysis or figure descriptions.", "de": "Er liefert OCR-Text ohne Layoutanalyse und ohne Abbildungsbeschreibungen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`prebuilt-layout`", "de": "`prebuilt-layout`" },
+          "correct": false,
+          "why": { "en": "It detects figures and their locations but runs without a language model, so it doesn't describe what a chart shows.", "de": "Er erkennt Abbildungen und ihre Position, läuft aber ohne Sprachmodell und beschreibt daher nicht, was ein Diagramm zeigt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`prebuilt-imageSearch`", "de": "`prebuilt-imageSearch`" },
+          "correct": false,
+          "why": { "en": "It describes standalone images; multi-page documents with charts belong to the document RAG analyzer.", "de": "Er beschreibt einzelne Bilder; mehrseitige Dokumente mit Diagrammen gehören zum Dokument-RAG-Analyzer." }
+        }
+      ],
+      "explanation": {
+        "en": "For RAG ingestion of documents with charts and diagrams, `prebuilt-documentSearch` adds figure descriptions and chart data to clean Markdown.",
+        "de": "Für die RAG-Ingestion von Dokumenten mit Diagrammen ergänzt `prebuilt-documentSearch` sauberes Markdown um Abbildungsbeschreibungen und Diagrammdaten."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-06",
+      "type": "multi",
+      "domain": "D5",
+      "skill": "5.2.2",
+      "module": "cu-multimodal",
+      "difficulty": 3,
+      "caseId": "case-contoso-claims",
+      "stem": {
+        "en": "Refer to the Contoso Insurance case. Which TWO actions meet requirement R1?",
+        "de": "Beziehe dich auf die Fallstudie Contoso Insurance. Welche ZWEI Maßnahmen erfüllen Anforderung R1?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "In the claim-form analyzer based on `prebuilt-document`, enable `estimateFieldSourceAndConfidence` (or `estimateSourceAndConfidence` on the three fields)", "de": "Im Schadenformular-Analyzer auf Basis von `prebuilt-document` `estimateFieldSourceAndConfidence` aktivieren (oder `estimateSourceAndConfidence` an den drei Feldern)" },
+          "correct": true,
+          "why": { "en": "This opt-in setting returns a 0–1 confidence and a source location for each document field.", "de": "Diese Opt-in-Einstellung liefert für jedes Dokumentfeld eine Konfidenz zwischen 0 und 1 und eine Fundstelle." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "In the review app, send fields whose `confidence` is below 0.80 to manual review and use each field's `source` value to highlight its region on the page", "de": "In der Prüf-App Felder mit `confidence` unter 0,80 in die manuelle Prüfung geben und mit dem `source`-Wert jedes Felds die Region auf der Seite hervorheben" },
+          "correct": true,
+          "why": { "en": "`source` encodes the page and polygon, such as `D(1,…)`, so reviewers can jump straight to the evidence.", "de": "`source` kodiert Seite und Polygon, etwa `D(1,…)`, sodass Prüfende direkt zum Beleg springen können." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Analyze the claim forms with `prebuilt-imageSearch` because the packets are scanned images", "de": "Die Schadenformulare mit `prebuilt-imageSearch` analysieren, weil die Pakete gescannte Bilder sind" },
+          "correct": false,
+          "why": { "en": "Scans are documents to Content Understanding; the image RAG analyzer returns a description, not grounded fields.", "de": "Scans sind für Content Understanding Dokumente; der Bild-RAG-Analyzer liefert eine Beschreibung, keine belegten Felder." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Define the three fields with `method: generate` because confidence scores are returned only for generated fields", "de": "Die drei Felder mit `method: generate` definieren, weil Konfidenzwerte nur für generierte Felder geliefert werden" },
+          "correct": false,
+          "why": { "en": "Confidence and grounding are available for all document field methods — `extract`, `classify` and `generate`.", "de": "Konfidenz und Grounding gibt es für alle Methoden von Dokumentfeldern – `extract`, `classify` und `generate`." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Read each value's confidence from the `usage` object in the response", "de": "Die Konfidenz jedes Werts aus dem `usage`-Objekt der Antwort lesen" },
+          "correct": false,
+          "why": { "en": "`usage` reports billable pages, minutes and tokens; confidence is a property of each field.", "de": "`usage` meldet abrechenbare Seiten, Minuten und Tokens; die Konfidenz ist eine Eigenschaft jedes Felds." }
+        }
+      ],
+      "explanation": {
+        "en": "Confidence plus source grounding enables human-in-the-loop review: process high-confidence values automatically and show reviewers exactly where low-confidence values came from.",
+        "de": "Konfidenz plus Quellen-Grounding ermöglicht Human-in-the-Loop: Werte mit hoher Konfidenz laufen automatisch durch, und Prüfende sehen genau, woher unsichere Werte stammen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/document/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-07",
+      "type": "match",
+      "domain": "D5",
+      "skill": "5.2.2",
+      "skills": ["2.2.3"],
+      "module": "cu-multimodal",
+      "difficulty": 2,
+      "stem": {
+        "en": "An agent receives Content Understanding results for supplier contracts. Match each need to the part of the result that serves it.",
+        "de": "Ein Agent erhält Content-Understanding-Ergebnisse zu Lieferantenverträgen. Ordne jeden Bedarf dem Teil des Ergebnisses zu, der ihn erfüllt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Ground free-form answers about clauses in the full contract text", "de": "Freie Antworten zu Klauseln im vollständigen Vertragstext verankern" },
+          "answer": "t1",
+          "why": { "en": "Markdown is the clean, LLM-friendly text representation for reasoning and retrieval.", "de": "Markdown ist die saubere, LLM-freundliche Textdarstellung für Reasoning und Retrieval." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Check deterministically whether the contract value exceeds 50,000", "de": "Deterministisch prüfen, ob der Vertragswert 50.000 übersteigt" },
+          "answer": "t2",
+          "why": { "en": "Typed, normalized field values let code apply a rule without parsing text.", "de": "Typisierte, normalisierte Feldwerte erlauben Regeln im Code, ohne Text zu parsen." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Show a reviewer where on the page a value came from", "de": "Prüfenden zeigen, wo auf der Seite ein Wert steht" },
+          "answer": "t3",
+          "why": { "en": "`source` holds the page number and the polygon of the evidence.", "de": "`source` enthält Seitenzahl und Polygon des Belegs." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Decide whether a person must double-check a value", "de": "Entscheiden, ob ein Mensch einen Wert nachprüfen muss" },
+          "answer": "t4",
+          "why": { "en": "Confidence between 0 and 1 drives routing between straight-through processing and human review.", "de": "Die Konfidenz zwischen 0 und 1 steuert, ob ein Wert durchläuft oder manuell geprüft wird." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "The content's `markdown`", "de": "Das `markdown` des Contents" } },
+        { "id": "t2", "text": { "en": "A typed field value such as `valueNumber`", "de": "Ein typisierter Feldwert wie `valueNumber`" } },
+        { "id": "t3", "text": { "en": "The field's `source`", "de": "Die `source` des Felds" } },
+        { "id": "t4", "text": { "en": "The field's `confidence`", "de": "Die `confidence` des Felds" } },
+        { "id": "t5", "text": { "en": "The `usage` object", "de": "Das `usage`-Objekt" } }
+      ],
+      "explanation": {
+        "en": "Give agents Markdown for reasoning context, typed fields for deterministic logic, and confidence plus source for auditable human review.",
+        "de": "Gib Agents Markdown als Reasoning-Kontext, typisierte Felder für deterministische Logik und Konfidenz plus Quelle für nachvollziehbare menschliche Prüfung."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/document/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-08",
+      "type": "code",
+      "domain": "D5",
+      "skill": "5.2.3",
+      "module": "cu-multimodal",
+      "difficulty": 2,
+      "caseId": "case-contoso-claims",
+      "stem": {
+        "en": "Refer to the Contoso Insurance case. The custom `claim_form` analyzer already exists. Complete the code that creates an analyzer for the claim packets so that it meets requirements R2 and R3.",
+        "de": "Beziehe dich auf die Fallstudie Contoso Insurance. Der eigene Analyzer `claim_form` existiert bereits. Vervollständige den Code, der einen Analyzer für die Schadenpakete anlegt, sodass er die Anforderungen R2 und R3 erfüllt."
+      },
+      "template": "packet_analyzer = {\n    \"baseAnalyzerId\": \"prebuilt-document\",\n    \"models\": {\"completion\": \"gpt-5.2\"},\n    \"config\": {\n        \"{{b1}}\": True,\n        \"contentCategories\": {\n            \"claimForm\": {\"description\": \"Contoso motor claim form\", \"analyzerId\": \"claim_form\"},\n            \"repairInvoice\": {\"description\": \"Invoice from a repair shop\", \"analyzerId\": \"{{b2}}\"},\n            \"policeReport\": {\"description\": \"Police or incident report\"},\n            \"other\": {\"description\": \"Any other page\"},\n        },\n    },\n}\nclient.{{b3}}(\"claim_packet\", packet_analyzer).result()",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "enableSegment", "correct": true, "why": { "en": "The packet concatenates several documents; segmentation splits it and assigns each segment to a category.", "de": "Das Paket reiht mehrere Dokumente aneinander; die Segmentierung teilt es auf und ordnet jedes Segment einer Kategorie zu." } },
+            { "id": "b", "code": "segmentPerPage", "correct": false, "why": { "en": "It only refines segmentation that is already enabled, and one segment per page would cut multi-page documents apart.", "de": "Es verfeinert nur eine bereits aktive Segmentierung, und ein Segment pro Seite würde mehrseitige Dokumente zerschneiden." } },
+            { "id": "c", "code": "omitContent", "correct": false, "why": { "en": "It removes the original content object from the response; it doesn't split the file.", "de": "Es entfernt das ursprüngliche Content-Objekt aus der Antwort; die Datei teilt es nicht." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "prebuilt-invoice", "correct": true, "why": { "en": "Routes invoice segments to the prebuilt invoice analyzer, which extracts totals and line items without training (R2).", "de": "Leitet Rechnungssegmente an den Prebuilt-Rechnungsanalyzer, der Summen und Positionen ohne Training extrahiert (R2)." } },
+            { "id": "b", "code": "prebuilt-receipt", "correct": false, "why": { "en": "Receipt analyzers target sales receipts from stores and restaurants, not repair-shop invoices.", "de": "Beleg-Analyzer zielen auf Kassenbelege aus Geschäften und Restaurants, nicht auf Werkstattrechnungen." } },
+            { "id": "c", "code": "prebuilt-layout", "correct": false, "why": { "en": "Layout returns text and structure but no invoice fields such as totals and line items.", "de": "Layout liefert Text und Struktur, aber keine Rechnungsfelder wie Summen und Positionen." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "begin_create_analyzer", "correct": true, "why": { "en": "Creates the analyzer from the definition; `.result()` waits until it is ready.", "de": "Legt den Analyzer aus der Definition an; `.result()` wartet, bis er bereit ist." } },
+            { "id": "b", "code": "begin_analyze", "correct": false, "why": { "en": "Submits files to an existing analyzer; it doesn't create one.", "de": "Schickt Dateien an einen bestehenden Analyzer; anlegen kann es keinen." } },
+            { "id": "c", "code": "update_defaults", "correct": false, "why": { "en": "Maps model names to deployments for the resource; it doesn't create analyzers.", "de": "Ordnet für die Ressource Modellnamen Deployments zu; Analyzer legt es nicht an." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "A classifier analyzer with `enableSegment` and `contentCategories` splits a packet and routes each part: link a category to an analyzer to extract fields, leave out `analyzerId` to only categorize (R3), and keep an `other` category for everything else.",
+        "de": "Ein Klassifizierungs-Analyzer mit `enableSegment` und `contentCategories` teilt ein Paket und leitet jeden Teil weiter: Verknüpfe eine Kategorie mit einem Analyzer, um Felder zu extrahieren, lass `analyzerId` weg, um nur zu kategorisieren (R3), und behalte eine Kategorie `other` für alles andere."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/classifier",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/tutorial/create-custom-analyzer",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-multimodal-09",
+      "type": "order",
+      "domain": "D5",
+      "skill": "5.2.3",
+      "module": "cu-multimodal",
+      "difficulty": 1,
+      "stem": {
+        "en": "You build a custom analyzer for delivery notes in Content Understanding Studio. Put the steps in the correct order.",
+        "de": "Du baust im Content Understanding Studio einen eigenen Analyzer für Lieferscheine. Bringe die Schritte in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Create a project that extracts content and fields with a custom schema", "de": "Ein Projekt anlegen, das Inhalte und Felder mit einem eigenen Schema extrahiert" },
+          "why": { "en": "The project holds your samples, schema and analyzer versions.", "de": "Das Projekt enthält deine Beispiele, das Schema und die Analyzer-Versionen." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Upload a sample delivery note and pick one of the suggested templates", "de": "Einen Beispiel-Lieferschein hochladen und eine der vorgeschlagenen Vorlagen wählen" },
+          "why": { "en": "Studio analyzes the sample and recommends templates as a starting point.", "de": "Das Studio analysiert das Beispiel und schlägt Vorlagen als Startpunkt vor." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Review the suggested fields and refine the schema", "de": "Die vorgeschlagenen Felder prüfen und das Schema verfeinern" },
+          "why": { "en": "AI-suggested fields are a draft; keep, edit or add fields before testing.", "de": "KI-vorgeschlagene Felder sind ein Entwurf; behalte, ändere oder ergänze Felder vor dem Test." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Run analysis on the sample and other test files, then iterate on the schema", "de": "Die Analyse auf dem Beispiel und weiteren Testdateien ausführen und das Schema iterativ anpassen" },
+          "why": { "en": "Testing shows how the schema performs before anything is published.", "de": "Tests zeigen, wie gut das Schema funktioniert, bevor etwas veröffentlicht wird." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Build the analyzer and call it from your app through the resource endpoint", "de": "Den Analyzer bauen und ihn aus deiner App über den Endpoint der Ressource aufrufen" },
+          "why": { "en": "Only a built analyzer is available to client applications.", "de": "Erst ein gebauter Analyzer steht Client-Anwendungen zur Verfügung." }
+        }
+      ],
+      "explanation": {
+        "en": "Studio flow: project → sample and template → schema → test and iterate → build → call from code. For documents, labeled samples (in-context learning) are an optional extra step before building.",
+        "de": "Ablauf im Studio: Projekt → Beispiel und Vorlage → Schema → testen und iterieren → bauen → aus Code aufrufen. Bei Dokumenten sind gelabelte Beispiele (In-Context-Learning) ein optionaler Zusatzschritt vor dem Bauen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/how-to/customize-analyzer-content-understanding-studio"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

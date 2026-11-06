@@ -1,0 +1,205 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "cu-images",
+  "questions": [
+    {
+      "id": "q-cu-images-01",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.5",
+      "module": "cu-images",
+      "difficulty": 1,
+      "stem": {
+        "en": "A retailer wants a short natural-language description of every product photo in its catalog so that shoppers can find products through search. The photos contain no printed text, and the team doesn't want to design a field schema. Which analyzer should the app call?",
+        "de": "Ein Händler möchte für jedes Produktfoto im Katalog eine kurze Beschreibung in natürlicher Sprache, damit Kundinnen und Kunden Produkte über die Suche finden. Die Fotos enthalten keinen gedruckten Text, und das Team will kein Feldschema entwerfen. Welchen Analyzer sollte die App aufrufen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`prebuilt-imageSearch`", "de": "`prebuilt-imageSearch`" },
+          "correct": true,
+          "why": { "en": "This RAG analyzer analyzes a standalone image and returns a one-paragraph description in its `Summary` field — no schema required.", "de": "Dieser RAG-Analyzer analysiert ein einzelnes Bild und liefert im Feld `Summary` eine Beschreibung in einem Absatz – ganz ohne Schema." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`prebuilt-image`", "de": "`prebuilt-image`" },
+          "correct": false,
+          "why": { "en": "It is a base analyzer that you reference as `baseAnalyzerId` when you define your own fields; the ready-made description comes from `prebuilt-imageSearch`.", "de": "Das ist ein Basis-Analyzer, den du als `baseAnalyzerId` angibst, wenn du eigene Felder definierst; die fertige Beschreibung liefert `prebuilt-imageSearch`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`prebuilt-documentSearch`", "de": "`prebuilt-documentSearch`" },
+          "correct": false,
+          "why": { "en": "It targets documents and images that contain text and produces layout-aware Markdown; for text-free photos the image RAG analyzer fits.", "de": "Er zielt auf Dokumente und Bilder mit Text und erzeugt layoutbewusstes Markdown; für Fotos ohne Text passt der Bild-RAG-Analyzer." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`prebuilt-layout`", "de": "`prebuilt-layout`" },
+          "correct": false,
+          "why": { "en": "It extracts text and layout elements and runs without a language model, so it generates no description of what the photo shows.", "de": "Er extrahiert Text und Layoutelemente und läuft ohne Sprachmodell – eine Beschreibung des Bildinhalts erzeugt er nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "For search-ready image descriptions without designing a schema, call `prebuilt-imageSearch`. Build a custom analyzer on `prebuilt-image` only when you need your own fields.",
+        "de": "Für suchtaugliche Bildbeschreibungen ohne eigenes Schema rufst du `prebuilt-imageSearch` auf. Einen eigenen Analyzer auf `prebuilt-image` baust du nur, wenn du eigene Felder brauchst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers",
+        "https://learn.microsoft.com/en-us/python/api/overview/azure/ai-contentunderstanding-readme?view=azure-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-images-02",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.5",
+      "module": "cu-images",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your app calls `prebuilt-imageSearch` for product photos. The business now also needs `PackagingColor` (free text) and `Orientation` (front, back or side) for every photo, alongside a summary. How should you configure Content Understanding?",
+        "de": "Deine App ruft `prebuilt-imageSearch` für Produktfotos auf. Das Fachteam braucht jetzt zusätzlich zur Zusammenfassung für jedes Foto `PackagingColor` (Freitext) und `Orientation` (front, back oder side). Wie konfigurierst du Content Understanding?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Create a custom analyzer with `baseAnalyzerId` set to `prebuilt-image`; define `Summary` and `PackagingColor` as `generate` fields and `Orientation` as a `classify` field with an `enum`", "de": "Einen eigenen Analyzer mit `baseAnalyzerId` = `prebuilt-image` anlegen; `Summary` und `PackagingColor` als `generate`-Felder und `Orientation` als `classify`-Feld mit `enum` definieren" },
+          "correct": true,
+          "why": { "en": "Custom analyzers derive from a base analyzer; for photos that is `prebuilt-image`, which supports `generate` and `classify` fields.", "de": "Eigene Analyzer leiten sich von einem Basis-Analyzer ab; für Fotos ist das `prebuilt-image`, das `generate`- und `classify`-Felder unterstützt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Create a custom analyzer with `baseAnalyzerId` set to `prebuilt-imageSearch` and add the two new fields", "de": "Einen eigenen Analyzer mit `baseAnalyzerId` = `prebuilt-imageSearch` anlegen und die zwei neuen Felder ergänzen" },
+          "correct": false,
+          "why": { "en": "Only the four base analyzers — `prebuilt-document`, `prebuilt-image`, `prebuilt-audio` and `prebuilt-video` — can be used as `baseAnalyzerId`.", "de": "Als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer – `prebuilt-document`, `prebuilt-image`, `prebuilt-audio` und `prebuilt-video`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Keep calling `prebuilt-imageSearch` and add a `fieldSchema` object to each analyze request", "de": "Weiter `prebuilt-imageSearch` aufrufen und jeder Analyse-Anfrage ein `fieldSchema`-Objekt mitgeben" },
+          "correct": false,
+          "why": { "en": "The field schema is part of the analyzer definition; an analyze request carries only the inputs and, optionally, model deployments.", "de": "Das Feldschema gehört zur Analyzer-Definition; eine Analyse-Anfrage enthält nur die Eingaben und optional Modell-Deployments." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Create a custom analyzer on `prebuilt-image` and set `enableFigureDescription: true` in its `config`", "de": "Einen eigenen Analyzer auf `prebuilt-image` anlegen und in dessen `config` `enableFigureDescription: true` setzen" },
+          "correct": false,
+          "why": { "en": "`enableFigureDescription` is a document-analyzer option; image analyzers accept only `returnDetails`, and new values come from schema fields.", "de": "`enableFigureDescription` ist eine Option für Dokument-Analyzer; Bild-Analyzer akzeptieren nur `returnDetails`, und neue Werte kommen aus Schemafeldern." }
+        }
+      ],
+      "explanation": {
+        "en": "To get your own values from images, create a custom analyzer with `baseAnalyzerId: prebuilt-image` and a field schema — `generate` for free values, `classify` with an `enum` for fixed choices.",
+        "de": "Für eigene Werte aus Bildern legst du einen Analyzer mit `baseAnalyzerId: prebuilt-image` und Feldschema an – `generate` für freie Werte, `classify` mit `enum` für feste Auswahlen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers",
+        "https://learn.microsoft.com/en-us/rest/api/contentunderstanding/content-analyzers/analyze?view=rest-contentunderstanding-2025-11-01"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-images-03",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.8",
+      "skills": ["3.2.5"],
+      "module": "cu-images",
+      "difficulty": 2,
+      "caseId": "case-contoso-claims",
+      "stem": {
+        "en": "Refer to the Contoso Insurance case. Which analyzer design meets requirement R4 for the damage photos?",
+        "de": "Beziehe dich auf die Fallstudie Contoso Insurance. Welches Analyzer-Design erfüllt Anforderung R4 für die Schadenfotos?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A custom analyzer based on `prebuilt-image` with `DamagedPart` and `Severity` as `classify` fields that each list an `enum`, and `Description` as a `generate` field", "de": "Ein eigener Analyzer auf Basis von `prebuilt-image` mit `DamagedPart` und `Severity` als `classify`-Feldern mit je einer `enum` und `Description` als `generate`-Feld" },
+          "correct": true,
+          "why": { "en": "Image analyzers support `classify` for values from fixed lists and `generate` for free text such as a one-sentence description.", "de": "Bild-Analyzer unterstützen `classify` für Werte aus festen Listen und `generate` für Freitext wie eine Beschreibung in einem Satz." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A custom analyzer based on `prebuilt-image` that defines all three fields with `method: extract` and `estimateSourceAndConfidence: true`", "de": "Ein eigener Analyzer auf Basis von `prebuilt-image`, der alle drei Felder mit `method: extract` und `estimateSourceAndConfidence: true` definiert" },
+          "correct": false,
+          "why": { "en": "`extract` and confidence estimation are document-analyzer features; image analyzers support only `generate` and `classify`.", "de": "`extract` und Konfidenzschätzung sind Funktionen von Dokument-Analyzern; Bild-Analyzer unterstützen nur `generate` und `classify`." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Calls to `prebuilt-imageSearch`, with application code that parses the damaged part and severity out of the `Summary` text", "de": "Aufrufe von `prebuilt-imageSearch` mit Anwendungscode, der beschädigtes Teil und Schwere aus dem `Summary`-Text herausliest" },
+          "correct": false,
+          "why": { "en": "The summary is free text without a fixed vocabulary, so the fixed lists in R4 would depend on fragile custom parsing.", "de": "Die Zusammenfassung ist Freitext ohne festes Vokabular – die festen Listen aus R4 hingen dann an fehleranfälligem eigenem Parsing." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A custom analyzer based on `prebuilt-document` with `enableFigureAnalysis: true`", "de": "Ein eigener Analyzer auf Basis von `prebuilt-document` mit `enableFigureAnalysis: true`" },
+          "correct": false,
+          "why": { "en": "Figure analysis extracts data from charts and diagrams inside documents; it doesn't classify vehicle damage into your lists.", "de": "Die Abbildungsanalyse holt Daten aus Diagrammen und Grafiken in Dokumenten; Fahrzeugschäden ordnet sie nicht in deine Listen ein." }
+        }
+      ],
+      "explanation": {
+        "en": "Identify components in photos with an analyzer based on `prebuilt-image`: map fixed lists to `classify` fields with an `enum` and open observations to `generate` fields.",
+        "de": "Bauteile in Fotos erkennst du mit einem Analyzer auf Basis von `prebuilt-image`: Feste Listen werden zu `classify`-Feldern mit `enum`, offene Beobachtungen zu `generate`-Feldern."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/service-limits",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-images-04",
+      "type": "multi",
+      "domain": "D3",
+      "skill": "3.2.8",
+      "skills": ["5.2.1"],
+      "module": "cu-images",
+      "difficulty": 3,
+      "stem": {
+        "en": "A retailer analyzes shelf photos. Store managers need to know which products are visible and how many facings each product has. Auditors also need the printed price on each shelf label, together with a confidence score and the region of the photo it came from. Which TWO design decisions should you make?",
+        "de": "Ein Händler analysiert Regalfotos. Filialleitungen wollen wissen, welche Produkte sichtbar sind und wie viele Facings jedes Produkt hat. Prüfer brauchen außerdem den aufgedruckten Preis jedes Regaletiketts – mit Konfidenzwert und der Region im Foto, aus der er stammt. Welche ZWEI Designentscheidungen solltest du treffen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Use a custom analyzer based on `prebuilt-image` with `generate` and `classify` fields to list the visible products and count their facings", "de": "Einen eigenen Analyzer auf Basis von `prebuilt-image` mit `generate`- und `classify`-Feldern nutzen, um sichtbare Produkte aufzulisten und ihre Facings zu zählen" },
+          "correct": true,
+          "why": { "en": "Detecting and counting retail products is a documented image-analyzer scenario, and `generate` and `classify` are the methods images support.", "de": "Produkte im Regal erkennen und zählen ist ein dokumentiertes Szenario für Bild-Analyzer, und `generate` und `classify` sind die Methoden, die Bilder unterstützen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Analyze the same photos with a custom analyzer based on `prebuilt-document` that uses `extract` fields and `estimateFieldSourceAndConfidence`", "de": "Dieselben Fotos mit einem eigenen Analyzer auf Basis von `prebuilt-document` analysieren, der `extract`-Felder und `estimateFieldSourceAndConfidence` nutzt" },
+          "correct": true,
+          "why": { "en": "Image files are valid document inputs. Document analyzers run OCR and return a `confidence` and a `source` region for each extracted value.", "de": "Bilddateien sind gültige Dokumenteingaben. Dokument-Analyzer führen OCR aus und liefern für jeden extrahierten Wert `confidence` und eine `source`-Region." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Enable `estimateFieldSourceAndConfidence` on the image analyzer to get a region for every detected product", "de": "Am Bild-Analyzer `estimateFieldSourceAndConfidence` aktivieren, um für jedes erkannte Produkt eine Region zu erhalten" },
+          "correct": false,
+          "why": { "en": "That setting is supported by document analyzers only; image analyzers accept just `returnDetails`.", "de": "Diese Einstellung unterstützen nur Dokument-Analyzer; Bild-Analyzer akzeptieren nur `returnDetails`." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Set `enableSegment: true` with `contentCategories` on the image analyzer so that each product becomes its own segment", "de": "Am Bild-Analyzer `enableSegment: true` mit `contentCategories` setzen, damit jedes Produkt ein eigenes Segment wird" },
+          "correct": false,
+          "why": { "en": "Segmentation and classification are available for document and video analyzers, not for image analyzers.", "de": "Segmentierung und Klassifizierung gibt es für Dokument- und Video-Analyzer, nicht für Bild-Analyzer." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Define the price as an `extract` field in the image analyzer", "de": "Den Preis im Bild-Analyzer als `extract`-Feld definieren" },
+          "correct": false,
+          "why": { "en": "`extract` is a document-only method; image analyzers can only `generate` or `classify` values.", "de": "`extract` gibt es nur für Dokumente; Bild-Analyzer können Werte nur mit `generate` oder `classify` bestimmen." }
+        }
+      ],
+      "explanation": {
+        "en": "Use image analyzers for visual understanding — objects, counts, categories — and document analyzers whenever you need printed text with confidence and source grounding, even if the input is a photo.",
+        "de": "Nutze Bild-Analyzer für visuelles Verständnis – Objekte, Anzahlen, Kategorien – und Dokument-Analyzer, sobald du gedruckten Text mit Konfidenz und Quellen-Grounding brauchst, auch wenn die Eingabe ein Foto ist."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/image/overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/service-limits"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

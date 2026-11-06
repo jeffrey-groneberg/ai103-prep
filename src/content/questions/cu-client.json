@@ -1,0 +1,198 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "cu-client",
+  "questions": [
+    {
+      "id": "q-cu-client-01",
+      "type": "order",
+      "domain": "D5",
+      "skill": "5.2.3",
+      "module": "cu-client",
+      "difficulty": 2,
+      "stem": {
+        "en": "You implement a REST client for a new custom analyzer on a freshly created Foundry resource. Put the calls in the correct order.",
+        "de": "Du implementierst einen REST-Client für einen neuen eigenen Analyzer auf einer frisch angelegten Foundry-Ressource. Bringe die Aufrufe in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "`PATCH /contentunderstanding/defaults` to map model names to your deployments", "de": "`PATCH /contentunderstanding/defaults`, um Modellnamen deinen Deployments zuzuordnen" },
+          "why": { "en": "Analyzers that use generative models need the resource's deployment mapping first.", "de": "Analyzer mit generativen Modellen brauchen zuerst die Deployment-Zuordnung der Ressource." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "`PUT /contentunderstanding/analyzers/{analyzerId}` with the analyzer JSON", "de": "`PUT /contentunderstanding/analyzers/{analyzerId}` mit dem Analyzer-JSON" },
+          "why": { "en": "Creates the analyzer from its base analyzer, field schema and models.", "de": "Legt den Analyzer aus Basis-Analyzer, Feldschema und Modellen an." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Poll the returned `Operation-Location` until the analyzer is ready", "de": "Die zurückgegebene `Operation-Location` abfragen, bis der Analyzer bereit ist" },
+          "why": { "en": "Analyzer creation is asynchronous; analyzing before it finishes fails.", "de": "Das Anlegen ist asynchron; eine Analyse vor dem Abschluss schlägt fehl." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` with the file URL in `inputs`", "de": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` mit der Datei-URL in `inputs`" },
+          "why": { "en": "Starts the analysis and returns `202 Accepted` with a new `Operation-Location`.", "de": "Startet die Analyse und liefert `202 Accepted` mit einer neuen `Operation-Location`." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Poll `GET /contentunderstanding/analyzerResults/{operationId}` until `status` is `Succeeded`, then read `result.contents`", "de": "`GET /contentunderstanding/analyzerResults/{operationId}` abfragen, bis `status` `Succeeded` lautet, und dann `result.contents` lesen" },
+          "why": { "en": "The result is available only after the operation has succeeded.", "de": "Das Ergebnis steht erst bereit, wenn die Operation erfolgreich war." }
+        }
+      ],
+      "explanation": {
+        "en": "Content Understanding is asynchronous end to end: map deployments once, create the analyzer and wait for it, then analyze and poll for the result.",
+        "de": "Content Understanding ist durchgehend asynchron: Deployments einmal zuordnen, Analyzer anlegen und abwarten, dann analysieren und das Ergebnis abfragen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api",
+        "https://learn.microsoft.com/en-us/rest/api/contentunderstanding/content-analyzers/create-or-replace?view=rest-contentunderstanding-2025-11-01",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/models-deployments"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-client-02",
+      "type": "single",
+      "domain": "D5",
+      "skill": "5.2.1",
+      "module": "cu-client",
+      "difficulty": 2,
+      "stem": {
+        "en": "Scanned delivery notes must be turned into structured data with a single Content Understanding call. The app needs the OCR text, the table of delivered items with its structure, and three fields: `DeliveryNumber`, `DeliveryDate` and `Recipient`. Which analyzer should you create and call?",
+        "de": "Gescannte Lieferscheine sollen mit einem einzigen Content-Understanding-Aufruf in strukturierte Daten verwandelt werden. Die App braucht den OCR-Text, die Tabelle der gelieferten Positionen samt Struktur und drei Felder: `DeliveryNumber`, `DeliveryDate` und `Recipient`. Welchen Analyzer solltest du anlegen und aufrufen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A custom analyzer with `baseAnalyzerId` set to `prebuilt-document` and a field schema for the three fields", "de": "Einen eigenen Analyzer mit `baseAnalyzerId` = `prebuilt-document` und einem Feldschema für die drei Felder" },
+          "correct": true,
+          "why": { "en": "Document analyzers run OCR and layout analysis — both on by default — and field extraction in the same call.", "de": "Dokument-Analyzer führen OCR und Layoutanalyse – beide standardmäßig aktiv – und die Feldextraktion im selben Aufruf aus." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A custom analyzer with `baseAnalyzerId` set to `prebuilt-image`", "de": "Einen eigenen Analyzer mit `baseAnalyzerId` = `prebuilt-image`" },
+          "correct": false,
+          "why": { "en": "Image analyzers aren't optimized for text and offer no OCR or layout settings.", "de": "Bild-Analyzer sind nicht auf Text optimiert und bieten keine OCR- oder Layout-Einstellungen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The `prebuilt-read` analyzer", "de": "Den Analyzer `prebuilt-read`" },
+          "correct": false,
+          "why": { "en": "Read provides OCR text only — no layout analysis and no custom fields.", "de": "Read liefert nur OCR-Text – keine Layoutanalyse und keine eigenen Felder." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The `prebuilt-layout` analyzer, followed by a chat-model call that fills the three fields from its Markdown", "de": "Den Analyzer `prebuilt-layout`, gefolgt von einem Chatmodell-Aufruf, der die drei Felder aus dessen Markdown füllt" },
+          "correct": false,
+          "why": { "en": "That needs two calls plus your own prompt, and the fields get no built-in confidence or grounding.", "de": "Das braucht zwei Aufrufe plus eigenen Prompt, und die Felder bekommen keine eingebaute Konfidenz und kein Grounding." }
+        }
+      ],
+      "explanation": {
+        "en": "A custom analyzer on `prebuilt-document` combines OCR, layout analysis and schema-based field extraction in one multimodal pipeline.",
+        "de": "Ein eigener Analyzer auf `prebuilt-document` verbindet OCR, Layoutanalyse und schemabasierte Feldextraktion in einer multimodalen Pipeline."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-client-03",
+      "type": "code",
+      "domain": "D5",
+      "skill": "5.2.3",
+      "module": "cu-client",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code that creates a custom analyzer for scanned business cards. `ContactName` must be copied exactly as it is printed on the card.",
+        "de": "Vervollständige den Code, der einen eigenen Analyzer für gescannte Visitenkarten anlegt. `ContactName` soll exakt so übernommen werden, wie er auf der Karte steht."
+      },
+      "template": "analyzer = ContentAnalyzer(\n    base_analyzer_id=\"{{b1}}\",\n    field_schema=ContentFieldSchema(name=\"card\", fields={\n        \"ContactName\": ContentFieldDefinition(\n            type=ContentFieldType.STRING,\n            method=GenerationMethod.EXTRACT,\n            description=\"Full name printed on the card\",\n            estimate_source_and_confidence={{b2}},\n        ),\n    }),\n    models={\"completion\": \"gpt-5.2\", \"embedding\": \"text-embedding-3-large\"},\n)\npoller = client.begin_create_analyzer(\"business_card\", analyzer)\ncreated = poller.{{b3}}()",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "prebuilt-document", "correct": true, "why": { "en": "Scanned cards are documents, and `prebuilt-document` is the base analyzer that supports OCR, layout and `extract` fields.", "de": "Gescannte Karten sind Dokumente, und `prebuilt-document` ist der Basis-Analyzer mit OCR, Layout und `extract`-Feldern." } },
+            { "id": "b", "code": "prebuilt-layout", "correct": false, "why": { "en": "It is a content-extraction analyzer, not one of the four base analyzers you can derive from.", "de": "Das ist ein Analyzer für Inhaltsextraktion, keiner der vier Basis-Analyzer, von denen du ableiten kannst." } },
+            { "id": "c", "code": "prebuilt-documentSearch", "correct": false, "why": { "en": "It is a RAG analyzer for search ingestion and can't serve as `base_analyzer_id`.", "de": "Das ist ein RAG-Analyzer für die Suche und kann nicht als `base_analyzer_id` dienen." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "True", "correct": true, "why": { "en": "Fields that use the `extract` method require source and confidence estimation.", "de": "Felder mit der Methode `extract` benötigen die Schätzung von Quelle und Konfidenz." } },
+            { "id": "b", "code": "False", "correct": false, "why": { "en": "Turning estimation off conflicts with the `extract` method, which needs it.", "de": "Ausgeschaltete Schätzung widerspricht der Methode `extract`, die sie voraussetzt." } },
+            { "id": "c", "code": "\"auto\"", "correct": false, "why": { "en": "The setting is a boolean; there is no automatic mode.", "de": "Die Einstellung ist ein Boolean; einen automatischen Modus gibt es nicht." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "result", "correct": true, "why": { "en": "Blocks until the long-running operation finishes and returns the created analyzer.", "de": "Blockiert, bis die Long-Running Operation fertig ist, und liefert den angelegten Analyzer." } },
+            { "id": "b", "code": "done", "correct": false, "why": { "en": "Returns immediately whether the operation has finished; it doesn't wait.", "de": "Meldet sofort, ob die Operation fertig ist; es wartet nicht." } },
+            { "id": "c", "code": "status", "correct": false, "why": { "en": "Returns the current status string without waiting for completion.", "de": "Liefert den aktuellen Status als String, ohne auf den Abschluss zu warten." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Derive document analyzers from `prebuilt-document`, set `estimate_source_and_confidence=True` on `extract` fields, and call `.result()` on `begin_*` pollers to wait for completion.",
+        "de": "Leite Dokument-Analyzer von `prebuilt-document` ab, setze bei `extract`-Feldern `estimate_source_and_confidence=True` und rufe auf `begin_*`-Pollern `.result()` auf, um auf den Abschluss zu warten."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference",
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/tutorial/create-custom-analyzer",
+        "https://learn.microsoft.com/en-us/python/api/azure-ai-contentunderstanding/azure.ai.contentunderstanding.contentunderstandingclient?view=azure-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-cu-client-04",
+      "type": "single",
+      "domain": "D3",
+      "skill": "3.2.7",
+      "module": "cu-client",
+      "difficulty": 3,
+      "stem": {
+        "en": "A client app built in 2025 sends an invoice and the matching purchase order as two items in `inputs` to a pro-mode analyzer (API `2025-05-01-preview`) to check that the quantities match. That API version is retired. Preview features are acceptable for this app. What should the developer change so that Content Understanding still performs the cross-document check?",
+        "de": "Eine 2025 gebaute Client-App schickt eine Rechnung und die passende Bestellung als zwei Einträge in `inputs` an einen Analyzer im Pro-Modus (API `2025-05-01-preview`), um zu prüfen, ob die Mengen übereinstimmen. Diese API-Version ist eingestellt. Preview-Funktionen sind für diese App akzeptabel. Was sollte der Entwickler ändern, damit Content Understanding die dokumentübergreifende Prüfung weiterhin übernimmt?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Combine both documents into one input file and analyze it with a document analyzer created with API version `2026-06-01-preview` and `config.workflow` set to `\"agentic\"`", "de": "Beide Dokumente zu einer Eingabedatei zusammenführen und sie mit einem Dokument-Analyzer analysieren, der mit API-Version `2026-06-01-preview` und `config.workflow` = `\"agentic\"` angelegt wurde" },
+          "correct": true,
+          "why": { "en": "Agentic mode reasons and validates across logically related documents, but its initial preview accepts one input file per request.", "de": "Der agentic mode argumentiert und prüft über logisch zusammengehörige Dokumente hinweg, nimmt in der ersten Preview aber nur eine Eingabedatei pro Anfrage an." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Keep the two `inputs` items and call a standard analyzer with `api-version=2025-11-01`", "de": "Die zwei `inputs`-Einträge beibehalten und einen Standard-Analyzer mit `api-version=2025-11-01` aufrufen" },
+          "correct": false,
+          "why": { "en": "Multiple inputs per request were a pro-mode capability; standard analysis doesn't reason across separate inputs.", "de": "Mehrere Eingaben pro Anfrage waren eine Fähigkeit des Pro-Modus; die Standardanalyse argumentiert nicht über getrennte Eingaben hinweg." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Add `\"mode\": \"pro\"` to the analyzer definition and resubmit with `api-version=2025-11-01`", "de": "`\"mode\": \"pro\"` in die Analyzer-Definition aufnehmen und mit `api-version=2025-11-01` erneut senden" },
+          "correct": false,
+          "why": { "en": "The GA API has no pro mode; the reasoning option today is the agentic workflow in the preview API.", "de": "Die GA-API kennt keinen Pro-Modus; die Reasoning-Option ist heute der agentic Workflow in der Preview-API." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Create an analyzer with `contentCategories` and `enableSegment: true` so that the service compares the two documents", "de": "Einen Analyzer mit `contentCategories` und `enableSegment: true` anlegen, damit der Dienst die beiden Dokumente vergleicht" },
+          "correct": false,
+          "why": { "en": "Classification splits, labels and routes content; it doesn't validate values across documents.", "de": "Klassifizierung teilt, kennzeichnet und leitet Inhalte weiter; Werte über Dokumente hinweg prüft sie nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Migrate pro-mode clients to agentic mode: one input file (it can hold several related documents), `config.workflow: \"agentic\"` and API `2026-06-01-preview` — and plan for preview terms.",
+        "de": "Migriere Pro-Modus-Clients auf den agentic mode: eine Eingabedatei (sie darf mehrere zusammengehörige Dokumente enthalten), `config.workflow: \"agentic\"` und API `2026-06-01-preview` – und plane mit Preview-Bedingungen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/agentic-mode",
+        "https://learn.microsoft.com/en-us/rest/api/contentunderstanding/content-analyzers/analyze?view=rest-contentunderstanding-2025-11-01"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

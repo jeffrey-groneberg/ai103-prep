@@ -1,0 +1,695 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "optimize-models",
+  "questions": [
+    {
+      "id": "q-optimize-models-01",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "module": "optimize-models",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your internal IT helpdesk assistant sometimes answers questions about unrelated topics and guesses when it lacks information. Based on the system message design checklist, which TWO additions to the system message address this?",
+        "de": "Dein interner IT-Helpdesk-Assistent beantwortet manchmal Fragen zu fachfremden Themen und rät, wenn ihm Informationen fehlen. Welche ZWEI Ergänzungen der Systemnachricht helfen laut Design-Checkliste?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Boundaries that list the topics and actions the assistant must avoid", "de": "Grenzen, die Themen und Aktionen auflisten, die der Assistent vermeiden muss" },
+          "correct": true,
+          "why": { "en": "Boundaries define the scope, so the model knows what is out of bounds for this scenario.", "de": "Grenzen definieren den Umfang, damit das Modell weiß, was in diesem Szenario tabu ist." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A \"when unsure\" policy, for example ask a clarifying question or say it doesn't know", "de": "Eine Regel für Unsicherheit, etwa eine Rückfrage stellen oder sagen, dass es die Antwort nicht weiß" },
+          "correct": true,
+          "why": { "en": "Making the fallback explicit for ambiguous, out-of-scope or unknown requests stops the model from guessing.", "de": "Ein ausdrücklicher Fallback für mehrdeutige, fachfremde oder unbekannte Anfragen hält das Modell vom Raten ab." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A higher `temperature` so the model considers more possible answers", "de": "Eine höhere `temperature`, damit das Modell mehr mögliche Antworten erwägt" },
+          "correct": false,
+          "why": { "en": "Temperature changes randomness, not scope or fallback behavior; higher values make guessing more likely, not less.", "de": "Die Temperatur ändert die Zufälligkeit, nicht Umfang oder Fallback; höhere Werte machen Raten eher wahrscheinlicher." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Remove the system message so the user's prompt carries more weight", "de": "Die Systemnachricht entfernen, damit der Nutzer-Prompt mehr Gewicht bekommt" },
+          "correct": false,
+          "why": { "en": "The system message is the highest-level instruction layer; removing it drops the role and the rules altogether.", "de": "Die Systemnachricht ist die oberste Anweisungsebene; ohne sie fallen Rolle und Regeln komplett weg." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Require every answer to be at least 500 words long", "de": "Für jede Antwort mindestens 500 Wörter verlangen" },
+          "correct": false,
+          "why": { "en": "Forcing length invites filler and does nothing about scope or guessing.", "de": "Erzwungene Länge fördert Fülltext und ändert nichts an Umfang oder Raten." }
+        }
+      ],
+      "explanation": {
+        "en": "A solid system message states the role, boundaries, output format and a \"when unsure\" policy — and you still test it, because it influences behavior but doesn't guarantee it.",
+        "de": "Eine solide Systemnachricht nennt Rolle, Grenzen, Ausgabeformat und eine Regel für Unsicherheit – und du testest sie trotzdem, denn sie beeinflusst das Verhalten, garantiert es aber nicht."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/advanced-prompt-engineering"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-02",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "Match each prompt problem with a non-reasoning model to the technique that addresses it.",
+        "de": "Ordne jedes Prompt-Problem bei einem Nicht-Reasoning-Modell der Technik zu, die es löst."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "The model must label support tickets with your five category names but keeps inventing new labels", "de": "Das Modell soll Support-Tickets mit deinen fünf Kategorienamen labeln, erfindet aber ständig neue Labels" },
+          "answer": "t1",
+          "why": { "en": "Example input/label pairs show the exact pattern and label set to follow.", "de": "Beispielpaare aus Eingabe und Label zeigen genau das Muster und die Labelmenge, denen es folgen soll." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "A multi-step price calculation is often wrong, and reviewers can't see where it went wrong", "de": "Eine mehrstufige Preisberechnung ist oft falsch, und Prüfer sehen nicht, wo der Fehler entstand" },
+          "answer": "t2",
+          "why": { "en": "Asking for step-by-step work before the final answer reduces errors and makes the logic checkable.", "de": "Schrittweises Vorgehen vor der finalen Antwort reduziert Fehler und macht die Logik prüfbar." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "A long prompt mixes instructions, pasted source text and examples, and the model confuses them", "de": "Ein langer Prompt mischt Anweisungen, eingefügten Quelltext und Beispiele, und das Modell verwechselt sie" },
+          "answer": "t3",
+          "why": { "en": "Separators such as `---`, Markdown headings or XML tags show where each part starts and ends.", "de": "Trennzeichen wie `---`, Markdown-Überschriften oder XML-Tags zeigen, wo jeder Teil beginnt und endet." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "In a long prompt, the model follows the formatting rule stated at the very beginning only some of the time", "de": "In einem langen Prompt befolgt das Modell die ganz am Anfang genannte Formatregel nur manchmal" },
+          "answer": "t4",
+          "why": { "en": "Models can show recency bias, so restating the key instruction at the end of the prompt helps.", "de": "Modelle können einen Recency Bias zeigen; die Kernanweisung am Ende zu wiederholen hilft." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Few-shot examples", "de": "Few-Shot-Beispiele" } },
+        { "id": "t2", "text": { "en": "Chain-of-thought prompting", "de": "Chain-of-Thought-Prompting" } },
+        { "id": "t3", "text": { "en": "Clear syntax with delimiters", "de": "Klare Syntax mit Trennzeichen" } },
+        { "id": "t4", "text": { "en": "Repeat the key instruction at the end", "de": "Kernanweisung am Ende wiederholen" } },
+        { "id": "t5", "text": { "en": "Raise `top_p`", "de": "`top_p` erhöhen" } }
+      ],
+      "explanation": {
+        "en": "Pick the pattern by symptom: examples for patterns and labels, step-by-step reasoning for multi-step logic on non-reasoning models, delimiters for mixed content, repetition against recency bias.",
+        "de": "Wähle das Muster nach Symptom: Beispiele für Muster und Labels, schrittweises Vorgehen für mehrstufige Logik bei Nicht-Reasoning-Modellen, Trennzeichen für gemischte Inhalte, Wiederholung gegen Recency Bias."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-03",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "You moved a route-planning feature to the reasoning model deployment `gpt-5-mini`. Complete the Responses API call so that it uses moderate reasoning and caps all generated tokens.",
+        "de": "Du hast eine Routenplanungsfunktion auf das Reasoning-Deployment `gpt-5-mini` umgestellt. Vervollständige den Responses-API-Aufruf so, dass er moderates Reasoning nutzt und alle generierten Tokens begrenzt."
+      },
+      "template": "response = client.responses.create(\n    model=\"gpt-5-mini\",\n    {{b1}}=\"You plan delivery routes. Return a numbered list of stops.\",\n    input=\"Plan the stops for 12 parcels in Munich.\",\n    {{b2}},\n    {{b3}}=8000,\n)\nprint(response.status, response.output_text)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "instructions", "correct": true, "why": { "en": "`instructions` carries the system message in the Responses API.", "de": "`instructions` transportiert in der Responses API die Systemnachricht." } },
+            { "id": "b", "code": "messages", "correct": false, "why": { "en": "`messages` is the Chat Completions parameter for the whole message list.", "de": "`messages` ist der Chat-Completions-Parameter für die gesamte Nachrichtenliste." } },
+            { "id": "c", "code": "system", "correct": false, "why": { "en": "`responses.create()` has no `system` parameter; use `instructions` or a system/developer message in `input`.", "de": "`responses.create()` hat keinen Parameter `system`; nutze `instructions` oder eine System-/Developer-Nachricht in `input`." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "reasoning={\"effort\": \"medium\"}", "correct": true, "why": { "en": "In the Responses API, reasoning depth is set with `reasoning.effort`.", "de": "In der Responses API legst du die Reasoning-Tiefe mit `reasoning.effort` fest." } },
+            { "id": "b", "code": "reasoning_effort=\"medium\"", "correct": false, "why": { "en": "That's the Chat Completions spelling of the setting, not a `responses.create()` parameter.", "de": "So heißt die Einstellung bei Chat Completions, nicht als Parameter von `responses.create()`." } },
+            { "id": "c", "code": "temperature=0.3", "correct": false, "why": { "en": "Reasoning models don't support `temperature`.", "de": "Reasoning-Modelle unterstützen `temperature` nicht." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "max_output_tokens", "correct": true, "why": { "en": "Caps everything the model generates in the Responses API: reasoning, visible output and formatting tokens.", "de": "Begrenzt in der Responses API alles, was das Modell erzeugt: Reasoning-, sichtbare Ausgabe- und Formatierungs-Tokens." } },
+            { "id": "b", "code": "max_completion_tokens", "correct": false, "why": { "en": "That's the Chat Completions parameter for reasoning models.", "de": "Das ist der Chat-Completions-Parameter für Reasoning-Modelle." } },
+            { "id": "c", "code": "max_tokens", "correct": false, "why": { "en": "Reasoning models don't support `max_tokens`.", "de": "Reasoning-Modelle unterstützen `max_tokens` nicht." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "With reasoning models in the Responses API: system prompt via `instructions`, depth via `reasoning.effort`, cap via `max_output_tokens` (which includes reasoning tokens). `temperature`, `top_p` and `max_tokens` aren't supported.",
+        "de": "Bei Reasoning-Modellen in der Responses API: Systemprompt über `instructions`, Tiefe über `reasoning.effort`, Obergrenze über `max_output_tokens` (inklusive Reasoning-Tokens). `temperature`, `top_p` und `max_tokens` werden nicht unterstützt."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-04",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "skills": ["1.3.1"],
+      "module": "optimize-models",
+      "difficulty": 3,
+      "stem": {
+        "en": "To control costs, you set `max_output_tokens=500` on calls to a reasoning model. Now some complex requests return `status: \"incomplete\"` with `incomplete_details.reason` set to `max_output_tokens` and an empty `output_text` — and you are still billed for them. What is the most likely cause and fix?",
+        "de": "Um Kosten zu begrenzen, setzt du bei Aufrufen eines Reasoning-Modells `max_output_tokens=500`. Jetzt liefern manche komplexe Anfragen `status: \"incomplete\"` mit `incomplete_details.reason` gleich `max_output_tokens` und leerem `output_text` – abgerechnet werden sie trotzdem. Was ist die wahrscheinlichste Ursache und Lösung?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Reasoning tokens count toward the cap and used it up before any visible text; raise the limit (the docs suggest reserving about 25,000 tokens at first) or lower `reasoning.effort`", "de": "Reasoning-Tokens zählen zum Limit und haben es vor jedem sichtbaren Text aufgebraucht; erhöhe das Limit (die Doku rät anfangs zu rund 25.000 Tokens) oder senke `reasoning.effort`" },
+          "correct": true,
+          "why": { "en": "`max_output_tokens` covers reasoning, visible and formatting tokens, so a tight cap can end the response before any answer appears; lower effort generally means fewer reasoning tokens.", "de": "`max_output_tokens` umfasst Reasoning-, sichtbare und Formatierungs-Tokens; ein knappes Limit kann die Antwort beenden, bevor Text erscheint. Weniger Effort bedeutet meist weniger Reasoning-Tokens." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A content filter blocked the answer; review the guardrail annotations", "de": "Ein Inhaltsfilter hat die Antwort blockiert; prüfe die Guardrail-Annotationen" },
+          "correct": false,
+          "why": { "en": "The response itself names the reason: `max_output_tokens`, not a content filter.", "de": "Die Antwort nennt den Grund selbst: `max_output_tokens`, nicht einen Inhaltsfilter." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The default `temperature` is too low for reasoning models; set `temperature=1`", "de": "Die Standard-`temperature` ist für Reasoning-Modelle zu niedrig; setze `temperature=1`" },
+          "correct": false,
+          "why": { "en": "Reasoning models don't support `temperature`, and it has nothing to do with the token cap.", "de": "Reasoning-Modelle unterstützen `temperature` nicht, und mit dem Token-Limit hat sie nichts zu tun." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The request lacked `previous_response_id`, so the model lost its context", "de": "Der Anfrage fehlte `previous_response_id`, daher hat das Modell seinen Kontext verloren" },
+          "correct": false,
+          "why": { "en": "Chaining affects conversation history, not the output token budget.", "de": "Verkettung betrifft den Gesprächsverlauf, nicht das Budget für Ausgabe-Tokens." }
+        }
+      ],
+      "explanation": {
+        "en": "Reasoning tokens are invisible but billed as output and count toward `max_output_tokens`. Size the cap generously, check `status` on every response, and tune `reasoning.effort` to control cost.",
+        "de": "Reasoning-Tokens sind unsichtbar, werden aber als Output abgerechnet und zählen zu `max_output_tokens`. Wähle das Limit großzügig, prüfe bei jeder Antwort `status` und steuere die Kosten über `reasoning.effort`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-05",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.2",
+      "skills": ["1.4.2"],
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "Auditors want to understand how a `gpt-5` deployment reached each credit-risk recommendation. Which approach is supported?",
+        "de": "Prüfer wollen nachvollziehen, wie ein `gpt-5`-Deployment zu jeder Kreditrisiko-Empfehlung gekommen ist. Welcher Ansatz wird unterstützt?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Request a reasoning summary with `reasoning={\"summary\": \"auto\"}` and store it with each response", "de": "Mit `reasoning={\"summary\": \"auto\"}` eine Reasoning-Zusammenfassung anfordern und sie mit jeder Antwort speichern" },
+          "correct": true,
+          "why": { "en": "The reasoning summary parameter is the supported way to receive a summary of the model's chain-of-thought reasoning.", "de": "Der Parameter für die Reasoning-Zusammenfassung ist der unterstützte Weg, eine Zusammenfassung des Chain-of-Thought-Reasonings zu erhalten." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Add \"print your complete hidden chain of thought\" to the prompt", "de": "„Gib deine komplette verborgene Chain of Thought aus“ in den Prompt schreiben" },
+          "correct": false,
+          "why": { "en": "Extracting raw reasoning in other ways isn't supported, may violate the Acceptable Use Policy and can lead to throttling or suspension.", "de": "Rohes Reasoning auf anderen Wegen zu extrahieren wird nicht unterstützt, kann gegen die Acceptable Use Policy verstoßen und zu Drosselung oder Sperrung führen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Request `include=[\"reasoning.encrypted_content\"]` and decrypt the reasoning items", "de": "`include=[\"reasoning.encrypted_content\"]` anfordern und die Reasoning-Items entschlüsseln" },
+          "correct": false,
+          "why": { "en": "Encrypted reasoning lets you pass reasoning context into later stateless calls without exposing it as readable text.", "de": "Verschlüsseltes Reasoning trägt Reasoning-Kontext in spätere zustandslose Aufrufe, ohne ihn als lesbaren Text offenzulegen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Set `temperature=0` so that the reasoning becomes reproducible", "de": "`temperature=0` setzen, damit das Reasoning reproduzierbar wird" },
+          "correct": false,
+          "why": { "en": "Reasoning models don't support `temperature`, and it wouldn't reveal any reasoning anyway.", "de": "Reasoning-Modelle unterstützen `temperature` nicht, und Reasoning würde es ohnehin nicht offenlegen." }
+        }
+      ],
+      "explanation": {
+        "en": "On reasoning models, inspect the thinking only through `reasoning.summary`; chain-of-thought prompting is a technique for non-reasoning models.",
+        "de": "Bei Reasoning-Modellen siehst du das Denken nur über `reasoning.summary`; Chain-of-Thought-Prompting ist eine Technik für Nicht-Reasoning-Modelle."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-06",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.3.2",
+      "skills": ["2.2.5"],
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "You implement a self-critique loop with Microsoft Agent Framework: a generator drafts a compliance summary, a judge model checks it, and the judge's feedback triggers a revision. Which TWO design choices follow the guidance?",
+        "de": "Du setzt mit dem Microsoft Agent Framework eine Selbstkritik-Schleife um: Ein Generator entwirft eine Compliance-Zusammenfassung, ein Judge-Modell prüft sie, und das Feedback des Judges löst eine Überarbeitung aus. Welche ZWEI Designentscheidungen folgen den Empfehlungen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Give the judge explicit criteria, such as \"answer every part of the request\" and \"support conclusions with evidence\"", "de": "Dem Judge klare Kriterien geben, etwa „beantworte jeden Teil der Anfrage“ und „belege Schlussfolgerungen“" },
+          "correct": true,
+          "why": { "en": "The judge compares the latest response with the stated criteria; when it finds a gap, its analysis becomes feedback for the next iteration.", "de": "Der Judge vergleicht die letzte Antwort mit den genannten Kriterien; findet er eine Lücke, wird seine Analyse zum Feedback für die nächste Runde." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set a maximum number of iterations and stop or escalate when it's reached", "de": "Eine maximale Rundenzahl festlegen und bei Erreichen stoppen oder eskalieren" },
+          "correct": true,
+          "why": { "en": "Autonomous loops must always be bounded, because completion conditions can fail, models can stall and evaluators are probabilistic.", "de": "Autonome Schleifen müssen immer begrenzt sein, weil Abschlussbedingungen scheitern, Modelle hängen bleiben und Evaluatoren probabilistisch sind." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Let the loop run without an iteration limit until the judge approves", "de": "Die Schleife ohne Rundenlimit laufen lassen, bis der Judge zustimmt" },
+          "correct": false,
+          "why": { "en": "An unbounded loop can run forever if the model stalls or the judge never passes the draft.", "de": "Eine unbegrenzte Schleife kann ewig laufen, wenn das Modell hängen bleibt oder der Judge den Entwurf nie durchwinkt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Raise the generator's `temperature` on every retry instead of passing the judge's feedback", "de": "Bei jedem Versuch die `temperature` des Generators erhöhen, statt das Feedback des Judges weiterzugeben" },
+          "correct": false,
+          "why": { "en": "Without the feedback, the generator doesn't learn what to fix; more randomness isn't a revision.", "de": "Ohne Feedback erfährt der Generator nicht, was er korrigieren soll; mehr Zufall ist keine Überarbeitung." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Send drafts to whichever external judge endpoint is cheapest", "de": "Entwürfe an den jeweils günstigsten externen Judge-Endpoint schicken" },
+          "correct": false,
+          "why": { "en": "The judge sees the original request and the generated response, so use only a judge endpoint you trust with that data.", "de": "Der Judge sieht die ursprüngliche Anfrage und die generierte Antwort; nutze also nur einen Judge-Endpoint, dem du diese Daten anvertraust." }
+        }
+      ],
+      "explanation": {
+        "en": "A safe reflection loop combines explicit criteria, a trusted judge, feedback into the next draft and a hard iteration cap.",
+        "de": "Eine sichere Reflexionsschleife verbindet klare Kriterien, einen vertrauenswürdigen Judge, Feedback für den nächsten Entwurf und ein festes Rundenlimit."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/agents/looping"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-07",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.2",
+      "skills": ["2.1.4"],
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your pipeline runs the built-in groundedness evaluator on every generated summary. It must revise only the summaries that fail and pass the evaluator's explanation to the generator as feedback. Which output fields should the pipeline use?",
+        "de": "Deine Pipeline führt für jede generierte Zusammenfassung den integrierten Groundedness-Evaluator aus. Sie soll nur durchgefallene Zusammenfassungen überarbeiten und die Erklärung des Evaluators als Feedback an den Generator geben. Welche Ausgabefelder nutzt die Pipeline?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`passed` (the score compared with the threshold) to decide, and `reason` as the revision feedback", "de": "`passed` (Score im Vergleich zum Schwellenwert) für die Entscheidung und `reason` als Feedback für die Überarbeitung" },
+          "correct": true,
+          "why": { "en": "LLM-as-judge evaluators return a 1–5 score, a threshold (default 3), a pass/fail result and a reason that explains the score.", "de": "LLM-as-Judge-Evaluatoren liefern einen Score von 1–5, einen Schwellenwert (Standard 3), ein Pass/Fail-Ergebnis und eine Begründung für den Score." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`usage.output_tokens`, because longer summaries are less grounded", "de": "`usage.output_tokens`, weil längere Zusammenfassungen weniger fundiert sind" },
+          "correct": false,
+          "why": { "en": "Token counts measure length and cost, not groundedness.", "de": "Token-Zahlen messen Länge und Kosten, nicht die Fundiertheit." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The judge model's `output_tokens_details.reasoning_tokens`", "de": "Die `output_tokens_details.reasoning_tokens` des Judge-Modells" },
+          "correct": false,
+          "why": { "en": "Reasoning token counts show how much the judge thought, not its verdict.", "de": "Reasoning-Token-Zahlen zeigen, wie viel der Judge nachgedacht hat, nicht sein Urteil." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`label` only, because evaluators don't explain their scores", "de": "Nur `label`, weil Evaluatoren ihre Scores nicht begründen" },
+          "correct": false,
+          "why": { "en": "The output also contains a `reason` field that explains the score — exactly the feedback you need.", "de": "Die Ausgabe enthält zusätzlich ein Feld `reason`, das den Score begründet – genau das Feedback, das du brauchst." }
+        }
+      ],
+      "explanation": {
+        "en": "Evaluators give you a verdict and a rationale: gate the loop on `passed` (score vs. threshold) and feed `reason` into the next attempt.",
+        "de": "Evaluatoren liefern Urteil und Begründung: Steuere die Schleife über `passed` (Score vs. Schwellenwert) und gib `reason` in den nächsten Versuch."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/rag-evaluators",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/general-purpose-evaluators"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-08",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.2",
+      "module": "optimize-models",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your app uses two deployments: `gpt-4.1` (non-reasoning) for quick quote calculations and `o4-mini` (reasoning) for complex contract analysis. Both make mistakes on multistep tasks. How should you apply chain-of-thought guidance?",
+        "de": "Deine App nutzt zwei Deployments: `gpt-4.1` (ohne Reasoning) für schnelle Angebotsberechnungen und `o4-mini` (Reasoning) für komplexe Vertragsanalysen. Beide machen Fehler bei mehrstufigen Aufgaben. Wie wendest du Chain-of-Thought-Hinweise an?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Ask `gpt-4.1` to work step by step before the final answer; for `o4-mini`, state the goal, constraints and output format and tune `reasoning.effort`", "de": "`gpt-4.1` vor der finalen Antwort schrittweise vorgehen lassen; für `o4-mini` Ziel, Einschränkungen und Ausgabeformat nennen und `reasoning.effort` abstimmen" },
+          "correct": true,
+          "why": { "en": "Chain-of-thought prompting applies to non-reasoning models; reasoning models reason internally and work best with a clear goal, firm constraints and an output contract.", "de": "Chain-of-Thought-Prompting gilt für Nicht-Reasoning-Modelle; Reasoning-Modelle denken intern und arbeiten am besten mit klarem Ziel, festen Vorgaben und Ausgabevertrag." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Add \"think step by step and show all reasoning\" to both prompts", "de": "„Denke Schritt für Schritt und zeige dein gesamtes Reasoning“ in beide Prompts schreiben" },
+          "correct": false,
+          "why": { "en": "Not recommended for reasoning models, and trying to extract their raw reasoning isn't supported.", "de": "Für Reasoning-Modelle nicht empfohlen, und der Versuch, ihr rohes Reasoning zu extrahieren, wird nicht unterstützt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Use chain of thought only for `o4-mini`, because only reasoning models can follow step-by-step instructions", "de": "Chain of Thought nur für `o4-mini` nutzen, weil nur Reasoning-Modelle schrittweisen Anweisungen folgen können" },
+          "correct": false,
+          "why": { "en": "It's the other way round: step-by-step prompting is the technique for non-reasoning models.", "de": "Es ist umgekehrt: Schrittweises Prompting ist die Technik für Nicht-Reasoning-Modelle." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Raise `temperature` on both deployments so they explore more solution paths", "de": "Auf beiden Deployments `temperature` erhöhen, damit sie mehr Lösungswege erkunden" },
+          "correct": false,
+          "why": { "en": "`o4-mini` doesn't support `temperature`, and more randomness doesn't fix multistep errors.", "de": "`o4-mini` unterstützt `temperature` nicht, und mehr Zufall behebt keine mehrstufigen Fehler." }
+        }
+      ],
+      "explanation": {
+        "en": "Chain-of-thought prompting is for non-reasoning models. For reasoning models, give a clear goal, constraints and output contract, and adjust `reasoning.effort`.",
+        "de": "Chain-of-Thought-Prompting ist für Nicht-Reasoning-Modelle gedacht. Reasoning-Modellen gibst du ein klares Ziel, Vorgaben und einen Ausgabevertrag und passt `reasoning.effort` an."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-09",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.1.2",
+      "skills": ["5.1.2"],
+      "module": "optimize-models",
+      "difficulty": 1,
+      "stem": {
+        "en": "Put the steps of a classic RAG solution over an Azure AI Search index in order.",
+        "de": "Bringe die Schritte einer klassischen RAG-Lösung über einen Azure-AI-Search-Index in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Chunk the source documents and store them with their embeddings in an Azure AI Search index", "de": "Die Quelldokumente in Chunks zerlegen und mit ihren Embeddings in einem Azure-AI-Search-Index speichern" },
+          "why": { "en": "Indexing happens once, before any question is asked.", "de": "Die Indexierung passiert einmalig, bevor überhaupt eine Frage gestellt wird." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "A user asks a question in the chat app", "de": "Ein Nutzer stellt in der Chat-App eine Frage" },
+          "why": { "en": "Every RAG request starts with the user's query.", "de": "Jede RAG-Anfrage beginnt mit der Frage des Nutzers." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "The question is turned into an embedding and the index is queried, ideally with a hybrid keyword + vector query", "de": "Die Frage wird in ein Embedding umgewandelt und der Index abgefragt, idealerweise hybrid mit Keyword + Vektor" },
+          "why": { "en": "Retrieve: find the most relevant chunks; hybrid queries maximize recall.", "de": "Abrufen: die relevantesten Chunks finden; hybride Abfragen maximieren den Recall." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "The app adds the retrieved chunks to the prompt as grounding data", "de": "Die App fügt die gefundenen Chunks als Grounding-Daten in den Prompt ein" },
+          "why": { "en": "Augment: the model only knows what you put into its input.", "de": "Anreichern: Das Modell kennt nur, was du in seine Eingabe schreibst." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "The model generates an answer grounded in those chunks, with citations", "de": "Das Modell generiert eine auf diesen Chunks basierende Antwort mit Quellenangaben" },
+          "why": { "en": "Generate: grounding reduces fabricated details and enables accurate citations.", "de": "Generieren: Grounding reduziert erfundene Details und ermöglicht genaue Quellenangaben." }
+        }
+      ],
+      "explanation": {
+        "en": "RAG means preparing an index once and then, for every question: retrieve → augment → generate.",
+        "de": "RAG heißt: einmal einen Index vorbereiten und dann bei jeder Frage abrufen → anreichern → generieren."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+        "https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-10",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.1.2",
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "A travel company's chat app invents hotel names and quotes outdated prices. The hotel catalog changes daily. Which TWO statements explain why RAG, not fine-tuning, is the right optimization here?",
+        "de": "Die Chat-App eines Reiseunternehmens erfindet Hotelnamen und nennt veraltete Preise. Der Hotelkatalog ändert sich täglich. Welche ZWEI Aussagen begründen, warum hier RAG und nicht Fine-Tuning die richtige Optimierung ist?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "RAG retrieves current catalog data at query time, so daily changes don't require retraining", "de": "RAG ruft aktuelle Katalogdaten zur Abfragezeit ab, tägliche Änderungen erfordern also kein Neutraining" },
+          "correct": true,
+          "why": { "en": "Fresh data is fetched with each request; you only keep the index up to date.", "de": "Aktuelle Daten werden bei jeder Anfrage geholt; du hältst nur den Index aktuell." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Fine-tuning changes behavior, style or task performance; it doesn't add fresh knowledge", "de": "Fine-Tuning ändert Verhalten, Stil oder Aufgabenleistung; aktuelles Wissen fügt es nicht hinzu" },
+          "correct": true,
+          "why": { "en": "The docs position fine-tuning for behavior and RAG for private or frequently changing data.", "de": "Die Doku positioniert Fine-Tuning für Verhalten und RAG für private oder häufig wechselnde Daten." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "RAG guarantees that the model never fabricates details", "de": "RAG garantiert, dass das Modell nie Details erfindet" },
+          "correct": false,
+          "why": { "en": "Grounding reduces fabrication but doesn't eliminate it; you still need clear instructions, citations and evaluation.", "de": "Grounding verringert Erfindungen, verhindert sie aber nicht; du brauchst weiter klare Anweisungen, Quellenangaben und Evaluierung." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Fine-tuning is cheaper than RAG for data that changes every day", "de": "Fine-Tuning ist bei täglich wechselnden Daten günstiger als RAG" },
+          "correct": false,
+          "why": { "en": "Every data change would need new training plus hosting costs; RAG avoids retraining.", "de": "Jede Datenänderung bräuchte neues Training plus Hosting-Kosten; RAG kommt ohne Neutraining aus." }
+        }
+      ],
+      "explanation": {
+        "en": "Missing or changing knowledge → RAG; behavior and consistency → fine-tuning. Grounding lowers the risk of fabrication but doesn't remove it.",
+        "de": "Fehlendes oder wechselndes Wissen → RAG; Verhalten und Konsistenz → Fine-Tuning. Grounding senkt das Risiko erfundener Inhalte, beseitigt es aber nicht."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation",
+        "https://learn.microsoft.com/en-us/azure/foundry/fine-tuning/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-11",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.4",
+      "skills": ["1.3.1"],
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "An FAQ bot answers millions of short questions per day plus occasional complex ones. You want a single deployment that sends easy prompts to smaller, cheaper models while still handling hard prompts, with the biggest possible cost savings. What should you deploy?",
+        "de": "Ein FAQ-Bot beantwortet täglich Millionen kurzer Fragen und gelegentlich komplexe. Du willst ein einziges Deployment, das einfache Prompts an kleinere, günstigere Modelle schickt und schwierige trotzdem bewältigt – mit größtmöglicher Kostenersparnis. Was stellst du bereit?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A model router deployment with the routing mode **Cost**", "de": "Ein Model-Router-Deployment mit dem Routing-Modus **Cost**" },
+          "correct": true,
+          "why": { "en": "Model router picks an underlying model per prompt; Cost mode accepts a wider quality band to maximize savings for high-volume, budget-sensitive workloads.", "de": "Der Model Router wählt pro Prompt ein zugrunde liegendes Modell; der Cost-Modus akzeptiert ein breiteres Qualitätsband, um bei hohem Volumen und knappem Budget maximal zu sparen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A model router deployment with the routing mode **Quality**", "de": "Ein Model-Router-Deployment mit dem Routing-Modus **Quality**" },
+          "correct": false,
+          "why": { "en": "Quality mode picks the highest-rated model for each prompt and ignores cost.", "de": "Der Quality-Modus wählt für jeden Prompt das am besten bewertete Modell und ignoriert die Kosten." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A single `gpt-5` deployment with `reasoning.effort` set to `low`", "de": "Ein einzelnes `gpt-5`-Deployment mit `reasoning.effort` auf `low`" },
+          "correct": false,
+          "why": { "en": "One fixed model, even at low effort, never sends easy prompts to smaller, cheaper models.", "de": "Ein festes Modell schickt einfache Prompts nie an kleinere, günstigere Modelle – auch nicht mit niedrigem Effort." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "One deployment per model plus custom routing code in the app", "de": "Ein Deployment pro Modell plus eigener Routing-Code in der App" },
+          "correct": false,
+          "why": { "en": "That isn't a single deployment, and model router already manages per-request model selection behind one deployment.", "de": "Das ist kein einzelnes Deployment, und der Model Router übernimmt die Modellauswahl pro Anfrage bereits hinter einem Deployment." }
+        }
+      ],
+      "explanation": {
+        "en": "Model router = one deployment with per-prompt model selection. Balanced (default) weighs cost and quality, Cost maximizes savings, Quality maximizes accuracy.",
+        "de": "Model Router = ein Deployment mit Modellauswahl pro Prompt. Balanced (Standard) wägt Kosten und Qualität ab, Cost maximiert die Ersparnis, Quality die Genauigkeit."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-router"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-12",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.3.4",
+      "skills": ["2.2.5"],
+      "module": "optimize-models",
+      "difficulty": 1,
+      "stem": {
+        "en": "A refund workflow in Microsoft Agent Framework combines LLM reasoning with fixed business rules. Match each step to the workflow component that should handle it.",
+        "de": "Ein Erstattungs-Workflow im Microsoft Agent Framework kombiniert LLM-Reasoning mit festen Geschäftsregeln. Ordne jeden Schritt der Workflow-Komponente zu, die ihn übernehmen sollte."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Interpret a free-text customer complaint and draft an empathetic reply", "de": "Eine Kundenbeschwerde in Freitext verstehen und eine einfühlsame Antwort entwerfen" },
+          "answer": "t1",
+          "why": { "en": "Open-ended language understanding benefits from LLM reasoning, so the model should figure it out.", "de": "Offenes Sprachverständnis profitiert vom LLM-Reasoning – hier soll das Modell entscheiden." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Calculate the refund amount from the published fee table", "de": "Den Erstattungsbetrag aus der veröffentlichten Gebührentabelle berechnen" },
+          "answer": "t2",
+          "why": { "en": "When code should determine the outcome, use regular business logic — predictable and testable.", "de": "Wenn Code das Ergebnis bestimmen soll, nutzt du normale Geschäftslogik – vorhersagbar und testbar." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Approve any refund above 5,000 EUR before it's paid", "de": "Jede Erstattung über 5.000 EUR vor der Auszahlung genehmigen" },
+          "answer": "t3",
+          "why": { "en": "When a person must make the call, add an explicit human-in-the-loop gate.", "de": "Wenn ein Mensch entscheiden muss, fügst du ein ausdrückliches Human-in-the-Loop-Gate ein." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Send the case to the billing or the technical branch based on the agent's structured classification", "de": "Den Fall anhand der strukturierten Klassifizierung des Agents an den Abrechnungs- oder Technikzweig leiten" },
+          "answer": "t4",
+          "why": { "en": "Edges with conditions route messages based on their content, such as a structured result.", "de": "Kanten mit Bedingungen leiten Nachrichten anhand ihres Inhalts weiter, etwa eines strukturierten Ergebnisses." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Agent executor (LLM)", "de": "Agent Executor (LLM)" } },
+        { "id": "t2", "text": { "en": "Deterministic executor (business logic)", "de": "Deterministischer Executor (Geschäftslogik)" } },
+        { "id": "t3", "text": { "en": "Human-in-the-loop gate", "de": "Human-in-the-Loop-Gate" } },
+        { "id": "t4", "text": { "en": "Conditional edge", "de": "Bedingte Kante (Conditional Edge)" } },
+        { "id": "t5", "text": { "en": "Fine-tuned model", "de": "Feinabgestimmtes Modell" } }
+      ],
+      "explanation": {
+        "en": "In a hybrid LLM-plus-rules workflow you decide per step: the model → agent executor, code → deterministic executor, a person → human-in-the-loop gate; conditional edges do the routing.",
+        "de": "In einem hybriden Workflow aus LLM und Regeln entscheidest du je Schritt: Modell → Agent Executor, Code → deterministischer Executor, Mensch → Human-in-the-Loop-Gate; bedingte Kanten übernehmen das Routing."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/journey/workflows",
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/edges"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-13",
+      "type": "code",
+      "domain": "D4",
+      "skill": "4.1.4",
+      "skills": ["4.1.1"],
+      "module": "optimize-models",
+      "difficulty": 2,
+      "stem": {
+        "en": "A compliance team needs each contract's termination clause extracted into a fixed JSON shape that downstream code can trust. Complete the code.",
+        "de": "Ein Compliance-Team braucht die Kündigungsklausel jedes Vertrags in einer festen JSON-Struktur, auf die sich nachgelagerter Code verlassen kann. Vervollständige den Code."
+      },
+      "template": "class TerminationClause(BaseModel):\n    notice_period_days: int\n    allowed_reasons: list[str]\n    penalty: str\n\nresponse = client.responses.{{b1}}(\n    model=\"gpt-5-mini\",\n    instructions=\"Extract the termination clause. Use only the contract text.\",\n    input=contract_text,\n    {{b2}}=TerminationClause,\n)\nclause = response.{{b3}}\nprint(clause.notice_period_days)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "parse", "correct": true, "why": { "en": "Converts the Pydantic model into a JSON schema under `text.format` and parses the result.", "de": "Wandelt das Pydantic-Modell in ein JSON-Schema unter `text.format` um und parst das Ergebnis." } },
+            { "id": "b", "code": "create", "correct": false, "why": { "en": "`create` doesn't take a Pydantic class or return a parsed object; with it you'd set `text.format` yourself.", "de": "`create` nimmt keine Pydantic-Klasse an und liefert kein geparstes Objekt; damit müsstest du `text.format` selbst setzen." } },
+            { "id": "c", "code": "stream", "correct": false, "why": { "en": "Streams incremental events; it doesn't return a parsed object.", "de": "Streamt schrittweise Events; ein geparstes Objekt liefert es nicht." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "text_format", "correct": true, "why": { "en": "The Responses API parse helper takes the Pydantic model in `text_format`.", "de": "Der Parse-Helfer der Responses API nimmt das Pydantic-Modell in `text_format` entgegen." } },
+            { "id": "b", "code": "response_format", "correct": false, "why": { "en": "`response_format` is the Chat Completions way to request structured outputs.", "de": "`response_format` ist der Chat-Completions-Weg für Structured Outputs." } },
+            { "id": "c", "code": "json_schema", "correct": false, "why": { "en": "Not a keyword argument; `json_schema` is the `type` value inside `text.format`.", "de": "Kein Keyword-Argument; `json_schema` ist der `type`-Wert innerhalb von `text.format`." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "output_parsed", "correct": true, "why": { "en": "Holds the response already parsed into a `TerminationClause` instance.", "de": "Enthält die Antwort bereits als `TerminationClause`-Instanz geparst." } },
+            { "id": "b", "code": "output_text", "correct": false, "why": { "en": "The raw JSON string, not a typed object with attributes.", "de": "Der rohe JSON-String, kein typisiertes Objekt mit Attributen." } },
+            { "id": "c", "code": "choices[0].message.parsed", "correct": false, "why": { "en": "That's the result shape of Chat Completions `parse`, not of the Responses API.", "de": "Das ist die Ergebnisstruktur von Chat-Completions-`parse`, nicht der Responses API." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "For reliable domain extraction, use structured outputs: `text.format` with a JSON schema in the Responses API — in Python `responses.parse(text_format=…)` and `output_parsed` — rather than JSON mode or free-text instructions.",
+        "de": "Für verlässliche Fachextraktion nutzt du Structured Outputs: `text.format` mit JSON-Schema in der Responses API – in Python `responses.parse(text_format=…)` und `output_parsed` – statt JSON-Modus oder reiner Textanweisungen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-optimize-models-14",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.1.4",
+      "module": "optimize-models",
+      "difficulty": 3,
+      "stem": {
+        "en": "An insurer summarizes 40,000 regulatory notices per day in a strict house style. A detailed system message with few-shot examples works, but each request needs about 6,000 prompt tokens and the style still drifts. Compliance officers have written 1,500 approved example summaries. Which optimization fits best?",
+        "de": "Ein Versicherer fasst täglich 40.000 regulatorische Mitteilungen in einem strikten Hausstil zusammen. Eine ausführliche Systemnachricht mit Few-Shot-Beispielen funktioniert, aber jede Anfrage braucht rund 6.000 Prompt-Tokens, und der Stil driftet trotzdem. Compliance-Beauftragte haben 1.500 freigegebene Beispielzusammenfassungen geschrieben. Welche Optimierung passt am besten?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Supervised fine-tuning (SFT) on the approved examples with a consistent system message, then compare the fine-tuned model with the current baseline on held-out notices", "de": "Supervised Fine-Tuning (SFT) mit den freigegebenen Beispielen und einheitlicher Systemnachricht, danach Vergleich des feinabgestimmten Modells mit der aktuellen Baseline an zurückgehaltenen Mitteilungen" },
+          "correct": true,
+          "why": { "en": "SFT fits when you can demonstrate the desired output. It improves consistency and reduces prompt overhead, and held-out evaluation shows whether it beat the baseline.", "de": "SFT passt, wenn du die gewünschte Ausgabe vorführen kannst. Es verbessert die Konsistenz und senkt den Prompt-Aufwand; die Evaluierung an zurückgehaltenen Daten zeigt, ob es die Baseline schlägt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Direct preference optimization (DPO) using only the approved summaries", "de": "Direct Preference Optimization (DPO) nur mit den freigegebenen Zusammenfassungen" },
+          "correct": false,
+          "why": { "en": "DPO needs pairs of preferred and rejected responses to the same input; the team has only approved examples.", "de": "DPO braucht Paare aus bevorzugter und abgelehnter Antwort auf dieselbe Eingabe; das Team hat nur freigegebene Beispiele." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Reinforcement fine-tuning (RFT) that rewards outputs resembling the approved summaries", "de": "Reinforcement Fine-Tuning (RFT), das Ausgaben belohnt, die den freigegebenen Zusammenfassungen ähneln" },
+          "correct": false,
+          "why": { "en": "RFT relies on a grader that scores generated responses and fits tasks with many valid solutions you can score reliably; demonstrations of one house style point to SFT.", "de": "RFT braucht einen Grader, der generierte Antworten bewertet, und passt zu Aufgaben mit vielen gültigen Lösungen; Beispiele für einen Hausstil sprechen für SFT." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add RAG over the notices so the model learns the house style", "de": "RAG über die Mitteilungen ergänzen, damit das Modell den Hausstil lernt" },
+          "correct": false,
+          "why": { "en": "RAG adds knowledge at query time; it doesn't make the writing style consistent or shorten the prompt.", "de": "RAG ergänzt Wissen zur Abfragezeit; es macht den Schreibstil nicht konsistent und kürzt den Prompt nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Choose the fine-tuning method by your training signal: demonstrations → SFT, preference pairs → DPO, a reliable grader → RFT. Fine-tuning targets behavior and prompt length; RAG targets knowledge.",
+        "de": "Wähle die Fine-Tuning-Methode nach deinem Trainingssignal: Beispiele → SFT, Präferenzpaare → DPO, verlässlicher Grader → RFT. Fine-Tuning zielt auf Verhalten und Prompt-Länge, RAG auf Wissen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/fine-tuning/overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/fine-tuning",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/fine-tuning-direct-preference-optimization"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

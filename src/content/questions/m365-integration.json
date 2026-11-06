@@ -1,0 +1,204 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "m365-integration",
+  "questions": [
+    {
+      "id": "q-m365-integration-01",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.1.4",
+      "module": "m365-integration",
+      "difficulty": 1,
+      "stem": {
+        "en": "A Foundry agent must summarize the signed-in user's recent emails and the decisions from this week's meetings. Results must respect each user's Microsoft 365 permissions. Which integration should you add to the agent?",
+        "de": "Ein Foundry-Agent soll die neuesten Mails des angemeldeten Nutzers und die Entscheidungen aus den Meetings dieser Woche zusammenfassen. Die Ergebnisse müssen die Microsoft-365-Berechtigungen jedes Nutzers respektieren. Welche Integration fügst du dem Agent hinzu?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Work IQ, connected through the Work IQ MCP tool", "de": "Work IQ, angebunden über das Work-IQ-MCP-Tool" },
+          "correct": true,
+          "why": { "en": "Work IQ reasons over mail, meetings, files and chats in Microsoft 365 — always as the signed-in user, so permissions and sensitivity labels apply.", "de": "Work IQ arbeitet mit Mails, Meetings, Dateien und Chats in Microsoft 365 – immer als angemeldeter Nutzer, daher gelten Berechtigungen und Vertraulichkeitslabels." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Web IQ", "de": "Web IQ" },
+          "correct": false,
+          "why": { "en": "Web IQ retrieves public web information only, never a user's mailbox or calendar.", "de": "Web IQ ruft nur öffentliche Webinformationen ab, nie das Postfach oder den Kalender eines Nutzers." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A Foundry IQ knowledge base with an indexed SharePoint knowledge source", "de": "Eine Foundry-IQ-Knowledge-Base mit einer indexierten SharePoint-Knowledge-Source" },
+          "correct": false,
+          "why": { "en": "It covers SharePoint documents, not the user's mail and meetings.", "de": "Sie deckt SharePoint-Dokumente ab, nicht Mails und Meetings des Nutzers." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Memory in Foundry Agent Service", "de": "Memory in Foundry Agent Service" },
+          "correct": false,
+          "why": { "en": "Memory keeps facts learned in conversations with the agent; it can't read the user's mailbox or meetings.", "de": "Memory behält Fakten aus Gesprächen mit dem Agent; Postfach oder Meetings des Nutzers kann es nicht lesen." }
+        }
+      ],
+      "explanation": {
+        "en": "Microsoft 365 work context (mail, meetings, files, chats, people) → Work IQ. Public web → Web IQ. Curated enterprise documents → Foundry IQ. Learned user preferences → memory.",
+        "de": "Microsoft-365-Arbeitskontext (Mails, Meetings, Dateien, Chats, Personen) → Work IQ. Öffentliches Web → Web IQ. Kuratierte Unternehmensdokumente → Foundry IQ. Gelernte Nutzervorlieben → Memory."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/work-iq",
+        "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq-api-overview"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-m365-integration-02",
+      "type": "order",
+      "domain": "D1",
+      "skill": "1.1.4",
+      "skills": ["2.2.3"],
+      "module": "m365-integration",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your organization has no Work IQ connection yet. Put the steps to give a Foundry agent access to Work IQ through a custom OAuth app registration in the correct order.",
+        "de": "Deine Organisation hat noch keine Work-IQ-Verbindung. Bringe die Schritte, mit denen ein Foundry-Agent über eine eigene OAuth-App-Registrierung Zugriff auf Work IQ bekommt, in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "A Global Administrator provisions the Work IQ service principal in the tenant", "de": "Ein Global Administrator stellt den Work-IQ-Service-Principal im Tenant bereit" },
+          "why": { "en": "Until the service principal exists, Work IQ doesn't even appear when you search for API permissions.", "de": "Solange der Service Principal fehlt, taucht Work IQ bei der Suche nach API-Berechtigungen gar nicht auf." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Register a single-tenant app with the delegated `WorkIQAgent.Ask` permission, grant admin consent and create a client secret", "de": "Eine Single-Tenant-App mit der delegierten Berechtigung `WorkIQAgent.Ask` registrieren, Admin-Consent erteilen und ein Client Secret anlegen" },
+          "why": { "en": "The connection needs the app's client ID and secret, and no user can authenticate before admin consent.", "de": "Die Verbindung braucht Client-ID und Secret der App, und ohne Admin-Consent kann sich kein Nutzer authentifizieren." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "In the Foundry project, connect the **Work IQ MCP** tool from the catalog with the client ID, secret, OAuth URLs and scope", "de": "Im Foundry-Projekt das Tool **Work IQ MCP** aus dem Katalog mit Client-ID, Secret, OAuth-URLs und Scope verbinden" },
+          "why": { "en": "With the app registration ready, a Foundry Project Manager can create the OAuth tool connection.", "de": "Mit fertiger App-Registrierung kann ein Foundry Project Manager die OAuth-Toolverbindung anlegen." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Add the OAuth redirect URL that Foundry shows to the app registration as a Web redirect URI", "de": "Die von Foundry angezeigte OAuth-Redirect-URL als Web-Redirect-URI in der App-Registrierung eintragen" },
+          "why": { "en": "Foundry displays the redirect URL only after it creates the connection; without it, sign-in can't return to Foundry.", "de": "Foundry zeigt die Redirect-URL erst nach dem Anlegen der Verbindung; ohne sie kann die Anmeldung nicht zu Foundry zurückkehren." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Add the Work IQ tool to the agent and test it with a signed-in user", "de": "Das Work-IQ-Tool zum Agent hinzufügen und mit einem angemeldeten Nutzer testen" },
+          "why": { "en": "Testing comes last; on the first call Foundry may ask the user to sign in and consent.", "de": "Getestet wird zuletzt; beim ersten Aufruf fragt Foundry den Nutzer eventuell nach Anmeldung und Zustimmung." }
+        }
+      ],
+      "explanation": {
+        "en": "Tenant setup (service principal, app registration with consent) → Foundry connection → redirect URI → agent and test. Connection fields can't be edited after creation, so check them before saving.",
+        "de": "Tenant-Setup (Service Principal, App-Registrierung mit Consent) → Foundry-Verbindung → Redirect-URI → Agent und Test. Verbindungsfelder lassen sich nach dem Anlegen nicht ändern – prüfe sie vor dem Speichern."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/mcp/quickstart/foundry",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/work-iq"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-m365-integration-03",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.2.2",
+      "module": "m365-integration",
+      "difficulty": 2,
+      "stem": {
+        "en": "Match each requirement to the way you should make a Foundry agent available in Microsoft 365.",
+        "de": "Ordne jede Anforderung dem Weg zu, auf dem du einen Foundry-Agent in Microsoft 365 verfügbar machen solltest."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Try the agent yourself in Teams and Microsoft 365 Copilot today, without waiting for an admin", "de": "Den Agent heute selbst in Teams und Microsoft 365 Copilot ausprobieren, ohne auf einen Admin zu warten" },
+          "answer": "t1",
+          "why": { "en": "It's available immediately under **Your agents**, with no admin approval, and you can share it by link.", "de": "Er ist sofort unter **Your agents** verfügbar, ohne Admin-Freigabe, und du kannst ihn per Link teilen." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Make the agent available to everyone in the tenant under **Built by your org**", "de": "Den Agent für alle im Tenant unter **Built by your org** verfügbar machen" },
+          "answer": "t2",
+          "why": { "en": "The request goes to the Microsoft 365 admin center; after approval everyone in the tenant can find and use it.", "de": "Die Anfrage geht ins Microsoft 365 Admin Center; nach der Freigabe können alle im Tenant ihn finden und nutzen." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Adjust the app package's user-facing metadata and icons, then upload it to Teams yourself", "de": "Nutzerseitige Metadaten und Icons des App-Pakets anpassen und es dann selbst in Teams hochladen" },
+          "answer": "t3",
+          "why": { "en": "Foundry gives you the validated ZIP with the manifest, which you customize and upload in Teams.", "de": "Foundry gibt dir das geprüfte ZIP mit dem Manifest, das du anpasst und in Teams hochlädst." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Add custom SSO and middleware between Teams and the agent, and deploy through separate dev, test and production environments", "de": "Eigenes SSO und Middleware zwischen Teams und Agent einbauen und über getrennte Dev-, Test- und Produktionsumgebungen ausrollen" },
+          "answer": "t4",
+          "why": { "en": "A proxy app built with the toolkit gives you control over the message path, SSO and multi-environment deployment.", "de": "Eine mit dem Toolkit gebaute Proxy-App gibt dir Kontrolle über Nachrichtenweg, SSO und Deployment über mehrere Umgebungen." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Direct publish with **Just you**", "de": "Direct publish mit **Just you**" } },
+        { "id": "t2", "text": { "en": "Direct publish with **People in your organization**", "de": "Direct publish mit **People in your organization**" } },
+        { "id": "t3", "text": { "en": "**Download & customize**", "de": "**Download & customize**" } },
+        { "id": "t4", "text": { "en": "A proxy app built with the Microsoft 365 Agents Toolkit", "de": "Eine Proxy-App, gebaut mit dem Microsoft 365 Agents Toolkit" } },
+        { "id": "t5", "text": { "en": "Microsoft 365 Agents Playground", "de": "Microsoft 365 Agents Playground" } }
+      ],
+      "explanation": {
+        "en": "Direct publish covers most cases — pick the scope by audience. Use Download & customize to tweak the package, and the Agents Toolkit for custom SSO, middleware or multi-environment pipelines. The Agents Playground is only a local test tool that simulates Teams.",
+        "de": "Direct publish deckt die meisten Fälle ab – den Scope wählst du nach Zielgruppe. Download & customize nutzt du, um das Paket anzupassen, das Agents Toolkit für eigenes SSO, Middleware oder Pipelines über mehrere Umgebungen. Der Agents Playground ist nur ein lokales Testwerkzeug, das Teams simuliert."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/publish-copilot",
+        "https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/overview-custom-engine-agent",
+        "https://learn.microsoft.com/en-us/microsoftteams/platform/toolkit/overview-agents-toolkit"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-m365-integration-04",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.2.3",
+      "module": "m365-integration",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your agent is published to Teams and Microsoft 365 Copilot with the default endpoint settings. A developer saves version 5 with experimental instructions, and Teams users immediately get the experimental behavior. Future versions must reach users only after testing, and the agent's endpoint must not change. What should you configure?",
+        "de": "Dein Agent ist mit den Standard-Endpoint-Einstellungen in Teams und Microsoft 365 Copilot veröffentlicht. Ein Entwickler speichert Version 5 mit experimentellen Instructions, und Teams-Nutzer bekommen sofort das experimentelle Verhalten. Künftige Versionen sollen Nutzer erst nach Tests erreichen, und der Endpoint des Agents darf sich nicht ändern. Was konfigurierst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Pin the version selector to the tested version and move it to a newer version only after testing", "de": "Den Version Selector auf die getestete Version pinnen und erst nach Tests auf eine neuere Version umstellen" },
+          "correct": true,
+          "why": { "en": "The default **Always use latest** routes all traffic to the newest version; a pinned version keeps serving until you change the selector.", "de": "Der Standard **Always use latest** leitet allen Traffic auf die neueste Version; eine gepinnte Version bleibt aktiv, bis du den Selector änderst." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Republish the agent to Microsoft 365 with a new app version number", "de": "Den Agent mit einer neuen App-Versionsnummer erneut in Microsoft 365 veröffentlichen" },
+          "correct": false,
+          "why": { "en": "A new app version updates the store metadata; it doesn't decide which agent version the endpoint serves.", "de": "Eine neue App-Version aktualisiert die Store-Metadaten; sie bestimmt nicht, welche Agent-Version der Endpoint ausliefert." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Change the publish scope from **People in your organization** to **Just you**", "de": "Den Publish-Scope von **People in your organization** auf **Just you** ändern" },
+          "correct": false,
+          "why": { "en": "The scope controls who can see and call the agent, not which version answers.", "de": "Der Scope steuert, wer den Agent sieht und aufruft, nicht, welche Version antwortet." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Split traffic 90/10 between versions 4 and 5", "de": "Den Traffic 90/10 zwischen Version 4 und 5 aufteilen" },
+          "correct": false,
+          "why": { "en": "Agent endpoints don't support traffic splitting; only one version can be active at a time.", "de": "Agent-Endpoints unterstützen kein Traffic-Splitting; es kann immer nur eine Version aktiv sein." }
+        }
+      ],
+      "explanation": {
+        "en": "For agents in production in Teams and Microsoft 365 Copilot, pin the active version and roll out by updating the version selector — the stable endpoint means no republishing.",
+        "de": "Für produktive Agents in Teams und Microsoft 365 Copilot pinnst du die aktive Version und rollst über den Version Selector aus – dank stabilem Endpoint ohne erneutes Veröffentlichen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/configure-agent",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/publish-copilot"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}
