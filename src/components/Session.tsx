@@ -22,6 +22,16 @@ interface Result {
   score: number
 }
 
+/** After checking, bring the feedback into view when it starts below the fixed action bar. */
+function revealFeedback() {
+  const el = document.getElementById('session-feedback')
+  if (!el) return
+  const top = el.getBoundingClientRect().top
+  if (top < window.innerHeight - 140) return
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+  window.scrollBy({ top: top - window.innerHeight * 0.45, behavior: reduce ? 'auto' : 'smooth' })
+}
+
 export function Session({ questions, title, exitTo, onRestartWrong }: SessionProps) {
   const { lang } = useProgress()
   const navigate = useNavigate()
@@ -104,6 +114,7 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
     store.recordAnswer(q.id, r.score)
     setResults((prev) => [...prev, { id: q.id, score: r.score }])
     setRevealed(true)
+    requestAnimationFrame(revealFeedback)
   }
   const next = () => {
     setRevealed(false)
@@ -134,7 +145,11 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
           seed={seed}
           caseStudy={q.caseId ? caseById.get(q.caseId) : undefined}
         />
-        {revealed && answer && <Explanation q={q} lang={lang} answer={answer} />}
+        {revealed && answer && (
+          <div id="session-feedback">
+            <Explanation q={q} lang={lang} answer={answer} />
+          </div>
+        )}
       </div>
       <div className={`session__bar${result ? (result.correct ? ' is-correct' : ' is-wrong') : ''}`}>
         <div className="session__bar-inner">

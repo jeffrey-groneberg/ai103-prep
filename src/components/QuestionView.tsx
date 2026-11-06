@@ -14,7 +14,8 @@ import type {
 import type { Answer } from '../lib/scoring.ts'
 import { requiredSelections, scoreQuestion } from '../lib/scoring.ts'
 import { createRng, hashSeed, shuffle, shuffleAwayFrom } from '../lib/random.ts'
-import { DIFFICULTY_LABEL, QUESTION_TYPE_LABEL, prettySource, tx } from '../lib/i18n.ts'
+import { DIFFICULTY_LABEL, QUESTION_TYPE_LABEL, tx } from '../lib/i18n.ts'
+import { sourceLabel } from '../content/sources.ts'
 import { bulletById } from '../content/domains.ts'
 import { moduleById } from '../content/course.ts'
 import { RichText } from './RichText.tsx'
@@ -287,7 +288,7 @@ function MatchArea({
             </li>
           ))}
         </ul>
-        <p className="match__note">Ein Wert kann einmal, mehrfach oder gar nicht passen.</p>
+        <p className="match__note">Ziehe einen Wert in den Antwortbereich oder wähle ihn dort aus. Ein Wert kann einmal, mehrfach oder gar nicht passen.</p>
       </div>
       <div className="match__answer">
         <h4 className="build-list__head">Antwortbereich</h4>
@@ -311,7 +312,7 @@ function MatchArea({
                     Wert für: {tx(p.prompt, lang)}
                   </label>
                   <select id={`${q.id}-${p.id}`} value={value ?? ''} disabled={revealed} onChange={(e) => setPair(p.id, e.target.value || null)}>
-                    <option value="">Wert wählen oder hierher ziehen …</option>
+                    <option value="">Wert wählen …</option>
                     {targets.map((t) => (
                       <option key={t.id} value={t.id}>
                         {tx(t.text, lang).replace(/`/g, '')}
@@ -474,9 +475,9 @@ export function Explanation({ q, lang, answer }: { q: Question; lang: Lang; answ
           </Link>
         )}
         {q.sources.map((s) => (
-          <a key={s} href={s} target="_blank" rel="noreferrer" className="link-inline">
+          <a key={s} href={s} target="_blank" rel="noreferrer" className="link-inline" title={s}>
             <Icon name="open" size={16} />
-            {prettySource(s)}
+            {sourceLabel(s)}
           </a>
         ))}
       </div>

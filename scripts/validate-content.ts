@@ -80,6 +80,12 @@ for (const { file, data } of readJsonDir<CaseFile>(join(contentDir, 'cases'))) {
   if (!checkCases(data)) report.errors.push({ level: 'error', where: file, message: `JSON schema: ${ajv.errorsText(checkCases.errors)}` })
 }
 
+// Explanations show fetched page titles; flag cited URLs that `npm run sources:titles` hasn't seen yet.
+const titlesFile = join(contentDir, 'source-titles.json')
+const titled = existsSync(titlesFile) ? (JSON.parse(readFileSync(titlesFile, 'utf8')) as Record<string, string>) : {}
+const untitled = new Set(files.flatMap(({ data }) => data.questions.flatMap((q) => q.sources.map((s) => s.split('#')[0]))).filter((u) => !(u in titled)))
+if (untitled.size) report.warnings.push({ level: 'warning', where: 'src/content/source-titles.json', message: `${untitled.size} cited URL(s) have no page title yet — run npm run sources:titles` })
+
 const total = Object.values(report.moduleCounts).reduce((a, b) => a + b, 0)
 if (!quiet) {
   console.log(`\nAI-103 Prep content — ${total} questions, ${lessons.length} lessons, ${cases.length} case studies`)

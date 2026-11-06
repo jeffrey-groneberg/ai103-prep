@@ -38,14 +38,3 @@ export function relativeDue(iso: string, now: Date = new Date()): string {
   if (days === 1) return 'morgen'
   return `in ${days} Tagen`
 }
-
-export function prettySource(url: string): string {
-  try {
-    const u = new URL(url)
-    const parts = u.pathname.split('/').filter(Boolean)
-    const slug = parts[parts.length - 1] ?? u.hostname
-    return `Learn: ${slug.replace(/-/g, ' ')}`
-  } catch {
-    return url
-  }
-}

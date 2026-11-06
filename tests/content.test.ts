@@ -5,6 +5,7 @@ import { Ajv2020 } from 'ajv/dist/2020.js'
 import type { CaseFile, QuestionFile } from '../src/lib/types.ts'
 import { validateContent } from '../src/content/validate.ts'
 import { cases, lessons, questions } from '../src/content/index.ts'
+import { hasSourceTitle, sourceLabel } from '../src/content/sources.ts'
 import questionSchema from '../src/content/schema/question-file.schema.json'
 import caseSchema from '../src/content/schema/case-file.schema.json'
 
@@ -55,5 +56,21 @@ describe('real content', () => {
 
   it('loads one lesson per module through the app loader', () => {
     expect(lessons).toHaveLength(31)
+  })
+})
+
+describe('source labels', () => {
+  it('uses the fetched page title with its doc set', () => {
+    expect(sourceLabel('https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/session?pivots=programming-language-python')).toBe('Agent Framework: Session')
+    expect(sourceLabel('https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry')).toMatch(/^What is Microsoft Foundry/)
+  })
+
+  it('falls back to the URL slug for unknown pages', () => {
+    expect(sourceLabel('https://learn.microsoft.com/en-us/azure/search/some-new-page')).toBe('AI Search: some new page')
+  })
+
+  it('has a title for every cited question source', () => {
+    const missing = questions.flatMap((q) => q.sources).filter((u) => !hasSourceTitle(u))
+    expect(missing).toEqual([])
   })
 })

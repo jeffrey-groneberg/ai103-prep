@@ -107,12 +107,14 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
   )
 }
 
-function firstSentences(text: string, max = 190): string {
+function firstSentences(text: string, max = 240): string {
   const plain = text.replace(/\*\*|\*|`/g, '')
   const first = plain.split(/(?<=[.!?])\s+/)[0] ?? plain
   if (first.length <= max) return first
   const cut = first.slice(0, max)
-  return `${cut.slice(0, cut.lastIndexOf(' '))} …`
+  const clause = Math.max(cut.lastIndexOf(', '), cut.lastIndexOf('; '), cut.lastIndexOf(': '), cut.lastIndexOf(' – '), cut.lastIndexOf(' — '))
+  const end = clause > max * 0.6 ? clause : cut.lastIndexOf(' ')
+  return `${cut.slice(0, end)} …`
 }
 
 export function Home() {
