@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { Icon } from './components/Icon.tsx'
 import type { IconName } from './components/icons.generated.ts'
@@ -58,6 +58,44 @@ function LangToggle() {
   )
 }
 
+const MORE: NavItem[] = [
+  { to: '/fortschritt', label: 'Fortschritt', icon: 'progress', activeIcon: 'progressFilled' },
+  { to: '/ressourcen', label: 'Ressourcen', icon: 'resources', activeIcon: 'resourcesFilled' },
+  { to: '/abdeckung', label: 'Abdeckung', icon: 'grid', activeIcon: 'grid' },
+]
+
+/** Phone-only menu for the sections that don't fit the tab bar. */
+function MoreMenu() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="more-menu">
+      <button
+        type="button"
+        className="icon-btn icon-btn--large"
+        aria-expanded={open}
+        aria-controls="more-menu"
+        aria-label="Menü"
+        onClick={() => setOpen((o) => !o)}
+      >
+        <Icon name={open ? 'dismiss' : 'menu'} size={22} />
+      </button>
+      {open && (
+        <>
+          <div className="more-menu__backdrop" aria-hidden="true" onClick={() => setOpen(false)} />
+          <nav id="more-menu" className="more-menu__panel" aria-label="Weitere Bereiche" onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}>
+            {MORE.map((n) => (
+              <NavLink key={n.to} to={n.to} className="more-menu__link" onClick={() => setOpen(false)}>
+                <Icon name={n.icon} size={20} />
+                {n.label}
+              </NavLink>
+            ))}
+          </nav>
+        </>
+      )}
+    </div>
+  )
+}
+
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
@@ -93,6 +131,7 @@ export function App() {
             ))}
           </nav>
           <LangToggle />
+          <MoreMenu />
         </div>
       </header>
       <main id="main" className="main" tabIndex={-1}>

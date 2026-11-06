@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
 import { Diagram } from '../components/Diagram.tsx'
@@ -117,7 +118,27 @@ function firstSentences(text: string, max = 240): string {
   return `${cut.slice(0, end)} …`
 }
 
+/** Keeps the side column sticky only while it fits the window, so nothing ends up out of reach. */
+function useStickyWhenFits() {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const update = () => el.classList.toggle('is-sticky', window.innerWidth > 1100 && el.offsetHeight + 84 <= window.innerHeight)
+    update()
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update)
+    observer?.observe(el)
+    window.addEventListener('resize', update)
+    return () => {
+      observer?.disconnect()
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+  return ref
+}
+
 export function Home() {
+  const sideRef = useStickyWhenFits()
   const progress = useProgress()
   const { cards, lessonsRead, exams } = progress
   const statuses = new Map(orderedModules.map((m) => [m.id, moduleStatus(m, questions, cards, lessonsRead)]))
@@ -129,18 +150,18 @@ export function Home() {
 
   return (
     <div className="page home">
-      <header className="page-head">
-        <h1 className="page-title">Dein Lernpfad zu AI-103</h1>
-        <p className="page-sub">
-          Kurs AI-103T00 · {learningPaths.length} Lernpfade · {orderedModules.length} Module · {questions.length} eigene Übungsfragen · {doneCount} von {orderedModules.length} Modulen abgeschlossen
-        </p>
-      </header>
+      <h1 className="sr-only">Dein Lernpfad zu AI-103</h1>
 
       <div className="home__grid">
         <section className="panel path-panel" aria-labelledby="path-h">
-          <h2 id="path-h" className="panel__title">
-            Lernpfad
-          </h2>
+          <div className="path-panel__head">
+            <h2 id="path-h" className="panel__title">
+              Lernpfad
+            </h2>
+            <p className="path-panel__meta">
+              Kurs AI-103T00 · {orderedModules.length} Module · {questions.length} Fragen · {doneCount} von {orderedModules.length} abgeschlossen
+            </p>
+          </div>
           {learningPaths.map((p) => (
             <div key={p.id} className="path-group">
               <h3 className="path-group__title">{p.title}</h3>
@@ -174,57 +195,71 @@ export function Home() {
           ))}
         </section>
 
-        <div className="home__side">
+        <div className="home__side" ref={sideRef}>
           <NextCard status={next} />
 
+          <div className="home__pair">
           <section className="panel today" aria-labelledby="today-h">
             <h2 id="today-h" className="panel__title">
               Heute
             </h2>
-            <div className="today__row">
-              <div className="today__item">
-                <Icon name="review" size={24} className="today__icon" />
+            <ul className="today__list">
+              <li className="today__item">
+                <Icon name="review" size={22} className="today__icon" />
                 <div className="today__text">
                   <h3 className="today__title">Fällige Wiederholungen</h3>
                   <p className="today__meta">{due.length ? plural(due.length, 'Frage', 'Fragen') + ' fällig' : 'Nichts fällig – beantwortete Fragen kommen hier zurück.'}</p>
                   {due.length > 0 && (
-                    <div className="stackbar" role="img" aria-label={dueByDomain.map((x) => `${x.d}: ${x.n}`).join(', ')}>
-                      {dueByDomain
-                        .filter((x) => x.n > 0)
-                        .map((x) => (
-                          <span key={x.d} className={`stackbar__seg bg-${x.d}`} style={{ flexGrow: x.n }} />
-                        ))}
-                    </div>
+                    <>
+                      <div className="stackbar" aria-hidden="true">
+                        {dueByDomain
+                          .filter((x) => x.n > 0)
+                          .map((x) => (
+                            <span key={x.d} className={`stackbar__seg bg-${x.d}`} style={{ flexGrow: x.n }} />
+                          ))}
+                      </div>
+                      <ul className="due-legend" aria-label="Fällig nach Domäne">
+                        {dueByDomain
+                          .filter((x) => x.n > 0)
+                          .map((x) => (
+                            <li key={x.d}>
+                              <span className={`due-legend__dot bg-${x.d}`} aria-hidden="true" />
+                              {domains.find((d) => d.id === x.d)?.short.de}
+                              <strong>{x.n}</strong>
+                            </li>
+                          ))}
+                      </ul>
+                    </>
                   )}
                 </div>
-                <Link to="/wiederholen" className={`btn ${due.length ? 'btn--primary' : 'btn--secondary'}`}>
+                <Link to="/wiederholen" className={`btn btn--small ${due.length ? 'btn--primary' : 'btn--secondary'}`}>
                   Wiederholen
                 </Link>
-              </div>
-              <div className="today__item">
-                <Icon name="practice" size={24} className="today__icon" />
+              </li>
+              <li className="today__item">
+                <Icon name="practice" size={22} className="today__icon" />
                 <div className="today__text">
                   <h3 className="today__title">Kurze Runde</h3>
-                  <p className="today__meta">10 gemischte Fragen aus allen Domains, sofortiges Feedback</p>
+                  <p className="today__meta">10 gemischte Fragen, sofortiges Feedback</p>
                 </div>
-                <Link to="/ueben/sitzung?runde=10" className="btn btn--secondary">
+                <Link to="/ueben/sitzung?runde=10" className="btn btn--small btn--secondary">
                   Starten
                 </Link>
-              </div>
-              <div className="today__item">
-                <Icon name="exam" size={24} className="today__icon" />
+              </li>
+              <li className="today__item">
+                <Icon name="exam" size={22} className="today__icon" />
                 <div className="today__text">
                   <h3 className="today__title">Prüfungssimulation</h3>
                   <p className="today__meta">
-                    {EXAM_DEFAULTS.questions} Fragen · {EXAM_DEFAULTS.minutes} Min · nach Domains gewichtet
+                    {EXAM_DEFAULTS.questions} Fragen · {EXAM_DEFAULTS.minutes} Min
                     {lastExam && ` · zuletzt ${lastExam.summary.percent} %`}
                   </p>
                 </div>
-                <Link to="/pruefung" className="btn btn--secondary">
+                <Link to="/pruefung" className="btn btn--small btn--secondary">
                   Simulation
                 </Link>
-              </div>
-            </div>
+              </li>
+            </ul>
           </section>
 
           <section className="panel readiness" aria-labelledby="ready-h">
@@ -247,7 +282,7 @@ export function Home() {
                     <div className="readiness__label">
                       <span className="readiness__name">{d.short.de}</span>
                       <span className="readiness__weight">
-                        {d.weight[0]}–{d.weight[1]} % der Prüfung
+                        {d.weight[0]}–{d.weight[1]} %<span className="sr-only"> der Prüfung</span>
                       </span>
                     </div>
                     <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={`${d.short.de}: ${pct} % gefestigt`}>
@@ -260,6 +295,7 @@ export function Home() {
             </ul>
             <p className="readiness__note">Gefestigt = über Wiederholungen hinweg richtig beantwortet (Leitner-Boxen), nicht bloß angeklickt.</p>
           </section>
+          </div>
         </div>
       </div>
     </div>

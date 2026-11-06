@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, typ
 import type { Diagram as DiagramData, DiagramNode, Lang, Tone } from '../lib/types.ts'
 import { edgePoints, GROUP_RADIUS, groupTitleRect, nodeTextLayout, placeEdgeLabels, storeCap, type Outlined, type Pt } from '../lib/geometry.ts'
 import { tx } from '../lib/i18n.ts'
+import { summaryParts, summaryPath } from '../lib/diagram-summary.ts'
 import { renderInline } from './inline.tsx'
 import { Icon } from './Icon.tsx'
 import type { IconName } from './icons.generated.ts'
@@ -97,38 +98,38 @@ interface DiagramProps {
   mini?: boolean
 }
 
-/** The first nodes a learner meets in the step-through, for thumbnails. */
-function summaryNodes(d: DiagramData, count = 3): DiagramNode[] {
-  const byId = new Map(d.nodes.map((n) => [n.id, n]))
-  const picked: DiagramNode[] = []
-  for (const s of d.steps) {
-    for (const id of s.focus) {
-      const n = byId.get(id)
-      if (n && !picked.includes(n)) picked.push(n)
-      if (picked.length === count) return picked
-    }
-  }
-  for (const n of [...d.nodes].sort((a, b) => a.y - b.y || a.x - b.x)) {
-    if (!picked.includes(n)) picked.push(n)
-    if (picked.length === count) break
-  }
-  return picked
+function SummaryText({ text }: { text: string }) {
+  return summaryParts(text).map((p, i) =>
+    p.code ? (
+      <span key={i} className="dg-summary__code">
+        {p.text}
+      </span>
+    ) : (
+      <Fragment key={i}>{p.text}</Fragment>
+    ),
+  )
 }
 
 function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang }) {
-  const nodes = summaryNodes(diagram)
-  const first = (t: Parameters<typeof tx>[0]) => tx(t, lang).split('\n')[0]
+  const path = summaryPath(diagram)
+  const flat = (t: Parameters<typeof tx>[0]) => tx(t, lang).replace(/\s*\n\s*/g, ' ')
   return (
-    <div className="dg-summary" role="img" aria-label={`${tx(diagram.title, lang)}: ${nodes.map((n) => first(n.label)).join(' → ')}`}>
-      {nodes.map((n, i) => (
+    <div className="dg-summary" role="img" aria-label={`${flat(diagram.title)}: ${path.map((p) => flat(p.node.label)).join(', ')}`}>
+      {path.map(({ node: n, linked }, i) => (
         <Fragment key={n.id}>
-          {i > 0 && <Icon name="arrowRight" size={18} className="dg-summary__arrow" />}
+          {i > 0 && (linked ? <Icon name="arrowRight" size={18} className="dg-summary__arrow" /> : <span className="dg-summary__gap" aria-hidden="true" />)}
           <div className={`dg-summary__item tone-${n.tone}`}>
             <span className="dg-summary__tile">
               <Icon name={TONE_ICON[n.tone]} size={24} />
             </span>
-            <span className="dg-summary__label">{first(n.label)}</span>
-            {n.sub && <span className="dg-summary__sub">{first(n.sub)}</span>}
+            <span className="dg-summary__label">
+              <SummaryText text={tx(n.label, lang)} />
+            </span>
+            {n.sub && (
+              <span className="dg-summary__sub">
+                <SummaryText text={tx(n.sub, lang)} />
+              </span>
+            )}
           </div>
         </Fragment>
       ))}
@@ -186,22 +187,34 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas || !active || canvas.scrollWidth <= canvas.clientWidth + 4) return
-    const nodeIds = new Set(diagram.nodes.map((n) => n.id))
-    const ids = [...focus, ...context]
-    for (const e of diagram.edges) if (focus.has(e.id)) ids.push(e.from, e.to)
-    // Aim at the lit nodes; groups only when a step lights nothing else.
-    const nodeBoxes = ids.filter((id) => nodeIds.has(id)).map((id) => shapes.get(id)).filter((b): b is Outlined => !!b)
-    const boxes = nodeBoxes.length ? nodeBoxes : ids.map((id) => shapes.get(id)).filter((b): b is Outlined => !!b)
-    if (!boxes.length) return
     const svg = canvas.querySelector('svg')
     if (!svg) return
     const svgBox = svg.getBoundingClientRect()
     const scale = svgBox.width / diagram.width
-    const minX = Math.min(...boxes.map((b) => b.x))
-    const maxX = Math.max(...boxes.map((b) => b.x + b.w))
+    const room = canvas.clientWidth - 32
+    const nodeIds = new Set(diagram.nodes.map((n) => n.id))
+    const boxesOf = (ids: Iterable<string>) => [...ids].map((id) => shapes.get(id)).filter((b): b is Outlined => !!b)
+    // Aim at the nodes the step names; arrow endpoints join (nearest first) only while everything still
+    // fits; groups only when a step lights nothing else.
+    const own = boxesOf([...focus].filter((id) => nodeIds.has(id)))
+    const ends = boxesOf(context)
+    const boxes = own.length ? own : ends.length ? ends : boxesOf(focus)
+    if (!boxes.length) return
+    let minX = Math.min(...boxes.map((b) => b.x))
+    let maxX = Math.max(...boxes.map((b) => b.x + b.w))
+    if (own.length) {
+      const mid = (minX + maxX) / 2
+      const byDistance = [...ends].sort((a, b) => Math.abs(a.x + a.w / 2 - mid) - Math.abs(b.x + b.w / 2 - mid))
+      for (const b of byDistance) {
+        const lo = Math.min(minX, b.x)
+        const hi = Math.max(maxX, b.x + b.w)
+        if ((hi - lo) * scale > room) continue
+        minX = lo
+        maxX = hi
+      }
+    }
     const svgLeft = svgBox.left - canvas.getBoundingClientRect().left + canvas.scrollLeft
-    const regionPx = (maxX - minX) * scale
-    const left = regionPx + 32 > canvas.clientWidth ? svgLeft + minX * scale - 16 : svgLeft + ((minX + maxX) / 2) * scale - canvas.clientWidth / 2
+    const left = (maxX - minX) * scale > room ? svgLeft + minX * scale - 16 : svgLeft + ((minX + maxX) / 2) * scale - canvas.clientWidth / 2
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
     canvas.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' })
   }, [active, focus, context, shapes, diagram])

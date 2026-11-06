@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
 import { Diagram } from '../components/Diagram.tsx'
@@ -46,6 +46,33 @@ export function LessonPage() {
     const el = document.getElementById(section)
     el?.scrollIntoView({ block: 'start' })
   }, [hash, search, rawId, moduleId])
+
+  // "Auf dieser Seite" marks the section being read, like Microsoft Learn: the last section whose
+  // heading has passed a reading line a quarter down the window (below the top bar).
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+  useEffect(() => {
+    let frame = 0
+    const update = () => {
+      const line = 56 + window.innerHeight * 0.25
+      const present = SECTIONS.map((s) => document.getElementById(s.id)).filter((el): el is HTMLElement => !!el)
+      let current = present[0]?.id ?? null
+      for (const el of present) if (el.getBoundingClientRect().top <= line) current = el.id
+      if (present.length && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = present[present.length - 1].id
+      setActiveSection(current)
+    }
+    const schedule = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(update)
+    }
+    schedule()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
+  }, [moduleId, lesson])
 
   if (!mod) return <NotFound />
   const status = moduleStatus(mod, questions, progress.cards, progress.lessonsRead)
@@ -278,7 +305,11 @@ export function LessonPage() {
               {lesson &&
                 sections.map((s) => (
                   <li key={s.id}>
-                    <a href={`#/lernen/${mod.id}?abschnitt=${s.id}`} onClick={(e) => {
+                    <a
+                      href={`#/lernen/${mod.id}?abschnitt=${s.id}`}
+                      className={activeSection === s.id ? 'is-active' : undefined}
+                      aria-current={activeSection === s.id ? 'location' : undefined}
+                      onClick={(e) => {
                       e.preventDefault()
                       document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                     }}>

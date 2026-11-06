@@ -55,11 +55,13 @@ export function ProgressPage() {
             ))}
           </ul>
         </div>
-        <p className="muted small">Jede Kachel ist ein Punkt aus dem offiziellen Skills-Outline. Kachel antippen, um genau diesen Skill zu üben.</p>
+        <p className="muted small skills-map__hint">Jede Kachel ist ein Punkt aus dem offiziellen Skills-Outline. Kachel antippen, um genau diesen Skill zu üben.</p>
         {domains.map((d) => (
           <div key={d.id} className="skills-row">
             <div className="skills-row__head">
-              <Icon name={DOMAIN_ICON[d.id]} size={24} className={`ink-${d.id}`} />
+              <span className={`skills-row__icon ink-${d.id}`} aria-hidden="true">
+                <Icon name={DOMAIN_ICON[d.id]} size={20} />
+              </span>
               <div>
                 <p className="skills-row__title">{lang === 'de' ? d.title.de : d.title.en}</p>
                 <p className="skills-row__weight">

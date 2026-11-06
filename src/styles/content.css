@@ -25,7 +25,7 @@
   color: var(--ink-3);
   font-size: 14px;
   line-height: 20px;
-  max-width: 68ch;
+  max-width: 56ch;
 }
 
 .dg-canvas {
@@ -287,7 +287,7 @@
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
-  max-width: 68ch;
+  max-width: 56ch;
 }
 
 .dg-narration__text--hint {
@@ -324,8 +324,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: var(--s2);
-  padding: var(--s4) var(--s3);
+  gap: var(--s1);
+  padding: var(--s4) 10px;
   border: 1px solid var(--brand-tint-2);
   border-radius: var(--r-md);
   background: #f5f9fe;
@@ -338,6 +338,7 @@
   flex: 1 1 0;
   min-width: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   gap: 6px;
   text-align: center;
@@ -354,27 +355,94 @@
   color: var(--g-ink);
 }
 
+/* Long compounds break at syllables (only words of 10+ letters), never mid-letter. */
+.dg-summary__label,
+.dg-summary__sub {
+  max-width: 100%;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  hyphenate-limit-chars: 10 4 4;
+}
+
+.dg-summary__code {
+  -webkit-hyphens: manual;
+  hyphens: manual;
+}
+
 .dg-summary__label {
   font-size: 13px;
   line-height: 18px;
   font-weight: 600;
   color: var(--ink);
-  hyphens: auto;
-  overflow-wrap: break-word;
 }
 
 .dg-summary__sub {
   font-size: 12px;
   line-height: 16px;
   color: var(--ink-3);
-  hyphens: auto;
-  overflow-wrap: break-word;
 }
 
 .dg-summary__arrow {
   flex: none;
   margin-top: 14px;
   color: var(--ink-3);
+}
+
+.dg-summary__gap {
+  flex: none;
+  width: 18px;
+}
+
+/* Too narrow for three tiles side by side (phones, small laptops): one tile per row so labels keep whole words. */
+@container summary (max-width: 380px) {
+  .dg-summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--s1);
+    padding: var(--s3) var(--s4);
+  }
+
+  .dg-summary__item {
+    grid-template-columns: 40px minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    column-gap: var(--s3);
+    row-gap: 0;
+    text-align: left;
+  }
+
+  .dg-summary__tile {
+    grid-row: span 2;
+    width: 40px;
+    height: 40px;
+  }
+
+  .dg-summary__label {
+    grid-column: 2;
+    align-self: end;
+  }
+
+  .dg-summary__sub {
+    grid-column: 2;
+    align-self: start;
+  }
+
+  .dg-summary__item:not(:has(.dg-summary__sub)) .dg-summary__label {
+    grid-row: span 2;
+    align-self: center;
+  }
+
+  .dg-summary__arrow {
+    margin: 0 0 0 11px;
+    transform: rotate(90deg);
+  }
+
+  .dg-summary__gap {
+    width: auto;
+    height: 4px;
+  }
 }
 
 /* ---------- Code ---------- */
@@ -454,7 +522,7 @@
   font-size: 17px;
   line-height: 26px;
   color: var(--ink);
-  max-width: 62ch;
+  max-width: 54ch;
 }
 
 .choices {
@@ -543,6 +611,7 @@
 }
 
 .choice__why {
+  max-width: calc(56ch + 64px);
   padding: 0 14px 12px 50px;
   font-size: 14px;
   line-height: 20px;
@@ -935,7 +1004,7 @@
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
-  max-width: 66ch;
+  max-width: 54ch;
 }
 
 .explanation__links {
