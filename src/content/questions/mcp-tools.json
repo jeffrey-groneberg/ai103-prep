@@ -149,10 +149,9 @@
       "skill": "2.2.5",
       "module": "mcp-tools",
       "difficulty": 2,
-      "caseId": "case-fabrikam-support",
       "stem": {
-        "en": "Refer to the Fabrikam case study. A customer asks the agent to refund an order. Put the steps that satisfy requirement 2 in order.",
-        "de": "Beziehe dich auf die Fallstudie Fabrikam. Ein Kunde bittet den Agent, eine Bestellung zu erstatten. Bringe die Schritte, die Anforderung 2 erfüllen, in die richtige Reihenfolge."
+        "en": "Your support agent uses an MCP tool whose per-tool approval policy lists `issue_refund` under `always`, because a support supervisor must approve every refund. A customer asks the agent to refund an order. Put the steps in order.",
+        "de": "Dein Support-Agent nutzt ein MCP-Tool, dessen Freigaberichtlinie pro Tool `issue_refund` unter `always` aufführt, weil eine Support-Teamleitung jede Erstattung freigeben muss. Ein Kunde bittet den Agent, eine Bestellung zu erstatten. Bringe die Schritte in die richtige Reihenfolge."
       },
       "items": [
         {
@@ -168,7 +167,7 @@
         {
           "id": "s3",
           "text": { "en": "The app shows the tool name and arguments to a support supervisor, who approves", "de": "Die App zeigt Tool-Name und Argumente einer Support-Teamleitung, die freigibt" },
-          "why": { "en": "Requirement 2 demands a supervisor's decision before the refund runs.", "de": "Anforderung 2 verlangt die Entscheidung einer Teamleitung, bevor die Erstattung läuft." }
+          "why": { "en": "The policy demands a supervisor's decision before the refund runs.", "de": "Die Richtlinie verlangt die Entscheidung einer Teamleitung, bevor die Erstattung läuft." }
         },
         {
           "id": "s4",

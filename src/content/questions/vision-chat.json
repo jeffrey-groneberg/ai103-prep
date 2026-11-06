@@ -10,8 +10,8 @@
       "module": "vision-chat",
       "difficulty": 1,
       "stem": {
-        "en": "Your Python app must send a photo stored on the local disk to a gpt-4.1 deployment through the Responses API and print the answer. Put the steps in order.",
-        "de": "Deine Python-App soll ein lokal gespeichertes Foto über die Responses API an ein gpt-4.1-Deployment senden und die Antwort ausgeben. Bringe die Schritte in die richtige Reihenfolge."
+        "en": "Your Python app must send a photo stored on the local disk to a gpt-5-mini deployment through the Responses API and print the answer. Put the steps in order.",
+        "de": "Deine Python-App soll ein lokal gespeichertes Foto über die Responses API an ein gpt-5-mini-Deployment senden und die Antwort ausgeben. Bringe die Schritte in die richtige Reihenfolge."
       },
       "items": [
         {
@@ -22,7 +22,7 @@
         {
           "id": "s2",
           "text": { "en": "Base64-encode the bytes and build a data URL such as `data:image/jpeg;base64,…`", "de": "Die Bytes Base64-kodieren und eine Data-URL wie `data:image/jpeg;base64,…` bauen" },
-          "why": { "en": "A local file has no public URL, so it travels inline as a base64 data URL with the right MIME type.", "de": "Eine lokale Datei hat keine öffentliche URL – sie reist daher inline als Base64-Data-URL mit passendem MIME-Typ." }
+          "why": { "en": "A local file has no public URL, so the simplest option is to send it inline as a base64 data URL with the right MIME type (or upload it and pass `file_id`).", "de": "Eine lokale Datei hat keine öffentliche URL – am einfachsten schickst du sie inline als Base64-Data-URL mit passendem MIME-Typ (oder lädst sie hoch und übergibst `file_id`)." }
         },
         {
           "id": "s3",
@@ -58,8 +58,8 @@
       "module": "vision-chat",
       "difficulty": 2,
       "stem": {
-        "en": "Your company stores product photos in an Azure Storage account. Public network access is disabled; the account is reachable only through a private endpoint in the VNet where your app runs. Requests that pass the blob URL to a gpt-4.1 deployment fail. Which TWO approaches let the model analyze the photos?",
-        "de": "Dein Unternehmen speichert Produktfotos in einem Azure-Storage-Konto. Der öffentliche Netzwerkzugriff ist deaktiviert; das Konto ist nur über einen Private Endpoint im VNet erreichbar, in dem deine App läuft. Anfragen, die die Blob-URL an ein gpt-4.1-Deployment übergeben, schlagen fehl. Welche ZWEI Ansätze lassen das Modell die Fotos analysieren?"
+        "en": "Your company stores product photos in an Azure Storage account. Public network access is disabled; the account is reachable only through a private endpoint in the VNet where your app runs. Requests that pass the blob URL to a gpt-5-mini deployment fail. Which TWO approaches let the model analyze the photos?",
+        "de": "Dein Unternehmen speichert Produktfotos in einem Azure-Storage-Konto. Der öffentliche Netzwerkzugriff ist deaktiviert; das Konto ist nur über einen Private Endpoint im VNet erreichbar, in dem deine App läuft. Anfragen, die die Blob-URL an ein gpt-5-mini-Deployment übergeben, schlagen fehl. Welche ZWEI Ansätze lassen das Modell die Fotos analysieren?"
       },
       "options": [
         {
@@ -111,8 +111,8 @@
       "module": "vision-chat",
       "difficulty": 2,
       "stem": {
-        "en": "A photo platform uses a gpt-4.1 deployment for three captioning features. Match each feature to the configuration that fits best.",
-        "de": "Eine Fotoplattform nutzt ein gpt-4.1-Deployment für drei Beschreibungsfunktionen. Ordne jeder Funktion die passendste Konfiguration zu."
+        "en": "A photo platform uses a gpt-5-mini deployment for three captioning features. Match each feature to the configuration that fits best.",
+        "de": "Eine Fotoplattform nutzt ein gpt-5-mini-Deployment für drei Beschreibungsfunktionen. Ordne jeder Funktion die passendste Konfiguration zu."
       },
       "prompts": [
         {
@@ -223,9 +223,9 @@
         },
         {
           "id": "c",
-          "text": { "en": "Set `temperature` to 0 so the model can't make unsupported claims", "de": "`temperature` auf 0 setzen, damit das Modell keine unbelegten Aussagen machen kann" },
+          "text": { "en": "Raise `max_output_tokens` so the model has room to explain every detail", "de": "`max_output_tokens` erhöhen, damit das Modell Platz hat, jedes Detail zu erklären" },
           "correct": false,
-          "why": { "en": "A lower temperature makes sampling more deterministic; it doesn't stop the model from stating things the photo doesn't show.", "de": "Eine niedrigere Temperatur macht die Auswahl deterministischer; sie hindert das Modell nicht daran, Dinge zu behaupten, die das Foto nicht zeigt." }
+          "why": { "en": "A higher output limit only allows longer answers; it doesn't restrict the answer to what the photo shows.", "de": "Ein höheres Ausgabelimit erlaubt nur längere Antworten; es beschränkt die Antwort nicht auf das, was das Foto zeigt." }
         },
         {
           "id": "d",
@@ -311,7 +311,7 @@
       "options": [
         {
           "id": "a",
-          "text": { "en": "\"Write one concise, neutral sentence (about 125 characters or less) that conveys the image's key content and purpose on this page.\"", "de": "„Schreibe einen knappen, neutralen Satz (etwa 125 Zeichen oder weniger), der Hauptinhalt und Zweck des Bildes auf dieser Seite vermittelt.“" },
+          "text": { "en": "\"Write one concise, neutral sentence (about 125 characters) that conveys the image's key content and purpose on this page.\"", "de": "„Schreibe einen knappen, neutralen Satz (etwa 125 Zeichen), der Hauptinhalt und Zweck des Bildes auf dieser Seite vermittelt.“" },
           "correct": true,
           "why": { "en": "Alt text should be concise, descriptive, relevant to the context and neutral, so screen readers can read it efficiently.", "de": "Alt-Text sollte knapp, beschreibend, kontextbezogen und neutral sein, damit Screenreader ihn effizient vorlesen." }
         },
@@ -353,38 +353,38 @@
       "difficulty": 2,
       "caseId": "case-northwind-media",
       "stem": {
-        "en": "Northwind Media is building the website described in the case study. Match each image to the text the generation pipeline should produce.",
-        "de": "Northwind Media baut die im Fallbeispiel beschriebene Website. Ordne jedem Bild den Text zu, den die Generierungspipeline erzeugen soll."
+        "en": "Northwind's `gpt-5-mini` pipeline must produce text alternatives for the three images on the summer landing page described in the case study. Match each image to the output the pipeline should produce.",
+        "de": "Northwinds `gpt-5-mini`-Pipeline soll Textalternativen für die drei Bilder der im Fallbeispiel beschriebenen Sommer-Landingpage erzeugen. Ordne jedem Bild die Ausgabe zu, die die Pipeline erzeugen soll."
       },
       "prompts": [
         {
           "id": "p1",
-          "prompt": { "en": "A lifestyle photo of the Aurora bottle on the campaign landing page", "de": "Ein Lifestyle-Foto der Aurora-Flasche auf der Kampagnen-Landingpage" },
+          "prompt": { "en": "The hero photo of the Aurora bottle", "de": "Das Hero-Foto der Aurora-Flasche" },
           "answer": "t1",
-          "why": { "en": "An informative photo needs a short alt text with its content and purpose, so screen readers can read it quickly.", "de": "Ein informatives Foto braucht einen kurzen Alt-Text mit Inhalt und Zweck, damit Screenreader ihn schnell vorlesen." }
+          "why": { "en": "An informative photo needs concise alt text that conveys its content and purpose, so screen readers can read it quickly.", "de": "Ein informatives Foto braucht knappen Alt-Text mit Inhalt und Zweck, damit Screenreader ihn schnell vorlesen." }
         },
         {
           "id": "p2",
-          "prompt": { "en": "An infographic with campaign reach figures that the page text doesn't repeat", "de": "Eine Infografik mit Reichweitenzahlen, die der Seitentext nicht wiederholt" },
+          "prompt": { "en": "The campaign reach infographic", "de": "Die Infografik zur Kampagnenreichweite" },
           "answer": "t2",
-          "why": { "en": "Complex images such as charts need a long description so that all figures reach screen reader users; the alt text itself stays short.", "de": "Komplexe Bilder wie Diagramme brauchen eine lange Beschreibung, damit alle Zahlen Screenreader-Nutzer erreichen; der Alt-Text selbst bleibt kurz." }
+          "why": { "en": "Its figures appear nowhere else on the page, so screen reader users need them in an extended description; the alt text itself stays short.", "de": "Ihre Zahlen stehen nirgends sonst auf der Seite – Screenreader-Nutzer brauchen sie also in einer erweiterten Beschreibung; der Alt-Text selbst bleibt kurz." }
         },
         {
           "id": "p3",
-          "prompt": { "en": "A wave graphic next to a heading that already says \"Summer campaign\"", "de": "Eine Wellengrafik neben einer Überschrift, die bereits „Sommerkampagne“ lautet" },
+          "prompt": { "en": "The wave graphic next to the heading", "de": "Die Wellengrafik neben der Überschrift" },
           "answer": "t3",
-          "why": { "en": "The graphic adds no information beyond the adjacent text, so it is marked decorative and screen readers skip it.", "de": "Die Grafik liefert keine Information über den benachbarten Text hinaus – sie wird als dekorativ markiert, und Screenreader überspringen sie." }
+          "why": { "en": "The heading already says \"Summer campaign\", so the graphic adds no information; it is marked decorative and screen readers skip it.", "de": "Die Überschrift lautet bereits „Summer campaign“, die Grafik liefert also keine Information; sie wird als dekorativ markiert, und Screenreader überspringen sie." }
         }
       ],
       "targets": [
-        { "id": "t1", "text": { "en": "Concise alt text (about 125 characters) with the key content and purpose", "de": "Knapper Alt-Text (etwa 125 Zeichen) mit Hauptinhalt und Zweck" } },
+        { "id": "t1", "text": { "en": "Concise alt text with the image's key content and purpose", "de": "Knapper Alt-Text mit Hauptinhalt und Zweck des Bildes" } },
         { "id": "t2", "text": { "en": "Short alt text plus an extended description that contains all figures", "de": "Kurzer Alt-Text plus erweiterte Beschreibung mit allen Zahlen" } },
         { "id": "t3", "text": { "en": "Marked as decorative (empty alt text), no description", "de": "Als dekorativ markiert (leerer Alt-Text), keine Beschreibung" } },
         { "id": "t4", "text": { "en": "A 300-word description placed in the alt attribute", "de": "Eine Beschreibung mit 300 Wörtern im alt-Attribut" } }
       ],
       "explanation": {
-        "en": "Match the text to the image's role: informative → concise alt text; complex (charts, infographics) → short alt text plus a long description; decorative → marked decorative, no alt text.",
-        "de": "Richte den Text nach der Rolle des Bildes: informativ → knapper Alt-Text; komplex (Diagramme, Infografiken) → kurzer Alt-Text plus lange Beschreibung; dekorativ → als dekorativ markiert, ohne Alt-Text."
+        "en": "Choose the text alternative by the image's role on the page: informative → concise alt text; complex with data found nowhere else (charts, infographics) → short alt text plus an extended description; decorative or redundant → marked decorative, no alt text.",
+        "de": "Wähle die Textalternative nach der Rolle des Bildes auf der Seite: informativ → knapper Alt-Text; komplex mit Daten, die sonst nirgends stehen (Diagramme, Infografiken) → kurzer Alt-Text plus erweiterte Beschreibung; dekorativ oder redundant → als dekorativ markiert, ohne Alt-Text."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/power-platform/well-architected/experience-optimization/user-interface-content",

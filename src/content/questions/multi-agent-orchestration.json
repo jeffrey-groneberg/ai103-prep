@@ -65,10 +65,10 @@
       "module": "multi-agent-orchestration",
       "difficulty": 2,
       "stem": {
-        "en": "Complete the code so that the triage agent receives the first message and may hand off only to the refund and shipping agents.",
-        "de": "Vervollständige den Code so, dass der Triage-Agent die erste Nachricht erhält und nur an den Erstattungs- und den Versand-Agent übergeben darf."
+        "en": "Complete the code so that the triage agent receives the first message and may hand off only to the refund and shipping agents, not to the billing agent.",
+        "de": "Vervollständige den Code so, dass der Triage-Agent die erste Nachricht erhält und nur an den Erstattungs- und den Versand-Agent übergeben darf, nicht an den Abrechnungs-Agent."
       },
-      "template": "from agent_framework.{{b1}} import HandoffBuilder\n\nworkflow = (\n    HandoffBuilder(\n        name=\"support\",\n        participants=[triage, refunds, shipping],\n    )\n    .{{b2}}(triage)\n    .{{b3}}(triage, [refunds, shipping])\n    .build()\n)\nevents = [e async for e in workflow.run(\"My parcel never arrived\", stream=True)]",
+      "template": "from agent_framework.{{b1}} import HandoffBuilder\n\nasync def run_support(triage, refunds, shipping, billing):\n    workflow = (\n        HandoffBuilder(\n            name=\"support\",\n            participants=[triage, refunds, shipping, billing],\n        )\n        .{{b2}}(triage)\n        .{{b3}}(triage, [refunds, shipping])\n        .build()\n    )\n    return [e async for e in workflow.run(\"My parcel never arrived\", stream=True)]",
       "blanks": [
         {
           "id": "b1",
@@ -83,13 +83,13 @@
           "options": [
             { "id": "a", "code": "with_start_agent", "correct": true, "why": { "en": "Sets the agent that receives the initial user input.", "de": "Legt den Agent fest, der die erste Nutzereingabe erhält." } },
             { "id": "b", "code": "set_start_executor", "correct": false, "why": { "en": "A removed fluent method of `WorkflowBuilder`; it never configured handoff workflows.", "de": "Eine entfernte Fluent-Methode von `WorkflowBuilder`; Handoff-Workflows hat sie nie konfiguriert." } },
-            { "id": "c", "code": "with_manager", "correct": false, "why": { "en": "Managers belong to manager-led patterns such as Magentic; handoff has no central orchestrator.", "de": "Manager gehören zu manager-geführten Mustern wie Magentic; Handoff hat keinen zentralen Orchestrator." } }
+            { "id": "c", "code": "with_manager", "correct": false, "why": { "en": "Removed; Magentic now uses `manager_agent=`, and handoff has no central manager.", "de": "Entfernt; Magentic nutzt jetzt `manager_agent=`, und Handoff hat keinen zentralen Manager." } }
           ]
         },
         {
           "id": "b3",
           "options": [
-            { "id": "a", "code": "add_handoff", "correct": true, "why": { "en": "Restricts which agents a given agent may hand off to; without it, all agents can hand off to each other.", "de": "Beschränkt, an welche Agents ein bestimmter Agent übergeben darf; ohne diesen Aufruf dürfen alle an alle übergeben." } },
+            { "id": "a", "code": "add_handoff", "correct": true, "why": { "en": "Restricts which agents a given agent may hand off to; without it, all agents — including billing — can hand off to each other.", "de": "Beschränkt, an welche Agents ein bestimmter Agent übergeben darf; ohne diesen Aufruf dürfen alle – auch der Abrechnungs-Agent – an alle übergeben." } },
             { "id": "b", "code": "add_edge", "correct": false, "why": { "en": "Edges connect executors in a custom `WorkflowBuilder` graph; handoff rules use `add_handoff`.", "de": "Edges verbinden Executors in einem eigenen `WorkflowBuilder`-Graphen; Handoff-Regeln setzt `add_handoff`." } },
             { "id": "c", "code": "with_autonomous_mode", "correct": false, "why": { "en": "Autonomous mode lets agents continue without user input; it doesn't restrict handoff targets.", "de": "Der autonome Modus lässt Agents ohne Nutzereingabe weitermachen; Handoff-Ziele beschränkt er nicht." } }
           ]

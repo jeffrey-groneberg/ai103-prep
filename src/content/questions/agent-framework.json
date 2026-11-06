@@ -158,7 +158,7 @@
         "en": "Complete the code so the model gets a well-described refund function and a person must approve every refund before it runs.",
         "de": "Vervollständige den Code so, dass das Modell eine gut beschriebene Erstattungsfunktion bekommt und eine Person jede Erstattung freigeben muss, bevor sie ausgeführt wird."
       },
-      "template": "from typing import Annotated\nfrom pydantic import Field\nfrom agent_framework import Agent, {{b1}}\n\n@tool(approval_mode={{b2}})\ndef issue_refund(\n    order_id: Annotated[str, Field(description=\"Order to refund.\")],\n    amount: Annotated[float, Field(description=\"Amount in EUR.\")],\n) -> str:\n    \"\"\"Issue a refund for an order.\"\"\"\n    return f\"Refunded {amount} EUR for {order_id}.\"\n\nagent = Agent(client=client, instructions=\"Handle refunds.\", {{b3}}=[issue_refund])",
+      "template": "from typing import Annotated\nfrom pydantic import Field\nimport agent_framework as af\n\n@af.{{b1}}(approval_mode={{b2}})\ndef issue_refund(\n    order_id: Annotated[str, Field(description=\"Order to refund.\")],\n    amount: Annotated[float, Field(description=\"Amount in EUR.\")],\n) -> str:\n    \"\"\"Issue a refund for an order.\"\"\"\n    return f\"Refunded {amount} EUR for {order_id}.\"\n\ndef build_agent(client) -> af.Agent:\n    return af.Agent(client=client, instructions=\"Handle refunds.\", {{b3}}=[issue_refund])",
       "blanks": [
         {
           "id": "b1",
@@ -191,7 +191,8 @@
       },
       "sources": [
         "https://learn.microsoft.com/en-us/agent-framework/agents/tools/function-tools?pivots=programming-language-python",
-        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/tool-approval?pivots=programming-language-python"
+        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/tool-approval?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
       ],
       "lastVerified": "2026-11-06"
     },

@@ -3,12 +3,12 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'speech-genai',
   summary: {
-    en: 'Some Foundry models are built for audio. **Transcription models** such as `gpt-4o-transcribe` turn a recording into text, **text-to-speech models** such as `gpt-4o-mini-tts` turn text into natural speech, **audio chat models** such as `gpt-audio` listen to audio and answer in text or speech, and **realtime models** such as `gpt-realtime` hold a live spoken conversation. You deploy them like any other model and call them through the OpenAI-compatible APIs of your Foundry resource: `audio.transcriptions`, `audio.speech`, Chat Completions with audio content, or the Realtime API. Picking the right one is mostly about the shape of the job: a file or a live stream, text or speech as output, and whether the model must *understand* the audio or only write it down.',
-    de: 'Einige Foundry-Modelle sind auf Audio spezialisiert. **Transkriptionsmodelle** wie `gpt-4o-transcribe` machen aus einer Aufnahme Text, **Text-to-Speech-Modelle** wie `gpt-4o-mini-tts` machen aus Text natürliche Sprache, **Audio-Chatmodelle** wie `gpt-audio` hören Audio zu und antworten mit Text oder Sprache, und **Realtime-Modelle** wie `gpt-realtime` führen ein Live-Gespräch. Du stellst sie wie jedes andere Modell bereit und rufst sie über die OpenAI-kompatiblen APIs deiner Foundry-Ressource auf: `audio.transcriptions`, `audio.speech`, Chat Completions mit Audioinhalt oder die Realtime API. Die Wahl hängt vor allem von der Form der Aufgabe ab: Datei oder Live-Stream, Text oder Sprache als Ausgabe – und ob das Modell das Audio *verstehen* oder nur mitschreiben soll.',
+    en: 'Some Foundry models are built for audio. **Transcription models** such as `gpt-transcribe` turn a recording into text, **text-to-speech models** such as `gpt-4o-mini-tts` turn text into natural speech, **audio chat models** such as `gpt-audio` listen to audio and answer in text or speech, and **realtime models** such as `gpt-realtime` hold a live spoken conversation. You deploy them like any other model and call them through the OpenAI-compatible APIs of your Foundry resource: `audio.transcriptions`, `audio.speech`, Chat Completions with audio content, or the Realtime API. Picking the right one is mostly about the shape of the job: a file or a live stream, text or speech as output, and whether the model must *understand* the audio or only write it down.',
+    de: 'Einige Foundry-Modelle sind auf Audio spezialisiert. **Transkriptionsmodelle** wie `gpt-transcribe` machen aus einer Aufnahme Text, **Text-to-Speech-Modelle** wie `gpt-4o-mini-tts` machen aus Text natürliche Sprache, **Audio-Chatmodelle** wie `gpt-audio` hören Audio zu und antworten mit Text oder Sprache, und **Realtime-Modelle** wie `gpt-realtime` führen ein Live-Gespräch. Du stellst sie wie jedes andere Modell bereit und rufst sie über die OpenAI-kompatiblen APIs deiner Foundry-Ressource auf: `audio.transcriptions`, `audio.speech`, Chat Completions mit Audioinhalt oder die Realtime API. Die Wahl hängt vor allem von der Form der Aufgabe ab: Datei oder Live-Stream, Text oder Sprache als Ausgabe – und ob das Modell das Audio *verstehen* oder nur mitschreiben soll.',
   },
   examFocus: {
-    en: 'Expect scenarios that ask you to pick the right speech-capable model and call: transcription (`gpt-4o-transcribe`, `whisper` via `audio.transcriptions.create()`) vs synthesis (`gpt-4o-mini-tts` via `audio.speech.create()` with `voice` and `instructions`) vs reasoning over audio (`gpt-audio` with an `input_audio` content part in Chat Completions) vs live conversation (`gpt-realtime`). Know the request shapes (file upload vs base64), the size limits (25 MB for transcription, 20 MB for audio chat) and where results land (`text`, `message.audio.transcript`, `message.audio.data`).',
-    de: 'Rechne mit Szenarien, in denen du das passende sprachfähige Modell und den passenden Aufruf wählst: Transkription (`gpt-4o-transcribe`, `whisper` über `audio.transcriptions.create()`) vs. Sprachsynthese (`gpt-4o-mini-tts` über `audio.speech.create()` mit `voice` und `instructions`) vs. Reasoning über Audio (`gpt-audio` mit einem `input_audio`-Inhaltsteil in Chat Completions) vs. Live-Gespräch (`gpt-realtime`). Kenne die Request-Formen (Datei-Upload vs. Base64), die Größenlimits (25 MB für Transkription, 20 MB für Audio-Chat) und wo die Ergebnisse landen (`text`, `message.audio.transcript`, `message.audio.data`).',
+    en: 'Expect scenarios that ask you to pick the right speech-capable model and call: transcription (`gpt-transcribe` or `gpt-4o-mini-transcribe` via `audio.transcriptions.create()`) vs synthesis (`gpt-4o-mini-tts` via `audio.speech.create()` with `voice` and `instructions`) vs reasoning over audio (`gpt-audio` with an `input_audio` content part in Chat Completions) vs live conversation (`gpt-realtime`). Know the request shapes (file upload vs base64), the size limits (25 MB for transcription, 20 MB for audio chat) and where results land (`text`, `message.audio.transcript`, `message.audio.data`).',
+    de: 'Rechne mit Szenarien, in denen du das passende sprachfähige Modell und den passenden Aufruf wählst: Transkription (`gpt-transcribe` oder `gpt-4o-mini-transcribe` über `audio.transcriptions.create()`) vs. Sprachsynthese (`gpt-4o-mini-tts` über `audio.speech.create()` mit `voice` und `instructions`) vs. Reasoning über Audio (`gpt-audio` mit einem `input_audio`-Inhaltsteil in Chat Completions) vs. Live-Gespräch (`gpt-realtime`). Kenne die Request-Formen (Datei-Upload vs. Base64), die Größenlimits (25 MB für Transkription, 20 MB für Audio-Chat) und wo die Ergebnisse landen (`text`, `message.audio.transcript`, `message.audio.data`).',
   },
   diagrams: [
     {
@@ -24,18 +24,18 @@ export const lesson: Lesson = {
         { id: 'g-res', x: 305, y: 20, w: 330, h: 420, label: { en: 'Foundry resource · model deployments', de: 'Foundry-Ressource · Modell-Deployments' }, tone: 'foundry' },
       ],
       nodes: [
-        { id: 'in-file', x: 20, y: 60, w: 190, h: 60, label: { en: 'Recorded audio', de: 'Aufgenommenes Audio' }, sub: 'mp3 · wav · m4a · ≤ 25 MB', tone: 'data', shape: 'doc' },
-        { id: 'm-stt', x: 330, y: 60, w: 280, h: 60, label: 'gpt-4o-transcribe · whisper', sub: 'audio.transcriptions.create()', tone: 'model' },
-        { id: 'out-text', x: 750, y: 60, w: 190, h: 60, label: { en: 'Transcript', de: 'Transkript' }, sub: 'transcript.text', tone: 'data', shape: 'doc' },
-        { id: 'in-text', x: 20, y: 160, w: 190, h: 60, label: { en: 'Text + style hint', de: 'Text + Stilvorgabe' }, sub: 'input · instructions', tone: 'app' },
+        { id: 'in-file', x: 20, y: 60, w: 200, h: 60, label: { en: 'Recorded audio', de: 'Aufgenommenes Audio' }, sub: 'mp3 · wav · m4a · ≤ 25 MB', tone: 'data', shape: 'doc' },
+        { id: 'm-stt', x: 330, y: 60, w: 280, h: 60, label: 'gpt-transcribe', sub: 'audio.transcriptions.create()', tone: 'model' },
+        { id: 'out-text', x: 740, y: 60, w: 200, h: 60, label: { en: 'Transcript', de: 'Transkript' }, sub: 'transcript.text', tone: 'data', shape: 'doc' },
+        { id: 'in-text', x: 20, y: 160, w: 200, h: 60, label: { en: 'Text + style hint', de: 'Text + Stilvorgabe' }, sub: 'input · instructions', tone: 'app' },
         { id: 'm-tts', x: 330, y: 160, w: 280, h: 60, label: 'gpt-4o-mini-tts', sub: 'audio.speech.create(voice=…)', tone: 'model' },
-        { id: 'out-audio', x: 750, y: 160, w: 190, h: 60, label: { en: 'Speech audio file', de: 'Sprach-Audiodatei' }, sub: 'mp3 · wav · opus · …', tone: 'data', shape: 'doc' },
-        { id: 'in-mixed', x: 20, y: 260, w: 190, h: 60, label: { en: 'Audio + question', de: 'Audio + Frage' }, sub: { en: 'input_audio (base64)', de: 'input_audio (Base64)' }, tone: 'app' },
+        { id: 'out-audio', x: 740, y: 160, w: 200, h: 60, label: { en: 'Speech audio file', de: 'Sprach-Audiodatei' }, sub: 'mp3 · wav · opus · …', tone: 'data', shape: 'doc' },
+        { id: 'in-mixed', x: 20, y: 260, w: 200, h: 60, label: { en: 'Audio + question', de: 'Audio + Frage' }, sub: { en: 'input_audio (base64)', de: 'input_audio (Base64)' }, tone: 'app' },
         { id: 'm-chat', x: 330, y: 260, w: 280, h: 60, label: 'gpt-audio · gpt-audio-mini', sub: 'chat.completions + modalities', tone: 'model' },
-        { id: 'out-both', x: 750, y: 260, w: 190, h: 60, label: { en: 'Text and/or speech', de: 'Text und/oder Sprache' }, sub: 'message.audio.transcript', tone: 'app' },
-        { id: 'in-mic', x: 20, y: 360, w: 190, h: 60, label: { en: 'Live microphone', de: 'Live-Mikrofon' }, sub: { en: 'WebRTC or WebSocket', de: 'WebRTC oder WebSocket' }, tone: 'user', shape: 'actor' },
+        { id: 'out-both', x: 740, y: 260, w: 200, h: 60, label: { en: 'Text and/or speech', de: 'Text und/oder Sprache' }, sub: { en: 'message.content (text)\nmessage.audio (speech)', de: 'message.content (Text)\nmessage.audio (Sprache)' }, tone: 'app' },
+        { id: 'in-mic', x: 20, y: 360, w: 200, h: 60, label: { en: 'Live microphone', de: 'Live-Mikrofon' }, sub: 'WebRTC · WebSocket · SIP', tone: 'user', shape: 'actor' },
         { id: 'm-rt', x: 330, y: 360, w: 280, h: 60, label: 'gpt-realtime', sub: 'Realtime API · /openai/v1', tone: 'model' },
-        { id: 'out-spk', x: 750, y: 360, w: 190, h: 60, label: { en: 'Spoken reply', de: 'Gesprochene Antwort' }, sub: { en: 'streamed audio', de: 'gestreamtes Audio' }, tone: 'user', shape: 'actor' },
+        { id: 'out-spk', x: 740, y: 360, w: 200, h: 60, label: { en: 'Spoken reply', de: 'Gesprochene Antwort' }, sub: { en: 'streamed audio', de: 'gestreamtes Audio' }, tone: 'user', shape: 'actor' },
       ],
       edges: [
         { id: 'e1', from: 'in-file', to: 'm-stt' },
@@ -44,23 +44,23 @@ export const lesson: Lesson = {
         { id: 'e4', from: 'm-tts', to: 'out-audio' },
         { id: 'e5', from: 'in-mixed', to: 'm-chat' },
         { id: 'e6', from: 'm-chat', to: 'out-both' },
-        { id: 'e7', from: 'in-mic', to: 'm-rt', label: { en: 'live audio', de: 'Live-Audio' }, bidir: true },
+        { id: 'e7', from: 'in-mic', to: 'm-rt', label: { en: 'live audio', de: 'Live-Audio' } },
         { id: 'e8', from: 'm-rt', to: 'out-spk' },
       ],
       steps: [
         {
           title: { en: 'Pick the model by the job', de: 'Modell nach Aufgabe wählen' },
           text: {
-            en: 'Foundry Models includes specialized audio models. You deploy them like any other model and pass the **deployment name** as `model`. Ask first: is the job transcribing, speaking, understanding audio, or a live conversation?',
-            de: 'Foundry Models enthält spezialisierte Audiomodelle. Du stellst sie wie jedes andere Modell bereit und übergibst den **Deployment-Namen** als `model`. Frag dich zuerst: Geht es ums Mitschreiben, ums Sprechen, ums Verstehen von Audio oder um ein Live-Gespräch?',
+            en: 'Foundry Models includes specialized audio models. You deploy them like any other model and pass the **deployment name** (any name you choose when deploying) as `model`. Ask first: is the job transcribing, speaking, understanding audio, or a live conversation?',
+            de: 'Foundry Models enthält spezialisierte Audiomodelle. Du stellst sie wie jedes andere Modell bereit und übergibst den **Deployment-Namen** (frei wählbar beim Bereitstellen) als `model`. Frag dich zuerst: Geht es ums Mitschreiben, ums Sprechen, ums Verstehen von Audio oder um ein Live-Gespräch?',
           },
           focus: ['g-res', 'm-stt', 'm-tts', 'm-chat', 'm-rt'],
         },
         {
           title: { en: 'Transcribe a recording', de: 'Aufnahme transkribieren' },
           text: {
-            en: '`audio.transcriptions.create()` uploads one file (mp3, mp4, mpeg, mpga, m4a, wav or webm; max 25 MB) and returns its `text`. A `language` hint such as `en` improves accuracy and latency.',
-            de: '`audio.transcriptions.create()` lädt eine Datei hoch (mp3, mp4, mpeg, mpga, m4a, wav oder webm; max. 25 MB) und liefert deren `text`. Ein `language`-Hinweis wie `en` verbessert Genauigkeit und Latenz.',
+            en: '`audio.transcriptions.create()` uploads one file (mp3, mp4, mpeg, mpga, m4a, wav or webm; max 25 MB) and returns its `text`. A `language` hint such as `en` improves accuracy and latency; bigger files go to Azure Speech fast or batch transcription.',
+            de: '`audio.transcriptions.create()` lädt eine Datei hoch (mp3, mp4, mpeg, mpga, m4a, wav oder webm; max. 25 MB) und liefert deren `text`. Ein `language`-Hinweis wie `en` verbessert Genauigkeit und Latenz; größere Dateien gehen an Fast oder Batch Transcription von Azure Speech.',
           },
           focus: ['in-file', 'e1', 'm-stt', 'e2', 'out-text'],
         },
@@ -75,16 +75,16 @@ export const lesson: Lesson = {
         {
           title: { en: 'Reason over audio', de: 'Über Audio nachdenken' },
           text: {
-            en: 'Audio chat models take an `input_audio` part next to your text question in Chat Completions and can answer in text, speech or both — one call instead of a transcribe-then-ask pipeline.',
-            de: 'Audio-Chatmodelle nehmen in Chat Completions einen `input_audio`-Teil neben deiner Textfrage an und antworten mit Text, Sprache oder beidem – ein Aufruf statt einer Pipeline aus Transkribieren und Fragen.',
+            en: 'Audio chat models take an `input_audio` part next to your text question in Chat Completions and can answer in text (`message.content`), speech (`message.audio`, with a transcript) or both — one call instead of a transcribe-then-ask pipeline.',
+            de: 'Audio-Chatmodelle nehmen in Chat Completions einen `input_audio`-Teil neben deiner Textfrage an und antworten mit Text (`message.content`), Sprache (`message.audio`, mit Transkript) oder beidem – ein Aufruf statt einer Pipeline aus Transkribieren und Fragen.',
           },
           focus: ['in-mixed', 'e5', 'm-chat', 'e6', 'out-both'],
         },
         {
           title: { en: 'Talk in real time', de: 'In Echtzeit sprechen' },
           text: {
-            en: 'Realtime models stream speech in and out over WebRTC (browsers), WebSocket (servers) or SIP (phones). Voice activity detection decides when the user has finished — the basis for voice agents.',
-            de: 'Realtime-Modelle streamen Sprache hin und zurück über WebRTC (Browser), WebSocket (Server) oder SIP (Telefonie). Die Sprachaktivitätserkennung entscheidet, wann der Nutzer fertig ist – die Basis für Voice Agents.',
+            en: 'Realtime models take live audio in and stream the spoken reply back over WebRTC (browsers), WebSocket (servers) or SIP (phones). Voice activity detection decides when the user has finished — the basis for voice agents.',
+            de: 'Realtime-Modelle nehmen Live-Audio an und streamen die gesprochene Antwort zurück – über WebRTC (Browser), WebSocket (Server) oder SIP (Telefonie). Die Sprachaktivitätserkennung entscheidet, wann der Nutzer fertig ist – die Basis für Voice Agents.',
           },
           focus: ['in-mic', 'e7', 'm-rt', 'e8', 'out-spk'],
         },
@@ -135,8 +135,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Ask for text, speech or both', de: 'Text, Sprache oder beides anfordern' },
           text: {
-            en: 'Call your `gpt-audio` deployment. `modalities=["text", "audio"]` plus `audio={"voice": …, "format": …}` requests a spoken answer; voices include alloy, coral, sage and verse.',
-            de: 'Rufe dein `gpt-audio`-Deployment auf. `modalities=["text", "audio"]` plus `audio={"voice": …, "format": …}` fordert eine gesprochene Antwort an; Stimmen sind etwa alloy, coral, sage und verse.',
+            en: 'Call your `gpt-audio-mini` (or `gpt-audio`) deployment. `modalities=["text", "audio"]` plus `audio={"voice": …, "format": …}` requests a spoken answer; voices include alloy, coral, sage and verse.',
+            de: 'Rufe dein `gpt-audio-mini`-Deployment (oder `gpt-audio`) auf. `modalities=["text", "audio"]` plus `audio={"voice": …, "format": …}` fordert eine gesprochene Antwort an; Stimmen sind etwa alloy, coral, sage und verse.',
           },
           focus: ['a3', 'n-model'],
         },
@@ -163,22 +163,22 @@ export const lesson: Lesson = {
     {
       term: 'Speech-capable model',
       text: {
-        en: 'A Foundry model built for audio: transcription (`gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe-diarize`, `whisper`), text to speech (`gpt-4o-mini-tts`), audio chat (`gpt-audio`, `gpt-audio-mini`) or realtime (`gpt-realtime`). Find them with the filters of the Foundry model catalog; availability varies by region, and several of these models are in preview.',
-        de: 'Ein Foundry-Modell, das für Audio gebaut ist: Transkription (`gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe-diarize`, `whisper`), Text to Speech (`gpt-4o-mini-tts`), Audio-Chat (`gpt-audio`, `gpt-audio-mini`) oder Realtime (`gpt-realtime`). Du findest sie über die Filter im Foundry-Modellkatalog; die Verfügbarkeit hängt von der Region ab, und einige dieser Modelle sind in Preview.',
+        en: 'A Foundry model built for audio: transcription (`gpt-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe-diarize` with *diarization* — labeling who said what), text to speech (`gpt-4o-mini-tts`), audio chat (`gpt-audio`, `gpt-audio-mini`) or realtime (`gpt-realtime`). Find them with the catalog filters; availability varies by region. Model lists change: `gpt-4o-transcribe` (still named in the training module) was retired on 2026-10-15, and `whisper`, `tts` and `tts-hd` retire on 2026-12-15.',
+        de: 'Ein Foundry-Modell, das für Audio gebaut ist: Transkription (`gpt-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe-diarize` mit *Diarisierung* – Zuordnung, wer was gesagt hat), Text to Speech (`gpt-4o-mini-tts`), Audio-Chat (`gpt-audio`, `gpt-audio-mini`) oder Realtime (`gpt-realtime`). Du findest sie über die Katalogfilter; die Verfügbarkeit hängt von der Region ab. Modelllisten ändern sich: `gpt-4o-transcribe` (im Trainingsmodul noch genannt) wurde am 2026-10-15 eingestellt, `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt.',
       },
     },
     {
       term: 'Audio transcriptions API',
       text: {
-        en: '`audio.transcriptions.create(model=…, file=…)` uploads one recorded file (mp3, mp4, mpeg, mpga, m4a, wav or webm, max 25 MB) and returns its `text`. An optional `language` hint in ISO-639-1 format (`en`) improves accuracy; `whisper` can also translate other languages into English.',
-        de: '`audio.transcriptions.create(model=…, file=…)` lädt eine aufgenommene Datei hoch (mp3, mp4, mpeg, mpga, m4a, wav oder webm, max. 25 MB) und liefert deren `text`. Ein optionaler `language`-Hinweis im ISO-639-1-Format (`en`) verbessert die Genauigkeit; `whisper` kann andere Sprachen außerdem ins Englische übersetzen.',
+        en: '`audio.transcriptions.create(model=…, file=…)` uploads one recorded file (mp3, mp4, mpeg, mpga, m4a, wav or webm, max 25 MB) and returns its `text`. An optional `language` hint in ISO-639-1 format (`en`) improves accuracy. `whisper` (retiring 2026-12-15) can also translate speech into English with `audio.translations.create()`.',
+        de: '`audio.transcriptions.create(model=…, file=…)` lädt eine aufgenommene Datei hoch (mp3, mp4, mpeg, mpga, m4a, wav oder webm, max. 25 MB) und liefert deren `text`. Ein optionaler `language`-Hinweis im ISO-639-1-Format (`en`) verbessert die Genauigkeit. `whisper` (wird am 2026-12-15 eingestellt) übersetzt Sprache außerdem mit `audio.translations.create()` ins Englische.',
       },
     },
     {
       term: 'Audio speech API',
       text: {
-        en: '`audio.speech.create(model=…, voice=…, input=…)` turns up to 4,096 characters of text into audio (`response_format` such as mp3 or wav). `gpt-4o-mini-tts` also accepts `instructions` that describe tone and style; `speed` ranges from 0.25 to 4.0.',
-        de: '`audio.speech.create(model=…, voice=…, input=…)` macht aus bis zu 4.096 Zeichen Text Audio (`response_format` etwa mp3 oder wav). `gpt-4o-mini-tts` akzeptiert zusätzlich `instructions`, die Ton und Stil beschreiben; `speed` reicht von 0,25 bis 4,0.',
+        en: '`audio.speech.create(model=…, voice=…, input=…)` turns up to 4,096 characters of text into audio (`response_format` such as mp3 or wav). `gpt-4o-mini-tts` also accepts `instructions` that describe tone and style; `speed` ranges from 0.25 to 4.0. In Python, `audio.speech.with_streaming_response.create(…)` is the same call — it just streams the bytes straight into a file.',
+        de: '`audio.speech.create(model=…, voice=…, input=…)` macht aus bis zu 4.096 Zeichen Text Audio (`response_format` etwa mp3 oder wav). `gpt-4o-mini-tts` akzeptiert zusätzlich `instructions`, die Ton und Stil beschreiben; `speed` reicht von 0,25 bis 4,0. In Python ist `audio.speech.with_streaming_response.create(…)` derselbe Aufruf – er streamt die Bytes nur direkt in eine Datei.',
       },
     },
     {
@@ -191,15 +191,15 @@ export const lesson: Lesson = {
     {
       term: 'Realtime API',
       text: {
-        en: 'Low-latency speech-in, speech-out sessions with `gpt-realtime` models over WebRTC (browser and mobile clients), WebSocket (server to server) or SIP (telephony). A `session.update` event sets voice, instructions and turn detection (`server_vad`, `semantic_vad`); use the GA path `/openai/v1/realtime` without an `api-version`.',
-        de: 'Sessions mit geringer Latenz, Sprache rein und Sprache raus, mit `gpt-realtime`-Modellen über WebRTC (Browser- und Mobil-Clients), WebSocket (Server zu Server) oder SIP (Telefonie). Ein `session.update`-Event setzt Stimme, Anweisungen und Turn-Erkennung (`server_vad`, `semantic_vad`); nutze den GA-Pfad `/openai/v1/realtime` ohne `api-version`.',
+        en: 'Low-latency speech-in, speech-out sessions with `gpt-realtime` models over WebRTC (browser and mobile clients), WebSocket (server to server) or SIP (telephony). A `session.update` event sets voice, instructions and turn detection (`server_vad`, `semantic_vad`); its GA path `/openai/v1/realtime` takes no `api-version` (unlike the audio calls in the samples).',
+        de: 'Sessions mit geringer Latenz, Sprache rein und Sprache raus, mit `gpt-realtime`-Modellen über WebRTC (Browser- und Mobil-Clients), WebSocket (Server zu Server) oder SIP (Telefonie). Ein `session.update`-Event setzt Stimme, Anweisungen und Turn-Erkennung (`server_vad`, `semantic_vad`); sein GA-Pfad `/openai/v1/realtime` kommt ohne `api-version` aus (anders als die Audioaufrufe in den Beispielen).',
       },
     },
     {
-      term: 'Keyless authentication',
+      term: 'Endpoint, sign-in and API version',
       text: {
-        en: 'Create a bearer token provider from `DefaultAzureCredential` for the scope `https://ai.azure.com/.default` and pass it to the client instead of an API key. In every call, `model` is your deployment name.',
-        de: 'Erzeuge aus `DefaultAzureCredential` einen Bearer-Token-Provider für den Scope `https://ai.azure.com/.default` und übergib ihn statt eines API-Keys an den Client. In jedem Aufruf ist `model` dein Deployment-Name.',
+        en: 'The samples call your Foundry resource’s Azure OpenAI endpoint `https://<resource>.openai.azure.com/` (portal: **Keys and Endpoint**) — the same resource whose projects use `https://<resource>.services.ai.azure.com/api/projects/<project>`. Sign in keyless with a token provider for `https://ai.azure.com/.default` and a data-plane role (the audio quickstart assigns Cognitive Services User; roles differ by API — the Speech SDK and Voice Live use others). Like the docs, the audio calls pin a dated `api_version` on `AzureOpenAI` (audio chat needs `2025-01-01-preview` or later); `model` is your deployment name.',
+        de: 'Die Beispiele rufen den Azure-OpenAI-Endpoint deiner Foundry-Ressource auf, `https://<resource>.openai.azure.com/` (Portal: **Keys and Endpoint**) – dieselbe Ressource, deren Projekte `https://<resource>.services.ai.azure.com/api/projects/<project>` nutzen. Melde dich schlüssellos mit einem Token-Provider für `https://ai.azure.com/.default` und einer Data-Plane-Rolle an (der Audio-Quickstart vergibt Cognitive Services User; die Rollen unterscheiden sich je API – Speech SDK und Voice Live nutzen andere). Wie in der Doku fixieren die Audioaufrufe eine datierte `api_version` auf `AzureOpenAI` (Audio-Chat braucht `2025-01-01-preview` oder neuer); `model` ist dein Deployment-Name.',
       },
     },
   ],
@@ -242,6 +242,13 @@ export const lesson: Lesson = {
         { en: 'Session-based; WebRTC, WebSocket or SIP', de: 'Session-basiert; WebRTC, WebSocket oder SIP' },
       ],
       [
+        'Azure Speech fast transcription',
+        { en: 'audio file → text, synchronous', de: 'Audiodatei → Text, synchron' },
+        'Fast transcription REST API',
+        { en: 'Longer recordings, diarization', de: 'Längere Aufnahmen, Diarisierung' },
+        { en: 'Files under 5 hours and 500 MB', de: 'Dateien unter 5 Stunden und 500 MB' },
+      ],
+      [
         'Azure Speech batch transcription',
         { en: 'many large files → text', de: 'viele große Dateien → Text' },
         'Speech to text REST API',
@@ -268,7 +275,7 @@ client = AzureOpenAI(
 # Speech to text: one request per file (max 25 MB)
 with open("support-call.mp3", "rb") as audio:
     transcript = client.audio.transcriptions.create(
-        model="gpt-4o-transcribe",          # your deployment name
+        model="gpt-transcribe",             # deployment name
         file=audio,
         language="en",                      # optional ISO-639-1 hint
     )
@@ -276,7 +283,7 @@ print(transcript.text)
 
 # Text to speech: describe the delivery in plain words
 with client.audio.speech.with_streaming_response.create(
-    model="gpt-4o-mini-tts",                # your deployment name
+    model="gpt-4o-mini-tts",                # deployment name
     voice="alloy",
     input="Thanks for calling. Your ticket number is 4 2 7.",
     instructions="Speak in a calm, friendly tone.",
@@ -285,16 +292,16 @@ with client.audio.speech.with_streaming_response.create(
     response.stream_to_file("reply.mp3")`,
       notes: [
         {
-          en: 'The training module shows the same calls with an API key; the token provider keeps secrets out of your code.',
-          de: 'Das Trainingsmodul zeigt dieselben Aufrufe mit API-Key; der Token-Provider hält Geheimnisse aus deinem Code heraus.',
+          en: 'Same calls and `api_version` as the training module, but keyless: the token provider replaces the API key. The module’s `gpt-4o-transcribe` was retired in October 2026; current docs use `gpt-transcribe` for offline transcription.',
+          de: 'Dieselben Aufrufe und dieselbe `api_version` wie im Trainingsmodul, aber schlüssellos: Der Token-Provider ersetzt den API-Key. Das im Modul genutzte `gpt-4o-transcribe` wurde im Oktober 2026 eingestellt; die aktuelle Doku nutzt `gpt-transcribe` für Offline-Transkription.',
         },
         {
-          en: '`instructions` work with `gpt-4o-mini-tts`, not with the older `tts-1` / `tts-1-hd` models.',
-          de: '`instructions` funktionieren mit `gpt-4o-mini-tts`, nicht mit den älteren Modellen `tts-1` / `tts-1-hd`.',
+          en: '`instructions` work with `gpt-4o-mini-tts`, not with the older `tts` / `tts-hd` models (retiring 2026-12-15; some quickstarts call them `tts-1` / `tts-1-hd`).',
+          de: '`instructions` funktionieren mit `gpt-4o-mini-tts`, nicht mit den älteren Modellen `tts` / `tts-hd` (werden am 2026-12-15 eingestellt; manche Quickstarts nennen sie `tts-1` / `tts-1-hd`).',
         },
         {
-          en: 'Recordings over 25 MB: split them or use Azure Speech batch transcription (files up to 1 GB).',
-          de: 'Aufnahmen über 25 MB: aufteilen oder die Batch-Transkription von Azure Speech nutzen (Dateien bis 1 GB).',
+          en: 'Recordings over 25 MB: split them or use Azure Speech — fast transcription (under 5 hours and 500 MB) or batch transcription (files up to 1 GB).',
+          de: 'Aufnahmen über 25 MB: aufteilen oder Azure Speech nutzen – Fast Transcription (unter 5 Stunden und 500 MB) oder Batch-Transkription (Dateien bis 1 GB).',
         },
       ],
     },
@@ -309,14 +316,14 @@ client = AzureOpenAI(
     azure_ad_token_provider=get_bearer_token_provider(
         DefaultAzureCredential(), "https://ai.azure.com/.default"
     ),
-    api_version="2025-01-01-preview",        # first version with audio completions
+    api_version="2025-01-01-preview",        # audio completions start with this version
 )
 
 with open("voicemail.wav", "rb") as f:
     audio_b64 = base64.b64encode(f.read()).decode("utf-8")
 
 completion = client.chat.completions.create(
-    model="gpt-audio-mini",                  # your deployment name
+    model="gpt-audio-mini",                  # deployment name
     modalities=["text", "audio"],
     audio={"voice": "alloy", "format": "wav"},
     messages=[{
@@ -340,6 +347,10 @@ with open("answer.wav", "wb") as out:
           en: 'For a follow-up turn, resend the history and reference this answer as `{"role": "assistant", "audio": {"id": answer.id}}`.',
           de: 'Für eine Folgerunde sendest du den Verlauf erneut und verweist auf diese Antwort mit `{"role": "assistant", "audio": {"id": answer.id}}`.',
         },
+        {
+          en: 'Why a different `api_version` than the first sample? The audio chat quickstart pins `2025-01-01-preview`, the version that introduced audio completions — pin the version the doc for each call shows.',
+          de: 'Warum eine andere `api_version` als im ersten Beispiel? Der Audio-Chat-Quickstart fixiert `2025-01-01-preview`, die Version, mit der Audio Completions kamen – fixiere jeweils die Version, die die Doku für den Aufruf zeigt.',
+        },
       ],
     },
   ],
@@ -353,22 +364,22 @@ with open("answer.wav", "wb") as out:
       de: '`audio.transcriptions.create()` erwartet einen Datei-Upload; Chat Completions erwartet Audio als Base64-Teil `input_audio` mit `data` und `format`. Diese beiden Request-Formen zu verwechseln ist eine klassische Codefallen-Frage.',
     },
     {
-      en: 'Size limits differ: 25 MB per file for the transcription API, 20 MB of audio for audio chat. Larger recordings belong in Azure Speech batch transcription.',
-      de: 'Die Größenlimits unterscheiden sich: 25 MB pro Datei für die Transkriptions-API, 20 MB Audio für Audio-Chat. Größere Aufnahmen gehören in die Batch-Transkription von Azure Speech.',
+      en: 'Size limits differ: 25 MB per file for the transcription API, 20 MB of audio for audio chat. Larger recordings go to Azure Speech: fast transcription (synchronous, under 5 hours and 500 MB) or batch transcription (asynchronous, up to 1 GB per file).',
+      de: 'Die Größenlimits unterscheiden sich: 25 MB pro Datei für die Transkriptions-API, 20 MB Audio für Audio-Chat. Größere Aufnahmen gehen an Azure Speech: Fast Transcription (synchron, unter 5 Stunden und 500 MB) oder Batch-Transkription (asynchron, bis 1 GB pro Datei).',
     },
     {
       en: 'Chat Completions has no `output_text` — with audio output, read `choices[0].message.audio.transcript` for the text and `.data` for the audio.',
       de: 'Chat Completions kennt kein `output_text` – bei Audioausgabe liest du `choices[0].message.audio.transcript` für den Text und `.data` für das Audio.',
     },
     {
-      en: '`gpt-4o-mini-tts` speaks but can’t transcribe, and its `instructions` parameter doesn’t work with `tts-1` or `tts-1-hd`.',
-      de: '`gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und sein Parameter `instructions` funktioniert nicht mit `tts-1` oder `tts-1-hd`.',
+      en: 'Watch model currency: `gpt-4o-transcribe` from the training module was retired on 2026-10-15, and `whisper`, `tts` and `tts-hd` retire on 2026-12-15. `gpt-4o-mini-tts` speaks but can’t transcribe, and `instructions` don’t work with `tts-1`/`tts-1-hd`.',
+      de: 'Achte auf die Modellaktualität: `gpt-4o-transcribe` aus dem Trainingsmodul wurde am 2026-10-15 eingestellt, `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt. `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `instructions` funktionieren nicht mit `tts-1`/`tts-1-hd`.',
     },
   ],
   takeaways: [
     {
-      en: 'The job decides the model: transcribe → `gpt-4o-transcribe`/`whisper`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.',
-      de: 'Die Aufgabe bestimmt das Modell: mitschreiben → `gpt-4o-transcribe`/`whisper`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`.',
+      en: 'The job decides the model: transcribe → `gpt-transcribe`/`gpt-4o-mini-transcribe`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.',
+      de: 'Die Aufgabe bestimmt das Modell: mitschreiben → `gpt-transcribe`/`gpt-4o-mini-transcribe`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`.',
     },
     {
       en: 'File in, text out = `audio.transcriptions`; text in, audio out = `audio.speech`.',

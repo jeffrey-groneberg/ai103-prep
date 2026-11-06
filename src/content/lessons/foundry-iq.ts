@@ -3,12 +3,12 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'foundry-iq',
   summary: {
-    en: 'A model only knows what it saw in training, so an agent alone can’t answer questions about your policies, products or last week’s changes. **Retrieval-augmented generation (RAG)** fixes that: retrieve relevant content, add it to the prompt, then generate a grounded answer with citations. **Foundry IQ** is the managed knowledge layer for this, built on Azure AI Search: you create a **knowledge base** once, attach **knowledge sources** (search index, Blob Storage, OneLake, SharePoint, the web and more), and any number of agents call it as a single MCP tool. Behind that tool, **agentic retrieval** plans subqueries, searches the sources in parallel, reranks, merges and returns citable, permission-aware results.',
-    de: 'Ein Modell kennt nur seine Trainingsdaten – allein kann ein Agent also keine Fragen zu deinen Richtlinien, Produkten oder den Änderungen der letzten Woche beantworten. **Retrieval-Augmented Generation (RAG)** löst das: passende Inhalte abrufen, in den Prompt einfügen und dann eine belegte Antwort mit Zitaten erzeugen. **Foundry IQ** ist dafür die verwaltete Wissensschicht auf Basis von Azure AI Search: Du legst einmal eine **Knowledge Base** an, hängst **Knowledge Sources** an (Suchindex, Blob Storage, OneLake, SharePoint, das Web und mehr), und beliebig viele Agents rufen sie als ein einziges MCP-Tool auf. Hinter diesem Tool plant **Agentic Retrieval** Teilabfragen, durchsucht die Quellen parallel, rankt neu, führt zusammen und liefert zitierbare, berechtigungsbewusste Ergebnisse.',
+    en: 'A model only knows what it saw in training, so an agent alone can’t answer questions about your policies, products or last week’s changes. **RAG** (retrieval-augmented generation: retrieve relevant content and ground the answer in it) fixes that. **Foundry IQ** is the managed knowledge layer for this, built on Azure AI Search: you create a **knowledge base** once, attach **knowledge sources** (search index, Blob Storage, OneLake, SharePoint, the web and more), and any number of agents call it as a single **MCP** tool (Model Context Protocol: standard for exposing tools to agents). Behind that tool, **agentic retrieval** plans subqueries, searches the sources in parallel, reranks, merges and returns citable, permission-aware results.',
+    de: 'Ein Modell kennt nur seine Trainingsdaten – allein kann ein Agent also keine Fragen zu deinen Richtlinien, Produkten oder den Änderungen der letzten Woche beantworten. **RAG** (Retrieval-Augmented Generation: passende Inhalte abrufen und die Antwort darauf stützen) löst das. **Foundry IQ** ist dafür die verwaltete Wissensschicht auf Basis von Azure AI Search: Du legst einmal eine **Knowledge Base** an, hängst **Knowledge Sources** an (Suchindex, Blob Storage, OneLake, SharePoint, das Web und mehr), und beliebig viele Agents rufen sie als ein einziges **MCP**-Tool auf (Model Context Protocol: Standard, um Agents Tools bereitzustellen). Hinter diesem Tool plant **Agentic Retrieval** Teilabfragen, durchsucht die Quellen parallel, rankt neu, führt zusammen und liefert zitierbare, berechtigungsbewusste Ergebnisse.',
   },
   examFocus: {
-    en: 'Expect scenarios that make you pick the right knowledge integration (Foundry IQ knowledge base, Azure AI Search tool, file search or memory), an indexed or remote knowledge source, and a retrieval reasoning effort (`minimal`, `low`, `medium`). Code items test the wiring: `MCPTool` pointing at the knowledge base `/mcp` endpoint with `allowed_tools=["knowledge_base_retrieve"]` and `project_connection_id`, or a direct `retrieve` call from app code. Security items ask which identity needs which role and how per-user permission trimming works.',
-    de: 'Rechne mit Szenarien, in denen du die passende Wissensanbindung (Foundry-IQ-Knowledge-Base, Azure AI Search Tool, File Search oder Memory), eine indexierte oder Remote-Knowledge-Source und einen Retrieval Reasoning Effort (`minimal`, `low`, `medium`) wählen musst. Code-Aufgaben prüfen die Verdrahtung: `MCPTool` auf den `/mcp`-Endpoint der Knowledge Base mit `allowed_tools=["knowledge_base_retrieve"]` und `project_connection_id` – oder einen direkten `retrieve`-Aufruf aus App-Code. Sicherheitsfragen wollen wissen, welche Identität welche Rolle braucht und wie Berechtigungsfilterung pro Nutzer funktioniert.',
+    en: 'Expect scenarios that make you pick the right knowledge integration (Foundry IQ knowledge base, Azure AI Search tool, file search or memory), an indexed or remote knowledge source, and a retrieval reasoning effort (`minimal`, `low`, `medium`, or `auto` in preview). Code items test the wiring: `MCPTool` pointing at the knowledge base `/mcp` endpoint with `allowed_tools=["knowledge_base_retrieve"]` and `project_connection_id`, or a direct `retrieve` call from app code. Security items ask which identity needs which role and how per-user permission trimming works.',
+    de: 'Rechne mit Szenarien, in denen du die passende Wissensanbindung (Foundry-IQ-Knowledge-Base, Azure AI Search Tool, File Search oder Memory), eine indexierte oder Remote-Knowledge-Source und einen Retrieval Reasoning Effort (`minimal`, `low`, `medium` oder `auto` in der Preview) wählen musst. Code-Aufgaben prüfen die Verdrahtung: `MCPTool` auf den `/mcp`-Endpoint der Knowledge Base mit `allowed_tools=["knowledge_base_retrieve"]` und `project_connection_id` – oder einen direkten `retrieve`-Aufruf aus App-Code. Sicherheitsfragen wollen wissen, welche Identität welche Rolle braucht und wie Berechtigungsfilterung pro Nutzer funktioniert.',
   },
   diagrams: [
     {
@@ -19,29 +19,29 @@ export const lesson: Lesson = {
         de: 'Ein einziger MCP-Toolaufruf verzweigt in geplante, parallele Suchen über indexierte und Remote-Quellen; die zusammengeführten Ergebnisse kommen mit Referenzen zurück, die der Agent zitiert.',
       },
       width: 960,
-      height: 450,
+      height: 550,
       groups: [
         { id: 'g-proj', x: 160, y: 20, w: 220, h: 135, label: 'Foundry project', tone: 'foundry' },
-        { id: 'g-search', x: 400, y: 20, w: 550, h: 255, label: 'Azure AI Search · Foundry IQ', tone: 'data' },
-        { id: 'g-ks', x: 400, y: 295, w: 540, h: 137, label: { en: 'Knowledge sources', de: 'Knowledge Sources' }, tone: 'data' },
+        { id: 'g-search', x: 400, y: 20, w: 550, h: 360, label: 'Azure AI Search · Foundry IQ', tone: 'data' },
+        { id: 'g-ext', x: 520, y: 405, w: 430, h: 125, label: { en: 'External platforms (queried live)', de: 'Externe Plattformen (live abgefragt)' }, tone: 'external' },
       ],
       nodes: [
         { id: 'user', x: 20, y: 63, w: 120, h: 64, label: { en: 'User', de: 'Nutzer' }, tone: 'user', shape: 'actor' },
         { id: 'agent', x: 180, y: 59, w: 180, h: 72, label: 'Foundry agent', sub: 'knowledge_base_retrieve', tone: 'foundry' },
         { id: 'answer', x: 180, y: 185, w: 180, h: 60, label: { en: 'Answer + citations', de: 'Antwort + Zitate' }, sub: { en: 'grounded in sources', de: 'quellenbasiert' }, tone: 'foundry', shape: 'pill' },
         { id: 'kb', x: 430, y: 59, w: 200, h: 72, label: { en: 'Knowledge base', de: 'Knowledge Base' }, sub: '…/knowledgebases/<kb>/mcp', tone: 'data' },
-        { id: 'plan', x: 690, y: 59, w: 240, h: 72, label: { en: 'Query planning', de: 'Abfrageplanung' }, sub: { en: 'LLM writes subqueries', de: 'LLM erzeugt Teilabfragen' }, tone: 'model' },
+        { id: 'plan', x: 690, y: 59, w: 240, h: 72, label: { en: 'Query planning', de: 'Abfrageplanung' }, sub: { en: 'via your LLM deployment', de: 'über dein LLM-Deployment' }, tone: 'model' },
         { id: 'subq', x: 690, y: 181, w: 240, h: 68, label: { en: 'Parallel subqueries', de: 'Parallele Teilabfragen' }, sub: { en: 'search + semantic rerank', de: 'Suche + Semantic Reranking' }, tone: 'neutral' },
         { id: 'merge', x: 430, y: 181, w: 200, h: 68, label: { en: 'Merge results', de: 'Ergebnisse mergen' }, sub: { en: 'content + references', de: 'Inhalt + Referenzen' }, tone: 'neutral' },
-        { id: 'idx', x: 420, y: 340, w: 220, h: 72, label: { en: 'Indexed sources', de: 'Indexierte Quellen' }, sub: 'Search index · Blob · OneLake', tone: 'data', shape: 'store' },
-        { id: 'rem', x: 700, y: 340, w: 220, h: 72, label: { en: 'Remote sources', de: 'Remote-Quellen' }, sub: 'SharePoint · Web (Bing)', tone: 'external' },
+        { id: 'idx', x: 405, y: 282, w: 225, h: 80, label: { en: 'Indexed sources', de: 'Indexierte Quellen' }, sub: { en: 'search index on this service\ningested from Blob, OneLake …', de: 'Suchindex auf diesem Dienst\nbefüllt aus Blob, OneLake …' }, tone: 'data', shape: 'store' },
+        { id: 'rem', x: 690, y: 450, w: 240, h: 60, label: { en: 'Remote sources', de: 'Remote-Quellen' }, sub: 'SharePoint · Web · MCP · Work IQ', tone: 'external' },
       ],
       edges: [
         { id: 'e-user-agent', from: 'user', to: 'agent' },
         { id: 'e-agent-kb', from: 'agent', to: 'kb', label: 'MCP', bidir: true },
         { id: 'e-kb-plan', from: 'kb', to: 'plan' },
         { id: 'e-plan-subq', from: 'plan', to: 'subq' },
-        { id: 'e-subq-idx', from: 'subq', to: 'idx', label: { en: 'index query', de: 'Indexabfrage' }, bidir: true },
+        { id: 'e-subq-idx', from: 'subq', to: 'idx', label: { en: 'index query', de: 'Indexabfrage' }, bidir: true, via: [[810, 322]] },
         { id: 'e-subq-rem', from: 'subq', to: 'rem', label: { en: 'live query', de: 'Live-Abfrage' }, bidir: true },
         { id: 'e-subq-merge', from: 'subq', to: 'merge' },
         { id: 'e-merge-kb', from: 'merge', to: 'kb', label: { en: 'grounding + refs', de: 'Grounding + Refs' } },
@@ -60,26 +60,26 @@ export const lesson: Lesson = {
         {
           title: { en: 'One MCP tool call', de: 'Ein MCP-Toolaufruf' },
           text: {
-            en: 'Every knowledge base is an MCP server. The agent calls its only supported tool, `knowledge_base_retrieve`, through a project connection. One knowledge base can serve many agents, so you build retrieval once.',
-            de: 'Jede Knowledge Base ist ein MCP-Server. Der Agent ruft über eine Projektverbindung ihr einziges unterstütztes Tool `knowledge_base_retrieve` auf. Eine Knowledge Base kann viele Agents bedienen – du baust das Retrieval also nur einmal.',
+            en: 'Every knowledge base is an MCP server. The agent calls its only supported tool, `knowledge_base_retrieve`, through a **project connection** (stored endpoint + credential that tools reference instead of secrets in code). One knowledge base can serve many agents, so you build retrieval once.',
+            de: 'Jede Knowledge Base ist ein MCP-Server. Der Agent ruft ihr einziges unterstütztes Tool `knowledge_base_retrieve` über eine **Projektverbindung** auf (gespeicherter Endpoint + Anmeldedaten, auf die Tools verweisen, statt Geheimnisse im Code). Eine Knowledge Base kann viele Agents bedienen – du baust das Retrieval also nur einmal.',
           },
           focus: ['agent', 'e-agent-kb', 'kb', 'g-search'],
         },
         {
           title: { en: 'Plan the query', de: 'Abfrage planen' },
           text: {
-            en: 'At `low` (the default) or `medium` retrieval reasoning effort, an LLM reads the question and chat history, splits it into focused subqueries and picks knowledge sources. At `minimal`, planning is skipped and the query goes straight to every source.',
-            de: 'Bei `low` (Standard) oder `medium` Retrieval Reasoning Effort liest ein LLM Frage und Chatverlauf, zerlegt sie in fokussierte Teilabfragen und wählt Knowledge Sources aus. Bei `minimal` entfällt die Planung, und die Abfrage geht direkt an alle Quellen.',
+            en: 'At `low` or `medium` retrieval reasoning effort — and at `auto` when a quick first pass isn’t enough — the knowledge base calls the LLM deployment you configured on it. The LLM reads the question and chat history, splits it into focused subqueries and picks knowledge sources. At `minimal`, planning is skipped and the query goes straight to every source.',
+            de: 'Bei `low` oder `medium` Retrieval Reasoning Effort – und bei `auto`, wenn ein schneller erster Durchgang nicht reicht – ruft die Knowledge Base das LLM-Deployment auf, das du auf ihr konfiguriert hast. Das LLM liest Frage und Chatverlauf, zerlegt sie in fokussierte Teilabfragen und wählt Knowledge Sources aus. Bei `minimal` entfällt die Planung, und die Abfrage geht direkt an alle Quellen.',
           },
           focus: ['kb', 'e-kb-plan', 'plan'],
         },
         {
           title: { en: 'Search in parallel', de: 'Parallel suchen' },
           text: {
-            en: 'Subqueries run at the same time as keyword, vector or hybrid searches. Indexed sources are searched inside Azure AI Search; remote sources such as SharePoint (Copilot Retrieval API) or the web (Bing) are queried live. Each subquery is semantically reranked.',
-            de: 'Die Teilabfragen laufen gleichzeitig als Keyword-, Vektor- oder Hybridsuche. Indexierte Quellen werden in Azure AI Search durchsucht; Remote-Quellen wie SharePoint (Copilot Retrieval API) oder das Web (Bing) werden live abgefragt. Jede Teilabfrage wird semantisch neu gerankt.',
+            en: 'Subqueries run at the same time as keyword, vector or hybrid searches. Indexed sources were ingested ahead of time into search indexes on this service, so they’re queried locally; remote sources such as SharePoint (Copilot Retrieval API) or the web (Bing) stay on their own platforms and are queried live. All results go through the same semantic reranking.',
+            de: 'Die Teilabfragen laufen gleichzeitig als Keyword-, Vektor- oder Hybridsuche. Indexierte Quellen wurden vorab in Suchindizes auf diesem Dienst aufgenommen und werden daher lokal abgefragt; Remote-Quellen wie SharePoint (Copilot Retrieval API) oder das Web (Bing) bleiben auf ihren eigenen Plattformen und werden live abgefragt. Alle Treffer durchlaufen dasselbe semantische Reranking.',
           },
-          focus: ['e-plan-subq', 'subq', 'e-subq-idx', 'e-subq-rem', 'idx', 'rem', 'g-ks'],
+          focus: ['e-plan-subq', 'subq', 'e-subq-idx', 'e-subq-rem', 'idx', 'rem', 'g-ext'],
         },
         {
           title: { en: 'Merge, cite, answer', de: 'Mergen, zitieren, antworten' },
@@ -95,8 +95,8 @@ export const lesson: Lesson = {
       id: 'fiq-wiring',
       title: { en: 'Wiring an agent to a knowledge base: connection, identities, roles', de: 'Agent und Knowledge Base verdrahten: Verbindung, Identitäten, Rollen' },
       caption: {
-        en: 'Two managed identities do the work: the project’s identity reads the knowledge base, the search service’s identity calls the LLM. The user’s own token decides what they may see.',
-        de: 'Zwei Managed Identities erledigen die Arbeit: Die Projektidentität liest die Knowledge Base, die Identität des Suchdienstes ruft das LLM auf. Das Token des Nutzers entscheidet, was er sehen darf.',
+        en: 'Two identities do the work: the connection’s identity (here the project’s managed identity) reads the knowledge base, the search service’s managed identity calls the LLM. The user’s own token decides what they may see.',
+        de: 'Zwei Identitäten erledigen die Arbeit: Die Identität der Verbindung (hier die Managed Identity des Projekts) liest die Knowledge Base, die Managed Identity des Suchdienstes ruft das LLM auf. Das Token des Nutzers entscheidet, was er sehen darf.',
       },
       width: 960,
       height: 420,
@@ -107,16 +107,16 @@ export const lesson: Lesson = {
       ],
       nodes: [
         { id: 'w-user', x: 20, y: 110, w: 110, h: 72, label: { en: 'User', de: 'Nutzer' }, tone: 'user', shape: 'actor' },
-        { id: 'w-agent', x: 200, y: 110, w: 120, h: 72, label: 'Foundry agent', sub: 'MCPTool', tone: 'foundry' },
-        { id: 'w-conn', x: 370, y: 110, w: 120, h: 72, label: { en: 'Connection', de: 'Verbindung' }, sub: 'RemoteTool', tone: 'safety' },
-        { id: 'w-llm', x: 370, y: 290, w: 120, h: 72, label: { en: 'LLM deployment', de: 'LLM-Deployment' }, sub: { en: 'query planning', de: 'Abfrageplanung' }, tone: 'model', shape: 'store' },
-        { id: 'w-kb', x: 610, y: 110, w: 300, h: 72, label: { en: 'Knowledge base', de: 'Knowledge Base' }, sub: '…/knowledgebases/<kb>/mcp', tone: 'data' },
-        { id: 'w-ks', x: 610, y: 290, w: 300, h: 72, label: { en: 'Knowledge sources', de: 'Knowledge Sources' }, sub: { en: 'ACLs · sensitivity labels', de: 'ACLs · Vertraulichkeitslabels' }, tone: 'data', shape: 'store' },
+        { id: 'w-agent', x: 190, y: 110, w: 120, h: 72, label: 'Foundry agent', sub: 'MCPTool', tone: 'foundry' },
+        { id: 'w-conn', x: 360, y: 110, w: 110, h: 72, label: { en: 'Connection', de: 'Verbindung' }, sub: 'RemoteTool', tone: 'safety' },
+        { id: 'w-llm', x: 340, y: 290, w: 150, h: 72, label: { en: 'LLM deployment', de: 'LLM-Deployment' }, sub: { en: 'query planning', de: 'Abfrageplanung' }, tone: 'model', shape: 'store' },
+        { id: 'w-kb', x: 660, y: 110, w: 250, h: 72, label: { en: 'Knowledge base', de: 'Knowledge Base' }, sub: '…/knowledgebases/<kb>/mcp', tone: 'data' },
+        { id: 'w-ks', x: 660, y: 290, w: 250, h: 72, label: { en: 'Knowledge sources', de: 'Knowledge Sources' }, sub: { en: 'ACLs · sensitivity labels', de: 'ACLs · Vertraulichkeitslabels' }, tone: 'data', shape: 'store' },
       ],
       edges: [
         { id: 'w-e-user', from: 'w-user', to: 'w-agent', label: { en: 'token', de: 'Token' } },
         { id: 'w-e-tool', from: 'w-agent', to: 'w-conn' },
-        { id: 'w-e-conn', from: 'w-conn', to: 'w-kb', label: { en: 'project MI', de: 'Projekt-MI' } },
+        { id: 'w-e-conn', from: 'w-conn', to: 'w-kb', label: { en: 'project MI + user token', de: 'Projekt-MI + Nutzer-Token' } },
         { id: 'w-e-ks', from: 'w-kb', to: 'w-ks', label: { en: 'retrieve', de: 'Abruf' } },
         { id: 'w-e-llm', from: 'w-kb', to: 'w-llm', label: { en: 'search MI', de: 'Search-MI' } },
       ],
@@ -140,8 +140,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Grant two roles', de: 'Zwei Rollen vergeben' },
           text: {
-            en: 'The project’s managed identity gets **Search Index Data Reader** on the search service. If the knowledge base uses an LLM for planning or answer synthesis, the search service’s managed identity gets **Cognitive Services User** on the Foundry resource.',
-            de: 'Die Managed Identity des Projekts bekommt **Search Index Data Reader** auf dem Suchdienst. Nutzt die Knowledge Base ein LLM für Planung oder Answer Synthesis, bekommt die Managed Identity des Suchdienstes **Cognitive Services User** auf der Foundry-Ressource.',
+            en: 'The connection’s authentication type decides which identity Azure AI Search sees: with `ProjectManagedIdentity` (as here) it’s the project’s managed identity, with an agent-identity connection the agent’s own identity — that one gets **Search Index Data Reader** on the search service. The search service’s managed identity needs **Cognitive Services User** on the Foundry resource whenever the knowledge base has an LLM configured.',
+            de: 'Der Authentifizierungstyp der Verbindung bestimmt, welche Identität Azure AI Search sieht: bei `ProjectManagedIdentity` (wie hier) die Managed Identity des Projekts, bei einer Agent-Identity-Verbindung die eigene Identität des Agents – diese bekommt **Search Index Data Reader** auf dem Suchdienst. Die Managed Identity des Suchdienstes braucht **Cognitive Services User** auf der Foundry-Ressource, sobald auf der Knowledge Base ein LLM konfiguriert ist.',
           },
           focus: ['w-e-conn', 'w-e-llm', 'w-llm', 'g-res'],
         },
@@ -156,10 +156,10 @@ export const lesson: Lesson = {
         {
           title: { en: 'Trim results per user', de: 'Ergebnisse pro Nutzer filtern' },
           text: {
-            en: 'For permission-protected content, the user’s token travels in the `x-ms-query-source-authorization` header. Agent Service sets it when the caller is a user; apps can pass it per request through a structured input. Without it, permission-enabled sources return results unfiltered.',
-            de: 'Für berechtigungsgeschützte Inhalte reist das Token des Nutzers im Header `x-ms-query-source-authorization`. Agent Service setzt ihn, wenn der Aufrufer ein Nutzer ist; Apps können ihn pro Anfrage über einen Structured Input übergeben. Ohne ihn liefern berechtigungsfähige Quellen ungefilterte Ergebnisse.',
+            en: 'For permission-protected content, the user’s Azure AI Search token travels in the `x-ms-query-source-authorization` header, next to the connection’s project-MI token on every MCP call to the knowledge base, which trims the results from the knowledge sources. If the request to the agent carries a signed-in user’s token, Agent Service sets the header itself; if your backend calls with its own identity, pass each user’s token as a structured input (see the first code sample). Without it, permission-enabled sources return results unfiltered.',
+            de: 'Für berechtigungsgeschützte Inhalte reist das Azure-AI-Search-Token des Nutzers im Header `x-ms-query-source-authorization` – bei jedem MCP-Aufruf an die Knowledge Base neben dem Projekt-MI-Token der Verbindung; die Knowledge Base filtert damit die Treffer aus den Knowledge Sources. Trägt die Anfrage an den Agent das Token eines angemeldeten Nutzers, setzt Agent Service den Header selbst; ruft dein Backend mit eigener Identität auf, übergibst du das Token jedes Nutzers als Structured Input (siehe erstes Codebeispiel). Ohne Header liefern berechtigungsfähige Quellen ungefilterte Ergebnisse.',
           },
-          focus: ['w-user', 'w-e-user', 'w-agent', 'w-ks'],
+          focus: ['w-user', 'w-e-user', 'w-agent', 'w-e-tool', 'w-conn', 'w-e-conn', 'w-kb', 'w-e-ks', 'w-ks'],
         },
       ],
     },
@@ -173,17 +173,10 @@ export const lesson: Lesson = {
       },
     },
     {
-      term: 'Foundry IQ',
+      term: 'Foundry IQ and knowledge bases',
       text: {
-        en: 'The managed knowledge layer for agents, built on Azure AI Search agentic retrieval (Azure AI Search is required). Create knowledge bases in the Foundry portal (**Build** › **Knowledge**) or in code, then use them from Foundry Agent Service, Microsoft Agent Framework or any app through the REST API or SDKs.',
-        de: 'Die verwaltete Wissensschicht für Agents, gebaut auf Agentic Retrieval von Azure AI Search (Azure AI Search ist Pflicht). Du legst Knowledge Bases im Foundry-Portal (**Build** › **Knowledge**) oder per Code an und nutzt sie aus Foundry Agent Service, Microsoft Agent Framework oder jeder App über REST-API oder SDKs.',
-      },
-    },
-    {
-      term: 'Knowledge base',
-      text: {
-        en: 'Top-level object on the search service that groups knowledge sources under one endpoint. Its settings decide how sources are chosen (retrieval instructions, reasoning effort), how results come back (output mode, answer instructions) and which optional LLM plans queries. It exposes a `retrieve` action and an MCP endpoint with the `knowledge_base_retrieve` tool.',
-        de: 'Objekt der obersten Ebene auf dem Suchdienst, das Knowledge Sources hinter einem Endpoint bündelt. Seine Einstellungen bestimmen, wie Quellen gewählt werden (Retrieval Instructions, Reasoning Effort), wie Ergebnisse zurückkommen (Output Mode, Answer Instructions) und welches optionale LLM Abfragen plant. Es bietet eine `retrieve`-Aktion und einen MCP-Endpoint mit dem Tool `knowledge_base_retrieve`.',
+        en: 'Foundry IQ is the managed knowledge layer for agents, built on Azure AI Search agentic retrieval (Azure AI Search is required). Its core object, the **knowledge base**, groups knowledge sources behind one endpoint, stores the retrieval settings (reasoning effort, output mode, retrieval instructions, optional LLM) and exposes a `retrieve` action plus an MCP endpoint with the `knowledge_base_retrieve` tool. Portal path: **Build** › **Knowledge** (connect a search service, add knowledge sources, set properties) → **Build** › **Agents** (connect the knowledge base, test in the playground); in code, Python’s `SearchIndexClient.create_or_update_knowledge_base()`.',
+        de: 'Foundry IQ ist die verwaltete Wissensschicht für Agents, gebaut auf Agentic Retrieval von Azure AI Search (Azure AI Search ist Pflicht). Ihr zentrales Objekt, die **Knowledge Base**, bündelt Knowledge Sources hinter einem Endpoint, speichert die Retrieval-Einstellungen (Reasoning Effort, Output Mode, Retrieval Instructions, optionales LLM) und bietet eine `retrieve`-Aktion plus einen MCP-Endpoint mit dem Tool `knowledge_base_retrieve`. Portalweg: **Build** › **Knowledge** (Suchdienst verbinden, Knowledge Sources hinzufügen, Eigenschaften setzen) → **Build** › **Agents** (Knowledge Base verbinden, im Playground testen); im Code in Python `SearchIndexClient.create_or_update_knowledge_base()`.',
       },
     },
     {
@@ -196,123 +189,149 @@ export const lesson: Lesson = {
     {
       term: 'Retrieval reasoning effort',
       text: {
-        en: '`minimal`: no LLM planning, every source is searched, extractive output only, no answer synthesis and no web source — cheapest and fastest. `low` (default): one LLM planning pass that writes subqueries and selects sources. `medium`: adds a semantic classifier and at most one extra retrieval pass when results are weak. Set it on the knowledge base; a retrieve request can override it.',
-        de: '`minimal`: keine LLM-Planung, jede Quelle wird durchsucht, nur extrahierte Ausgabe, keine Answer Synthesis und keine Web-Quelle – am günstigsten und schnellsten. `low` (Standard): ein LLM-Planungsdurchgang, der Teilabfragen schreibt und Quellen wählt. `medium`: ergänzt einen semantischen Klassifizierer und höchstens einen weiteren Retrieval-Durchgang, wenn die Treffer schwach sind. Du setzt ihn auf der Knowledge Base; ein Retrieve-Request kann ihn überschreiben.',
+        en: 'How much LLM work agentic retrieval does — `minimal`, `low`, `medium` or `auto` (see the table). Set it on the knowledge base; a retrieve request can override it. `low` is the default of the preview API (`2026-08-01-preview`) and needs an LLM on the knowledge base; without one, use `minimal`. `auto` exists only in `2026-08-01-preview` and also needs a model: the service starts with a lightweight retrieval pass and adds LLM query planning, up to `medium`, only when that pass doesn’t ground the answer. The GA API (`2026-04-01`) always retrieves at the minimal, extractive level.',
+        de: 'Wie viel LLM-Arbeit Agentic Retrieval leistet – `minimal`, `low`, `medium` oder `auto` (siehe Tabelle). Du setzt ihn auf der Knowledge Base; ein Retrieve-Request kann ihn überschreiben. `low` ist der Standard der Preview-API (`2026-08-01-preview`) und braucht ein LLM auf der Knowledge Base; ohne LLM nutzt du `minimal`. `auto` gibt es nur in `2026-08-01-preview`, und es braucht ebenfalls ein Modell: Der Dienst startet mit einem leichtgewichtigen Retrieval-Durchgang und plant nur dann per LLM nach – bis `medium` –, wenn dieser Durchgang die Antwort nicht ausreichend stützt. Die GA-API (`2026-04-01`) ruft immer auf minimaler, extraktiver Stufe ab.',
       },
     },
     {
       term: 'Extractive data vs answer synthesis',
       text: {
-        en: '**Extractive data** returns the raw, citable chunks so the agent can reason over them — the recommended output for Foundry IQ agents. **Answer synthesis** (preview) lets the knowledge base’s LLM write a finished answer with `[ref_id:n]` citations; reserve it for standalone apps that show the retrieval output directly to users.',
-        de: '**Extractive Data** liefert die rohen, zitierbaren Chunks, damit der Agent darüber nachdenken kann – die empfohlene Ausgabe für Foundry-IQ-Agents. Bei **Answer Synthesis** (Preview) schreibt das LLM der Knowledge Base eine fertige Antwort mit `[ref_id:n]`-Zitaten; nutze das nur für eigenständige Apps, die das Retrieval-Ergebnis direkt anzeigen.',
+        en: '**Extractive data** returns the raw, citable chunks so the agent can reason over them — the recommended output for Foundry IQ agents. **Answer synthesis** (preview) lets the knowledge base’s LLM write a finished answer with `[ref_id:n]` citations; reserve it for standalone apps that show the retrieval output directly to users. Web sources are the one exception to “raw”: their content always arrives as LLM-written cited summaries, even with extractive output.',
+        de: '**Extractive Data** liefert die rohen, zitierbaren Chunks, damit der Agent darüber nachdenken kann – die empfohlene Ausgabe für Foundry-IQ-Agents. Bei **Answer Synthesis** (Preview) schreibt das LLM der Knowledge Base eine fertige Antwort mit `[ref_id:n]`-Zitaten; nutze das nur für eigenständige Apps, die das Retrieval-Ergebnis direkt anzeigen. Web-Quellen sind die Ausnahme vom „roh“: Ihr Inhalt kommt immer als vom LLM geschriebene, zitierte Zusammenfassung – auch bei extraktiver Ausgabe.',
       },
     },
     {
       term: 'Agent memory (preview)',
       text: {
-        en: 'Long-term memory in Foundry Agent Service: a **memory store** (chat + embedding model) extracts, consolidates and retrieves user profile, chat summary and procedural memories across sessions. Attach the memory search tool to a prompt agent; `scope="{{$userId}}"` isolates memories per user. Use memory for learned user context, Foundry IQ for curated organizational content.',
-        de: 'Langzeitgedächtnis in Foundry Agent Service: Ein **Memory Store** (Chat- und Embedding-Modell) extrahiert, konsolidiert und liefert Nutzerprofil-, Chat-Summary- und prozedurale Memories über Sitzungen hinweg. Hänge das Memory-Search-Tool an einen Prompt Agent; `scope="{{$userId}}"` trennt die Memories pro Nutzer. Memory nutzt du für gelernten Nutzerkontext, Foundry IQ für kuratierte Unternehmensinhalte.',
+        en: 'Long-term memory in Foundry Agent Service: a **memory store** (chat + embedding model) extracts, consolidates and retrieves user profile, chat summary and procedural memories across sessions. Attach the memory search tool to a **prompt agent** (declarative agent: model + instructions + tools, versioned in Foundry); `scope="{{$userId}}"` isolates memories per user.',
+        de: 'Langzeitgedächtnis in Foundry Agent Service: Ein **Memory Store** (Chat- und Embedding-Modell) extrahiert, konsolidiert und liefert Nutzerprofil-, Chat-Summary- und prozedurale Memories über Sitzungen hinweg. Hänge das Memory-Search-Tool an einen **Prompt Agent** (deklarativer Agent: Modell + Instructions + Tools, in Foundry versioniert); `scope="{{$userId}}"` trennt die Memories pro Nutzer.',
+      },
+    },
+    {
+      term: 'Choosing a knowledge integration',
+      text: {
+        en: 'Curated content from several sources, shared by many agents → Foundry IQ knowledge base. One existing index with a fixed `index_name`, `query_type` or `filter` → Azure AI Search tool. Files a user provides in the conversation → file search (vector store). Learned user facts → memory. Current public web → Web Search tool or Web IQ. The user’s Microsoft 365 mail and meetings → Work IQ.',
+        de: 'Kuratierte Inhalte aus mehreren Quellen, von vielen Agents genutzt → Foundry-IQ-Knowledge-Base. Ein bestehender Index mit festem `index_name`, `query_type` oder `filter` → Azure AI Search Tool. Dateien, die ein Nutzer im Gespräch bereitstellt → File Search (Vector Store). Gelernte Nutzerfakten → Memory. Aktuelles öffentliches Web → Web Search Tool oder Web IQ. Mails und Meetings des Nutzers in Microsoft 365 → Work IQ.',
       },
     },
   ],
   comparison: {
-    title: { en: 'Which knowledge integration fits the need?', de: 'Welche Wissensanbindung passt zum Bedarf?' },
+    title: { en: 'Retrieval reasoning effort at a glance (preview API)', de: 'Retrieval Reasoning Effort im Überblick (Preview-API)' },
     columns: [
-      { en: 'Need', de: 'Bedarf' },
-      { en: 'Choose', de: 'Wähle' },
-      { en: 'Why', de: 'Warum' },
+      { en: 'Effort', de: 'Effort' },
+      { en: 'LLM query planning', de: 'LLM-Abfrageplanung' },
+      { en: 'Extra retrieval pass', de: 'Zusätzlicher Retrieval-Durchgang' },
+      { en: 'Web knowledge source', de: 'Web-Knowledge-Source' },
+      { en: 'Answer synthesis', de: 'Answer Synthesis' },
+      { en: 'Cost and latency', de: 'Kosten und Latenz' },
     ],
     rows: [
       [
-        { en: 'Curated company content from several sources, shared by many agents, permission-aware', de: 'Kuratierte Firmeninhalte aus mehreren Quellen, von vielen Agents genutzt, berechtigungsbewusst' },
-        'Foundry IQ knowledge base',
-        { en: 'Agentic retrieval plans, searches and merges across sources behind one MCP tool', de: 'Agentic Retrieval plant, sucht und mergt über alle Quellen – hinter einem MCP-Tool' },
+        '`minimal`',
+        { en: 'No — every source is searched', de: 'Nein – jede Quelle wird durchsucht' },
+        { en: 'No', de: 'Nein' },
+        { en: 'Not supported', de: 'Nicht unterstützt' },
+        { en: 'Not supported (extractive only)', de: 'Nicht unterstützt (nur extraktiv)' },
+        { en: 'Lowest', de: 'Am niedrigsten' },
       ],
       [
-        { en: 'Query one existing index with a fixed filter or query type', de: 'Einen bestehenden Index mit festem Filter oder Abfragetyp abfragen' },
-        'Azure AI Search tool',
-        { en: 'Set `index_name`, `query_type` (default `vector_semantic_hybrid`), `top_k` and `filter`', de: '`index_name`, `query_type` (Standard `vector_semantic_hybrid`), `top_k` und `filter` setzen' },
+        { en: '`low` (preview default)', de: '`low` (Preview-Standard)' },
+        { en: 'One pass: subqueries and source selection', de: 'Ein Durchgang: Teilabfragen und Quellenauswahl' },
+        { en: 'No', de: 'Nein' },
+        { en: 'Supported', de: 'Unterstützt' },
+        { en: 'Optional (preview)', de: 'Optional (Preview)' },
+        { en: 'Balanced', de: 'Ausgewogen' },
       ],
       [
-        { en: 'Search files a user provides during the conversation', de: 'Dateien durchsuchen, die ein Nutzer im Gespräch bereitstellt' },
-        'File search tool',
-        { en: 'Uploaded files go into a vector store that the agent searches', de: 'Hochgeladene Dateien landen in einem Vector Store, den der Agent durchsucht' },
+        '`medium`',
+        { en: 'Yes, plus a semantic classifier', de: 'Ja, plus semantischer Klassifizierer' },
+        { en: 'At most one, when results are weak', de: 'Höchstens einer, wenn Treffer schwach sind' },
+        { en: 'Supported', de: 'Unterstützt' },
+        { en: 'Optional (preview)', de: 'Optional (Preview)' },
+        { en: 'Highest; select regions only', de: 'Am höchsten; nur ausgewählte Regionen' },
       ],
       [
-        { en: 'Remember user-specific facts across sessions', de: 'Nutzerspezifische Fakten über Sitzungen hinweg merken' },
-        { en: 'Memory (preview)', de: 'Memory (Preview)' },
-        { en: 'Memory store plus memory search tool, isolated per scope', de: 'Memory Store plus Memory-Search-Tool, getrennt pro Scope' },
-      ],
-      [
-        { en: 'Current public web information', de: 'Aktuelle öffentliche Webinformationen' },
-        { en: 'Web Search tool or Web IQ', de: 'Web Search Tool oder Web IQ' },
-        { en: 'Web grounding with source links (next module)', de: 'Web-Grounding mit Quellenlinks (nächstes Modul)' },
-      ],
-      [
-        { en: 'The signed-in user’s mail, meetings and chats', de: 'Mails, Meetings und Chats des angemeldeten Nutzers' },
-        'Work IQ',
-        { en: 'Delegated, permission-trimmed Microsoft 365 work context', de: 'Delegierter, berechtigungsgefilterter Microsoft-365-Arbeitskontext' },
+        '`auto`',
+        { en: 'Only if a lightweight first pass isn’t enough', de: 'Nur wenn ein leichter erster Durchgang nicht reicht' },
+        { en: 'As needed, up to `medium`', de: 'Bei Bedarf, bis `medium`' },
+        { en: 'Not stated in the docs', de: 'In der Doku nicht angegeben' },
+        { en: 'Not stated in the docs', de: 'In der Doku nicht angegeben' },
+        { en: 'Balanced per request by the service', de: 'Vom Dienst pro Anfrage abgewogen' },
       ],
     ],
   },
   code: [
     {
       title: { en: 'Give a prompt agent a Foundry IQ knowledge base', de: 'Einem Prompt Agent eine Foundry-IQ-Knowledge-Base geben' },
-      code: `from azure.identity import DefaultAzureCredential
+      code: `from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import PromptAgentDefinition, MCPTool
+from azure.ai.projects.models import MCPTool, PromptAgentDefinition, StructuredInputDefinition
 
+credential = DefaultAzureCredential()
 project = AIProjectClient(
     endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
-    credential=DefaultAzureCredential(),
-    allow_preview=True,  # needed for get_openai_client(agent_name=...) (preview)
+    credential=credential,
+    allow_preview=True,  # agent endpoint (preview): the SDK reference asks for this flag
 )
-kb_mcp_url = ("https://<search>.search.windows.net/knowledgebases/hr-policy-kb/mcp"
-              "?api-version=2026-08-01-preview")
-
+kb_tool = MCPTool(
+    server_label="knowledge-base",
+    server_url=("https://<search>.search.windows.net/knowledgebases/hr-policy-kb/mcp"
+                "?api-version=2026-08-01-preview"),
+    require_approval="never",
+    allowed_tools=["knowledge_base_retrieve"],
+    project_connection_id="hr-kb-mcp",          # RemoteTool connection (project MI)
+    headers={"x-ms-query-source-authorization": "{{search_auth_token}}"},
+)
 agent = project.agents.create_version(
     agent_name="hr-assistant",
     definition=PromptAgentDefinition(
-        model="gpt-5-mini",                       # your deployment name
+        model="gpt-5-mini",  # deployment name
         instructions=(
             "Use the knowledge base tool to answer every question and cite the "
             "retrieved sources. If the knowledge base has no answer, say \\"I don't know\\"."
         ),
-        tools=[MCPTool(
-            server_label="knowledge-base",
-            server_url=kb_mcp_url,
-            require_approval="never",
-            allowed_tools=["knowledge_base_retrieve"],
-            project_connection_id="hr-kb-mcp",    # RemoteTool connection (project MI)
-        )],
+        tools=[kb_tool],
+        structured_inputs={"search_auth_token": StructuredInputDefinition(
+            description="Per-user Azure AI Search token", required=True, schema={"type": "string"},
+        )},
     ),
 )
 
+# Demo uses your own token; in production pass each signed-in user's token
+user_token = get_bearer_token_provider(credential, "https://search.azure.com/.default")()
 openai = project.get_openai_client(agent_name=agent.name)
 conversation = openai.conversations.create()
-response = openai.responses.create(conversation=conversation.id, input="How many vacation days do I get?")
+response = openai.responses.create(
+    conversation=conversation.id,
+    input="How many vacation days do I get?",
+    extra_body={"structured_inputs": {"search_auth_token": user_token}},
+)
 print(response.output_text)`,
       notes: [
         {
-          en: '`knowledge_base_retrieve` is the only knowledge base tool Foundry Agent Service supports; the connection supplies the project managed identity.',
-          de: '`knowledge_base_retrieve` ist das einzige Knowledge-Base-Tool, das Foundry Agent Service unterstützt; die Verbindung liefert die Managed Identity des Projekts.',
+          en: '`knowledge_base_retrieve` is the only knowledge base tool Foundry Agent Service supports; explicit instructions raise the tool-call rate and enforce citations plus an “I don’t know” fallback.',
+          de: '`knowledge_base_retrieve` ist das einzige Knowledge-Base-Tool, das Foundry Agent Service unterstützt; explizite Instructions erhöhen die Tool-Aufrufquote und erzwingen Zitate sowie ein „Ich weiß es nicht“ als Rückfallantwort.',
         },
         {
-          en: 'Explicit instructions raise the tool-call rate and enforce citations plus an “I don’t know” fallback.',
-          de: 'Explizite Instructions erhöhen die Tool-Aufrufquote und erzwingen Zitate sowie ein „Ich weiß es nicht“ als Rückfallantwort.',
+          en: 'A **structured input** is a named value declared in the agent definition and filled per request through `extra_body`; `{{search_auth_token}}` copies it into the `x-ms-query-source-authorization` header. Use it when your backend calls the agent with its own identity — if the request already carries a signed-in user’s token, Agent Service sets the header itself.',
+          de: 'Ein **Structured Input** ist ein benannter Wert, den die Agent-Definition deklariert und den du pro Anfrage über `extra_body` füllst; `{{search_auth_token}}` übernimmt ihn in den Header `x-ms-query-source-authorization`. Nutze ihn, wenn dein Backend den Agent mit eigener Identität aufruft – trägt die Anfrage schon das Token eines angemeldeten Nutzers, setzt Agent Service den Header selbst.',
+        },
+        {
+          en: '`model` takes a deployment name, which can be any name you chose. A **conversation** is a durable item store for multi-turn state, and `responses.create` calls the **Responses API** (OpenAI-compatible API that returns a response object; keeps state via `previous_response_id` or a conversation).',
+          de: '`model` erwartet einen Deployment-Namen, den du frei wählen kannst. Eine **Conversation** ist ein dauerhafter Item-Speicher für mehrstufigen Zustand, und `responses.create` ruft die **Responses API** auf (OpenAI-kompatible API, die ein Response-Objekt liefert; hält Zustand über `previous_response_id` oder eine Conversation).',
         },
       ],
     },
     {
       title: { en: 'Call the knowledge base directly from app or workflow code', de: 'Die Knowledge Base direkt aus App- oder Workflow-Code aufrufen' },
-      code: `# pip install --pre azure-search-documents azure-identity
+      code: `# pip install --pre azure-search-documents azure-identity   (preview SDK)
 from azure.identity import DefaultAzureCredential
 from azure.search.documents.knowledgebases import KnowledgeBaseRetrievalClient
 from azure.search.documents.knowledgebases.models import (
     KnowledgeBaseMessage,
     KnowledgeBaseMessageTextContent,
     KnowledgeBaseRetrievalRequest,
-    KnowledgeRetrievalLowReasoningEffort,
+    KnowledgeRetrievalMediumReasoningEffort,
 )
 
 kb_client = KnowledgeBaseRetrievalClient(
@@ -323,16 +342,17 @@ kb_client = KnowledgeBaseRetrievalClient(
 request = KnowledgeBaseRetrievalRequest(
     messages=[KnowledgeBaseMessage(
         role="user",
-        content=[KnowledgeBaseMessageTextContent(text="How many vacation days do new hires get?")],
+        content=[KnowledgeBaseMessageTextContent(
+            text="Compare parental leave for full-time and part-time staff.")],
     )],
-    retrieval_reasoning_effort=KnowledgeRetrievalLowReasoningEffort(),  # overrides the KB default
+    retrieval_reasoning_effort=KnowledgeRetrievalMediumReasoningEffort(),  # this request only
 )
 result = kb_client.retrieve(request)
 print(result.response[0].content[0].text)   # JSON chunks, each with a ref_id for citations`,
       notes: [
         {
-          en: 'The `messages` input, query planning and configurable reasoning effort need the `2026-08-01-preview` API (preview SDK); the GA `2026-04-01` API supports minimal, extractive retrieval with `intents`.',
-          de: 'Der `messages`-Input, Query Planning und konfigurierbarer Reasoning Effort brauchen die API `2026-08-01-preview` (Preview-SDK); die GA-API `2026-04-01` unterstützt minimales, extraktives Retrieval mit `intents`.',
+          en: '`messages` (chat-style input), query planning and a per-request effort override need the preview API `2026-08-01-preview`. The GA API `2026-04-01` takes `intents` instead — plain search strings such as `KnowledgeRetrievalSemanticIntent(search=…)` — and always retrieves at the minimal level. `medium` runs only in select regions.',
+          de: '`messages` (chat-artiger Input), Query Planning und ein Effort-Override pro Anfrage brauchen die Preview-API `2026-08-01-preview`. Die GA-API `2026-04-01` nimmt stattdessen `intents` – reine Suchstrings wie `KnowledgeRetrievalSemanticIntent(search=…)` – und ruft immer auf minimaler Stufe ab. `medium` läuft nur in ausgewählten Regionen.',
         },
         {
           en: 'Besides `response`, the result carries an `activity` log (query plan, tokens) and a `references` array for citations.',
@@ -355,8 +375,8 @@ print(result.response[0].content[0].text)   # JSON chunks, each with a ref_id fo
       de: 'Bei indexierten Quellen braucht Berechtigungsfilterung beide Hälften: mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten und das Token des Nutzers in der Anfrage. Fehlt eines davon, kommen die Ergebnisse ungefiltert.',
     },
     {
-      en: 'A 403 from Azure AI Search means the project’s managed identity lacks **Search Index Data Reader**. **Cognitive Services User** is a different assignment: the search service’s identity on the Foundry resource, needed only when the knowledge base calls an LLM.',
-      de: 'Ein 403 von Azure AI Search heißt: Der Managed Identity des Projekts fehlt **Search Index Data Reader**. **Cognitive Services User** ist eine andere Zuweisung: die Identität des Suchdienstes auf der Foundry-Ressource, nur nötig, wenn die Knowledge Base ein LLM aufruft.',
+      en: 'A 403 from Azure AI Search means the identity the connection authenticates with — the project’s managed identity or the agent identity — lacks **Search Index Data Reader**. **Cognitive Services User** is a different assignment: the search service’s identity on the Foundry resource, needed whenever the knowledge base has an LLM configured (`low`, `medium`, answer synthesis, web sources).',
+      de: 'Ein 403 von Azure AI Search heißt: Der Identität, mit der sich die Verbindung anmeldet – Managed Identity des Projekts oder Agent-Identität –, fehlt **Search Index Data Reader**. **Cognitive Services User** ist eine andere Zuweisung: die Identität des Suchdienstes auf der Foundry-Ressource, nötig, sobald auf der Knowledge Base ein LLM konfiguriert ist (`low`, `medium`, Answer Synthesis, Web-Quellen).',
     },
     {
       en: 'Memory is not a knowledge base: memory stores learned, user-specific facts; Foundry IQ grounds on curated organizational content; file search handles documents a user provides in the conversation.',
@@ -366,7 +386,7 @@ print(result.response[0].content[0].text)   # JSON chunks, each with a ref_id fo
   takeaways: [
     { en: 'New RAG for agents: start with Foundry IQ and agentic retrieval; keep classic RAG when you must preserve your own query orchestration.', de: 'Neues RAG für Agents: mit Foundry IQ und Agentic Retrieval starten; klassisches RAG behalten, wenn du deine eigene Abfrage-Orchestrierung erhalten musst.' },
     { en: 'Knowledge sources first, then the knowledge base; wire agents with `MCPTool` + `knowledge_base_retrieve` + a `RemoteTool` project connection.', de: 'Erst Knowledge Sources, dann die Knowledge Base; Agents verdrahtest du mit `MCPTool` + `knowledge_base_retrieve` + einer `RemoteTool`-Projektverbindung.' },
-    { en: 'Reasoning effort trades cost and latency for depth: `minimal` < `low` (default) < `medium`.', de: 'Der Reasoning Effort tauscht Kosten und Latenz gegen Tiefe: `minimal` < `low` (Standard) < `medium`.' },
+    { en: 'Reasoning effort trades cost and latency for depth: `minimal` < `low` (preview default) < `medium`; `auto` (preview) lets the service pick the depth per request, up to `medium`.', de: 'Der Reasoning Effort tauscht Kosten und Latenz gegen Tiefe: `minimal` < `low` (Preview-Standard) < `medium`; mit `auto` (Preview) wählt der Dienst die Tiefe pro Anfrage, bis `medium`.' },
     { en: 'For agents, return extractive data and let the agent cite; answer synthesis is for standalone apps.', de: 'Für Agents Extractive Data zurückgeben und den Agent zitieren lassen; Answer Synthesis ist für eigenständige Apps.' },
     { en: 'Test with factual, multi-document, out-of-scope and ambiguous questions; in production, watch citation and “I don’t know” rates and refine instructions or content.', de: 'Teste mit Fakten-, Mehrdokument-, themenfremden und mehrdeutigen Fragen; beobachte in Produktion die Quote von Zitaten und „Ich weiß es nicht“ und schärfe Instructions oder Inhalte nach.' },
   ],

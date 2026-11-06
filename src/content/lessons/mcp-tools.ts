@@ -3,42 +3,44 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'mcp-tools',
   summary: {
-    en: 'The **Model Context Protocol (MCP)** is an open standard for how applications offer tools and context to models. An **MCP server** publishes tools with names, descriptions and input schemas; an **MCP client** discovers them at runtime and calls them, so you can add or change tools on the server without touching the agent — “integrate once”. In Foundry Agent Service you attach a remote server with the **MCP tool** (`server_label`, `server_url`), restrict what the model may use with `allowed_tools`, keep a human in the loop with `require_approval`, and store credentials in a **project connection**. Alternatively, your own code can act as the MCP client and expose the server’s tools to the agent as function tools.',
-    de: 'Das **Model Context Protocol (MCP)** ist ein offener Standard dafür, wie Anwendungen Modellen Tools und Kontext anbieten. Ein **MCP-Server** veröffentlicht Tools mit Namen, Beschreibungen und Eingabeschemas; ein **MCP-Client** entdeckt sie zur Laufzeit und ruft sie auf – so änderst du Tools auf dem Server, ohne den Agent anzufassen („einmal integrieren“). In Foundry Agent Service bindest du einen Remote-Server mit dem **MCP-Tool** an (`server_label`, `server_url`), schränkst mit `allowed_tools` ein, was das Modell nutzen darf, hältst mit `require_approval` einen Menschen in der Schleife und speicherst Zugangsdaten in einer **Projektverbindung**. Alternativ agiert dein eigener Code als MCP-Client und stellt die Server-Tools dem Agent als Function Tools bereit.',
+    en: 'The **Model Context Protocol (MCP)** is an open standard for exposing tools to agents. An **MCP server** publishes tools with names, descriptions and input schemas; an **MCP client** discovers them at runtime and calls them, so you can add or change tools on the server without touching the agent — “integrate once”. In Foundry Agent Service you attach a remote server to a **prompt agent** (declarative agent: model + instructions + tools, versioned in Foundry) with the **MCP tool** (`server_label`, `server_url`), restrict what the model may use with `allowed_tools`, keep a human in the loop with `require_approval`, and keep credentials in a **project connection** (stored endpoint + credential that tools reference instead of secrets in code). Alternatively, your own code acts as the MCP client and hands the server’s tools to the agent as function tools.',
+    de: 'Das **Model Context Protocol (MCP)** ist ein offener Standard, um Agents Tools bereitzustellen. Ein **MCP-Server** veröffentlicht Tools mit Namen, Beschreibungen und Eingabeschemas; ein **MCP-Client** entdeckt sie zur Laufzeit und ruft sie auf – so änderst du Tools auf dem Server, ohne den Agent anzufassen („einmal integrieren“). In Foundry Agent Service bindest du einen Remote-Server mit dem **MCP-Tool** (`server_label`, `server_url`) an einen **Prompt Agent** (deklarativer Agent: Modell + Anweisungen + Tools, in Foundry versioniert), schränkst mit `allowed_tools` ein, was das Modell nutzen darf, hältst mit `require_approval` einen Menschen in der Schleife und legst Zugangsdaten in einer **Projektverbindung** ab (gespeicherter Endpoint + Credential, auf die Tools statt Secrets im Code verweisen). Alternativ agiert dein eigener Code als MCP-Client und reicht die Server-Tools als Function Tools an den Agent weiter.',
   },
   examFocus: {
-    en: 'Expect questions on server vs client roles, why new server tools appear without redeploying, the MCP tool parameters (`server_label`, `server_url`, `allowed_tools`, `require_approval`, `project_connection_id`), the approval round trip (`mcp_approval_request` → `mcp_approval_response` with `approval_request_id` in the same conversation), the trap that an empty `allowed_tools` list allows everything, authentication choices, remote-only endpoints, and governance with toolboxes or an AI gateway.',
-    de: 'Rechne mit Fragen zu den Rollen von Server und Client, warum neue Server-Tools ohne Redeployment erscheinen, zu den Parametern des MCP-Tools (`server_label`, `server_url`, `allowed_tools`, `require_approval`, `project_connection_id`), zur Freigabeschleife (`mcp_approval_request` → `mcp_approval_response` mit `approval_request_id` in derselben Conversation), zur Falle, dass eine leere `allowed_tools`-Liste alles erlaubt, zu Authentifizierungsoptionen, reinen Remote-Endpoints sowie zur Governance mit Toolboxes oder einem AI Gateway.',
+    en: 'Expect questions on server vs client roles, why new server tools appear without redeploying, the MCP tool parameters (`server_label`, `server_url`, `allowed_tools`, `require_approval`, `project_connection_id`), the approval round trip (`mcp_approval_request` → `mcp_approval_response` with `approval_request_id` in the same conversation — the durable item store for multi-turn state), the trap that an empty `allowed_tools` list allows everything, authentication choices, remote-only endpoints, and governance with toolboxes or an AI gateway.',
+    de: 'Rechne mit Fragen zu den Rollen von Server und Client, warum neue Server-Tools ohne Redeployment erscheinen, zu den Parametern des MCP-Tools (`server_label`, `server_url`, `allowed_tools`, `require_approval`, `project_connection_id`), zur Freigabeschleife (`mcp_approval_request` → `mcp_approval_response` mit `approval_request_id` in derselben Conversation – dem dauerhaften Item-Speicher für Zustand über mehrere Runden), zur Falle, dass eine leere `allowed_tools`-Liste alles erlaubt, zu Authentifizierungsoptionen, reinen Remote-Endpoints sowie zur Governance mit Toolboxes oder einem AI Gateway.',
   },
   diagrams: [
     {
       id: 'mcp-approval-flow',
       title: { en: 'Agent ↔ MCP server: discovery, allowlist, approval', de: 'Agent ↔ MCP-Server: Discovery, Allowlist, Freigabe' },
       caption: {
-        en: 'The service discovers the server’s tools, filters them with allowed_tools, and pauses for a human decision before an approved call reaches the server with credentials from a project connection.',
-        de: 'Der Dienst entdeckt die Tools des Servers, filtert sie mit allowed_tools und wartet auf eine menschliche Entscheidung, bevor ein freigegebener Aufruf mit Zugangsdaten aus einer Projektverbindung den Server erreicht.',
+        en: 'The service discovers the server’s tools and filters them with allowed_tools; the model picks a tool call, which pauses for a human decision before it reaches the server with credentials from a project connection.',
+        de: 'Der Dienst entdeckt die Tools des Servers und filtert sie mit allowed_tools; das Modell wählt einen Tool-Aufruf, der auf eine menschliche Entscheidung wartet, bevor er mit Zugangsdaten aus einer Projektverbindung den Server erreicht.',
       },
       width: 960,
-      height: 440,
-      groups: [{ id: 'g-fas', x: 260, y: 20, w: 420, h: 400, label: 'Foundry Agent Service', tone: 'foundry' }],
+      height: 500,
+      groups: [{ id: 'g-fas', x: 250, y: 20, w: 450, h: 470, label: 'Microsoft Foundry', tone: 'foundry' }],
       nodes: [
-        { id: 'reviewer', x: 20, y: 40, w: 170, h: 64, label: { en: 'Human reviewer', de: 'Prüfende Person' }, tone: 'user', shape: 'actor' },
-        { id: 'app', x: 20, y: 190, w: 190, h: 74, label: { en: 'Your app', de: 'Deine App' }, sub: { en: 'approval UI + loop', de: 'Freigabe-UI + Schleife' }, tone: 'app' },
-        { id: 'agent', x: 290, y: 60, w: 360, h: 70, label: 'Agent version', sub: 'MCPTool(server_label, server_url)', tone: 'foundry' },
-        { id: 'filter', x: 290, y: 180, w: 160, h: 70, label: 'allowed_tools', sub: { en: 'listed tools only', de: 'nur gelistete Tools' }, tone: 'safety' },
-        { id: 'gate', x: 490, y: 180, w: 160, h: 70, label: { en: 'Approval?', de: 'Freigabe?' }, sub: 'require_approval', tone: 'safety', shape: 'diamond' },
-        { id: 'conn', x: 290, y: 320, w: 360, h: 70, label: 'Project connection', sub: { en: 'keys, tokens or Entra identity', de: 'Keys, Tokens oder Entra-Identität' }, tone: 'safety' },
-        { id: 'server', x: 740, y: 178, w: 200, h: 74, label: 'MCP server', sub: { en: 'remote endpoint', de: 'Remote-Endpoint' }, tone: 'external' },
+        { id: 'reviewer', x: 20, y: 40, w: 190, h: 64, label: { en: 'Human reviewer', de: 'Prüfende Person' }, tone: 'user', shape: 'actor' },
+        { id: 'app', x: 20, y: 200, w: 190, h: 74, label: { en: 'Your app', de: 'Deine App' }, sub: { en: 'approval UI + loop', de: 'Freigabe-UI + Schleife' }, tone: 'app' },
+        { id: 'agent', x: 275, y: 60, w: 400, h: 70, label: 'Agent version', sub: 'MCPTool(server_label, server_url)', tone: 'foundry' },
+        { id: 'filter', x: 275, y: 180, w: 130, h: 70, label: 'allowed_tools', sub: { en: 'listed tools only', de: 'nur gelistete Tools' }, tone: 'safety' },
+        { id: 'model', x: 520, y: 180, w: 155, h: 70, label: 'Model deployment', sub: { en: 'picks tool + arguments', de: 'wählt Tool + Argumente' }, tone: 'model' },
+        { id: 'gate', x: 520, y: 300, w: 155, h: 70, label: { en: 'Approval?', de: 'Freigabe?' }, sub: 'require_approval', tone: 'safety', shape: 'diamond' },
+        { id: 'conn', x: 275, y: 420, w: 400, h: 56, label: 'Project connection', sub: { en: 'keys, tokens or Entra identity', de: 'Keys, Tokens oder Entra-Identität' }, tone: 'safety' },
+        { id: 'server', x: 750, y: 298, w: 190, h: 74, label: 'MCP server', sub: { en: 'remote endpoint', de: 'Remote-Endpoint' }, tone: 'external' },
       ],
       edges: [
         { id: 'e-review', from: 'reviewer', to: 'app', label: { en: 'review', de: 'prüfen' }, bidir: true },
-        { id: 'e-request', from: 'app', to: 'agent', label: 'responses.create', via: [[240, 227], [240, 95]] },
-        { id: 'e-discover', from: 'agent', to: 'server', label: 'tools/list', via: [[840, 95]] },
-        { id: 'e-filter', from: 'agent', to: 'filter' },
-        { id: 'e-gate', from: 'filter', to: 'gate' },
-        { id: 'e-approval', from: 'gate', to: 'app', label: { en: 'request ⇄ response', de: 'Anfrage ⇄ Antwort' }, bidir: true, via: [[570, 285], [115, 285]] },
+        { id: 'e-request', from: 'app', to: 'agent', label: 'responses.create', via: [[230, 237], [230, 95]] },
+        { id: 'e-discover', from: 'agent', to: 'server', label: 'tools/list', via: [[845, 95]] },
+        { id: 'e-filter', from: 'agent', to: 'filter', label: { en: 'tool list', de: 'Tool-Liste' }, via: [[475, 155], [340, 155]] },
+        { id: 'e-pick', from: 'filter', to: 'model', label: { en: 'allowed tools', de: 'erlaubte Tools' } },
+        { id: 'e-gate', from: 'model', to: 'gate', label: { en: 'tool call', de: 'Tool-Aufruf' } },
+        { id: 'e-approval', from: 'gate', to: 'app', label: { en: 'request ⇄ response', de: 'Anfrage ⇄ Antwort' }, bidir: true, via: [[597.5, 400], [115, 400]] },
         { id: 'e-call', from: 'gate', to: 'server', label: 'tools/call' },
-        { id: 'e-auth', from: 'conn', to: 'server', label: { en: 'auth', de: 'Auth' }, dashed: true, via: [[840, 355]] },
+        { id: 'e-auth', from: 'conn', to: 'server', label: { en: 'auth', de: 'Auth' }, dashed: true, via: [[845, 448]] },
       ],
       steps: [
         {
@@ -58,26 +60,34 @@ export const lesson: Lesson = {
           focus: ['e-filter', 'filter'],
         },
         {
+          title: { en: 'The model picks a call', de: 'Das Modell wählt einen Aufruf' },
+          text: {
+            en: 'The model deployment sees only the allowed tools. It picks one and generates the arguments — this tool call is what the approval step checks.',
+            de: 'Das Modell-Deployment sieht nur die erlaubten Tools. Es wählt eines und erzeugt die Argumente – genau dieser Tool-Aufruf wird bei der Freigabe geprüft.',
+          },
+          focus: ['e-pick', 'model', 'e-gate'],
+        },
+        {
           title: { en: 'Pause for approval', de: 'Für die Freigabe anhalten' },
           text: {
             en: 'With `require_approval` (default `always`) the response contains an `mcp_approval_request` with server label, tool name and arguments. Your app shows it to a human reviewer.',
             de: 'Mit `require_approval` (Standard `always`) enthält die Antwort ein `mcp_approval_request` mit Server-Label, Tool-Name und Argumenten. Deine App zeigt es einer prüfenden Person.',
           },
-          focus: ['e-gate', 'gate', 'e-approval', 'app', 'e-review', 'reviewer'],
+          focus: ['gate', 'e-approval', 'app', 'e-review', 'reviewer'],
         },
         {
           title: { en: 'Decide and run', de: 'Entscheiden und ausführen' },
           text: {
-            en: 'The app sends an `mcp_approval_response` — `approve` true or false, `approval_request_id` set to the request item’s `id` — in the same conversation. Only approved calls reach the server through `tools/call`.',
-            de: 'Die App sendet ein `mcp_approval_response` – `approve` true oder false, `approval_request_id` gleich der `id` des Anfrage-Items – in derselben Conversation. Nur freigegebene Aufrufe erreichen den Server über `tools/call`.',
+            en: 'The app sends an `mcp_approval_response` — `approve` true or false, `approval_request_id` set to the request item’s `id` — as input in the same conversation. Only approved calls reach the server through `tools/call`; repeat while new approval requests arrive.',
+            de: 'Die App sendet ein `mcp_approval_response` – `approve` true oder false, `approval_request_id` gleich der `id` des Anfrage-Items – als Input in derselben Conversation. Nur freigegebene Aufrufe erreichen den Server über `tools/call`; wiederhole das, solange neue Freigabeanfragen kommen.',
           },
           focus: ['e-approval', 'gate', 'e-call', 'server'],
         },
         {
           title: { en: 'Keep secrets out of code', de: 'Secrets aus dem Code halten' },
           text: {
-            en: 'Credentials live in a project connection referenced by `project_connection_id`: a shared key, a Microsoft Entra identity (agent identity or project managed identity) or OAuth identity passthrough per user.',
-            de: 'Zugangsdaten liegen in einer Projektverbindung, auf die `project_connection_id` verweist: ein geteilter Key, eine Microsoft-Entra-Identität (Agent-Identität oder Projekt-Managed-Identity) oder OAuth-Identity-Passthrough pro Nutzer.',
+            en: 'Credentials live in a project connection referenced by `project_connection_id`. Its authentication type decides which identity the server sees — a shared key, the agent identity, the project managed identity, or each user (see the table below).',
+            de: 'Zugangsdaten liegen in einer Projektverbindung, auf die `project_connection_id` verweist. Ihr Authentifizierungstyp entscheidet, welche Identität der Server sieht – ein geteilter Key, die Agent-Identität, die Projekt-Managed-Identity oder jeder einzelne Nutzer (siehe Tabelle unten).',
           },
           focus: ['conn', 'e-auth'],
         },
@@ -87,53 +97,54 @@ export const lesson: Lesson = {
       id: 'mcp-two-ways',
       title: { en: 'Two ways to consume MCP tools', de: 'Zwei Wege, MCP-Tools zu nutzen' },
       caption: {
-        en: 'Either Foundry is the MCP client (server-side MCP tool), or your code is the client and turns MCP tools into function tools (the module’s client/server pattern).',
-        de: 'Entweder ist Foundry der MCP-Client (serverseitiges MCP-Tool), oder dein Code ist der Client und macht aus MCP-Tools Function Tools (das Client/Server-Muster des Moduls).',
+        en: 'Either Foundry is the MCP client (server-side MCP tool), or your code is the client: it turns the server’s tools into function tools for an agent and runs every call itself.',
+        de: 'Entweder ist Foundry der MCP-Client (serverseitiges MCP-Tool), oder dein Code ist der Client: Er macht aus den Server-Tools Function Tools für einen Agent und führt jeden Aufruf selbst aus.',
       },
       width: 960,
-      height: 400,
+      height: 470,
       groups: [
         { id: 'g-server', x: 10, y: 10, w: 940, h: 170, label: { en: 'Server-side: Foundry MCP tool', de: 'Serverseitig: Foundry-MCP-Tool' }, tone: 'foundry' },
-        { id: 'g-client', x: 10, y: 210, w: 940, h: 180, label: { en: 'Client-side: MCP client in your code', de: 'Clientseitig: MCP-Client in deinem Code' }, tone: 'app' },
+        { id: 'g-client', x: 10, y: 210, w: 940, h: 250, label: { en: 'Client-side: MCP client in your code', de: 'Clientseitig: MCP-Client in deinem Code' }, tone: 'app' },
       ],
       nodes: [
         { id: 'a1', x: 30, y: 60, w: 200, h: 70, label: 'Agent version', sub: { en: 'MCPTool + approvals', de: 'MCPTool + Freigaben' }, tone: 'foundry' },
         { id: 'a2', x: 380, y: 60, w: 200, h: 70, label: { en: 'Agent Service runtime', de: 'Agent-Service-Runtime' }, sub: { en: 'acts as MCP client', de: 'agiert als MCP-Client' }, tone: 'foundry' },
         { id: 'a3', x: 730, y: 60, w: 200, h: 70, label: { en: 'Remote MCP server', de: 'Remote-MCP-Server' }, sub: { en: 'Container Apps or Functions', de: 'Container Apps oder Functions' }, tone: 'external' },
-        { id: 'b1', x: 30, y: 270, w: 200, h: 70, label: { en: 'Your app', de: 'Deine App' }, sub: { en: 'MCP client session', de: 'MCP-Client-Session' }, tone: 'app' },
-        { id: 'b2', x: 380, y: 270, w: 200, h: 70, label: 'Function tools', sub: { en: 'one per listed MCP tool', de: 'eins je gelistetem MCP-Tool' }, tone: 'tool' },
-        { id: 'b3', x: 730, y: 270, w: 200, h: 70, label: { en: 'Any MCP server', de: 'Beliebiger MCP-Server' }, sub: { en: 'local (stdio) or remote', de: 'lokal (stdio) oder remote' }, tone: 'external' },
+        { id: 'b2', x: 30, y: 270, w: 200, h: 70, label: 'Agent version', sub: { en: 'FunctionTools from\nMCP schemas', de: 'FunctionTools aus\nMCP-Schemas' }, tone: 'foundry' },
+        { id: 'b1', x: 380, y: 350, w: 200, h: 70, label: { en: 'Your app', de: 'Deine App' }, sub: { en: 'MCP client session', de: 'MCP-Client-Session' }, tone: 'app' },
+        { id: 'b3', x: 730, y: 270, w: 200, h: 70, label: { en: 'Any MCP server', de: 'Beliebiger MCP-Server' }, sub: { en: 'local or remote', de: 'lokal oder remote' }, tone: 'external' },
       ],
       edges: [
         { id: 'ea1', from: 'a1', to: 'a2', label: { en: 'per request', de: 'pro Anfrage' } },
         { id: 'ea2', from: 'a2', to: 'a3', label: 'tools/list + call' },
-        { id: 'eb1', from: 'b1', to: 'b2', label: 'list_tools()' },
-        { id: 'eb2', from: 'b2', to: 'b3', label: 'call_tool()' },
+        { id: 'eb-mcp', from: 'b1', to: 'b3', label: 'list_tools() · call_tool()', bidir: true, via: [[830, 385]] },
+        { id: 'eb-reg', from: 'b1', to: 'b2', label: { en: 'FunctionTool schemas', de: 'FunctionTool-Schemas' }, via: [[480, 305]] },
+        { id: 'eb-loop', from: 'b2', to: 'b1', label: { en: 'function_call ⇄ output', de: 'function_call ⇄ Output' }, bidir: true, via: [[130, 385]] },
       ],
       steps: [
         {
           title: { en: 'Server-side: Foundry is the client', de: 'Serverseitig: Foundry ist der Client' },
           text: {
-            en: 'Add an `MCPTool` to the agent and the service discovers tools, applies `allowed_tools` and approvals, and authenticates through project connections. The server must be a remote endpoint, and non-streaming calls time out after 100 seconds.',
-            de: 'Füge dem Agent ein `MCPTool` hinzu, und der Dienst entdeckt Tools, wendet `allowed_tools` und Freigaben an und authentifiziert sich über Projektverbindungen. Der Server muss ein Remote-Endpoint sein, und Aufrufe ohne Streaming laufen nach 100 Sekunden ab.',
+            en: 'Add an `MCPTool` to the agent and the service discovers tools, applies `allowed_tools` and approvals, and authenticates through project connections. The server must be a remote endpoint that Foundry can reach.',
+            de: 'Füge dem Agent ein `MCPTool` hinzu, und der Dienst entdeckt Tools, wendet `allowed_tools` und Freigaben an und authentifiziert sich über Projektverbindungen. Der Server muss ein Remote-Endpoint sein, den Foundry erreicht.',
           },
           focus: ['g-server', 'a1', 'ea1', 'a2', 'ea2', 'a3'],
         },
         {
           title: { en: 'Client-side: your code discovers', de: 'Clientseitig: dein Code entdeckt' },
           text: {
-            en: 'Your code opens an MCP client session, calls `list_tools()` and registers each tool as a function tool — the pattern of the module’s exercise. The agent then returns `function_call` items for those tools.',
-            de: 'Dein Code öffnet eine MCP-Client-Session, ruft `list_tools()` auf und registriert jedes Tool als Function Tool – das Muster aus der Übung des Moduls. Der Agent liefert dann `function_call`-Items für diese Tools.',
+            en: 'Your code opens an MCP client session, calls `list_tools()` on the server and registers each tool on an agent version as a `FunctionTool` (name, description and `input_schema`) — the pattern of the module’s exercise.',
+            de: 'Dein Code öffnet eine MCP-Client-Session, ruft `list_tools()` auf dem Server auf und registriert jedes Tool als `FunctionTool` (Name, Beschreibung und `input_schema`) in einer Agent Version – das Muster aus der Übung des Moduls.',
           },
-          focus: ['g-client', 'b1', 'eb1', 'b2'],
+          focus: ['g-client', 'b1', 'eb-mcp', 'b3', 'eb-reg', 'b2'],
         },
         {
           title: { en: 'Client-side: your code calls', de: 'Clientseitig: dein Code ruft auf' },
           text: {
-            en: 'For each `function_call`, your code runs `call_tool()` on the MCP server and returns the result as `function_call_output`. Use this for local stdio servers or when your app must control every call.',
-            de: 'Für jedes `function_call` führt dein Code `call_tool()` auf dem MCP-Server aus und gibt das Ergebnis als `function_call_output` zurück. Nutze das für lokale stdio-Server oder wenn deine App jeden Aufruf kontrollieren muss.',
+            en: 'The agent returns `function_call` items; for each one your code runs `call_tool()` on the MCP server and sends the text result back as `function_call_output`, looping until no calls are left. Use this for local servers that Foundry can’t reach, or when your app must control every call.',
+            de: 'Der Agent liefert `function_call`-Items; für jedes führt dein Code `call_tool()` auf dem MCP-Server aus und schickt das Textergebnis als `function_call_output` zurück, in einer Schleife, bis keine Aufrufe mehr kommen. Nutze das für lokale Server, die Foundry nicht erreicht, oder wenn deine App jeden Aufruf kontrollieren muss.',
           },
-          focus: ['eb2', 'b3'],
+          focus: ['b2', 'eb-loop', 'b1', 'eb-mcp', 'b3'],
         },
       ],
     },
@@ -170,48 +181,47 @@ export const lesson: Lesson = {
     {
       term: 'require_approval',
       text: {
-        en: 'Defaults to `always`: each call first returns an `mcp_approval_request` (server label, tool name, arguments) and waits. Continue with an `mcp_approval_response` (`approve`, `approval_request_id`) in the same conversation. `never` skips approval; a per-tool policy with `always` and `never` lists mixes both.',
-        de: 'Standard ist `always`: Jeder Aufruf liefert zuerst ein `mcp_approval_request` (Server-Label, Tool-Name, Argumente) und wartet. Weiter geht es mit einem `mcp_approval_response` (`approve`, `approval_request_id`) in derselben Conversation. `never` überspringt die Freigabe; eine Richtlinie pro Tool mit `always`- und `never`-Listen kombiniert beides.',
+        en: 'Defaults to `always`: each call first returns an `mcp_approval_request` (server label, tool name, arguments) and waits for an `mcp_approval_response` (`approve`, `approval_request_id`). `never` skips approval. A per-tool policy names the tools: `{"never": {"tool_names": ["get_order_status"]}, "always": {"tool_names": ["issue_refund"]}}` — in the SDK `MCPToolRequireApproval(never=MCPToolFilter(tool_names=[…]), always=…)`. Give every tool in `allowed_tools` an explicit entry so none depends on a default.',
+        de: 'Standard ist `always`: Jeder Aufruf liefert zuerst ein `mcp_approval_request` (Server-Label, Tool-Name, Argumente) und wartet auf ein `mcp_approval_response` (`approve`, `approval_request_id`). `never` überspringt die Freigabe. Eine Richtlinie pro Tool benennt die Tools: `{"never": {"tool_names": ["get_order_status"]}, "always": {"tool_names": ["issue_refund"]}}` – im SDK `MCPToolRequireApproval(never=MCPToolFilter(tool_names=[…]), always=…)`. Gib jedem Tool aus `allowed_tools` einen expliziten Eintrag, damit keines von einem Standardwert abhängt.',
       },
     },
     {
       term: 'Project connection authentication',
       text: {
-        en: 'Store keys or tokens in a project connection and reference it with `project_connection_id`. Options: key-based (one shared identity), Microsoft Entra with the agent identity or project managed identity, Entra user delegation, OAuth identity passthrough (each user signs in), or unauthenticated for public servers.',
-        de: 'Speichere Keys oder Tokens in einer Projektverbindung und verweise mit `project_connection_id` darauf. Optionen: Key-basiert (eine geteilte Identität), Microsoft Entra mit Agent-Identität oder Projekt-Managed-Identity, Entra-Benutzerdelegierung, OAuth-Identity-Passthrough (jeder Nutzer meldet sich an) oder ohne Authentifizierung für öffentliche Server.',
+        en: 'Store keys or tokens in a project connection and reference it with `project_connection_id` (the samples pass the connection name). The connection’s authentication type decides which identity the server sees — see the table. Prefer Microsoft Entra when the server supports it: no secrets to manage and automatic token rotation.',
+        de: 'Speichere Keys oder Tokens in einer Projektverbindung und verweise mit `project_connection_id` darauf (die Beispiele übergeben den Verbindungsnamen). Der Authentifizierungstyp der Verbindung entscheidet, welche Identität der Server sieht – siehe Tabelle. Bevorzuge Microsoft Entra, wenn der Server es unterstützt: keine Secrets zu verwalten und automatische Token-Rotation.',
       },
     },
     {
-      term: 'Toolbox',
+      term: 'Toolbox and AI gateway',
       text: {
-        en: 'A Foundry toolbox bundles tools — MCP servers, OpenAPI tools, file search and more — behind one MCP-compatible endpoint with central authentication, guardrails and versioning. The first version becomes the default; later versions are served only after you promote them.',
-        de: 'Eine Foundry-Toolbox bündelt Tools – MCP-Server, OpenAPI-Tools, File Search und mehr – hinter einem MCP-kompatiblen Endpoint mit zentraler Authentifizierung, Guardrails und Versionierung. Die erste Version wird zum Standard; spätere Versionen werden erst ausgeliefert, wenn du sie hochstufst.',
+        en: 'A Foundry **toolbox** bundles tools — MCP servers, OpenAPI tools, file search and more — behind one versioned, MCP-compatible endpoint with central authentication (a new version serves only after you promote it); choose it to reuse one curated tool set across agents and frameworks. Its `require_approval` is metadata that the consuming runtime must enforce. An **AI gateway** (preview) is an Azure API Management instance connected to the Foundry resource: new MCP tools created in the portal route through it, so API Management policies enforce rate limits, IP filters and logging without changing servers or agent code; choose it when MCP traffic must be centrally governed.',
+        de: 'Eine Foundry-**Toolbox** bündelt Tools – MCP-Server, OpenAPI-Tools, File Search und mehr – hinter einem versionierten, MCP-kompatiblen Endpoint mit zentraler Authentifizierung (eine neue Version wird erst nach dem Hochstufen ausgeliefert); wähle sie, um einen kuratierten Tool-Satz in mehreren Agents und Frameworks wiederzuverwenden. Ihr `require_approval` ist eine Metainformation, die die nutzende Runtime durchsetzen muss. Ein **AI Gateway** (Preview) ist eine mit der Foundry-Ressource verbundene Azure-API-Management-Instanz: Neue MCP-Tools, die du im Portal anlegst, laufen darüber, sodass API-Management-Richtlinien Ratenlimits, IP-Filter und Logging durchsetzen, ohne Server oder Agent-Code zu ändern; wähle es, wenn MCP-Traffic zentral gesteuert werden muss.',
       },
     },
   ],
   comparison: {
-    title: { en: 'MCP tool settings at a glance', de: 'MCP-Tool-Einstellungen im Überblick' },
+    title: { en: 'Which MCP authentication option?', de: 'Welche MCP-Authentifizierungsoption?' },
     columns: [
-      { en: 'Setting', de: 'Einstellung' },
-      { en: 'Effect', de: 'Wirkung' },
-      { en: 'Use it when', de: 'Einsetzen, wenn' },
+      { en: 'Option', de: 'Option' },
+      { en: 'Identity the MCP server sees', de: 'Identität, die der MCP-Server sieht' },
+      { en: 'Choose it when', de: 'Wähle sie, wenn' },
     ],
     rows: [
-      ['server_label + server_url', { en: 'Names and locates one remote server; the label appears in approval requests', de: 'Benennt und adressiert einen Remote-Server; das Label erscheint in Freigabeanfragen' }, { en: 'Always (required; label unique per agent)', de: 'Immer (Pflicht; Label eindeutig pro Agent)' }],
-      [{ en: '`allowed_tools` omitted or `[]`', de: '`allowed_tools` fehlt oder `[]`' }, { en: 'Every tool of the server is callable', de: 'Jedes Tool des Servers ist aufrufbar' }, { en: 'Only for trusted servers with harmless tools', de: 'Nur bei vertrauenswürdigen Servern mit harmlosen Tools' }],
-      [{ en: '`allowed_tools` with names', de: '`allowed_tools` mit Namen' }, { en: 'Only the listed tools are callable', de: 'Nur die gelisteten Tools sind aufrufbar' }, { en: 'Least privilege; hide destructive tools', de: 'Minimale Rechte; destruktive Tools verbergen' }],
-      ['require_approval="always"', { en: 'Every call returns an approval request first (default)', de: 'Jeder Aufruf liefert zuerst eine Freigabeanfrage (Standard)' }, { en: 'New servers, write operations', de: 'Neue Server, schreibende Operationen' }],
-      ['require_approval="never"', { en: 'Calls run without pausing', de: 'Aufrufe laufen ohne Pause' }, { en: 'Read-only tools you trust', de: 'Lesende Tools, denen du vertraust' }],
-      [{ en: 'Per-tool approval policy', de: 'Freigaberichtlinie pro Tool' }, { en: '`always` and `never` lists name the tools', de: '`always`- und `never`-Listen benennen die Tools' }, { en: 'Mix of lookups and write actions', de: 'Mischung aus Abfragen und Schreibaktionen' }],
-      ['project_connection_id', { en: 'Injects keys, tokens or identity from a project connection', de: 'Fügt Keys, Tokens oder Identität aus einer Projektverbindung ein' }, { en: 'The server requires authentication', de: 'Der Server verlangt Authentifizierung' }],
+      [{ en: 'Key-based', de: 'Key-basiert' }, { en: 'One shared key or token for all users', de: 'Ein geteilter Key oder Token für alle Nutzer' }, { en: 'The server needs an API key or token and no per-user context', de: 'Der Server einen API-Key oder Token und keinen Nutzerkontext braucht' }],
+      [{ en: 'Microsoft Entra – agent identity', de: 'Microsoft Entra – Agent-Identität' }, { en: 'The agent’s own Entra identity', de: 'Die eigene Entra-Identität des Agents' }, { en: 'Agents need different access levels to the same server', de: 'Agents unterschiedliche Zugriffsstufen auf denselben Server brauchen' }],
+      [{ en: 'Microsoft Entra – project managed identity', de: 'Microsoft Entra – Projekt-Managed-Identity' }, { en: 'The project’s managed identity, shared by its agents', de: 'Die Managed Identity des Projekts, geteilt von seinen Agents' }, { en: 'All agents in the project may share one access level', de: 'Alle Agents im Projekt dieselbe Zugriffsstufe teilen dürfen' }],
+      [{ en: 'Microsoft Entra client user delegation', de: 'Microsoft Entra Client User Delegation' }, { en: 'The calling user, taken from the incoming Entra token', de: 'Der aufrufende Nutzer, aus dem eingehenden Entra-Token' }, { en: 'A supported server must act in the user’s context without a second sign-in', de: 'Ein unterstützter Server im Kontext des Nutzers ohne zweite Anmeldung handeln muss' }],
+      [{ en: 'OAuth identity passthrough', de: 'OAuth Identity Passthrough' }, { en: 'Each user, after a separate sign-in to the MCP provider', de: 'Jeder Nutzer, nach eigener Anmeldung beim MCP-Anbieter' }, { en: 'Each user must consent with their own account', de: 'Jeder Nutzer mit seinem eigenen Konto zustimmen muss' }],
+      [{ en: 'Unauthenticated', de: 'Ohne Authentifizierung' }, { en: 'Anonymous', de: 'Anonym' }, { en: 'Only for servers that require no authentication', de: 'Nur bei Servern, die keine Authentifizierung verlangen' }],
     ],
   },
   code: [
     {
-      title: { en: 'Foundry MCP tool with an allowlist and human approval', de: 'Foundry-MCP-Tool mit Allowlist und menschlicher Freigabe' },
+      title: { en: 'Foundry MCP tool with an allowlist and per-tool approval', de: 'Foundry-MCP-Tool mit Allowlist und Freigabe pro Tool' },
       code: `from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import MCPTool, PromptAgentDefinition
+from azure.ai.projects.models import MCPTool, MCPToolFilter, MCPToolRequireApproval, PromptAgentDefinition
 from openai.types.responses.response_input_param import McpApprovalResponse
 
 def ask_reviewer(tool: str, args) -> bool:               # your approval UI
@@ -219,61 +229,83 @@ def ask_reviewer(tool: str, args) -> bool:               # your approval UI
 
 project = AIProjectClient(endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
                           credential=DefaultAzureCredential(),
-                          allow_preview=True)  # agent endpoint via get_openai_client(agent_name=...) is preview in SDK 2.10
+                          allow_preview=True)  # agent endpoint (preview); SDK reference asks for allow_preview
 orders = MCPTool(
     server_label="orders",
     server_url="https://<your-mcp-server>/mcp",
     allowed_tools=["get_order_status", "issue_refund"],    # everything else stays hidden
-    require_approval="always",                            # default: pause before each call
+    require_approval=MCPToolRequireApproval(               # without it: "always" for every call
+        never=MCPToolFilter(tool_names=["get_order_status"]),
+        always=MCPToolFilter(tool_names=["issue_refund"]),
+    ),
     project_connection_id="orders-mcp-connection",        # credentials live here
 )
 agent = project.agents.create_version(
     agent_name="support-agent",
-    definition=PromptAgentDefinition(model="gpt-4.1", instructions="Use MCP tools for orders.", tools=[orders]),
+    definition=PromptAgentDefinition(model="gpt-5-mini",  # deployment name
+                                     instructions="Use MCP tools for orders.", tools=[orders]),
 )
 openai = project.get_openai_client(agent_name=agent.name)
 conv = openai.conversations.create()
 response = openai.responses.create(conversation=conv.id, input="Refund order FAB-1042.")
 
-approvals = [
+while approvals := [                                       # repeat while new requests arrive
     McpApprovalResponse(type="mcp_approval_response", approval_request_id=item.id,
                         approve=ask_reviewer(item.name, item.arguments))
     for item in response.output if item.type == "mcp_approval_request"
-]
-if approvals:                                              # same conversation!
-    response = openai.responses.create(conversation=conv.id, input=approvals)
+]:
+    response = openai.responses.create(conversation=conv.id, input=approvals)  # same conversation
 print(response.output_text)`,
       notes: [
-        { en: '`approval_request_id` must be the `id` of the `mcp_approval_request` item, not the response id.', de: '`approval_request_id` muss die `id` des `mcp_approval_request`-Items sein, nicht die Response-ID.' },
-        { en: 'A denied call (`approve=False`) never reaches the MCP server.', de: 'Ein abgelehnter Aufruf (`approve=False`) erreicht den MCP-Server nie.' },
-        { en: 'Log tool name, arguments, reviewer and decision for auditing.', de: 'Protokolliere Tool-Name, Argumente, prüfende Person und Entscheidung für das Audit.' },
+        { en: '`approval_request_id` must be the `id` of the `mcp_approval_request` item, not the response id. A denied call (`approve=False`) never reaches the MCP server.', de: '`approval_request_id` muss die `id` des `mcp_approval_request`-Items sein, nicht die Response-ID. Ein abgelehnter Aufruf (`approve=False`) erreicht den MCP-Server nie.' },
+        { en: 'For prompt agents, send the approvals as input in the same conversation — the documented flow. Log tool name, arguments, reviewer and decision for auditing.', de: 'Bei Prompt Agents schickst du die Freigaben als Input in derselben Conversation – so beschreibt es die Doku. Protokolliere Tool-Name, Argumente, prüfende Person und Entscheidung für das Audit.' },
+        { en: '`model=` takes your deployment name — a deployment can have any name.', de: '`model=` erwartet deinen Deployment-Namen – ein Deployment kann beliebig heißen.' },
       ],
     },
     {
-      title: { en: 'Client-side discovery with the MCP Python SDK', de: 'Clientseitige Discovery mit dem MCP Python SDK' },
+      title: { en: 'Client-side bridge: MCP tools as function tools (MCP Python SDK 2.x)', de: 'Clientseitige Brücke: MCP-Tools als Function Tools (MCP Python SDK 2.x)' },
       code: `import asyncio
-from azure.identity import DefaultAzureCredential
+import json
+import httpx2
 from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
+from mcp.client.streamable_http import streamable_http_client
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import FunctionTool, PromptAgentDefinition
+from openai.types.responses.response_input_param import FunctionCallOutput
 
-URL = "https://<resource>.services.ai.azure.com/api/projects/<project>/toolboxes/<name>/mcp?api-version=v1"
-token = DefaultAzureCredential().get_token("https://ai.azure.com/.default").token
+MCP_URL = "http://localhost:8000/mcp"           # e.g. a local MCP server that Foundry can't reach
 
 async def main():
-    async with streamablehttp_client(URL, headers={"Authorization": f"Bearer {token}"}) as (read, write, _):
+    project = AIProjectClient(endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
+                              credential=DefaultAzureCredential(), allow_preview=True)  # agent endpoint (preview)
+    http_client = httpx2.AsyncClient()          # pass headers={...} if the server needs auth
+    async with http_client, streamable_http_client(MCP_URL, http_client=http_client) as (read, write):
         async with ClientSession(read, write) as session:
             await session.initialize()
-            tools = await session.list_tools()            # dynamic discovery
-            for tool in tools.tools:
-                print(tool.name, "-", tool.description)
-            result = await session.call_tool("get_order_status", arguments={"order_id": "FAB-1042"})
-            print(result.content)
+            listed = await session.list_tools()                      # 1) discover
+            tools = [FunctionTool(name=t.name, description=t.description or "",
+                                  parameters=t.input_schema, strict=False) for t in listed.tools]
+            agent = project.agents.create_version(agent_name="mcp-bridge-agent", definition=PromptAgentDefinition(
+                model="gpt-5-mini", instructions="Use the tools for order questions.", tools=tools))
+            openai = project.get_openai_client(agent_name=agent.name)
+            conv = openai.conversations.create()
+            response = openai.responses.create(conversation=conv.id, input="Status of order FAB-1042?")
+            while calls := [item for item in response.output if item.type == "function_call"]:
+                outputs = []
+                for call in calls:                                    # 2) execute on the MCP server
+                    result = await session.call_tool(call.name, arguments=json.loads(call.arguments))
+                    text = " ".join(block.text for block in result.content if block.type == "text")
+                    outputs.append(FunctionCallOutput(type="function_call_output",
+                                                      call_id=call.call_id, output=text))  # errors arrive as text too
+                response = openai.responses.create(conversation=conv.id, input=outputs)
+            print(response.output_text)
 
 asyncio.run(main())`,
       notes: [
-        { en: 'A Foundry toolbox exposes an MCP endpoint, so any MCP client can list and call its tools.', de: 'Eine Foundry-Toolbox stellt einen MCP-Endpoint bereit, daher kann jeder MCP-Client ihre Tools listen und aufrufen.' },
-        { en: 'In a client-side bridge you wrap each listed tool as a `FunctionTool` and run `call_tool()` when the agent returns a `function_call`.', de: 'In einer clientseitigen Brücke verpackst du jedes gelistete Tool als `FunctionTool` und führst `call_tool()` aus, wenn der Agent ein `function_call` liefert.' },
-        { en: 'Microsoft Agent Framework now builds on MCP SDK 2.x and its high-level `mcp.Client` (for example via `MCPStreamableHTTPTool`); its docs replace FastMCP server samples with the SDK 2.x `MCPServer` API.', de: 'Microsoft Agent Framework baut inzwischen auf MCP SDK 2.x und dessen höherwertigem `mcp.Client` auf (z. B. über `MCPStreamableHTTPTool`); seine Doku ersetzt FastMCP-Serverbeispiele durch die `MCPServer`-API von SDK 2.x.' },
+        { en: 'Install `"mcp>=2"`: in SDK 2.x `streamable_http_client` takes an `http_client` and yields `(read, write)`. Older samples still show the 1.x helper `streamablehttp_client(url, headers=…)`.', de: 'Installiere `"mcp>=2"`: In SDK 2.x erhält `streamable_http_client` einen `http_client` und liefert `(read, write)`. Ältere Beispiele zeigen noch den 1.x-Helfer `streamablehttp_client(url, headers=…)`.' },
+        { en: 'Each MCP tool becomes a `FunctionTool` with its name, description and `input_schema` (`inputSchema` in JSON; SDK 2.x uses snake_case fields); `strict=False` accepts the server’s schemas as they are, and tool names must be valid function names.', de: 'Jedes MCP-Tool wird zu einem `FunctionTool` mit Name, Beschreibung und `input_schema` (`inputSchema` im JSON; SDK 2.x nutzt Felder in snake_case); `strict=False` übernimmt die Schemas des Servers unverändert, und Tool-Namen müssen gültige Funktionsnamen sein.' },
+        { en: 'Discovery runs at startup, so tools added on the server appear on the next run without any code change.', de: 'Die Discovery läuft beim Start, daher erscheinen auf dem Server ergänzte Tools beim nächsten Lauf ohne Codeänderung.' },
       ],
     },
   ],
@@ -287,12 +319,12 @@ asyncio.run(main())`,
       de: '`require_approval` ist standardmäßig `always`, daher kann die erste Antwort nur ein `mcp_approval_request` und keinen Text enthalten, bis deine App antwortet.',
     },
     {
-      en: 'Send the approval in the **same conversation** with `approval_request_id` set to the request item’s `id` — otherwise the agent never continues.',
-      de: 'Schick die Freigabe in **derselben Conversation** mit `approval_request_id` gleich der `id` des Anfrage-Items – sonst setzt der Agent nie fort.',
+      en: 'Send the approval in the **same conversation** and set `approval_request_id` to the request item’s `id` — otherwise the agent never continues.',
+      de: 'Schick die Freigabe in **derselben Conversation** und setze `approval_request_id` auf die `id` des Anfrage-Items – sonst setzt der Agent nie fort.',
     },
     {
-      en: 'Foundry Agent Service accepts only remote MCP endpoints: a server on `localhost` or stdio must first be hosted, for example on Azure Container Apps or Azure Functions. Non-streaming MCP calls time out after 100 seconds.',
-      de: 'Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints: Ein Server auf `localhost` oder über stdio muss zuerst gehostet werden, etwa in Azure Container Apps oder Azure Functions. MCP-Aufrufe ohne Streaming laufen nach 100 Sekunden ab.',
+      en: 'Foundry Agent Service accepts only remote MCP endpoints: a server on `localhost` or stdio must first be hosted, for example on Azure Container Apps or Azure Functions. A synchronous MCP tool call fails after 100 seconds; for longer tools run the agent in background mode (preview: `background=True`, then poll the response) with a supporting model such as `gpt-5.4` and a server that implements MCP tasks — or split the work.',
+      de: 'Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints: Ein Server auf `localhost` oder über stdio muss zuerst gehostet werden, etwa in Azure Container Apps oder Azure Functions. Ein synchroner MCP-Tool-Aufruf scheitert nach 100 Sekunden; für längere Tools führst du den Agent im Background Mode aus (Preview: `background=True`, dann die Antwort abfragen) – mit einem unterstützten Modell wie `gpt-5.4` und einem Server, der MCP Tasks implementiert – oder teilst die Arbeit auf.',
     },
     {
       en: 'Tool descriptions and results from third-party servers are untrusted input (indirect prompt injection). Instructions are not an access control — `allowed_tools`, approvals and identity permissions are.',
@@ -302,7 +334,7 @@ asyncio.run(main())`,
   takeaways: [
     { en: 'The server publishes, the client discovers and calls — tools change without redeploying the agent.', de: 'Der Server veröffentlicht, der Client entdeckt und ruft auf – Tools ändern sich ohne Redeployment des Agents.' },
     { en: 'Least privilege = a non-empty `allowed_tools` list plus approvals for write operations.', de: 'Minimale Rechte = eine nicht leere `allowed_tools`-Liste plus Freigaben für schreibende Operationen.' },
-    { en: 'Approval loop: `mcp_approval_request` → human review → `mcp_approval_response` in the same conversation.', de: 'Freigabeschleife: `mcp_approval_request` → menschliche Prüfung → `mcp_approval_response` in derselben Conversation.' },
+    { en: 'Approval loop: `mcp_approval_request` → human review → `mcp_approval_response` in the same conversation, repeated while new requests arrive.', de: 'Freigabeschleife: `mcp_approval_request` → menschliche Prüfung → `mcp_approval_response` in derselben Conversation, wiederholt, solange neue Anfragen kommen.' },
     { en: 'Credentials belong in a project connection (`project_connection_id`), preferably Entra-based.', de: 'Zugangsdaten gehören in eine Projektverbindung (`project_connection_id`), möglichst Entra-basiert.' },
     { en: 'For reuse and central governance, put MCP servers in a toolbox or route them through an AI gateway (preview).', de: 'Für Wiederverwendung und zentrale Governance gehören MCP-Server in eine Toolbox oder hinter ein AI Gateway (Preview).' },
   ],

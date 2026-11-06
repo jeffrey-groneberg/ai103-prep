@@ -115,7 +115,7 @@
         "en": "Complete the code so the agent can search news and read pages at known URLs through Web IQ, and every Web IQ call waits for human approval.",
         "de": "Vervollständige den Code so, dass der Agent über Web IQ Nachrichten suchen und Seiten unter bekannten URLs lesen kann und jeder Web-IQ-Aufruf auf eine menschliche Freigabe wartet."
       },
-      "template": "web_iq = MCPTool(\n    server_label=\"web-iq\",\n    server_url=\"{{b1}}\",\n    allowed_tools={{b2}},\n    require_approval=\"{{b3}}\",\n    project_connection_id=\"web-iq-key\",   # stores the x-apikey credential\n)\nagent = project.agents.create_version(\n    agent_name=\"market-watch\",\n    definition=PromptAgentDefinition(model=\"gpt-5-mini\",\n        instructions=\"Use Web IQ for current news and cite source links.\", tools=[web_iq]),\n)",
+      "template": "from azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\nfrom azure.ai.projects.models import PromptAgentDefinition, MCPTool\n\nproject = AIProjectClient(endpoint=\"https://<resource>.services.ai.azure.com/api/projects/<project>\",\n                          credential=DefaultAzureCredential())\nweb_iq = MCPTool(\n    server_label=\"web-iq\",\n    server_url=\"{{b1}}\",\n    allowed_tools={{b2}},\n    require_approval=\"{{b3}}\",\n    project_connection_id=\"web-iq-key\")   # stores the x-apikey credential\nagent = project.agents.create_version(agent_name=\"market-watch\",\n    definition=PromptAgentDefinition(model=\"gpt-5-mini\",  # deployment name\n        instructions=\"Use Web IQ for current news and cite source links.\", tools=[web_iq]))",
       "blanks": [
         {
           "id": "b1",
@@ -138,7 +138,7 @@
           "options": [
             { "id": "a", "code": "always", "correct": true, "why": { "en": "Each tool call first returns an `mcp_approval_request` that must be approved; it's also the default.", "de": "Jeder Toolaufruf liefert zuerst einen `mcp_approval_request`, der freigegeben werden muss; das ist auch der Standard." } },
             { "id": "b", "code": "never", "correct": false, "why": { "en": "Tool calls run without any approval — the opposite of the requirement.", "de": "Toolaufrufe laufen ganz ohne Freigabe – das Gegenteil der Anforderung." } },
-            { "id": "c", "code": "on_failure", "correct": false, "why": { "en": "Not a supported value; use `always`, `never` or a per-tool dictionary.", "de": "Kein unterstützter Wert; nutze `always`, `never` oder ein Dictionary pro Tool." } }
+            { "id": "c", "code": "on_failure", "correct": false, "why": { "en": "Not a supported value; use `always`, `never` or a per-tool filter such as `{\"never\": {\"tool_names\": [...]}}`.", "de": "Kein unterstützter Wert; nutze `always`, `never` oder einen Filter pro Tool wie `{\"never\": {\"tool_names\": [...]}}`." } }
           ]
         }
       ],

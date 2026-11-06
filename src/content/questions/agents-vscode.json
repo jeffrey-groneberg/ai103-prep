@@ -1057,13 +1057,13 @@
         {
           "id": "p3",
           "prompt": {
-            "en": "Search and filter production traces from the last 90 days",
-            "de": "Produktions-Traces der letzten 90 Tage durchsuchen und filtern"
+            "en": "Step through a production trace and its conversation results in the Foundry portal, without writing queries",
+            "de": "Einen Produktions-Trace samt Conversation-Ergebnissen im Foundry-Portal durchgehen, ohne Abfragen zu schreiben"
           },
           "answer": "t3",
           "why": {
-            "en": "The Traces view lists ingested traces from the last 90 days with search, filter and sort.",
-            "de": "Die Traces-Ansicht listet erfasste Traces der letzten 90 Tage mit Suche, Filter und Sortierung."
+            "en": "On the Traces tab you select a trace to step through each span and review its conversation results — no query needed.",
+            "de": "Im Tab Traces wählst du einen Trace, gehst jeden Span durch und prüfst die Conversation-Ergebnisse – ganz ohne Abfrage."
           }
         },
         {

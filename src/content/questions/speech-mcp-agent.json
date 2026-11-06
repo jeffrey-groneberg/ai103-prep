@@ -124,7 +124,7 @@
           "id": "a",
           "text": { "en": "The agent's model doesn't support tool calling", "de": "Das Modell des Agents unterstützt kein Tool Calling" },
           "correct": true,
-          "why": { "en": "Models without tool calling can't invoke the Speech MCP server; select a tool-capable model such as `gpt-4o` or later.", "de": "Modelle ohne Tool Calling können den Speech-MCP-Server nicht aufrufen; wähle ein Tool-fähiges Modell wie `gpt-4o` oder neuer." }
+          "why": { "en": "Models without tool calling can't invoke the Speech MCP server; select a current tool-capable model such as `gpt-5-mini`.", "de": "Modelle ohne Tool Calling können den Speech-MCP-Server nicht aufrufen; wähle ein aktuelles Tool-fähiges Modell wie `gpt-5-mini`." }
         },
         {
           "id": "b",

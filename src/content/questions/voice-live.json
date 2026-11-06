@@ -29,13 +29,13 @@
         },
         {
           "id": "p3",
-          "prompt": { "en": "Decide from what customers say whether they have finished, and don't treat an \"umm\" as an interruption", "de": "Anhand des Gesagten entscheiden, ob Kunden fertig sind, und ein „ähm“ nicht als Unterbrechung werten" },
+          "prompt": { "en": "Decide from what customers say whether they have finished, and don't treat an \"umm\" as an interruption", "de": "Anhand des Gesagten entscheiden, ob Kunden fertig sind, und ein „umm“ nicht als Unterbrechung werten" },
           "answer": "t3",
-          "why": { "en": "Azure semantic VAD detects the end of speech from meaning, works with all models and can remove filler words to reduce false barge-ins.", "de": "Azure Semantic VAD erkennt das Sprechende anhand der Bedeutung, funktioniert mit allen Modellen und kann Füllwörter entfernen, um falsche Barge-ins zu reduzieren." }
+          "why": { "en": "Azure semantic VAD detects the end of speech from meaning, works with all models and can remove filler words (an English list such as \"umm\") to reduce false barge-ins.", "de": "Azure Semantic VAD erkennt das Sprechende anhand der Bedeutung, funktioniert mit allen Modellen und kann Füllwörter entfernen (eine englische Liste wie „umm“), um falsche Barge-ins zu reduzieren." }
         },
         {
           "id": "p4",
-          "prompt": { "en": "Use the store's custom speech model to recognize German product names", "de": "Das Custom-Speech-Modell des Markts nutzen, um deutsche Produktnamen zu erkennen" },
+          "prompt": { "en": "Use the store's custom speech model to recognize its own product names", "de": "Das Custom-Speech-Modell des Markts nutzen, um die eigenen Produktnamen zu erkennen" },
           "answer": "t4",
           "why": { "en": "Custom speech models are referenced in `input_audio_transcription` with the `azure-speech` model and a `custom_speech` map from locale to model ID.", "de": "Custom-Speech-Modelle werden in `input_audio_transcription` mit dem Modell `azure-speech` und einer `custom_speech`-Zuordnung von Gebietsschema zu Modell-ID referenziert." }
         }
@@ -84,7 +84,7 @@
         },
         {
           "id": "c",
-          "text": { "en": "Connect with `model=\"gpt-4.1\"` and copy the agent's instructions and tool definitions into each client's session configuration", "de": "Mit `model=\"gpt-4.1\"` verbinden und Anweisungen sowie Tool-Definitionen des Agents in die Session-Konfiguration jedes Clients kopieren" },
+          "text": { "en": "Connect with `model=\"gpt-5-mini\"` and copy the agent's instructions and tool definitions into each client's session configuration", "de": "Mit `model=\"gpt-5-mini\"` verbinden und Anweisungen sowie Tool-Definitionen des Agents in die Session-Konfiguration jedes Clients kopieren" },
           "correct": false,
           "why": { "en": "Connecting to a model bypasses the agent, so instructions and tools would be duplicated in every client instead of being managed centrally.", "de": "Eine Verbindung zu einem Modell umgeht den Agent; Anweisungen und Tools würden in jedem Client dupliziert statt zentral verwaltet." }
         },
@@ -180,9 +180,9 @@
         },
         {
           "id": "b",
-          "text": { "en": "`gpt-4.1`", "de": "`gpt-4.1`" },
+          "text": { "en": "`gpt-5-mini`", "de": "`gpt-5-mini`" },
           "correct": false,
-          "why": { "en": "In Voice Live, text models receive the user's audio as an Azure speech-to-text transcript.", "de": "In Voice Live erhalten Textmodelle das Audio des Nutzers als Azure-Speech-to-Text-Transkript." }
+          "why": { "en": "A text model: in Voice Live it receives the user's audio as an Azure speech-to-text transcript, not the audio itself.", "de": "Ein Textmodell: In Voice Live erhält es das Audio des Nutzers als Azure-Speech-to-Text-Transkript, nicht das Audio selbst." }
         },
         {
           "id": "c",
@@ -192,14 +192,14 @@
         },
         {
           "id": "d",
-          "text": { "en": "`gpt-4o-transcribe`", "de": "`gpt-4o-transcribe`" },
+          "text": { "en": "`gpt-4o-mini-transcribe`", "de": "`gpt-4o-mini-transcribe`" },
           "correct": false,
-          "why": { "en": "A transcription model: in Voice Live it can only transcribe the input for realtime models; it doesn't hold the conversation.", "de": "Ein Transkriptionsmodell: In Voice Live kann es nur die Eingabe für Realtime-Modelle transkribieren; das Gespräch führt es nicht." }
+          "why": { "en": "A transcription model: in Voice Live it can only transcribe the input for realtime models (`input_audio_transcription`); it doesn't hold the conversation.", "de": "Ein Transkriptionsmodell: In Voice Live kann es nur die Eingabe für Realtime-Modelle transkribieren (`input_audio_transcription`); das Gespräch führt es nicht." }
         }
       ],
       "explanation": {
-        "en": "Native audio models (the `gpt-realtime` family) hear the audio itself; cascaded text models such as `gpt-4.1` and Foundry agents work on an `azure-speech` transcript — which is also where phrase lists and custom speech apply.",
-        "de": "Native Audiomodelle (die `gpt-realtime`-Familie) hören das Audio selbst; kaskadierte Textmodelle wie `gpt-4.1` und Foundry-Agents arbeiten mit einem `azure-speech`-Transkript – dort greifen auch Phrasenlisten und Custom Speech."
+        "en": "Native audio models (the `gpt-realtime` family) hear the audio itself; cascaded text models such as `gpt-5-mini` and Foundry agents work on an `azure-speech` transcript — which is also where phrase lists and custom speech apply.",
+        "de": "Native Audiomodelle (die `gpt-realtime`-Familie) hören das Audio selbst; kaskadierte Textmodelle wie `gpt-5-mini` und Foundry-Agents arbeiten mit einem `azure-speech`-Transkript – dort greifen auch Phrasenlisten und Custom Speech."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live",

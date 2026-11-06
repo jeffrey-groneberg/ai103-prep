@@ -20,8 +20,8 @@
         {
           "id": "s1",
           "text": {
-            "en": "Deploy a model, for example gpt-4.1, in the Foundry project",
-            "de": "Ein Modell, etwa gpt-4.1, im Foundry-Projekt bereitstellen"
+            "en": "Deploy a model, for example gpt-5-mini, in the Foundry project",
+            "de": "Ein Modell, etwa gpt-5-mini, im Foundry-Projekt bereitstellen"
           },
           "why": {
             "en": "The agent needs a model deployment to reason and to choose tools.",
@@ -168,10 +168,10 @@
       "module": "language-mcp-agent",
       "difficulty": 2,
       "stem": {
-        "en": "You create a prompt agent that redacts personal data in support tickets by using the Azure Language MCP server. The Language key must not appear in code, and every tool call must wait for approval from your application. Complete the code.",
-        "de": "Du erstellst einen Prompt-Agent, der personenbezogene Daten in Support-Tickets über den Azure-Language-MCP-Server schwärzt. Der Language-Key darf nicht im Code stehen, und jeder Tool-Aufruf muss auf die Freigabe deiner Anwendung warten. Vervollständige den Code."
+        "en": "You create a prompt agent that redacts personal data in support tickets by using the Azure Language MCP server. The Language key must not appear in code, and every tool call must wait for approval from your application. Assume `project` is an `AIProjectClient`, `ticket_text` holds the ticket, and the required `azure.ai.projects.models` classes and `McpApprovalResponse` are imported. Complete the code.",
+        "de": "Du erstellst einen Prompt-Agent, der personenbezogene Daten in Support-Tickets über den Azure-Language-MCP-Server schwärzt. Der Language-Key darf nicht im Code stehen, und jeder Tool-Aufruf muss auf die Freigabe deiner Anwendung warten. Angenommen, `project` ist ein `AIProjectClient`, `ticket_text` enthält das Ticket, und die benötigten Klassen aus `azure.ai.projects.models` sowie `McpApprovalResponse` sind importiert. Vervollständige den Code."
       },
-      "template": "project = AIProjectClient(endpoint=endpoint, credential=DefaultAzureCredential(), allow_preview=True)\ntool = {{b1}}(\n    server_label=\"azure-language\",\n    server_url=\"https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview\",\n    {{b2}}=\"language-connection\",\n    require_approval=\"always\",\n)\nproject.agents.create_version(agent_name=\"pii-agent\", definition=PromptAgentDefinition(\n    model=\"gpt-4.1\", instructions=\"Redact PII with the Azure Language tool.\", tools=[tool]))\nopenai = project.get_openai_client(agent_name=\"pii-agent\")\nconv = openai.conversations.create()\nresp = openai.responses.create(conversation=conv.id, input=ticket_text)\napprovals = [McpApprovalResponse(type=\"mcp_approval_response\", approve=True,\n             approval_request_id=i.id) for i in resp.output if i.type == \"{{b3}}\"]\nresp = openai.responses.create(conversation=conv.id, input=approvals)",
+      "template": "tool = {{b1}}(\n    server_label=\"azure-language\",\n    server_url=\"https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=2025-11-15-preview\",\n    {{b2}}=\"language-connection\",\n    require_approval=\"always\",\n)\nproject.agents.create_version(agent_name=\"pii-agent\", definition=PromptAgentDefinition(\n    model=\"gpt-5-mini\", instructions=\"Redact PII with the Azure Language tool.\", tools=[tool]))  # deployment name\nopenai = project.get_openai_client()\nref = {\"agent_reference\": {\"name\": \"pii-agent\", \"type\": \"agent_reference\"}}\nconv = openai.conversations.create()\nresp = openai.responses.create(conversation=conv.id, input=ticket_text, extra_body=ref)\nwhile pending := [i for i in resp.output if i.type == \"{{b3}}\"]:\n    resp = openai.responses.create(conversation=conv.id, extra_body=ref, input=[McpApprovalResponse(\n        type=\"mcp_approval_response\", approve=True, approval_request_id=i.id) for i in pending])",
       "blanks": [
         {
           "id": "b1",
@@ -271,8 +271,8 @@
         }
       ],
       "explanation": {
-        "en": "Define the server with `MCPTool`, take credentials from `project_connection_id`, and with `require_approval=\"always\"` answer each `mcp_approval_request` with an `mcp_approval_response` in the same conversation.",
-        "de": "Definiere den Server mit `MCPTool`, beziehe die Credentials über `project_connection_id` und beantworte mit `require_approval=\"always\"` jedes `mcp_approval_request` mit einem `mcp_approval_response` in derselben Conversation."
+        "en": "Define the server with `MCPTool`, take credentials from `project_connection_id`, and with `require_approval=\"always\"` answer every `mcp_approval_request` with an `mcp_approval_response` in the same conversation — in a loop, because the agent can ask again for its next tool call.",
+        "de": "Definiere den Server mit `MCPTool`, beziehe die Credentials über `project_connection_id` und beantworte mit `require_approval=\"always\"` jedes `mcp_approval_request` mit einem `mcp_approval_response` in derselben Conversation – in einer Schleife, weil der Agent für seinen nächsten Tool-Aufruf erneut fragen kann."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol",

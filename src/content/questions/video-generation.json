@@ -31,13 +31,13 @@
         },
         {
           "id": "s4",
-          "text": { "en": "Call `videos.download_content(id, variant=\"video\")` and write the MP4 to a file within 24 hours", "de": "`videos.download_content(id, variant=\"video\")` aufrufen und das MP4 innerhalb von 24 Stunden in eine Datei schreiben" },
-          "why": { "en": "The content exists only after completion and stays available for 24 hours.", "de": "Der Inhalt existiert erst nach Abschluss und bleibt 24 Stunden abrufbar." }
+          "text": { "en": "Call `videos.download_content(id, variant=\"video\")` and write the MP4 to a file within 24 hours of job creation", "de": "`videos.download_content(id, variant=\"video\")` aufrufen und das MP4 innerhalb von 24 Stunden ab Job-Erstellung in eine Datei schreiben" },
+          "why": { "en": "The content exists only after completion, and the job stays available for 24 hours after it was created.", "de": "Der Inhalt existiert erst nach Abschluss, und der Job bleibt 24 Stunden nach dem Anlegen abrufbar." }
         }
       ],
       "explanation": {
-        "en": "Video generation is asynchronous: deploy → create a job → poll its status → download within 24 hours.",
-        "de": "Videogenerierung ist asynchron: bereitstellen → Job anlegen → Status abfragen → innerhalb von 24 Stunden herunterladen."
+        "en": "Video generation is asynchronous: deploy → create a job → poll its status → download within 24 hours of job creation.",
+        "de": "Videogenerierung ist asynchron: bereitstellen → Job anlegen → Status abfragen → innerhalb von 24 Stunden ab Job-Erstellung herunterladen."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation",
@@ -281,8 +281,8 @@
       "module": "video-generation",
       "difficulty": 2,
       "stem": {
-        "en": "A marketing team prepares five Sora 2 requests. Which TWO will Sora 2 reject because of its content restrictions?",
-        "de": "Ein Marketingteam bereitet fünf Sora-2-Anfragen vor. Welche ZWEI lehnt Sora 2 aufgrund seiner Inhaltsregeln ab?"
+        "en": "A marketing team prepares five Sora 2 requests. Based on the documented Sora 2 content restrictions, which TWO will be rejected?",
+        "de": "Ein Marketingteam bereitet fünf Sora-2-Anfragen vor. Welche ZWEI werden nach den dokumentierten Inhaltsregeln von Sora 2 abgelehnt?"
       },
       "options": [
         {
@@ -307,13 +307,13 @@
           "id": "d",
           "text": { "en": "A product-only reference image of a water bottle on a rock, sized 1280x720", "de": "Ein Referenzbild nur mit Produkt – eine Wasserflasche auf einem Felsen – in 1280x720" },
           "correct": false,
-          "why": { "en": "There are no people, and the size matches a supported resolution, so the request is fine.", "de": "Es sind keine Personen zu sehen, und die Größe passt zu einer unterstützten Auflösung – die Anfrage ist in Ordnung." }
+          "why": { "en": "An object-only image at a supported size is fine — the docs suggest images of landscapes, objects or animated characters instead of faces.", "de": "Ein Bild nur mit einem Objekt in unterstützter Größe ist in Ordnung – die Doku empfiehlt Bilder von Landschaften, Objekten oder animierten Figuren statt Gesichtern." }
         },
         {
           "id": "e",
-          "text": { "en": "A 12-second landscape shot of a city skyline at night", "de": "Eine 12-sekündige Querformat-Aufnahme einer Stadtsilhouette bei Nacht" },
+          "text": { "en": "An animated 12-second shot of a mountain landscape at sunrise", "de": "Eine animierte, 12-sekündige Aufnahme einer Berglandschaft bei Sonnenaufgang" },
           "correct": false,
-          "why": { "en": "A scene without people or protected content meets the restrictions.", "de": "Eine Szene ohne Personen oder geschützte Inhalte erfüllt die Regeln." }
+          "why": { "en": "An animated landscape without people or protected content meets the documented restrictions, which point to landscapes, objects or animated characters as safe subjects.", "de": "Eine animierte Landschaft ohne Personen oder geschützte Inhalte erfüllt die dokumentierten Regeln, die Landschaften, Objekte oder animierte Figuren als sichere Motive nennen." }
         }
       ],
       "explanation": {

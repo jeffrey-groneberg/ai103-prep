@@ -93,8 +93,8 @@
         }
       ],
       "explanation": {
-        "en": "`2026-06-06` isn't a drop-in upgrade: use `inputs` and `targets` (response: `value`) and replace removed methods — Detect → Azure Language detection, BreakSentence → your own sentence splitting, Dictionary Lookup → adaptive custom translation.",
-        "de": "`2026-06-06` ist kein Drop-in-Upgrade: Nutze `inputs` und `targets` (Antwort: `value`) und ersetze entfernte Methoden – Detect → Sprachenerkennung von Azure Language, BreakSentence → eigene Satztrennung, Dictionary Lookup → adaptive Custom Translation."
+        "en": "`2026-06-06` isn't a drop-in upgrade: use `inputs` and `targets` (response: `value`) and replace removed methods — Detect → Azure Language detection (the Translate call itself still auto-detects its source language), BreakSentence → your own sentence splitting, Dictionary Lookup → adaptive custom translation.",
+        "de": "`2026-06-06` ist kein Drop-in-Upgrade: Nutze `inputs` und `targets` (Antwort: `value`) und ersetze entfernte Methoden – Detect → Sprachenerkennung von Azure Language (der Translate-Aufruf selbst erkennt seine Quellsprache weiterhin), BreakSentence → eigene Satztrennung, Dictionary Lookup → adaptive Custom Translation."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/how-to/migrate-to-2026-06-06",
@@ -213,10 +213,10 @@
       "module": "translation",
       "difficulty": 2,
       "stem": {
-        "en": "A call-center app must translate a caller's Spanish (Mexico) speech from the microphone into English text in real time by using Azure Speech in Foundry Tools. Complete the code.",
-        "de": "Eine Callcenter-App soll die Sprache eines Anrufers auf Spanisch (Mexiko) vom Mikrofon in Echtzeit in englischen Text übersetzen – mit Azure Speech in Foundry Tools. Vervollständige den Code."
+        "en": "A kiosk app must capture one spoken question from a Spanish (Mexico) speaker with the microphone and translate it into English text by using Azure Speech in Foundry Tools. Complete the code.",
+        "de": "Eine Kiosk-App soll eine gesprochene Frage einer Person, die Spanisch (Mexiko) spricht, über das Mikrofon erfassen und mit Azure Speech in Foundry Tools in englischen Text übersetzen. Vervollständige den Code."
       },
-      "template": "config = speechsdk.translation.SpeechTranslationConfig(\n    token_credential=DefaultAzureCredential(),\n    endpoint=\"https://<resource>.cognitiveservices.azure.com/\",\n)\nconfig.{{b1}} = \"es-MX\"\nconfig.{{b2}}(\"en\")\nrecognizer = speechsdk.translation.TranslationRecognizer(\n    translation_config=config,\n    audio_config=speechsdk.audio.AudioConfig(use_default_microphone=True),\n)\nresult = recognizer.recognize_once_async().get()\nif result.reason == speechsdk.ResultReason.TranslatedSpeech:\n    print(result.{{b3}})",
+      "template": "import azure.cognitiveservices.speech as speechsdk\nfrom azure.identity import DefaultAzureCredential\nconfig = speechsdk.translation.SpeechTranslationConfig(\n    token_credential=DefaultAzureCredential(),\n    endpoint=\"https://<resource>.cognitiveservices.azure.com/\",\n)\nconfig.{{b1}} = \"es-MX\"\nconfig.{{b2}}(\"en\")\nrecognizer = speechsdk.translation.TranslationRecognizer(\n    translation_config=config,\n    audio_config=speechsdk.audio.AudioConfig(use_default_microphone=True),\n)\nresult = recognizer.recognize_once_async().get()\nif result.reason == speechsdk.ResultReason.TranslatedSpeech:\n    print(result.{{b3}})",
       "blanks": [
         {
           "id": "b1",
@@ -244,8 +244,8 @@
         }
       ],
       "explanation": {
-        "en": "Speech translation = `SpeechTranslationConfig` (source locale plus target languages) → `TranslationRecognizer` → `result.translations[<code>]`. Keyless authentication requires the custom-domain endpoint.",
-        "de": "Sprachübersetzung = `SpeechTranslationConfig` (Quell-Locale plus Zielsprachen) → `TranslationRecognizer` → `result.translations[<code>]`. Schlüssellose Anmeldung erfordert den Endpoint mit Custom Domain."
+        "en": "Speech translation = `SpeechTranslationConfig` (source locale plus target languages) → `TranslationRecognizer` → `result.translations[<code>]`. `recognize_once_async()` translates one utterance; an ongoing conversation would use `start_continuous_recognition()` and the `recognized` event. Keyless authentication requires the custom-domain endpoint and a role such as Cognitive Services Speech User.",
+        "de": "Sprachübersetzung = `SpeechTranslationConfig` (Quell-Locale plus Zielsprachen) → `TranslationRecognizer` → `result.translations[<code>]`. `recognize_once_async()` übersetzt eine Äußerung; ein laufendes Gespräch bräuchte `start_continuous_recognition()` und das Event `recognized`. Schlüssellose Anmeldung erfordert den Custom-Domain-Endpoint und eine Rolle wie Cognitive Services Speech User."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech",

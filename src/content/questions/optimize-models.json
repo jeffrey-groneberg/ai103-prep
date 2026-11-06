@@ -133,7 +133,7 @@
           "options": [
             { "id": "a", "code": "reasoning={\"effort\": \"medium\"}", "correct": true, "why": { "en": "In the Responses API, reasoning depth is set with `reasoning.effort`.", "de": "In der Responses API legst du die Reasoning-Tiefe mit `reasoning.effort` fest." } },
             { "id": "b", "code": "reasoning_effort=\"medium\"", "correct": false, "why": { "en": "That's the Chat Completions spelling of the setting, not a `responses.create()` parameter.", "de": "So heißt die Einstellung bei Chat Completions, nicht als Parameter von `responses.create()`." } },
-            { "id": "c", "code": "temperature=0.3", "correct": false, "why": { "en": "Reasoning models don't support `temperature`.", "de": "Reasoning-Modelle unterstützen `temperature` nicht." } }
+            { "id": "c", "code": "temperature=0.3", "correct": false, "why": { "en": "`gpt-5-mini`, like the other GPT-5 reasoning models, doesn't support `temperature`.", "de": "`gpt-5-mini` unterstützt wie die anderen GPT-5-Reasoning-Modelle kein `temperature`." } }
           ]
         },
         {
@@ -141,13 +141,13 @@
           "options": [
             { "id": "a", "code": "max_output_tokens", "correct": true, "why": { "en": "Caps everything the model generates in the Responses API: reasoning, visible output and formatting tokens.", "de": "Begrenzt in der Responses API alles, was das Modell erzeugt: Reasoning-, sichtbare Ausgabe- und Formatierungs-Tokens." } },
             { "id": "b", "code": "max_completion_tokens", "correct": false, "why": { "en": "That's the Chat Completions parameter for reasoning models.", "de": "Das ist der Chat-Completions-Parameter für Reasoning-Modelle." } },
-            { "id": "c", "code": "max_tokens", "correct": false, "why": { "en": "Reasoning models don't support `max_tokens`.", "de": "Reasoning-Modelle unterstützen `max_tokens` nicht." } }
+            { "id": "c", "code": "max_tokens", "correct": false, "why": { "en": "`max_tokens` isn't a Responses API parameter; use `max_output_tokens`.", "de": "`max_tokens` ist kein Parameter der Responses API; nutze `max_output_tokens`." } }
           ]
         }
       ],
       "explanation": {
-        "en": "With reasoning models in the Responses API: system prompt via `instructions`, depth via `reasoning.effort`, cap via `max_output_tokens` (which includes reasoning tokens). `temperature`, `top_p` and `max_tokens` aren't supported.",
-        "de": "Bei Reasoning-Modellen in der Responses API: Systemprompt über `instructions`, Tiefe über `reasoning.effort`, Obergrenze über `max_output_tokens` (inklusive Reasoning-Tokens). `temperature`, `top_p` und `max_tokens` werden nicht unterstützt."
+        "en": "With reasoning models in the Responses API: system prompt via `instructions`, depth via `reasoning.effort`, cap via `max_output_tokens` (which includes reasoning tokens). `gpt-5-mini`, like the other GPT-5 reasoning models, doesn't support `temperature` or `top_p`, and `max_tokens` isn't a Responses API parameter.",
+        "de": "Bei Reasoning-Modellen in der Responses API: Systemprompt über `instructions`, Tiefe über `reasoning.effort`, Obergrenze über `max_output_tokens` (inklusive Reasoning-Tokens). `gpt-5-mini` unterstützt wie die anderen GPT-5-Reasoning-Modelle weder `temperature` noch `top_p`, und `max_tokens` ist kein Parameter der Responses API."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"
@@ -163,13 +163,13 @@
       "module": "optimize-models",
       "difficulty": 3,
       "stem": {
-        "en": "To control costs, you set `max_output_tokens=500` on calls to a reasoning model. Now some complex requests return `status: \"incomplete\"` with `incomplete_details.reason` set to `max_output_tokens` and an empty `output_text` — and you are still billed for them. What is the most likely cause and fix?",
-        "de": "Um Kosten zu begrenzen, setzt du bei Aufrufen eines Reasoning-Modells `max_output_tokens=500`. Jetzt liefern manche komplexe Anfragen `status: \"incomplete\"` mit `incomplete_details.reason` gleich `max_output_tokens` und leerem `output_text` – abgerechnet werden sie trotzdem. Was ist die wahrscheinlichste Ursache und Lösung?"
+        "en": "To control costs, you set `max_output_tokens=500` on calls to your `gpt-5-mini` reasoning deployment. Now some complex requests return `status: \"incomplete\"` with `incomplete_details.reason` set to `max_output_tokens` and an empty `output_text` — and you are still billed for them. What is the most likely cause and fix?",
+        "de": "Um Kosten zu begrenzen, setzt du bei Aufrufen deines Reasoning-Deployments `gpt-5-mini` `max_output_tokens=500`. Jetzt liefern manche komplexe Anfragen `status: \"incomplete\"` mit `incomplete_details.reason` gleich `max_output_tokens` und leerem `output_text` – abgerechnet werden sie trotzdem. Was ist die wahrscheinlichste Ursache und Lösung?"
       },
       "options": [
         {
           "id": "a",
-          "text": { "en": "Reasoning tokens count toward the cap and used it up before any visible text; raise the limit (the docs suggest reserving about 25,000 tokens at first) or lower `reasoning.effort`", "de": "Reasoning-Tokens zählen zum Limit und haben es vor jedem sichtbaren Text aufgebraucht; erhöhe das Limit (die Doku rät anfangs zu rund 25.000 Tokens) oder senke `reasoning.effort`" },
+          "text": { "en": "Reasoning tokens count toward the cap and used it up before any visible text; raise the limit (the docs recommend reserving at least 25,000 tokens for reasoning and output at first) or lower `reasoning.effort`", "de": "Reasoning-Tokens zählen zum Limit und haben es vor jedem sichtbaren Text aufgebraucht; erhöhe das Limit (die Doku rät, anfangs mindestens 25.000 Tokens für Reasoning und Ausgabe zu reservieren) oder senke `reasoning.effort`" },
           "correct": true,
           "why": { "en": "`max_output_tokens` covers reasoning, visible and formatting tokens, so a tight cap can end the response before any answer appears; lower effort generally means fewer reasoning tokens.", "de": "`max_output_tokens` umfasst Reasoning-, sichtbare und Formatierungs-Tokens; ein knappes Limit kann die Antwort beenden, bevor Text erscheint. Weniger Effort bedeutet meist weniger Reasoning-Tokens." }
         },
@@ -183,7 +183,7 @@
           "id": "c",
           "text": { "en": "The default `temperature` is too low for reasoning models; set `temperature=1`", "de": "Die Standard-`temperature` ist für Reasoning-Modelle zu niedrig; setze `temperature=1`" },
           "correct": false,
-          "why": { "en": "Reasoning models don't support `temperature`, and it has nothing to do with the token cap.", "de": "Reasoning-Modelle unterstützen `temperature` nicht, und mit dem Token-Limit hat sie nichts zu tun." }
+          "why": { "en": "`gpt-5-mini`, like the other GPT-5 reasoning models, doesn't support `temperature`, and it has nothing to do with the token cap.", "de": "`gpt-5-mini` unterstützt wie die anderen GPT-5-Reasoning-Modelle kein `temperature`, und mit dem Token-Limit hat sie nichts zu tun." }
         },
         {
           "id": "d",
@@ -236,7 +236,7 @@
           "id": "d",
           "text": { "en": "Set `temperature=0` so that the reasoning becomes reproducible", "de": "`temperature=0` setzen, damit das Reasoning reproduzierbar wird" },
           "correct": false,
-          "why": { "en": "Reasoning models don't support `temperature`, and it wouldn't reveal any reasoning anyway.", "de": "Reasoning-Modelle unterstützen `temperature` nicht, und Reasoning würde es ohnehin nicht offenlegen." }
+          "why": { "en": "GPT-5 reasoning models such as `gpt-5` don't support `temperature`, and it wouldn't reveal any reasoning anyway.", "de": "GPT-5-Reasoning-Modelle wie `gpt-5` unterstützen `temperature` nicht, und Reasoning würde es ohnehin nicht offenlegen." }
         }
       ],
       "explanation": {
@@ -358,13 +358,13 @@
       "module": "optimize-models",
       "difficulty": 3,
       "stem": {
-        "en": "Your app uses two deployments: `gpt-4.1` (non-reasoning) for quick quote calculations and `o4-mini` (reasoning) for complex contract analysis. Both make mistakes on multistep tasks. How should you apply chain-of-thought guidance?",
-        "de": "Deine App nutzt zwei Deployments: `gpt-4.1` (ohne Reasoning) für schnelle Angebotsberechnungen und `o4-mini` (Reasoning) für komplexe Vertragsanalysen. Beide machen Fehler bei mehrstufigen Aufgaben. Wie wendest du Chain-of-Thought-Hinweise an?"
+        "en": "Your app uses two deployments: `Llama-3.3-70B-Instruct` (non-reasoning) for quick quote calculations and `gpt-5-mini` (reasoning) for complex contract analysis. Both make mistakes on multistep tasks. How should you apply chain-of-thought guidance?",
+        "de": "Deine App nutzt zwei Deployments: `Llama-3.3-70B-Instruct` (ohne Reasoning) für schnelle Angebotsberechnungen und `gpt-5-mini` (Reasoning) für komplexe Vertragsanalysen. Beide machen Fehler bei mehrstufigen Aufgaben. Wie wendest du Chain-of-Thought-Hinweise an?"
       },
       "options": [
         {
           "id": "a",
-          "text": { "en": "Ask `gpt-4.1` to work step by step before the final answer; for `o4-mini`, state the goal, constraints and output format and tune `reasoning.effort`", "de": "`gpt-4.1` vor der finalen Antwort schrittweise vorgehen lassen; für `o4-mini` Ziel, Einschränkungen und Ausgabeformat nennen und `reasoning.effort` abstimmen" },
+          "text": { "en": "Ask `Llama-3.3-70B-Instruct` to work step by step before the final answer; for `gpt-5-mini`, state the goal, constraints and output format and tune `reasoning.effort`", "de": "`Llama-3.3-70B-Instruct` vor der finalen Antwort schrittweise vorgehen lassen; für `gpt-5-mini` Ziel, Einschränkungen und Ausgabeformat nennen und `reasoning.effort` abstimmen" },
           "correct": true,
           "why": { "en": "Chain-of-thought prompting applies to non-reasoning models; reasoning models reason internally and work best with a clear goal, firm constraints and an output contract.", "de": "Chain-of-Thought-Prompting gilt für Nicht-Reasoning-Modelle; Reasoning-Modelle denken intern und arbeiten am besten mit klarem Ziel, festen Vorgaben und Ausgabevertrag." }
         },
@@ -376,7 +376,7 @@
         },
         {
           "id": "c",
-          "text": { "en": "Use chain of thought only for `o4-mini`, because only reasoning models can follow step-by-step instructions", "de": "Chain of Thought nur für `o4-mini` nutzen, weil nur Reasoning-Modelle schrittweisen Anweisungen folgen können" },
+          "text": { "en": "Use chain of thought only for `gpt-5-mini`, because only reasoning models can follow step-by-step instructions", "de": "Chain of Thought nur für `gpt-5-mini` nutzen, weil nur Reasoning-Modelle schrittweisen Anweisungen folgen können" },
           "correct": false,
           "why": { "en": "It's the other way round: step-by-step prompting is the technique for non-reasoning models.", "de": "Es ist umgekehrt: Schrittweises Prompting ist die Technik für Nicht-Reasoning-Modelle." }
         },
@@ -384,7 +384,7 @@
           "id": "d",
           "text": { "en": "Raise `temperature` on both deployments so they explore more solution paths", "de": "Auf beiden Deployments `temperature` erhöhen, damit sie mehr Lösungswege erkunden" },
           "correct": false,
-          "why": { "en": "`o4-mini` doesn't support `temperature`, and more randomness doesn't fix multistep errors.", "de": "`o4-mini` unterstützt `temperature` nicht, und mehr Zufall behebt keine mehrstufigen Fehler." }
+          "why": { "en": "`gpt-5-mini`, like the other GPT-5 reasoning models, doesn't support `temperature`, and more randomness doesn't fix multistep errors.", "de": "`gpt-5-mini` unterstützt wie die anderen GPT-5-Reasoning-Modelle kein `temperature`, und mehr Zufall behebt keine mehrstufigen Fehler." }
         }
       ],
       "explanation": {

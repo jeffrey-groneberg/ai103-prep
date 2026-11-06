@@ -41,12 +41,12 @@
         }
       ],
       "explanation": {
-        "en": "Choose a remote knowledge source when freshness and permission enforcement at the source matter most; choose an indexed source when you need custom pipelines or full Azure AI Search features. Remote SharePoint requires each end user to have a Microsoft 365 Copilot license.",
-        "de": "Wähle eine Remote-Knowledge-Source, wenn Aktualität und Berechtigungsprüfung an der Quelle am wichtigsten sind; wähle eine indexierte Quelle, wenn du eigene Pipelines oder den vollen Funktionsumfang von Azure AI Search brauchst. Remote-SharePoint setzt für jeden Endnutzer eine Microsoft-365-Copilot-Lizenz voraus."
+        "en": "Choose a remote knowledge source when freshness and permission enforcement at the source matter most; choose an indexed source when you need custom pipelines or full Azure AI Search features. Remote SharePoint requires, for each end user, a Microsoft 365 Copilot license or Retrieval API pay-as-you-go (preview).",
+        "de": "Wähle eine Remote-Knowledge-Source, wenn Aktualität und Berechtigungsprüfung an der Quelle am wichtigsten sind; wähle eine indexierte Quelle, wenn du eigene Pipelines oder den vollen Funktionsumfang von Azure AI Search brauchst. Remote-SharePoint setzt für jeden Endnutzer eine Microsoft-365-Copilot-Lizenz oder Retrieval-API-Pay-as-you-go (Preview) voraus."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-overview",
-        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/foundry-iq-faq",
+        "https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-how-to-sharepoint-remote",
         "https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-how-to-retrieve"
       ],
       "lastVerified": "2026-11-06"
@@ -213,7 +213,7 @@
         "en": "Complete the code so the agent retrieves from the `hr-kb` knowledge base through Foundry IQ.",
         "de": "Vervollständige den Code so, dass der Agent über Foundry IQ aus der Knowledge Base `hr-kb` abruft."
       },
-      "template": "from azure.ai.projects.models import PromptAgentDefinition, MCPTool\n\nkb_tool = MCPTool(\n    server_label=\"knowledge-base\",\n    server_url=(\"https://contoso-search.search.windows.net/knowledgebases/hr-kb/{{b1}}\"\n                \"?api-version=2026-08-01-preview\"),\n    require_approval=\"never\",\n    allowed_tools=[\"{{b2}}\"],\n    {{b3}}=\"hr-kb-connection\",\n)\nagent = project.agents.create_version(\n    agent_name=\"hr-assistant\",\n    definition=PromptAgentDefinition(model=\"gpt-5-mini\",\n        instructions=\"Always use the knowledge base tool and cite sources.\", tools=[kb_tool]),\n)",
+      "template": "from azure.identity import DefaultAzureCredential\nfrom azure.ai.projects import AIProjectClient\nfrom azure.ai.projects.models import PromptAgentDefinition, MCPTool\n\nproject = AIProjectClient(endpoint=\"https://<resource>.services.ai.azure.com/api/projects/<project>\",\n                          credential=DefaultAzureCredential())\nkb_tool = MCPTool(\n    server_label=\"knowledge-base\",\n    server_url=(\"https://contoso-search.search.windows.net/knowledgebases/hr-kb/{{b1}}\"\n                \"?api-version=2026-08-01-preview\"),\n    require_approval=\"never\", allowed_tools=[\"{{b2}}\"], {{b3}}=\"hr-kb-connection\")\nagent = project.agents.create_version(agent_name=\"hr-assistant\",\n    definition=PromptAgentDefinition(model=\"gpt-5-mini\",  # deployment name\n        instructions=\"Always use the knowledge base tool and cite sources.\", tools=[kb_tool]))",
       "blanks": [
         {
           "id": "b1",
@@ -376,9 +376,9 @@
         },
         {
           "id": "c",
-          "text": { "en": "Increase the model's `temperature`", "de": "Die `temperature` des Modells erhöhen" },
+          "text": { "en": "Raise the knowledge base's retrieval reasoning effort to `medium`", "de": "Den Retrieval Reasoning Effort der Knowledge Base auf `medium` erhöhen" },
           "correct": false,
-          "why": { "en": "Higher temperature adds randomness; it doesn't make the agent call tools or cite.", "de": "Eine höhere Temperatur bringt mehr Zufall; sie bringt den Agent nicht dazu, Tools aufzurufen oder zu zitieren." }
+          "why": { "en": "Reasoning effort only shapes retrieval once the tool is called; it doesn't make the agent call it or cite.", "de": "Der Reasoning Effort prägt das Retrieval erst, wenn das Tool aufgerufen wird; er bringt den Agent nicht zum Aufruf oder zum Zitieren." }
         },
         {
           "id": "d",
@@ -442,8 +442,8 @@
         }
       ],
       "explanation": {
-        "en": "Two identities, two roles: project managed identity → **Search Index Data Reader** (query the knowledge base); search service managed identity → **Cognitive Services User** (call the LLM). A 403 from Azure AI Search points to the first.",
-        "de": "Zwei Identitäten, zwei Rollen: Managed Identity des Projekts → **Search Index Data Reader** (Knowledge Base abfragen); Managed Identity des Suchdienstes → **Cognitive Services User** (LLM aufrufen). Ein 403 von Azure AI Search deutet auf die erste."
+        "en": "The connection's authentication type decides which identity Azure AI Search sees — here the project's managed identity, which needs **Search Index Data Reader** to query the knowledge base. **Cognitive Services User** belongs to the search service's managed identity so the knowledge base can call its LLM. A 403 from Azure AI Search points to the first.",
+        "de": "Der Authentifizierungstyp der Verbindung bestimmt, welche Identität Azure AI Search sieht – hier die Managed Identity des Projekts, die **Search Index Data Reader** braucht, um die Knowledge Base abzufragen. **Cognitive Services User** gehört der Managed Identity des Suchdienstes, damit die Knowledge Base ihr LLM aufrufen kann. Ein 403 von Azure AI Search deutet auf die erste."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/foundry-iq-connect"
@@ -459,10 +459,10 @@
       "module": "foundry-iq",
       "difficulty": 2,
       "stem": {
-        "en": "A step in your claims-processing workflow must query the `claims-kb` knowledge base directly — without an agent — and pass the grounding text to the next step. Complete the code.",
-        "de": "Ein Schritt in deinem Workflow zur Schadenbearbeitung soll die Knowledge Base `claims-kb` direkt abfragen – ohne Agent – und den Grounding-Text an den nächsten Schritt weitergeben. Vervollständige den Code."
+        "en": "A step in your claims-processing workflow must query the `claims-kb` knowledge base directly — without an agent — using the preview SDK (`2026-08-01-preview`), and pass the grounding text to the next step. Complete the code.",
+        "de": "Ein Schritt in deinem Workflow zur Schadenbearbeitung soll die Knowledge Base `claims-kb` direkt abfragen – ohne Agent – mit dem Preview-SDK (`2026-08-01-preview`), und den Grounding-Text an den nächsten Schritt weitergeben. Vervollständige den Code."
       },
-      "template": "from azure.identity import DefaultAzureCredential\nfrom azure.search.documents.knowledgebases import KnowledgeBaseRetrievalClient\nfrom azure.search.documents.knowledgebases.models import (\n    KnowledgeBaseMessage, KnowledgeBaseMessageTextContent, KnowledgeBaseRetrievalRequest)\n\nkb_client = KnowledgeBaseRetrievalClient(endpoint=\"https://<search>.search.windows.net\",\n    knowledge_base_name=\"claims-kb\", credential=DefaultAzureCredential())\nrequest = KnowledgeBaseRetrievalRequest({{b1}}=[KnowledgeBaseMessage(\n    role=\"user\",\n    content=[KnowledgeBaseMessageTextContent(text=\"Which claims need a second review?\")])])\nresult = kb_client.{{b2}}(request)\ngrounding = result.{{b3}}[0].content[0].text",
+      "template": "# pip install --pre azure-search-documents azure-identity\nfrom azure.identity import DefaultAzureCredential\nfrom azure.search.documents.knowledgebases import KnowledgeBaseRetrievalClient\nfrom azure.search.documents.knowledgebases.models import (\n    KnowledgeBaseMessage, KnowledgeBaseMessageTextContent, KnowledgeBaseRetrievalRequest)\n\nkb_client = KnowledgeBaseRetrievalClient(endpoint=\"https://<search>.search.windows.net\",\n    knowledge_base_name=\"claims-kb\", credential=DefaultAzureCredential())\nrequest = KnowledgeBaseRetrievalRequest({{b1}}=[KnowledgeBaseMessage(\n    role=\"user\",\n    content=[KnowledgeBaseMessageTextContent(text=\"Which claims need a second review?\")])])\nresult = kb_client.{{b2}}(request)\ngrounding = result.{{b3}}[0].content[0].text",
       "blanks": [
         {
           "id": "b1",

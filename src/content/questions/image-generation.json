@@ -28,9 +28,9 @@
         },
         {
           "id": "c",
-          "text": { "en": "Send the copy to a `gpt-4.1` deployment with `responses.create()` and no tools", "de": "Den Text mit `responses.create()` ohne Tools an ein `gpt-4.1`-Deployment senden" },
+          "text": { "en": "Send the copy to a `gpt-5-mini` deployment with `responses.create()` and no tools", "de": "Den Text mit `responses.create()` ohne Tools an ein `gpt-5-mini`-Deployment senden" },
           "correct": false,
-          "why": { "en": "gpt-4.1 accepts images as input but outputs only text; without an image generation tool it can't create images.", "de": "gpt-4.1 nimmt Bilder als Eingabe, gibt aber nur Text aus; ohne Bildgenerierungs-Tool erzeugt es keine Bilder." }
+          "why": { "en": "gpt-5-mini takes text and images as input but answers in text; without an image generation tool it can't create images.", "de": "gpt-5-mini nimmt Text und Bilder als Eingabe, antwortet aber in Text; ohne Bildgenerierungs-Tool erzeugt es keine Bilder." }
         },
         {
           "id": "d",
@@ -40,12 +40,13 @@
         }
       ],
       "explanation": {
-        "en": "Text-to-image in Foundry today means a GPT-image (or FLUX) deployment and `images.generate()`. `dall-e-3` is retired.",
-        "de": "Text-zu-Bild bedeutet in Foundry heute ein GPT-image- (oder FLUX-)Deployment und `images.generate()`. `dall-e-3` ist eingestellt."
+        "en": "Text-to-image in Foundry typically means a GPT-image deployment and `images.generate()`; FLUX and MAI-Image models are alternatives with their own endpoints. `dall-e-3` is retired.",
+        "de": "Text-zu-Bild bedeutet in Foundry typischerweise ein GPT-image-Deployment und `images.generate()`; FLUX- und MAI-Image-Modelle sind Alternativen mit eigenen Endpoints. `dall-e-3` ist eingestellt."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
-        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure"
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure",
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-mai-image"
       ],
       "lastVerified": "2026-11-06"
     },
@@ -57,8 +58,8 @@
       "module": "image-generation",
       "difficulty": 2,
       "stem": {
-        "en": "A retailer wants one new lifestyle image that combines four existing product photos — a bag, a scarf, a hat and sunglasses — into a beach scene. The team uses a `gpt-image-1.5` deployment. Which approach should you use?",
-        "de": "Ein Händler möchte ein neues Lifestyle-Bild, das vier vorhandene Produktfotos – Tasche, Schal, Hut und Sonnenbrille – zu einer Strandszene kombiniert. Das Team nutzt ein `gpt-image-1.5`-Deployment. Welchen Ansatz solltest du wählen?"
+        "en": "A retailer wants one new lifestyle image that combines four existing product photos — a bag, a scarf, a hat and sunglasses — into a beach scene. The team uses a `gpt-image-2` deployment. Which approach should you use?",
+        "de": "Ein Händler möchte ein neues Lifestyle-Bild, das vier vorhandene Produktfotos – Tasche, Schal, Hut und Sonnenbrille – zu einer Strandszene kombiniert. Das Team nutzt ein `gpt-image-2`-Deployment. Welchen Ansatz solltest du wählen?"
       },
       "options": [
         {
@@ -81,7 +82,7 @@
         },
         {
           "id": "d",
-          "text": { "en": "Call `responses.create()` on a `gpt-4.1` deployment with four `input_image` parts and no tools", "de": "`responses.create()` auf einem `gpt-4.1`-Deployment mit vier `input_image`-Teilen und ohne Tools aufrufen" },
+          "text": { "en": "Call `responses.create()` on a `gpt-5-mini` deployment with four `input_image` parts and no tools", "de": "`responses.create()` auf einem `gpt-5-mini`-Deployment mit vier `input_image`-Teilen und ohne Tools aufrufen" },
           "correct": false,
           "why": { "en": "A vision model analyzes images and returns text; without the image generation tool no image is produced.", "de": "Ein Vision-Modell analysiert Bilder und gibt Text zurück; ohne Bildgenerierungs-Tool entsteht kein Bild." }
         }
@@ -208,7 +209,7 @@
         "en": "Complete the code so that only the sky in `street.png` is replaced and the edited image is saved.",
         "de": "Vervollständige den Code so, dass nur der Himmel in `street.png` ersetzt und das bearbeitete Bild gespeichert wird."
       },
-      "template": "with open(\"street.png\", \"rb\") as img, open(\"sky-mask.png\", \"rb\") as mask:\n    result = client.images.{{b1}}(\n        model=\"gpt-image-1.5\",          # deployment name\n        image=img,\n        {{b2}}=mask,\n        prompt=\"The same street at sunset under an orange sky\",\n    )\n\nwith open(\"street-sunset.png\", \"wb\") as f:\n    f.write(base64.b64decode(result.data[0].{{b3}}))",
+      "template": "with open(\"street.png\", \"rb\") as img, open(\"sky-mask.png\", \"rb\") as mask:\n    result = client.images.{{b1}}(\n        model=\"gpt-image-2\",            # deployment name\n        image=img,\n        {{b2}}=mask,\n        prompt=\"The same street at sunset under an orange sky\",\n    )\n\nwith open(\"street-sunset.png\", \"wb\") as f:\n    f.write(base64.b64decode(result.data[0].{{b3}}))",
       "blanks": [
         {
           "id": "b1",
@@ -259,9 +260,9 @@
       "options": [
         {
           "id": "a",
-          "text": { "en": "Switch to a model that supports input fidelity, such as `gpt-image-1.5`, keep the jacket mask and set `input_fidelity=\"high\"`", "de": "Auf ein Modell mit Input-Fidelity wechseln, etwa `gpt-image-1.5`, die Jackenmaske behalten und `input_fidelity=\"high\"` setzen" },
+          "text": { "en": "Run the edit on a `gpt-image-2` deployment, which offers advanced face preservation, and keep the jacket mask", "de": "Die Bearbeitung auf einem `gpt-image-2`-Deployment ausführen, das erweiterte Gesichtserhaltung bietet, und die Jackenmaske behalten" },
           "correct": true,
-          "why": { "en": "High input fidelity preserves features, especially faces, more accurately; gpt-image-1-mini supports neither input fidelity nor dedicated face preservation.", "de": "Hohe Input-Fidelity erhält Merkmale, besonders Gesichter, genauer; gpt-image-1-mini unterstützt weder Input-Fidelity noch eine eigene Gesichtserhaltung." }
+          "why": { "en": "gpt-image-2 offers advanced face preservation for consistent results, while gpt-image-1-mini has no dedicated face preservation; the mask still limits the change to the jacket.", "de": "gpt-image-2 bietet erweiterte Gesichtserhaltung für konsistente Ergebnisse, gpt-image-1-mini hat keine eigene Gesichtserhaltung; die Maske begrenzt die Änderung weiterhin auf die Jacke." }
         },
         {
           "id": "b",
@@ -271,9 +272,9 @@
         },
         {
           "id": "c",
-          "text": { "en": "Add \"keep the face identical\" to the prompt and set `n=10` to pick the best result", "de": "„Gesicht unverändert lassen“ in den Prompt schreiben und `n=10` setzen, um das beste Ergebnis auszuwählen" },
+          "text": { "en": "Keep `gpt-image-1-mini` and set `input_fidelity=\"high\"`", "de": "`gpt-image-1-mini` behalten und `input_fidelity=\"high\"` setzen" },
           "correct": false,
-          "why": { "en": "More variations from the same model don't add face preservation; they only multiply work and quota use.", "de": "Mehr Varianten desselben Modells bringen keine Gesichtserhaltung; sie vervielfachen nur Aufwand und Quota-Verbrauch." }
+          "why": { "en": "High input fidelity would preserve facial features, but gpt-image-1-mini doesn't support `input_fidelity`.", "de": "Hohe Input-Fidelity würde Gesichtszüge erhalten, aber gpt-image-1-mini unterstützt `input_fidelity` nicht." }
         },
         {
           "id": "d",
@@ -283,8 +284,8 @@
         }
       ],
       "explanation": {
-        "en": "When edits must keep faces or fine features intact, combine a mask with `input_fidelity=\"high\"` on a model that supports it — gpt-image-1-mini doesn't.",
-        "de": "Wenn Bearbeitungen Gesichter oder feine Merkmale erhalten müssen, kombinierst du eine Maske mit `input_fidelity=\"high\"` auf einem Modell, das es unterstützt – gpt-image-1-mini tut das nicht."
+        "en": "When edits must keep faces intact, use a model with face preservation such as gpt-image-2 and limit the change with a mask. gpt-image-1-mini supports neither `input_fidelity` nor dedicated face preservation.",
+        "de": "Wenn Bearbeitungen Gesichter erhalten müssen, nutzt du ein Modell mit Gesichtserhaltung wie gpt-image-2 und begrenzt die Änderung mit einer Maske. gpt-image-1-mini unterstützt weder `input_fidelity` noch eine eigene Gesichtserhaltung."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/dall-e",
@@ -304,7 +305,7 @@
         "en": "Northwind Media needs the product cut-outs described in requirement 1 of the case study. Complete the request.",
         "de": "Northwind Media braucht die Freisteller aus Anforderung 1 des Fallbeispiels. Vervollständige die Anfrage."
       },
-      "template": "result = client.images.generate(\n    model=\"gpt-image-1.5\",              # Northwind's deployment\n    prompt=\"Studio shot of the Aurora water bottle, centered, no text\",\n    n={{b1}},\n    background=\"{{b2}}\",\n    output_format=\"{{b3}}\",\n)\nfor i, item in enumerate(result.data):\n    with open(f\"aurora_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(item.b64_json))",
+      "template": "result = client.images.generate(\n    model=\"gpt-image-1-mini\",           # Northwind's deployment\n    prompt=\"Studio shot of the Aurora water bottle, centered, no text\",\n    n={{b1}},\n    background=\"{{b2}}\",\n    output_format=\"{{b3}}\",\n)\nfor i, item in enumerate(result.data):\n    with open(f\"aurora_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(item.b64_json))",
       "blanks": [
         {
           "id": "b1",
@@ -349,15 +350,15 @@
       "module": "image-generation",
       "difficulty": 2,
       "stem": {
-        "en": "Art directors review many draft images from a `gpt-image-1.5` deployment before they order final renders. You must reduce how long each draft takes to generate. Which TWO settings should you use for drafts?",
-        "de": "Art Directors sichten viele Entwurfsbilder aus einem `gpt-image-1.5`-Deployment, bevor sie finale Renderings beauftragen. Du musst die Generierungszeit jedes Entwurfs verkürzen. Welche ZWEI Einstellungen solltest du für Entwürfe verwenden?"
+        "en": "Art directors review many draft images from a `gpt-image-1-mini` deployment before they order final renders. You must reduce how long each draft takes to generate. Which TWO settings should you use for drafts?",
+        "de": "Art Directors sichten viele Entwurfsbilder aus einem `gpt-image-1-mini`-Deployment, bevor sie finale Renderings beauftragen. Du musst die Generierungszeit jedes Entwurfs verkürzen. Welche ZWEI Einstellungen solltest du für Entwürfe verwenden?"
       },
       "options": [
         {
           "id": "a",
           "text": { "en": "`quality=\"low\"`", "de": "`quality=\"low\"`" },
           "correct": true,
-          "why": { "en": "Lower-quality images generate faster; the default is high.", "de": "Bilder mit niedrigerer Qualität entstehen schneller; Standard ist high." }
+          "why": { "en": "Lower-quality images generate faster; gpt-image-1-mini defaults to medium.", "de": "Bilder mit niedrigerer Qualität entstehen schneller; gpt-image-1-mini nutzt standardmäßig medium." }
         },
         {
           "id": "b",
@@ -381,7 +382,7 @@
           "id": "e",
           "text": { "en": "`input_fidelity=\"high\"`", "de": "`input_fidelity=\"high\"`" },
           "correct": false,
-          "why": { "en": "An edit parameter that makes the model match input images more closely; it doesn't speed up generation.", "de": "Ein Edit-Parameter, der Eingabebilder genauer treffen lässt; er beschleunigt die Generierung nicht." }
+          "why": { "en": "An edit parameter for matching input images more closely — and gpt-image-1-mini doesn't support it; it never speeds up generation.", "de": "Ein Edit-Parameter, um Eingabebilder genauer zu treffen – und gpt-image-1-mini unterstützt ihn nicht; schneller wird die Generierung dadurch nie." }
         }
       ],
       "explanation": {
@@ -497,8 +498,8 @@
       "module": "image-generation",
       "difficulty": 3,
       "stem": {
-        "en": "A brand agency's image generator on a `gpt-image-1.5` deployment must (1) block prompts that mention competitor brand names, (2) refuse requests for well-known studio cartoon characters and (3) refuse ads that show real public figures. Which TWO actions meet all three rules with the least custom code?",
-        "de": "Der Bildgenerator einer Markenagentur auf einem `gpt-image-1.5`-Deployment muss (1) Prompts mit Namen von Konkurrenzmarken blockieren, (2) Anfragen nach bekannten Zeichentrickfiguren großer Studios ablehnen und (3) Werbung mit realen Prominenten ablehnen. Welche ZWEI Maßnahmen erfüllen alle drei Regeln mit dem wenigsten eigenen Code?"
+        "en": "A brand agency's image generator on a `gpt-image-2` deployment must (1) block prompts that mention competitor brand names, (2) refuse requests for well-known studio cartoon characters and (3) refuse ads that show real public figures. Which TWO actions meet all three rules with the least custom code?",
+        "de": "Der Bildgenerator einer Markenagentur auf einem `gpt-image-2`-Deployment muss (1) Prompts mit Namen von Konkurrenzmarken blockieren, (2) Anfragen nach bekannten Zeichentrickfiguren großer Studios ablehnen und (3) Werbung mit realen Prominenten ablehnen. Welche ZWEI Maßnahmen erfüllen alle drei Regeln mit dem wenigsten eigenen Code?"
       },
       "options": [
         {

@@ -3,8 +3,8 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'text-analysis',
   summary: {
-    en: '**Azure Language in Foundry Tools** is a prebuilt natural language processing (NLP) service that you call through your Microsoft Foundry resource endpoint — no model training and no prompt writing. You send one or more *documents* (plain strings) and get JSON back with predictions and confidence scores: the **language** of each text, **named entities** such as people, places and dates, and **personally identifiable information (PII)** together with a redacted copy of the text. Language detection, named entity recognition (NER), PII detection and Text Analytics for health are the *core* features. Older features such as sentiment analysis, key phrase extraction and summarization are *legacy* and retire on March 31, 2029 — for those tasks, and for any JSON shape of your own, you prompt a Foundry model and enforce a JSON schema with **structured outputs**.',
-    de: '**Azure Language in Foundry Tools** ist ein vorgefertigter Dienst für die Verarbeitung natürlicher Sprache (NLP), den du über den Endpoint deiner Microsoft-Foundry-Ressource aufrufst – ohne Modelltraining und ohne Prompts. Du schickst ein oder mehrere *Dokumente* (einfache Strings) und bekommst JSON mit Vorhersagen und Konfidenzwerten zurück: die **Sprache** jedes Texts, **benannte Entitäten** wie Personen, Orte und Datumsangaben sowie **personenbezogene Daten (PII)** samt geschwärzter Kopie des Texts. Sprachenerkennung, Named Entity Recognition (NER), PII-Erkennung und Text Analytics for health sind die *Kernfunktionen*. Ältere Funktionen wie Stimmungsanalyse, Schlüsselwortextraktion und Zusammenfassung sind *Legacy* und werden am 31. März 2029 eingestellt – für diese Aufgaben und für jedes eigene JSON-Format promptest du ein Foundry-Modell und erzwingst mit **Structured Outputs** ein JSON-Schema.',
+    en: '**Azure Language in Foundry Tools** is a prebuilt natural language processing (NLP) service that you call through your Microsoft Foundry resource endpoint — no model training and no prompt writing. You send one or more *documents* (plain strings) and get JSON back with predictions and confidence scores: the **language** of each text, **named entities** such as people, places and dates, and **personally identifiable information (PII)** together with a redacted copy of the text. Language detection, named entity recognition (NER), PII detection and Text Analytics for health are the *core* features. Older features such as sentiment analysis, key phrase extraction and summarization are *legacy* and retire on March 31, 2029 — for those tasks, and for any JSON shape of your own, you prompt a Foundry model through the **Responses API** (OpenAI-compatible API that returns a response object; keeps state via `previous_response_id` or a conversation) and enforce a JSON schema with **structured outputs**.',
+    de: '**Azure Language in Foundry Tools** ist ein vorgefertigter Dienst für die Verarbeitung natürlicher Sprache (NLP), den du über den Endpoint deiner Microsoft-Foundry-Ressource aufrufst – ohne Modelltraining und ohne Prompts. Du schickst ein oder mehrere *Dokumente* (einfache Strings) und bekommst JSON mit Vorhersagen und Konfidenzwerten zurück: die **Sprache** jedes Texts, **benannte Entitäten** wie Personen, Orte und Datumsangaben sowie **personenbezogene Daten (PII)** samt geschwärzter Kopie des Texts. Sprachenerkennung, Named Entity Recognition (NER), PII-Erkennung und Text Analytics for health sind die *Kernfunktionen*. Ältere Funktionen wie Stimmungsanalyse, Schlüsselwortextraktion und Zusammenfassung sind *Legacy* und werden am 31. März 2029 eingestellt – für diese Aufgaben und für jedes eigene JSON-Format promptest du ein Foundry-Modell über die **Responses API** (OpenAI-kompatible API, die ein Response-Objekt zurückgibt; hält den Zustand über `previous_response_id` oder eine Conversation) und erzwingst mit **Structured Outputs** ein JSON-Schema.',
   },
   examFocus: {
     en: 'Expect scenarios that make you pick the right feature or method — `detect_language()`, `recognize_entities()`, `recognize_pii_entities()` with `redacted_text` and `categories_filter` — and read the result (`primary_language.iso6391_name`, `confidence_score`, entity `category`). Watch for retirement traps: sentiment, key phrases and summaries are legacy in Azure Language, so a *new* solution uses a Foundry model with structured outputs (`responses.parse(text_format=…)` → `output_parsed`). Know the PII redaction policies and how to adapt output to a domain (custom NER, `entitySynonyms`, `valueExclusionPolicy`, prompt + schema).',
@@ -15,28 +15,28 @@ export const lesson: Lesson = {
       id: 'ta-two-routes',
       title: { en: 'Two routes from raw text to JSON', de: 'Zwei Wege vom Rohtext zum JSON' },
       caption: {
-        en: 'Top: prebuilt Azure Language features return fixed JSON. Bottom: a Foundry model returns JSON in the shape you define. Choose per task, or combine both.',
-        de: 'Oben: Vorgefertigte Azure-Language-Funktionen liefern festes JSON. Unten: Ein Foundry-Modell liefert JSON in der Form, die du festlegst. Wähle je Aufgabe – oder kombiniere beide.',
+        en: 'Top: prebuilt Azure Language features — independent calls on the same documents that only share the detected language code — each return fixed JSON. Bottom: a Foundry model returns JSON in the shape you define. Choose per task, or combine both.',
+        de: 'Oben: Vorgefertigte Azure-Language-Funktionen – unabhängige Aufrufe auf denselben Dokumenten, die nur den erkannten Sprachcode teilen – liefern jeweils festes JSON. Unten: Ein Foundry-Modell liefert JSON in der Form, die du festlegst. Wähle je Aufgabe – oder kombiniere beide.',
       },
       width: 960,
       height: 400,
-      groups: [{ id: 'g-lang', x: 190, y: 20, w: 600, h: 150, label: 'Azure Language in Foundry Tools', tone: 'foundry' }],
+      groups: [{ id: 'g-lang', x: 190, y: 20, w: 540, h: 216, label: 'Azure Language in Foundry Tools', tone: 'foundry' }],
       nodes: [
-        { id: 'txt', x: 20, y: 185, w: 130, h: 64, label: { en: 'Raw text', de: 'Rohtext' }, sub: { en: 'reviews, emails', de: 'Bewertungen, Mails' }, tone: 'data', shape: 'doc' },
-        { id: 'det', x: 210, y: 70, w: 150, h: 64, label: { en: 'Detect language', de: 'Sprache erkennen' }, sub: 'detect_language', tone: 'foundry' },
-        { id: 'ner', x: 415, y: 70, w: 150, h: 64, label: { en: 'Named entities', de: 'Entitäten (NER)' }, sub: 'recognize_entities', tone: 'foundry' },
-        { id: 'pii', x: 620, y: 70, w: 150, h: 64, label: { en: 'PII detection', de: 'PII-Erkennung' }, sub: 'redacted_text', tone: 'foundry' },
-        { id: 'json1', x: 830, y: 70, w: 120, h: 64, label: { en: 'JSON results', de: 'JSON-Ergebnis' }, sub: { en: 'scores, offsets', de: 'Scores, Offsets' }, tone: 'data', shape: 'doc' },
+        { id: 'txt', x: 20, y: 198, w: 130, h: 64, label: { en: 'Raw text', de: 'Rohtext' }, sub: { en: 'reviews, emails', de: 'Bewertungen, Mails' }, tone: 'data', shape: 'doc' },
+        { id: 'det', x: 210, y: 96, w: 150, h: 64, label: { en: 'Detect language', de: 'Sprache erkennen' }, sub: 'detect_language', tone: 'foundry' },
+        { id: 'ner', x: 530, y: 56, w: 180, h: 64, label: { en: 'Named entities', de: 'Entitäten (NER)' }, sub: 'recognize_entities', tone: 'foundry' },
+        { id: 'pii', x: 530, y: 152, w: 180, h: 64, label: { en: 'PII detection', de: 'PII-Erkennung' }, sub: 'recognize_pii_entities', tone: 'foundry' },
+        { id: 'json1', x: 826, y: 96, w: 124, h: 64, label: { en: 'JSON results', de: 'JSON-Ergebnis' }, sub: { en: 'one per call', de: 'je Aufruf' }, tone: 'data', shape: 'doc' },
         { id: 'prompt', x: 210, y: 300, w: 150, h: 64, label: { en: 'Prompt + schema', de: 'Prompt + Schema' }, sub: 'responses.parse()', tone: 'app' },
-        { id: 'llm', x: 470, y: 300, w: 160, h: 64, label: { en: 'Foundry model', de: 'Foundry-Modell' }, sub: { en: 'LLM deployment', de: 'LLM-Deployment' }, tone: 'model' },
-        { id: 'json2', x: 830, y: 300, w: 120, h: 64, label: { en: 'Typed JSON', de: 'Schema-JSON' }, sub: 'output_parsed', tone: 'data', shape: 'doc' },
+        { id: 'llm', x: 510, y: 300, w: 160, h: 64, label: { en: 'Foundry model', de: 'Foundry-Modell' }, sub: { en: 'LLM deployment', de: 'LLM-Deployment' }, tone: 'model' },
+        { id: 'json2', x: 826, y: 300, w: 124, h: 64, label: { en: 'Typed JSON', de: 'Schema-JSON' }, sub: 'output_parsed', tone: 'data', shape: 'doc' },
       ],
       edges: [
-        { id: 'e-txt-det', from: 'txt', to: 'det' },
-        { id: 'e-det-ner', from: 'det', to: 'ner' },
-        { id: 'e-ner-pii', from: 'ner', to: 'pii' },
-        { id: 'e-pii-json', from: 'pii', to: 'json1' },
-        { id: 'e-txt-prompt', from: 'txt', to: 'prompt' },
+        { id: 'e-txt-det', from: 'txt', to: 'det', via: [[85, 128]] },
+        { id: 'e-det-ner', from: 'det', to: 'ner', label: { en: 'language code', de: 'Sprachcode' } },
+        { id: 'e-det-pii', from: 'det', to: 'pii', label: { en: 'language code', de: 'Sprachcode' } },
+        { id: 'e-lang-json', from: 'g-lang', to: 'json1' },
+        { id: 'e-txt-prompt', from: 'txt', to: 'prompt', via: [[85, 332]] },
         { id: 'e-prompt-llm', from: 'prompt', to: 'llm', label: 'Responses API' },
         { id: 'e-llm-json2', from: 'llm', to: 'json2', label: { en: 'schema-valid', de: 'schemakonform' } },
       ],
@@ -68,16 +68,16 @@ export const lesson: Lesson = {
         {
           title: { en: 'Find and redact PII', de: 'PII finden und schwärzen' },
           text: {
-            en: '`recognize_pii_entities()` returns the sensitive entities **and** a `redacted_text` copy in one call. All results arrive as JSON with categories, offsets and confidence scores.',
-            de: '`recognize_pii_entities()` liefert die sensiblen Entitäten **und** eine Kopie `redacted_text` in einem Aufruf. Alle Ergebnisse kommen als JSON mit Kategorien, Offsets und Konfidenzwerten.',
+            en: '`recognize_pii_entities()` also gets the language code and returns the sensitive entities **and** a `redacted_text` copy (REST: `redactedText`; omitted only with the `noMask` policy). NER and PII don\'t feed each other: each call returns its own JSON with categories, offsets and confidence scores.',
+            de: '`recognize_pii_entities()` bekommt ebenfalls den Sprachcode und liefert die sensiblen Entitäten **und** eine Kopie `redacted_text` (REST: `redactedText`; fehlt nur bei der Richtlinie `noMask`). NER und PII bauen nicht aufeinander auf: Jeder Aufruf liefert eigenes JSON mit Kategorien, Offsets und Konfidenzwerten.',
           },
-          focus: ['e-ner-pii', 'pii', 'e-pii-json', 'json1'],
+          focus: ['e-det-pii', 'pii', 'e-lang-json', 'json1'],
         },
         {
           title: { en: 'The generative route', de: 'Der generative Weg' },
           text: {
-            en: 'Summaries, topics, sentiment and tone are legacy features in Azure Language. For new solutions you prompt a Foundry model through the Responses API and describe exactly which fields you want.',
-            de: 'Zusammenfassungen, Themen, Stimmung und Tonalität sind in Azure Language Legacy-Funktionen. Für neue Lösungen promptest du ein Foundry-Modell über die Responses API und beschreibst genau, welche Felder du brauchst.',
+            en: 'Summaries, sentiment and key phrases (topics) come from legacy Language features, and tone has no prebuilt feature at all. For these tasks you prompt a Foundry model through the Responses API and describe exactly which fields you want.',
+            de: 'Zusammenfassungen, Stimmung und Schlüsselwörter (Themen) liefern Legacy-Funktionen von Azure Language, und für Tonalität gibt es gar keine vorgefertigte Funktion. Für diese Aufgaben promptest du ein Foundry-Modell über die Responses API und beschreibst genau, welche Felder du brauchst.',
           },
           focus: ['e-txt-prompt', 'prompt', 'e-prompt-llm', 'llm'],
         },
@@ -95,8 +95,8 @@ export const lesson: Lesson = {
       id: 'pii-redaction',
       title: { en: 'One detection, four ways to hide it', de: 'Eine Erkennung, vier Arten zu verbergen' },
       caption: {
-        en: 'Newer PII API versions let you choose a redaction policy per request — and combine a default policy with overrides for specific entity types.',
-        de: 'Neuere Versionen der PII-API lassen dich pro Anfrage eine Schwärzungsrichtlinie wählen – und eine Standardrichtlinie mit Ausnahmen für bestimmte Entitätstypen kombinieren.',
+        en: 'Redaction policies aren\'t in the GA Python SDK — use REST (GA `2026-05-01`) or a preview SDK: one default policy plus optional overrides per entity type.',
+        de: 'Schwärzungsrichtlinien fehlen im GA-Python-SDK – nutze REST (GA `2026-05-01`) oder ein Preview-SDK: eine Standardrichtlinie plus optionale Ausnahmen pro Entitätstyp.',
       },
       width: 960,
       height: 400,
@@ -163,22 +163,22 @@ export const lesson: Lesson = {
     {
       term: 'Azure Language in Foundry Tools',
       text: {
-        en: 'Prebuilt NLP over REST or the Python SDK `azure-ai-textanalytics` (`TextAnalyticsClient`). You call your Foundry resource endpoint (`https://<resource>.cognitiveservices.azure.com`) with a key or, better, Microsoft Entra ID via `DefaultAzureCredential` — which requires a custom subdomain endpoint. Playgrounds in the Foundry portal let you try features without code.',
-        de: 'Vorgefertigtes NLP per REST oder über das Python SDK `azure-ai-textanalytics` (`TextAnalyticsClient`). Du rufst den Endpoint deiner Foundry-Ressource auf (`https://<resource>.cognitiveservices.azure.com`) – mit Key oder besser mit Microsoft Entra ID über `DefaultAzureCredential`, was einen Endpoint mit Custom Subdomain voraussetzt. Playgrounds im Foundry-Portal lassen dich Funktionen ohne Code ausprobieren.',
+        en: 'Prebuilt NLP over REST or the Python SDK `azure-ai-textanalytics` (`TextAnalyticsClient`), called on your Foundry resource\'s custom-subdomain endpoint `https://<resource>.cognitiveservices.azure.com` — the same resource also serves the project endpoint `https://<resource>.services.ai.azure.com/api/projects/<project>` that the Foundry SDK uses. Keys also work on regional endpoints such as `https://westus.api.cognitive.microsoft.com`, but Microsoft Entra ID (`DefaultAzureCredential`) works only on the custom subdomain and needs a role such as **Cognitive Services User** (or Cognitive Services Language Reader). Playgrounds in the Foundry portal let you try features without code.',
+        de: 'Vorgefertigtes NLP per REST oder über das Python SDK `azure-ai-textanalytics` (`TextAnalyticsClient`), aufgerufen über den Custom-Subdomain-Endpoint deiner Foundry-Ressource `https://<resource>.cognitiveservices.azure.com` – dieselbe Ressource stellt auch den Project Endpoint `https://<resource>.services.ai.azure.com/api/projects/<project>` bereit, den das Foundry SDK nutzt. Keys funktionieren auch an regionalen Endpoints wie `https://westus.api.cognitive.microsoft.com`, Microsoft Entra ID (`DefaultAzureCredential`) aber nur an der Custom Subdomain und braucht eine Rolle wie **Cognitive Services User** (oder Cognitive Services Language Reader). Playgrounds im Foundry-Portal lassen dich Funktionen ohne Code ausprobieren.',
       },
     },
     {
       term: 'Core vs. legacy features',
       text: {
-        en: 'Core and recommended for new work: language detection, prebuilt and custom NER, PII detection, Text Analytics for health. Legacy, supported only for existing apps and retiring: sentiment analysis and opinion mining, key phrase extraction, summarization, entity linking, conversational language understanding, custom question answering and custom text classification.',
-        de: 'Kern und für Neues empfohlen: Sprachenerkennung, vorgefertigte und Custom NER, PII-Erkennung, Text Analytics for health. Legacy, nur noch für bestehende Apps unterstützt und vor der Einstellung: Stimmungsanalyse und Opinion Mining, Schlüsselwortextraktion, Zusammenfassung, Entity Linking, Conversational Language Understanding, Custom Question Answering und Custom Text Classification.',
+        en: 'Core and recommended for new work: language detection, prebuilt and custom NER, PII detection, and Text Analytics for health (`begin_analyze_healthcare_entities()`, a long-running call that extracts medical entities such as medications and diagnoses, their relations and links to medical vocabularies). Legacy, supported only for existing apps and retiring: sentiment analysis and opinion mining, key phrase extraction, summarization, entity linking, conversational language understanding, custom question answering and custom text classification.',
+        de: 'Kern und für Neues empfohlen: Sprachenerkennung, vorgefertigte und Custom NER, PII-Erkennung sowie Text Analytics for health (`begin_analyze_healthcare_entities()`, ein lang laufender Aufruf, der medizinische Entitäten wie Medikamente und Diagnosen, ihre Beziehungen und Verweise auf medizinische Vokabulare extrahiert). Legacy, nur noch für bestehende Apps unterstützt und vor der Einstellung: Stimmungsanalyse und Opinion Mining, Schlüsselwortextraktion, Zusammenfassung, Entity Linking, Conversational Language Understanding, Custom Question Answering und Custom Text Classification.',
       },
     },
     {
       term: 'Language detection',
       text: {
-        en: '`detect_language()` returns `primary_language` with `name`, `iso6391_name` and a `confidence_score` (0–1). An optional `country_hint` helps with ambiguous text. Language detection accepts up to 1,000 documents per request.',
-        de: '`detect_language()` liefert `primary_language` mit `name`, `iso6391_name` und einem `confidence_score` (0–1). Ein optionaler `country_hint` hilft bei mehrdeutigem Text. Die Sprachenerkennung akzeptiert bis zu 1.000 Dokumente pro Anfrage.',
+        en: '`detect_language()` returns `primary_language` with `name`, `iso6391_name` and a `confidence_score` (0–1). An optional `country_hint` helps with ambiguous text.',
+        de: '`detect_language()` liefert `primary_language` mit `name`, `iso6391_name` und einem `confidence_score` (0–1). Ein optionaler `country_hint` hilft bei mehrdeutigem Text.',
       },
     },
     {
@@ -191,22 +191,22 @@ export const lesson: Lesson = {
     {
       term: 'PII detection and redaction',
       text: {
-        en: '`recognize_pii_entities()` returns PII entities plus `redacted_text`. Narrow it with `categories_filter` (REST: `piiCategories`) or `domain_filter="phi"` for health data; in REST you also choose a redaction policy and a `confidenceScoreThreshold`. Variants exist for conversations and native documents (PDF, DOCX, TXT).',
-        de: '`recognize_pii_entities()` liefert PII-Entitäten plus `redacted_text`. Eingrenzen kannst du mit `categories_filter` (REST: `piiCategories`) oder `domain_filter="phi"` für Gesundheitsdaten; per REST wählst du zusätzlich eine Schwärzungsrichtlinie und einen `confidenceScoreThreshold`. Varianten gibt es für Konversationen und native Dokumente (PDF, DOCX, TXT).',
+        en: '`recognize_pii_entities()` returns PII entities plus `redacted_text` (REST: `redactedText`, omitted with `noMask`). Narrow it with `categories_filter` (REST: `piiCategories`) or `domain_filter="phi"`, which keeps only PHI (protected health information) — use that to hide personal data in clinical text, and Text Analytics for health to *extract* the medical facts. Variants exist for conversations and native documents (PDF, DOCX, TXT).',
+        de: '`recognize_pii_entities()` liefert PII-Entitäten plus `redacted_text` (REST: `redactedText`, fehlt bei `noMask`). Eingrenzen kannst du mit `categories_filter` (REST: `piiCategories`) oder `domain_filter="phi"`, das nur PHI (Protected Health Information, geschützte Gesundheitsdaten) behält – damit verbirgst du personenbezogene Daten in klinischen Texten, während Text Analytics for health die medizinischen Fakten *extrahiert*. Varianten gibt es für Konversationen und native Dokumente (PDF, DOCX, TXT).',
       },
     },
     {
       term: 'Structured outputs',
       text: {
-        en: 'Makes a Foundry model return JSON that follows your JSON schema: `text.format` in the Responses API (SDK: `responses.parse(text_format=Model)` → `output_parsed`) or `response_format` in Chat Completions. JSON mode only guarantees valid JSON, not your schema. Every field must be required and objects need `additionalProperties: false`.',
-        de: 'Lässt ein Foundry-Modell JSON zurückgeben, das deinem JSON-Schema folgt: `text.format` in der Responses API (SDK: `responses.parse(text_format=Model)` → `output_parsed`) oder `response_format` bei Chat Completions. Der JSON-Modus garantiert nur gültiges JSON, nicht dein Schema. Jedes Feld muss Pflicht sein, und Objekte brauchen `additionalProperties: false`.',
+        en: 'Makes a Foundry model return JSON that follows your JSON schema: `text.format` in the Responses API (SDK: `responses.parse(text_format=Model)` → `output_parsed`) or `response_format` in Chat Completions; JSON mode only guarantees valid JSON, not your schema. With `text_format` the SDK builds the schema from your Pydantic model, while a hand-written schema must list every field as required and set `additionalProperties: false`. For an optional value, allow null (Pydantic `str | None`, JSON Schema `["string", "null"]`).',
+        de: 'Lässt ein Foundry-Modell JSON zurückgeben, das deinem JSON-Schema folgt: `text.format` in der Responses API (SDK: `responses.parse(text_format=Model)` → `output_parsed`) oder `response_format` bei Chat Completions; der JSON-Modus garantiert nur gültiges JSON, nicht dein Schema. Mit `text_format` baut das SDK das Schema aus deinem Pydantic-Modell, ein handgeschriebenes Schema muss dagegen jedes Feld als Pflicht führen und `additionalProperties: false` setzen. Für einen optionalen Wert erlaubst du null (Pydantic `str | None`, JSON Schema `["string", "null"]`).',
       },
     },
     {
       term: 'Domain adaptation',
       text: {
-        en: 'Prebuilt PII learns your vocabulary with `entitySynonyms` (for example *BAN* for a bank account number) and skips listed values with `valueExclusionPolicy`. New entity types need custom NER trained on labeled text. Domain outputs such as compliance summaries come from a Foundry model with instructions, examples and a schema.',
-        de: 'Die vorgefertigte PII-Erkennung lernt dein Vokabular über `entitySynonyms` (etwa *BAN* für eine Kontonummer) und überspringt gelistete Werte per `valueExclusionPolicy`. Neue Entitätstypen brauchen Custom NER, trainiert auf beschrifteten Texten. Fachliche Ausgaben wie Compliance-Zusammenfassungen liefert ein Foundry-Modell mit Anweisungen, Beispielen und Schema.',
+        en: 'Prebuilt PII takes per-request settings, no training: `entitySynonyms` maps your vocabulary to an entity type (for example *BAN* for an international bank account number) and `valueExclusionPolicy` skips listed values. New entity types need custom NER trained on labeled text. Domain outputs such as compliance summaries come from a Foundry model with instructions, examples and a schema.',
+        de: 'Die vorgefertigte PII-Erkennung nimmt Einstellungen pro Anfrage, ganz ohne Training: `entitySynonyms` ordnet dein Vokabular einem Entitätstyp zu (etwa *BAN* für eine internationale Kontonummer), und `valueExclusionPolicy` überspringt gelistete Werte. Neue Entitätstypen brauchen Custom NER, trainiert auf beschrifteten Texten. Fachliche Ausgaben wie Compliance-Zusammenfassungen liefert ein Foundry-Modell mit Anweisungen, Beispielen und Schema.',
       },
     },
   ],
@@ -269,8 +269,8 @@ pii = client.recognize_pii_entities(
 print(pii.redacted_text)`,
       notes: [
         {
-          en: 'The endpoint is the Foundry **resource** endpoint, not the project endpoint. Entra ID sign-in needs this custom-subdomain form of the endpoint plus a role assignment for your identity.',
-          de: 'Der Endpoint ist der **Ressourcen**-Endpoint von Foundry, nicht der Project Endpoint. Die Entra-ID-Anmeldung braucht genau diese Endpoint-Form mit Custom Subdomain plus eine Rollenzuweisung für deine Identität.',
+          en: 'Use the Foundry **resource** endpoint with its custom subdomain, not the project endpoint — Entra ID works only there (role: Cognitive Services User).',
+          de: 'Nutze den **Ressourcen**-Endpoint von Foundry mit Custom Subdomain, nicht den Project Endpoint – nur dort funktioniert Entra ID (Rolle: Cognitive Services User).',
         },
         {
           en: 'Passing `iso6391_name` as `language` matters: NER and PII assume English when you omit it.',
@@ -303,7 +303,7 @@ project = AIProjectClient(
 openai = project.get_openai_client()
 
 response = openai.responses.parse(
-    model="gpt-4.1",  # your deployment name
+    model="gpt-5-mini",  # deployment name
     instructions="Extract insights from the review. Use only facts stated in the text.",
     input="Ana, the courier, was friendly, but my order arrived two weeks late.",
     text_format=ReviewInsights,
@@ -311,12 +311,46 @@ response = openai.responses.parse(
 print(response.output_parsed)`,
       notes: [
         {
-          en: '`text_format` turns the Pydantic model into a strict JSON schema; `output_parsed` returns a `ReviewInsights` object.',
-          de: '`text_format` macht aus dem Pydantic-Modell ein striktes JSON-Schema; `output_parsed` liefert ein `ReviewInsights`-Objekt.',
+          en: '`text_format` lets the SDK build the JSON schema from the Pydantic model; `output_parsed` returns a `ReviewInsights` object.',
+          de: '`text_format` lässt das SDK das JSON-Schema aus dem Pydantic-Modell bauen; `output_parsed` liefert ein `ReviewInsights`-Objekt.',
         },
         {
           en: '`Literal` becomes an enum, so the sentiment label can only be one of the four allowed values.',
           de: '`Literal` wird zu einem Enum – das Stimmungslabel kann also nur einer der vier erlaubten Werte sein.',
+        },
+        {
+          en: '`model` takes your deployment name, which can be any name you chose. `gpt-5-mini` is a reasoning model, so don\'t set `temperature`; the project endpoint belongs to the same Foundry resource as the Language endpoint above.',
+          de: '`model` erwartet deinen Deployment-Namen, den du frei wählen kannst. `gpt-5-mini` ist ein Reasoning-Modell, setz also kein `temperature`; der Project Endpoint gehört zur selben Foundry-Ressource wie der Language-Endpoint oben.',
+        },
+      ],
+    },
+    {
+      title: { en: 'REST: redaction policies, synonyms and exclusions (GA 2026-05-01)', de: 'REST: Schwärzungsrichtlinien, Synonyme und Ausschlüsse (GA 2026-05-01)' },
+      code: `import os
+import requests
+
+url = "https://<resource>.cognitiveservices.azure.com/language/:analyze-text?api-version=2026-05-01"
+params = {"redactionPolicies": [{"policyKind": "entityMask", "isDefault": True},  # default policy
+                                {"policyKind": "characterMask", "entityTypes": ["CreditCardNumber"]}],
+          "entitySynonyms": [{"entityType": "BankAccountNumber", "synonyms": [{"synonym": "acct no", "language": "en"}]}],
+          "valueExclusionPolicy": {"caseSensitive": False, "excludedValues": ["1 Contoso Way"]}}
+docs = [{"id": "1", "language": "en", "text": "Ana paid with card 4111 1111 1111 1111 at 1 Contoso Way."}]
+body = {"kind": "PiiEntityRecognition", "parameters": params, "analysisInput": {"documents": docs}}
+reply = requests.post(url, headers={"Ocp-Apim-Subscription-Key": os.environ["LANGUAGE_KEY"]}, json=body)
+reply.raise_for_status()
+print(reply.json()["results"]["documents"][0]["redactedText"])`,
+      notes: [
+        {
+          en: 'The GA Python SDK has no parameters for redaction policies, thresholds, synonyms or exclusions, so this sample calls the REST API (GA `2026-05-01`) with a key. For keyless calls, send a Microsoft Entra token (scope `https://cognitiveservices.azure.com/.default`) as a bearer token in the `Authorization` header instead.',
+          de: 'Das GA-Python-SDK hat keine Parameter für Schwärzungsrichtlinien, Schwellenwerte, Synonyme oder Ausschlüsse; dieses Beispiel ruft daher die REST-API (GA `2026-05-01`) mit einem Key auf. Für schlüssellose Aufrufe sendest du stattdessen ein Microsoft-Entra-Token (Scope `https://cognitiveservices.azure.com/.default`) als Bearer-Token im Header `Authorization`.',
+        },
+        {
+          en: 'Exactly one policy may set `isDefault`; the others apply only to their `entityTypes` — here credit card numbers get `*` while everything else becomes a type label.',
+          de: 'Genau eine Richtlinie darf `isDefault` setzen; die anderen gelten nur für ihre `entityTypes` – hier bekommen Kreditkartennummern `*`, alles andere wird zum Typ-Label.',
+        },
+        {
+          en: 'Here *acct no* becomes a synonym for bank account numbers, and the excluded address is neither detected nor redacted — per-request settings, nothing is trained.',
+          de: 'Hier wird *acct no* zum Synonym für Bankkontonummern, und die ausgeschlossene Adresse wird weder erkannt noch geschwärzt – Einstellungen pro Anfrage, trainiert wird nichts.',
         },
       ],
     },
@@ -327,8 +361,8 @@ print(response.output_parsed)`,
       de: 'Stimmungsanalyse, Schlüsselwortextraktion und Zusammenfassung laufen noch in Azure Language, sind aber **Legacy** (Einstellung am 31. März 2029). Für eine *neue* Lösung ist ein Foundry-Modell die erwartete Antwort – nicht die Legacy-API.',
     },
     {
-      en: '`TextAnalyticsClient` takes the **resource** endpoint (`*.cognitiveservices.azure.com`), not the project endpoint — and Entra ID authentication requires a custom subdomain endpoint.',
-      de: '`TextAnalyticsClient` erwartet den **Ressourcen**-Endpoint (`*.cognitiveservices.azure.com`), nicht den Project Endpoint – und die Entra-ID-Anmeldung setzt einen Endpoint mit Custom Subdomain voraus.',
+      en: '`TextAnalyticsClient` takes the **resource** endpoint (`*.cognitiveservices.azure.com`), not the project endpoint — and Entra ID only works on that custom-subdomain endpoint, never on regional endpoints such as `westus.api.cognitive.microsoft.com`.',
+      de: '`TextAnalyticsClient` erwartet den **Ressourcen**-Endpoint (`*.cognitiveservices.azure.com`), nicht den Project Endpoint – und Entra ID funktioniert nur an diesem Custom-Subdomain-Endpoint, nie an regionalen Endpoints wie `westus.api.cognitive.microsoft.com`.',
     },
     {
       en: 'Without a `language` value, NER and PII assume English. Detect the language first and pass the code for non-English text.',
@@ -345,15 +379,15 @@ print(response.output_parsed)`,
   ],
   takeaways: [
     { en: 'Language, entities, PII → Azure Language core features.', de: 'Sprache, Entitäten, PII → Kernfunktionen von Azure Language.' },
-    { en: 'Summaries, topics, sentiment, tone, custom fields → Foundry model + structured outputs.', de: 'Zusammenfassungen, Themen, Stimmung, Tonalität, eigene Felder → Foundry-Modell + Structured Outputs.' },
+    { en: 'Summaries, key phrases, sentiment, tone, custom fields → Foundry model + structured outputs.', de: 'Zusammenfassungen, Schlüsselwörter, Stimmung, Tonalität, eigene Felder → Foundry-Modell + Structured Outputs.' },
     { en: 'PII: categories decide *what* is hidden, the redaction policy decides *how*.', de: 'PII: Kategorien bestimmen, *was* verborgen wird, die Schwärzungsrichtlinie, *wie*.' },
-    { en: 'Keyless: `DefaultAzureCredential` plus a custom subdomain endpoint.', de: 'Schlüssellos: `DefaultAzureCredential` plus Endpoint mit Custom Subdomain.' },
+    { en: 'Keyless: `DefaultAzureCredential` + custom-subdomain endpoint + a role such as Cognitive Services User.', de: 'Schlüssellos: `DefaultAzureCredential` + Custom-Subdomain-Endpoint + eine Rolle wie Cognitive Services User.' },
   ],
   sources: [
     { title: 'What is Azure Language in Foundry Tools?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview' },
     { title: 'Detect and redact PII in text', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii' },
     { title: 'Azure Text Analytics client library for Python', url: 'https://learn.microsoft.com/en-us/python/api/overview/azure/ai-textanalytics-readme' },
     { title: 'Structured outputs', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs' },
-    { title: 'What are sentiment analysis and opinion mining?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/overview' },
+    { title: 'Authenticate requests to Foundry Tools', url: 'https://learn.microsoft.com/en-us/azure/ai-services/authentication' },
   ],
 }

@@ -10,39 +10,34 @@
       "module": "cu-client",
       "difficulty": 2,
       "stem": {
-        "en": "You implement a REST client for a new custom analyzer on a freshly created Foundry resource. Put the calls in the correct order.",
-        "de": "Du implementierst einen REST-Client für einen neuen eigenen Analyzer auf einer frisch angelegten Foundry-Ressource. Bringe die Aufrufe in die richtige Reihenfolge."
+        "en": "The model deployment defaults of your Foundry resource are already set. You implement a REST client that creates a new custom analyzer and then analyzes a file with it. Put the calls in the correct order.",
+        "de": "Die Defaults für Modell-Deployments deiner Foundry-Ressource sind bereits gesetzt. Du implementierst einen REST-Client, der einen neuen eigenen Analyzer anlegt und damit dann eine Datei analysiert. Bringe die Aufrufe in die richtige Reihenfolge."
       },
       "items": [
         {
           "id": "s1",
-          "text": { "en": "`PATCH /contentunderstanding/defaults` to map model names to your deployments", "de": "`PATCH /contentunderstanding/defaults`, um Modellnamen deinen Deployments zuzuordnen" },
-          "why": { "en": "Analyzers that use generative models need the resource's deployment mapping first.", "de": "Analyzer mit generativen Modellen brauchen zuerst die Deployment-Zuordnung der Ressource." }
+          "text": { "en": "`PUT /contentunderstanding/analyzers/{analyzerId}` with the analyzer JSON", "de": "`PUT /contentunderstanding/analyzers/{analyzerId}` mit dem Analyzer-JSON" },
+          "why": { "en": "Creates the analyzer from its base analyzer, field schema and model names. The response carries an `Operation-Location`.", "de": "Legt den Analyzer aus Basis-Analyzer, Feldschema und Modellnamen an. Die Antwort enthält eine `Operation-Location`." }
         },
         {
           "id": "s2",
-          "text": { "en": "`PUT /contentunderstanding/analyzers/{analyzerId}` with the analyzer JSON", "de": "`PUT /contentunderstanding/analyzers/{analyzerId}` mit dem Analyzer-JSON" },
-          "why": { "en": "Creates the analyzer from its base analyzer, field schema and models.", "de": "Legt den Analyzer aus Basis-Analyzer, Feldschema und Modellen an." }
+          "text": { "en": "Poll the returned `Operation-Location` until the operation status is `Succeeded`", "de": "Die zurückgegebene `Operation-Location` abfragen, bis der Operationsstatus `Succeeded` lautet" },
+          "why": { "en": "Analyzer creation is a long-running operation. Once it has succeeded, the analyzer reports `status: ready` and can be used.", "de": "Das Anlegen ist eine Long-Running Operation. Nach dem Erfolg meldet der Analyzer `status: ready` und ist nutzbar." }
         },
         {
           "id": "s3",
-          "text": { "en": "Poll the returned `Operation-Location` until the analyzer is ready", "de": "Die zurückgegebene `Operation-Location` abfragen, bis der Analyzer bereit ist" },
-          "why": { "en": "Analyzer creation is asynchronous; analyzing before it finishes fails.", "de": "Das Anlegen ist asynchron; eine Analyse vor dem Abschluss schlägt fehl." }
+          "text": { "en": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` with the file URL in `inputs`", "de": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` mit der Datei-URL in `inputs`" },
+          "why": { "en": "Starts the analysis and returns `202 Accepted` with a new `Operation-Location`. Now the service matches the analyzer's model names to the resource defaults.", "de": "Startet die Analyse und liefert `202 Accepted` mit einer neuen `Operation-Location`. Jetzt ordnet der Dienst die Modellnamen des Analyzers den Defaults der Ressource zu." }
         },
         {
           "id": "s4",
-          "text": { "en": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` with the file URL in `inputs`", "de": "`POST /contentunderstanding/analyzers/{analyzerId}:analyze` mit der Datei-URL in `inputs`" },
-          "why": { "en": "Starts the analysis and returns `202 Accepted` with a new `Operation-Location`.", "de": "Startet die Analyse und liefert `202 Accepted` mit einer neuen `Operation-Location`." }
-        },
-        {
-          "id": "s5",
           "text": { "en": "Poll `GET /contentunderstanding/analyzerResults/{operationId}` until `status` is `Succeeded`, then read `result.contents`", "de": "`GET /contentunderstanding/analyzerResults/{operationId}` abfragen, bis `status` `Succeeded` lautet, und dann `result.contents` lesen" },
           "why": { "en": "The result is available only after the operation has succeeded.", "de": "Das Ergebnis steht erst bereit, wenn die Operation erfolgreich war." }
         }
       ],
       "explanation": {
-        "en": "Content Understanding is asynchronous end to end: map deployments once, create the analyzer and wait for it, then analyze and poll for the result.",
-        "de": "Content Understanding ist durchgehend asynchron: Deployments einmal zuordnen, Analyzer anlegen und abwarten, dann analysieren und das Ergebnis abfragen."
+        "en": "Both creating and analyzing are long-running operations: create the analyzer and wait for its operation to succeed, then analyze and poll for the result. Analyze calls match model names to deployments at run time — set the defaults once up front (a documented prerequisite, as here) or pass `modelDeployments` in each analyze request.",
+        "de": "Anlegen und Analysieren sind beides Long-Running Operations: Analyzer anlegen und warten, bis die Operation erfolgreich ist, dann analysieren und das Ergebnis abfragen. Analyseaufrufe ordnen Modellnamen erst zur Laufzeit Deployments zu – setze die Defaults einmal vorab (eine dokumentierte Voraussetzung, wie hier) oder gib `modelDeployments` in jeder Analyse-Anfrage mit."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/quickstart/use-rest-api",

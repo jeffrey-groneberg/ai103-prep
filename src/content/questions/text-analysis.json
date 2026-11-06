@@ -34,9 +34,9 @@
         },
         {
           "id": "d",
-          "text": { "en": "Ask for JSON in the prompt and set `temperature` to 0", "de": "Im Prompt nach JSON fragen und `temperature` auf 0 setzen" },
+          "text": { "en": "Add three example JSON outputs (few-shot examples) to the instructions", "de": "Drei Beispielausgaben in JSON (Few-Shot-Beispiele) in die Anweisungen aufnehmen" },
           "correct": false,
-          "why": { "en": "A low temperature reduces randomness but gives no guarantee that the output matches a schema.", "de": "Eine niedrige Temperatur verringert Zufall, garantiert aber nicht, dass die Ausgabe einem Schema entspricht." }
+          "why": { "en": "Examples make the format more consistent, but only a JSON schema enforced by structured outputs guarantees the exact fields.", "de": "Beispiele machen das Format einheitlicher, aber nur ein per Structured Outputs erzwungenes JSON-Schema garantiert die exakten Felder." }
         }
       ],
       "explanation": {

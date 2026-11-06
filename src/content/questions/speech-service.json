@@ -21,7 +21,7 @@
           "options": [
             { "id": "a", "code": "AudioConfig", "correct": true, "why": { "en": "Defines the audio input source — the default microphone or, as here, a file.", "de": "Legt die Audioquelle für die Eingabe fest – das Standardmikrofon oder, wie hier, eine Datei." } },
             { "id": "b", "code": "AudioOutputConfig", "correct": false, "why": { "en": "Defines where synthesized speech goes (speaker or file); it belongs to `SpeechSynthesizer`, not to recognition.", "de": "Legt fest, wohin synthetisierte Sprache geht (Lautsprecher oder Datei); sie gehört zum `SpeechSynthesizer`, nicht zur Erkennung." } },
-            { "id": "c", "code": "AudioDataStream", "correct": false, "why": { "en": "Wraps synthesized audio from a result so you can save it; it isn't an input source.", "de": "Kapselt synthetisiertes Audio aus einem Ergebnis, damit du es speichern kannst; eine Eingabequelle ist es nicht." } }
+            { "id": "c", "code": "AudioDataStream", "correct": false, "why": { "en": "Wraps synthesized audio from a result so you can save it; it isn't an input source, and it lives at the top level (`speechsdk.AudioDataStream`), not in `speechsdk.audio`.", "de": "Kapselt synthetisiertes Audio aus einem Ergebnis, damit du es speichern kannst; eine Eingabequelle ist es nicht, und es liegt auf oberster Ebene (`speechsdk.AudioDataStream`), nicht in `speechsdk.audio`." } }
           ]
         },
         {

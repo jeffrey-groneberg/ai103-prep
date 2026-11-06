@@ -345,8 +345,8 @@
         { "id": "t5", "text": { "en": "Identity and access", "de": "Identität und Zugriff" } }
       ],
       "explanation": {
-        "en": "Model (choose or fine-tune) → safety system (guardrails, Prompt Shields) → system message and grounding (instructions, RAG) → user experience (constrained input, output validation, transparent documentation). Combine the layers; none is sufficient on its own.",
-        "de": "Modell (auswählen oder fine-tunen) → Safety-System (Guardrails, Prompt Shields) → Systemnachricht und Grounding (Anweisungen, RAG) → User Experience (eingeschränkte Eingaben, Ausgabeprüfung, transparente Dokumentation). Kombiniere die Ebenen; keine reicht allein aus."
+        "en": "Model (choose or fine-tune) → safety system (guardrails, Prompt Shields) → system message and grounding (instructions, RAG) → user experience (constrained input, output validation, transparent documentation). Combine the layers; none is sufficient on its own. (The Azure OpenAI responsible AI overview groups system message and UX into an application layer and adds a positioning layer.)",
+        "de": "Modell (auswählen oder fine-tunen) → Safety-System (Guardrails, Prompt Shields) → Systemnachricht und Grounding (Anweisungen, RAG) → User Experience (eingeschränkte Eingaben, Ausgabeprüfung, transparente Dokumentation). Kombiniere die Ebenen; keine reicht allein aus. (Die Responsible-AI-Übersicht für Azure OpenAI fasst Systemnachricht und UX zu einer Application-Ebene zusammen und ergänzt eine Positioning-Ebene.)"
       },
       "sources": [
         "https://learn.microsoft.com/en-us/training/modules/responsible-ai-studio/5-mitigate-harms",
@@ -466,8 +466,8 @@
       "module": "responsible-ai",
       "difficulty": 3,
       "stem": {
-        "en": "A Foundry agent uses the Bing Grounding and Azure AI Search tools. You must stop instructions hidden in returned web pages or documents from reaching the agent's memory, and you must block jailbreak attempts typed by users. Which TWO controls should the agent's guardrail contain?",
-        "de": "Ein Foundry-Agent nutzt die Tools Bing Grounding und Azure AI Search. Du musst verhindern, dass in zurückgegebenen Webseiten oder Dokumenten versteckte Anweisungen ins Gedächtnis des Agents gelangen, und von Nutzern eingegebene Jailbreak-Versuche blockieren. Welche ZWEI Controls sollte der Guardrail des Agents enthalten?"
+        "en": "A prompt agent in Foundry Agent Service uses the Bing Grounding and Azure AI Search tools. You must stop instructions hidden in returned web pages or documents from reaching the agent's memory, and you must block jailbreak attempts typed by users. Which TWO controls should the agent's guardrail contain?",
+        "de": "Ein Prompt-Agent in Foundry Agent Service nutzt die Tools Bing Grounding und Azure AI Search. Du musst verhindern, dass in zurückgegebenen Webseiten oder Dokumenten versteckte Anweisungen ins Gedächtnis des Agents gelangen, und von Nutzern eingegebene Jailbreak-Versuche blockieren. Welche ZWEI Controls sollte der Guardrail des Agents enthalten?"
       },
       "options": [
         {
@@ -502,8 +502,8 @@
         }
       ],
       "explanation": {
-        "en": "Agents (preview) get their own guardrail, which fully overrides the guardrail of the model deployment. Scan indirect attacks at **Tool response** and user prompt attacks at **User input**. Agents support only Annotate and block, and the Spotlighting and Groundedness controls don't apply to agents.",
-        "de": "Agents (Preview) erhalten einen eigenen Guardrail, der den Guardrail des Modell-Deployments vollständig ersetzt. Prüfe Indirect Attacks bei **Tool response** und User Prompt Attacks bei **User input**. Agents unterstützen nur Annotate and block, und die Controls Spotlighting und Groundedness gelten nicht für Agents."
+        "en": "A prompt agent can be assigned its own guardrail (preview), which then fully overrides the deployment's guardrail; without one, it inherits the deployment's guardrail (a hosted agent instead needs `rai_config`). Scan indirect attacks at **Tool response** and user prompt attacks at **User input**. Agents support only Annotate and block, and the Spotlighting and Groundedness controls don't apply to agents.",
+        "de": "Einem Prompt-Agent kannst du einen eigenen Guardrail zuweisen (Preview), der dann den Guardrail des Deployments vollständig ersetzt; ohne eigenen Guardrail erbt er den des Deployments (ein Hosted Agent braucht stattdessen `rai_config`). Prüfe Indirect Attacks bei **Tool response** und User Prompt Attacks bei **User input**. Agents unterstützen nur Annotate and block, und die Controls Spotlighting und Groundedness gelten nicht für Agents."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/guardrails/intervention-points",
@@ -524,7 +524,7 @@
         "en": "Complete the code so that the app shows a friendly message when the guardrail blocks the prompt and otherwise logs the guardrail results of the response. `v1_endpoint` is your Azure OpenAI v1 endpoint, `token_provider` a Microsoft Entra token provider and `user_text` the user's prompt.",
         "de": "Vervollständige den Code so, dass die App eine freundliche Meldung zeigt, wenn der Guardrail den Prompt blockiert, und sonst die Guardrail-Ergebnisse der Antwort protokolliert. `v1_endpoint` ist dein Azure-OpenAI-v1-Endpoint, `token_provider` ein Microsoft-Entra-Token-Provider und `user_text` der Prompt des Nutzers."
       },
-      "template": "import openai\n\nclient = openai.OpenAI(base_url=v1_endpoint, api_key=token_provider)\ntry:\n    response = client.responses.create(model=\"gpt-4.1\", input=user_text)\nexcept openai.{{b1}} as error:\n    if error.code == \"{{b2}}\":\n        print(\"Sorry, I can't help with that request.\")\n    else:\n        raise\nelse:\n    for result in response.model_extra.get(\"{{b3}}\", []):\n        print(result[\"source_type\"], result[\"blocked\"])",
+      "template": "import openai\n\nclient = openai.OpenAI(base_url=v1_endpoint, api_key=token_provider)\ntry:\n    response = client.responses.create(model=\"gpt-5-mini\", input=user_text)  # deployment name\nexcept openai.{{b1}} as error:\n    if error.code == \"{{b2}}\":\n        print(\"Sorry, I can't help with that request.\")\n    else:\n        raise\nelse:\n    for result in response.model_extra.get(\"{{b3}}\", []):\n        print(result[\"source_type\"], result[\"blocked\"])",
       "blanks": [
         {
           "id": "b1",
@@ -570,8 +570,8 @@
       "module": "responsible-ai",
       "difficulty": 3,
       "stem": {
-        "en": "The guardrail of your gpt-4.1 deployment blocks some risks and only annotates others. The security team wants an Azure Monitor alert that fires when the number of requests the guardrail actually rejected spikes, split by harm category. Which metric should the alert use?",
-        "de": "Der Guardrail deines gpt-4.1-Deployments blockiert manche Risiken und annotiert andere nur. Das Security-Team möchte einen Azure-Monitor-Alert, der auslöst, wenn die Zahl der tatsächlich vom Guardrail abgelehnten Anfragen sprunghaft steigt – aufgeteilt nach Schadenskategorie. Welche Metrik sollte der Alert verwenden?"
+        "en": "The guardrail of your gpt-5-mini deployment blocks some risks and only annotates others. The security team wants an Azure Monitor alert that fires when the number of requests the guardrail actually rejected spikes, split by harm category. Which metric should the alert use?",
+        "de": "Der Guardrail deines gpt-5-mini-Deployments blockiert manche Risiken und annotiert andere nur. Das Security-Team möchte einen Azure-Monitor-Alert, der auslöst, wenn die Zahl der tatsächlich vom Guardrail abgelehnten Anfragen sprunghaft steigt – aufgeteilt nach Schadenskategorie. Welche Metrik sollte der Alert verwenden?"
       },
       "options": [
         {
@@ -665,8 +665,8 @@
       "module": "responsible-ai",
       "difficulty": 2,
       "stem": {
-        "en": "You created an evaluation `eval_object` whose testing criteria include `builtin.groundedness` and whose data source config is `{\"type\": \"azure_ai_source\", \"scenario\": \"responses\"}`. Complete the code so that the responses of `support-agent` are evaluated as they complete, with at most 20 evaluation runs per hour.",
-        "de": "Du hast eine Evaluierung `eval_object` angelegt, deren Testing Criteria `builtin.groundedness` enthalten und deren Data Source Config `{\"type\": \"azure_ai_source\", \"scenario\": \"responses\"}` ist. Vervollständige den Code so, dass die Antworten von `support-agent` bewertet werden, sobald sie abgeschlossen sind – mit höchstens 20 Evaluierungsläufen pro Stunde."
+        "en": "With `project_client` (your `AIProjectClient`), you created an evaluation `eval_object` whose testing criteria include `builtin.groundedness` and whose data source config is `{\"type\": \"azure_ai_source\", \"scenario\": \"responses\"}`. Complete the code so that the responses of `support-agent` are evaluated as they complete, with at most 20 evaluation runs per hour.",
+        "de": "Mit `project_client` (deinem `AIProjectClient`) hast du eine Evaluierung `eval_object` angelegt, deren Testing Criteria `builtin.groundedness` enthalten und deren Data Source Config `{\"type\": \"azure_ai_source\", \"scenario\": \"responses\"}` ist. Vervollständige den Code so, dass die Antworten von `support-agent` bewertet werden, sobald sie abgeschlossen sind – mit höchstens 20 Evaluierungsläufen pro Stunde."
       },
       "template": "from azure.ai.projects import models\n\nrule = project_client.{{b1}}.create_or_update(\n    id=\"live-groundedness\",\n    evaluation_rule=models.EvaluationRule(\n        display_name=\"Live groundedness\",\n        action=models.{{b2}}(eval_id=eval_object.id, {{b3}}=20),\n        event_type=models.EvaluationRuleEventType.RESPONSE_COMPLETED,\n        filter=models.EvaluationRuleFilter(agent_name=\"support-agent\"),\n        enabled=True,\n    ),\n)",
       "blanks": [

@@ -230,7 +230,7 @@
         },
         {
           "id": "b",
-          "text": { "en": "Create a Global Standard deployment and keep the default content filter", "de": "Ein Global-Standard-Deployment anlegen und den Standard-Content-Filter beibehalten" },
+          "text": { "en": "Create a Global Standard deployment and keep the default guardrail", "de": "Ein Global-Standard-Deployment anlegen und den Standard-Guardrail beibehalten" },
           "correct": false,
           "why": { "en": "Serverless API deployments cover Foundry Models sold by Azure and select partner models — not this Hugging Face model.", "de": "Serverless-API-Deployments decken Foundry Models sold by Azure und ausgewählte Partnermodelle ab – nicht dieses Hugging-Face-Modell." }
         },
@@ -238,7 +238,7 @@
           "id": "c",
           "text": { "en": "Deploy it with managed compute (preview) and turn on the deployment's built-in content filter", "de": "Es mit Managed Compute (Preview) bereitstellen und den integrierten Content-Filter des Deployments aktivieren" },
           "correct": false,
-          "why": { "en": "Content filtering isn't available for managed compute in the public preview.", "de": "Inhaltsfilterung ist für Managed Compute in der Public Preview nicht verfügbar." }
+          "why": { "en": "Built-in content filtering isn't part of the managed compute data path in the public preview.", "de": "Integrierte Inhaltsfilterung gehört in der Public Preview nicht zum Datenpfad von Managed Compute." }
         },
         {
           "id": "d",
@@ -314,7 +314,7 @@
           "id": "a",
           "text": { "en": "Global Standard", "de": "Global Standard" },
           "correct": true,
-          "why": { "en": "It gets new models first and has the lowest price, the broadest region coverage and the highest default quota.", "de": "Er bekommt neue Modelle zuerst und hat den niedrigsten Preis, die breiteste Regionsabdeckung und das höchste Standardkontingent." }
+          "why": { "en": "It gets new models first and has the lowest pay-per-token price for real-time traffic, the broadest region coverage and the highest default quota.", "de": "Er bekommt neue Modelle zuerst und hat den niedrigsten Pay-per-Token-Preis für Echtzeit-Traffic, die breiteste Regionsabdeckung und das höchste Standardkontingent." }
         },
         {
           "id": "b",
@@ -390,7 +390,7 @@
       "skill": "1.2.3",
       "module": "model-catalog",
       "difficulty": 2,
-      "stem": { "en": "You script deployments with the Azure management SDK for Python. The deployment must process data only in the EU data zone (the Foundry resource is in an EU region), bill per token, and use your custom content filter policy `strict-filter`. Complete the code.", "de": "Du skriptest Deployments mit dem Azure Management SDK für Python. Das Deployment darf Daten nur in der EU-Datenzone verarbeiten (die Foundry-Ressource liegt in einer EU-Region), soll pro Token abrechnen und deine eigene Content-Filter-Richtlinie `strict-filter` nutzen. Vervollständige den Code." },
+      "stem": { "en": "You script deployments with the Azure management SDK for Python. The deployment must process data only in the EU data zone (the Foundry resource is in an EU region), bill per token, and use your custom guardrail (RAI policy) `strict-filter`. Complete the code.", "de": "Du skriptest Deployments mit dem Azure Management SDK für Python. Das Deployment darf Daten nur in der EU-Datenzone verarbeiten (die Foundry-Ressource liegt in einer EU-Region), soll pro Token abrechnen und deinen eigenen Guardrail (RAI-Policy) `strict-filter` nutzen. Vervollständige den Code." },
       "template": "from azure.identity import DefaultAzureCredential\nfrom azure.mgmt.cognitiveservices import CognitiveServicesManagementClient\nfrom azure.mgmt.cognitiveservices.models import Deployment, DeploymentModel, DeploymentProperties, Sku\nclient = CognitiveServicesManagementClient(DefaultAzureCredential(), \"<subscription-id>\")\nclient.deployments.{{b1}}(\n    \"rg-ai\", \"contoso-foundry\", \"support-chat\",\n    Deployment(\n        sku=Sku(name=\"{{b2}}\", capacity=50),\n        properties=DeploymentProperties(\n            model=DeploymentModel(format=\"OpenAI\", name=\"<model>\", version=\"<version>\"),\n            {{b3}}=\"strict-filter\",\n        ),\n    ),\n).result()",
       "blanks": [
         {
@@ -446,13 +446,13 @@
               "id": "a",
               "code": "rai_policy_name",
               "correct": true,
-              "why": { "en": "Names the content filter (guardrail) policy that applies to the deployment.", "de": "Benennt die Content-Filter-Richtlinie (Guardrail), die für das Deployment gilt." }
+              "why": { "en": "Names the guardrail (RAI policy, formerly content filter) that applies to the deployment.", "de": "Benennt den Guardrail (RAI-Policy, früher Content-Filter), der für das Deployment gilt." }
             },
             {
               "id": "b",
               "code": "version_upgrade_option",
               "correct": false,
-              "why": { "en": "Controls automatic model version upgrades, not content filtering.", "de": "Steuert automatische Modellversions-Upgrades, keine Inhaltsfilterung." }
+              "why": { "en": "Controls automatic model version upgrades, not guardrails.", "de": "Steuert automatische Modellversions-Upgrades, keine Guardrails." }
             },
             {
               "id": "c",
@@ -463,7 +463,7 @@
           ]
         }
       ],
-      "explanation": { "en": "A deployment is defined by its SKU (deployment type plus capacity), its model (format, name, version) and properties such as the content filter policy, the version upgrade option or a spillover target.", "de": "Ein Deployment wird durch seine SKU (Deployment-Typ plus Kapazität), sein Modell (Format, Name, Version) und Eigenschaften wie Content-Filter-Richtlinie, Versions-Upgrade-Option oder Spillover-Ziel definiert." },
+      "explanation": { "en": "A deployment is defined by its SKU (deployment type plus capacity), its model (format, name, version) and properties such as the guardrail (RAI policy), the version upgrade option or a spillover target.", "de": "Ein Deployment wird durch seine SKU (Deployment-Typ plus Kapazität), sein Modell (Format, Name, Version) und Eigenschaften wie Guardrail (RAI-Policy), Versions-Upgrade-Option oder Spillover-Ziel definiert." },
       "sources": [
         "https://learn.microsoft.com/en-us/python/api/azure-mgmt-cognitiveservices/azure.mgmt.cognitiveservices.models.deploymentproperties",
         "https://learn.microsoft.com/en-us/python/api/azure-mgmt-cognitiveservices/azure.mgmt.cognitiveservices.operations.deploymentsoperations",
@@ -606,7 +606,7 @@
       ],
       "module": "model-catalog",
       "difficulty": 3,
-      "stem": { "en": "A retailer runs (1) a customer chat whose prompts range from simple FAQs to complex questions, with variable traffic, and (2) a nightly job that summarizes the day's reviews and must finish by the next afternoon. Which TWO changes reduce cost without breaking these requirements?", "de": "Ein Händler betreibt (1) einen Kundenchat mit Prompts von einfachen FAQs bis zu komplexen Fragen bei schwankendem Traffic und (2) einen nächtlichen Job, der die Bewertungen des Tages zusammenfasst und bis zum nächsten Nachmittag fertig sein muss. Welche ZWEI Änderungen senken die Kosten, ohne diese Anforderungen zu verletzen?" },
+      "stem": { "en": "A retailer runs (1) a customer chat whose prompts range from simple FAQs to complex questions, with variable traffic, and (2) a nightly job that summarizes the day's reviews. Nobody waits for the summaries: the job isn't time-critical, and a turnaround of about a day is fine. Which TWO changes reduce cost without breaking these requirements?", "de": "Ein Händler betreibt (1) einen Kundenchat mit Prompts von einfachen FAQs bis zu komplexen Fragen bei schwankendem Traffic und (2) einen nächtlichen Job, der die Bewertungen des Tages zusammenfasst. Niemand wartet auf die Zusammenfassungen: Der Job ist nicht zeitkritisch, eine Bearbeitungszeit von etwa einem Tag ist in Ordnung. Welche ZWEI Änderungen senken die Kosten, ohne diese Anforderungen zu verletzen?" },
       "options": [
         {
           "id": "a",
@@ -618,7 +618,7 @@
           "id": "b",
           "text": { "en": "Run the nightly job on a Global Batch deployment", "de": "Den nächtlichen Job auf einem Global-Batch-Deployment ausführen" },
           "correct": true,
-          "why": { "en": "Batch costs 50 % less than Global Standard and targets completion within 24 hours, which fits an overnight job.", "de": "Batch kostet 50 % weniger als Global Standard und zielt auf Fertigstellung innerhalb von 24 Stunden – passend für einen Nachtjob." }
+          "why": { "en": "Batch costs 50 % less than Global Standard and targets completion within 24 hours (no real-time SLA; it can take longer) — fine for work that isn't time-critical.", "de": "Batch kostet 50 % weniger als Global Standard und zielt auf Fertigstellung innerhalb von 24 Stunden (kein Echtzeit-SLA, kann auch länger dauern) – passend für Arbeit, die nicht zeitkritisch ist." }
         },
         {
           "id": "c",

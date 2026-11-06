@@ -57,15 +57,15 @@
       "module": "agent-workflows",
       "difficulty": 1,
       "stem": {
-        "en": "A Foundry support workflow must pass control dynamically between a billing agent, a technical agent and an escalation agent, depending on what comes up in the conversation; the order isn't known in advance. Which workflow pattern describes this behavior?",
-        "de": "Ein Foundry-Support-Workflow soll die Kontrolle dynamisch zwischen einem Abrechnungs-Agent, einem Technik-Agent und einem Eskalations-Agent weitergeben, je nachdem, was im Gespräch auftaucht; die Reihenfolge steht vorher nicht fest. Welches Workflow-Muster beschreibt dieses Verhalten?"
+        "en": "A Foundry support workflow must pass control dynamically between a billing agent, a technical agent and an escalation agent, depending on what comes up in the conversation; the order isn't known in advance. Which Foundry workflow pattern describes this behavior?",
+        "de": "Ein Foundry-Support-Workflow soll die Kontrolle dynamisch zwischen einem Abrechnungs-Agent, einem Technik-Agent und einem Eskalations-Agent weitergeben, je nachdem, was im Gespräch auftaucht; die Reihenfolge steht vorher nicht fest. Welches Foundry-Workflow-Muster beschreibt dieses Verhalten?"
       },
       "options": [
         {
           "id": "a",
           "text": { "en": "Group chat", "de": "Group chat" },
           "correct": true,
-          "why": { "en": "Group chat passes control between agents dynamically based on context or rules — designed for escalation, fallback and expert handoff.", "de": "Group chat übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents – gedacht für Eskalation, Fallback und Experten-Übergabe." }
+          "why": { "en": "Foundry's group chat pattern passes control between agents dynamically based on context or rules, for example for escalation or fallback.", "de": "Das Group-chat-Muster in Foundry übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents, etwa für Eskalation oder Fallback." }
         },
         {
           "id": "b",
@@ -87,8 +87,8 @@
         }
       ],
       "explanation": {
-        "en": "Match the pattern to the control flow: fixed order → sequential, waiting for a person → human in the loop, dynamic control between agents → group chat. For new workflows, Agent Framework supports the same patterns.",
-        "de": "Ordne das Muster dem Kontrollfluss zu: feste Reihenfolge → Sequential, Warten auf eine Person → Human in the loop, dynamische Kontrolle zwischen Agents → Group chat. Für neue Workflows unterstützt Agent Framework dieselben Muster."
+        "en": "Match the pattern to the control flow: fixed order → sequential, waiting for a person → human in the loop, dynamic control between agents → group chat. Rebuilt in Agent Framework, choose group chat (an orchestrator picks the next speaker) or handoff (the current agent passes the conversation on).",
+        "de": "Ordne das Muster dem Kontrollfluss zu: feste Reihenfolge → Sequential, Warten auf eine Person → Human in the loop, dynamische Kontrolle zwischen Agents → Group chat. In Agent Framework wählst du Group chat (ein Orchestrator bestimmt den nächsten Sprecher) oder Handoff (der aktuelle Agent gibt das Gespräch weiter)."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow",
@@ -152,8 +152,8 @@
       "module": "agent-workflows",
       "difficulty": 2,
       "stem": {
-        "en": "Your Python app runs an existing, saved Foundry workflow named `refund-approval` through `project.get_openai_client()`. The workflow pauses at an Ask a question node until a supervisor answers. Which TWO actions should the app take?",
-        "de": "Deine Python-App startet einen bestehenden, gespeicherten Foundry-Workflow namens `refund-approval` über `project.get_openai_client()`. Der Workflow pausiert an einem Ask-a-question-Knoten, bis ein Supervisor antwortet. Welche ZWEI Schritte sollte die App ausführen?"
+        "en": "Until portal workflows retire on December 1, 2026, your Python app runs an existing, saved Foundry workflow named `refund-approval` through `project.get_openai_client()`. The workflow pauses at an Ask a question node until a supervisor answers. Which TWO actions should the app take?",
+        "de": "Bis Portal-Workflows am 1. Dezember 2026 eingestellt werden, startet deine Python-App einen bestehenden, gespeicherten Foundry-Workflow namens `refund-approval` über `project.get_openai_client()`. Der Workflow pausiert an einem Ask-a-question-Knoten, bis ein Supervisor antwortet. Welche ZWEI Schritte sollte die App ausführen?"
       },
       "options": [
         {
@@ -188,12 +188,13 @@
         }
       ],
       "explanation": {
-        "en": "Run a workflow from code with one conversation and an agent reference to its name; answer a pause by sending the input as another message in that same conversation.",
-        "de": "Starte einen Workflow per Code mit einer Conversation und einer Agent-Referenz auf seinen Namen; beantworte eine Pause, indem du die Eingabe als weitere Nachricht in genau dieser Conversation schickst."
+        "en": "Run a workflow from code with one conversation and an agent reference to its name; answer a pause by sending the input as another message in that same conversation. After the retirement, the Agent Framework equivalent is a `request_info` event that you answer with `workflow.run(responses=...)`.",
+        "de": "Starte einen Workflow per Code mit einer Conversation und einer Agent-Referenz auf seinen Namen; beantworte eine Pause, indem du die Eingabe als weitere Nachricht in genau dieser Conversation schickst. Nach der Einstellung ist das Gegenstück in Agent Framework ein `request_info`-Event, das du mit `workflow.run(responses=...)` beantwortest."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/training/modules/build-agent-workflows-microsoft-foundry/8-use-workflows-in-code",
-        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/runtime-components"
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/runtime-components",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow"
       ],
       "lastVerified": "2026-11-06"
     },

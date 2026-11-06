@@ -3,8 +3,8 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'agent-framework',
   summary: {
-    en: '**Microsoft Agent Framework** is Microsoft\'s open-source SDK for building AI agents and multi-agent workflows in Python and .NET — the direct successor of Semantic Kernel and AutoGen, built by the same teams. An agent combines a **chat client** (which model service to call), **instructions** (role, goal and rules), **tools** (your Python functions plus hosted tools such as code interpreter) and an **AgentSession** that carries the conversation. For Foundry you either let your app own the agent with `Agent(client=FoundryChatClient(...))` or connect to an agent defined in the portal with `FoundryAgent`. A call to `agent.run()` sends everything to the model, executes requested tools in a loop and returns the final answer.',
-    de: '**Microsoft Agent Framework** ist Microsofts Open-Source-SDK für KI-Agents und Multi-Agent-Workflows in Python und .NET – der direkte Nachfolger von Semantic Kernel und AutoGen, gebaut von denselben Teams. Ein Agent kombiniert einen **Chat-Client** (welcher Modelldienst aufgerufen wird), **Instructions** (Rolle, Ziel und Regeln), **Tools** (deine Python-Funktionen plus gehostete Tools wie Code Interpreter) und eine **AgentSession**, die das Gespräch trägt. Für Foundry lässt du entweder deine App den Agent besitzen – mit `Agent(client=FoundryChatClient(...))` – oder du verbindest dich mit `FoundryAgent` mit einem im Portal definierten Agent. Ein Aufruf von `agent.run()` schickt alles ans Modell, führt angeforderte Tools in einer Schleife aus und liefert die finale Antwort.',
+    en: '**Microsoft Agent Framework** is Microsoft\'s open-source SDK for building AI agents and multi-agent workflows in Python and .NET — the direct successor of Semantic Kernel and AutoGen, built by the same teams. An agent combines a **chat client** (which model service to call), **instructions** (role, goal and rules), **tools** (your Python functions plus hosted tools such as code interpreter) and an **AgentSession** that keeps the chat history. For Foundry you either let your app own the agent with `Agent(client=FoundryChatClient(...))` or connect to an agent defined in the portal with `FoundryAgent`. A call to `agent.run()` sends everything to the model, executes requested tools in a loop and returns the final answer.',
+    de: '**Microsoft Agent Framework** ist Microsofts Open-Source-SDK für KI-Agents und Multi-Agent-Workflows in Python und .NET – der direkte Nachfolger von Semantic Kernel und AutoGen, gebaut von denselben Teams. Ein Agent kombiniert einen **Chat-Client** (welcher Modelldienst aufgerufen wird), **Instructions** (Rolle, Ziel und Regeln), **Tools** (deine Python-Funktionen plus gehostete Tools wie Code Interpreter) und eine **AgentSession**, die den Chatverlauf hält. Für Foundry lässt du entweder deine App den Agent besitzen – mit `Agent(client=FoundryChatClient(...))` – oder du verbindest dich mit `FoundryAgent` mit einem im Portal definierten Agent. Ein Aufruf von `agent.run()` schickt alles ans Modell, führt angeforderte Tools in einer Schleife aus und liefert die finale Antwort.',
   },
   examFocus: {
     en: 'Expect code-reading questions: which class connects to a Foundry project or to an existing Foundry agent, where instructions and tools go, how a session keeps multi-turn context, how a Python function becomes a well-described tool (`Annotated`, docstring, `@tool`) and how approval-required tools pause a run. Outdated names from early previews (`ChatAgent`, threads, `run_stream`, `@ai_function`, `AzureAIAgentClient`) make convenient distractors.',
@@ -15,31 +15,31 @@ export const lesson: Lesson = {
       id: 'agent-anatomy',
       title: { en: 'Anatomy of an Agent Framework agent', de: 'Aufbau eines Agents in Agent Framework' },
       caption: {
-        en: 'The agent bundles instructions, tools and a session around one chat client; the client reaches the model deployment and hosted tools in the Foundry project.',
-        de: 'Der Agent bündelt Instructions, Tools und eine Session um einen Chat-Client; der Client erreicht das Modell-Deployment und gehostete Tools im Foundry-Projekt.',
+        en: 'The agent bundles instructions and tools around one chat client; each run takes an AgentSession. The client reaches a model deployment through the project endpoint, and hosted tools run in Foundry when the model calls them.',
+        de: 'Der Agent bündelt Instructions und Tools um einen Chat-Client; jeder Lauf bekommt eine AgentSession. Der Client erreicht über den Projekt-Endpoint ein Modell-Deployment, und gehostete Tools laufen in Foundry, wenn das Modell sie aufruft.',
       },
       width: 960,
-      height: 380,
+      height: 520,
       groups: [
-        { id: 'g-app', x: 10, y: 20, w: 625, h: 344, label: { en: 'Your Python app (agent_framework)', de: 'Deine Python-App (agent_framework)' }, tone: 'app' },
-        { id: 'g-foundry', x: 700, y: 130, w: 240, h: 234, label: 'Foundry project', tone: 'foundry' },
+        { id: 'g-app', x: 10, y: 20, w: 940, h: 330, label: { en: 'Your Python app (agent_framework)', de: 'Deine Python-App (agent_framework)' }, tone: 'app' },
+        { id: 'g-foundry', x: 360, y: 380, w: 480, h: 124, label: { en: 'Foundry resource · via project endpoint', de: 'Foundry-Ressource · über den Projekt-Endpoint' }, tone: 'foundry' },
       ],
       nodes: [
-        { id: 'instr', x: 30, y: 60, w: 170, h: 64, label: { en: 'Instructions', de: 'Anweisungen' }, sub: { en: 'role · goal · rules', de: 'Rolle · Ziel · Regeln' }, tone: 'neutral', shape: 'doc' },
-        { id: 'tools', x: 30, y: 170, w: 170, h: 64, label: 'Tools', sub: { en: 'functions + hosted', de: 'Funktionen + gehostet' }, tone: 'tool' },
-        { id: 'session', x: 30, y: 280, w: 170, h: 64, label: 'AgentSession', sub: { en: 'history or service ID', de: 'Verlauf oder Service-ID' }, tone: 'data', shape: 'store' },
-        { id: 'agent', x: 260, y: 170, w: 140, h: 64, label: 'Agent', sub: 'Agent(client=…)', tone: 'app' },
-        { id: 'client', x: 465, y: 170, w: 150, h: 64, label: 'FoundryChatClient', sub: { en: 'endpoint + model', de: 'Endpoint + Modell' }, tone: 'app' },
-        { id: 'model', x: 720, y: 170, w: 200, h: 64, label: { en: 'Model deployment', de: 'Modell-Deployment' }, sub: { en: 'e.g. gpt-4.1', de: 'z. B. gpt-4.1' }, tone: 'model', shape: 'store' },
-        { id: 'hosted', x: 720, y: 280, w: 200, h: 64, label: { en: 'Hosted tools', de: 'Gehostete Tools' }, sub: { en: 'e.g. code interpreter', de: 'z. B. Code Interpreter' }, tone: 'tool' },
+        { id: 'instr', x: 380, y: 50, w: 170, h: 64, label: { en: 'Instructions', de: 'Anweisungen' }, sub: { en: 'role · goal · rules', de: 'Rolle · Ziel · Regeln' }, tone: 'neutral', shape: 'doc' },
+        { id: 'tools', x: 130, y: 160, w: 170, h: 64, label: 'Tools', sub: { en: 'functions +\nget_*_tool()', de: 'Funktionen +\nget_*_tool()' }, tone: 'tool' },
+        { id: 'agent', x: 390, y: 160, w: 150, h: 64, label: 'Agent', sub: 'Agent(client=…)', tone: 'app' },
+        { id: 'client', x: 650, y: 160, w: 170, h: 64, label: 'FoundryChatClient', sub: { en: 'endpoint + model', de: 'Endpoint + Modell' }, tone: 'app' },
+        { id: 'session', x: 380, y: 270, w: 170, h: 64, label: 'AgentSession', sub: 'agent.create_session()', tone: 'data', shape: 'store' },
+        { id: 'hosted', x: 380, y: 420, w: 170, h: 64, label: { en: 'Hosted tools', de: 'Gehostete Tools' }, sub: { en: 'e.g. code interpreter', de: 'z. B. Code Interpreter' }, tone: 'tool' },
+        { id: 'model', x: 650, y: 420, w: 170, h: 64, label: { en: 'Model deployment', de: 'Modell-Deployment' }, sub: { en: 'e.g. gpt-5-mini', de: 'z. B. gpt-5-mini' }, tone: 'model', shape: 'store' },
       ],
       edges: [
         { id: 'e-i', from: 'instr', to: 'agent', label: 'instructions=' },
         { id: 'e-t', from: 'tools', to: 'agent', label: 'tools=' },
-        { id: 'e-s', from: 'session', to: 'agent', bidir: true, label: 'session=' },
         { id: 'e-c', from: 'agent', to: 'client', label: 'client=' },
+        { id: 'e-s', from: 'session', to: 'agent', bidir: true, dashed: true, label: 'run(session=…)' },
         { id: 'e-m', from: 'client', to: 'model', label: 'Responses API' },
-        { id: 'e-h', from: 'client', to: 'hosted', dashed: true, label: 'get_*_tool()' },
+        { id: 'e-mh', from: 'model', to: 'hosted', dashed: true, label: { en: 'tool call', de: 'Tool-Aufruf' } },
       ],
       steps: [
         {
@@ -61,24 +61,24 @@ export const lesson: Lesson = {
         {
           title: { en: 'Tools: functions and hosted tools', de: 'Tools: Funktionen und gehostete Tools' },
           text: {
-            en: 'Python functions passed in `tools` run in your process; the framework builds their schema from type annotations and the docstring. Hosted tools such as code interpreter come from factories like `FoundryChatClient.get_code_interpreter_tool()` and run in Foundry.',
-            de: 'Python-Funktionen in `tools` laufen in deinem Prozess; das Framework erzeugt ihr Schema aus Typannotationen und Docstring. Gehostete Tools wie Code Interpreter kommen aus Factories wie `FoundryChatClient.get_code_interpreter_tool()` und laufen in Foundry.',
+            en: 'Python functions passed in `tools` run in your process; the framework builds their schema from type annotations and the docstring. Hosted tools such as code interpreter go into the same list through factories like `FoundryChatClient.get_code_interpreter_tool()`. The factory only declares the tool; when the model calls it, it runs in Foundry.',
+            de: 'Python-Funktionen in `tools` laufen in deinem Prozess; das Framework erzeugt ihr Schema aus Typannotationen und Docstring. Gehostete Tools wie Code Interpreter kommen über Factories wie `FoundryChatClient.get_code_interpreter_tool()` in dieselbe Liste. Die Factory deklariert das Tool nur; ruft das Modell es auf, läuft es in Foundry.',
           },
-          focus: ['tools', 'e-t', 'e-h', 'hosted'],
+          focus: ['tools', 'e-t', 'e-mh', 'hosted'],
         },
         {
-          title: { en: 'Sessions carry the conversation', de: 'Sessions tragen das Gespräch' },
+          title: { en: 'Each run takes a session', de: 'Jeder Lauf bekommt eine Session' },
           text: {
-            en: '`agent.create_session()` returns an `AgentSession` (the successor of threads). Pass it to every `run` call: it holds local history or a `service_session_id` that points to history stored by the service.',
-            de: '`agent.create_session()` liefert eine `AgentSession` (der Nachfolger der Threads). Übergib sie bei jedem `run`-Aufruf: Sie hält lokalen Verlauf oder eine `service_session_id`, die auf den vom Dienst gespeicherten Verlauf zeigt.',
+            en: '`agent.create_session()` returns an `AgentSession` (the successor of threads). It isn\'t an `Agent(...)` argument: pass it to every `agent.run(..., session=session)` call. It holds local history or a `service_session_id` that points to history stored by the service.',
+            de: '`agent.create_session()` liefert eine `AgentSession` (der Nachfolger der Threads). Sie ist kein Argument von `Agent(...)`: Übergib sie bei jedem Aufruf `agent.run(..., session=session)`. Sie hält lokalen Verlauf oder eine `service_session_id`, die auf den vom Dienst gespeicherten Verlauf zeigt.',
           },
           focus: ['session', 'e-s'],
         },
         {
           title: { en: 'Inference in the project', de: 'Inferenz im Projekt' },
           text: {
-            en: 'The client calls the model deployment through the project\'s Responses endpoint. Because every agent shares one interface, you can swap the client — for example `OpenAIChatClient` for an Azure OpenAI resource — without rewriting agent logic.',
-            de: 'Der Client ruft das Modell-Deployment über den Responses-Endpoint des Projekts auf. Weil alle Agents dieselbe Schnittstelle teilen, kannst du den Client tauschen – etwa `OpenAIChatClient` für eine Azure-OpenAI-Ressource –, ohne die Agent-Logik neu zu schreiben.',
+            en: 'The client calls the model deployment through the project\'s **Responses API** (OpenAI-compatible API that returns a response object; keeps state via `previous_response_id` or a **conversation**, a durable item store for multi-turn state). Deployments live on the Foundry resource, and projects reuse them. Because every agent shares one interface, you can swap the client — for example `OpenAIChatClient` for an Azure OpenAI resource — without rewriting agent logic.',
+            de: 'Der Client ruft das Modell-Deployment über die **Responses API** des Projekts auf (OpenAI-kompatible API, die ein Response-Objekt liefert; hält den Zustand über `previous_response_id` oder eine **Conversation**, einen dauerhaften Item-Speicher für Zustand über mehrere Runden). Deployments liegen auf der Foundry-Ressource, und Projekte nutzen sie mit. Weil alle Agents dieselbe Schnittstelle teilen, kannst du den Client tauschen – etwa `OpenAIChatClient` für eine Azure-OpenAI-Ressource –, ohne die Agent-Logik neu zu schreiben.',
           },
           focus: ['e-m', 'model', 'g-foundry'],
         },
@@ -88,29 +88,32 @@ export const lesson: Lesson = {
       id: 'run-loop',
       title: { en: 'What happens inside agent.run()', de: 'Was in agent.run() passiert' },
       caption: {
-        en: 'The model answers or requests a tool; approval-required tools pause for a person; results loop back until a final answer is ready.',
-        de: 'Das Modell antwortet oder fordert ein Tool an; freigabepflichtige Tools warten auf eine Person; Ergebnisse laufen zurück, bis eine finale Antwort steht.',
+        en: 'The model answers or requests a tool. A tool that needs approval ends the run with user_input_requests; your code asks a reviewer and starts a new run in the same session. Results loop back until a final answer is ready.',
+        de: 'Das Modell antwortet oder fordert ein Tool an. Ein freigabepflichtiges Tool beendet den Lauf mit user_input_requests; dein Code fragt einen Prüfer und startet einen neuen Lauf in derselben Session. Ergebnisse laufen zurück, bis eine finale Antwort steht.',
       },
       width: 960,
-      height: 390,
+      height: 530,
       nodes: [
-        { id: 'user', x: 20, y: 150, w: 130, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'new message', de: 'neue Nachricht' }, tone: 'user', shape: 'actor' },
-        { id: 'session', x: 230, y: 30, w: 180, h: 64, label: 'AgentSession', sub: { en: 'earlier turns', de: 'frühere Runden' }, tone: 'data', shape: 'store' },
-        { id: 'run', x: 230, y: 150, w: 180, h: 64, label: 'agent.run()', sub: 'session=session', tone: 'app' },
-        { id: 'model', x: 530, y: 150, w: 170, h: 64, label: { en: 'Model', de: 'Modell' }, sub: { en: 'answer or tool call', de: 'Antwort oder Tool-Call' }, tone: 'model' },
-        { id: 'answer', x: 790, y: 150, w: 150, h: 64, label: 'AgentResponse', sub: { en: '.text = final answer', de: '.text = Antworttext' }, tone: 'app', shape: 'pill' },
-        { id: 'reviewer', x: 300, y: 298, w: 160, h: 64, label: { en: 'Reviewer', de: 'Prüfer' }, sub: { en: 'approve or reject', de: 'freigeben/ablehnen' }, tone: 'user', shape: 'actor' },
-        { id: 'appr', x: 540, y: 290, w: 150, h: 80, label: { en: 'Approval?', de: 'Freigabe?' }, sub: 'approval_mode', tone: 'safety', shape: 'diamond' },
-        { id: 'tool', x: 770, y: 298, w: 150, h: 64, label: { en: 'Function tool', de: 'Funktionstool' }, sub: { en: 'your process', de: 'dein Prozess' }, tone: 'tool' },
+        { id: 'session', x: 240, y: 30, w: 180, h: 64, label: 'AgentSession', sub: { en: 'earlier turns', de: 'frühere Runden' }, tone: 'data', shape: 'store' },
+        { id: 'answer', x: 580, y: 30, w: 170, h: 64, label: 'AgentResponse', sub: { en: '.text = final answer', de: '.text = Antworttext' }, tone: 'app', shape: 'pill' },
+        { id: 'user', x: 20, y: 160, w: 130, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'new message', de: 'neue Nachricht' }, tone: 'user', shape: 'actor' },
+        { id: 'run', x: 240, y: 160, w: 180, h: 64, label: 'agent.run()', sub: 'session=session', tone: 'app' },
+        { id: 'model', x: 580, y: 160, w: 170, h: 64, label: { en: 'Model', de: 'Modell' }, sub: { en: 'answer or tool call', de: 'Antwort oder Tool-Call' }, tone: 'model' },
+        { id: 'reviewer', x: 240, y: 300, w: 180, h: 64, label: { en: 'Reviewer', de: 'Prüfer' }, sub: { en: 'approve or reject', de: 'freigeben/ablehnen' }, tone: 'user', shape: 'actor' },
+        { id: 'appr', x: 585, y: 300, w: 160, h: 80, label: { en: 'Needs approval?', de: 'Freigabe nötig?' }, sub: 'approval_mode', tone: 'safety', shape: 'diamond' },
+        { id: 'pending', x: 240, y: 450, w: 180, h: 64, label: 'AgentResponse', sub: '.user_input_requests', tone: 'app', shape: 'pill' },
+        { id: 'tool', x: 590, y: 450, w: 150, h: 64, label: { en: 'Function tool', de: 'Funktionstool' }, sub: { en: 'your process', de: 'dein Prozess' }, tone: 'tool' },
       ],
       edges: [
         { id: 'r1', from: 'user', to: 'run', label: { en: 'message', de: 'Nachricht' } },
         { id: 'r2', from: 'session', to: 'run', bidir: true, label: { en: 'history', de: 'Verlauf' } },
         { id: 'r3', from: 'run', to: 'model', label: { en: '+ tool schemas', de: '+ Tool-Schemas' } },
         { id: 'r4', from: 'model', to: 'appr', label: { en: 'tool call', de: 'Tool-Aufruf' } },
-        { id: 'r5', from: 'appr', to: 'tool', label: { en: 'approved', de: 'genehmigt' } },
-        { id: 'r6', from: 'appr', to: 'reviewer', bidir: true, label: { en: 'approve?', de: 'Freigabe?' } },
-        { id: 'r7', from: 'tool', to: 'model', via: [[845, 250], [680, 250]], label: { en: 'result', de: 'Ergebnis' } },
+        { id: 'r9', from: 'appr', to: 'pending', via: [[490, 340], [490, 482]], label: { en: 'yes · run ends', de: 'ja · Lauf endet' } },
+        { id: 'r10', from: 'pending', to: 'reviewer', label: { en: 'your code asks', de: 'dein Code fragt' } },
+        { id: 'r11', from: 'reviewer', to: 'run', label: { en: 'approval → new run', de: 'Freigabe → neuer Lauf' } },
+        { id: 'r5', from: 'appr', to: 'tool', label: { en: 'not needed / approved', de: 'nicht nötig / genehmigt' } },
+        { id: 'r7', from: 'tool', to: 'model', via: [[820, 482], [820, 192]], label: { en: 'result', de: 'Ergebnis' } },
         { id: 'r8', from: 'model', to: 'answer', label: 'final' },
       ],
       steps: [
@@ -131,20 +134,20 @@ export const lesson: Lesson = {
           focus: ['r3', 'model'],
         },
         {
-          title: { en: 'Optional approval gate', de: 'Optionale Freigabe' },
+          title: { en: 'Approval ends the run', de: 'Eine Freigabe beendet den Lauf' },
           text: {
-            en: 'For a tool declared with `approval_mode="always_require"`, the run returns `user_input_requests` instead of executing. You resume with `to_function_approval_response(True)` or `False` in the same session.',
-            de: 'Bei einem Tool mit `approval_mode="always_require"` liefert der Lauf `user_input_requests`, statt auszuführen. Du setzt mit `to_function_approval_response(True)` oder `False` in derselben Session fort.',
+            en: 'For a tool declared with `approval_mode="always_require"`, `run()` ends without executing it and returns an `AgentResponse` whose `user_input_requests` list the pending calls. Your code shows them to a reviewer and starts a new `run()` in the same session with `to_function_approval_response(True)`; `False` rejects the call, and the function doesn\'t run.',
+            de: 'Bei einem Tool mit `approval_mode="always_require"` endet `run()`, ohne es auszuführen, und liefert eine `AgentResponse`, deren `user_input_requests` die offenen Aufrufe auflisten. Dein Code zeigt sie einem Prüfer und startet einen neuen `run()` in derselben Session mit `to_function_approval_response(True)`; `False` lehnt den Aufruf ab, und die Funktion läuft nicht.',
           },
-          focus: ['r4', 'appr', 'r6', 'reviewer'],
+          focus: ['r4', 'appr', 'r9', 'pending', 'r10', 'reviewer', 'r11', 'run'],
         },
         {
           title: { en: 'Your function runs', de: 'Deine Funktion läuft' },
           text: {
-            en: 'Approved or approval-free calls run as local Python functions. The result goes back to the model, and the loop repeats until no tool call is left.',
-            de: 'Genehmigte oder freigabefreie Aufrufe laufen als lokale Python-Funktionen. Das Ergebnis geht zurück ans Modell, und die Schleife wiederholt sich, bis kein Tool-Aufruf mehr offen ist.',
+            en: 'Calls that need no approval, or were approved in the new run, execute as local Python functions. The result goes back to the model, and the loop repeats until no tool call is left.',
+            de: 'Aufrufe ohne Freigabepflicht oder mit Freigabe aus dem neuen Lauf werden als lokale Python-Funktionen ausgeführt. Das Ergebnis geht zurück ans Modell, und die Schleife wiederholt sich, bis kein Tool-Aufruf mehr offen ist.',
           },
-          focus: ['r5', 'tool', 'r7'],
+          focus: ['appr', 'r5', 'tool', 'r7'],
         },
         {
           title: { en: 'Final answer', de: 'Finale Antwort' },
@@ -175,8 +178,8 @@ export const lesson: Lesson = {
     {
       term: 'FoundryChatClient vs FoundryAgent',
       text: {
-        en: '`FoundryChatClient` gives direct inference on a model deployment in a Foundry project; your app owns instructions, tools and sessions. `FoundryAgent` connects to a prompt agent or hosted agent defined in Foundry; its stored model, instructions and hosted tools are authoritative.',
-        de: '`FoundryChatClient` liefert direkte Inferenz auf einem Modell-Deployment in einem Foundry-Projekt; Instructions, Tools und Sessions gehören deiner App. `FoundryAgent` verbindet sich mit einem in Foundry definierten Prompt- oder Hosted Agent; dessen gespeichertes Modell, Instructions und gehostete Tools sind maßgeblich.',
+        en: '`FoundryChatClient` gives direct inference on a model deployment in a Foundry project; your app owns instructions, tools and sessions. `FoundryAgent` connects to a **prompt agent** (declarative agent: model + instructions + tools, versioned in Foundry) or a **hosted agent** (your own agent code in a container that Foundry runs). Its stored model, instructions and hosted tools are authoritative; a local Python function runs only if the Foundry agent already declares it.',
+        de: '`FoundryChatClient` liefert direkte Inferenz auf einem Modell-Deployment in einem Foundry-Projekt; Instructions, Tools und Sessions gehören deiner App. `FoundryAgent` verbindet sich mit einem **Prompt Agent** (deklarativer Agent: Modell + Instructions + Tools, versioniert in Foundry) oder einem **Hosted Agent** (dein eigener Agent-Code in einem Container, den Foundry ausführt). Dessen gespeichertes Modell, Instructions und gehostete Tools sind maßgeblich; eine lokale Python-Funktion läuft nur, wenn der Foundry-Agent sie bereits deklariert.',
       },
     },
     {
@@ -196,8 +199,8 @@ export const lesson: Lesson = {
     {
       term: 'Hosted tools',
       text: {
-        en: 'Tools that the provider runs, created with client factory methods such as `get_code_interpreter_tool()`, `get_file_search_tool(...)`, `get_web_search_tool()` or `get_mcp_tool(...)`. The older `Hosted*Tool` classes were removed.',
-        de: 'Tools, die der Anbieter ausführt, erstellt über Factory-Methoden des Clients wie `get_code_interpreter_tool()`, `get_file_search_tool(...)`, `get_web_search_tool()` oder `get_mcp_tool(...)`. Die älteren `Hosted*Tool`-Klassen wurden entfernt.',
+        en: 'Tools that the provider runs, created with class methods of the client and passed in `tools`, for example `FoundryChatClient.get_code_interpreter_tool()`, `.get_file_search_tool(...)`, `.get_web_search_tool()` or `.get_mcp_tool(...)` for **MCP** (Model Context Protocol: standard for exposing tools to agents). The older `Hosted*Tool` classes were removed.',
+        de: 'Tools, die der Anbieter ausführt, erstellt über Klassenmethoden des Clients und in `tools` übergeben, zum Beispiel `FoundryChatClient.get_code_interpreter_tool()`, `.get_file_search_tool(...)`, `.get_web_search_tool()` oder `.get_mcp_tool(...)` für **MCP** (Model Context Protocol: Standard, um Agents Tools bereitzustellen). Die älteren `Hosted*Tool`-Klassen wurden entfernt.',
       },
     },
     {
@@ -218,14 +221,14 @@ export const lesson: Lesson = {
     rows: [
       [{ en: 'Model in a Foundry project', de: 'Modell in einem Foundry-Projekt' }, 'Agent(client=FoundryChatClient(...))', { en: 'Your app', de: 'Deine App' }],
       [{ en: 'Prompt or hosted agent in Foundry', de: 'Prompt- oder Hosted Agent in Foundry' }, 'FoundryAgent(agent_name=..., agent_version=...)', { en: 'Foundry (stored definition)', de: 'Foundry (gespeicherte Definition)' }],
-      [{ en: 'Azure OpenAI resource', de: 'Azure-OpenAI-Ressource' }, 'Agent(client=OpenAIChatClient(...))', { en: 'Your app', de: 'Deine App' }],
+      [{ en: 'Azure OpenAI resource', de: 'Azure-OpenAI-Ressource' }, { en: 'Agent(client=OpenAIChatClient(...)) for Responses or Agent(client=OpenAIChatCompletionClient(...)) for Chat Completions', de: 'Agent(client=OpenAIChatClient(...)) für Responses oder Agent(client=OpenAIChatCompletionClient(...)) für Chat Completions' }, { en: 'Your app', de: 'Deine App' }],
       [{ en: 'Local model', de: 'Lokales Modell' }, 'Agent(client=FoundryLocalClient(...))', { en: 'Your app', de: 'Deine App' }],
       [{ en: 'Remote A2A agent', de: 'Entfernter A2A-Agent' }, 'A2AAgent(url=...) or A2AAgent(agent_card=...)', { en: 'The remote agent', de: 'Der entfernte Agent' }],
     ],
   },
   code: [
     {
-      title: { en: 'Foundry-backed agent with a function tool and a session', de: 'Foundry-Agent mit Funktionstool und Session' },
+      title: { en: 'Foundry-backed agent with a function tool, a hosted tool and a session', de: 'Foundry-Agent mit Funktionstool, gehostetem Tool und Session' },
       code: `import asyncio
 from typing import Annotated
 
@@ -244,12 +247,12 @@ async def main() -> None:
     agent = Agent(
         client=FoundryChatClient(
             project_endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
-            model="gpt-4.1",                          # your deployment name
+            model="gpt-5-mini",                       # deployment name
             credential=AzureCliCredential(),
         ),
         name="SupportAgent",
         instructions="You are a concise support agent. Use tools for order data.",
-        tools=[get_order_status],
+        tools=[get_order_status, FoundryChatClient.get_code_interpreter_tool()],
     )
     session = agent.create_session()                  # keeps the conversation
     first = await agent.run("Where is order A-1042?", session=session)
@@ -258,36 +261,67 @@ async def main() -> None:
 
 asyncio.run(main())`,
       notes: [
-        { en: 'Install `agent-framework-foundry` and `azure-identity`, then sign in with `az login`. The annotations and the docstring become the tool schema.', de: 'Installiere `agent-framework-foundry` und `azure-identity` und melde dich mit `az login` an. Annotationen und Docstring werden zum Tool-Schema.' },
+        { en: 'Install `agent-framework-foundry` and `azure-identity`, then sign in with `az login`. The annotations and the docstring become the tool schema; code interpreter runs in Foundry.', de: 'Installiere `agent-framework-foundry` und `azure-identity` und melde dich mit `az login` an. Annotationen und Docstring werden zum Tool-Schema; Code Interpreter läuft in Foundry.' },
+        { en: '`model` takes the deployment name, which can be any name you chose when you deployed the model.', de: '`model` erwartet den Deployment-Namen, den du beim Bereitstellen des Modells frei wählen kannst.' },
         { en: 'Reuse the same `session` for follow-ups. `agent.run(..., stream=True)` streams updates; there is no separate `run_stream` method anymore.', de: 'Nutze für Folgefragen dieselbe `session`. `agent.run(..., stream=True)` streamt Updates; eine eigene `run_stream`-Methode gibt es nicht mehr.' },
       ],
     },
     {
       title: { en: 'Require human approval before a tool runs', de: 'Menschliche Freigabe vor einem Tool-Aufruf verlangen' },
-      code: `from agent_framework import Agent, Message, tool
+      code: `import asyncio
+
+from agent_framework import Agent, Message, tool
+from agent_framework.foundry import FoundryChatClient
+from azure.identity import AzureCliCredential
 
 @tool(approval_mode="always_require")
 def issue_refund(order_id: str, amount: float) -> str:
     """Issue a refund for an order."""
     return f"Refunded {amount} EUR for order {order_id}."
 
-# client = FoundryChatClient(...) as in the previous sample
-agent = Agent(client=client, instructions="You handle refunds.", tools=[issue_refund])
-session = agent.create_session()
-result = await agent.run("Refund 40 EUR for order A-1042.", session=session)
+async def main() -> None:
+    client = FoundryChatClient(
+        project_endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
+        model="gpt-5-mini",                          # deployment name
+        credential=AzureCliCredential(),
+    )
+    agent = Agent(client=client, instructions="You handle refunds.", tools=[issue_refund])
+    session = agent.create_session()
+    result = await agent.run("Refund 40 EUR for order A-1042.", session=session)
 
-if result.user_input_requests:                        # paused, nothing executed yet
-    for request in result.user_input_requests:
-        print(request.function_call.name, request.function_call.arguments)
-    approvals = [
-        Message(role="user", contents=[request.to_function_approval_response(True)])
-        for request in result.user_input_requests
-    ]
-    result = await agent.run(approvals, session=session)   # same session
-print(result.text)`,
+    while result.user_input_requests:                # paused, nothing executed yet
+        approvals = []
+        for request in result.user_input_requests:
+            call = request.function_call
+            answer = await asyncio.to_thread(input, f"Run {call.name} {call.arguments}? (y/n) ")
+            approvals.append(Message(role="user", contents=[request.to_function_approval_response(answer == "y")]))
+        result = await agent.run(approvals, session=session)   # same session
+    print(result.text)
+
+asyncio.run(main())`,
       notes: [
-        { en: 'With `approval_mode="always_require"` the run returns `user_input_requests` instead of calling the function.', de: 'Mit `approval_mode="always_require"` liefert der Lauf `user_input_requests`, statt die Funktion aufzurufen.' },
+        { en: 'With `approval_mode="always_require"` the run returns `user_input_requests` instead of calling the function. `True` approves, `False` rejects; loop until no request is left.', de: 'Mit `approval_mode="always_require"` liefert der Lauf `user_input_requests`, statt die Funktion aufzurufen. `True` genehmigt, `False` lehnt ab; wiederhole, bis keine Anfrage mehr offen ist.' },
         { en: 'An approval response only counts when it matches a pending request in the same `AgentSession`.', de: 'Eine Freigabe zählt nur, wenn sie zu einer offenen Anfrage in derselben `AgentSession` passt.' },
+      ],
+    },
+    {
+      title: { en: 'Connect to an existing Foundry agent with FoundryAgent', de: 'Mit FoundryAgent einen bestehenden Foundry-Agent nutzen' },
+      code: `import asyncio
+from agent_framework.foundry import FoundryAgent
+from azure.identity import AzureCliCredential
+
+async def main() -> None:
+    agent = FoundryAgent(
+        project_endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
+        agent_name="support-agent", agent_version="1",  # omit agent_version for a hosted agent
+        credential=AzureCliCredential(),
+    )
+    result = await agent.run("What can you help me with?")
+    print(result.text)
+
+asyncio.run(main())`,
+      notes: [
+        { en: 'Model, instructions and hosted tools come from the stored Foundry definition; `run`, `stream=True` and sessions work as for any `Agent`.', de: 'Modell, Instructions und gehostete Tools kommen aus der gespeicherten Foundry-Definition; `run`, `stream=True` und Sessions funktionieren wie bei jedem `Agent`.' },
       ],
     },
   ],
@@ -301,12 +335,12 @@ print(result.text)`,
       de: '`AzureAIAgentClient` und `AzureAIClient` wurden aus dem aktuellen Agent Framework entfernt: Nutze `FoundryChatClient` für Projekt-Inferenz und `FoundryAgent` für in Foundry definierte Agents.',
     },
     {
-      en: 'With `FoundryAgent` the stored Foundry definition wins: `model`, `instructions` and new hosted tools passed in code are ignored. Use `Agent(client=FoundryChatClient(...))` when code must control them.',
-      de: 'Bei `FoundryAgent` gewinnt die gespeicherte Foundry-Definition: `model`, `instructions` und neue gehostete Tools aus dem Code werden ignoriert. Nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss.',
+      en: 'With `FoundryAgent` the stored Foundry definition wins: `model` and `instructions` passed in code are ignored, and you can\'t add new tools. Local Python functions still run, but only for functions the Foundry agent already declares. Use `Agent(client=FoundryChatClient(...))` when code must control them.',
+      de: 'Bei `FoundryAgent` gewinnt die gespeicherte Foundry-Definition: `model` und `instructions` aus dem Code werden ignoriert, und neue Tools kannst du nicht hinzufügen. Lokale Python-Funktionen laufen weiterhin, aber nur für Funktionen, die der Foundry-Agent bereits deklariert. Nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss.',
     },
     {
-      en: 'Chat Completions providers have no service-managed history: their sessions keep history locally, which is lost on restart unless you persist the session.',
-      de: 'Chat-Completions-Anbieter haben keinen dienstverwalteten Verlauf: Ihre Sessions halten den Verlauf lokal, und er geht beim Neustart verloren, wenn du die Session nicht speicherst.',
+      en: 'Clients on the Chat Completions API (for example `OpenAIChatCompletionClient`) keep history only locally in the session, which is lost on restart unless you persist it with `session.to_dict()`. Responses-based clients (`FoundryChatClient`, `OpenAIChatClient`) and `FoundryAgent` can point to service-stored history through `service_session_id`.',
+      de: 'Clients auf der Chat Completions API (zum Beispiel `OpenAIChatCompletionClient`) halten den Verlauf nur lokal in der Session; er geht beim Neustart verloren, wenn du ihn nicht mit `session.to_dict()` speicherst. Responses-basierte Clients (`FoundryChatClient`, `OpenAIChatClient`) und `FoundryAgent` können über `service_session_id` auf dienstseitig gespeicherten Verlauf zeigen.',
     },
     {
       en: 'The model chooses tools only from names, descriptions and parameter descriptions — vague docstrings cause missing or wrong tool calls.',
@@ -316,7 +350,7 @@ print(result.text)`,
   takeaways: [
     { en: 'Your app owns the agent → `Agent(client=FoundryChatClient(...))`; Foundry owns it → `FoundryAgent`.', de: 'Deine App besitzt den Agent → `Agent(client=FoundryChatClient(...))`; Foundry besitzt ihn → `FoundryAgent`.' },
     { en: 'Role and goal go into `instructions`; context across turns lives in an `AgentSession`.', de: 'Rolle und Ziel gehören in `instructions`; Kontext über Runden lebt in einer `AgentSession`.' },
-    { en: 'Function tools are typed, documented Python functions in `tools`; hosted tools come from `client.get_*_tool()`.', de: 'Funktionstools sind typisierte, dokumentierte Python-Funktionen in `tools`; gehostete Tools kommen aus `client.get_*_tool()`.' },
+    { en: 'Function tools are typed, documented Python functions in `tools`; hosted tools come from `FoundryChatClient.get_*_tool()`.', de: 'Funktionstools sind typisierte, dokumentierte Python-Funktionen in `tools`; gehostete Tools kommen aus `FoundryChatClient.get_*_tool()`.' },
     { en: 'Sensitive tools: `@tool(approval_mode="always_require")`, then resume in the same session.', de: 'Heikle Tools: `@tool(approval_mode="always_require")`, dann in derselben Session fortsetzen.' },
   ],
   sources: [

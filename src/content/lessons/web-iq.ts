@@ -3,8 +3,8 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'web-iq',
   summary: {
-    en: 'Even a well-grounded agent goes stale: its model has a knowledge cutoff, and questions about news, prices or upcoming events need fresh public information. **Microsoft Web IQ** is a suite of AI-native web search and grounding APIs built on Bing’s web index. It returns ranked, citation-ready JSON — titles, URLs, query-relevant passages and timestamps — through REST, an SDK or an MCP server. Web IQ is not a model: it supplies evidence, your agent’s model writes the answer and must show the source links. You create a Web IQ resource in Azure for billing, get a Web IQ AppID in the Web IQ portal, and attach the Web IQ MCP tools to a Foundry agent.',
-    de: 'Auch ein gut gegroundeter Agent veraltet: Sein Modell hat einen Wissensstichtag, und Fragen zu News, Preisen oder anstehenden Events brauchen frische öffentliche Informationen. **Microsoft Web IQ** ist eine Suite KI-nativer Web-Such- und Grounding-APIs auf Basis des Bing-Webindex. Es liefert gerankte, zitierfertige JSON-Ergebnisse – Titel, URLs, abfragerelevante Passagen und Zeitstempel – per REST, SDK oder MCP-Server. Web IQ ist kein Modell: Es liefert Belege, das Modell deines Agents schreibt die Antwort und muss die Quellenlinks zeigen. Du legst in Azure eine Web-IQ-Ressource für die Abrechnung an, holst dir im Web-IQ-Portal eine Web IQ AppID und hängst die Web-IQ-MCP-Tools an einen Foundry-Agent.',
+    en: 'Even a well-grounded agent goes stale: its model has a knowledge cutoff, and questions about news, prices or upcoming events need fresh public information. **Microsoft Web IQ** is a suite of AI-native web search and grounding APIs built on Bing’s web index. It returns ranked, citation-ready JSON — titles, URLs, query-relevant passages and timestamps — through REST, an SDK or an **MCP** server (Model Context Protocol: standard for exposing tools to agents). Web IQ is not a model: it supplies evidence, your agent’s model writes the answer and must show the source links. You create a Web IQ resource in Azure for billing, get a Web IQ AppID in the Web IQ portal, and attach the Web IQ MCP tools to a Foundry agent.',
+    de: 'Auch ein gut gegroundeter Agent veraltet: Sein Modell hat einen Wissensstichtag, und Fragen zu News, Preisen oder anstehenden Events brauchen frische öffentliche Informationen. **Microsoft Web IQ** ist eine Suite KI-nativer Web-Such- und Grounding-APIs auf Basis des Bing-Webindex. Es liefert gerankte, zitierfertige JSON-Ergebnisse – Titel, URLs, abfragerelevante Passagen und Zeitstempel – per REST, SDK oder **MCP**-Server (Model Context Protocol: Standard, um Agents Tools bereitzustellen). Web IQ ist kein Modell: Es liefert Belege, das Modell deines Agents schreibt die Antwort und muss die Quellenlinks zeigen. Du legst in Azure eine Web-IQ-Ressource für die Abrechnung an, holst dir im Web-IQ-Portal eine Web IQ AppID und hängst die Web-IQ-MCP-Tools an einen Foundry-Agent.',
   },
   examFocus: {
     en: 'Expect choices between Foundry’s built-in Web Search tool, Grounding with Bing Search, a Foundry IQ web knowledge source and Web IQ; which Web IQ method fits (Web Search, News, Images, Videos, Browse); the setup chain Azure resource → AppID → API key or Microsoft Entra ID; the MCP endpoint `https://api.microsoft.ai/v3/mcp` with its tools and approval policy; and the obligations that come with web results — visible citations, no caching, no Data Protection Addendum coverage.',
@@ -15,8 +15,8 @@ export const lesson: Lesson = {
       id: 'webiq-flow',
       title: { en: 'A Foundry agent grounded in the live web with Web IQ', de: 'Ein Foundry-Agent mit Live-Web-Grounding über Web IQ' },
       caption: {
-        en: 'The agent calls Web IQ’s MCP server with a key from its tool connection; the AppID decides which tools exist; answers must carry the source links.',
-        de: 'Der Agent ruft den MCP-Server von Web IQ mit einem Key aus seiner Tool-Verbindung auf; die AppID bestimmt, welche Tools es gibt; Antworten müssen die Quellenlinks tragen.',
+        en: 'The agent calls Web IQ’s MCP server; Agent Service sends the API key from the tool connection as the `x-apikey` header. The AppID decides which tools exist; answers must carry the source links.',
+        de: 'Der Agent ruft den MCP-Server von Web IQ auf; Agent Service schickt den API-Key aus der Tool-Verbindung als Header `x-apikey` mit. Die AppID bestimmt, welche Tools es gibt; Antworten müssen die Quellenlinks tragen.',
       },
       width: 960,
       height: 420,
@@ -26,21 +26,21 @@ export const lesson: Lesson = {
       ],
       nodes: [
         { id: 'user', x: 20, y: 70, w: 120, h: 64, label: { en: 'User', de: 'Nutzer' }, tone: 'user', shape: 'actor' },
-        { id: 'answer', x: 10, y: 196, w: 130, h: 64, label: { en: 'Cited answer', de: 'Antwort + Links' }, sub: { en: 'links next to text', de: 'Links am Text' }, tone: 'foundry', shape: 'pill' },
+        { id: 'answer', x: 10, y: 196, w: 140, h: 64, label: { en: 'Cited answer', de: 'Antwort + Links' }, sub: { en: 'links next to text', de: 'Links am Text' }, tone: 'foundry', shape: 'pill' },
         { id: 'agent', x: 180, y: 66, w: 180, h: 72, label: 'Foundry agent', sub: { en: 'MCP tool: Web IQ', de: 'MCP-Tool: Web IQ' }, tone: 'foundry' },
         { id: 'conn', x: 180, y: 196, w: 180, h: 64, label: { en: 'Tool connection', de: 'Tool-Verbindung' }, sub: { en: 'stores the API key', de: 'speichert API-Key' }, tone: 'safety' },
-        { id: 'mcp', x: 430, y: 66, w: 220, h: 72, label: 'Web IQ MCP server', sub: 'api.microsoft.ai/v3/mcp', tone: 'external' },
-        { id: 'tools', x: 430, y: 190, w: 220, h: 76, label: { en: 'MCP tools', de: 'MCP-Tools' }, sub: 'web · news · browse\nimages · videos', tone: 'tool' },
-        { id: 'index', x: 730, y: 66, w: 200, h: 72, label: { en: 'Web index', de: 'Webindex' }, sub: { en: 'Bing’s global index', de: 'globaler Bing-Index' }, tone: 'external', shape: 'store' },
-        { id: 'appid', x: 730, y: 196, w: 200, h: 64, label: 'Web IQ AppID', sub: { en: 'allowed APIs · 15 QPS', de: 'erlaubte APIs · 15 QPS' }, tone: 'safety' },
-        { id: 'res', x: 730, y: 330, w: 200, h: 64, label: { en: 'Web IQ resource', de: 'Web-IQ-Ressource' }, sub: { en: 'Azure · billing only', de: 'Azure · nur Abrechnung' }, tone: 'neutral' },
+        { id: 'mcp', x: 430, y: 66, w: 180, h: 72, label: 'Web IQ MCP server', sub: 'api.microsoft.ai/v3/mcp', tone: 'external' },
+        { id: 'tools', x: 430, y: 190, w: 180, h: 76, label: { en: 'MCP tools', de: 'MCP-Tools' }, sub: 'web · news · browse ·\nimages · videos', tone: 'tool' },
+        { id: 'index', x: 760, y: 66, w: 170, h: 72, label: { en: 'Web index', de: 'Webindex' }, sub: { en: 'Bing’s global index', de: 'globaler Bing-Index' }, tone: 'external', shape: 'store' },
+        { id: 'appid', x: 760, y: 196, w: 170, h: 64, label: 'Web IQ AppID', sub: { en: 'allowed APIs · 15 QPS', de: 'erlaubte APIs · 15 QPS' }, tone: 'safety' },
+        { id: 'res', x: 760, y: 330, w: 170, h: 64, label: { en: 'Web IQ resource', de: 'Web-IQ-Ressource' }, sub: { en: 'Azure · billing only', de: 'Azure · nur Abrechnung' }, tone: 'neutral' },
       ],
       edges: [
         { id: 'e-user-agent', from: 'user', to: 'agent' },
         { id: 'e-agent-mcp', from: 'agent', to: 'mcp', label: 'MCP', bidir: true },
         { id: 'e-mcp-tools', from: 'mcp', to: 'tools', label: { en: 'exposes', de: 'stellt bereit' } },
-        { id: 'e-mcp-index', from: 'mcp', to: 'index', bidir: true },
-        { id: 'e-conn-agent', from: 'conn', to: 'agent', label: { en: 'API key', de: 'API-Key' }, dashed: true },
+        { id: 'e-mcp-index', from: 'mcp', to: 'index', label: { en: 'search · browse', de: 'Suche · Browse' }, bidir: true },
+        { id: 'e-conn-mcp', from: 'conn', to: 'mcp', label: 'x-apikey', dashed: true },
         { id: 'e-appid-tools', from: 'appid', to: 'tools', label: { en: 'allows', de: 'erlaubt' }, dashed: true },
         { id: 'e-res-appid', from: 'res', to: 'appid', label: { en: 'billing link', de: 'Abrechnung' }, dashed: true },
         { id: 'e-agent-answer', from: 'agent', to: 'answer' },
@@ -66,10 +66,10 @@ export const lesson: Lesson = {
         {
           title: { en: 'Attach the MCP tool', de: 'MCP-Tool anhängen' },
           text: {
-            en: 'Add Web IQ to the agent as an MCP tool on `https://api.microsoft.ai/v3/mcp` (from the tool catalog or as a custom MCP tool). The tool connection holds the API key, sent as the `x-apikey` header — never paste it into instructions or code.',
-            de: 'Füge Web IQ dem Agent als MCP-Tool auf `https://api.microsoft.ai/v3/mcp` hinzu (aus dem Tool-Katalog oder als eigenes MCP-Tool). Die Tool-Verbindung hält den API-Key, der als Header `x-apikey` mitgeht – füge ihn nie in Instructions oder Code ein.',
+            en: 'Add Web IQ to the agent as an MCP tool on `https://api.microsoft.ai/v3/mcp` (from the tool catalog or as a custom MCP tool). Its **project connection** (stored endpoint + credential that tools reference instead of secrets in code) holds the API key. On every call, Agent Service reads the key from the connection and sends it to the MCP server as the `x-apikey` header — the key never appears in instructions or code.',
+            de: 'Füge Web IQ dem Agent als MCP-Tool auf `https://api.microsoft.ai/v3/mcp` hinzu (aus dem Tool-Katalog oder als eigenes MCP-Tool). Seine **Projektverbindung** (gespeicherter Endpoint + Anmeldedaten, auf die Tools verweisen, statt Geheimnisse im Code) hält den API-Key. Bei jedem Aufruf liest Agent Service den Key aus der Verbindung und schickt ihn als Header `x-apikey` an den MCP-Server – der Key taucht nie in Instructions oder Code auf.',
           },
-          focus: ['conn', 'e-conn-agent', 'agent', 'e-agent-mcp', 'mcp', 'g-proj'],
+          focus: ['conn', 'e-conn-mcp', 'agent', 'e-agent-mcp', 'mcp', 'g-proj'],
         },
         {
           title: { en: 'Pick the right method', de: 'Die passende Methode wählen' },
@@ -82,10 +82,10 @@ export const lesson: Lesson = {
         {
           title: { en: 'Evidence in, citations out', de: 'Belege rein, Zitate raus' },
           text: {
-            en: 'Results come back ranked with titles, URLs, query-relevant passages and timestamps. The agent bases its claims on them, flags conflicting or outdated dates, and shows a link to every source it used right next to the answer.',
-            de: 'Die Ergebnisse kommen gerankt mit Titeln, URLs, abfragerelevanten Passagen und Zeitstempeln zurück. Der Agent stützt seine Aussagen darauf, weist auf widersprüchliche oder veraltete Daten hin und zeigt direkt neben der Antwort einen Link zu jeder genutzten Quelle.',
+            en: 'Search and Browse are served from Bing’s web index (Browse can request a live crawl for a page that isn’t indexed yet). Results come back over MCP, ranked, with titles, URLs, query-relevant passages and timestamps. The agent bases its claims on them, flags conflicting or outdated dates, and shows a link to every source it used right next to the answer.',
+            de: 'Suche und Browse werden aus dem Webindex von Bing bedient (Browse kann für eine noch nicht indexierte Seite einen Live-Crawl anfordern). Die Ergebnisse kommen über MCP gerankt zurück, mit Titeln, URLs, abfragerelevanten Passagen und Zeitstempeln. Der Agent stützt seine Aussagen darauf, weist auf widersprüchliche oder veraltete Daten hin und zeigt direkt neben der Antwort einen Link zu jeder genutzten Quelle.',
           },
-          focus: ['e-mcp-index', 'index', 'e-agent-answer', 'answer', 'e-answer-user'],
+          focus: ['mcp', 'e-mcp-index', 'index', 'e-agent-mcp', 'agent', 'e-agent-answer', 'answer', 'e-answer-user'],
         },
       ],
     },
@@ -120,24 +120,24 @@ export const lesson: Lesson = {
       },
     },
     {
-      term: 'Retrieval controls and passages',
+      term: 'Passages and full document access',
       text: {
-        en: '`contentFormat=passage` returns only the query-relevant parts of each result (at most 3,000 characters per result without full document access), so the model reads less noise and fewer tokens; `text`, `html` and `markdown` need full document access, otherwise HTTP 403. Set `contentFormat` and `maxLength` on every Web Search and News request, tune `maxResults`, `language` and `region`, and use `site:` only when you must pin a domain — it lowers relevance.',
-        de: '`contentFormat=passage` liefert nur die abfragerelevanten Teile jedes Treffers (ohne Volldokumentzugriff höchstens 3.000 Zeichen pro Treffer) – das Modell liest weniger Rauschen und weniger Tokens; `text`, `html` und `markdown` brauchen Volldokumentzugriff, sonst HTTP 403. Setze `contentFormat` und `maxLength` bei jeder Web-Search- und News-Anfrage, stimme `maxResults`, `language` und `region` ab und nutze `site:` nur, wenn du eine Domain festlegen musst – es senkt die Relevanz.',
+        en: '`passage` (the default content format unless your app has full document access) returns only the query-relevant parts of each result — at most 3,000 characters per result without full document access — so the model reads less noise and fewer tokens. `text`, `html` and `markdown` return whole documents and need **full document access**, which you request through a Web IQ Support request; without it they fail with HTTP 403. The second code sample shows the request parameters.',
+        de: '`passage` (das Standard-Inhaltsformat, sofern deine App keinen Volldokumentzugriff hat) liefert nur die abfragerelevanten Teile jedes Treffers – ohne Volldokumentzugriff höchstens 3.000 Zeichen pro Treffer –, sodass das Modell weniger Rauschen und weniger Tokens liest. `text`, `html` und `markdown` liefern ganze Dokumente und brauchen **Volldokumentzugriff**, den du per Web-IQ-Supportanfrage beantragst; ohne ihn scheitern sie mit HTTP 403. Das zweite Codebeispiel zeigt die Anfrageparameter.',
       },
     },
     {
       term: 'Attribution and data handling',
       text: {
-        en: 'Show a link to each source used, next to the answer and reachable in one action; cite only sources the model actually used. Don’t cache or store result content beyond the allowed exceptions, and don’t feed returned images or videos to the model. Web IQ isn’t covered by the Data Protection Addendum or EU Data Boundary and doesn’t mask personal data — scrub it first.',
-        de: 'Zeige zu jeder genutzten Quelle einen Link direkt bei der Antwort, mit einer Aktion erreichbar; zitiere nur Quellen, die das Modell wirklich genutzt hat. Speichere oder cache Ergebnisinhalte nicht über die erlaubten Ausnahmen hinaus und gib zurückgelieferte Bilder oder Videos nicht ans Modell. Web IQ fällt nicht unter das Data Protection Addendum oder die EU Data Boundary und maskiert keine personenbezogenen Daten – bereinige sie vorher.',
+        en: 'Show a link to each source used, next to the answer and reachable in one action; cite only sources the model actually used. Don’t cache or store result content — the only exceptions are LLM summaries in a user’s own chat history, summaries plus their links inside internal work products (reports, audit logs), and transient processing within one request. Don’t feed returned images or videos to the model. Web IQ isn’t covered by the Data Protection Addendum or EU Data Boundary and doesn’t mask personal data — scrub it first.',
+        de: 'Zeige zu jeder genutzten Quelle einen Link direkt bei der Antwort, mit einer Aktion erreichbar; zitiere nur Quellen, die das Modell wirklich genutzt hat. Speichere oder cache keine Ergebnisinhalte – einzige Ausnahmen: LLM-Zusammenfassungen im Chatverlauf des jeweiligen Nutzers, Zusammenfassungen samt Links in internen Arbeitsergebnissen (Berichte, Audit-Logs) und kurzzeitige Verarbeitung innerhalb einer Anfrage. Gib zurückgelieferte Bilder oder Videos nicht ans Modell. Web IQ fällt nicht unter das Data Protection Addendum oder die EU Data Boundary und maskiert keine personenbezogenen Daten – bereinige sie vorher.',
       },
     },
     {
-      term: 'Web Search tool',
+      term: 'Web Search tool vs Grounding with Bing Search',
       text: {
-        en: 'Foundry Agent Service’s built-in web grounding, backed by Grounding with Bing: no extra Azure resource, optional `user_location` and `search_context_size`, citations returned as `url_citation` annotations. It’s the recommended starting point for general web questions.',
-        de: 'Das eingebaute Web-Grounding von Foundry Agent Service, gestützt auf Grounding with Bing: keine zusätzliche Azure-Ressource, optional `user_location` und `search_context_size`, Zitate als `url_citation`-Annotationen. Der empfohlene Einstieg für allgemeine Webfragen.',
+        en: 'Both are Foundry tools on top of Bing. The **Web Search tool** is the recommended start: Microsoft manages the Grounding with Bing resource for you, it takes `user_location` and `search_context_size`, returns `url_citation` annotations and works with Azure OpenAI models. The **Grounding with Bing Search** tool needs your own Grounding with Bing resource and connection, offers more parameters (`count`, `freshness`, `market`, `set_lang`) and also supports non-OpenAI models sold by Azure.',
+        de: 'Beide sind Foundry-Tools auf Basis von Bing. Das **Web Search Tool** ist der empfohlene Einstieg: Microsoft verwaltet die Grounding-with-Bing-Ressource für dich, es nimmt `user_location` und `search_context_size`, liefert `url_citation`-Annotationen und arbeitet mit Azure-OpenAI-Modellen. Das Tool **Grounding with Bing Search** braucht eine eigene Grounding-with-Bing-Ressource samt Verbindung, bietet mehr Parameter (`count`, `freshness`, `market`, `set_lang`) und unterstützt auch Nicht-OpenAI-Modelle, die Azure verkauft.',
       },
     },
   ],
@@ -157,7 +157,7 @@ export const lesson: Lesson = {
       [
         'Grounding with Bing Search',
         { en: 'Your own Grounding with Bing Search resource and a connection', de: 'Eigene Grounding-with-Bing-Search-Ressource und eine Verbindung' },
-        { en: 'More Bing parameters (`count`, `freshness`, `market`); non-OpenAI models', de: 'Mehr Bing-Parameter (`count`, `freshness`, `market`); Nicht-OpenAI-Modelle' },
+        { en: 'More Bing parameters (`count`, `freshness`, `market`, `set_lang`); also non-OpenAI models sold by Azure', de: 'Mehr Bing-Parameter (`count`, `freshness`, `market`, `set_lang`); auch Nicht-OpenAI-Modelle, die Azure verkauft' },
       ],
       [
         'Web IQ',
@@ -167,7 +167,7 @@ export const lesson: Lesson = {
       [
         { en: 'Foundry IQ web knowledge source', de: 'Foundry-IQ-Web-Knowledge-Source' },
         { en: 'A web knowledge source in a knowledge base (plus an LLM)', de: 'Eine Web-Knowledge-Source in einer Knowledge Base (plus LLM)' },
-        { en: 'Web results summarized and merged with enterprise sources in one retrieval call', de: 'Webergebnisse zusammengefasst und mit Unternehmensquellen in einem Retrieval-Aufruf gemergt' },
+        { en: 'Bing results turned into cited summaries by the knowledge base’s LLM and merged with enterprise sources in one retrieval call — extractive output works, answer synthesis is optional', de: 'Bing-Ergebnisse, vom LLM der Knowledge Base zu zitierten Zusammenfassungen verarbeitet und mit Unternehmensquellen in einem Retrieval-Aufruf gemergt – extraktive Ausgabe funktioniert, Answer Synthesis ist optional' },
       ],
     ],
   },
@@ -186,13 +186,13 @@ web_iq = MCPTool(
     server_label="web-iq",
     server_url="https://api.microsoft.ai/v3/mcp",
     allowed_tools=["web", "news", "browse"],
-    require_approval={"never": ["web", "news"]},   # no approval for web and news
+    require_approval={"never": {"tool_names": ["web", "news"]}},  # browse: default "always"
     project_connection_id="web-iq-key",             # credential: x-apikey
 )
 agent = project.agents.create_version(
     agent_name="tour-scout",
     definition=PromptAgentDefinition(
-        model="gpt-5-mini",
+        model="gpt-5-mini",  # deployment name
         instructions=(
             "Use Web IQ for news, concert dates and other time-sensitive facts. "
             "Prefer official sources, check that event dates are in the future, "
@@ -203,8 +203,12 @@ agent = project.agents.create_version(
 )`,
       notes: [
         {
-          en: 'The project connection stores the shared API key; Agent Service passes it to the MCP server on every call.',
-          de: 'Die Projektverbindung speichert den gemeinsamen API-Key; Agent Service gibt ihn bei jedem Aufruf an den MCP-Server weiter.',
+          en: 'A **prompt agent** is a declarative agent: model + instructions + tools, versioned in Foundry. `model` takes a deployment name, which can be any name you chose; the project connection stores the shared API key, and Agent Service passes it to the MCP server on every call.',
+          de: 'Ein **Prompt Agent** ist ein deklarativer Agent: Modell + Instructions + Tools, in Foundry versioniert. `model` erwartet einen Deployment-Namen, den du frei wählen kannst; die Projektverbindung speichert den gemeinsamen API-Key, und Agent Service gibt ihn bei jedem Aufruf an den MCP-Server weiter.',
+        },
+        {
+          en: '`require_approval` defaults to `"always"`. The per-tool filter `{"never": {"tool_names": [...]}}` exempts only the listed tools, so `browse` — allowed but not listed — still waits for an `mcp_approval_request` to be approved.',
+          de: '`require_approval` ist standardmäßig `"always"`. Der Filter pro Tool `{"never": {"tool_names": [...]}}` befreit nur die gelisteten Tools – `browse`, erlaubt, aber nicht gelistet, wartet also weiter auf die Freigabe eines `mcp_approval_request`.',
         },
         {
           en: 'Only tools allowed for your AppID appear in the server’s tool list; `allowed_tools` narrows them further for this agent.',
@@ -220,22 +224,23 @@ from webiq import WebIQClient
 from webiq.types import ContentFormat
 
 with WebIQClient(api_key=os.environ["WEBIQ_API_KEY"]) as client:
-    news = client.news.search(
-        "Contoso Robotics funding round",
-        max_results=10,
-        content_format=ContentFormat.passage,   # query-relevant extracts
-        max_length=3000,
+    web = client.web.search(
+        "Contoso Robotics funding round",      # REST query: max 1,000 chars; site: only if needed
+        max_results=10,                         # REST maxResults: 1-50 (default 10)
+        language="en", region="US",             # REST language / region: 2-letter codes
+        content_format=ContentFormat.passage,   # REST contentFormat: passage | text | html | markdown
+        max_length=3000,                        # REST maxLength: characters per result
     )
-    for item in news.newsResults or []:
-        print(item.title, item.url, item.lastUpdatedAt)`,
+    for r in web.webResults or []:
+        print(r.title, r.url, r.crawledAt)`,
       notes: [
         {
-          en: 'A good starting point for grounding is about 10 results with roughly 3,000 characters each in `passage` format.',
-          de: 'Ein guter Startpunkt fürs Grounding sind etwa 10 Treffer mit rund 3.000 Zeichen im Format `passage`.',
+          en: 'The SDK uses snake_case (`content_format`, `max_length`); the REST API and the MCP tools take the same parameters in camelCase (`contentFormat`, `maxLength`). For News, use `client.news.search(...)` instead of filtering web results by date.',
+          de: 'Das SDK nutzt snake_case (`content_format`, `max_length`); REST-API und MCP-Tools nehmen dieselben Parameter in camelCase (`contentFormat`, `maxLength`). Für News nutzt du `client.news.search(...)`, statt Webtreffer nach Datum zu filtern.',
         },
         {
-          en: 'In production, pass `credential=DefaultAzureCredential()` (Microsoft Entra ID) instead of an API key.',
-          de: 'In Produktion übergibst du `credential=DefaultAzureCredential()` (Microsoft Entra ID) statt eines API-Keys.',
+          en: 'Start with about 10 results × 3,000 characters in `passage` format. In production, pass `credential=DefaultAzureCredential()` (Microsoft Entra ID) instead of an API key.',
+          de: 'Starte mit etwa 10 Treffern × 3.000 Zeichen im Format `passage`. In Produktion übergibst du `credential=DefaultAzureCredential()` (Microsoft Entra ID) statt eines API-Keys.',
         },
       ],
     },
@@ -246,8 +251,8 @@ with WebIQClient(api_key=os.environ["WEBIQ_API_KEY"]) as client:
       de: 'Web IQ ist kein LLM und erzeugt keine Antwort – das Modell deines Agents schreibt sie aus den gelieferten Belegen.',
     },
     {
-      en: 'AppID ≠ Entra application (client) ID ≠ API key. Key-authenticated calls must not send `APPID` (HTTP 401); an Entra client ID bound to several AppIDs must send `APPID` (otherwise HTTP 400).',
-      de: 'AppID ≠ Entra Application (Client) ID ≠ API-Key. Aufrufe mit API-Key dürfen kein `APPID` senden (HTTP 401); eine Entra-Client-ID, die an mehrere AppIDs gebunden ist, muss `APPID` senden (sonst HTTP 400).',
+      en: 'AppID ≠ Entra application (client) ID ≠ API key. An API key already belongs to one AppID, so sending `APPID` with a key returns HTTP 401. With a Microsoft Entra token whose client ID is bound to several AppIDs, add the AppID as a query parameter — `https://api.microsoft.ai/v3/search/web?APPID=<web-iq-appid>` — or you get HTTP 400.',
+      de: 'AppID ≠ Entra Application (Client) ID ≠ API-Key. Ein API-Key gehört bereits zu genau einer AppID – `APPID` zusammen mit einem Key liefert HTTP 401. Bei einem Microsoft-Entra-Token, dessen Client-ID an mehrere AppIDs gebunden ist, hängst du die AppID als Query-Parameter an – `https://api.microsoft.ai/v3/search/web?APPID=<web-iq-appid>` –, sonst kommt HTTP 400.',
     },
     {
       en: 'The Azure resource only handles metering and billing; calls go straight to `api.microsoft.ai`. There’s no Private Link, VNet integration or Azure RBAC on the API — access is controlled per AppID.',

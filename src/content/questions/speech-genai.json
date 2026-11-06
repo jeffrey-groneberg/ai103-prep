@@ -19,7 +19,7 @@
           "id": "p1",
           "prompt": { "en": "Turn an 8 MB recorded German support call into German text", "de": "Einen 8 MB großen, aufgezeichneten deutschen Supportanruf in deutschen Text umwandeln" },
           "answer": "t1",
-          "why": { "en": "Transcription models return a transcript in the spoken language, and the file is well below the 25 MB limit of the transcription API.", "de": "Transkriptionsmodelle liefern ein Transkript in der gesprochenen Sprache, und die Datei liegt deutlich unter dem 25-MB-Limit der Transkriptions-API." }
+          "why": { "en": "A transcription model such as `gpt-transcribe` returns a transcript in the spoken language, and the file is well below the 25 MB limit of the transcription API.", "de": "Ein Transkriptionsmodell wie `gpt-transcribe` liefert ein Transkript in der gesprochenen Sprache, und die Datei liegt deutlich unter dem 25-MB-Limit der Transkriptions-API." }
         },
         {
           "id": "p2",
@@ -35,14 +35,14 @@
         }
       ],
       "targets": [
-        { "id": "t1", "text": { "en": "`gpt-4o-transcribe` with `audio.transcriptions.create()`", "de": "`gpt-4o-transcribe` mit `audio.transcriptions.create()`" } },
+        { "id": "t1", "text": { "en": "`gpt-transcribe` with `audio.transcriptions.create()`", "de": "`gpt-transcribe` mit `audio.transcriptions.create()`" } },
         { "id": "t2", "text": { "en": "`gpt-4o-mini-tts` with `audio.speech.create()` and `instructions`", "de": "`gpt-4o-mini-tts` mit `audio.speech.create()` und `instructions`" } },
         { "id": "t3", "text": { "en": "`gpt-realtime` through the Realtime API over WebRTC", "de": "`gpt-realtime` über die Realtime API per WebRTC" } },
         { "id": "t4", "text": { "en": "`whisper` with `audio.translations.create()`", "de": "`whisper` mit `audio.translations.create()`" } }
       ],
       "explanation": {
-        "en": "Choose the audio model by the job: transcription models for audio to text in the same language, `gpt-4o-mini-tts` for text to speech with style instructions, realtime models for live two-way speech. Whisper translation always produces English text, so it doesn't fit a German transcript.",
-        "de": "Wähle das Audiomodell nach der Aufgabe: Transkriptionsmodelle für Audio zu Text in derselben Sprache, `gpt-4o-mini-tts` für Text zu Sprache mit Stilanweisungen, Realtime-Modelle für Live-Gespräche in beide Richtungen. Die Whisper-Übersetzung liefert immer englischen Text und passt daher nicht zu einem deutschen Transkript."
+        "en": "Choose the audio model by the job: a transcription model such as `gpt-transcribe` for audio to text in the same language, `gpt-4o-mini-tts` for text to speech with style instructions, realtime models for live two-way speech. Whisper translation (`whisper` retires on 2026-12-15) always produces English text, so it doesn't fit a German transcript.",
+        "de": "Wähle das Audiomodell nach der Aufgabe: ein Transkriptionsmodell wie `gpt-transcribe` für Audio zu Text in derselben Sprache, `gpt-4o-mini-tts` für Text zu Sprache mit Stilanweisungen, Realtime-Modelle für Live-Gespräche in beide Richtungen. Die Whisper-Übersetzung (`whisper` wird am 2026-12-15 eingestellt) liefert immer englischen Text und passt daher nicht zu einem deutschen Transkript."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure",
@@ -107,15 +107,15 @@
       "module": "speech-genai",
       "difficulty": 3,
       "stem": {
-        "en": "A contact center wants to answer free-form questions about recorded calls, such as \"Did the agent offer a refund, and who asked for it?\". Recordings are stereo WAV files of up to 3 hours (about 500 MB), and answers must show which speaker said what. Which approach meets all requirements?",
-        "de": "Ein Contact Center möchte frei formulierte Fragen zu aufgezeichneten Anrufen beantworten, etwa „Hat der Mitarbeiter eine Erstattung angeboten, und wer hat danach gefragt?“. Die Aufnahmen sind Stereo-WAV-Dateien von bis zu 3 Stunden (etwa 500 MB), und die Antworten müssen erkennen lassen, welcher Sprecher was gesagt hat. Welcher Ansatz erfüllt alle Anforderungen?"
+        "en": "A contact center wants to answer free-form questions about recorded calls, such as \"Did the agent offer a refund, and who asked for it?\". Recordings are mono WAV files of up to 3 hours (about 500 MB), and answers must show which speaker said what. Which approach meets all requirements?",
+        "de": "Ein Contact Center möchte frei formulierte Fragen zu aufgezeichneten Anrufen beantworten, etwa „Hat der Mitarbeiter eine Erstattung angeboten, und wer hat danach gefragt?“. Die Aufnahmen sind Mono-WAV-Dateien von bis zu 3 Stunden (etwa 500 MB), und die Antworten müssen erkennen lassen, welcher Sprecher was gesagt hat. Welcher Ansatz erfüllt alle Anforderungen?"
       },
       "options": [
         {
           "id": "a",
           "text": { "en": "Transcribe each call with Azure Speech batch transcription and diarization, then send the transcript and the question to a chat model deployment", "de": "Jeden Anruf mit der Batch-Transkription von Azure Speech samt Diarisierung transkribieren und dann Transkript und Frage an ein Chatmodell-Deployment schicken" },
           "correct": true,
-          "why": { "en": "Batch transcription handles files larger than 25 MB (up to 1 GB) and labels speakers; a chat model can then reason over the speaker-tagged transcript.", "de": "Die Batch-Transkription verarbeitet Dateien über 25 MB (bis 1 GB) und kennzeichnet Sprecher; ein Chatmodell kann danach über das Transkript mit Sprecherzuordnung schlussfolgern." }
+          "why": { "en": "Batch transcription handles files larger than 25 MB (up to 1 GB) and labels speakers (diarization needs mono audio of at most 240 minutes per file); a chat model can then reason over the speaker-tagged transcript.", "de": "Die Batch-Transkription verarbeitet Dateien über 25 MB (bis 1 GB) und kennzeichnet Sprecher (Diarisierung braucht Mono-Audio von höchstens 240 Minuten pro Datei); ein Chatmodell kann danach über das Transkript mit Sprecherzuordnung schlussfolgern." }
         },
         {
           "id": "b",
@@ -125,9 +125,9 @@
         },
         {
           "id": "c",
-          "text": { "en": "Call `audio.transcriptions.create()` with `gpt-4o-transcribe` and put the question into the `prompt` parameter", "de": "`audio.transcriptions.create()` mit `gpt-4o-transcribe` aufrufen und die Frage in den Parameter `prompt` schreiben" },
+          "text": { "en": "Call `audio.transcriptions.create()` with a `gpt-transcribe` deployment and add the question to the request", "de": "`audio.transcriptions.create()` mit einem `gpt-transcribe`-Deployment aufrufen und die Frage in den Request schreiben" },
           "correct": false,
-          "why": { "en": "The transcription API accepts files up to 25 MB, and `prompt` only guides how the transcript is written — it doesn't answer questions.", "de": "Die Transkriptions-API akzeptiert Dateien bis 25 MB, und `prompt` steuert nur, wie das Transkript geschrieben wird – Fragen beantwortet es nicht." }
+          "why": { "en": "The transcription API accepts at most 25 MB per file and returns only a transcript — it doesn't answer questions about the audio.", "de": "Die Transkriptions-API akzeptiert höchstens 25 MB pro Datei und liefert nur ein Transkript – Fragen zum Audio beantwortet sie nicht." }
         },
         {
           "id": "d",
@@ -137,11 +137,12 @@
         }
       ],
       "explanation": {
-        "en": "When audio exceeds the limits of audio chat (20 MB) or the transcription API (25 MB), or you need speaker labels, transcribe with Azure Speech batch transcription first and let a language model reason over the diarized transcript.",
-        "de": "Wenn Audio die Limits von Audio-Chat (20 MB) oder der Transkriptions-API (25 MB) überschreitet oder du Sprecherzuordnungen brauchst, transkribierst du zuerst mit der Batch-Transkription von Azure Speech und lässt dann ein Sprachmodell über das diarisierte Transkript schlussfolgern."
+        "en": "When audio exceeds the limits of audio chat (20 MB) or the transcription API (25 MB), or you need speaker labels, transcribe with Azure Speech batch transcription first and let a language model reason over the diarized transcript. Batch diarization works on mono recordings only — not on stereo files.",
+        "de": "Wenn Audio die Limits von Audio-Chat (20 MB) oder der Transkriptions-API (25 MB) überschreitet oder du Sprecherzuordnungen brauchst, transkribierst du zuerst mit der Batch-Transkription von Azure Speech und lässt dann ein Sprachmodell über das diarisierte Transkript schlussfolgern. Die Batch-Diarisierung funktioniert nur mit Mono-Aufnahmen – nicht mit Stereo-Dateien."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/transcribe-overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-create",
         "https://learn.microsoft.com/en-us/azure/foundry/openai/audio-completions-quickstart"
       ],
       "lastVerified": "2026-11-06"

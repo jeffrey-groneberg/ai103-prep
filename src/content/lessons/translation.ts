@@ -19,10 +19,10 @@ export const lesson: Lesson = {
         de: 'Text läuft über Azure Translator (NMT oder dein LLM-Deployment). Sprache läuft über Azure Speech – oder über ein LLM-basiertes Audiomodell.',
       },
       width: 960,
-      height: 460,
+      height: 490,
       groups: [
         { id: 'g-speech', x: 190, y: 190, w: 600, h: 130, label: 'Azure Speech · TranslationRecognizer', tone: 'foundry' },
-        { id: 'g-llm', x: 190, y: 344, w: 600, h: 108, label: { en: 'LLM-based speech translation', de: 'LLM-basierte Sprachübersetzung' }, tone: 'model' },
+        { id: 'g-llm', x: 190, y: 344, w: 600, h: 126, label: { en: 'LLM-based speech translation', de: 'LLM-basierte Sprachübersetzung' }, tone: 'model' },
       ],
       nodes: [
         { id: 't_in', x: 20, y: 54, w: 140, h: 64, label: { en: 'Source text', de: 'Quelltext' }, sub: { en: '+ target languages', de: '+ Zielsprachen' }, tone: 'data', shape: 'doc' },
@@ -35,8 +35,8 @@ export const lesson: Lesson = {
         { id: 'trn', x: 420, y: 230, w: 160, h: 64, label: { en: 'Translate', de: 'Übersetzen' }, sub: 'add_target_language', tone: 'foundry' },
         { id: 'syn', x: 630, y: 230, w: 140, h: 64, label: { en: 'Synthesize', de: 'Synthetisieren' }, sub: 'voice_name', tone: 'foundry' },
         { id: 's_out', x: 830, y: 230, w: 120, h: 64, label: { en: 'Listener', de: 'Zuhörer:in' }, sub: { en: 'audio + text', de: 'Audio + Text' }, tone: 'user', shape: 'actor' },
-        { id: 'llm_rt', x: 210, y: 376, w: 270, h: 56, label: 'gpt-realtime-translate', sub: { en: 'live audio → speech + text', de: 'Live-Audio → Sprache + Text' }, tone: 'model' },
-        { id: 'llm_sp', x: 520, y: 376, w: 250, h: 56, label: 'Azure LLM Speech', sub: { en: 'task: translate · files', de: 'task: translate · Dateien' }, tone: 'foundry' },
+        { id: 'llm_sp', x: 210, y: 376, w: 270, h: 56, label: 'Azure LLM Speech', sub: { en: 'task: translate · file → text', de: 'task: translate · Datei → Text' }, tone: 'foundry' },
+        { id: 'llm_rt', x: 520, y: 376, w: 250, h: 56, label: 'gpt-realtime-translate', sub: { en: 'live audio → speech + text', de: 'Live-Audio → Sprache + Text' }, tone: 'model' },
       ],
       edges: [
         { id: 'e-tin-ttr', from: 't_in', to: 't_tr' },
@@ -49,13 +49,15 @@ export const lesson: Lesson = {
         { id: 'e-trn-syn', from: 'trn', to: 'syn' },
         { id: 'e-syn-sout', from: 'syn', to: 's_out' },
         { id: 'e-sin-llm', from: 's_in', to: 'g-llm', label: { en: 'LLM route', de: 'LLM-Weg' }, dashed: true, via: [[95, 398]] },
+        { id: 'e-rt-out', from: 'llm_rt', to: 's_out', dashed: true, via: [[890, 404]] },
+        { id: 'e-sp-out', from: 'llm_sp', to: 's_out', dashed: true, via: [[345, 452], [890, 452]] },
       ],
       steps: [
         {
           title: { en: 'Text in, targets out', de: 'Text rein, Ziele raus' },
           text: {
-            en: 'You send text plus one or more target languages. In API `2026-06-06` that\'s an `inputs` array whose items carry a `targets` array; if you omit the source `language`, Translator detects it.',
-            de: 'Du schickst Text plus eine oder mehrere Zielsprachen. In API `2026-06-06` ist das ein `inputs`-Array, dessen Einträge ein `targets`-Array tragen; lässt du die Quell-`language` weg, erkennt Translator sie selbst.',
+            en: 'You send text plus one or more target languages. In API `2026-06-06` that\'s an `inputs` array whose items carry a `targets` array; if you omit the source `language`, the translate call detects it.',
+            de: 'Du schickst Text plus eine oder mehrere Zielsprachen. In API `2026-06-06` ist das ein `inputs`-Array, dessen Einträge ein `targets`-Array tragen; lässt du die Quell-`language` weg, erkennt der Translate-Aufruf sie selbst.',
           },
           focus: ['t_in', 'e-tin-ttr', 't_tr'],
         },
@@ -70,8 +72,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Or your LLM deployment', de: 'Oder dein LLM-Deployment' },
           text: {
-            en: 'Set `deploymentName` to a GPT deployment to unlock `tone`, `gender` and adaptive custom translation. This needs a Foundry resource, is billed per token and allows 50 texts of up to 5,000 characters.',
-            de: 'Setz `deploymentName` auf ein GPT-Deployment, um `tone`, `gender` und adaptive Custom Translation freizuschalten. Das braucht eine Foundry-Ressource, wird pro Token abgerechnet und erlaubt 50 Texte à bis zu 5.000 Zeichen.',
+            en: 'Set `deploymentName` to the name of your GPT deployment (any name you chose) to unlock `tone` (formal, informal, neutral), `gender` (female, male, neutral) and adaptive custom translation. This needs a Foundry resource, the resource type that hosts model deployments; it is billed per token and allows 50 texts of up to 5,000 characters.',
+            de: 'Setz `deploymentName` auf den Namen deines GPT-Deployments (frei gewählt), um `tone` (formal, informal, neutral), `gender` (female, male, neutral) und adaptive Custom Translation freizuschalten. Das braucht eine Foundry-Ressource, den Ressourcentyp, der Modell-Deployments hostet; abgerechnet wird pro Token, und erlaubt sind 50 Texte à bis zu 5.000 Zeichen.',
           },
           focus: ['e-ttr-llm', 'llm', 'e-llm-tout'],
         },
@@ -94,10 +96,10 @@ export const lesson: Lesson = {
         {
           title: { en: 'LLM-based speech options', de: 'LLM-basierte Sprachoptionen' },
           text: {
-            en: 'For live streams, `gpt-realtime-translate` (Realtime API) translates audio continuously and returns speech plus a transcript. For recorded files, Azure LLM Speech runs `task: translate` on the fast transcription endpoint.',
-            de: 'Für Live-Streams übersetzt `gpt-realtime-translate` (Realtime API) Audio kontinuierlich und liefert Sprache plus Transkript. Für aufgezeichnete Dateien führt Azure LLM Speech `task: translate` auf dem Fast-Transcription-Endpoint aus.',
+            en: 'For live streams, `gpt-realtime-translate` on the Realtime API (low-latency audio API over WebSockets, WebRTC or SIP) translates audio continuously and returns translated speech plus a transcript. For recorded files, Azure LLM Speech runs `task: translate` on the fast transcription endpoint and returns translated text.',
+            de: 'Für Live-Streams übersetzt `gpt-realtime-translate` über die Realtime API (Audio-API mit niedriger Latenz über WebSockets, WebRTC oder SIP) Audio kontinuierlich und liefert übersetzte Sprache plus Transkript. Für aufgezeichnete Dateien führt Azure LLM Speech `task: translate` auf dem Fast-Transcription-Endpoint aus und liefert übersetzten Text.',
           },
-          focus: ['e-sin-llm', 'g-llm', 'llm_rt', 'llm_sp'],
+          focus: ['e-sin-llm', 'g-llm', 'llm_rt', 'llm_sp', 'e-rt-out', 'e-sp-out', 's_out'],
         },
       ],
     },
@@ -112,9 +114,9 @@ export const lesson: Lesson = {
       height: 290,
       nodes: [
         { id: 'n1', x: 20, y: 105, w: 210, h: 70, label: 'TranslationRecognizer', sub: 'recognize_once_async()', tone: 'app' },
-        { id: 'n2', x: 280, y: 100, w: 170, h: 80, label: { en: 'One target\nlanguage?', de: 'Nur eine\nZielsprache?' }, tone: 'neutral', shape: 'diamond' },
-        { id: 'n3', x: 510, y: 20, w: 240, h: 70, label: { en: 'Event-based synthesis', de: 'Ereignisbasierte Synthese' }, sub: 'voice_name + synthesizing', tone: 'app' },
-        { id: 'n4', x: 510, y: 190, w: 240, h: 70, label: { en: 'Manual synthesis', de: 'Manuelle Synthese' }, sub: { en: 'SpeechSynthesizer per language', de: 'SpeechSynthesizer je Sprache' }, tone: 'app' },
+        { id: 'n2', x: 280, y: 100, w: 170, h: 80, label: { en: 'One target\nconfigured?', de: 'Ein Ziel\nkonfiguriert?' }, tone: 'neutral', shape: 'diamond' },
+        { id: 'n3', x: 540, y: 20, w: 220, h: 70, label: { en: 'Event-based synthesis', de: 'Ereignisbasierte Synthese' }, sub: { en: 'voice_name + synthesizing\naudio during recognition', de: 'voice_name + synthesizing\nAudio während der Erkennung' }, tone: 'app' },
+        { id: 'n4', x: 540, y: 190, w: 220, h: 70, label: { en: 'Manual synthesis', de: 'Manuelle Synthese' }, sub: { en: 'SpeechSynthesizer per language\nafter recognition', de: 'SpeechSynthesizer je Sprache\nnach der Erkennung' }, tone: 'app' },
         { id: 'n5', x: 800, y: 105, w: 150, h: 70, label: { en: 'Translated audio', de: 'Übersetztes Audio' }, sub: { en: 'file or speaker', de: 'Datei/Lautsprecher' }, tone: 'data' },
       ],
       edges: [
@@ -144,16 +146,16 @@ export const lesson: Lesson = {
         {
           title: { en: 'One target: event-based', de: 'Ein Ziel: ereignisbasiert' },
           text: {
-            en: 'Set `voice_name` to a voice in the target language and connect a handler to `synthesizing`. `evt.result.audio` delivers the audio bytes; an empty chunk means synthesis is complete.',
-            de: 'Setz `voice_name` auf eine Stimme der Zielsprache und verbinde einen Handler mit `synthesizing`. `evt.result.audio` liefert die Audiobytes; ein leerer Block bedeutet, dass die Synthese fertig ist.',
+            en: 'Before calling `recognize_once_async()`, set `voice_name` to a voice in the target language and connect a handler to `synthesizing`. The audio then arrives during recognition, possibly in several events: save each non-empty `evt.result.audio` (for example to its own file); an empty one means synthesis is complete.',
+            de: 'Setz vor dem Aufruf von `recognize_once_async()` `voice_name` auf eine Stimme der Zielsprache und verbinde einen Handler mit `synthesizing`. Das Audio kommt dann während der Erkennung, eventuell in mehreren Events: Speichere jedes nicht leere `evt.result.audio` (etwa in einer eigenen Datei); ein leeres bedeutet, dass die Synthese fertig ist.',
           },
           focus: ['e2', 'n3', 'e4'],
         },
         {
           title: { en: 'Several targets: manual', de: 'Mehrere Ziele: manuell' },
           text: {
-            en: 'Event-based synthesis doesn\'t support multiple targets. Loop over `translations`, set `speech_synthesis_voice_name` on a `SpeechConfig` per language and call `SpeechSynthesizer.speak_text_async()`.',
-            de: 'Ereignisbasierte Synthese unterstützt keine mehreren Ziele. Iteriere über `translations`, setz pro Sprache `speech_synthesis_voice_name` auf einer `SpeechConfig` und ruf `SpeechSynthesizer.speak_text_async()` auf.',
+            en: 'Event-based synthesis doesn\'t support multiple targets. After recognition, loop over `translations`, set `speech_synthesis_voice_name` on a `SpeechConfig` per language and call `SpeechSynthesizer.speak_text_async()`.',
+            de: 'Ereignisbasierte Synthese unterstützt keine mehreren Ziele. Iteriere nach der Erkennung über `translations`, setz pro Sprache `speech_synthesis_voice_name` auf einer `SpeechConfig` und ruf `SpeechSynthesizer.speak_text_async()` auf.',
           },
           focus: ['e3', 'n4', 'e5'],
         },
@@ -172,15 +174,15 @@ export const lesson: Lesson = {
     {
       term: 'Azure Translator in Foundry Tools',
       text: {
-        en: 'Cloud service that translates text and documents; its Languages operation (`get_supported_languages()` in Python) lists the supported languages and needs no authentication. Text calls go to the global endpoint `api.cognitive.microsofttranslator.com` or your resource\'s custom endpoint with `Ocp-Apim-Subscription-Key` (plus `Ocp-Apim-Subscription-Region` for regional resources). Keyless calls send a Microsoft Entra token — on the global endpoint together with `Ocp-Apim-ResourceId` — and need a role such as Cognitive Services User.',
-        de: 'Clouddienst, der Text und Dokumente übersetzt; seine Languages-Operation (`get_supported_languages()` in Python) listet die unterstützten Sprachen und braucht keine Authentifizierung. Textaufrufe gehen an den globalen Endpoint `api.cognitive.microsofttranslator.com` oder den Custom Endpoint deiner Ressource, mit `Ocp-Apim-Subscription-Key` (plus `Ocp-Apim-Subscription-Region` bei regionalen Ressourcen). Schlüssellose Aufrufe senden ein Microsoft-Entra-Token – am globalen Endpoint zusammen mit `Ocp-Apim-ResourceId` – und brauchen eine Rolle wie Cognitive Services User.',
+        en: 'Cloud translation for text and documents, available through a Translator resource (NMT and Custom Translator; region *Global* or one Azure region — a *regional resource*) or a Foundry resource, which can also host the LLM deployments that LLM translation needs. Text calls go to the global endpoint `api.cognitive.microsofttranslator.com` or your custom-domain endpoint `https://<resource>.cognitiveservices.azure.com` (see the authentication sample below). The Languages operation (`get_supported_languages()` in Python) needs no authentication.',
+        de: 'Clouddienst für die Übersetzung von Text und Dokumenten, verfügbar über eine Translator-Ressource (NMT und Custom Translator; Region *Global* oder eine Azure-Region – eine *regionale Ressource*) oder über eine Foundry-Ressource, die zusätzlich die LLM-Deployments für die LLM-Übersetzung hosten kann. Textaufrufe gehen an den globalen Endpoint `api.cognitive.microsofttranslator.com` oder an deinen Custom-Domain-Endpoint `https://<resource>.cognitiveservices.azure.com` (siehe Authentifizierungsbeispiel unten). Die Languages-Operation (`get_supported_languages()` in Python) braucht keine Authentifizierung.',
       },
     },
     {
       term: 'NMT vs. LLM translation',
       text: {
-        en: 'API `2026-06-06` (GA) puts per-target settings into `targets`: `deploymentName` is `general` (NMT, the default), a custom model ID, or your LLM deployment — which requires a Foundry resource and isn\'t available behind a private endpoint. Only LLM translation supports `tone` (formal, informal, neutral), `gender` and adaptive custom translation. NMT is billed per character, LLM per token.',
-        de: 'API `2026-06-06` (GA) legt Einstellungen pro Ziel in `targets` ab: `deploymentName` ist `general` (NMT, Standard), eine Custom-Modell-ID oder dein LLM-Deployment – das eine Foundry-Ressource voraussetzt und hinter einem Private Endpoint nicht verfügbar ist. Nur die LLM-Übersetzung unterstützt `tone` (formal, informal, neutral), `gender` und adaptive Custom Translation. NMT wird pro Zeichen abgerechnet, LLM pro Token.',
+        en: 'API `2026-06-06` (GA) puts per-target settings into `targets`: `deploymentName` is `general` (NMT, the default), a custom model ID, or your LLM deployment — which requires a Foundry resource and isn\'t available behind a private endpoint. Only LLM translation supports `tone` (formal, informal, neutral), `gender` (female, male, neutral — it picks gendered word forms, for example *la doctora* vs. *el doctor*) and adaptive custom translation. NMT is billed per character, LLM per token.',
+        de: 'API `2026-06-06` (GA) legt Einstellungen pro Ziel in `targets` ab: `deploymentName` ist `general` (NMT, Standard), eine Custom-Modell-ID oder dein LLM-Deployment – das eine Foundry-Ressource voraussetzt und hinter einem Private Endpoint nicht verfügbar ist. Nur die LLM-Übersetzung unterstützt `tone` (formal, informal, neutral), `gender` (female, male, neutral – wählt geschlechtsspezifische Wortformen, etwa *la doctora* vs. *el doctor*) und adaptive Custom Translation. NMT wird pro Zeichen abgerechnet, LLM pro Token.',
       },
     },
     {
@@ -207,8 +209,8 @@ export const lesson: Lesson = {
     {
       term: 'TranslationRecognizer',
       text: {
-        en: 'Speech SDK class for speech translation. `SpeechTranslationConfig` sets `speech_recognition_language` (a source locale such as `en-US`) and `add_target_language()` (codes such as `fr`); `result.translations` maps each code to its text. If the input language is unknown, use language identification (up to 10 candidates) or Live Interpreter.',
-        de: 'Speech-SDK-Klasse für Sprachübersetzung. `SpeechTranslationConfig` setzt `speech_recognition_language` (ein Quell-Locale wie `en-US`) und `add_target_language()` (Codes wie `fr`); `result.translations` ordnet jedem Code seinen Text zu. Ist die Eingabesprache unbekannt, nutze Sprachenerkennung mit bis zu 10 Kandidaten oder Live Interpreter.',
+        en: 'Speech SDK class for speech translation. `SpeechTranslationConfig` sets `speech_recognition_language` (a source locale such as `en-US`) and `add_target_language()` (codes such as `fr`); `result.translations` maps each code to its text.',
+        de: 'Speech-SDK-Klasse für Sprachübersetzung. `SpeechTranslationConfig` setzt `speech_recognition_language` (ein Quell-Locale wie `en-US`) und `add_target_language()` (Codes wie `fr`); `result.translations` ordnet jedem Code seinen Text zu.',
       },
     },
     {
@@ -223,17 +225,18 @@ export const lesson: Lesson = {
     title: { en: 'Which translation option fits?', de: 'Welche Übersetzungsoption passt?' },
     columns: [
       { en: 'Option', de: 'Option' },
-      { en: 'Input → output', de: 'Eingabe → Ausgabe' },
-      { en: 'Best for', de: 'Ideal für' },
+      { en: 'How you call it', de: 'Wie du es aufrufst' },
+      { en: 'Output', de: 'Ausgabe' },
+      { en: 'Choose it when', de: 'Wähle es, wenn' },
     ],
     rows: [
-      ['Translator — NMT (general)', { en: 'Text → text', de: 'Text → Text' }, { en: 'High volume, lowest cost per character, 100+ languages', de: 'Hohe Volumen, niedrigste Kosten pro Zeichen, 100+ Sprachen' }],
-      ['Translator — LLM deployment', { en: 'Text → text', de: 'Text → Text' }, { en: 'Tone, gender, adaptive custom translation (Foundry resource)', de: 'Ton, Gender, adaptive Custom Translation (Foundry-Ressource)' }],
-      [{ en: 'Document translation', de: 'Dokumentübersetzung' }, { en: 'Files → files', de: 'Dateien → Dateien' }, { en: 'Keep layout; sync for one file, batch via Blob Storage', de: 'Layout behalten; synchron für eine Datei, Batch über Blob Storage' }],
-      ['Speech — TranslationRecognizer', { en: 'Audio → text (+ speech)', de: 'Audio → Text (+ Sprache)' }, { en: 'Real-time translation in your app with the Speech SDK', de: 'Echtzeitübersetzung in deiner App mit dem Speech SDK' }],
-      ['Speech — Live Interpreter', { en: 'Audio → speech', de: 'Audio → Sprache' }, { en: 'Unknown or switching input languages, natural voice', de: 'Unbekannte oder wechselnde Eingabesprachen, natürliche Stimme' }],
-      ['Azure LLM Speech (translate)', { en: 'Audio file → text', de: 'Audiodatei → Text' }, { en: 'Recorded audio with LLM quality', de: 'Aufgezeichnetes Audio in LLM-Qualität' }],
-      ['gpt-realtime-translate', { en: 'Live audio → speech + text', de: 'Live-Audio → Sprache + Text' }, { en: 'Continuous, low-latency live streams', de: 'Kontinuierliche Live-Streams mit niedriger Latenz' }],
+      ['Translator — NMT (general)', { en: 'REST or `TextTranslationClient`', de: 'REST oder `TextTranslationClient`' }, { en: 'Text', de: 'Text' }, { en: 'High volume at the lowest cost per character', de: 'Hohe Volumen zu den niedrigsten Kosten pro Zeichen' }],
+      ['Translator — LLM deployment', { en: 'Same call, `deploymentName` = your deployment (Foundry resource)', de: 'Gleicher Aufruf, `deploymentName` = dein Deployment (Foundry-Ressource)' }, { en: 'Text', de: 'Text' }, { en: 'You need tone, gender or adaptive custom translation', de: 'Du Ton, Gender oder adaptive Custom Translation brauchst' }],
+      [{ en: 'Document translation', de: 'Dokumentübersetzung' }, { en: 'REST, `SingleDocumentTranslationClient` or `DocumentTranslationClient`', de: 'REST, `SingleDocumentTranslationClient` oder `DocumentTranslationClient`' }, { en: 'Files with layout kept', de: 'Dateien mit erhaltenem Layout' }, { en: 'Sync for one file without storage; batch for many or large files in Blob Storage', de: 'Synchron für eine Datei ohne Speicher; Batch für viele oder große Dateien in Blob Storage' }],
+      ['Speech — TranslationRecognizer', { en: 'Speech SDK; source locale or up to 10 candidate languages', de: 'Speech SDK; Quell-Locale oder bis zu 10 Kandidatensprachen' }, { en: 'Text, optionally speech in a prebuilt voice', de: 'Text, optional Sprache mit einer Standardstimme' }, { en: 'Your app translates speech in real time and knows the likely input languages', de: 'Deine App Sprache in Echtzeit übersetzt und die wahrscheinlichen Eingabesprachen kennt' }],
+      ['Speech — Live Interpreter', { en: 'Same `TranslationRecognizer` with an empty `AutoDetectSourceLanguageConfig()` on the universal v2 endpoint', de: 'Gleicher `TranslationRecognizer` mit leerer `AutoDetectSourceLanguageConfig()` am Universal-v2-Endpoint' }, { en: 'Speech in a natural voice that keeps the speaker\'s style (+ text)', de: 'Sprache mit natürlicher Stimme, die den Stil der Sprechenden bewahrt (+ Text)' }, { en: 'Input languages are unknown or switch mid-conversation', de: 'Eingabesprachen unbekannt sind oder im Gespräch wechseln' }],
+      ['Azure LLM Speech (translate)', { en: 'Fast transcription REST or `azure-ai-transcription`, `task` = `translate`', de: 'Fast-Transcription-REST oder `azure-ai-transcription`, `task` = `translate`' }, { en: 'Text from a recorded file', de: 'Text aus einer aufgezeichneten Datei' }, { en: 'Recorded audio needs LLM-quality translation, not real time', de: 'Aufgezeichnetes Audio LLM-Qualität braucht, aber keine Echtzeit' }],
+      ['gpt-realtime-translate', { en: 'Realtime API with your Foundry model deployment', de: 'Realtime API mit deinem Foundry-Modell-Deployment' }, { en: 'Translated speech + transcript, continuously', de: 'Übersetzte Sprache + Transkript, kontinuierlich' }, { en: 'A live stream must be translated by an LLM with minimal delay', de: 'Ein Live-Stream mit minimaler Verzögerung von einem LLM übersetzt werden soll' }],
     ],
   },
   code: [
@@ -263,27 +266,27 @@ item = TranslateInputItem(
 print(client.translate(body=[item])[0].translations[0].text)`,
       notes: [
         {
-          en: '`azure-ai-translation-text` 2.x targets API `2026-06-06`. An endpoint plus a token credential means keyless access through your resource\'s custom endpoint; with a key on the global endpoint you pass `AzureKeyCredential` and `region`.',
-          de: '`azure-ai-translation-text` 2.x zielt auf API `2026-06-06`. Endpoint plus Token-Credential heißt schlüsselloser Zugriff über den Custom Endpoint deiner Ressource; mit Key am globalen Endpoint übergibst du `AzureKeyCredential` und `region`.',
+          en: '`azure-ai-translation-text` 2.x targets API `2026-06-06`. For plain strings, `to_language` is an SDK shortcut; per-target options go into `TranslationTarget` objects — the shape of the REST `targets` array.',
+          de: '`azure-ai-translation-text` 2.x zielt auf API `2026-06-06`. Für einfache Strings ist `to_language` eine SDK-Abkürzung; Optionen pro Ziel gehören in `TranslationTarget`-Objekte – die Form des REST-Arrays `targets`.',
         },
         {
           en: '`detected_language` is only returned when you don\'t specify the source language.',
           de: '`detected_language` kommt nur zurück, wenn du die Quellsprache nicht angibst.',
         },
         {
-          en: '`TranslationTarget` carries per-target options such as `deployment_name`, `tone` and `gender`.',
-          de: '`TranslationTarget` trägt Optionen pro Ziel wie `deployment_name`, `tone` und `gender`.',
+          en: '`deployment_name` is the name you gave your LLM deployment (any name you chose); `general` would select NMT.',
+          de: '`deployment_name` ist der Name, den du deinem LLM-Deployment gegeben hast (frei gewählt); `general` würde NMT auswählen.',
         },
       ],
     },
     {
-      title: { en: 'Speech SDK: speech-to-speech translation into German', de: 'Speech SDK: Speech-to-Speech-Übersetzung ins Deutsche' },
+      title: { en: 'Speech SDK: speech-to-speech translation of one utterance into German', de: 'Speech SDK: Speech-to-Speech-Übersetzung einer Äußerung ins Deutsche' },
       code: `import azure.cognitiveservices.speech as speechsdk
 from azure.identity import DefaultAzureCredential
 
 config = speechsdk.translation.SpeechTranslationConfig(
     token_credential=DefaultAzureCredential(),
-    endpoint="https://<resource>.cognitiveservices.azure.com/",  # custom domain
+    endpoint="https://<resource>.cognitiveservices.azure.com/",  # custom-domain endpoint
 )
 config.speech_recognition_language = "en-US"   # source locale
 config.add_target_language("de")               # target language code
@@ -293,10 +296,12 @@ recognizer = speechsdk.translation.TranslationRecognizer(
     translation_config=config,
     audio_config=speechsdk.audio.AudioConfig(use_default_microphone=True),
 )
+parts = []
 
 def save_audio(evt):
-    if evt.result.audio:  # an empty chunk means synthesis finished
-        with open("translation.wav", "wb") as f:
+    if evt.result.audio:  # an empty result marks the end of synthesis
+        parts.append(evt.result.audio)
+        with open(f"translation-{len(parts)}.wav", "wb") as f:
             f.write(evt.result.audio)
 
 recognizer.synthesizing.connect(save_audio)
@@ -305,24 +310,53 @@ if result.reason == speechsdk.ResultReason.TranslatedSpeech:
     print(result.text, "->", result.translations["de"])`,
       notes: [
         {
-          en: 'Microsoft Entra authentication needs the custom-domain endpoint and a Speech role assignment; key plus region works for quick tests.',
-          de: 'Die Microsoft-Entra-Anmeldung braucht den Endpoint mit Custom Domain und eine Speech-Rollenzuweisung; Key plus Region reicht für schnelle Tests.',
+          en: 'Microsoft Entra ID needs the custom-domain endpoint plus the **Cognitive Services Speech User** (or Speech Contributor) role; key plus region works for quick tests.',
+          de: 'Microsoft Entra ID braucht den Custom-Domain-Endpoint plus die Rolle **Cognitive Services Speech User** (oder Speech Contributor); Key plus Region reicht für schnelle Tests.',
         },
         {
-          en: 'The recognition language is a locale (`en-US`); target languages are language codes (`de`).',
-          de: 'Die Erkennungssprache ist ein Locale (`en-US`); Zielsprachen sind Sprachcodes (`de`).',
+          en: '`recognize_once_async()` handles one utterance; for an ongoing conversation use `start_continuous_recognition()` with the `recognized` event.',
+          de: '`recognize_once_async()` verarbeitet eine Äußerung; für ein laufendes Gespräch nutzt du `start_continuous_recognition()` mit dem Event `recognized`.',
         },
         {
-          en: 'Event-based synthesis only works with one target language, and the voice must speak that language.',
-          de: 'Ereignisbasierte Synthese funktioniert nur mit einer Zielsprache, und die Stimme muss diese Sprache sprechen.',
+          en: 'Event-based synthesis needs exactly one target language and a voice of that language; each non-empty result goes to its own file, as in the Live Interpreter sample on Learn.',
+          de: 'Ereignisbasierte Synthese braucht genau eine Zielsprache und eine Stimme dieser Sprache; jedes nicht leere Ergebnis landet in einer eigenen Datei, wie im Live-Interpreter-Beispiel auf Learn.',
+        },
+      ],
+    },
+    {
+      title: { en: 'Four ways to authenticate TextTranslationClient', de: 'Vier Wege, TextTranslationClient zu authentifizieren' },
+      code: `from azure.core.credentials import AzureKeyCredential
+from azure.identity import DefaultAzureCredential
+from azure.ai.translation.text import TextTranslationClient
+
+key, token, region = AzureKeyCredential("<key>"), DefaultAzureCredential(), "westeurope"
+resource_id = "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.CognitiveServices/accounts/<resource>"
+custom = "https://<resource>.cognitiveservices.azure.com"  # custom-domain endpoint
+
+global_key = TextTranslationClient(credential=key, region=region)
+global_entra = TextTranslationClient(credential=token, resource_id=resource_id, region=region)
+custom_key = TextTranslationClient(endpoint=custom, credential=key, region=region)
+custom_entra = TextTranslationClient(endpoint=custom, credential=token)`,
+      notes: [
+        {
+          en: 'Without `endpoint`, the client calls the global endpoint `api.cognitive.microsofttranslator.com`. In REST, a key goes into `Ocp-Apim-Subscription-Key` and an Entra token into the `Authorization` header; on the global endpoint, Entra calls also send `Ocp-Apim-ResourceId` (from the resource\'s **Properties** page).',
+          de: 'Ohne `endpoint` ruft der Client den globalen Endpoint `api.cognitive.microsofttranslator.com` auf. Per REST steht ein Key im Header `Ocp-Apim-Subscription-Key` und ein Entra-Token im Header `Authorization`; am globalen Endpoint senden Entra-Aufrufe zusätzlich `Ocp-Apim-ResourceId` (von der Seite **Properties** der Ressource).',
+        },
+        {
+          en: '`region` (header `Ocp-Apim-Subscription-Region`) is your resource\'s Azure region. The SDK needs it with a key; with Entra ID on the global endpoint you add it for a regional resource — one created in a specific region instead of *Global*.',
+          de: '`region` (Header `Ocp-Apim-Subscription-Region`) ist die Azure-Region deiner Ressource. Das SDK braucht sie mit Key; mit Entra ID am globalen Endpoint gibst du sie bei einer regionalen Ressource an – einer, die in einer bestimmten Region statt *Global* angelegt ist.',
+        },
+        {
+          en: 'Entra ID needs a role such as **Cognitive Services User** on the resource. If the resource only allows selected networks, only the custom-domain endpoint works.',
+          de: 'Entra ID braucht eine Rolle wie **Cognitive Services User** auf der Ressource. Erlaubt die Ressource nur ausgewählte Netzwerke, funktioniert nur der Custom-Domain-Endpoint.',
         },
       ],
     },
   ],
   traps: [
     {
-      en: '`2026-06-06` isn\'t a drop-in upgrade from v3.0: a `targets` array replaces `to`, and Detect, BreakSentence and Dictionary Lookup are gone — use Azure Language for language detection.',
-      de: '`2026-06-06` ist kein Drop-in-Upgrade von v3.0: Ein `targets`-Array ersetzt `to`, und Detect, BreakSentence und Dictionary Lookup entfallen – für die Sprachenerkennung nutzt du Azure Language.',
+      en: '`2026-06-06` isn\'t a drop-in upgrade from v3.0: a `targets` array replaces `to`, and the separate Detect, BreakSentence and Dictionary Lookup operations are gone — detect languages with Azure Language (the translate call itself still auto-detects its source).',
+      de: '`2026-06-06` ist kein Drop-in-Upgrade von v3.0: Ein `targets`-Array ersetzt `to`, und die separaten Operationen Detect, BreakSentence und Dictionary Lookup entfallen – Sprachen erkennst du mit Azure Language (der Translate-Aufruf selbst erkennt seine Quellsprache weiterhin).',
     },
     {
       en: '`tone`, `gender` and adaptive custom translation only apply to LLM translation, which needs a Foundry resource and isn\'t available when the Translator resource uses a private endpoint.',
@@ -346,11 +380,12 @@ if result.reason == speechsdk.ResultReason.TranslatedSpeech:
     { en: 'Files → document translation: sync for one file, async batch with Blob Storage.', de: 'Dateien → Dokumentübersetzung: synchron für eine Datei, asynchroner Batch mit Blob Storage.' },
     { en: 'Live speech in an app → `TranslationRecognizer`; unknown or switching languages → Live Interpreter.', de: 'Live-Sprache in einer App → `TranslationRecognizer`; unbekannte oder wechselnde Sprachen → Live Interpreter.' },
     { en: 'LLM speech translation: Azure LLM Speech for recordings, GPT Realtime Translate for live streams.', de: 'LLM-Sprachübersetzung: Azure LLM Speech für Aufnahmen, GPT Realtime Translate für Live-Streams.' },
+    { en: 'Keyless Translator: Entra token + Cognitive Services User; custom-domain endpoint → token only, global endpoint → plus resource ID (and region if regional).', de: 'Schlüsselloser Translator: Entra-Token + Cognitive Services User; Custom-Domain-Endpoint → nur Token, globaler Endpoint → plus Ressourcen-ID (und Region, wenn regional).' },
   ],
   sources: [
     { title: 'What is Azure text translation?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/overview' },
     { title: 'Translate (2026-06-06)', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/2026-06-06/translate-api' },
-    { title: 'What is Azure Translator document translation?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/document-translation/overview' },
+    { title: 'Translator: authentication and authorization', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/authentication' },
     { title: 'How to recognize and translate speech', url: 'https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech' },
     { title: 'GPT Realtime Translate overview', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/gpt-realtime-translate' },
   ],

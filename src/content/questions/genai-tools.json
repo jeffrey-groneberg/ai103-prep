@@ -203,7 +203,7 @@
         "en": "Complete the code so the model answers from a PDF that you index for the `file_search` tool.",
         "de": "Vervollständige den Code so, dass das Modell aus einem PDF antwortet, das du für das Tool `file_search` indexierst."
       },
-      "template": "vector_store = client.vector_stores.{{b1}}(name=\"hr-policies\")\nwith open(\"travel_policy.pdf\", \"rb\") as f:\n    client.vector_stores.files.{{b2}}(\n        vector_store_id=vector_store.id, file=f\n    )\n\nresponse = client.responses.create(\n    model=\"gpt-4.1\",\n    input=\"What is the hotel limit per night in Paris?\",\n    tools=[{\"type\": \"file_search\", \"{{b3}}\": [vector_store.id]}],\n)\nprint(response.output_text)",
+      "template": "vector_store = client.vector_stores.{{b1}}(name=\"hr-policies\")\nwith open(\"travel_policy.pdf\", \"rb\") as f:\n    client.vector_stores.files.{{b2}}(\n        vector_store_id=vector_store.id, file=f\n    )\n\nresponse = client.responses.create(\n    model=\"gpt-5-mini\",  # deployment name\n    input=\"What is the hotel limit per night in Paris?\",\n    tools=[{\"type\": \"file_search\", \"{{b3}}\": [vector_store.id]}],\n)\nprint(response.output_text)",
       "blanks": [
         {
           "id": "b1",

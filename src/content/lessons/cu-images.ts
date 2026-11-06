@@ -3,81 +3,81 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'cu-images',
   summary: {
-    en: '**Azure Content Understanding in Foundry Tools** uses generative AI to turn unstructured files — documents, images, audio and video — into structured output. You don\'t write prompts for it; you call an **analyzer**: a reusable definition that names a **base analyzer**, a **field schema** (the values you want back) and the generative models to use. For photos you either call the ready-made `prebuilt-imageSearch` (a one-paragraph description for search) or build a custom analyzer on `prebuilt-image` whose fields **generate** free values or **classify** into fixed categories. The result is JSON with a `markdown` representation and typed `fields` that your app, workflow or agent can act on.',
-    de: '**Azure Content Understanding in Foundry Tools** nutzt generative KI, um unstrukturierte Dateien – Dokumente, Bilder, Audio und Video – in strukturierte Ausgaben zu verwandeln. Du schreibst dafür keine Prompts, sondern rufst einen **Analyzer** auf: eine wiederverwendbare Definition aus **Basis-Analyzer**, **Feldschema** (die Werte, die du zurückbekommen willst) und den zu nutzenden generativen Modellen. Für Fotos rufst du entweder den fertigen `prebuilt-imageSearch` auf (eine Beschreibung in einem Absatz, ideal für die Suche) oder baust einen eigenen Analyzer auf `prebuilt-image`, dessen Felder freie Werte **generieren** (`generate`) oder in feste Kategorien **klassifizieren** (`classify`). Das Ergebnis ist JSON mit einer `markdown`-Darstellung und typisierten `fields`, mit denen deine App, dein Workflow oder dein Agent weiterarbeitet.',
+    en: '**Azure Content Understanding in Foundry Tools** uses generative AI to turn unstructured files — documents, images, audio and video — into structured output. You don\'t write a chat prompt; you call an **analyzer**: a reusable definition that names a **base analyzer**, a **field schema** (the values you want back — each field\'s `description` works as a mini-prompt) and the generative models to use. For photos you either call the ready-made `prebuilt-imageSearch` (a one-paragraph description for search) or build a custom analyzer on `prebuilt-image` whose fields **generate** free values or **classify** into fixed categories. The result is JSON with a `markdown` representation and typed `fields` that your app, workflow or agent can act on.',
+    de: '**Azure Content Understanding in Foundry Tools** nutzt generative KI, um unstrukturierte Dateien – Dokumente, Bilder, Audio und Video – in strukturierte Ausgaben zu verwandeln. Du schreibst dafür keinen Chat-Prompt, sondern rufst einen **Analyzer** auf: eine wiederverwendbare Definition aus **Basis-Analyzer**, **Feldschema** (die Werte, die du zurückbekommen willst – die `description` jedes Felds wirkt als Mini-Prompt) und den zu nutzenden generativen Modellen. Für Fotos rufst du entweder den fertigen `prebuilt-imageSearch` auf (eine Beschreibung in einem Absatz, ideal für die Suche) oder baust einen eigenen Analyzer auf `prebuilt-image`, dessen Felder freie Werte **generieren** (`generate`) oder in feste Kategorien **klassifizieren** (`classify`). Das Ergebnis ist JSON mit einer `markdown`-Darstellung und typisierten `fields`, mit denen deine App, dein Workflow oder dein Agent weiterarbeitet.',
   },
   examFocus: {
-    en: 'Expect scenarios that ask which analyzer to pick (`prebuilt-imageSearch`, a custom analyzer based on `prebuilt-image`, or a document analyzer for text-heavy photos), how to define fields (`type`, `description`, `method`, `enum`) and which methods images support (`generate` and `classify` — `extract` is document-only). Know what the result contains and where its limits are: confidence scores and source grounding exist only for document analyzers, and image analyzers accept only the `returnDetails` setting.',
-    de: 'Rechne mit Szenarien, in denen du den passenden Analyzer wählst (`prebuilt-imageSearch`, einen eigenen Analyzer auf Basis von `prebuilt-image` oder einen Dokument-Analyzer für textlastige Fotos), Felder definierst (`type`, `description`, `method`, `enum`) und weißt, welche Methoden für Bilder gelten (`generate` und `classify` – `extract` gibt es nur für Dokumente). Kenne Inhalt und Grenzen des Ergebnisses: Konfidenzwerte und Quellen-Grounding liefern nur Dokument-Analyzer, und Bild-Analyzer akzeptieren nur die Einstellung `returnDetails`.',
+    en: 'Expect scenarios that ask which analyzer to pick (`prebuilt-imageSearch`, a custom analyzer based on `prebuilt-image`, or a document analyzer for text-heavy photos), how to define fields (`type`, `description`, `method`, `enum`) and which methods images support (`generate` and `classify` — `extract` is document-only). Know what the result contains and where its limits are: confidence scores and source grounding exist only for document analyzers, and for image analyzers the analyzer reference lists just one `config` option, `returnDetails`.',
+    de: 'Rechne mit Szenarien, in denen du den passenden Analyzer wählst (`prebuilt-imageSearch`, einen eigenen Analyzer auf Basis von `prebuilt-image` oder einen Dokument-Analyzer für textlastige Fotos), Felder definierst (`type`, `description`, `method`, `enum`) und weißt, welche Methoden für Bilder gelten (`generate` und `classify` – `extract` gibt es nur für Dokumente). Kenne Inhalt und Grenzen des Ergebnisses: Konfidenzwerte und Quellen-Grounding liefern nur Dokument-Analyzer, und für Bild-Analyzer nennt die Analyzer-Referenz nur eine `config`-Option: `returnDetails`.',
   },
   diagrams: [
     {
       id: 'cu-image-flow',
       title: { en: 'From a photo to typed fields', de: 'Vom Foto zu typisierten Feldern' },
       caption: {
-        en: 'A custom image analyzer turns visual characteristics into fields. Photos that are mostly text go to a document analyzer, which adds OCR, extract fields, confidence and source grounding.',
-        de: 'Ein eigener Bild-Analyzer macht aus visuellen Merkmalen Felder. Fotos, die vor allem Text zeigen, gehen an einen Dokument-Analyzer – der ergänzt OCR, extract-Felder, Konfidenz und Quellen-Grounding.',
+        en: 'An analyzer calls your model deployment and returns Markdown plus fields. Product photos get a custom image analyzer; photos that are mostly text go to a document analyzer, which adds OCR, extract fields and — when enabled — confidence and source grounding.',
+        de: 'Ein Analyzer ruft dein Modell-Deployment auf und liefert Markdown plus Felder. Produktfotos bekommen einen eigenen Bild-Analyzer; Fotos, die vor allem Text zeigen, gehen an einen Dokument-Analyzer – der ergänzt OCR, extract-Felder und, wenn aktiviert, Konfidenz und Quellen-Grounding.',
       },
       width: 960,
-      height: 440,
-      groups: [{ id: 'g-res', x: 170, y: 20, w: 560, h: 400, label: 'Foundry resource', tone: 'foundry' }],
+      height: 520,
+      groups: [{ id: 'g-res', x: 170, y: 20, w: 330, h: 480, label: 'Foundry resource', tone: 'foundry' }],
       nodes: [
-        { id: 'photo', x: 20, y: 170, w: 120, h: 70, label: { en: 'Product photo', de: 'Produktfoto' }, sub: 'JPEG · PNG', tone: 'data', shape: 'doc' },
-        { id: 'schema', x: 195, y: 55, w: 230, h: 64, label: { en: 'Field schema', de: 'Feldschema' }, sub: 'generate · classify', tone: 'app', shape: 'doc' },
-        { id: 'analyzer', x: 195, y: 170, w: 230, h: 70, label: { en: 'Custom image analyzer', de: 'Eigener Bild-Analyzer' }, sub: 'base: prebuilt-image', tone: 'foundry' },
-        { id: 'model', x: 480, y: 170, w: 225, h: 70, label: { en: 'Model deployment', de: 'Modell-Deployment' }, sub: { en: 'your Foundry deployment', de: 'dein Foundry-Deployment' }, tone: 'model', shape: 'store' },
-        { id: 'result', x: 780, y: 170, w: 160, h: 70, label: { en: 'Result JSON', de: 'Ergebnis-JSON' }, sub: { en: 'markdown + fields', de: 'Markdown + Felder' }, tone: 'data', shape: 'doc' },
-        { id: 'labelphoto', x: 20, y: 315, w: 120, h: 70, label: { en: 'Label photo', de: 'Etikettfoto' }, sub: { en: 'mostly text', de: 'meist Text' }, tone: 'data', shape: 'doc' },
-        { id: 'docan', x: 195, y: 315, w: 230, h: 70, label: { en: 'Document analyzer', de: 'Dokument-Analyzer' }, sub: 'base: prebuilt-document', tone: 'foundry' },
-        { id: 'grounded', x: 780, y: 315, w: 160, h: 70, label: { en: 'Fields + grounding', de: 'Felder + Grounding' }, sub: { en: 'confidence · source', de: 'Konfidenz · Quelle' }, tone: 'data', shape: 'doc' },
+        { id: 'photo', x: 20, y: 165, w: 120, h: 70, label: { en: 'Product photo', de: 'Produktfoto' }, sub: 'JPEG · PNG', tone: 'data', shape: 'doc' },
+        { id: 'schema', x: 195, y: 55, w: 280, h: 64, label: { en: 'Field schema', de: 'Feldschema' }, sub: 'generate · classify', tone: 'app', shape: 'doc' },
+        { id: 'analyzer', x: 195, y: 165, w: 280, h: 70, label: { en: 'Custom image analyzer', de: 'Eigener Bild-Analyzer' }, sub: 'base: prebuilt-image', tone: 'foundry' },
+        { id: 'model', x: 195, y: 285, w: 280, h: 70, label: { en: 'Model deployment', de: 'Modell-Deployment' }, sub: { en: 'your Foundry deployment', de: 'dein Foundry-Deployment' }, tone: 'model', shape: 'store' },
+        { id: 'result', x: 760, y: 165, w: 180, h: 70, label: { en: 'Result JSON', de: 'Ergebnis-JSON' }, sub: { en: 'back to your app', de: 'zurück an deine App' }, tone: 'data', shape: 'doc' },
+        { id: 'labelphoto', x: 20, y: 405, w: 120, h: 70, label: { en: 'Label photo', de: 'Etikettfoto' }, sub: { en: 'mostly text', de: 'meist Text' }, tone: 'data', shape: 'doc' },
+        { id: 'docan', x: 195, y: 405, w: 280, h: 70, label: { en: 'Document analyzer', de: 'Dokument-Analyzer' }, sub: { en: 'base: prebuilt-document · OCR + layout', de: 'base: prebuilt-document · OCR + Layout' }, tone: 'foundry' },
+        { id: 'grounded', x: 760, y: 405, w: 180, h: 70, label: { en: 'Fields + grounding', de: 'Felder + Grounding' }, sub: { en: 'confidence · source\nwhen estimation is on', de: 'Konfidenz · Quelle\nbei aktiver Schätzung' }, tone: 'data', shape: 'doc' },
       ],
       edges: [
         { id: 'e-in', from: 'photo', to: 'analyzer', label: { en: 'file', de: 'Datei' } },
         { id: 'e-schema', from: 'schema', to: 'analyzer', label: { en: 'defines', de: 'definiert' }, dashed: true },
-        { id: 'e-model', from: 'analyzer', to: 'model', label: { en: 'calls', de: 'ruft' } },
-        { id: 'e-res', from: 'model', to: 'result', label: { en: 'values', de: 'Werte' } },
-        { id: 'e-in2', from: 'labelphoto', to: 'docan', label: 'OCR' },
-        { id: 'e-doc-model', from: 'docan', to: 'model', dashed: true },
+        { id: 'e-model', from: 'analyzer', to: 'model', label: { en: 'prompt / values', de: 'Prompt / Werte' }, bidir: true },
+        { id: 'e-res', from: 'analyzer', to: 'result', label: { en: 'markdown + fields', de: 'Markdown + Felder' } },
+        { id: 'e-in2', from: 'labelphoto', to: 'docan', label: { en: 'file', de: 'Datei' } },
+        { id: 'e-doc-model', from: 'docan', to: 'model', dashed: true, bidir: true },
         { id: 'e-res2', from: 'docan', to: 'grounded', label: { en: 'extract + source', de: 'extract + Quelle' } },
       ],
       steps: [
         {
-          title: { en: 'Send the image', de: 'Bild senden' },
+          title: { en: 'Define what you want back — once', de: 'Einmal festlegen, was zurückkommt' },
           text: {
-            en: 'Your app sends a photo to an analyzer — as a URL (`begin_analyze` with `inputs`) or as raw bytes (`begin_analyze_binary`). JPEG, PNG, BMP and HEIF/HEIC work; images need at least 50 × 50 pixels.',
-            de: 'Deine App schickt ein Foto an einen Analyzer – als URL (`begin_analyze` mit `inputs`) oder als rohe Bytes (`begin_analyze_binary`). JPEG, PNG, BMP und HEIF/HEIC funktionieren; Bilder brauchen mindestens 50 × 50 Pixel.',
-          },
-          focus: ['photo', 'e-in', 'analyzer'],
-        },
-        {
-          title: { en: 'Define what you want back', de: 'Festlegen, was zurückkommt' },
-          text: {
-            en: 'A custom image analyzer sets `baseAnalyzerId` to `prebuilt-image` and adds a **field schema**. Each field has a `type`, a `description` that works like a mini-prompt and a `method`: `generate` for free values, `classify` plus an `enum` for fixed categories.',
-            de: 'Ein eigener Bild-Analyzer setzt `baseAnalyzerId` auf `prebuilt-image` und ergänzt ein **Feldschema**. Jedes Feld hat einen `type`, eine `description`, die wie ein Mini-Prompt wirkt, und eine `method`: `generate` für freie Werte, `classify` plus `enum` für feste Kategorien.',
+            en: 'A custom image analyzer sets `baseAnalyzerId` to `prebuilt-image` and adds a **field schema**. Each field has a `type`, a `description` that works like a mini-prompt and a `method`: `generate` for free values, `classify` plus an `enum` for fixed categories. You create the analyzer once (`begin_create_analyzer`).',
+            de: 'Ein eigener Bild-Analyzer setzt `baseAnalyzerId` auf `prebuilt-image` und ergänzt ein **Feldschema**. Jedes Feld hat einen `type`, eine `description`, die wie ein Mini-Prompt wirkt, und eine `method`: `generate` für freie Werte, `classify` plus `enum` für feste Kategorien. Den Analyzer legst du einmal an (`begin_create_analyzer`).',
           },
           focus: ['schema', 'e-schema', 'analyzer'],
         },
         {
+          title: { en: 'Send each image', de: 'Jedes Bild senden' },
+          text: {
+            en: 'Your app then sends every photo to that analyzer — as a URL (`begin_analyze` with `inputs`) or as raw bytes (`begin_analyze_binary`). JPEG, PNG, BMP and HEIF/HEIC work; images need at least 50 × 50 pixels.',
+            de: 'Danach schickt deine App jedes Foto an diesen Analyzer – als URL (`begin_analyze` mit `inputs`) oder als rohe Bytes (`begin_analyze_binary`). JPEG, PNG, BMP und HEIF/HEIC funktionieren; Bilder brauchen mindestens 50 × 50 Pixel.',
+          },
+          focus: ['photo', 'e-in', 'analyzer'],
+        },
+        {
           title: { en: 'Your model does the generative work', de: 'Dein Modell übernimmt die generative Arbeit' },
           text: {
-            en: 'Field extraction runs on **your** Foundry model deployment. The analyzer lists model names in `models`; the resource defaults map those names to deployments, and the tokens are billed on that deployment.',
-            de: 'Die Feldextraktion läuft auf **deinem** Foundry-Modell-Deployment. Der Analyzer nennt in `models` Modellnamen; die Standardeinstellungen der Ressource ordnen diese Namen Deployments zu, und die Tokens werden auf diesem Deployment abgerechnet.',
+            en: 'The analyzer prepares the context (the image and your field definitions) for **your** Foundry model deployment and post-processes the model output into typed values. `models` lists model names; the resource defaults map them to deployments, and the tokens are billed on that deployment.',
+            de: 'Der Analyzer bereitet den Kontext (das Bild und deine Felddefinitionen) für **dein** Foundry-Modell-Deployment vor und verarbeitet die Modellausgabe zu typisierten Werten nach. `models` nennt Modellnamen; die Defaults der Ressource ordnen sie Deployments zu, und die Tokens werden auf diesem Deployment abgerechnet.',
           },
           focus: ['e-model', 'model'],
         },
         {
           title: { en: 'Read the result', de: 'Ergebnis lesen' },
           text: {
-            en: 'The result holds `contents[0].markdown` and `contents[0].fields`, for example `{"type": "string", "valueString": "door"}`. Image fields come without confidence scores — those belong to document analyzers.',
-            de: 'Das Ergebnis enthält `contents[0].markdown` und `contents[0].fields`, etwa `{"type": "string", "valueString": "door"}`. Bildfelder haben keine Konfidenzwerte – die gehören zu Dokument-Analyzern.',
+            en: 'The analyzer — not the model — returns the result: `contents[0].markdown` and `contents[0].fields`, for example `{"type": "string", "valueString": "door"}`. Image fields come without confidence scores — those belong to document analyzers.',
+            de: 'Das Ergebnis liefert der Analyzer, nicht das Modell: `contents[0].markdown` und `contents[0].fields`, etwa `{"type": "string", "valueString": "door"}`. Bildfelder haben keine Konfidenzwerte – die gehören zu Dokument-Analyzern.',
           },
           focus: ['e-res', 'result'],
         },
         {
           title: { en: 'Text in the photo? Use a document analyzer', de: 'Text im Foto? Nimm einen Dokument-Analyzer' },
           text: {
-            en: 'Image analyzers aren\'t optimized for text. For labels, receipts or IDs, analyze the photo with a document analyzer (`prebuilt-document` base or a domain prebuilt). It runs OCR and layout, supports `extract` and returns `confidence` plus a `source` such as `D(1,…)` per value.',
-            de: 'Bild-Analyzer sind nicht auf Text optimiert. Für Etiketten, Belege oder Ausweise analysierst du das Foto mit einem Dokument-Analyzer (Basis `prebuilt-document` oder ein Fach-Prebuilt). Er führt OCR und Layoutanalyse aus, unterstützt `extract` und liefert pro Wert `confidence` plus eine `source` wie `D(1,…)`.',
+            en: 'Image analyzers aren\'t optimized for text. For labels, receipts or IDs, analyze the photo with a document analyzer (`prebuilt-document` base or a domain prebuilt). It runs OCR and layout (`enableOcr` and `enableLayout` are on by default), supports `extract` and — when `estimateFieldSourceAndConfidence` is `true`, which `extract` fields require — returns `confidence` plus a `source` such as `D(1,…)` per value. Its fields use the same model deployment.',
+            de: 'Bild-Analyzer sind nicht auf Text optimiert. Für Etiketten, Belege oder Ausweise analysierst du das Foto mit einem Dokument-Analyzer (Basis `prebuilt-document` oder ein Fach-Prebuilt). Er führt OCR und Layoutanalyse aus (`enableOcr` und `enableLayout` sind standardmäßig an), unterstützt `extract` und liefert – wenn `estimateFieldSourceAndConfidence` auf `true` steht, was `extract`-Felder voraussetzen – pro Wert `confidence` plus eine `source` wie `D(1,…)`. Seine Felder nutzen dasselbe Modell-Deployment.',
           },
           focus: ['labelphoto', 'e-in2', 'docan', 'e-doc-model', 'e-res2', 'grounded'],
         },
@@ -147,8 +147,8 @@ export const lesson: Lesson = {
     {
       term: 'Analyzer',
       text: {
-        en: 'The reusable unit of Content Understanding. It combines a `baseAnalyzerId`, optional `config` settings, a `fieldSchema` and the `models` to use. You create it once (`PUT /contentunderstanding/analyzers/{id}`) and send files to it many times.',
-        de: 'Die wiederverwendbare Einheit von Content Understanding. Sie kombiniert eine `baseAnalyzerId`, optionale `config`-Einstellungen, ein `fieldSchema` und die zu nutzenden `models`. Du legst sie einmal an (`PUT /contentunderstanding/analyzers/{id}`) und schickst ihr beliebig oft Dateien.',
+        en: 'The reusable unit of Content Understanding. It combines a `baseAnalyzerId`, optional `config` settings (for images the analyzer reference lists only `returnDetails: true`, which adds detailed metadata to the result), a `fieldSchema` and the `models` to use. You create it once (`PUT /contentunderstanding/analyzers/{id}`) and send files to it many times.',
+        de: 'Die wiederverwendbare Einheit von Content Understanding. Sie kombiniert eine `baseAnalyzerId`, optionale `config`-Einstellungen (für Bilder nennt die Analyzer-Referenz nur `returnDetails: true`, das dem Ergebnis ausführliche Metadaten hinzufügt), ein `fieldSchema` und die zu nutzenden `models`. Du legst sie einmal an (`PUT /contentunderstanding/analyzers/{id}`) und schickst ihr beliebig oft Dateien.',
       },
     },
     {
@@ -175,8 +175,8 @@ export const lesson: Lesson = {
     {
       term: 'Model deployments (bring your own)',
       text: {
-        en: 'Content Understanding uses your own Foundry deployments of a chat completion model and an embedding model. You map model names to deployments once per resource (`PATCH /contentunderstanding/defaults`) or per request with `modelDeployments`.',
-        de: 'Content Understanding nutzt deine eigenen Foundry-Deployments eines Chat-Completion- und eines Embedding-Modells. Die Zuordnung Modellname → Deployment legst du einmal pro Ressource fest (`PATCH /contentunderstanding/defaults`) oder pro Anfrage über `modelDeployments`.',
+        en: 'Content Understanding runs on your own Foundry deployments — a deployment can have any name. A custom image analyzer needs only a chat completion model in `models`; embedding models serve labeled samples, a document feature. Map model names to deployment names once per resource (`update_defaults` / `PATCH /contentunderstanding/defaults`) or per request with `modelDeployments` (only for `:analyze` / `begin_analyze`; `begin_analyze_binary` has no `model_deployments`, so byte uploads rely on the defaults).',
+        de: 'Content Understanding läuft auf deinen eigenen Foundry-Deployments – ein Deployment darf beliebig heißen. Ein eigener Bild-Analyzer braucht in `models` nur ein Chat-Completion-Modell; Embedding-Modelle dienen gelabelten Beispielen, einer Dokumentfunktion. Die Zuordnung Modellname → Deployment-Name legst du einmal pro Ressource fest (`update_defaults` / `PATCH /contentunderstanding/defaults`) oder pro Anfrage über `modelDeployments` (nur bei `:analyze` / `begin_analyze`; `begin_analyze_binary` hat kein `model_deployments`, Byte-Uploads brauchen also die Defaults).',
       },
     },
     {
@@ -189,8 +189,8 @@ export const lesson: Lesson = {
     {
       term: 'Guardrails and face handling',
       text: {
-        en: 'Analyzers inherit the guardrails of your Foundry model deployment: harmful content can add warnings or suppress field values. By default, faces are blurred before an image or video reaches the model, so face-based inference such as emotion doesn\'t work; face grouping exists only for video and is a Limited Access feature.',
-        de: 'Analyzer übernehmen die Guardrails deines Foundry-Modell-Deployments: Schädliche Inhalte können Warnungen auslösen oder Feldwerte unterdrücken. Standardmäßig werden Gesichter unkenntlich gemacht, bevor ein Bild oder Video das Modell erreicht – gesichtsbasierte Schlüsse wie Emotionen funktionieren daher nicht; Face Grouping gibt es nur für Video, und zwar mit eingeschränktem Zugang (Limited Access).',
+        en: 'Analyzers inherit the guardrails of your Foundry model deployment: harmful content can add warnings or suppress field values. Faces are blurred by default, so face-based inference such as emotion doesn\'t work (transparency note). The analyzer reference lists only `returnDetails` for image analyzers; the API\'s `disableFaceBlurring` setting isn\'t documented for images, and face features are Limited Access: Microsoft must approve your registration before you can use them. Face grouping exists only for video.',
+        de: 'Analyzer übernehmen die Guardrails deines Foundry-Modell-Deployments: Schädliche Inhalte können Warnungen auslösen oder Feldwerte unterdrücken. Gesichter werden standardmäßig unkenntlich gemacht, daher funktionieren gesichtsbasierte Schlüsse wie Emotionen nicht (Transparenzhinweis). Die Analyzer-Referenz nennt für Bild-Analyzer nur `returnDetails`; die API-Einstellung `disableFaceBlurring` ist für Bilder nicht dokumentiert, und Gesichtsfunktionen sind Limited Access: Microsoft muss deine Registrierung genehmigen, bevor du sie nutzen kannst. Face Grouping gibt es nur für Video.',
       },
     },
   ],
@@ -230,57 +230,72 @@ export const lesson: Lesson = {
       code: `from azure.identity import DefaultAzureCredential
 from azure.ai.contentunderstanding import ContentUnderstandingClient
 from azure.ai.contentunderstanding.models import (
-    ContentAnalyzer, ContentFieldSchema, ContentFieldDefinition,
-    ContentFieldType, GenerationMethod,
+    ContentAnalyzer, ContentAnalyzerConfig, ContentFieldSchema,
+    ContentFieldDefinition, ContentFieldType, GenerationMethod,
 )
 
 client = ContentUnderstandingClient(
     endpoint="https://<resource>.services.ai.azure.com/",
     credential=DefaultAzureCredential(),
 )
+# One-time per resource: model name -> your deployment name (any name works)
+client.update_defaults(model_deployments={"gpt-5.2": "my-gpt52"})
 
-schema = ContentFieldSchema(
-    name="vehicle_damage",
-    fields={
-        "DamagedPart": ContentFieldDefinition(
-            type=ContentFieldType.STRING,
-            method=GenerationMethod.CLASSIFY,
-            description="Most visibly damaged exterior part",
-            enum=["bumper", "door", "hood", "windshield", "other"],
-        ),
-        "Description": ContentFieldDefinition(
-            type=ContentFieldType.STRING,
-            method=GenerationMethod.GENERATE,
-            description="One sentence describing the visible damage",
-        ),
-    },
+part = ContentFieldDefinition(
+    type=ContentFieldType.STRING, method=GenerationMethod.CLASSIFY,
+    description="Damaged exterior part", enum=["bumper", "door", "hood", "windshield", "other"],
 )
+severity = ContentFieldDefinition(
+    type=ContentFieldType.STRING, method=GenerationMethod.CLASSIFY,
+    description="How badly the part is damaged", enum=["minor", "moderate", "severe"],
+)
+schema = ContentFieldSchema(name="vehicle_damage", fields={
+    "DamagedParts": ContentFieldDefinition(          # one object per damaged part
+        type=ContentFieldType.ARRAY,
+        item_definition=ContentFieldDefinition(
+            type=ContentFieldType.OBJECT, properties={"Part": part, "Severity": severity},
+        ),
+    ),
+    "Description": ContentFieldDefinition(
+        type=ContentFieldType.STRING, method=GenerationMethod.GENERATE,
+        description="One sentence describing the visible damage",
+    ),
+})
 analyzer = ContentAnalyzer(
     base_analyzer_id="prebuilt-image",
-    description="Classifies visible damage in vehicle claim photos",
+    description="Lists damaged vehicle parts in claim photos",
+    # returnDetails: the only image option the analyzer reference lists
+    config=ContentAnalyzerConfig(return_details=True),
     field_schema=schema,
-    models={"completion": "gpt-5.2"},   # model name, mapped to your deployment
+    models={"completion": "gpt-5.2"},                   # model name, not deployment name
 )
 client.begin_create_analyzer("vehicle_damage", analyzer).result()`,
       notes: [
-        { en: '`base_analyzer_id="prebuilt-image"` makes this an image analyzer; only `generate` and `classify` fields are allowed.', de: '`base_analyzer_id="prebuilt-image"` macht daraus einen Bild-Analyzer; erlaubt sind nur `generate`- und `classify`-Felder.' },
+        { en: 'Two of the four fields from the schema diagram: `DamagedParts` is an `array` of `object` items, each with two `classify` fields.', de: 'Zwei der vier Felder aus dem Schema-Diagramm: `DamagedParts` ist ein `array` aus `object`-Einträgen mit je zwei `classify`-Feldern.' },
+        { en: '`update_defaults` runs once per resource: `models` names the model, the defaults pick the deployment at analyze time. Without defaults (or `model_deployments=` in each `begin_analyze` call — `begin_analyze_binary` has no such parameter) the analysis fails.', de: '`update_defaults` läuft einmal pro Ressource: `models` nennt das Modell, die Defaults wählen beim Analysieren das Deployment. Ohne Defaults (oder `model_deployments=` in jedem `begin_analyze`-Aufruf – `begin_analyze_binary` hat diesen Parameter nicht) schlägt die Analyse fehl.' },
         { en: '`begin_create_analyzer` is a long-running operation — `.result()` waits until the analyzer is ready.', de: '`begin_create_analyzer` ist eine Long-Running Operation – `.result()` wartet, bis der Analyzer bereit ist.' },
-        { en: 'The `models` entry holds a model name; the resource defaults decide which deployment serves it.', de: 'Der Eintrag `models` enthält einen Modellnamen; welches Deployment ihn bedient, legen die Standardeinstellungen der Ressource fest.' },
       ],
     },
     {
       title: { en: 'Analyze a local photo and read the fields', de: 'Lokales Foto analysieren und Felder lesen' },
-      code: `with open("claim-photo.jpg", "rb") as f:
+      code: `from azure.identity import DefaultAzureCredential
+from azure.ai.contentunderstanding import ContentUnderstandingClient
+
+client = ContentUnderstandingClient(
+    endpoint="https://<resource>.services.ai.azure.com/",
+    credential=DefaultAzureCredential(),
+)
+with open("claim-photo.jpg", "rb") as f:
     poller = client.begin_analyze_binary("vehicle_damage", f.read())
 
-result = poller.result()              # polls until the operation finishes
-content = result.contents[0]
-for name, field in content.fields.items():
-    print(f"{name}: {field.value}")   # e.g. DamagedPart: door
-print(content.markdown)               # text representation for search or LLMs`,
+result = poller.result()                 # polls until the operation finishes
+fields = result.contents[0].fields
+print(fields["Description"].value)
+for item in fields["DamagedParts"].value:    # array -> list of object fields
+    print(item.value["Part"].value, item.value["Severity"].value)   # e.g. door moderate`,
       notes: [
         { en: '`begin_analyze_binary` uploads raw bytes; use `begin_analyze` with `AnalysisInput(url=...)` for files reachable by URL.', de: '`begin_analyze_binary` lädt rohe Bytes hoch; für Dateien mit URL nutzt du `begin_analyze` mit `AnalysisInput(url=...)`.' },
-        { en: 'The SDK exposes each field\'s typed value as `.value`; in the REST JSON it is `valueString`, `valueNumber`, `valueBoolean` and so on.', de: 'Das SDK stellt den typisierten Wert jedes Felds als `.value` bereit; im REST-JSON heißt er `valueString`, `valueNumber`, `valueBoolean` usw.' },
+        { en: 'In the SDK every field exposes `.value` — a list for arrays, a dict of fields for objects. The REST JSON names it by type: `valueString`, `valueArray`, `valueObject` and so on.', de: 'Im SDK hat jedes Feld `.value` – eine Liste bei Arrays, ein Dict aus Feldern bei Objekten. Das REST-JSON benennt den Wert nach Typ: `valueString`, `valueArray`, `valueObject` usw.' },
       ],
     },
   ],
@@ -294,8 +309,8 @@ print(content.markdown)               # text representation for search or LLMs`,
       de: 'Von `prebuilt-imageSearch` kannst du keinen eigenen Analyzer ableiten; als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer. Für Bilder ist das `prebuilt-image`.',
     },
     {
-      en: 'Need a confidence score or the location of a value? That is a document-analyzer feature (`estimateFieldSourceAndConfidence`). Image analyzers support only the `returnDetails` setting.',
-      de: 'Du brauchst einen Konfidenzwert oder die Fundstelle eines Werts? Das ist eine Funktion von Dokument-Analyzern (`estimateFieldSourceAndConfidence`). Bild-Analyzer unterstützen nur die Einstellung `returnDetails`.',
+      en: 'Need a confidence score or the location of a value? That is a document-analyzer feature (`estimateFieldSourceAndConfidence`). For image analyzers the analyzer reference lists only the `returnDetails` setting.',
+      de: 'Du brauchst einen Konfidenzwert oder die Fundstelle eines Werts? Das ist eine Funktion von Dokument-Analyzern (`estimateFieldSourceAndConfidence`). Für Bild-Analyzer nennt die Analyzer-Referenz nur die Einstellung `returnDetails`.',
     },
     {
       en: 'The field schema belongs to the analyzer definition, not to the analyze request. To add fields to a prebuilt\'s output, create a custom analyzer.',

@@ -3,8 +3,8 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'knowledge-mining',
   summary: {
-    en: 'Azure AI Search powers enterprise search, retrieval-augmented generation (RAG) and **knowledge mining**: turning piles of PDFs, Office files, scans and database rows into searchable, structured knowledge. An **indexer** pulls content from a data source, *cracks* each file into text and images, and runs a **skillset** of AI skills (OCR, layout extraction, entity recognition, chunking, embeddings or your own code) before it writes the results into a **search index**. The same enrichments can be projected into a **knowledge store** in Azure Storage for analytics. At query time, keyword (BM25), vector and hybrid search find candidates and the **semantic ranker** reorders them, which turns the index into a grounding source for RAG apps and Foundry agents.',
-    de: 'Azure AI Search treibt Unternehmenssuche, Retrieval-Augmented Generation (RAG) und **Knowledge Mining** an: Berge von PDFs, Office-Dateien, Scans und Datenbankzeilen werden zu durchsuchbarem, strukturiertem Wissen. Ein **Indexer** holt Inhalte aus einer Datenquelle, zerlegt jede Datei per *Document Cracking* in Text und Bilder und führt ein **Skillset** aus KI-Skills aus (OCR, Layoutextraktion, Entitätserkennung, Chunking, Embeddings oder eigener Code), bevor er die Ergebnisse in einen **Suchindex** schreibt. Dieselben Anreicherungen lassen sich zusätzlich in einen **Knowledge Store** in Azure Storage projizieren – für Analysen. Zur Abfragezeit finden Stichwort- (BM25), Vektor- und Hybridsuche Kandidaten, und der **Semantic Ranker** ordnet sie neu. So wird der Index zur Grounding-Quelle für RAG-Apps und Foundry-Agents.',
+    en: 'Azure AI Search powers enterprise search, **RAG** (retrieval-augmented generation: retrieve relevant content and ground the answer in it) and **knowledge mining**: turning piles of PDFs, Office files, scans and database rows into searchable, structured knowledge. An **indexer** pulls content from a data source, *cracks* each file into text and images, and runs a **skillset** of AI skills (OCR, layout extraction, entity recognition, chunking, embeddings or your own code) before it writes the results into a **search index**. The same enrichments can be projected into a **knowledge store** in Azure Storage for analytics. At query time, keyword, vector and hybrid search find candidates and the **semantic ranker** reorders them, which turns the index into a grounding source for RAG apps and Foundry agents.',
+    de: 'Azure AI Search treibt Unternehmenssuche, **RAG** (Retrieval-Augmented Generation: relevante Inhalte abrufen und die Antwort darauf stützen) und **Knowledge Mining** an: Berge von PDFs, Office-Dateien, Scans und Datenbankzeilen werden zu durchsuchbarem, strukturiertem Wissen. Ein **Indexer** holt Inhalte aus einer Datenquelle, zerlegt jede Datei per *Document Cracking* in Text und Bilder und führt ein **Skillset** aus KI-Skills aus (OCR, Layoutextraktion, Entitätserkennung, Chunking, Embeddings oder eigener Code), bevor er die Ergebnisse in einen **Suchindex** schreibt. Dieselben Anreicherungen lassen sich zusätzlich in einen **Knowledge Store** in Azure Storage projizieren – für Analysen. Zur Abfragezeit finden Stichwort-, Vektor- und Hybridsuche Kandidaten, und der **Semantic Ranker** ordnet sie neu. So wird der Index zur Grounding-Quelle für RAG-Apps und Foundry-Agents.',
   },
   examFocus: {
     en: 'Expect scenarios that make you pick the right pipeline part (data source, indexer, skillset, index, knowledge store), the right mapping (field mappings, output field mappings, index projections) and the right skill (OCR, Azure Content Understanding, Text Split, Azure OpenAI Embedding, GenAI Prompt, language skills, Custom Web API). On the query side, know field attributes, OData filters and facets, vector field settings (`dimensions`, HNSW vs exhaustive KNN, vectorizers, `vectorFilterMode`), hybrid search with RRF and the semantic ranker, plus how to monitor indexers, service metrics and relevance.',
@@ -15,34 +15,41 @@ export const lesson: Lesson = {
       id: 'enrichment-pipeline',
       title: { en: 'From raw files to an index and a knowledge store', de: 'Von Rohdateien zu Index und Knowledge Store' },
       caption: {
-        en: 'The indexer drives everything: it pulls and cracks content, runs the skillset and writes the results into the index. Projections defined in the skillset fill the knowledge store.',
-        de: 'Der Indexer steuert alles: Er holt Inhalte ab, zerlegt sie, führt das Skillset aus und schreibt die Ergebnisse in den Index. Projektionen im Skillset befüllen den Knowledge Store.',
+        en: 'The indexer drives everything: it pulls content through a data source, cracks it, runs the skillset and writes the results into the index. Projections defined in the skillset write chunks into the index and enrichments into the knowledge store.',
+        de: 'Der Indexer steuert alles: Er holt Inhalte über eine Datenquelle ab, zerlegt sie, führt das Skillset aus und schreibt die Ergebnisse in den Index. Projektionen im Skillset schreiben Chunks in den Index und Anreicherungen in den Knowledge Store.',
       },
       width: 960,
-      height: 460,
+      height: 546,
       groups: [
-        { id: 'g-search', x: 170, y: 20, w: 780, h: 352, label: 'Azure AI Search', tone: 'neutral' },
-        { id: 'g-skills', x: 190, y: 150, w: 500, h: 202, label: 'Skillset', tone: 'tool' },
+        { id: 'g-search', x: 158, y: 20, w: 794, h: 386, label: 'Azure AI Search', tone: 'neutral' },
+        { id: 'g-skills', x: 176, y: 180, w: 520, h: 212, label: 'Skillset', tone: 'tool' },
       ],
       nodes: [
-        { id: 'src', x: 20, y: 50, w: 130, h: 64, label: { en: 'Source files', de: 'Quelldateien' }, sub: 'Azure Blob Storage', tone: 'data', shape: 'doc' },
-        { id: 'idxr', x: 210, y: 50, w: 140, h: 64, label: 'Indexer', sub: { en: 'cracking + mappings', de: 'Cracking + Mappings' }, tone: 'neutral' },
-        { id: 'ocr', x: 210, y: 180, w: 140, h: 56, label: 'OCR', sub: { en: 'text from images', de: 'Text aus Bildern' }, tone: 'tool' },
-        { id: 'split', x: 390, y: 180, w: 120, h: 56, label: 'Text Split', sub: 'chunking', tone: 'tool' },
-        { id: 'embed', x: 550, y: 180, w: 120, h: 56, label: 'Embedding', sub: 'Azure OpenAI', tone: 'tool' },
-        { id: 'custom', x: 210, y: 276, w: 140, h: 56, label: 'Custom Web API', sub: { en: 'custom skill', de: 'eigener Skill' }, tone: 'tool' },
-        { id: 'shaper', x: 390, y: 276, w: 120, h: 56, label: 'Shaper', sub: { en: 'shapes tables', de: 'formt Tabellen' }, tone: 'tool' },
-        { id: 'fn', x: 20, y: 276, w: 130, h: 56, label: 'Azure Function', sub: { en: 'your code', de: 'dein Code' }, tone: 'app' },
-        { id: 'index', x: 800, y: 172, w: 130, h: 72, label: { en: 'Search index', de: 'Suchindex' }, sub: { en: 'text + vectors', de: 'Text + Vektoren' }, tone: 'data', shape: 'store' },
-        { id: 'kstore', x: 800, y: 392, w: 130, h: 56, label: { en: 'Knowledge store', de: 'Knowledge Store' }, sub: 'Azure Storage', tone: 'data', shape: 'store' },
+        { id: 'src', x: 12, y: 48, w: 130, h: 64, label: { en: 'Source files', de: 'Quelldateien' }, sub: 'Azure Blob Storage', tone: 'data', shape: 'doc' },
+        { id: 'ds', x: 192, y: 48, w: 156, h: 64, label: { en: 'Data source', de: 'Datenquelle' }, sub: { en: 'connection + container', de: 'Verbindung + Container' }, tone: 'neutral' },
+        { id: 'idxr', x: 378, y: 48, w: 140, h: 64, label: 'Indexer', sub: { en: 'cracking + mappings', de: 'Cracking + Mappings' }, tone: 'neutral' },
+        { id: 'ocr', x: 196, y: 210, w: 134, h: 56, label: 'OCR', sub: { en: 'text from images', de: 'Text aus Bildern' }, tone: 'tool' },
+        { id: 'merge', x: 390, y: 210, w: 116, h: 56, label: 'Text Merge', sub: { en: 'text + OCR text', de: 'Text + OCR-Text' }, tone: 'tool' },
+        { id: 'split', x: 566, y: 210, w: 110, h: 56, label: 'Text Split', sub: 'chunking', tone: 'tool' },
+        { id: 'custom', x: 196, y: 316, w: 134, h: 56, label: 'Custom Web API', sub: { en: 'custom skill', de: 'eigener Skill' }, tone: 'tool' },
+        { id: 'shaper', x: 390, y: 316, w: 116, h: 56, label: 'Shaper', sub: { en: 'shapes tables', de: 'formt Tabellen' }, tone: 'tool' },
+        { id: 'embed', x: 566, y: 316, w: 110, h: 56, label: 'Embedding', sub: 'Azure OpenAI', tone: 'tool' },
+        { id: 'index', x: 820, y: 308, w: 126, h: 72, label: { en: 'Search index', de: 'Suchindex' }, sub: { en: 'text + vectors', de: 'Text + Vektoren' }, tone: 'data', shape: 'store' },
+        { id: 'fn', x: 196, y: 474, w: 134, h: 56, label: 'Azure Function', sub: { en: 'your code', de: 'dein Code' }, tone: 'app' },
+        { id: 'kstore', x: 378, y: 474, w: 140, h: 56, label: { en: 'Knowledge store', de: 'Knowledge Store' }, sub: 'Azure Storage', tone: 'data', shape: 'store' },
+        { id: 'emb2', x: 546, y: 474, w: 150, h: 56, label: { en: 'Embedding model', de: 'Embedding-Modell' }, sub: { en: 'Foundry deployment', de: 'Foundry-Deployment' }, tone: 'model' },
       ],
       edges: [
-        { id: 'e-src', from: 'src', to: 'idxr', label: { en: 'pull', de: 'Pull' } },
-        { id: 'e-fm', from: 'idxr', to: 'index', label: { en: 'field mappings', de: 'Feld-Mappings' }, via: [[865, 82]] },
-        { id: 'e-ocr', from: 'idxr', to: 'ocr' },
-        { id: 'e-split', from: 'ocr', to: 'split' },
+        { id: 'e-src', from: 'src', to: 'ds', label: { en: 'pull', de: 'Pull' } },
+        { id: 'e-ds', from: 'ds', to: 'idxr' },
+        { id: 'e-fm', from: 'idxr', to: 'index', label: { en: 'field mappings', de: 'Feld-Mappings' }, via: [[883, 80]] },
+        { id: 'e-txt', from: 'idxr', to: 'merge', label: { en: 'text', de: 'Text' } },
+        { id: 'e-ocr', from: 'idxr', to: 'ocr', label: { en: 'images', de: 'Bilder' } },
+        { id: 'e-merge', from: 'ocr', to: 'merge' },
+        { id: 'e-split', from: 'merge', to: 'split' },
         { id: 'e-embed', from: 'split', to: 'embed' },
-        { id: 'e-out', from: 'embed', to: 'index', label: { en: 'output mappings', de: 'Output-Mappings' } },
+        { id: 'e-out', from: 'embed', to: 'index', label: { en: 'index projections', de: 'Index Projections' } },
+        { id: 'e-emb2', from: 'embed', to: 'emb2', label: 'HTTPS', dashed: true, bidir: true },
         { id: 'e-custom', from: 'ocr', to: 'custom' },
         { id: 'e-fn', from: 'custom', to: 'fn', label: 'HTTPS', dashed: true, bidir: true },
         { id: 'e-shape', from: 'custom', to: 'shaper' },
@@ -52,26 +59,26 @@ export const lesson: Lesson = {
         {
           title: { en: 'Connect and pull', de: 'Verbinden und abholen' },
           text: {
-            en: 'A data source object stores the connection to Azure Blob Storage, Azure SQL, Azure Cosmos DB, OneLake and other supported stores. The indexer pulls content on demand or on a schedule (every 5 minutes up to every 24 hours) and uses change detection to pick up only new and changed items.',
-            de: 'Ein Datenquellenobjekt speichert die Verbindung zu Azure Blob Storage, Azure SQL, Azure Cosmos DB, OneLake und anderen unterstützten Speichern. Der Indexer holt Inhalte bei Bedarf oder nach Zeitplan ab (alle 5 Minuten bis alle 24 Stunden) und nutzt die Änderungserkennung, um nur neue und geänderte Elemente zu verarbeiten.',
+            en: 'A **data source** object in the search service stores the type, connection and container of a supported store such as Azure Blob Storage, Azure SQL, Azure Cosmos DB or OneLake. The indexer pulls content through it on demand or on a schedule (every 5 minutes up to every 24 hours) and uses change detection to pick up only new and changed items.',
+            de: 'Ein **Datenquellenobjekt** im Suchdienst speichert Typ, Verbindung und Container eines unterstützten Speichers wie Azure Blob Storage, Azure SQL, Azure Cosmos DB oder OneLake. Der Indexer holt darüber Inhalte bei Bedarf oder nach Zeitplan ab (alle 5 Minuten bis alle 24 Stunden) und nutzt die Änderungserkennung, um nur neue und geänderte Elemente zu verarbeiten.',
           },
-          focus: ['src', 'e-src', 'idxr'],
+          focus: ['src', 'e-src', 'ds', 'e-ds', 'idxr'],
         },
         {
           title: { en: 'Crack and map', de: 'Zerlegen und zuordnen' },
           text: {
-            en: 'Document cracking opens each file and extracts text, metadata and, if `imageAction` is set, normalized images. Field mappings copy source fields such as `metadata_storage_name` into index fields as-is, before any skill runs.',
-            de: 'Beim Document Cracking öffnet der Indexer jede Datei und extrahiert Text, Metadaten und – wenn `imageAction` gesetzt ist – normalisierte Bilder. Field Mappings kopieren Quellfelder wie `metadata_storage_name` unverändert in Indexfelder, noch bevor ein Skill läuft.',
+            en: 'Document cracking opens each file and extracts text, metadata and, if `imageAction` is set, normalized images; text and images are now separate nodes of the enriched document. Field mappings copy source fields such as `metadata_storage_name` into index fields as-is, before any skill runs.',
+            de: 'Beim Document Cracking öffnet der Indexer jede Datei und extrahiert Text, Metadaten und – wenn `imageAction` gesetzt ist – normalisierte Bilder; Text und Bilder sind danach getrennte Knoten des angereicherten Dokuments. Field Mappings kopieren Quellfelder wie `metadata_storage_name` unverändert in Indexfelder, noch bevor ein Skill läuft.',
           },
-          focus: ['idxr', 'e-fm', 'index'],
+          focus: ['idxr', 'e-txt', 'e-ocr', 'e-fm', 'index'],
         },
         {
           title: { en: 'Enrich with built-in skills', de: 'Mit integrierten Skills anreichern' },
           text: {
-            en: 'The skillset is a pipeline within the pipeline: each skill reads and writes nodes of the enriched document (`/document/...`). Here OCR reads text in images, Text Split cuts it into chunks and the Azure OpenAI Embedding skill adds a vector per chunk; language skills such as entity recognition work the same way.',
-            de: 'Das Skillset ist eine Pipeline in der Pipeline: Jeder Skill liest und schreibt Knoten des angereicherten Dokuments (`/document/...`). Hier liest OCR Text in Bildern, Text Split zerlegt ihn in Chunks und der Azure-OpenAI-Embedding-Skill ergänzt pro Chunk einen Vektor; Sprach-Skills wie die Entitätserkennung funktionieren genauso.',
+            en: 'The skillset is a pipeline within the pipeline: each skill reads and writes nodes of the enriched document (an in-memory tree per source document, `/document/...`). Here OCR reads text in the images, Text Merge inserts that text into the cracked text, Text Split cuts the merged text into chunks, and the Azure OpenAI Embedding skill sends each chunk to your embedding model deployment and adds its vector. Language skills such as entity recognition work the same way.',
+            de: 'Das Skillset ist eine Pipeline in der Pipeline: Jeder Skill liest und schreibt Knoten des angereicherten Dokuments (ein Baum im Speicher pro Quelldokument, `/document/...`). Hier liest OCR Text in den Bildern, Text Merge fügt ihn in den zerlegten Text ein, Text Split zerlegt den zusammengeführten Text in Chunks, und der Azure-OpenAI-Embedding-Skill schickt jeden Chunk an dein Embedding-Modell-Deployment und ergänzt seinen Vektor. Sprach-Skills wie die Entitätserkennung funktionieren genauso.',
           },
-          focus: ['g-skills', 'ocr', 'e-split', 'split', 'e-embed', 'embed'],
+          focus: ['g-skills', 'e-ocr', 'ocr', 'e-txt', 'e-merge', 'merge', 'e-split', 'split', 'e-embed', 'embed', 'e-emb2', 'emb2'],
         },
         {
           title: { en: 'Plug in your own code', de: 'Eigenen Code einbinden' },
@@ -84,10 +91,10 @@ export const lesson: Lesson = {
         {
           title: { en: 'Write index and knowledge store', de: 'Index und Knowledge Store schreiben' },
           text: {
-            en: 'Output field mappings (or index projections for chunks) move enriched nodes into index fields. Projections defined in the skillset, often fed by a Shaper skill, persist the same enrichments as tables, JSON objects or image files in Azure Storage.',
-            de: 'Output Field Mappings (oder Index Projections für Chunks) übertragen angereicherte Knoten in Indexfelder. Projektionen im Skillset – oft von einem Shaper-Skill vorbereitet – speichern dieselben Anreicherungen als Tabellen, JSON-Objekte oder Bilddateien in Azure Storage.',
+            en: 'Two different outputs. Into the index: **index projections** (defined in the skillset) write one search document per chunk, with its vector and the parent key; **output field mappings** (defined in the indexer) carry enrichments of the whole document, such as entities or key phrases, into its one search document. Into Azure Storage: **knowledge store projections** (also defined in the skillset, often fed by a Shaper skill) save tables, JSON objects or image files.',
+            de: 'Zwei verschiedene Ausgaben. In den Index: **Index Projections** (im Skillset definiert) schreiben ein Suchdokument pro Chunk mit seinem Vektor und dem Elternschlüssel; **Output Field Mappings** (im Indexer definiert) bringen Anreicherungen des ganzen Dokuments, etwa Entitäten oder Schlüsselbegriffe, in dessen eines Suchdokument. Nach Azure Storage: **Knowledge-Store-Projektionen** (ebenfalls im Skillset, oft von einem Shaper-Skill vorbereitet) speichern Tabellen, JSON-Objekte oder Bilddateien.',
           },
-          focus: ['e-out', 'index', 'shaper', 'e-shape', 'e-proj', 'kstore'],
+          focus: ['e-out', 'index', 'e-shape', 'shaper', 'e-proj', 'kstore'],
         },
       ],
     },
@@ -99,16 +106,16 @@ export const lesson: Lesson = {
         de: 'Stichwort- und Vektorpfad laufen parallel, RRF fusioniert ihre Rankings, und der Semantic Ranker ordnet die Top 50 neu, bevor die Ergebnisse ein LLM fundieren.',
       },
       width: 960,
-      height: 440,
-      groups: [{ id: 'g-q', x: 180, y: 20, w: 550, h: 300, label: 'Azure AI Search', tone: 'neutral' }],
+      height: 484,
+      groups: [{ id: 'g-q', x: 192, y: 60, w: 530, h: 304, label: 'Azure AI Search', tone: 'neutral' }],
       nodes: [
-        { id: 'q', x: 20, y: 148, w: 130, h: 64, label: { en: 'User question', de: 'Nutzerfrage' }, sub: { en: 'plain text', de: 'Klartext' }, tone: 'user', shape: 'pill' },
-        { id: 'kw', x: 200, y: 60, w: 160, h: 64, label: { en: 'Keyword search', de: 'Stichwortsuche' }, sub: { en: 'BM25 · inverted index', de: 'BM25 · Textindex' }, tone: 'data' },
-        { id: 'vec', x: 200, y: 236, w: 160, h: 64, label: { en: 'Vector search', de: 'Vektorsuche' }, sub: { en: 'HNSW · k nearest', de: 'HNSW · k nächste' }, tone: 'data' },
-        { id: 'rrf', x: 400, y: 148, w: 130, h: 64, label: { en: 'RRF fusion', de: 'RRF-Fusion' }, sub: { en: 'merges rankings', de: 'vereint Rankings' }, tone: 'neutral' },
-        { id: 'sem', x: 570, y: 148, w: 140, h: 64, label: 'Semantic ranker', sub: { en: 'reranks top 50', de: 'rankt Top 50 neu' }, tone: 'model' },
-        { id: 'out', x: 810, y: 148, w: 130, h: 64, label: { en: 'RAG app / agent', de: 'RAG-App / Agent' }, sub: { en: 'grounds the LLM', de: 'Grounding fürs LLM' }, tone: 'app' },
-        { id: 'emb', x: 200, y: 360, w: 160, h: 56, label: { en: 'Embedding model', de: 'Embedding-Modell' }, sub: { en: 'Foundry deployment', de: 'Foundry-Deployment' }, tone: 'model' },
+        { id: 'q', x: 12, y: 186, w: 160, h: 72, label: { en: 'Query from your app', de: 'Abfrage deiner App' }, sub: { en: 'search + vectorQueries\nin one request', de: 'search + vectorQueries\nin einer Anfrage' }, tone: 'app' },
+        { id: 'kw', x: 212, y: 100, w: 160, h: 64, label: { en: 'Keyword search', de: 'Stichwortsuche' }, sub: { en: 'BM25 · inverted index', de: 'BM25 · Textindex' }, tone: 'data' },
+        { id: 'vec', x: 212, y: 280, w: 160, h: 64, label: { en: 'Vector search', de: 'Vektorsuche' }, sub: { en: 'HNSW · k nearest', de: 'HNSW · k nächste' }, tone: 'data' },
+        { id: 'rrf', x: 402, y: 190, w: 130, h: 64, label: { en: 'RRF fusion', de: 'RRF-Fusion' }, sub: { en: 'merges rankings', de: 'vereint Rankings' }, tone: 'neutral' },
+        { id: 'sem', x: 566, y: 190, w: 140, h: 64, label: 'Semantic ranker', sub: { en: 'reranks top 50', de: 'rankt Top 50 neu' }, tone: 'model' },
+        { id: 'out', x: 806, y: 190, w: 140, h: 64, label: { en: 'RAG app / agent', de: 'RAG-App / Agent' }, sub: { en: 'grounds the LLM', de: 'Grounding fürs LLM' }, tone: 'app' },
+        { id: 'emb', x: 212, y: 410, w: 160, h: 56, label: { en: 'Embedding model', de: 'Embedding-Modell' }, sub: { en: 'Foundry deployment', de: 'Foundry-Deployment' }, tone: 'model' },
       ],
       edges: [
         { id: 'e-q-kw', from: 'q', to: 'kw' },
@@ -117,46 +124,47 @@ export const lesson: Lesson = {
         { id: 'e-kw-rrf', from: 'kw', to: 'rrf' },
         { id: 'e-vec-rrf', from: 'vec', to: 'rrf' },
         { id: 'e-rrf-sem', from: 'rrf', to: 'sem' },
+        { id: 'e-q-sem', from: 'q', to: 'sem', label: { en: 'query text', de: 'Abfragetext' }, dashed: true, via: [[92, 30], [636, 30]] },
         { id: 'e-sem-out', from: 'sem', to: 'out', label: { en: 'top results', de: 'Top-Treffer' } },
       ],
       steps: [
         {
-          title: { en: 'One request, two legs', de: 'Eine Anfrage, zwei Wege' },
+          title: { en: 'Vectorize the question', de: 'Frage vektorisieren' },
           text: {
-            en: 'A hybrid query sends the same question as `search_text` and as a vector query in one request. Keyword search scores matches with BM25 over the inverted index; vector search finds the nearest neighbors in the HNSW graph (or exhaustively with KNN).',
-            de: 'Eine hybride Abfrage schickt dieselbe Frage in einer Anfrage als `search_text` und als Vektorabfrage. Die Stichwortsuche bewertet Treffer mit BM25 über den invertierten Index; die Vektorsuche findet die nächsten Nachbarn im HNSW-Graphen (oder vollständig per exhaustive KNN).',
+            en: 'Your app sends one request that carries the question twice: as `search_text` for the keyword leg and as a `VectorizableTextQuery` for the vector leg (in REST: `search` and `vectorQueries`). Before the vector leg can search, the vectorizer of the vector field sends the text to the same embedding model that vectorized the content during indexing; another model or dimension count makes the vectors incomparable.',
+            de: 'Deine App schickt eine Anfrage, die die Frage zweimal enthält: als `search_text` für den Stichwortpfad und als `VectorizableTextQuery` für den Vektorpfad (in REST: `search` und `vectorQueries`). Bevor der Vektorpfad suchen kann, schickt der Vectorizer des Vektorfelds den Text an dasselbe Embedding-Modell, das beim Indexieren die Inhalte vektorisiert hat; ein anderes Modell oder andere Dimensionen machen die Vektoren unvergleichbar.',
+          },
+          focus: ['q', 'e-q-vec', 'vec', 'e-vec-emb', 'emb'],
+        },
+        {
+          title: { en: 'Search both legs in parallel', de: 'Beide Wege parallel durchsuchen' },
+          text: {
+            en: 'Keyword search looks the terms up in the inverted index (a list of documents per term) and scores matches with BM25, a relevance formula based on term frequency. In parallel, vector search finds the nearest neighbors (`k_nearest_neighbors`, in REST `k`) in the HNSW graph, or compares every vector with exhaustive KNN.',
+            de: 'Die Stichwortsuche schlägt die Begriffe im invertierten Index nach (eine Dokumentliste pro Begriff) und bewertet Treffer mit BM25, einer Relevanzformel auf Basis der Begriffshäufigkeit. Parallel findet die Vektorsuche die nächsten Nachbarn (`k_nearest_neighbors`, in REST `k`) im HNSW-Graphen oder vergleicht per exhaustive KNN jeden Vektor.',
           },
           focus: ['q', 'e-q-kw', 'kw', 'e-q-vec', 'vec'],
         },
         {
-          title: { en: 'Vectorize the question', de: 'Frage vektorisieren' },
-          text: {
-            en: 'With `VectorizableTextQuery`, the vectorizer assigned to the vector field calls the same embedding model that vectorized the content during indexing. Different models or dimensions make query and document vectors incomparable.',
-            de: 'Mit `VectorizableTextQuery` ruft der Vectorizer des Vektorfelds dasselbe Embedding-Modell auf, das beim Indexieren die Inhalte vektorisiert hat. Andere Modelle oder Dimensionen machen Abfrage- und Dokumentvektoren unvergleichbar.',
-          },
-          focus: ['vec', 'e-vec-emb', 'emb'],
-        },
-        {
           title: { en: 'Fuse with RRF', de: 'Mit RRF fusionieren' },
           text: {
-            en: 'Reciprocal Rank Fusion merges the parallel result lists: a document earns 1/(rank + k) in each list, with a small constant k such as 60, so documents ranked high in both lists rise to the top.',
-            de: 'Reciprocal Rank Fusion vereint die parallelen Ergebnislisten: Ein Dokument erhält in jeder Liste 1/(Rang + k), mit einer kleinen Konstante k wie 60 – Dokumente, die in beiden Listen weit oben stehen, steigen nach oben.',
+            en: 'Reciprocal Rank Fusion (RRF) merges the parallel result lists: a document earns 1/(rank + k) in each list, where k is the RRF constant (for example 60, unrelated to `k_nearest_neighbors`), so documents ranked high in both lists rise to the top.',
+            de: 'Reciprocal Rank Fusion (RRF) vereint die parallelen Ergebnislisten: Ein Dokument erhält in jeder Liste 1/(Rang + k), wobei k die RRF-Konstante ist (zum Beispiel 60, unabhängig von `k_nearest_neighbors`) – Dokumente, die in beiden Listen weit oben stehen, steigen nach oben.',
           },
           focus: ['kw', 'vec', 'e-kw-rrf', 'e-vec-rrf', 'rrf'],
         },
         {
           title: { en: 'Rerank by meaning', de: 'Nach Bedeutung neu ranken' },
           text: {
-            en: 'The semantic ranker rescores the top 50 fused results with language-understanding models (`@search.rerankerScore`, 0 to 4) and can return verbatim captions and answers. It needs a semantic configuration and a non-empty, plain-text query.',
-            de: 'Der Semantic Ranker bewertet die Top 50 der fusionierten Ergebnisse mit Sprachverständnismodellen neu (`@search.rerankerScore`, 0 bis 4) und kann wörtliche Captions und Answers liefern. Er braucht eine semantische Konfiguration und eine nicht leere Klartextabfrage.',
+            en: 'The semantic ranker takes the top 50 fused results and the query text (dashed arrow) and rescores each result for its relevance to the query with language-understanding models (score 0 to 4: `@search.rerankerScore` in REST, `@search.reranker_score` in Python). It can return verbatim captions and answers and needs a semantic configuration and a non-empty, plain-text query.',
+            de: 'Der Semantic Ranker nimmt die Top 50 der fusionierten Ergebnisse und den Abfragetext (gestrichelter Pfeil) und bewertet jedes Ergebnis mit Sprachverständnismodellen neu nach seiner Relevanz für die Abfrage (Score 0 bis 4: `@search.rerankerScore` in REST, `@search.reranker_score` in Python). Er kann wörtliche Captions und Answers liefern und braucht eine semantische Konfiguration und eine nicht leere Klartextabfrage.',
           },
-          focus: ['rrf', 'e-rrf-sem', 'sem'],
+          focus: ['rrf', 'e-rrf-sem', 'sem', 'e-q-sem', 'q'],
         },
         {
           title: { en: 'Ground the answer', de: 'Antwort fundieren' },
           text: {
-            en: 'The top results, with their chunks and source fields, go to your RAG app or agent as grounding data. For complex, multi-source questions, agentic retrieval runs this pipeline per subquery through a knowledge base, the engine behind Foundry IQ.',
-            de: 'Die Top-Treffer gehen mit ihren Chunks und Quellfeldern als Grounding-Daten an deine RAG-App oder deinen Agent. Für komplexe, quellenübergreifende Fragen führt Agentic Retrieval diese Pipeline pro Teilabfrage über eine Knowledge Base aus – die Engine hinter Foundry IQ.',
+            en: 'The top results, with their chunks and source fields, go to your RAG app or agent as grounding data. For complex, multi-source questions, **agentic retrieval** lets an LLM split the question into subqueries that run in parallel against a knowledge base; it powers **Foundry IQ**, the managed knowledge layer for agents in the Foundry portal.',
+            de: 'Die Top-Treffer gehen mit ihren Chunks und Quellfeldern als Grounding-Daten an deine RAG-App oder deinen Agent. Für komplexe, quellenübergreifende Fragen zerlegt bei **Agentic Retrieval** ein LLM die Frage in Teilabfragen, die parallel gegen eine Knowledge Base laufen; darauf basiert **Foundry IQ**, die verwaltete Wissensschicht für Agents im Foundry-Portal.',
           },
           focus: ['sem', 'e-sem-out', 'out'],
         },
@@ -165,160 +173,191 @@ export const lesson: Lesson = {
   ],
   concepts: [
     {
-      term: 'Indexer',
+      term: 'Indexer and field mappings',
       text: {
-        en: 'A crawler that connects to one supported data source, cracks each item into text (and optionally images), applies field mappings, runs an attached skillset and writes into one index. It runs on demand or on a schedule; change detection is automatic for Azure Storage but must be enabled for sources such as Azure SQL or Azure Cosmos DB.',
-        de: 'Ein Crawler, der sich mit genau einer unterstützten Datenquelle verbindet, jedes Element in Text (und optional Bilder) zerlegt, Field Mappings anwendet, ein angehängtes Skillset ausführt und in genau einen Index schreibt. Er läuft bei Bedarf oder nach Zeitplan; die Änderungserkennung ist für Azure Storage automatisch, für Quellen wie Azure SQL oder Azure Cosmos DB musst du sie aktivieren.',
+        en: 'An indexer is a crawler that connects one supported data source, an optional skillset and one target index. **Field mappings** (defined in the indexer) copy source fields as-is before enrichment, implicitly when name and type match or explicitly to rename a field or apply a function such as `base64Encode`; **output field mappings** copy enriched nodes into index fields. Without a supported source, or for near-real-time updates, you push JSON documents yourself with `upload_documents()` (push model); skillsets only run with indexers.',
+        de: 'Ein Indexer ist ein Crawler, der genau eine unterstützte Datenquelle, ein optionales Skillset und genau einen Zielindex verbindet. **Field Mappings** (im Indexer definiert) kopieren Quellfelder unverändert vor der Anreicherung – implizit bei gleichem Namen und Typ, explizit zum Umbenennen oder mit einer Funktion wie `base64Encode`; **Output Field Mappings** kopieren angereicherte Knoten in Indexfelder. Ohne unterstützte Quelle oder für Aktualisierung nahezu in Echtzeit lädst du JSON-Dokumente selbst mit `upload_documents()` hoch (Push-Modell); Skillsets laufen nur mit Indexern.',
       },
     },
     {
-      term: 'Skillset and skills',
+      term: 'Skillset',
       text: {
-        en: 'A skillset is a reusable set of skills attached to an indexer; each skill reads and writes nodes of the in-memory enriched document (`/document/content`, `/document/normalized_images/*`, `/document/pages/*`), and its `context` sets how often it runs, for example once per image or chunk. Built-in skills cover OCR, image analysis, language detection, entity recognition, key phrases, PII, translation, Text Split, Azure OpenAI Embedding, GenAI Prompt and layout-aware extraction with Azure Content Understanding (Document Layout remains for existing pipelines); skills backed by Foundry Tools need an attached Foundry resource beyond about 20 free documents per indexer per day. Custom Web API skills call your own HTTPS code.',
-        de: 'Ein Skillset ist eine wiederverwendbare Sammlung von Skills, die an einen Indexer gehängt wird; jeder Skill liest und schreibt Knoten des angereicherten Dokuments im Speicher (`/document/content`, `/document/normalized_images/*`, `/document/pages/*`), und sein `context` legt fest, wie oft er läuft, etwa einmal pro Bild oder Chunk. Integrierte Skills decken OCR, Bildanalyse, Spracherkennung, Entitätserkennung, Schlüsselbegriffe, PII, Übersetzung, Text Split, Azure OpenAI Embedding, GenAI Prompt und layoutbewusste Extraktion mit Azure Content Understanding ab (Document Layout bleibt für bestehende Pipelines); Skills auf Basis von Foundry Tools brauchen über etwa 20 kostenlose Dokumente pro Indexer und Tag hinaus eine angehängte Foundry-Ressource. Custom-Web-API-Skills rufen deinen eigenen HTTPS-Code auf.',
+        en: 'A reusable set of skills attached to an indexer. Each skill reads nodes of the enriched document (such as `/document/content`) and adds new nodes; its `context` sets how often it runs, for example once per image or per chunk. Most skills backed by Foundry Tools are free for about 20 documents per indexer per day; beyond that, and always for the Content Understanding skill, you attach a billable Foundry resource. The table below shows what each skill reads and writes.',
+        de: 'Eine wiederverwendbare Sammlung von Skills, die an einen Indexer gehängt wird. Jeder Skill liest Knoten des angereicherten Dokuments (etwa `/document/content`) und ergänzt neue Knoten; sein `context` legt fest, wie oft er läuft, etwa einmal pro Bild oder pro Chunk. Die meisten Skills auf Basis von Foundry Tools sind für etwa 20 Dokumente pro Indexer und Tag kostenlos; darüber hinaus – und beim Content-Understanding-Skill immer – hängst du eine kostenpflichtige Foundry-Ressource an. Die Tabelle unten zeigt, was jeder Skill liest und schreibt.',
       },
     },
     {
-      term: 'Field mappings vs. output field mappings',
+      term: 'Index projections vs. knowledge store projections',
       text: {
-        en: 'Field mappings send source fields to index fields as-is, before enrichment: implicitly when name and type match, explicitly to rename a field or apply a mapping function such as `base64Encode`. Output field mappings send nodes of the enriched document to index fields and are required for every skill output you want in the index. For chunked content, index projections create one search document per chunk instead.',
-        de: 'Field Mappings übertragen Quellfelder unverändert und vor der Anreicherung in Indexfelder: implizit, wenn Name und Typ passen, explizit, um ein Feld umzubenennen oder eine Mapping-Funktion wie `base64Encode` anzuwenden. Output Field Mappings übertragen Knoten des angereicherten Dokuments in Indexfelder und sind für jede Skill-Ausgabe nötig, die im Index landen soll. Für gechunkte Inhalte erzeugen stattdessen Index Projections ein Suchdokument pro Chunk.',
+        en: 'Both are defined in the skillset. **Index projections** (`indexProjections`) write each chunk as its own search document, with a parent key field, into an index. **Knowledge store projections** (`knowledgeStore`) write enrichments to Azure Storage as tables (best for Power BI), JSON objects or image files; they remain when the index is deleted and are not an agentic retrieval knowledge base.',
+        de: 'Beide werden im Skillset definiert. **Index Projections** (`indexProjections`) schreiben jeden Chunk als eigenes Suchdokument mit einem Feld für den Elternschlüssel in einen Index. **Knowledge-Store-Projektionen** (`knowledgeStore`) schreiben Anreicherungen nach Azure Storage – als Tabellen (ideal für Power BI), JSON-Objekte oder Bilddateien; sie bleiben erhalten, wenn der Index gelöscht wird, und sind keine Knowledge Base für Agentic Retrieval.',
       },
     },
     {
-      term: 'Knowledge store',
+      term: 'Keyword (full-text) search',
       text: {
-        en: 'Optional Azure Storage output defined in the `knowledgeStore` section of a skillset: table projections (Table Storage, best for Power BI), object projections (JSON in Blob Storage) and file projections (normalized images). It lives independently of the index, survives its deletion and is not the same thing as an agentic retrieval knowledge base.',
-        de: 'Optionale Ausgabe in Azure Storage, definiert im Abschnitt `knowledgeStore` eines Skillsets: Tabellenprojektionen (Table Storage, ideal für Power BI), Objektprojektionen (JSON in Blob Storage) und Dateiprojektionen (normalisierte Bilder). Er existiert unabhängig vom Index, überlebt dessen Löschung und ist nicht dasselbe wie eine Knowledge Base für Agentic Retrieval.',
+        en: 'An **analyzer** splits searchable text into terms for the inverted index; **BM25** ranks a match higher when the term is frequent in the document but rare in the index. The simple syntax is the default; `queryType` `full` enables **Lucene** operators (Apache Lucene query parser): `genre:jazz`, fuzzy `blue~`, proximity `"hotel airport"~5`, boosting `tax^2`, regex `/[mh]otel/`. `searchMode` `all` favors precision, `any` (default) favors recall. `filter` and `orderby` take **OData** expressions (a standard query syntax) on `filterable` and `sortable` fields, `facets` need `facetable` fields, and filters match exactly and case-sensitively. Best when exact terms matter: product codes, names, dates, jargon.',
+        de: 'Ein **Analyzer** zerlegt durchsuchbaren Text in Begriffe für den invertierten Index; **BM25** bewertet einen Treffer höher, wenn der Begriff im Dokument häufig, im Index aber selten ist. Standard ist die einfache Syntax; `queryType` = `full` aktiviert **Lucene**-Operatoren (Apache-Lucene-Abfrageparser): `genre:jazz`, Fuzzy `blue~`, Nähe `"hotel airport"~5`, Boosting `tax^2`, Regex `/[mh]otel/`. `searchMode` = `all` bevorzugt Präzision, `any` (Standard) Recall. `filter` und `orderby` nehmen **OData**-Ausdrücke (eine Standard-Abfragesyntax) auf `filterable`- und `sortable`-Feldern, `facets` braucht `facetable`-Felder, und Filter vergleichen exakt und mit Groß- und Kleinschreibung. Ideal, wenn exakte Begriffe zählen: Produktcodes, Namen, Datumsangaben, Fachjargon.',
       },
     },
     {
-      term: 'Full-text query',
+      term: 'Vector search settings',
       text: {
-        en: 'The `search` text is parsed with the simple syntax by default; `queryType` set to `full` adds Lucene operators for fielded search (`genre:jazz`), fuzzy (`blue~`), proximity (`"hotel airport"~5`), term boosting (`tax^2`) and regex (`/[mh]otel/`). Matches in `searchable` fields are scored with BM25 and `searchMode` (`any` or `all`) trades recall for precision. OData `filter`, `facets` and `orderby` need `filterable`, `facetable` and `sortable` fields, and filters are exact, case-sensitive matches.',
-        de: 'Der `search`-Text wird standardmäßig mit der einfachen Syntax geparst; `queryType` = `full` ergänzt Lucene-Operatoren für feldbezogene Suche (`genre:jazz`), Fuzzy (`blue~`), Nähe (`"hotel airport"~5`), Term-Boosting (`tax^2`) und Regex (`/[mh]otel/`). Treffer in `searchable`-Feldern bewertet BM25, und `searchMode` (`any` oder `all`) tauscht Recall gegen Präzision. OData-`filter`, `facets` und `orderby` brauchen `filterable`-, `facetable`- und `sortable`-Felder; Filter vergleichen exakt und mit Groß- und Kleinschreibung.',
-      },
-    },
-    {
-      term: 'Vector field and vectorizer',
-      text: {
-        en: 'A vector field uses a vector type such as `Collection(Edm.Single)`, is `searchable`, has `dimensions` equal to the embedding output and references a vector profile that picks HNSW (approximate and fast) or exhaustive KNN (exact). A vectorizer in the profile converts query text with the same embedding model at query time.',
-        de: 'Ein Vektorfeld nutzt einen Vektortyp wie `Collection(Edm.Single)`, ist `searchable`, hat `dimensions` passend zur Embedding-Ausgabe und verweist auf ein Vektorprofil, das HNSW (approximativ und schnell) oder exhaustive KNN (exakt) wählt. Ein Vectorizer im Profil wandelt Abfragetext zur Abfragezeit mit demselben Embedding-Modell um.',
+        en: 'A vector field stores embeddings as a vector type such as `Collection(Edm.Single)` (an array of 32-bit floats), is `searchable`, has `dimensions` equal to the embedding output and points to a vector profile: an algorithm (HNSW = fast approximate search, exhaustive KNN = exact brute force) plus an optional **vectorizer** that embeds query text with the same model. **Integrated vectorization** means skills chunk and embed during indexing and a vectorizer embeds queries. `vectorFilterMode` sets when a filter on nonvector fields applies: `preFilter` (default for indexes created since October 2023; during the vector search, best recall), `postFilter` (after each shard picks its top results, so it can return fewer than requested) or `strictPostFilter` (preview). Best when meaning matters more than wording.',
+        de: 'Ein Vektorfeld speichert Embeddings in einem Vektortyp wie `Collection(Edm.Single)` (ein Array aus 32-Bit-Gleitkommazahlen), ist `searchable`, hat `dimensions` passend zur Embedding-Ausgabe und verweist auf ein Vektorprofil: einen Algorithmus (HNSW = schnelle, approximative Suche, exhaustive KNN = exakter Brute-Force-Vergleich) plus optional einen **Vectorizer**, der Abfragetext mit demselben Modell einbettet. **Integrierte Vektorisierung** heißt: Skills chunken und embedden beim Indexieren, ein Vectorizer bettet Abfragen ein. `vectorFilterMode` legt fest, wann ein Filter auf Nicht-Vektorfeldern greift: `preFilter` (Standard für Indizes seit Oktober 2023; während der Vektorsuche, bester Recall), `postFilter` (nachdem jeder Shard seine Top-Treffer gewählt hat, daher evtl. weniger Ergebnisse als angefordert) oder `strictPostFilter` (Vorschau). Ideal, wenn Bedeutung mehr zählt als Wortlaut.',
       },
     },
     {
       term: 'Semantic ranker',
       text: {
-        en: 'A premium L2 reranker over the top 50 BM25 or RRF results. A semantic configuration lists one title field plus content and keyword fields (searchable and retrievable string fields, in priority order); results get `@search.rerankerScore` (0 to 4) and optional verbatim captions and answers.',
-        de: 'Ein kostenpflichtiger L2-Reranker über die Top 50 der BM25- oder RRF-Ergebnisse. Eine semantische Konfiguration nennt ein Titelfeld sowie Inhalts- und Schlüsselwortfelder (durchsuchbare und abrufbare Stringfelder, nach Priorität); Ergebnisse erhalten `@search.rerankerScore` (0 bis 4) und optional wörtliche Captions und Answers.',
+        en: 'An **L2** (second-stage) reranker: it rescores the top 50 results of the first-stage BM25 or RRF ranking with language-understanding models and is billed as a premium feature. A semantic configuration names a title field, content fields and keyword fields (searchable and retrievable strings, in priority order). Scores run from 0 to 4 (`@search.rerankerScore` in REST, `@search.reranker_score` in Python); captions and answers are verbatim extracts.',
+        de: 'Ein **L2**-Reranker (zweite Stufe): Er bewertet die Top 50 des ersten BM25- oder RRF-Rankings mit Sprachverständnismodellen neu und wird als Premium-Funktion abgerechnet. Eine semantische Konfiguration nennt ein Titelfeld, Inhaltsfelder und Schlüsselwortfelder (durchsuchbare und abrufbare Strings, nach Priorität). Scores reichen von 0 bis 4 (`@search.rerankerScore` in REST, `@search.reranker_score` in Python); Captions und Answers sind wörtliche Auszüge.',
+      },
+    },
+    {
+      term: 'Monitoring and relevance',
+      text: {
+        en: '**Execution history** (portal or `get_indexer_status()`) keeps the last 50 indexer runs with document-level errors and warnings; `maxFailedItems` (default 0) sets how many failed documents a run tolerates. A **debug session** is a portal editor that runs one document through a copy of the skillset so you can inspect skill inputs and outputs and test fixes. **Azure Monitor** collects metrics such as Search Latency, Throttled search queries percentage and Document processed count automatically; resource logs need a diagnostic setting. **Search traffic analytics** sends search and click events from your app to Application Insights (zero-result queries, click-through); you tune relevance with scoring profiles, vector weights and the semantic ranker.',
+        de: 'Der **Ausführungsverlauf** (Portal oder `get_indexer_status()`) behält die letzten 50 Indexer-Läufe mit Fehlern und Warnungen pro Dokument; `maxFailedItems` (Standard 0) legt fest, wie viele fehlgeschlagene Dokumente ein Lauf toleriert. Eine **Debug Session** ist ein Editor im Portal, der ein Dokument durch eine Kopie des Skillsets schickt, damit du Ein- und Ausgaben der Skills prüfen und Korrekturen testen kannst. **Azure Monitor** erfasst Metriken wie Search Latency, Throttled search queries percentage und Document processed count automatisch; Ressourcenprotokolle brauchen eine Diagnoseeinstellung. **Search Traffic Analytics** schickt Such- und Klickereignisse aus deiner App an Application Insights (Abfragen ohne Treffer, Klickrate); Relevanz stimmst du mit Scoring-Profilen, Vektorgewichten und dem Semantic Ranker ab.',
       },
     },
   ],
   comparison: {
-    title: { en: 'Which retrieval method when?', de: 'Welche Retrieval-Methode wann?' },
+    title: { en: 'Which skill reads and writes what?', de: 'Welcher Skill liest und schreibt was?' },
     columns: [
-      { en: 'Method', de: 'Methode' },
-      { en: 'How results are ranked', de: 'Wie gerankt wird' },
-      { en: 'Choose it when …', de: 'Wähle sie, wenn …' },
+      { en: 'Skill', de: 'Skill' },
+      { en: 'Input', de: 'Eingabe' },
+      { en: 'Output', de: 'Ausgabe' },
+      { en: 'Use it for', de: 'Wofür' },
     ],
     rows: [
+      ['OCR', { en: '`image` from `/document/normalized_images/*`', de: '`image` aus `/document/normalized_images/*`' }, '`text`, `layoutText`', { en: 'Text in scans and embedded images', de: 'Text in Scans und eingebetteten Bildern' }],
+      ['Text Merge', { en: '`text` (cracked content), `itemsToInsert` (OCR text), `offsets`', de: '`text` (zerlegter Inhalt), `itemsToInsert` (OCR-Text), `offsets`' }, '`mergedText`', { en: 'OCR text inside the document text, ready for chunking', de: 'OCR-Text im Dokumenttext, bereit fürs Chunking' }],
       [
-        { en: 'Keyword (full text)', de: 'Stichwort (Volltext)' },
-        { en: 'BM25 over tokenized terms', de: 'BM25 über tokenisierte Begriffe' },
-        { en: 'Exact terms matter: product codes, names, dates, jargon', de: 'Exakte Begriffe zählen: Produktcodes, Namen, Datumsangaben, Fachjargon' },
+        'Azure Content Understanding',
+        { en: '`file_data` (the source file)', de: '`file_data` (die Quelldatei)' },
+        { en: '`text_sections` (Markdown chunks), optional `normalized_images`', de: '`text_sections` (Markdown-Chunks), optional `normalized_images`' },
+        { en: 'Layout-aware extraction and chunking in new skillsets', de: 'Layoutbewusste Extraktion und Chunking in neuen Skillsets' },
+      ],
+      ['Text Split', '`text`', { en: '`textItems` (chunks)', de: '`textItems` (Chunks)' }, { en: 'Chunks that fit embedding input limits', de: 'Chunks passend zu den Eingabelimits von Embedding-Modellen' }],
+      ['Azure OpenAI Embedding', { en: '`text` (one chunk)', de: '`text` (ein Chunk)' }, { en: '`embedding` (vector)', de: '`embedding` (Vektor)' }, { en: 'Vectors for a vector field', de: 'Vektoren für ein Vektorfeld' }],
+      [
+        'GenAI Prompt',
+        { en: '`systemMessage`, `userMessage`, `text` or `image`', de: '`systemMessage`, `userMessage`, `text` oder `image`' },
+        '`response`',
+        { en: 'Image descriptions, summaries, structured extraction with your chat model', de: 'Bildbeschreibungen, Zusammenfassungen, strukturierte Extraktion mit deinem Chatmodell' },
       ],
       [
-        { en: 'Vector', de: 'Vektor' },
-        { en: 'Similarity via HNSW or exhaustive KNN', de: 'Ähnlichkeit per HNSW oder exhaustive KNN' },
-        { en: 'Meaning matters more than wording; multilingual or image content', de: 'Bedeutung zählt mehr als Wortlaut; mehrsprachige oder Bildinhalte' },
+        'Language Detection · Entity Recognition · Key Phrase Extraction',
+        '`text`',
+        '`languageCode` · `persons`, `organizations`, `locations` … · `keyPhrases`',
+        { en: 'Language routing, entity fields for filters, key terms', de: 'Sprachweiche, Entitätsfelder für Filter, Schlüsselbegriffe' },
       ],
       [
-        { en: 'Hybrid', de: 'Hybrid' },
-        { en: 'Both legs in parallel, fused with RRF', de: 'Beide Wege parallel, per RRF fusioniert' },
-        { en: 'Default for RAG grounding: precision plus recall', de: 'Standard für RAG-Grounding: Präzision plus Recall' },
+        'Custom Web API',
+        { en: 'Fields you choose, sent as `values` with `recordId` and `data`', de: 'Felder deiner Wahl, gesendet als `values` mit `recordId` und `data`' },
+        { en: 'Whatever your code returns in `data`', de: 'Was dein Code in `data` zurückgibt' },
+        { en: 'Your own model or logic, for example in an Azure Function', de: 'Eigenes Modell oder eigene Logik, etwa in einer Azure Function' },
       ],
-      [
-        { en: '+ Semantic ranker', de: '+ Semantic Ranker' },
-        { en: 'L2 rerank of the top 50 (score 0 to 4)', de: 'L2-Reranking der Top 50 (Score 0 bis 4)' },
-        { en: 'Prose-rich content; you want better top results and captions', de: 'Textreiche Inhalte; du willst bessere Top-Treffer und Captions' },
-      ],
-      [
-        { en: 'Agentic retrieval', de: 'Agentic Retrieval' },
-        { en: 'Query planning, parallel subqueries, semantic reranking', de: 'Abfrageplanung, parallele Teilabfragen, semantisches Reranking' },
-        { en: 'Complex, multi-part or multi-source questions from agents; extra latency is acceptable', de: 'Komplexe, mehrteilige oder quellenübergreifende Fragen von Agents; mehr Latenz ist akzeptabel' },
-      ],
+      ['Shaper', { en: 'Several existing nodes', de: 'Mehrere vorhandene Knoten' }, { en: 'One complex object (`output`)', de: 'Ein komplexes Objekt (`output`)' }, { en: 'Shapes for knowledge store table projections', de: 'Formen für Tabellenprojektionen im Knowledge Store' }],
     ],
   },
   code: [
     {
-      title: { en: 'Hybrid query with integrated vectorization and semantic ranking', de: 'Hybride Abfrage mit integrierter Vektorisierung und semantischem Ranking' },
+      title: { en: 'Index: vector field, profile with vectorizer, semantic configuration', de: 'Index: Vektorfeld, Profil mit Vectorizer, semantische Konfiguration' },
+      code: `from azure.identity import DefaultAzureCredential
+from azure.search.documents.indexes import SearchIndexClient, models as m
+
+fields = [m.SearchField(name="chunk_id", type="Edm.String", key=True, analyzer_name="keyword"),
+          m.SearchField(name="parent_id", type="Edm.String", filterable=True),
+          m.SearchField(name="chunk", type="Edm.String", searchable=True),
+          m.SearchField(name="chunk_vector", type="Collection(Edm.Single)", searchable=True,
+                        vector_search_dimensions=1536, vector_search_profile_name="vec-profile")]
+aoai = m.AzureOpenAIVectorizerParameters(resource_url="https://<resource>.openai.azure.com",
+    deployment_name="text-embedding-3-small", model_name="text-embedding-3-small")
+vector_search = m.VectorSearch(algorithms=[m.HnswAlgorithmConfiguration(name="hnsw")],
+    vectorizers=[m.AzureOpenAIVectorizer(vectorizer_name="aoai", parameters=aoai)],
+    profiles=[m.VectorSearchProfile(name="vec-profile", algorithm_configuration_name="hnsw",
+                                    vectorizer_name="aoai")])
+prioritized = m.SemanticPrioritizedFields(content_fields=[m.SemanticField(field_name="chunk")])
+semantic = m.SemanticConfiguration(name="contracts-semantic", prioritized_fields=prioritized)
+index = m.SearchIndex(name="contracts-index", fields=fields, vector_search=vector_search,
+                      semantic_search=m.SemanticSearch(configurations=[semantic]))
+client = SearchIndexClient("https://<search-service>.search.windows.net", DefaultAzureCredential())
+client.create_or_update_index(index)`,
+      notes: [
+        { en: 'Index projections need a string key with the `keyword` analyzer (`chunk_id`) and a filterable parent key (`parent_id`). `vector_search_dimensions` must equal the embedding size, and `deployment_name` is the name you gave your deployment (a deployment can have any name). Creating an index needs the Search Service Contributor role.', de: 'Index Projections brauchen einen String-Schlüssel mit dem Analyzer `keyword` (`chunk_id`) und einen filterbaren Elternschlüssel (`parent_id`). `vector_search_dimensions` muss zur Embedding-Größe passen, und `deployment_name` ist der Name, den du deinem Deployment gegeben hast (ein Deployment kann beliebig heißen). Zum Anlegen eines Index brauchst du die Rolle Search Service Contributor.' },
+      ],
+    },
+    {
+      title: { en: 'Skillset: chunk, embed, project', de: 'Skillset: chunken, einbetten, projizieren' },
+      code: `from azure.identity import DefaultAzureCredential
+from azure.search.documents.indexes import SearchIndexerClient, models as m
+
+split = m.SplitSkill(context="/document", text_split_mode="pages", maximum_page_length=2000,
+    page_overlap_length=500, inputs=[m.InputFieldMappingEntry(name="text", source="/document/content")],
+    outputs=[m.OutputFieldMappingEntry(name="textItems", target_name="pages")])
+embed = m.AzureOpenAIEmbeddingSkill(context="/document/pages/*", dimensions=1536,
+    resource_url="https://<resource>.openai.azure.com",
+    deployment_name="text-embedding-3-small", model_name="text-embedding-3-small",
+    inputs=[m.InputFieldMappingEntry(name="text", source="/document/pages/*")],
+    outputs=[m.OutputFieldMappingEntry(name="embedding", target_name="vector")])
+selector = m.SearchIndexerIndexProjectionSelector(target_index_name="contracts-index",
+    parent_key_field_name="parent_id", source_context="/document/pages/*",
+    mappings=[m.InputFieldMappingEntry(name="chunk", source="/document/pages/*"),
+              m.InputFieldMappingEntry(name="chunk_vector", source="/document/pages/*/vector")])
+params = m.SearchIndexerIndexProjectionsParameters(projection_mode="skipIndexingParentDocuments")
+skillset = m.SearchIndexerSkillset(name="contracts-skillset", skills=[split, embed],
+    index_projection=m.SearchIndexerIndexProjection(selectors=[selector], parameters=params))
+client = SearchIndexerClient("https://<search-service>.search.windows.net", DefaultAzureCredential())
+client.create_or_update_skillset(skillset)`,
+      notes: [
+        { en: 'Text Split writes `/document/pages/*` (2,000 characters, 500 overlap); with `context` `/document/pages/*`, the embedding skill runs once per chunk. The index projection writes one search document per chunk and skips the parents, so no output field mappings are needed.', de: 'Text Split schreibt `/document/pages/*` (2.000 Zeichen, 500 Überlappung); mit `context` = `/document/pages/*` läuft der Embedding-Skill einmal pro Chunk. Die Index Projection schreibt ein Suchdokument pro Chunk und überspringt die Eltern, daher brauchst du keine Output Field Mappings.' },
+        { en: 'Without `api_key`, the skill (like the vectorizer) calls Azure OpenAI with the system-assigned managed identity of the search service, which needs the Cognitive Services OpenAI User role.', de: 'Ohne `api_key` ruft der Skill (wie der Vectorizer) Azure OpenAI mit der systemzugewiesenen Managed Identity des Suchdiensts auf; sie braucht die Rolle Cognitive Services OpenAI User.' },
+      ],
+    },
+    {
+      title: { en: 'Indexer: create it and poll the first run', de: 'Indexer: anlegen und ersten Lauf abfragen' },
+      code: `import time
+from datetime import timedelta
+from azure.identity import DefaultAzureCredential
+from azure.search.documents.indexes import SearchIndexerClient, models as m
+
+indexer = m.SearchIndexer(name="contracts-indexer", data_source_name="contracts-blobs",
+    skillset_name="contracts-skillset", target_index_name="contracts-index",
+    schedule=m.IndexingSchedule(interval=timedelta(hours=2)))
+client = SearchIndexerClient("https://<search-service>.search.windows.net", DefaultAzureCredential())
+client.create_or_update_indexer(indexer)                    # a new indexer starts its first run now
+for _ in range(60):                                         # poll for up to 10 minutes
+    run = client.get_indexer_status("contracts-indexer").last_result
+    if run and run.status != "inProgress":
+        break
+    time.sleep(10)
+else:
+    raise TimeoutError("contracts-indexer is still running")
+print(run.status, run.item_count, run.failed_item_count, [e.error_message for e in run.errors])`,
+      notes: [
+        { en: '`contracts-blobs` is a blob data source created beforehand with `create_or_update_data_source_connection()`. `get_indexer_status()` also returns `execution_history` (last 50 runs); later, `run_indexer()` starts a run on demand and `reset_indexer()` makes the next run reprocess everything.', de: '`contracts-blobs` ist eine vorher mit `create_or_update_data_source_connection()` angelegte Blob-Datenquelle. `get_indexer_status()` liefert auch `execution_history` (letzte 50 Läufe); später startet `run_indexer()` einen Lauf bei Bedarf, und `reset_indexer()` lässt den nächsten Lauf alles neu verarbeiten.' },
+      ],
+    },
+    {
+      title: { en: 'Query: hybrid search with semantic ranking', de: 'Abfrage: Hybridsuche mit semantischem Ranking' },
       code: `from azure.identity import DefaultAzureCredential
 from azure.search.documents import SearchClient
 from azure.search.documents.models import VectorizableTextQuery
 
-search_client = SearchClient(
-    endpoint="https://<search-service>.search.windows.net",
-    index_name="contracts-index",
-    credential=DefaultAzureCredential(),   # role: Search Index Data Reader
-)
-
+client = SearchClient("https://<search-service>.search.windows.net", "contracts-index",
+                      DefaultAzureCredential())                    # role: Search Index Data Reader
 question = "Which contracts allow early termination?"
-results = search_client.search(
-    search_text=question,                       # keyword leg (BM25)
-    vector_queries=[VectorizableTextQuery(      # vector leg, vectorized by the index
-        text=question, k_nearest_neighbors=50, fields="chunk_vector")],
-    filter="language eq 'en'",                  # OData filter on a filterable field
-    query_type="semantic",                      # L2 rerank of the top 50
-    semantic_configuration_name="contracts-semantic",
-    query_caption="extractive",
-    select=["title", "chunk"],
-    top=5,
-)
+results = client.search(search_text=question,                      # keyword leg (BM25)
+    vector_queries=[VectorizableTextQuery(text=question, k_nearest_neighbors=50,
+                                          fields="chunk_vector")],  # vector leg (vectorizer embeds)
+    query_type="semantic", semantic_configuration_name="contracts-semantic",  # L2 rerank, top 50
+    select=["parent_id", "chunk"], top=5)
 for doc in results:
-    print(round(doc["@search.reranker_score"], 2), doc["title"])`,
+    print(round(doc["@search.reranker_score"], 2), doc["chunk"][:80])  # REST: @search.rerankerScore`,
       notes: [
-        {
-          en: '`search_text` plus `vector_queries` in one call is a hybrid query; RRF merges both legs before semantic ranking. `k_nearest_neighbors=50` gives the ranker its full input.',
-          de: '`search_text` plus `vector_queries` in einem Aufruf ist eine hybride Abfrage; RRF vereint beide Wege vor dem semantischen Ranking. `k_nearest_neighbors=50` liefert dem Ranker seine volle Eingabe.',
-        },
-        {
-          en: '`VectorizableTextQuery` sends text that the vectorizer on `chunk_vector` embeds with the indexing model; use `VectorizedQuery` only when you compute the vector yourself.',
-          de: '`VectorizableTextQuery` schickt Text, den der Vectorizer von `chunk_vector` mit dem Indexierungsmodell einbettet; `VectorizedQuery` nutzt du nur, wenn du den Vektor selbst berechnest.',
-        },
-        {
-          en: 'Never add `order_by` to a semantic query: sorting overrides relevance scores and the request fails with HTTP 400.',
-          de: 'Füge einer semantischen Abfrage nie `order_by` hinzu: Sortierung überschreibt die Relevanz, und die Anfrage scheitert mit HTTP 400.',
-        },
-      ],
-    },
-    {
-      title: { en: 'Run an indexer and inspect its execution history', de: 'Indexer starten und Ausführungsverlauf prüfen' },
-      code: `from azure.identity import DefaultAzureCredential
-from azure.search.documents.indexes import SearchIndexerClient
-
-indexer_client = SearchIndexerClient(
-    endpoint="https://<search-service>.search.windows.net",
-    credential=DefaultAzureCredential(),
-)
-indexer_client.run_indexer("contracts-indexer")     # starts an on-demand run
-
-status = indexer_client.get_indexer_status("contracts-indexer")
-run = status.last_result                             # newest (or in-progress) run
-print(status.status, run.status, run.item_count, run.failed_item_count)
-for err in run.errors:
-    print("ERROR", err.key, err.error_message)
-for warning in run.warnings:
-    print("WARNING", warning.key, warning.message)
-print(len(status.execution_history), "recent runs")  # up to 50, newest first`,
-      notes: [
-        {
-          en: '`run_indexer()` only starts a run; poll `get_indexer_status()` until `last_result.status` is no longer `inProgress`.',
-          de: '`run_indexer()` startet nur einen Lauf; frage `get_indexer_status()` ab, bis `last_result.status` nicht mehr `inProgress` ist.',
-        },
-        {
-          en: 'A run can finish with `success` despite item errors as long as they stay within `maxFailedItems`; warnings never stop indexing.',
-          de: 'Ein Lauf kann trotz Fehlern bei einzelnen Elementen mit `success` enden, solange sie `maxFailedItems` nicht überschreiten; Warnungen stoppen die Indexierung nie.',
-        },
+        { en: '`search_text` plus `vector_queries` makes a hybrid query: RRF merges both legs, then the semantic ranker reorders the top 50, so `k_nearest_neighbors=50` gives it its full input. Use `VectorizedQuery` instead only when you compute the vector yourself.', de: '`search_text` plus `vector_queries` ergibt eine hybride Abfrage: RRF vereint beide Wege, dann ordnet der Semantic Ranker die Top 50 neu – `k_nearest_neighbors=50` liefert ihm seine volle Eingabe. `VectorizedQuery` nutzt du nur, wenn du den Vektor selbst berechnest.' },
       ],
     },
   ],
@@ -340,22 +379,22 @@ print(len(status.execution_history), "recent runs")  # up to 50, newest first`,
       de: 'Die Änderungserkennung für Azure Storage ist automatisch, die **Löscherkennung** nicht: Konfiguriere natives Blob-Soft-Delete oder eine Soft-Delete-Richtlinie über benutzerdefinierte Metadaten vor dem ersten Indexer-Lauf – sonst bleiben gelöschte Dateien als Waisen im Index.',
     },
     {
-      en: 'A **knowledge store** (Azure Storage projections from a skillset) is not a **knowledge base** (agentic retrieval). Knowledge store projections are not deleted when you delete the index, the indexer or the search service.',
-      de: 'Ein **Knowledge Store** (Azure-Storage-Projektionen aus einem Skillset) ist keine **Knowledge Base** (Agentic Retrieval). Knowledge-Store-Projektionen werden nicht gelöscht, wenn du Index, Indexer oder Suchdienst löschst.',
+      en: 'A vector query with a very selective filter and a small `k_nearest_neighbors` can return too few results with `vectorFilterMode` `postFilter`. `preFilter`, the default for current indexes, filters during the vector search and returns the requested number whenever enough matches exist.',
+      de: 'Eine Vektorabfrage mit sehr selektivem Filter und kleinem `k_nearest_neighbors` kann mit `vectorFilterMode` = `postFilter` zu wenige Ergebnisse liefern. `preFilter`, der Standard für aktuelle Indizes, filtert während der Vektorsuche und liefert die angeforderte Anzahl, sobald genug Treffer existieren.',
     },
   ],
   takeaways: [
     {
-      en: 'Pipeline order: data source → indexer (cracking, field mappings) → skillset → output field mappings → index; projections → knowledge store.',
-      de: 'Pipeline-Reihenfolge: Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings → Index; Projektionen → Knowledge Store.',
+      en: 'Pipeline order: data source → indexer (cracking, field mappings) → skillset → output field mappings or index projections → index; knowledge store projections → Azure Storage.',
+      de: 'Pipeline-Reihenfolge: Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings oder Index Projections → Index; Knowledge-Store-Projektionen → Azure Storage.',
     },
     {
       en: 'Chunk, then embed: Text Split or the Content Understanding skill, the Azure OpenAI Embedding skill, index projections and a matching vectorizer add up to integrated vectorization.',
       de: 'Erst chunken, dann einbetten: Text Split oder der Content-Understanding-Skill, der Azure-OpenAI-Embedding-Skill, Index Projections und ein passender Vectorizer ergeben integrierte Vektorisierung.',
     },
     {
-      en: 'Best default relevance for RAG: hybrid search plus the semantic ranker with `k` = 50; agentic retrieval for complex, multi-source questions.',
-      de: 'Beste Standardrelevanz für RAG: Hybridsuche plus Semantic Ranker mit `k` = 50; Agentic Retrieval für komplexe, quellenübergreifende Fragen.',
+      en: 'Best default relevance for RAG: hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50; agentic retrieval for complex, multi-source questions.',
+      de: 'Beste Standardrelevanz für RAG: Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50; Agentic Retrieval für komplexe, quellenübergreifende Fragen.',
     },
     {
       en: 'Watch ingestion with execution history and debug sessions, the service with Azure Monitor metrics and resource logs, and real users with search traffic analytics.',

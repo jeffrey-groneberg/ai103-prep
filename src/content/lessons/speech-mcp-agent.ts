@@ -3,8 +3,8 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'speech-mcp-agent',
   summary: {
-    en: 'The **Azure Speech MCP server** (preview) packages Azure Speech in Foundry Tools as two tools that any MCP-capable agent can call: **speech to text** (recognize) and **text to speech** (synthesize). You add it to a Foundry agent from the tool catalog and supply your Foundry resource name, its key and a Blob container SAS URL; from then on the agent’s model decides by itself when a prompt needs a transcription or spoken audio. Audio never travels inside the chat: the tool reads input audio from a public or SAS URL and writes generated speech as a WAV file into your container, and the agent replies with a link. A client app talks to the agent through the Responses API and approves tool calls when required.',
-    de: 'Der **Azure Speech MCP Server** (Preview) verpackt Azure Speech in Foundry Tools als zwei Tools, die jeder MCP-fähige Agent aufrufen kann: **Speech to Text** (recognize) und **Text to Speech** (synthesize). Du fügst ihn einem Foundry-Agent aus dem Tool-Katalog hinzu und gibst den Namen deiner Foundry-Ressource, ihren Key und eine SAS-URL für einen Blob-Container an; danach entscheidet das Modell des Agents selbst, wann ein Prompt eine Transkription oder gesprochenes Audio braucht. Audio reist nie im Chat: Das Tool liest Eingabeaudio von einer öffentlichen URL oder SAS-URL und schreibt erzeugte Sprache als WAV-Datei in deinen Container, und der Agent antwortet mit einem Link. Eine Client-App spricht über die Responses API mit dem Agent und gibt Tool-Aufrufe frei, wenn das nötig ist.',
+    en: 'The **Azure Speech MCP server** packages Azure Speech in Foundry Tools as two tools for agents that use **MCP** (Model Context Protocol: standard for exposing tools to agents): **speech to text** (recognize) and **text to speech** (synthesize). The agent’s model decides by itself when a prompt needs a transcription or spoken audio. Audio never travels inside the chat: the tool reads input audio from a public or SAS URL and writes generated speech as a WAV file into your Blob container, and the agent replies with a link. A client app calls the agent through the **Responses API** (OpenAI-compatible API that returns a response object; keeps state via `previous_response_id` or a conversation) inside a **conversation** (durable item store for multi-turn state) and approves tool calls when required.\n\nSetup checklist:\n\n- Foundry resource in a supported region with MCP support (Agent Service Enterprise tier)\n- Storage account with a container and a container SAS URL with read and write permissions\n- An agent with a tool-calling model such as `gpt-5-mini`\n- Catalog tool **Azure Speech MCP Server**: `foundry-resource-name` under **Parameters**; `Bearer` (KEY1 or KEY2 of the Foundry resource) and `X-Blob-Container-Url` (the container SAS URL) under **Authorization**',
+    de: 'Der **Azure Speech MCP Server** verpackt Azure Speech in Foundry Tools als zwei Tools für Agents, die **MCP** nutzen (Model Context Protocol: Standard, um Agents Tools bereitzustellen): **Speech to Text** (recognize) und **Text to Speech** (synthesize). Das Modell des Agents entscheidet selbst, wann ein Prompt eine Transkription oder gesprochenes Audio braucht. Audio reist nie im Chat: Das Tool liest Eingabeaudio von einer öffentlichen URL oder SAS-URL und schreibt erzeugte Sprache als WAV-Datei in deinen Blob-Container, und der Agent antwortet mit einem Link. Eine Client-App ruft den Agent über die **Responses API** (OpenAI-kompatible API, die ein Response-Objekt liefert; hält den Zustand über `previous_response_id` oder eine Konversation) in einer **Konversation** auf (dauerhafter Item-Speicher für Zustand über mehrere Runden) und gibt Tool-Aufrufe frei, wenn das nötig ist.\n\nCheckliste für die Einrichtung:\n\n- Foundry-Ressource in einer unterstützten Region mit MCP-Unterstützung (Enterprise-Tarif des Agent Service)\n- Storage-Konto mit Container und eine Container-SAS-URL mit Lese- und Schreibrechten\n- Ein Agent mit einem Modell mit Tool Calling, etwa `gpt-5-mini`\n- Katalog-Tool **Azure Speech MCP Server**: `foundry-resource-name` unter **Parameters**; `Bearer` (KEY1 oder KEY2 der Foundry-Ressource) und `X-Blob-Container-Url` (die Container-SAS-URL) unter **Authorization**',
   },
   examFocus: {
     en: 'Expect questions on the connection setup (`foundry-resource-name`, the `Bearer` key, an `X-Blob-Container-Url` SAS URL with read and write permissions), the storage behavior (SAS or public URL in, WAV link out), the prerequisites (a tool-calling model, MCP support in the resource), MCP concepts (dynamic tool discovery, `require_approval`, `allowed_tools`, approvals in the same conversation) and how a client app invokes the agent with `responses.create()`.',
@@ -19,27 +19,28 @@ export const lesson: Lesson = {
         de: 'Der Agent entscheidet, wann er die Sprach-Tools aufruft; Audiodateien laufen über den Blob Storage, nicht über den Chat.',
       },
       width: 960,
-      height: 440,
+      height: 480,
       groups: [
-        { id: 'g-proj', x: 230, y: 25, w: 220, h: 260, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'foundry' },
-        { id: 'g-res', x: 765, y: 70, w: 190, h: 304, label: { en: 'Foundry resource', de: 'Foundry-Ressource' }, tone: 'foundry' },
+        { id: 'g-proj', x: 290, y: 15, w: 250, h: 290, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'foundry' },
+        { id: 'g-res', x: 610, y: 165, w: 310, h: 300, label: { en: 'Foundry resource', de: 'Foundry-Ressource' }, tone: 'foundry' },
       ],
       nodes: [
-        { id: 'user', x: 20, y: 60, w: 130, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'asks in chat', de: 'fragt im Chat' }, tone: 'user', shape: 'actor' },
-        { id: 'client', x: 20, y: 200, w: 140, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: 'responses.create()', tone: 'app' },
-        { id: 'approval', x: 250, y: 60, w: 180, h: 64, label: { en: 'Tool approval', de: 'Tool-Freigabe' }, sub: 'mcp_approval_request', tone: 'safety', shape: 'pill' },
-        { id: 'agent', x: 250, y: 200, w: 180, h: 64, label: { en: 'Speech agent', de: 'Speech-Agent' }, sub: { en: 'prompt agent · gpt-4.1', de: 'Prompt Agent · gpt-4.1' }, tone: 'foundry' },
-        { id: 'mcp', x: 520, y: 200, w: 200, h: 64, label: { en: 'Azure Speech MCP server', de: 'Azure Speech MCP Server' }, sub: { en: 'remote MCP · preview', de: 'Remote-MCP · Preview' }, tone: 'tool' },
-        { id: 'stt', x: 785, y: 110, w: 150, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: 'recognize', tone: 'foundry' },
-        { id: 'tts', x: 785, y: 290, w: 150, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: 'synthesize', tone: 'foundry' },
-        { id: 'blob', x: 520, y: 340, w: 200, h: 64, label: { en: 'Blob container', de: 'Blob-Container' }, sub: { en: 'SAS URL · WAV files', de: 'SAS-URL · WAV-Dateien' }, tone: 'data', shape: 'store' },
+        { id: 'user', x: 20, y: 40, w: 150, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'asks in chat', de: 'fragt im Chat' }, tone: 'user', shape: 'actor' },
+        { id: 'client', x: 20, y: 200, w: 150, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: 'responses.create()', tone: 'app' },
+        { id: 'blob', x: 10, y: 376, w: 170, h: 72, label: { en: 'Blob container', de: 'Blob-Container' }, sub: { en: 'SAS URL · WAV files', de: 'SAS-URL · WAV-Dateien' }, tone: 'data', shape: 'store' },
+        { id: 'approval', x: 320, y: 50, w: 190, h: 72, label: { en: 'Tool approval', de: 'Tool-Freigabe' }, sub: 'mcp_approval_request\nmcp_approval_response', tone: 'safety', shape: 'pill' },
+        { id: 'agent', x: 320, y: 200, w: 190, h: 64, label: { en: 'Speech agent', de: 'Speech-Agent' }, sub: { en: 'prompt agent · gpt-5-mini', de: 'Prompt Agent · gpt-5-mini' }, tone: 'foundry' },
+        { id: 'mcp', x: 315, y: 380, w: 200, h: 64, label: { en: 'Azure Speech MCP server', de: 'Azure Speech MCP Server' }, sub: { en: 'remote MCP', de: 'Remote-MCP' }, tone: 'tool' },
+        { id: 'stt', x: 640, y: 220, w: 250, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: 'recognize', tone: 'foundry' },
+        { id: 'tts', x: 640, y: 380, w: 250, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: 'synthesize', tone: 'foundry' },
       ],
       edges: [
         { id: 'm1', from: 'user', to: 'client', label: { en: 'prompt', de: 'Prompt' } },
-        { id: 'm2', from: 'client', to: 'agent', label: 'agent_name' },
-        { id: 'm3', from: 'agent', to: 'mcp', label: { en: 'tool call', de: 'Tool-Aufruf' } },
-        { id: 'm4', from: 'agent', to: 'approval', dashed: true },
-        { id: 'm5', from: 'approval', to: 'client', label: { en: 'approve?', de: 'freigeben?' } },
+        { id: 'm9', from: 'client', to: 'blob', label: { en: 'upload · SAS URL', de: 'Upload · SAS-URL' } },
+        { id: 'm2', from: 'client', to: 'agent', label: { en: 'prompt · reply', de: 'Prompt · Antwort' }, bidir: true },
+        { id: 'm4', from: 'agent', to: 'approval', dashed: true, bidir: true },
+        { id: 'm5', from: 'approval', to: 'client', label: { en: 'same conversation', de: 'dieselbe Konversation' }, bidir: true },
+        { id: 'm3', from: 'agent', to: 'mcp', label: { en: 'list tools · call tool', de: 'Tools auflisten · aufrufen' } },
         { id: 'm6', from: 'mcp', to: 'stt' },
         { id: 'm7', from: 'mcp', to: 'tts' },
         { id: 'm8', from: 'mcp', to: 'blob', label: { en: 'audio files', de: 'Audiodateien' }, bidir: true },
@@ -48,42 +49,42 @@ export const lesson: Lesson = {
         {
           title: { en: 'Ask in plain language', de: 'In normaler Sprache fragen' },
           text: {
-            en: 'The user simply says what they need — “transcribe this call” or “read this aloud”. The client app sends the prompt to the agent with `responses.create()`; no speech code lives in the app.',
-            de: 'Der Nutzer sagt einfach, was er braucht – „transkribiere diesen Anruf“ oder „lies das vor“. Die Client-App schickt den Prompt mit `responses.create()` an den Agent; in der App steckt kein Sprachcode.',
+            en: 'The user says what they need. For a recording, the app first uploads it to Blob Storage and puts a readable SAS URL into the prompt: “Transcribe the audio at <SAS URL> and summarize it.” The app sends the prompt with `responses.create()` to a **prompt agent** (declarative agent: model + instructions + tools, versioned in Foundry); no speech code lives in the app.',
+            de: 'Der Nutzer sagt, was er braucht. Für eine Aufnahme lädt die App sie zuerst in den Blob Storage und setzt eine lesbare SAS-URL in den Prompt: „Transkribiere das Audio unter <SAS-URL> und fasse es zusammen.“ Die App schickt den Prompt mit `responses.create()` an einen **Prompt Agent** (deklarativer Agent: Modell + Instructions + Tools, versioniert in Foundry); in der App steckt kein Sprachcode.',
           },
-          focus: ['user', 'm1', 'client', 'm2', 'agent'],
+          focus: ['user', 'm1', 'client', 'm9', 'blob', 'm2', 'agent'],
         },
         {
           title: { en: 'Discover tools at runtime', de: 'Tools zur Laufzeit entdecken' },
           text: {
-            en: 'Over MCP, the agent receives the server’s tool catalog with descriptions. Its model matches the request to *recognize* or *synthesize* — no routing logic in your code, and new tools appear without changing the agent.',
-            de: 'Über MCP erhält der Agent den Tool-Katalog des Servers samt Beschreibungen. Sein Modell ordnet die Anfrage *recognize* oder *synthesize* zu – ohne Routing-Logik in deinem Code, und neue Tools erscheinen, ohne den Agent zu ändern.',
+            en: 'Over MCP, the agent lists the server’s tools with their descriptions. Its model matches the request to *recognize* or *synthesize* — no routing logic in your code, and new tools appear without changing the agent.',
+            de: 'Über MCP listet der Agent die Tools des Servers samt Beschreibungen auf. Sein Modell ordnet die Anfrage *recognize* oder *synthesize* zu – ohne Routing-Logik in deinem Code, und neue Tools erscheinen, ohne den Agent zu ändern.',
           },
           focus: ['agent', 'm3', 'mcp'],
         },
         {
           title: { en: 'Approve the tool call', de: 'Tool-Aufruf freigeben' },
           text: {
-            en: 'With `require_approval="always"` (the default) the response carries an `mcp_approval_request`. The app reviews the tool and its arguments and answers with an `mcp_approval_response` in the same conversation.',
-            de: 'Mit `require_approval="always"` (Standard) enthält die Antwort einen `mcp_approval_request`. Die App prüft Tool und Argumente und antwortet in derselben Konversation mit einer `mcp_approval_response`.',
+            en: 'With `require_approval="always"` (the default) the agent pauses: its response carries an `mcp_approval_request`. The app reviews the tool and its arguments and answers with an `mcp_approval_response` in the same conversation — again for every new request in the next response.',
+            de: 'Mit `require_approval="always"` (Standard) pausiert der Agent: Seine Antwort enthält einen `mcp_approval_request`. Die App prüft Tool und Argumente und antwortet in derselben Konversation mit einer `mcp_approval_response` – und ebenso auf jede neue Anfrage in der nächsten Antwort.',
           },
-          focus: ['approval', 'm4', 'm5'],
+          focus: ['agent', 'm4', 'approval', 'm5', 'client'],
         },
         {
           title: { en: 'Azure Speech does the work', de: 'Azure Speech erledigt die Arbeit' },
           text: {
-            en: 'The MCP server calls Azure Speech in your Foundry resource, authenticated with the resource key from the `Bearer` field. Prompts can ask for a language, phrase hints, profanity handling or a voice such as `en-GB-SoniaNeural`.',
-            de: 'Der MCP-Server ruft Azure Speech in deiner Foundry-Ressource auf, authentifiziert mit dem Ressourcen-Key aus dem Feld `Bearer`. Prompts können eine Sprache, Phrasenhinweise, den Umgang mit Schimpfwörtern oder eine Stimme wie `en-GB-SoniaNeural` anfordern.',
+            en: 'After approval, the agent calls the tool. The MCP server calls Azure Speech in your Foundry resource, authenticated with the resource key from the `Bearer` field. Prompts can ask for a language, phrase hints, profanity handling or a voice such as `en-GB-SoniaNeural`.',
+            de: 'Nach der Freigabe ruft der Agent das Tool auf. Der MCP-Server ruft Azure Speech in deiner Foundry-Ressource auf, authentifiziert mit dem Ressourcen-Key aus dem Feld `Bearer`. Prompts können eine Sprache, Phrasenhinweise, den Umgang mit Schimpfwörtern oder eine Stimme wie `en-GB-SoniaNeural` anfordern.',
           },
-          focus: ['mcp', 'm6', 'm7', 'g-res', 'stt', 'tts'],
+          focus: ['m3', 'mcp', 'm6', 'm7', 'g-res', 'stt', 'tts'],
         },
         {
           title: { en: 'Audio lives in Blob Storage', de: 'Audio liegt im Blob Storage' },
           text: {
-            en: 'Speech to text reads audio from a public or SAS URL. Text to speech writes a WAV file into the container from `X-Blob-Container-Url` (read and write SAS), and the agent replies with a link to it.',
-            de: 'Speech to Text liest Audio von einer öffentlichen URL oder SAS-URL. Text to Speech schreibt eine WAV-Datei in den Container aus `X-Blob-Container-Url` (SAS mit Lese- und Schreibrechten), und der Agent antwortet mit einem Link darauf.',
+            en: 'Speech to text reads the audio from the SAS (or public) URL. Text to speech writes a WAV file into the container from `X-Blob-Container-Url` (read and write SAS), and the agent’s reply to the app contains a link to it.',
+            de: 'Speech to Text liest das Audio von der SAS-URL (oder einer öffentlichen URL). Text to Speech schreibt eine WAV-Datei in den Container aus `X-Blob-Container-Url` (SAS mit Lese- und Schreibrechten), und die Antwort des Agents an die App enthält einen Link darauf.',
           },
-          focus: ['blob', 'm8'],
+          focus: ['mcp', 'm8', 'blob', 'm2', 'client'],
         },
       ],
     },
@@ -92,43 +93,50 @@ export const lesson: Lesson = {
     {
       term: 'Model Context Protocol (MCP)',
       text: {
-        en: 'An open protocol for connecting agents to tools: a **host** runs the agent, its **client** connects to MCP **servers** that expose tools, resources and prompts. The agent discovers the tool catalog at runtime (*dynamic tool discovery*), so tools can change without changing the agent.',
-        de: 'Ein offenes Protokoll, das Agents mit Tools verbindet: Ein **Host** führt den Agent aus, sein **Client** verbindet sich mit MCP-**Servern**, die Tools, Ressourcen und Prompts bereitstellen. Der Agent entdeckt den Tool-Katalog zur Laufzeit (*dynamische Tool-Erkennung*), daher können sich Tools ändern, ohne dass du den Agent änderst.',
+        en: 'The standard for exposing tools to agents: a **host** runs the agent, its **client** connects to MCP **servers** that expose tools, resources and prompts. The agent discovers the tool catalog at runtime (*dynamic tool discovery*), so tools can change without changing the agent.',
+        de: 'Der Standard, um Agents Tools bereitzustellen: Ein **Host** führt den Agent aus, sein **Client** verbindet sich mit MCP-**Servern**, die Tools, Ressourcen und Prompts bereitstellen. Der Agent entdeckt den Tool-Katalog zur Laufzeit (*dynamische Tool-Erkennung*), daher können sich Tools ändern, ohne dass du den Agent änderst.',
       },
     },
     {
       term: 'Azure Speech MCP server',
       text: {
-        en: 'A remote MCP server (preview) that exposes Azure Speech as tools: *recognize* (speech to text, with language, phrase hints, profanity handling and simple or detailed output) and *synthesize* (text to speech with a chosen voice and language). It uses the speech capabilities of your Foundry resource.',
-        de: 'Ein Remote-MCP-Server (Preview), der Azure Speech als Tools bereitstellt: *recognize* (Speech to Text mit Sprache, Phrasenhinweisen, Umgang mit Schimpfwörtern und einfacher oder detaillierter Ausgabe) und *synthesize* (Text to Speech mit gewählter Stimme und Sprache). Er nutzt die Sprachfunktionen deiner Foundry-Ressource.',
+        en: 'A remote MCP server that exposes Azure Speech as tools: *recognize* (speech to text, with language, phrase hints, profanity handling and simple or detailed output) and *synthesize* (text to speech with a chosen voice and language). It uses the speech capabilities of your Foundry resource.',
+        de: 'Ein Remote-MCP-Server, der Azure Speech als Tools bereitstellt: *recognize* (Speech to Text mit Sprache, Phrasenhinweisen, Umgang mit Schimpfwörtern und einfacher oder detaillierter Ausgabe) und *synthesize* (Text to Speech mit gewählter Stimme und Sprache). Er nutzt die Sprachfunktionen deiner Foundry-Ressource.',
       },
     },
     {
-      term: 'Blob container SAS URL',
+      term: 'Connection fields and SAS URLs',
       text: {
-        en: 'Passed as `X-Blob-Container-Url` with read and write permissions; generated speech lands here as WAV files. Your account needs the Storage Blob Data Contributor role to generate SAS URLs. Treat SAS URLs and keys as secrets: shortest practical expiry, scoped to one container.',
-        de: 'Wird als `X-Blob-Container-Url` mit Lese- und Schreibrechten übergeben; erzeugte Sprache landet hier als WAV-Dateien. Dein Konto braucht die Rolle Storage Blob Data Contributor, um SAS-URLs zu erzeugen. Behandle SAS-URLs und Keys als Geheimnisse: kürzest mögliche Gültigkeit, auf einen Container beschränkt.',
+        en: 'A *SAS* (shared access signature) URL is a storage URL with a signed token that grants limited permissions until it expires. `X-Blob-Container-Url` takes a container SAS with read and write (generated WAV files land there); input audio needs a file SAS with read. The setup uses the resource key in `Bearer`; treat keys and SAS URLs as secrets (short expiry, one container).',
+        de: 'Eine *SAS*-URL (Shared Access Signature) ist eine Storage-URL mit signiertem Token, das bis zum Ablauf begrenzte Rechte gewährt. `X-Blob-Container-Url` erhält eine Container-SAS mit Lese- und Schreibrechten (erzeugte WAV-Dateien landen dort); Eingabeaudio braucht eine Datei-SAS mit Leserecht. Die Einrichtung nutzt den Ressourcen-Key in `Bearer`; behandle Keys und SAS-URLs als Geheimnisse (kurze Gültigkeit, ein Container).',
       },
     },
     {
       term: 'Tool approval',
       text: {
-        en: '`require_approval` defaults to `always`: the response contains an `mcp_approval_request` item, and your app answers with an `mcp_approval_response` (`approve=True`, `approval_request_id`) in the same conversation. In the agent playground you can approve once or always.',
-        de: '`require_approval` steht standardmäßig auf `always`: Die Antwort enthält ein Element `mcp_approval_request`, und deine App antwortet in derselben Konversation mit einer `mcp_approval_response` (`approve=True`, `approval_request_id`). Im Agent-Playground kannst du einmalig oder dauerhaft freigeben.',
+        en: '`require_approval` defaults to `always`: the response contains an `mcp_approval_request` item, and your app answers with an `mcp_approval_response` (`approve=True`, `approval_request_id`) in the same conversation, and again for any new request in the next response. In the agent playground you can approve once or always.',
+        de: '`require_approval` steht standardmäßig auf `always`: Die Antwort enthält ein Element `mcp_approval_request`, und deine App antwortet in derselben Konversation mit einer `mcp_approval_response` (`approve=True`, `approval_request_id`) – und ebenso auf jede neue Anfrage in der nächsten Antwort. Im Agent-Playground kannst du einmalig oder dauerhaft freigeben.',
       },
     },
     {
       term: 'server_label, allowed_tools and project connections',
       text: {
-        en: 'Each MCP tool needs a unique `server_label` and a `server_url`. `allowed_tools` limits which tools the agent may call — an empty list allows all of them. A project connection stores authentication details so no secrets live in your code.',
-        de: 'Jedes MCP-Tool braucht ein eindeutiges `server_label` und eine `server_url`. `allowed_tools` begrenzt, welche Tools der Agent aufrufen darf – eine leere Liste erlaubt alle. Eine Projektverbindung speichert Anmeldedaten, damit keine Geheimnisse in deinem Code stehen.',
+        en: 'Each MCP tool needs a unique `server_label` and a `server_url`. `allowed_tools` limits which tools the agent may call — an empty list allows all of them. In code, a **project connection** (stored endpoint + credential that tools reference instead of secrets in code) holds the auth details, and `project_connection_id` points to it; in the portal, the catalog form collects them.',
+        de: 'Jedes MCP-Tool braucht ein eindeutiges `server_label` und eine `server_url`. `allowed_tools` begrenzt, welche Tools der Agent aufrufen darf – eine leere Liste erlaubt alle. Im Code hält eine **Projektverbindung** (gespeicherter Endpoint + Credential, auf die Tools verweisen statt auf Geheimnisse im Code) die Anmeldedaten, und `project_connection_id` verweist darauf; im Portal sammelt das Katalogformular sie ein.',
       },
     },
     {
       term: 'Tool-calling model',
       text: {
-        en: 'The agent’s model must support tool calling (for example `gpt-4o` or later). Without it, the agent can’t invoke the Speech MCP server and won’t even list speech capabilities.',
-        de: 'Das Modell des Agents muss Tool Calling unterstützen (zum Beispiel `gpt-4o` oder neuer). Ohne diese Fähigkeit kann der Agent den Speech-MCP-Server nicht aufrufen und nennt nicht einmal Sprachfunktionen.',
+        en: 'The agent’s model must support tool calling — pick a current model such as `gpt-5-mini` (the doc example `gpt-4o` and the module’s `gpt-4.1` are deprecated). Without tool calling, the agent can’t invoke the Speech MCP server and won’t even list speech capabilities.',
+        de: 'Das Modell des Agents muss Tool Calling unterstützen – wähle ein aktuelles Modell wie `gpt-5-mini` (das Doku-Beispiel `gpt-4o` und `gpt-4.1` aus dem Modul sind veraltet). Ohne Tool Calling kann der Agent den Speech-MCP-Server nicht aufrufen und nennt nicht einmal Sprachfunktionen.',
+      },
+    },
+    {
+      term: 'Prerequisites and roles',
+      text: {
+        en: 'MCP tools need the Agent Service **Enterprise tier**; the Speech MCP tool isn’t supported in *network-secured Foundry* (agent traffic confined to a private virtual network). Roles: **Foundry User** to create and test agents, **Foundry Project Manager** to create a project connection, **Storage Blob Data Contributor** to upload audio and generate SAS URLs. Roles differ by API: the Speech SDK and Voice Live need others.',
+        de: 'MCP-Tools brauchen den **Enterprise-Tarif** des Agent Service; das Speech-MCP-Tool wird in *netzwerkgesichertem Foundry* nicht unterstützt (Agent-Datenverkehr auf ein privates virtuelles Netzwerk beschränkt). Rollen: **Foundry User**, um Agents zu erstellen und zu testen, **Foundry Project Manager**, um eine Projektverbindung anzulegen, **Storage Blob Data Contributor**, um Audio hochzuladen und SAS-URLs zu erzeugen. Die Rollen unterscheiden sich je API: Speech SDK und Voice Live brauchen andere.',
       },
     },
   ],
@@ -163,6 +171,41 @@ export const lesson: Lesson = {
   },
   code: [
     {
+      title: { en: 'Create the speech agent with the MCP tool', de: 'Den Speech-Agent mit dem MCP-Tool erstellen' },
+      code: `from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import MCPTool, PromptAgentDefinition
+
+project = AIProjectClient(
+    endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
+    credential=DefaultAzureCredential(),
+)
+speech_tool = MCPTool(
+    server_label="azure-speech",
+    server_url="https://<foundry-resource>.cognitiveservices.azure.com/speech/mcp",
+    require_approval="always",
+    project_connection_id="<project-connection-id>",   # holds the auth details
+)
+agent = project.agents.create_version(
+    agent_name="speech-agent",
+    definition=PromptAgentDefinition(
+        model="gpt-5-mini",                             # deployment name; must support tool calling
+        instructions="Use the Azure Speech tools to transcribe audio and generate speech.",
+        tools=[speech_tool],
+    ),
+)`,
+      notes: [
+        {
+          en: 'The server URL pattern comes from the training module; in the portal you simply pick **Azure Speech MCP Server** from the tool catalog. `model` takes your deployment name, which can be any name.',
+          de: 'Das URL-Muster des Servers stammt aus dem Trainingsmodul; im Portal wählst du einfach **Azure Speech MCP Server** aus dem Tool-Katalog. `model` erwartet deinen Deployment-Namen, der beliebig sein kann.',
+        },
+        {
+          en: 'Add `allowed_tools=["…"]` to restrict the tools; leaving it empty allows every tool the server exposes.',
+          de: 'Mit `allowed_tools=["…"]` schränkst du die Tools ein; bleibt die Liste leer, ist jedes Tool des Servers erlaubt.',
+        },
+      ],
+    },
+    {
       title: { en: 'Call the speech agent and approve the MCP tool call', de: 'Den Speech-Agent aufrufen und den MCP-Tool-Aufruf freigeben' },
       code: `from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
@@ -191,41 +234,12 @@ if approvals:
 print(response.output_text)                  # contains a link to the WAV file in your container`,
       notes: [
         {
-          en: 'The training module calls the agent with `extra_body={"agent_reference": {"name": …, "type": "agent_reference"}}`; current SDK docs bind the client to the agent with `get_openai_client(agent_name=…)` instead.',
-          de: 'Das Trainingsmodul ruft den Agent mit `extra_body={"agent_reference": {"name": …, "type": "agent_reference"}}` auf; die aktuelle SDK-Doku bindet den Client stattdessen mit `get_openai_client(agent_name=…)` an den Agent.',
+          en: 'The training module references the agent with `extra_body={"agent_reference": {"name": …, "type": "agent_reference"}}` on the project’s OpenAI client. Both work; this sample binds the client with `get_openai_client(agent_name=…)`, which needs `allow_preview=True`.',
+          de: 'Das Trainingsmodul verweist mit `extra_body={"agent_reference": {"name": …, "type": "agent_reference"}}` im OpenAI-Client des Projekts auf den Agent. Beides funktioniert; dieses Beispiel bindet den Client mit `get_openai_client(agent_name=…)`, was `allow_preview=True` braucht.',
         },
         {
-          en: 'Send approval responses in the same conversation — otherwise the agent never continues. In production, let a person or a policy review the tool and arguments first.',
-          de: 'Sende Freigaben in derselben Konversation – sonst macht der Agent nie weiter. In Produktion prüft zuerst ein Mensch oder eine Richtlinie Tool und Argumente.',
-        },
-      ],
-    },
-    {
-      title: { en: 'Attach the Speech MCP server in code', de: 'Den Speech-MCP-Server per Code anbinden' },
-      code: `from azure.ai.projects.models import MCPTool, PromptAgentDefinition
-
-speech_tool = MCPTool(
-    server_label="azure-speech",
-    server_url="https://<foundry-resource>.cognitiveservices.azure.com/speech/mcp",
-    require_approval="always",
-    project_connection_id="<project-connection-id>",   # stores the auth details
-)
-agent = project.agents.create_version(
-    agent_name="speech-agent",
-    definition=PromptAgentDefinition(
-        model="gpt-4.1",                                # must support tool calling
-        instructions="Use the Azure Speech tools to transcribe audio and generate speech.",
-        tools=[speech_tool],
-    ),
-)`,
-      notes: [
-        {
-          en: 'The server URL pattern comes from the training module; in the portal you simply pick **Azure Speech MCP Server** from the tool catalog.',
-          de: 'Das URL-Muster des Servers stammt aus dem Trainingsmodul; im Portal wählst du einfach **Azure Speech MCP Server** aus dem Tool-Katalog.',
-        },
-        {
-          en: 'Add `allowed_tools=["…"]` to restrict the tools; leaving it empty allows every tool the server exposes.',
-          de: 'Mit `allowed_tools=["…"]` schränkst du die Tools ein; bleibt die Liste leer, ist jedes Tool des Servers erlaubt.',
+          en: 'Send approval responses in the same conversation — otherwise the agent never continues. If the next response contains new approval requests, answer them the same way. In production, let a person or a policy review the tool and arguments first.',
+          de: 'Sende Freigaben in derselben Konversation – sonst macht der Agent nie weiter. Enthält die nächste Antwort neue Freigabeanfragen, beantwortest du sie genauso. In Produktion prüft zuerst ein Mensch oder eine Richtlinie Tool und Argumente.',
         },
       ],
     },
@@ -240,8 +254,8 @@ agent = project.agents.create_version(
       de: 'Speech to Text braucht eine URL, die der Dienst lesen kann – eine öffentliche URL oder eine SAS-URL mit Leserecht. Ein lokaler Pfad wie `./call.wav` funktioniert mit dem Remote-Server nicht.',
     },
     {
-      en: 'If the agent doesn’t list or use the speech tools although the connection works, check the model first: it must support tool calling.',
-      de: 'Wenn der Agent die Sprach-Tools trotz funktionierender Verbindung weder nennt noch nutzt, prüfe zuerst das Modell: Es muss Tool Calling unterstützen.',
+      en: 'If the agent doesn’t list or use the speech tools although the connection works, check the model first: it must support tool calling (for example `gpt-5-mini`).',
+      de: 'Wenn der Agent die Sprach-Tools trotz funktionierender Verbindung weder nennt noch nutzt, prüfe zuerst das Modell: Es muss Tool Calling unterstützen (zum Beispiel `gpt-5-mini`).',
     },
     {
       en: '`allowed_tools: []` doesn’t block anything — an empty list allows all tools. And `require_approval` defaults to `always`.',

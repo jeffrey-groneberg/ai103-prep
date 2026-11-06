@@ -21,37 +21,37 @@ export const lesson: Lesson = {
       width: 960,
       height: 430,
       groups: [
-        { id: 'g-app', x: 10, y: 20, w: 480, h: 390, label: { en: 'Your app (Speech SDK)', de: 'Deine App (Speech SDK)' }, tone: 'app' },
-        { id: 'g-res', x: 540, y: 20, w: 410, h: 390, label: { en: 'Foundry resource · Azure Speech', de: 'Foundry-Ressource · Azure Speech' }, tone: 'foundry' },
+        { id: 'g-app', x: 10, y: 20, w: 450, h: 390, label: { en: 'Your app (Speech SDK)', de: 'Deine App (Speech SDK)' }, tone: 'app' },
+        { id: 'g-res', x: 620, y: 20, w: 330, h: 390, label: { en: 'Foundry resource · Azure Speech', de: 'Foundry-Ressource · Azure Speech' }, tone: 'foundry' },
       ],
       nodes: [
-        { id: 'a1', x: 30, y: 60, w: 190, h: 64, label: 'AudioConfig', sub: { en: 'microphone or WAV file', de: 'Mikrofon oder WAV-Datei' }, tone: 'app' },
-        { id: 'a2', x: 280, y: 60, w: 190, h: 64, label: 'SpeechRecognizer', sub: 'recognize_once_async()', tone: 'app' },
-        { id: 'a6', x: 30, y: 190, w: 190, h: 64, label: 'AudioOutputConfig', sub: { en: 'speaker, file or None', de: 'Lautsprecher, Datei, None' }, tone: 'app' },
-        { id: 'a3', x: 280, y: 190, w: 190, h: 64, label: 'SpeechConfig', sub: { en: 'endpoint + key or token', de: 'Endpoint + Key oder Token' }, tone: 'app' },
-        { id: 'a4', x: 30, y: 320, w: 190, h: 64, label: { en: 'SSML or plain text', de: 'SSML oder Klartext' }, sub: '<speak><voice>…</voice>', tone: 'app', shape: 'doc' },
-        { id: 'a5', x: 280, y: 320, w: 190, h: 64, label: 'SpeechSynthesizer', sub: 'speak_ssml_async()', tone: 'app' },
-        { id: 'f1', x: 570, y: 60, w: 360, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'real-time · fast · batch', de: 'Echtzeit · schnell · Batch' }, tone: 'foundry' },
-        { id: 'f3', x: 570, y: 190, w: 360, h: 64, label: { en: 'Custom speech model', de: 'Custom-Speech-Modell' }, sub: { en: 'your data · WER · endpoint', de: 'eigene Daten · WER · Endpoint' }, tone: 'model', shape: 'store' },
-        { id: 'f2', x: 570, y: 320, w: 360, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'neural · HD · custom voices', de: 'Neural · HD · Custom Voice' }, tone: 'foundry' },
+        { id: 'a1', x: 30, y: 60, w: 170, h: 64, label: 'AudioConfig', sub: { en: 'microphone or WAV file', de: 'Mikrofon oder WAV-Datei' }, tone: 'app' },
+        { id: 'a2', x: 250, y: 60, w: 190, h: 64, label: 'SpeechRecognizer', sub: 'recognize_once_async()', tone: 'app' },
+        { id: 'a6', x: 30, y: 190, w: 170, h: 64, label: 'AudioOutputConfig', sub: { en: 'speaker, file or None', de: 'Lautsprecher, Datei, None' }, tone: 'app' },
+        { id: 'a3', x: 250, y: 190, w: 190, h: 64, label: 'SpeechConfig', sub: { en: 'endpoint + key or token', de: 'Endpoint + Key oder Token' }, tone: 'app' },
+        { id: 'a4', x: 30, y: 320, w: 170, h: 64, label: { en: 'SSML or plain text', de: 'SSML oder Klartext' }, sub: '<speak><voice>…</voice>', tone: 'app', shape: 'doc' },
+        { id: 'a5', x: 250, y: 320, w: 190, h: 64, label: 'SpeechSynthesizer', sub: 'speak_text_async()\nspeak_ssml_async()', tone: 'app' },
+        { id: 'f1', x: 640, y: 60, w: 290, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'real-time (SDK) · fast/batch (REST)', de: 'Echtzeit (SDK) · Fast/Batch (REST)' }, tone: 'foundry' },
+        { id: 'f3', x: 640, y: 190, w: 290, h: 64, label: { en: 'Custom speech model', de: 'Custom-Speech-Modell' }, sub: { en: 'your data · WER · endpoint', de: 'eigene Daten · WER · Endpoint' }, tone: 'model', shape: 'store' },
+        { id: 'f2', x: 640, y: 320, w: 290, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'neural · HD · custom voices', de: 'Neural · HD · Custom Voice' }, tone: 'foundry' },
       ],
       edges: [
         { id: 's1', from: 'a1', to: 'a2' },
-        { id: 's2', from: 'a2', to: 'f1', label: { en: 'audio → text', de: 'Audio → Text' }, bidir: true },
+        { id: 's2', from: 'a2', to: 'f1', label: { en: 'real-time audio → text', de: 'Echtzeit-Audio → Text' }, bidir: true },
         { id: 's3', from: 'a3', to: 'a2' },
         { id: 's4', from: 'a3', to: 'a5' },
         { id: 's5', from: 'a3', to: 'f3', label: 'endpoint_id' },
         { id: 's6', from: 'f3', to: 'f1', label: { en: 'replaces base', de: 'ersetzt Basis' }, dashed: true },
         { id: 's7', from: 'a4', to: 'a5' },
-        { id: 's8', from: 'a5', to: 'f2', label: { en: 'SSML → audio', de: 'SSML → Audio' }, bidir: true },
+        { id: 's8', from: 'a5', to: 'f2', label: { en: 'text/SSML → audio', de: 'Text/SSML → Audio' }, bidir: true },
         { id: 's9', from: 'a5', to: 'a6', label: { en: 'audio out', de: 'Audio raus' } },
       ],
       steps: [
         {
           title: { en: 'One resource, two directions', de: 'Eine Ressource, zwei Richtungen' },
           text: {
-            en: 'Azure Speech in Foundry Tools comes with your Foundry resource. **Speech to text** turns audio into text (real-time, fast or batch); **text to speech** turns text or SSML into audio with neural, HD or custom voices.',
-            de: 'Azure Speech in Foundry Tools gehört zu deiner Foundry-Ressource. **Speech to Text** macht aus Audio Text (Echtzeit, schnell oder Batch); **Text to Speech** macht aus Text oder SSML Audio – mit neuronalen, HD- oder Custom-Stimmen.',
+            en: 'Azure Speech in Foundry Tools comes with your Foundry resource. **Speech to text** turns audio into text (real-time through the SDK; fast and batch through the REST API); **text to speech** turns text or SSML into audio with neural, HD or custom voices.',
+            de: 'Azure Speech in Foundry Tools gehört zu deiner Foundry-Ressource. **Speech to Text** macht aus Audio Text (Echtzeit über das SDK; Fast und Batch über die REST-API); **Text to Speech** macht aus Text oder SSML Audio – mit neuronalen, HD- oder Custom-Stimmen.',
           },
           focus: ['g-res', 'f1', 'f2'],
         },
@@ -66,8 +66,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Recognize speech', de: 'Sprache erkennen' },
           text: {
-            en: '`AudioConfig` picks the input (default microphone or a file). `recognize_once_async()` returns one utterance — it ends at silence or after 15 seconds; use continuous recognition for longer audio. Check `result.reason` for `RecognizedSpeech`.',
-            de: '`AudioConfig` wählt die Eingabe (Standardmikrofon oder Datei). `recognize_once_async()` liefert eine Äußerung – Schluss ist bei Stille oder nach 15 Sekunden; für längeres Audio nutzt du die kontinuierliche Erkennung. Prüfe `result.reason` auf `RecognizedSpeech`.',
+            en: '`AudioConfig` picks the input (default microphone or a file). `recognize_once_async()` returns a future for one utterance (it ends at the first silence or after about 30 seconds of audio); `.get()` blocks until the result is there. Use continuous recognition for longer audio, and check `result.reason` for `RecognizedSpeech`.',
+            de: '`AudioConfig` wählt die Eingabe (Standardmikrofon oder Datei). `recognize_once_async()` liefert ein Future für eine Äußerung (Schluss ist bei der ersten Stille oder nach etwa 30 Sekunden Audio); `.get()` blockiert, bis das Ergebnis da ist. Für längeres Audio nutzt du die kontinuierliche Erkennung, und `result.reason` prüfst du auf `RecognizedSpeech`.',
           },
           focus: ['a1', 's1', 'a2', 's2', 'f1'],
         },
@@ -99,7 +99,7 @@ export const lesson: Lesson = {
       width: 960,
       height: 330,
       groups: [
-        { id: 'g-speak', x: 10, y: 15, w: 940, h: 300, label: '<speak version="1.0" xmlns="…/synthesis" xml:lang="en-US">', tone: 'neutral' },
+        { id: 'g-speak', x: 10, y: 15, w: 940, h: 300, label: '<speak version="1.0" xmlns="…/synthesis" xmlns:mstts="…/mstts" xml:lang="en-US">', tone: 'neutral' },
         { id: 'g-voice', x: 30, y: 55, w: 900, h: 245, label: '<voice name="en-US-JennyNeural">', tone: 'app' },
       ],
       nodes: [
@@ -173,15 +173,15 @@ export const lesson: Lesson = {
     {
       term: 'Real-time, fast and batch transcription',
       text: {
-        en: 'Real-time recognition streams audio through the Speech SDK with interim results. The fast transcription API returns a transcript synchronously for files under 2 hours and 300 MB. Batch transcription processes large volumes asynchronously and writes results to storage.',
-        de: 'Die Echtzeiterkennung streamt Audio über das Speech SDK und liefert Zwischenergebnisse. Die Fast-Transcription-API liefert synchron ein Transkript für Dateien unter 2 Stunden und 300 MB. Die Batch-Transkription verarbeitet große Mengen asynchron und schreibt die Ergebnisse in einen Storage.',
+        en: 'Real-time recognition streams audio through the Speech SDK with interim results. The fast transcription API returns a transcript synchronously for files under 5 hours and 500 MB, with *diarization* (labeling who said what) and *phrase lists* (words you send with the request to boost recognition — no training). Batch transcription processes large volumes asynchronously and writes results to storage.',
+        de: 'Die Echtzeiterkennung streamt Audio über das Speech SDK und liefert Zwischenergebnisse. Die Fast-Transcription-API liefert synchron ein Transkript für Dateien unter 5 Stunden und 500 MB, mit *Diarisierung* (Zuordnung, wer was gesagt hat) und *Phrasenlisten* (Wörter, die du mit dem Request schickst, um die Erkennung zu verbessern – ohne Training). Die Batch-Transkription verarbeitet große Mengen asynchron und schreibt die Ergebnisse in einen Storage.',
       },
     },
     {
       term: 'Neural and HD voices',
       text: {
-        en: 'Voice names combine locale and name, such as `en-US-JennyNeural`. HD voices such as `en-US-Ava:DragonHDLatestNeural` are LLM-based, pick up emotional cues from the text and accept a `temperature`. Custom voice (professional or personal voice) requires approved limited access.',
-        de: 'Stimmnamen kombinieren Gebietsschema und Namen, etwa `en-US-JennyNeural`. HD-Stimmen wie `en-US-Ava:DragonHDLatestNeural` basieren auf LLMs, erkennen emotionale Hinweise im Text und akzeptieren eine `temperature`. Custom Voice (Professional oder Personal Voice) erfordert einen genehmigten eingeschränkten Zugang.',
+        en: 'Voice names combine locale and name, such as `en-US-JennyNeural`. HD voices such as `en-US-Ava:DragonHDLatestNeural` are LLM-based, pick up emotional cues from the text and accept a `temperature`. Custom voice (professional or personal voice) is *limited access*: Microsoft must approve your use case (intake form) first.',
+        de: 'Stimmnamen kombinieren Gebietsschema und Namen, etwa `en-US-JennyNeural`. HD-Stimmen wie `en-US-Ava:DragonHDLatestNeural` basieren auf LLMs, erkennen emotionale Hinweise im Text und akzeptieren eine `temperature`. Custom Voice (Professional oder Personal Voice) ist *Limited Access*: Microsoft muss deinen Anwendungsfall erst genehmigen (Antragsformular).',
       },
     },
     {
@@ -194,15 +194,15 @@ export const lesson: Lesson = {
     {
       term: 'Custom speech',
       text: {
-        en: 'Fine-tune a base speech-to-text model for one locale with your own data: plain or structured text for vocabulary, pronunciation data for unusual words, audio with human-labeled transcripts for accents and noise. Measure the word error rate (WER), then deploy the model to a custom endpoint.',
-        de: 'Ein Basismodell für Speech to Text wird für ein Gebietsschema mit eigenen Daten feinabgestimmt: Klartext oder strukturierter Text für Vokabular, Aussprachedaten für ungewöhnliche Wörter, Audio mit menschlich erstellten Transkripten für Akzente und Störgeräusche. Du misst die Wortfehlerrate (WER) und stellst das Modell dann auf einem Custom-Endpoint bereit.',
+        en: 'Fine-tune a base speech-to-text model for one locale with your own data: plain or structured text for vocabulary, pronunciation data for unusual words, audio with human-labeled transcripts for accents and noise. Measure the word error rate (WER), then deploy the model to a custom endpoint. Unlike a phrase list (instant, per request), custom speech means training and hosting a model.',
+        de: 'Ein Basismodell für Speech to Text wird für ein Gebietsschema mit eigenen Daten feinabgestimmt: Klartext oder strukturierter Text für Vokabular, Aussprachedaten für ungewöhnliche Wörter, Audio mit menschlich erstellten Transkripten für Akzente und Störgeräusche. Du misst die Wortfehlerrate (WER) und stellst das Modell dann auf einem Custom-Endpoint bereit. Anders als eine Phrasenliste (sofort, pro Request) bedeutet Custom Speech Training und Hosting eines Modells.',
       },
     },
     {
       term: 'Keyless access to Speech',
       text: {
-        en: 'For Microsoft Entra ID, the resource needs a custom-domain endpoint (`https://<name>.cognitiveservices.azure.com`) and your identity needs a data-plane role: the Speech docs recommend **Cognitive Services Speech User** or **Cognitive Services Speech Contributor** (Foundry User also covers Speech). Generic Owner or Contributor roles don’t grant access to the speech APIs. Pass `token_credential` and `endpoint` to `SpeechConfig`.',
-        de: 'Für Microsoft Entra ID braucht die Ressource einen Custom-Domain-Endpoint (`https://<name>.cognitiveservices.azure.com`) und deine Identität eine Data-Plane-Rolle: Die Speech-Doku empfiehlt **Cognitive Services Speech User** oder **Cognitive Services Speech Contributor** (auch Foundry User deckt Speech ab). Die allgemeinen Rollen Owner oder Contributor geben keinen Zugriff auf die Speech-APIs. Übergib `token_credential` und `endpoint` an `SpeechConfig`.',
+        en: 'Speech SDK or REST with Microsoft Entra ID needs a *custom-domain endpoint* (`https://<name>.cognitiveservices.azure.com` on the **Keys and Endpoint** page; if missing, generate one under **Networking** — irreversible) and a *data-plane role* (permission to call the APIs, not just manage the resource): **Cognitive Services Speech User** or **Cognitive Services Speech Contributor** (Microsoft recommends the roles with *Speech* in their names). Owner and Contributor can’t call the speech APIs. Roles differ by API: Voice Live needs Cognitive Services User and Foundry User instead.',
+        de: 'Speech SDK oder REST mit Microsoft Entra ID braucht einen *Custom-Domain-Endpoint* (`https://<name>.cognitiveservices.azure.com` auf der Seite **Keys and Endpoint**; fehlt er, erzeugst du ihn unter **Networking** – nicht umkehrbar) und eine *Data-Plane-Rolle* (Recht, die APIs aufzurufen, nicht nur die Ressource zu verwalten): **Cognitive Services Speech User** oder **Cognitive Services Speech Contributor** (Microsoft empfiehlt die Rollen mit *Speech* im Namen). Owner und Contributor können die Speech-APIs nicht aufrufen. Die Rollen unterscheiden sich je API: Voice Live braucht stattdessen Cognitive Services User und Foundry User.',
       },
     },
   ],
@@ -225,7 +225,7 @@ export const lesson: Lesson = {
         { en: 'Fast transcription', de: 'Fast Transcription' },
         { en: 'Synchronous REST call per file, faster than real time', de: 'Synchroner REST-Aufruf pro Datei, schneller als Echtzeit' },
         { en: 'Voicemail, meeting notes, quick subtitles', de: 'Voicemail, Besprechungsnotizen, schnelle Untertitel' },
-        { en: 'Files under 2 hours and 300 MB; diarization and phrase lists', de: 'Dateien unter 2 Stunden und 300 MB; Diarisierung und Phrasenlisten' },
+        { en: 'Files under 5 hours and 500 MB; diarization and phrase lists', de: 'Dateien unter 5 Stunden und 500 MB; Diarisierung und Phrasenlisten' },
       ],
       [
         { en: 'Batch transcription', de: 'Batch-Transkription' },
@@ -251,7 +251,7 @@ speech_config.speech_recognition_language = "en-US"
 audio_config = speechsdk.audio.AudioConfig(filename="order.wav")  # or use_default_microphone=True
 recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
-result = recognizer.recognize_once_async().get()   # one utterance: ends at silence or 15 s
+result = recognizer.recognize_once_async().get()   # one utterance: ends at silence (max ~30 s)
 if result.reason == speechsdk.ResultReason.RecognizedSpeech:
     print(result.text)
 elif result.reason == speechsdk.ResultReason.NoMatch:
@@ -264,8 +264,8 @@ elif result.reason == speechsdk.ResultReason.Canceled:
           de: 'Das Trainingsmodul nutzt `SpeechConfig(subscription=<key>, endpoint=<endpoint>)`; einen Key bewahrst du in Azure Key Vault auf.',
         },
         {
-          en: 'For long audio, connect a handler to `recognizer.recognized` and call `start_continuous_recognition()` … `stop_continuous_recognition()`.',
-          de: 'Für langes Audio verbindest du einen Handler mit `recognizer.recognized` und rufst `start_continuous_recognition()` … `stop_continuous_recognition()` auf.',
+          en: '`recognize_once_async()` returns a future; `.get()` blocks until one utterance is recognized. For whole files, use continuous recognition (third sample).',
+          de: '`recognize_once_async()` liefert ein Future; `.get()` blockiert, bis eine Äußerung erkannt ist. Für ganze Dateien nutzt du die kontinuierliche Erkennung (drittes Beispiel).',
         },
       ],
     },
@@ -294,7 +294,10 @@ ssml = """<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis"
 
 result = synthesizer.speak_ssml_async(ssml).get()
 if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
-    speechsdk.AudioDataStream(result).save_to_wav_file("shipped.wav")`,
+    speechsdk.AudioDataStream(result).save_to_wav_file("shipped.wav")
+else:
+    details = result.cancellation_details
+    print(details.reason, details.error_details)`,
       notes: [
         {
           en: 'For plain text, set `speech_synthesis_voice_name` (for example `en-US-Ava:DragonHDLatestNeural`) and call `speak_text_async()`.',
@@ -306,11 +309,32 @@ if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
         },
       ],
     },
+    {
+      title: { en: 'Continuous recognition for a whole recording', de: 'Kontinuierliche Erkennung für eine ganze Aufnahme' },
+      code: `import threading
+import azure.cognitiveservices.speech as speechsdk
+from azure.identity import DefaultAzureCredential
+config = speechsdk.SpeechConfig(token_credential=DefaultAzureCredential(), endpoint="https://<custom-domain>.cognitiveservices.azure.com/")
+recognizer = speechsdk.SpeechRecognizer(speech_config=config, audio_config=speechsdk.audio.AudioConfig(filename="call.wav"))
+done = threading.Event()                                           # set when the session ends
+recognizer.recognized.connect(lambda evt: print(evt.result.text))  # one event per utterance
+recognizer.session_stopped.connect(lambda evt: done.set())         # end of the file
+recognizer.canceled.connect(lambda evt: done.set())                # end of stream or error: evt.cancellation_details.reason
+recognizer.start_continuous_recognition()                          # only starts; results come as events
+done.wait()                                                        # main thread waits here
+recognizer.stop_continuous_recognition()`,
+      notes: [
+        {
+          en: '`start_continuous_recognition()` only starts the session; results arrive through the connected events (`recognized` per utterance, `session_stopped` at the end, `canceled` at the end of the stream or on errors). So the program must wait before it calls `stop_continuous_recognition()`; Learn samples use a `while not done: time.sleep(0.5)` loop instead of an `Event`.',
+          de: '`start_continuous_recognition()` startet nur die Sitzung; Ergebnisse kommen über die verbundenen Events (`recognized` pro Äußerung, `session_stopped` am Ende, `canceled` am Stream-Ende oder bei Fehlern). Darum muss das Programm warten, bevor es `stop_continuous_recognition()` aufruft; die Learn-Beispiele nutzen statt eines `Event` eine Schleife `while not done: time.sleep(0.5)`.',
+        },
+      ],
+    },
   ],
   traps: [
     {
-      en: '`recognize_once_async()` stops after one utterance (silence or 15 seconds). Transcribing a whole call that way loses everything after the first pause — use continuous recognition or batch transcription.',
-      de: '`recognize_once_async()` stoppt nach einer Äußerung (Stille oder 15 Sekunden). Wer so einen ganzen Anruf transkribiert, verliert alles nach der ersten Pause – nutze kontinuierliche Erkennung oder Batch-Transkription.',
+      en: '`recognize_once_async()` stops after one utterance — at the first silence or after about 30 seconds (SDK reference; one how-to page still says 15). Transcribing a whole call that way loses everything after the first pause — use continuous recognition or batch transcription.',
+      de: '`recognize_once_async()` stoppt nach einer Äußerung – bei der ersten Stille oder nach etwa 30 Sekunden (laut SDK-Referenz; eine How-to-Seite nennt noch 15). Wer so einen ganzen Anruf transkribiert, verliert alles nach der ersten Pause – nutze kontinuierliche Erkennung oder Batch-Transkription.',
     },
     {
       en: 'Keyless Entra ID access to Speech needs a custom-domain endpoint and a data-plane role such as Cognitive Services Speech User; the generic Owner or Contributor roles don’t grant access to the speech APIs.',
@@ -321,8 +345,8 @@ if result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
       de: 'Echtzeiterkennung mit einem Custom-Speech-Modell braucht einen bereitgestellten Custom-Endpoint (`endpoint_id`); die Batch-Transkription kann das Custom-Modell ohne Endpoint nutzen – und ohne dessen Hosting-Kosten.',
     },
     {
-      en: '`mstts:express-as` styles exist only for some voices; a missing or invalid style makes the service ignore the whole element. HD voices don’t support every SSML element, for example `mstts:silence` or `bookmark`.',
-      de: '`mstts:express-as`-Stile gibt es nur für manche Stimmen; ein fehlender oder ungültiger Stil lässt den Dienst das ganze Element ignorieren. HD-Stimmen unterstützen nicht jedes SSML-Element, zum Beispiel `mstts:silence` oder `bookmark`.',
+      en: '`mstts:express-as` styles exist only for some voices; with a missing or invalid style the service ignores the element and speaks the text in the default neutral style. HD voices don’t support every SSML element, for example `mstts:silence` or `bookmark`.',
+      de: '`mstts:express-as`-Stile gibt es nur für manche Stimmen; bei fehlendem oder ungültigem Stil ignoriert der Dienst das Element und spricht den Text im neutralen Standardstil. HD-Stimmen unterstützen nicht jedes SSML-Element, zum Beispiel `mstts:silence` oder `bookmark`.',
     },
     {
       en: 'Custom speech improves *recognition*; custom voice changes *synthesis* and requires approved limited access.',

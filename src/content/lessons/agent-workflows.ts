@@ -3,12 +3,12 @@ import type { Lesson } from '../../lib/types.ts'
 export const lesson: Lesson = {
   module: 'agent-workflows',
   summary: {
-    en: 'A **workflow** in Microsoft Foundry is a declarative, visual sequence of **nodes** that orchestrates agents and business logic. Agent nodes do the reasoning, logic nodes branch or loop, data nodes set variables, and chat nodes talk to the user. Templates cover the common patterns — **sequential**, **human in the loop** and **group chat** — and **Power Fx** formulas with `Local.` and `System.` variables turn agent output into decisions. Every save creates an immutable version that you can also edit as YAML, and apps run a saved workflow by name through the project\'s Responses API. Important: workflows are a preview feature that **retires on December 1, 2026** — build new workflows with **Microsoft Agent Framework** and treat the exported YAML as your migration artifact.',
-    de: 'Ein **Workflow** in Microsoft Foundry ist eine deklarative, visuelle Abfolge von **Knoten**, die Agents und Geschäftslogik orchestriert. Agent-Knoten übernehmen das Denken, Logik-Knoten verzweigen oder wiederholen, Datenknoten setzen Variablen, und Chat-Knoten sprechen mit dem Nutzer. Vorlagen decken die gängigen Muster ab – **Sequential**, **Human in the loop** und **Group chat** –, und **Power-Fx**-Formeln mit `Local.`- und `System.`-Variablen machen aus Agent-Ausgaben Entscheidungen. Jedes Speichern erzeugt eine unveränderliche Version, die du auch als YAML bearbeiten kannst, und Apps starten einen gespeicherten Workflow per Name über die Responses API des Projekts. Wichtig: Workflows sind ein Preview-Feature und werden **am 1. Dezember 2026 eingestellt** – neue Workflows baust du mit **Microsoft Agent Framework**, und das exportierte YAML ist dein Migrationsartefakt.',
+    en: 'A **workflow** in Microsoft Foundry is a declarative, visual sequence of **nodes** — agent nodes reason, logic nodes branch or loop, data nodes set variables, chat nodes talk to the user — that orchestrates agents and business logic. Templates cover the common patterns — **sequential**, **human in the loop** and **group chat** — and **Power Fx** formulas with `Local.` and `System.` variables turn agent output into decisions. You edit the draft on the canvas or as YAML; each **Save** freezes a new version that you can view or delete but not change. Apps run a saved workflow by name through the project\'s **Responses API** (OpenAI-compatible API that returns a response object; keeps state via `previous_response_id` or a conversation) inside a **conversation** (durable item store for multi-turn state). Important: workflows are a preview feature that **retires on December 1, 2026** — build new workflows with **Microsoft Agent Framework** and treat the exported YAML as your migration artifact.',
+    de: 'Ein **Workflow** in Microsoft Foundry ist eine deklarative, visuelle Abfolge von **Knoten** – Agent-Knoten denken, Logik-Knoten verzweigen oder wiederholen, Datenknoten setzen Variablen, Chat-Knoten sprechen mit dem Nutzer –, die Agents und Geschäftslogik orchestriert. Vorlagen decken die gängigen Muster ab – **Sequential**, **Human in the loop** und **Group chat** –, und **Power-Fx**-Formeln mit `Local.`- und `System.`-Variablen machen aus Agent-Ausgaben Entscheidungen. Du bearbeitest den Entwurf auf dem Canvas oder als YAML; jedes **Save** friert eine neue Version ein, die du ansehen oder löschen, aber nicht ändern kannst. Apps starten einen gespeicherten Workflow per Name über die **Responses API** des Projekts (OpenAI-kompatible API, die ein Response-Objekt liefert; hält den Zustand über `previous_response_id` oder eine Conversation) innerhalb einer **Conversation** (dauerhafter Item-Speicher für Zustand über mehrere Runden). Wichtig: Workflows sind ein Preview-Feature und werden **am 1. Dezember 2026 eingestellt** – neue Workflows baust du mit **Microsoft Agent Framework**, und das exportierte YAML ist dein Migrationsartefakt.',
   },
   examFocus: {
-    en: 'The skills outline still lists workflows and approval steps, so expect scenarios that ask you to pick a workflow pattern (sequential, human in the loop, group chat), the right node (Invoke agent, if/else, for each, set variable, Send message, Ask a question), a valid Power Fx condition with the `Local.`/`System.` prefix, and how to make agent output routable (JSON schema response format saved to a variable). Know how an app runs an existing workflow from code and how a paused human-in-the-loop run continues. Foundry portal workflows retire on December 1, 2026: for any new workflow the answer is **Microsoft Agent Framework** (declarative YAML or code, deployed as a hosted agent); Azure Logic Apps and A2A are the other migration paths.',
-    de: 'Der Skills-Katalog nennt weiterhin Workflows und Freigabeschritte. Rechne also mit Szenarien, in denen du ein Workflow-Muster wählst (Sequential, Human in the loop, Group chat), den passenden Knoten (Invoke agent, if/else, for each, set variable, Send message, Ask a question), eine gültige Power-Fx-Bedingung mit dem Präfix `Local.`/`System.` und den Weg, Agent-Ausgaben routbar zu machen (JSON-Schema als Antwortformat, in einer Variablen gespeichert). Du solltest wissen, wie eine App einen bestehenden Workflow per Code startet und wie ein pausierter Human-in-the-loop-Lauf weiterläuft. Workflows im Foundry-Portal werden am 1. Dezember 2026 eingestellt: Für jeden neuen Workflow lautet die Antwort **Microsoft Agent Framework** (deklaratives YAML oder Code, als Hosted Agent bereitgestellt); Azure Logic Apps und A2A sind die weiteren Migrationswege.',
+    en: 'The skills outline still lists workflows and approval steps, so expect scenarios that ask you to pick a workflow pattern (sequential, human in the loop, group chat), the right node (Invoke agent, if/else, for each, set variable, Send message, Ask a question), a valid Power Fx condition with the `Local.`/`System.` prefix, and how to make agent output routable (JSON schema response format saved to a variable). Know how an app runs an existing workflow from code and how a paused human-in-the-loop run continues. Foundry portal workflows retire on December 1, 2026. Rule of thumb: a question about an **existing** workflow is answered with designer nodes; "build a **new** workflow" is answered with **Microsoft Agent Framework** (declarative YAML or code, deployed as a **hosted agent** — your own agent code in a container that Foundry runs). Azure Logic Apps and A2A are the other migration paths.',
+    de: 'Der Skills-Katalog nennt weiterhin Workflows und Freigabeschritte. Rechne also mit Szenarien, in denen du ein Workflow-Muster wählst (Sequential, Human in the loop, Group chat), den passenden Knoten (Invoke agent, if/else, for each, set variable, Send message, Ask a question), eine gültige Power-Fx-Bedingung mit dem Präfix `Local.`/`System.` und den Weg, Agent-Ausgaben routbar zu machen (JSON-Schema als Antwortformat, in einer Variablen gespeichert). Du solltest wissen, wie eine App einen bestehenden Workflow per Code startet und wie ein pausierter Human-in-the-loop-Lauf weiterläuft. Workflows im Foundry-Portal werden am 1. Dezember 2026 eingestellt. Faustregel: Eine Frage zu einem **bestehenden** Workflow beantwortest du mit Designer-Knoten; „baue einen **neuen** Workflow“ beantwortest du mit **Microsoft Agent Framework** (deklaratives YAML oder Code, als **Hosted Agent** bereitgestellt – dein eigener Agent-Code in einem Container, den Foundry ausführt). Azure Logic Apps und A2A sind die weiteren Migrationswege.',
   },
   diagrams: [
     {
@@ -24,12 +24,13 @@ export const lesson: Lesson = {
         { id: 'g-wf', x: 150, y: 20, w: 805, h: 322, label: { en: 'Foundry workflow (preview)', de: 'Foundry-Workflow (Preview)' }, tone: 'foundry' },
       ],
       nodes: [
-        { id: 'start', x: 10, y: 70, w: 120, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'chat request', de: 'Chat-Anfrage' }, tone: 'user', shape: 'actor' },
+        { id: 'start', x: 10, y: 70, w: 130, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'chat request', de: 'Chat-Anfrage' }, tone: 'user', shape: 'actor' },
+        { id: 'sup', x: 10, y: 250, w: 130, h: 64, label: 'Supervisor', sub: { en: 'answers via\nyour app', de: 'antwortet über\ndeine App' }, tone: 'user', shape: 'actor' },
         { id: 'triage', x: 175, y: 70, w: 170, h: 64, label: { en: 'Triage agent', de: 'Triage-Agent' }, sub: 'JSON → Local.Triage', tone: 'foundry' },
         { id: 'cond', x: 385, y: 62, w: 180, h: 80, label: { en: 'Confident?', de: 'Sicher genug?' }, sub: '≥ 0.8 · Power Fx', tone: 'neutral', shape: 'diamond' },
         { id: 'resolve', x: 605, y: 70, w: 160, h: 64, label: { en: 'Resolver agent', de: 'Lösungs-Agent' }, sub: 'Invoke agent', tone: 'foundry' },
         { id: 'reply', x: 805, y: 70, w: 130, h: 64, label: { en: 'Reply', de: 'Antwort' }, sub: 'Send message', tone: 'neutral', shape: 'pill' },
-        { id: 'ask', x: 395, y: 250, w: 160, h: 64, label: 'Ask a question', sub: '→ Local.Approval', tone: 'user', shape: 'actor' },
+        { id: 'ask', x: 395, y: 250, w: 160, h: 64, label: 'Ask a question', sub: '→ Local.Approval', tone: 'neutral', shape: 'pill' },
         { id: 'approved', x: 600, y: 242, w: 170, h: 80, label: { en: 'Approved?', de: 'Genehmigt?' }, sub: 'Power Fx if/else', tone: 'neutral', shape: 'diamond' },
         { id: 'escalate', x: 815, y: 250, w: 120, h: 64, label: { en: 'Escalate', de: 'Eskalieren' }, sub: 'Send message', tone: 'neutral', shape: 'pill' },
       ],
@@ -39,6 +40,7 @@ export const lesson: Lesson = {
         { id: 'e-yes', from: 'cond', to: 'resolve', label: { en: 'yes', de: 'ja' } },
         { id: 'e-out', from: 'resolve', to: 'reply' },
         { id: 'e-no', from: 'cond', to: 'ask', label: { en: 'no', de: 'nein' } },
+        { id: 'e-sup', from: 'ask', to: 'sup', bidir: true, label: { en: 'question / answer', de: 'Frage / Antwort' } },
         { id: 'e-ans', from: 'ask', to: 'approved' },
         { id: 'e-ok', from: 'approved', to: 'resolve', label: { en: 'yes', de: 'ja' } },
         { id: 'e-esc', from: 'approved', to: 'escalate', label: { en: 'no', de: 'nein' } },
@@ -71,24 +73,24 @@ export const lesson: Lesson = {
         {
           title: { en: 'Pause for a human', de: 'Für einen Menschen pausieren' },
           text: {
-            en: 'Otherwise an **Ask a question** node pauses the run, waits for the supervisor\'s reply and saves it as `Local.Approval` — the human-in-the-loop pattern.',
-            de: 'Sonst pausiert ein **Ask a question**-Knoten den Lauf, wartet auf die Antwort des Supervisors und speichert sie als `Local.Approval` – das Human-in-the-loop-Muster.',
+            en: 'Otherwise an **Ask a question** node posts its question into the workflow\'s conversation and waits. Whoever answers in that conversation — here the supervisor, through your app — provides the reply, which is saved as `Local.Approval`: the human-in-the-loop pattern.',
+            de: 'Sonst stellt ein **Ask a question**-Knoten seine Frage in die Conversation des Workflows und wartet. Wer in dieser Conversation antwortet – hier der Supervisor über deine App –, liefert die Antwort, die als `Local.Approval` gespeichert wird: das Human-in-the-loop-Muster.',
           },
-          focus: ['e-no', 'ask', 'e-ans'],
+          focus: ['e-no', 'ask', 'e-sup', 'sup', 'e-ans'],
         },
         {
           title: { en: 'Approve or escalate', de: 'Freigeben oder eskalieren' },
           text: {
-            en: 'A second if/else checks `Local.Approval = "yes"`. Approved requests continue to the resolver agent; everything else is escalated.',
-            de: 'Ein zweites if/else prüft `Local.Approval = "yes"`. Genehmigte Anfragen gehen weiter an den Lösungs-Agent, alles andere wird eskaliert.',
+            en: 'A second if/else checks `Local.Approval = "yes"` — Power Fx compares with a single `=` (`<>` means not equal; `==` isn\'t a Power Fx operator). Approved requests continue to the resolver agent; everything else is escalated.',
+            de: 'Ein zweites if/else prüft `Local.Approval = "yes"` – Power Fx vergleicht mit einem einfachen `=` (`<>` heißt ungleich; `==` ist kein Power-Fx-Operator). Genehmigte Anfragen gehen weiter an den Lösungs-Agent, alles andere wird eskaliert.',
           },
           focus: ['approved', 'e-ok', 'e-esc', 'escalate'],
         },
         {
           title: { en: 'Save creates a version', de: 'Speichern erzeugt eine Version' },
           text: {
-            en: 'Nothing is saved automatically. Each **Save** creates a new, immutable version, and the canvas and the YAML view edit the same definition. Workflows are in preview and retire on December 1, 2026.',
-            de: 'Nichts wird automatisch gespeichert. Jedes **Save** erzeugt eine neue, unveränderliche Version, und Canvas und YAML-Ansicht bearbeiten dieselbe Definition. Workflows sind in Preview und werden am 1. Dezember 2026 eingestellt.',
+            en: 'You edit the draft on the canvas or in the YAML view; nothing is saved automatically. Each **Save** freezes a new version that can be viewed or deleted but not changed. Workflows are in preview and retire on December 1, 2026.',
+            de: 'Du bearbeitest den Entwurf auf dem Canvas oder in der YAML-Ansicht; nichts wird automatisch gespeichert. Jedes **Save** friert eine neue Version ein, die man ansehen oder löschen, aber nicht ändern kann. Workflows sind in Preview und werden am 1. Dezember 2026 eingestellt.',
           },
           focus: ['g-wf'],
         },
@@ -102,22 +104,22 @@ export const lesson: Lesson = {
         de: 'Heute ruft eine App den gespeicherten Workflow per Name auf. Weil der Designer eingestellt wird, wandert das exportierte YAML zu Microsoft Agent Framework und läuft als Hosted Agent.',
       },
       width: 960,
-      height: 360,
+      height: 490,
       groups: [
-        { id: 'g-portal', x: 10, y: 20, w: 750, h: 124, label: { en: 'Foundry portal (preview, retires Dec 1, 2026)', de: 'Foundry-Portal (Preview, endet am 1. Dez. 2026)' }, tone: 'foundry' },
-        { id: 'g-code', x: 280, y: 210, w: 480, h: 124, label: { en: 'Code-first path (recommended)', de: 'Code-first-Weg (empfohlen)' }, tone: 'app' },
+        { id: 'g-portal', x: 10, y: 20, w: 940, h: 124, label: { en: 'Foundry project · workflow designer (preview, retires Dec 1, 2026)', de: 'Foundry-Projekt · Workflow-Designer (Preview, endet am 1. Dez. 2026)' }, tone: 'foundry' },
+        { id: 'g-code', x: 10, y: 350, w: 940, h: 124, label: { en: 'Code-first path (recommended)', de: 'Code-first-Weg (empfohlen)' }, tone: 'app' },
       ],
       nodes: [
-        { id: 'designer', x: 30, y: 60, w: 170, h: 64, label: { en: 'Workflow designer', de: 'Workflow-Designer' }, sub: { en: 'visual canvas', de: 'visueller Canvas' }, tone: 'foundry' },
-        { id: 'yaml', x: 300, y: 60, w: 170, h: 64, label: { en: 'YAML view', de: 'YAML-Ansicht' }, sub: { en: 'same definition', de: 'dieselbe Definition' }, tone: 'data', shape: 'doc' },
-        { id: 'wf', x: 570, y: 60, w: 170, h: 64, label: { en: 'Saved version', de: 'Gespeicherte Version' }, sub: { en: 'immutable · by name', de: 'unveränderlich · Name' }, tone: 'foundry' },
-        { id: 'af', x: 300, y: 250, w: 170, h: 64, label: 'Agent Framework', sub: { en: 'declarative YAML', de: 'deklaratives YAML' }, tone: 'app' },
-        { id: 'hosted', x: 570, y: 250, w: 170, h: 64, label: { en: 'Hosted agent', de: 'Hosted Agent' }, sub: 'Foundry Agent Service', tone: 'foundry' },
-        { id: 'app', x: 780, y: 155, w: 160, h: 64, label: { en: 'Your app', de: 'Deine App' }, sub: 'responses.create', tone: 'app' },
+        { id: 'designer', x: 75, y: 60, w: 170, h: 64, label: { en: 'Workflow designer', de: 'Workflow-Designer' }, sub: { en: 'visual canvas', de: 'visueller Canvas' }, tone: 'foundry' },
+        { id: 'yaml', x: 375, y: 60, w: 170, h: 64, label: { en: 'YAML view', de: 'YAML-Ansicht' }, sub: { en: 'same definition', de: 'dieselbe Definition' }, tone: 'data', shape: 'doc' },
+        { id: 'wf', x: 695, y: 60, w: 190, h: 64, label: { en: 'Saved version', de: 'Gespeicherte Version' }, sub: { en: 'immutable · by name', de: 'unveränderlich · Name' }, tone: 'foundry' },
+        { id: 'app', x: 695, y: 210, w: 190, h: 64, label: { en: 'Your app', de: 'Deine App' }, sub: 'responses.create', tone: 'app' },
+        { id: 'af', x: 375, y: 390, w: 170, h: 64, label: 'Agent Framework', sub: { en: 'declarative YAML', de: 'deklaratives YAML' }, tone: 'app' },
+        { id: 'hosted', x: 695, y: 390, w: 190, h: 64, label: { en: 'Hosted agent', de: 'Hosted Agent' }, sub: 'Foundry Agent Service', tone: 'foundry' },
       ],
       edges: [
         { id: 'e-dy', from: 'designer', to: 'yaml', bidir: true, label: { en: 'synced', de: 'synchron' } },
-        { id: 'e-yw', from: 'yaml', to: 'wf', label: 'Save' },
+        { id: 'e-yw', from: 'yaml', to: 'wf', label: { en: 'Save (either view)', de: 'Save (jede Ansicht)' } },
         { id: 'e-aw', from: 'app', to: 'wf', label: { en: 'agent reference', de: 'Agent-Referenz' } },
         { id: 'e-ya', from: 'yaml', to: 'af', dashed: true, label: { en: 'export', de: 'exportieren' } },
         { id: 'e-ah', from: 'af', to: 'hosted', label: { en: 'deploy', de: 'Deployment' } },
@@ -135,16 +137,16 @@ export const lesson: Lesson = {
         {
           title: { en: 'Every Save is a version', de: 'Jedes Save ist eine Version' },
           text: {
-            en: 'Foundry doesn\'t autosave. Each Save creates a new, immutable version; the **Version** list lets you review older versions or delete them.',
-            de: 'Foundry speichert nicht automatisch. Jedes Save erzeugt eine neue, unveränderliche Version; über die **Version**-Liste siehst du ältere Versionen an oder löschst sie.',
+            en: 'Foundry doesn\'t autosave. Whichever view you edited in, **Save** stores the shared definition and freezes a new version; the **Version** list lets you view or delete versions, but not change them.',
+            de: 'Foundry speichert nicht automatisch. Egal, in welcher Ansicht du bearbeitet hast: **Save** speichert die gemeinsame Definition und friert eine neue Version ein; über die **Version**-Liste siehst du Versionen an oder löschst sie, ändern kannst du sie nicht.',
           },
           focus: ['e-yw', 'wf'],
         },
         {
           title: { en: 'Call it from your app', de: 'Aus deiner App aufrufen' },
           text: {
-            en: 'The app gets the project\'s OpenAI-compatible client, creates a conversation and calls `responses.create` with an agent reference to the workflow name. With `stream=True` it sees `response.output_item.done` per workflow action and `response.completed` at the end.',
-            de: 'Die App holt sich den OpenAI-kompatiblen Client des Projekts, erstellt eine Conversation und ruft `responses.create` mit einer Agent-Referenz auf den Workflow-Namen auf. Mit `stream=True` sieht sie `response.output_item.done` pro Workflow-Aktion und am Ende `response.completed`.',
+            en: 'A saved workflow is an agent of kind `workflow` in the project. The app gets the project\'s OpenAI-compatible client, creates a conversation and calls `responses.create` with an `agent_reference` (the agent\'s or workflow\'s name, so the call runs it). With `stream=True` it sees `response.output_item.done` per workflow action and `response.completed` at the end — supported until December 1, 2026.',
+            de: 'Ein gespeicherter Workflow ist ein Agent der Art `workflow` im Projekt. Die App holt sich den OpenAI-kompatiblen Client des Projekts, erstellt eine Conversation und ruft `responses.create` mit einer `agent_reference` auf (dem Namen des Agents oder Workflows, damit der Aufruf ihn ausführt). Mit `stream=True` sieht sie `response.output_item.done` pro Workflow-Aktion und am Ende `response.completed` – unterstützt bis zum 1. Dezember 2026.',
           },
           focus: ['app', 'e-aw', 'wf'],
         },
@@ -154,7 +156,7 @@ export const lesson: Lesson = {
             en: 'Export the YAML, run it with Agent Framework declarative workflows (or convert it to code) and deploy it as a hosted agent. Alternatives: Azure Logic Apps for a visual designer, A2A for simple agent-to-agent delegation.',
             de: 'Exportiere das YAML, führe es mit deklarativen Workflows in Agent Framework aus (oder wandle es in Code um) und stelle es als Hosted Agent bereit. Alternativen: Azure Logic Apps für einen visuellen Designer, A2A für einfache Delegation zwischen Agents.',
           },
-          focus: ['e-ya', 'af', 'e-ah', 'hosted', 'e-ah2'],
+          focus: ['e-ya', 'af', 'e-ah', 'hosted', 'e-ah2', 'app'],
         },
       ],
     },
@@ -170,8 +172,8 @@ export const lesson: Lesson = {
     {
       term: 'Workflow patterns',
       text: {
-        en: '**Sequential** passes each agent\'s result to the next in a fixed order. **Human in the loop** asks the user a question and waits for the answer (approvals, missing details). **Group chat** passes control between agents dynamically based on context or rules (escalation, fallback, expert handoff). The same sequential and group-chat coordination, branching and human-in-the-loop steps are expressible in Agent Framework workflows.',
-        de: '**Sequential** gibt das Ergebnis jedes Agents in fester Reihenfolge an den nächsten weiter. **Human in the loop** stellt dem Nutzer eine Frage und wartet auf die Antwort (Freigaben, fehlende Angaben). **Group chat** übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents (Eskalation, Fallback, Experten-Übergabe). Dieselbe sequenzielle und Group-chat-Koordination, Verzweigungen und Human-in-the-loop-Schritte lassen sich in Agent-Framework-Workflows abbilden.',
+        en: '**Sequential** passes each agent\'s result to the next in a fixed order. **Human in the loop** asks a question in the conversation and waits for the answer (approvals, missing details). **Group chat** passes control between agents dynamically based on context or rules (escalation, fallback). Rebuilt in Agent Framework, choose group chat if an orchestrator should pick the next speaker, or handoff if the current agent should pass the conversation to a specialist; branching and human-in-the-loop steps carry over too.',
+        de: '**Sequential** gibt das Ergebnis jedes Agents in fester Reihenfolge an den nächsten weiter. **Human in the loop** stellt in der Conversation eine Frage und wartet auf die Antwort (Freigaben, fehlende Angaben). **Group chat** übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents (Eskalation, Fallback). Baust du ihn in Agent Framework nach, wählst du Group chat, wenn ein Orchestrator den nächsten Sprecher bestimmen soll, oder Handoff, wenn der aktuelle Agent das Gespräch an einen Spezialisten übergeben soll; Verzweigungen und Human-in-the-loop-Schritte lassen sich ebenfalls übertragen.',
       },
     },
     {
@@ -191,15 +193,15 @@ export const lesson: Lesson = {
     {
       term: 'Power Fx',
       text: {
-        en: 'The low-code, Excel-like formula language of workflows, used for conditions, variable values and loops, for example `Upper(Local.Input)` or `If(Local.Confidence > 0.8, "Proceed", "Escalate")`. A missing `Local.`/`System.` prefix causes "Name isn\'t valid"; a type mismatch needs `Text()` or `Value()`.',
-        de: 'Die Low-Code-Formelsprache im Excel-Stil für Bedingungen, Variablenwerte und Schleifen, zum Beispiel `Upper(Local.Input)` oder `If(Local.Confidence > 0.8, "Proceed", "Escalate")`. Ein fehlendes Präfix `Local.`/`System.` führt zu „Name isn\'t valid“; bei einem Typkonflikt helfen `Text()` oder `Value()`.',
+        en: 'The low-code, Excel-like formula language of workflows, used for conditions, variable values and loops, for example `Upper(Local.Input)` or `If(Local.Confidence > 0.8, "Proceed", "Escalate")`. Comparisons use `=`, `<>`, `>`, `>=` (no `==`). A missing `Local.`/`System.` prefix causes "Name isn\'t valid"; a type mismatch needs `Text()` or `Value()`.',
+        de: 'Die Low-Code-Formelsprache im Excel-Stil für Bedingungen, Variablenwerte und Schleifen, zum Beispiel `Upper(Local.Input)` oder `If(Local.Confidence > 0.8, "Proceed", "Escalate")`. Vergleiche nutzen `=`, `<>`, `>`, `>=` (kein `==`). Ein fehlendes Präfix `Local.`/`System.` führt zu „Name isn\'t valid“; bei einem Typkonflikt helfen `Text()` oder `Value()`.',
       },
     },
     {
       term: 'Versioning and YAML',
       text: {
-        en: 'Foundry never saves automatically. Each Save creates a new, unchangeable version (Version drop-down to view or delete). The YAML view and the canvas stay in sync, and the YAML file is the portable artifact you export for migration.',
-        de: 'Foundry speichert nie automatisch. Jedes Save erzeugt eine neue, unveränderliche Version (Version-Dropdown zum Ansehen oder Löschen). YAML-Ansicht und Canvas bleiben synchron, und die YAML-Datei ist das portable Artefakt, das du für die Migration exportierst.',
+        en: 'You edit the draft on the canvas or in the YAML view, which stay in sync. Foundry never saves automatically; each Save freezes a new version that you can view or delete (Version drop-down) but not change. The YAML file is the portable artifact you export for migration.',
+        de: 'Du bearbeitest den Entwurf auf dem Canvas oder in der YAML-Ansicht, die synchron bleiben. Foundry speichert nie automatisch; jedes Save friert eine neue Version ein, die du ansehen oder löschen (Version-Dropdown), aber nicht ändern kannst. Die YAML-Datei ist das portable Artefakt, das du für die Migration exportierst.',
       },
     },
     {
@@ -229,7 +231,7 @@ export const lesson: Lesson = {
   },
   code: [
     {
-      title: { en: 'Run a saved workflow from Python and stream its actions', de: 'Gespeicherten Workflow aus Python starten und Aktionen streamen' },
+      title: { en: 'Run a saved workflow from Python (until December 1, 2026)', de: 'Gespeicherten Workflow aus Python starten (bis 1. Dezember 2026)' },
       code: `from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
 
@@ -252,8 +254,9 @@ for event in stream:
     elif event.type == "response.completed":
         print(event.response.output_text)`,
       notes: [
-        { en: 'A saved workflow is referenced by name, just like an agent, through the project\'s OpenAI-compatible client.', de: 'Ein gespeicherter Workflow wird wie ein Agent per Name über den OpenAI-kompatiblen Client des Projekts referenziert.' },
-        { en: 'If the run pauses at an Ask a question node, send the person\'s answer in another `responses.create` call with the same `conversation` to continue.', de: 'Pausiert der Lauf an einem Ask-a-question-Knoten, schickst du die Antwort der Person in einem weiteren `responses.create`-Aufruf mit derselben `conversation`, damit es weitergeht.' },
+        { en: 'A saved workflow is referenced by name, just like an agent: `agent_reference` goes into `extra_body` on every call of the run.', de: 'Ein gespeicherter Workflow wird wie ein Agent per Name referenziert: `agent_reference` steht bei jedem Aufruf des Laufs in `extra_body`.' },
+        { en: 'When the workflow waits at an Ask a question node, send the approver\'s answer as `input` in another `responses.create` call with the same `conversation` and the same `agent_reference`. The docs name no dedicated pause event.', de: 'Wartet der Workflow an einem Ask-a-question-Knoten, schickst du die Antwort des Freigebenden als `input` in einem weiteren `responses.create`-Aufruf mit derselben `conversation` und derselben `agent_reference`. Ein eigenes Pause-Event nennen die Docs nicht.' },
+        { en: 'Portal workflow execution ends on December 1, 2026. In Agent Framework the same pause is a `request_info` event that you answer with `workflow.run(responses={request_id: answer})`.', de: 'Die Ausführung von Portal-Workflows endet am 1. Dezember 2026. In Agent Framework ist dieselbe Pause ein `request_info`-Event, das du mit `workflow.run(responses={request_id: answer})` beantwortest.' },
       ],
     },
     {
@@ -266,7 +269,7 @@ from azure.identity import AzureCliCredential
 async def main() -> None:
     client = FoundryChatClient(
         project_endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
-        model="gpt-4.1",
+        model="gpt-5-mini",                      # deployment name
         credential=AzureCliCredential(),
     )
     factory = WorkflowFactory()
@@ -279,15 +282,15 @@ async def main() -> None:
 
 asyncio.run(main())`,
       notes: [
-        { en: 'Install `agent-framework-declarative`. Values that start with `=` are Power Fx expressions, which Python evaluates on 3.13 or earlier (not on 3.14/3.15).', de: 'Installiere `agent-framework-declarative`. Werte, die mit `=` beginnen, sind Power-Fx-Ausdrücke; Python wertet sie bis Version 3.13 aus (nicht unter 3.14/3.15).' },
-        { en: 'Agents that `InvokeAzureAgent` actions name in the YAML are registered with the factory. Test the result, then deploy it as a hosted agent.', de: 'Agents, die `InvokeAzureAgent`-Aktionen im YAML benennen, registrierst du bei der Factory. Teste das Ergebnis und stelle es dann als Hosted Agent bereit.' },
+        { en: 'Install `agent-framework-declarative`. In the YAML, values that start with `=` are Power Fx expressions, for example `condition: =Local.Approval = "yes"`.', de: 'Installiere `agent-framework-declarative`. Im YAML sind Werte, die mit `=` beginnen, Power-Fx-Ausdrücke, zum Beispiel `condition: =Local.Approval = "yes"`.' },
+        { en: 'Agents that `InvokeAzureAgent` actions name in the YAML are registered with the factory; `model` is your deployment name, which can be any name you chose. Test, then deploy as a hosted agent.', de: 'Agents, die `InvokeAzureAgent`-Aktionen im YAML benennen, registrierst du bei der Factory; `model` ist dein Deployment-Name, den du frei wählen kannst. Teste und stelle dann als Hosted Agent bereit.' },
       ],
     },
   ],
   traps: [
     {
-      en: 'Never pick the portal designer for a NEW workflow: Foundry workflows retire on December 1, 2026, and new work belongs in Microsoft Agent Framework. After that date, YAML workflows still run only when deployed as a hosted agent.',
-      de: 'Wähle für einen NEUEN Workflow nie den Portal-Designer: Foundry-Workflows werden am 1. Dezember 2026 eingestellt, neue Arbeit gehört in Microsoft Agent Framework. Danach laufen YAML-Workflows nur noch, wenn sie als Hosted Agent bereitgestellt sind.',
+      en: 'Existing workflow → answer with designer nodes; "build a NEW workflow" → Microsoft Agent Framework, never the portal designer. Foundry workflows retire on December 1, 2026; afterwards YAML workflows still run only when deployed as a hosted agent.',
+      de: 'Bestehender Workflow → Antwort mit Designer-Knoten; „baue einen NEUEN Workflow“ → Microsoft Agent Framework, nie der Portal-Designer. Foundry-Workflows werden am 1. Dezember 2026 eingestellt; danach laufen YAML-Workflows nur noch, wenn sie als Hosted Agent bereitgestellt sind.',
     },
     {
       en: 'Foundry doesn\'t save workflows automatically — unsaved changes don\'t run, and every Save creates a new immutable version.',
@@ -317,5 +320,6 @@ asyncio.run(main())`,
     { title: 'Declarative workflows overview (Microsoft Agent Framework)', url: 'https://learn.microsoft.com/en-us/agent-framework/workflows/declarative?pivots=programming-language-python' },
     { title: 'Use and migrate declarative agent workflows with Microsoft Foundry Toolkit', url: 'https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/vs-code-agents-workflow-low-code' },
     { title: 'Build with agents, conversations, and responses', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/runtime-components' },
+    { title: 'Operators and identifiers in Power Fx', url: 'https://learn.microsoft.com/en-us/power-platform/power-fx/operators' },
   ],
 }

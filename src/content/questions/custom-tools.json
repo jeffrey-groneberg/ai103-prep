@@ -13,7 +13,7 @@
         "en": "Complete the function tool so that it works with `strict=True` while the user may leave `carrier` empty, and attach it to the agent definition.",
         "de": "Vervollständige das Function Tool so, dass es mit `strict=True` funktioniert, während der Nutzer `carrier` leer lassen darf, und hänge es an die Agent-Definition."
       },
-      "template": "tool = FunctionTool(\n    name=\"create_return_label\",\n    description=\"Create a return shipping label for an order.\",\n    parameters={\n        \"type\": \"object\",\n        \"properties\": {\n            \"order_id\": {\"type\": \"string\", \"description\": \"Order number\"},\n            \"carrier\": {\"type\": [\"string\", \"null\"], \"description\": \"Carrier or null\"},\n        },\n        \"required\": {{b1}},\n        \"additionalProperties\": {{b2}},\n    },\n    strict=True,\n)\ndefinition = PromptAgentDefinition(model=\"gpt-4.1\", instructions=\"...\", {{b3}}=[tool])",
+      "template": "tool = FunctionTool(\n    name=\"create_return_label\",\n    description=\"Create a return shipping label for an order.\",\n    parameters={\n        \"type\": \"object\",\n        \"properties\": {\n            \"order_id\": {\"type\": \"string\", \"description\": \"Order number\"},\n            \"carrier\": {\"type\": [\"string\", \"null\"], \"description\": \"Carrier or null\"},\n        },\n        \"required\": {{b1}},\n        \"additionalProperties\": {{b2}},\n    },\n    strict=True,\n)\ndefinition = PromptAgentDefinition(model=\"gpt-5-mini\", instructions=\"...\", {{b3}}=[tool])",
       "blanks": [
         {
           "id": "b1",
@@ -275,9 +275,9 @@
         },
         {
           "id": "p3",
-          "prompt": { "en": "Internal MCP server on Azure Container Apps", "de": "Interner MCP-Server in Azure Container Apps" },
+          "prompt": { "en": "In-house MCP server on Azure Container Apps, reachable over HTTPS", "de": "Eigener MCP-Server in Azure Container Apps, per HTTPS erreichbar" },
           "answer": "t3",
-          "why": { "en": "Container Apps already provides a remote MCP endpoint, which the MCP tool attaches by label and URL.", "de": "Container Apps stellt bereits einen Remote-MCP-Endpoint bereit, den das MCP-Tool über Label und URL anbindet." }
+          "why": { "en": "The Container Apps server already exposes a remote HTTPS MCP endpoint, which the MCP tool attaches by `server_label` and `server_url`.", "de": "Der Server in Container Apps stellt bereits einen Remote-MCP-Endpoint per HTTPS bereit, den das MCP-Tool über `server_label` und `server_url` anbindet." }
         },
         {
           "id": "p4",
@@ -318,7 +318,7 @@
       "options": [
         {
           "id": "a",
-          "text": { "en": "In the spec, add an `apiKey` scheme named `x-api-key` with `in: header` under `components.securitySchemes`, add a top-level `security` section that references it, and remove any operation parameter for the key", "de": "In der Spec ein `apiKey`-Schema namens `x-api-key` mit `in: header` unter `components.securitySchemes` und einen `security`-Abschnitt auf oberster Ebene ergänzen, der darauf verweist, und jeden Operationsparameter für den Key entfernen" },
+          "text": { "en": "In the spec, add an `apiKey` scheme with `name: x-api-key` and `in: header` under `components.securitySchemes`, add a top-level `security` section that references it, and remove any operation parameter for the key", "de": "In der Spec unter `components.securitySchemes` ein `apiKey`-Schema mit `name: x-api-key` und `in: header` sowie einen `security`-Abschnitt auf oberster Ebene ergänzen, der darauf verweist, und jeden Operationsparameter für den Key entfernen" },
           "correct": true,
           "why": { "en": "Without both `securitySchemes` and `security`, the key isn't included in requests; the scheme's `name` must match the key name in the connection.", "de": "Ohne `securitySchemes` und `security` wird der Key nicht mitgesendet; der `name` des Schemas muss zum Schlüsselnamen in der Verbindung passen." }
         },

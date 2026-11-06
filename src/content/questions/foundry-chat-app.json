@@ -18,13 +18,13 @@
           "id": "a",
           "text": { "en": "`AIProjectClient` from `azure-ai-projects`, pointed at the project endpoint", "de": "`AIProjectClient` aus `azure-ai-projects`, gerichtet auf den Project Endpoint" },
           "correct": true,
-          "why": { "en": "Agents and evaluations are project features. The project client exposes them and can also hand out an OpenAI-compatible client via `get_openai_client()`.", "de": "Agents und Evaluierungen sind Projekt-Features. Der Projekt-Client stellt sie bereit und liefert über `get_openai_client()` zusätzlich einen OpenAI-kompatiblen Client." }
+          "why": { "en": "The project client creates agents and configures the project; its `get_openai_client()` returns the OpenAI-compatible client that runs responses, agents and evaluations.", "de": "Der Projekt-Client legt Agents an und konfiguriert das Projekt; sein `get_openai_client()` liefert den OpenAI-kompatiblen Client, der Responses, Agents und Evaluierungen ausführt." }
         },
         {
           "id": "b",
           "text": { "en": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`", "de": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`" },
           "correct": false,
-          "why": { "en": "The plain OpenAI client covers the OpenAI API surface (responses, chat, files), but it has no access to Foundry project features such as agents or evaluations.", "de": "Der einfache OpenAI-Client deckt die OpenAI-API ab (Responses, Chat, Dateien), hat aber keinen Zugriff auf Foundry-Projekt-Features wie Agents oder Evaluierungen." }
+          "why": { "en": "Bound to the resource's `/openai/v1` endpoint, this client reaches models, files and fine-tuning, but not Foundry project features such as agents or evaluations.", "de": "Am `/openai/v1`-Endpoint der Ressource erreicht dieser Client Modelle, Dateien und Fine-Tuning, aber keine Foundry-Projekt-Features wie Agents oder Evaluierungen." }
         },
         {
           "id": "c",
@@ -45,7 +45,7 @@
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code",
-        "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry"
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview"
       ],
       "lastVerified": "2026-11-06"
     },
@@ -57,8 +57,8 @@
       "module": "foundry-chat-app",
       "difficulty": 2,
       "stem": {
-        "en": "You call `responses.create()` for a support chatbot. Answers are too long and vary too much between identical prompts. Which TWO parameter changes address this?",
-        "de": "Du rufst `responses.create()` für einen Support-Chatbot auf. Die Antworten sind zu lang und schwanken bei identischen Prompts zu stark. Welche ZWEI Parameteränderungen helfen?"
+        "en": "You call `responses.create()` for a support chatbot that runs on a non-reasoning model deployment. Answers are too long and vary too much between identical prompts. Which TWO parameter changes address this?",
+        "de": "Du rufst `responses.create()` für einen Support-Chatbot auf, der auf dem Deployment eines Nicht-Reasoning-Modells läuft. Die Antworten sind zu lang und schwanken bei identischen Prompts zu stark. Welche ZWEI Parameteränderungen helfen?"
       },
       "options": [
         {
@@ -93,11 +93,12 @@
         }
       ],
       "explanation": {
-        "en": "Length is controlled with `max_output_tokens` (and instructions), variability with `temperature` or `top_p` — adjust one of the two sampling parameters, not both at once.",
-        "de": "Die Länge steuerst du mit `max_output_tokens` (und Anweisungen), die Schwankung mit `temperature` oder `top_p` – passe einen der beiden Sampling-Parameter an, nicht beide gleichzeitig."
+        "en": "Length is controlled with `max_output_tokens` (and instructions), variability with `temperature` or `top_p` — adjust one of the two, not both. GPT-5-series reasoning models such as `gpt-5-mini` don't support `temperature`; there you rely on instructions, `text={\"verbosity\": \"low\"}` and `max_output_tokens` (`reasoning.effort` controls how much the model reasons).",
+        "de": "Die Länge steuerst du mit `max_output_tokens` (und Anweisungen), die Schwankung mit `temperature` oder `top_p` – passe einen der beiden an, nicht beide. Reasoning-Modelle der GPT-5-Serie wie `gpt-5-mini` unterstützen `temperature` nicht; dort helfen Anweisungen, `text={\"verbosity\": \"low\"}` und `max_output_tokens` (`reasoning.effort` steuert, wie viel das Modell nachdenkt)."
       },
       "sources": [
-        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"
       ],
       "lastVerified": "2026-11-06"
     },
@@ -112,7 +113,7 @@
         "en": "Complete the code so the second call continues the conversation started by the first call.",
         "de": "Vervollständige den Code so, dass der zweite Aufruf das Gespräch des ersten Aufrufs fortsetzt."
       },
-      "template": "openai = project.{{b1}}()\n\nfirst = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=\"Name three Foundry Tools.\",\n)\nsecond = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=\"Which one handles speech?\",\n    {{b2}}=first.id,\n)\nprint(second.{{b3}})",
+      "template": "openai = project.{{b1}}()\n\nfirst = openai.responses.create(\n    model=\"gpt-5-mini\",  # deployment name\n    input=\"Name three Foundry Tools.\",\n)\nsecond = openai.responses.create(\n    model=\"gpt-5-mini\",\n    input=\"Which one handles speech?\",\n    {{b2}}=first.id,\n)\nprint(second.{{b3}})",
       "blanks": [
         {
           "id": "b1",
@@ -303,7 +304,7 @@
         "en": "A field-service app sends a photo of a damaged device together with a question to a vision-capable deployment. Complete the Responses API call so the model analyzes the image in fine detail.",
         "de": "Eine Außendienst-App schickt das Foto eines beschädigten Geräts zusammen mit einer Frage an ein bildfähiges Deployment. Vervollständige den Responses-API-Aufruf so, dass das Modell das Bild detailgenau analysiert."
       },
-      "template": "response = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\"type\": \"{{b1}}\", \"text\": \"Which parts look damaged?\"},\n            {\"type\": \"{{b2}}\",\n             \"image_url\": f\"data:image/jpeg;base64,{photo_b64}\",\n             \"{{b3}}\": \"high\"},\n        ],\n    }],\n)\nprint(response.output_text)",
+      "template": "response = openai.responses.create(\n    model=\"gpt-5-mini\",  # deployment name\n    input=[{\n        \"role\": \"user\",\n        \"content\": [\n            {\"type\": \"{{b1}}\", \"text\": \"Which parts look damaged?\"},\n            {\"type\": \"{{b2}}\",\n             \"image_url\": f\"data:image/jpeg;base64,{photo_b64}\",\n             \"{{b3}}\": \"high\"},\n        ],\n    }],\n)\nprint(response.output_text)",
       "blanks": [
         {
           "id": "b1",
@@ -382,7 +383,7 @@
         { "id": "t2", "text": { "en": "`Phi-4-multimodal-instruct`", "de": "`Phi-4-multimodal-instruct`" } },
         { "id": "t3", "text": { "en": "`Phi-4-mini-instruct`", "de": "`Phi-4-mini-instruct`" } },
         { "id": "t4", "text": { "en": "`text-embedding-3-large`", "de": "`text-embedding-3-large`" } },
-        { "id": "t5", "text": { "en": "`gpt-image-1`", "de": "`gpt-image-1`" } }
+        { "id": "t5", "text": { "en": "`gpt-image-2`", "de": "`gpt-image-2`" } }
       ],
       "explanation": {
         "en": "Choose by modality and API: code models for coding agents, multimodal models for mixed input, small models for narrow low-cost tasks, embedding models for vectors — and check each catalog entry for API and tool support.",
