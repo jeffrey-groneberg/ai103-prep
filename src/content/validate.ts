@@ -8,6 +8,7 @@ import type {
   QuestionFile,
   Text,
 } from '../lib/types.ts'
+import { edgePoints, labelRect, midpoint, rectsOverlap, segmentHitsRect, type Rect } from '../lib/geometry.ts'
 import { allBullets, bulletById } from './domains.ts'
 import { moduleById, modules } from './course.ts'
 
@@ -65,7 +66,7 @@ export const LEGACY_NAMES: Array<{ pattern: RegExp; current: string }> = [
   { pattern: /\bAzure OpenAI Studio\b/, current: 'Microsoft Foundry portal' },
   { pattern: /\bAzure AI Foundry\b/, current: 'Microsoft Foundry' },
   { pattern: /\bAI Foundry Agent Service\b/, current: 'Foundry Agent Service' },
-  { pattern: /\bCognitive Services\b(?! (?:OpenAI )?(?:User|Contributor|Data Reader))/, current: 'Foundry Tools' },
+  { pattern: /\bCognitive Services\b(?!(?: [A-Z][A-Za-z]+)* (?:User|Contributor|Reader|Writer|Owner)\b)/, current: 'Foundry Tools' },
   { pattern: /\bAzure AI services\b/, current: 'Foundry Tools' },
   { pattern: /\bForm Recognizer\b/, current: 'Azure Document Intelligence in Foundry Tools' },
   { pattern: /\bLUIS\b|\bLanguage Understanding \(LUIS\)/, current: 'conversational language understanding' },
@@ -211,6 +212,9 @@ export function validateQuestion(q: Question, issues: Issue[], ctx: { file: stri
       const placeholders = [...(q.template ?? '').matchAll(/\{\{([a-z0-9]+)\}\}/g)].map((m) => m[1])
       const blankIds = new Set(blanks.map((b) => b.id))
       for (const p of placeholders) if (!blankIds.has(p)) issues.push({ level: 'error', where, message: `template placeholder {{${p}}} has no blank` })
+      for (const p of new Set(placeholders)) {
+        if (placeholders.filter((x) => x === p).length > 1) issues.push({ level: 'error', where, message: `template uses placeholder {{${p}}} more than once` })
+      }
       for (const b of blanks) {
         if (!placeholders.includes(b.id)) issues.push({ level: 'error', where, message: `blank ${b.id} missing from template` })
         const correct = b.options.filter((o) => o.correct === true).length
@@ -230,10 +234,6 @@ export function validateQuestion(q: Question, issues: Issue[], ctx: { file: stri
   checkLegacy(issues, where, questionStrings(q))
 }
 
-function rectsOverlap(a: { x: number; y: number; w: number; h: number }, b: { x: number; y: number; w: number; h: number }) {
-  return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h
-}
-
 export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
   const w = `${where} › diagram ${d.id}`
   checkL10n(issues, w, 'title', d.title)
@@ -249,11 +249,11 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
     }
     if (n.w < 60 || n.h < 30) issues.push({ level: 'error', where: w, message: `node ${n.id} is too small (min 60×30)` })
     for (const line of textOf(n.label).flatMap((s) => s.split('\n'))) {
-      const capacity = Math.floor((n.w - 16) / 7.4)
+      const capacity = Math.floor((n.w - 16 - (n.shape === 'actor' ? 26 : 0)) / 7.4)
       if (line.length > capacity) issues.push({ level: 'error', where: w, message: `node ${n.id} label line "${line}" is too long for width ${n.w} (max ~${capacity} chars)` })
     }
     for (const line of textOf(n.sub).flatMap((s) => s.split('\n'))) {
-      const capacity = Math.floor((n.w - 16) / 6.2)
+      const capacity = Math.floor((n.w - 16 - (n.shape === 'actor' ? 26 : 0)) / 6.2)
       if (line.length > capacity) issues.push({ level: 'error', where: w, message: `node ${n.id} sub line "${line}" is too long for width ${n.w} (max ~${capacity} chars)` })
     }
   }
@@ -271,6 +271,31 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
   for (const e of d.edges ?? []) {
     if (!nodeOrGroup.has(e.from)) issues.push({ level: 'error', where: w, message: `edge ${e.id} starts at unknown node "${e.from}"` })
     if (!nodeOrGroup.has(e.to)) issues.push({ level: 'error', where: w, message: `edge ${e.id} ends at unknown node "${e.to}"` })
+  }
+
+  // Geometry exactly as rendered: arrows must not run through other nodes, labels should not sit on nodes.
+  const rects = new Map<string, Rect>()
+  for (const g of d.groups ?? []) rects.set(g.id, g)
+  for (const n of nodes) rects.set(n.id, n)
+  for (const e of d.edges ?? []) {
+    const pts = edgePoints(e, rects)
+    if (!pts) continue
+    for (const n of nodes) {
+      if (n.id === e.from || n.id === e.to) continue
+      for (let i = 1; i < pts.length; i++) {
+        if (segmentHitsRect(pts[i - 1], pts[i], n)) {
+          issues.push({ level: 'error', where: w, message: `edge ${e.id} (${e.from} → ${e.to}) runs through node ${n.id}; move nodes or add via points` })
+          break
+        }
+      }
+    }
+    if (e.label) {
+      for (const text of new Set(textOf(e.label))) {
+        const box = labelRect(text, midpoint(pts))
+        const hit = nodes.find((n) => rectsOverlap(box, n))
+        if (hit) issues.push({ level: 'warning', where: w, message: `label "${text}" of edge ${e.id} overlaps node ${hit.id}` })
+      }
+    }
   }
   if ((d.steps ?? []).length < 2) issues.push({ level: 'error', where: w, message: 'needs at least two steps for the step-through' })
   ;(d.steps ?? []).forEach((s, i) => {

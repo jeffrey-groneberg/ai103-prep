@@ -8,6 +8,7 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { Ajv2020 } from 'ajv/dist/2020.js'
 import type { CaseFile, Lesson, QuestionFile } from '../src/lib/types.ts'
 import { validateContent, type ContentBundle } from '../src/content/validate.ts'
 import { domains } from '../src/content/domains.ts'
@@ -66,6 +67,18 @@ const cases = readJsonDir<CaseFile>(join(contentDir, 'cases')).flatMap((c) => c.
 const lessons = await loadLessons()
 
 const report = validateContent({ files: files.map(({ file, data }) => ({ file, data })), cases, lessons }, { only })
+
+// JSON Schema check (same schemas editors use via "$schema").
+const ajv = new Ajv2020({ allErrors: true, strict: false })
+const checkQuestions = ajv.compile(JSON.parse(readFileSync(join(contentDir, 'schema', 'question-file.schema.json'), 'utf8')))
+const checkCases = ajv.compile(JSON.parse(readFileSync(join(contentDir, 'schema', 'case-file.schema.json'), 'utf8')))
+for (const { file, data } of files) {
+  if (only && !only.includes(data.module)) continue
+  if (!checkQuestions(data)) report.errors.push({ level: 'error', where: file, message: `JSON schema: ${ajv.errorsText(checkQuestions.errors)}` })
+}
+for (const { file, data } of readJsonDir<CaseFile>(join(contentDir, 'cases'))) {
+  if (!checkCases(data)) report.errors.push({ level: 'error', where: file, message: `JSON schema: ${ajv.errorsText(checkCases.errors)}` })
+}
 
 const total = Object.values(report.moduleCounts).reduce((a, b) => a + b, 0)
 if (!quiet) {
