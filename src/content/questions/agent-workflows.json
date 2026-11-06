@@ -1,0 +1,303 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "agent-workflows",
+  "questions": [
+    {
+      "id": "q-agent-workflows-01",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.1.3",
+      "skills": ["1.1.2"],
+      "module": "agent-workflows",
+      "difficulty": 3,
+      "stem": {
+        "en": "Microsoft Foundry retires workflows on December 1, 2026. Your organization has three workflows to move. Match each requirement to the most suitable target.",
+        "de": "Microsoft Foundry stellt Workflows am 1. Dezember 2026 ein. Deine Organisation muss drei Workflows umziehen. Ordne jede Anforderung dem passendsten Ziel zu."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "A developer team works in Visual Studio Code, wants the closest match to today's workflows and wants to reuse the exported YAML.", "de": "Ein Entwicklerteam arbeitet in Visual Studio Code, will möglichst nah an den heutigen Workflows bleiben und das exportierte YAML wiederverwenden." },
+          "answer": "t1",
+          "why": { "en": "Agent Framework supports the same patterns through declarative YAML or code, often runs the exported YAML with minimal changes and is deployed as a hosted agent.", "de": "Agent Framework unterstützt dieselben Muster per deklarativem YAML oder Code, führt das exportierte YAML oft mit wenigen Änderungen aus und wird als Hosted Agent bereitgestellt." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Business analysts must keep a fully visual, low-code designer that mixes deterministic steps with calls to Foundry agents.", "de": "Fachanwender sollen einen vollständig visuellen Low-Code-Designer behalten, der deterministische Schritte mit Aufrufen von Foundry-Agents mischt." },
+          "answer": "t2",
+          "why": { "en": "Azure Logic Apps offers a low-code visual canvas whose workflows can call and orchestrate Foundry agents.", "de": "Azure Logic Apps bietet einen visuellen Low-Code-Canvas, dessen Workflows Foundry-Agents aufrufen und orchestrieren können." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "A support agent only needs to delegate one task to a specialized agent; there's no multistep process.", "de": "Ein Support-Agent muss nur eine Aufgabe an einen spezialisierten Agent delegieren; einen mehrstufigen Ablauf gibt es nicht." },
+          "answer": "t3",
+          "why": { "en": "For lightweight hand-offs, expose the specialist as an A2A endpoint and call it directly; the calling agent stays in control.", "de": "Für leichte Übergaben stellst du den Spezialisten als A2A-Endpoint bereit und rufst ihn direkt auf; der aufrufende Agent behält die Kontrolle." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Microsoft Agent Framework", "de": "Microsoft Agent Framework" } },
+        { "id": "t2", "text": { "en": "Azure Logic Apps", "de": "Azure Logic Apps" } },
+        { "id": "t3", "text": { "en": "Agent-to-agent (A2A)", "de": "Agent-to-Agent (A2A)" } },
+        { "id": "t4", "text": { "en": "A new version in the Foundry workflow designer", "de": "Eine neue Version im Foundry-Workflow-Designer" } }
+      ],
+      "explanation": {
+        "en": "After December 1, 2026 the designer and in-portal execution are no longer supported. Code- or YAML-first teams move to Agent Framework, visual low-code teams to Azure Logic Apps, and simple delegation needs only A2A.",
+        "de": "Nach dem 1. Dezember 2026 werden Designer und Ausführung im Portal nicht mehr unterstützt. Teams mit Code oder YAML wechseln zu Agent Framework, visuelle Low-Code-Teams zu Azure Logic Apps, und für einfache Delegation genügt A2A."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-workflows-02",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "agent-workflows",
+      "difficulty": 1,
+      "stem": {
+        "en": "A Foundry support workflow must pass control dynamically between a billing agent, a technical agent and an escalation agent, depending on what comes up in the conversation; the order isn't known in advance. Which workflow pattern describes this behavior?",
+        "de": "Ein Foundry-Support-Workflow soll die Kontrolle dynamisch zwischen einem Abrechnungs-Agent, einem Technik-Agent und einem Eskalations-Agent weitergeben, je nachdem, was im Gespräch auftaucht; die Reihenfolge steht vorher nicht fest. Welches Workflow-Muster beschreibt dieses Verhalten?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Group chat", "de": "Group chat" },
+          "correct": true,
+          "why": { "en": "Group chat passes control between agents dynamically based on context or rules — designed for escalation, fallback and expert handoff.", "de": "Group chat übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents – gedacht für Eskalation, Fallback und Experten-Übergabe." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Sequential", "de": "Sequential" },
+          "correct": false,
+          "why": { "en": "Sequential passes results from one agent to the next in a fixed, predefined order.", "de": "Sequential gibt Ergebnisse in einer festen, vorab definierten Reihenfolge von Agent zu Agent weiter." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Human in the loop", "de": "Human in the loop" },
+          "correct": false,
+          "why": { "en": "This template asks the user a question and waits for input; it doesn't route between specialist agents.", "de": "Diese Vorlage stellt dem Nutzer eine Frage und wartet auf seine Eingabe; zwischen Fach-Agents routet sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A **For each** loop over the three agents", "de": "Eine **For each**-Schleife über die drei Agents" },
+          "correct": false,
+          "why": { "en": "For each repeats the same actions for every item in a list; it would call each agent in turn instead of choosing one by context.", "de": "For each wiederholt dieselben Aktionen für jedes Element einer Liste; es würde jeden Agent nacheinander aufrufen, statt nach Kontext einen auszuwählen." }
+        }
+      ],
+      "explanation": {
+        "en": "Match the pattern to the control flow: fixed order → sequential, waiting for a person → human in the loop, dynamic control between agents → group chat. For new workflows, Agent Framework supports the same patterns.",
+        "de": "Ordne das Muster dem Kontrollfluss zu: feste Reihenfolge → Sequential, Warten auf eine Person → Human in the loop, dynamische Kontrolle zwischen Agents → Group chat. Für neue Workflows unterstützt Agent Framework dieselben Muster."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow",
+        "https://learn.microsoft.com/en-us/training/modules/build-agent-workflows-microsoft-foundry/3-identify-workflow-patterns"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-workflows-03",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.5",
+      "module": "agent-workflows",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your team migrates an existing Foundry workflow to Agent Framework declarative YAML. In the portal, a supervisor approves each refund in the chat through an **Ask a question** node followed by an **if/else** node, and only a \"yes\" may reach the payout agent. Which YAML actions reproduce this approval step?",
+        "de": "Dein Team migriert einen bestehenden Foundry-Workflow zu deklarativem YAML in Agent Framework. Im Portal gibt ein Supervisor jede Erstattung im Chat über einen **Ask a question**-Knoten mit anschließendem **if/else**-Knoten frei, und nur ein „yes“ darf den Auszahlungs-Agent erreichen. Welche YAML-Aktionen bilden diesen Freigabeschritt nach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A `Question` action that stores the reply in `Local.Approval`, followed by an `If` action (`condition: =Local.Approval = \"yes\"`) whose `then` branch calls the payout agent", "de": "Eine `Question`-Aktion, die die Antwort in `Local.Approval` speichert, gefolgt von einer `If`-Aktion (`condition: =Local.Approval = \"yes\"`), deren `then`-Zweig den Auszahlungs-Agent aufruft" },
+          "correct": true,
+          "why": { "en": "`Question` asks the user and stores the response; `If` evaluates the expression, so the payout runs only after an approval.", "de": "`Question` fragt den Nutzer und speichert die Antwort; `If` wertet den Ausdruck aus, sodass die Auszahlung nur nach einer Freigabe läuft." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A `SendActivity` action that asks for approval, followed directly by the `InvokeAzureAgent` action for the payout agent", "de": "Eine `SendActivity`-Aktion mit der Bitte um Freigabe, direkt gefolgt von der `InvokeAzureAgent`-Aktion für den Auszahlungs-Agent" },
+          "correct": false,
+          "why": { "en": "`SendActivity` only sends a message; it neither waits for nor stores an answer, so the payout would always run.", "de": "`SendActivity` sendet nur eine Nachricht; es wartet weder auf eine Antwort noch speichert es eine, die Auszahlung liefe also immer." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A `SetVariable` action that sets `Local.Approval` to `yes`, followed by the payout agent", "de": "Eine `SetVariable`-Aktion, die `Local.Approval` auf `yes` setzt, gefolgt vom Auszahlungs-Agent" },
+          "correct": false,
+          "why": { "en": "Setting the value inside the workflow removes the human decision entirely.", "de": "Den Wert im Workflow selbst zu setzen entfernt die menschliche Entscheidung komplett." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A `GotoAction` that jumps back to the drafting agent until that agent reports the refund as approved", "de": "Eine `GotoAction`, die zum Entwurfs-Agent zurückspringt, bis dieser die Erstattung als genehmigt meldet" },
+          "correct": false,
+          "why": { "en": "The agent would approve its own work; `GotoAction` only jumps between actions and never asks the supervisor.", "de": "Der Agent würde seine eigene Arbeit genehmigen; `GotoAction` springt nur zwischen Aktionen und fragt den Supervisor nie." }
+        }
+      ],
+      "explanation": {
+        "en": "Approval steps keep their shape after migration: the portal's Ask a question + if/else becomes `Question` + `If` in Agent Framework declarative workflows, with Power Fx-style expressions that start with `=`.",
+        "de": "Freigabeschritte behalten nach der Migration ihre Form: Aus Ask a question + if/else im Portal wird `Question` + `If` in deklarativen Agent-Framework-Workflows, mit Power-Fx-artigen Ausdrücken, die mit `=` beginnen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/declarative?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-workflows-04",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.2.5",
+      "skills": ["2.1.5"],
+      "module": "agent-workflows",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your Python app runs an existing, saved Foundry workflow named `refund-approval` through `project.get_openai_client()`. The workflow pauses at an Ask a question node until a supervisor answers. Which TWO actions should the app take?",
+        "de": "Deine Python-App startet einen bestehenden, gespeicherten Foundry-Workflow namens `refund-approval` über `project.get_openai_client()`. Der Workflow pausiert an einem Ask-a-question-Knoten, bis ein Supervisor antwortet. Welche ZWEI Schritte sollte die App ausführen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Create a conversation with `conversations.create()` and pass its ID as `conversation` in each `responses.create()` call of the run, together with an agent reference to `refund-approval`", "de": "Eine Conversation mit `conversations.create()` erstellen und ihre ID bei jedem `responses.create()`-Aufruf des Laufs als `conversation` übergeben, zusammen mit einer Agent-Referenz auf `refund-approval`" },
+          "correct": true,
+          "why": { "en": "The workflow runs in a conversational context; the conversation keeps the run's items so later calls continue the same run.", "de": "Der Workflow läuft in einem Gesprächskontext; die Conversation hält die Items des Laufs, sodass spätere Aufrufe denselben Lauf fortsetzen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "When the approval question appears, send the supervisor's answer as the `input` of another `responses.create()` call in the same conversation", "de": "Sobald die Freigabefrage erscheint, die Antwort des Supervisors als `input` eines weiteren `responses.create()`-Aufrufs in derselben Conversation senden" },
+          "correct": true,
+          "why": { "en": "Paused human-in-the-loop runs resume when you send the requested input as an additional message to the conversation.", "de": "Pausierte Human-in-the-loop-Läufe setzen fort, wenn du die angeforderte Eingabe als zusätzliche Nachricht an die Conversation schickst." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Send the supervisor's answer in a new conversation so that it doesn't mix with the customer's messages", "de": "Die Antwort des Supervisors in einer neuen Conversation senden, damit sie sich nicht mit den Kundennachrichten mischt" },
+          "correct": false,
+          "why": { "en": "A new conversation has no pending question; the paused run waits in the original conversation.", "de": "Eine neue Conversation kennt die offene Frage nicht; der pausierte Lauf wartet in der ursprünglichen Conversation." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Set `stream=False` so that the workflow skips interactive nodes", "de": "`stream=False` setzen, damit der Workflow interaktive Knoten überspringt" },
+          "correct": false,
+          "why": { "en": "Streaming only changes how events are delivered; the nodes, including Ask a question, still run.", "de": "Streaming ändert nur, wie Events ausgeliefert werden; die Knoten, auch Ask a question, laufen trotzdem." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Poll `responses.retrieve()` until the workflow finishes by itself", "de": "`responses.retrieve()` abfragen, bis der Workflow von selbst fertig wird" },
+          "correct": false,
+          "why": { "en": "The run waits for input; polling never supplies the supervisor's answer.", "de": "Der Lauf wartet auf eine Eingabe; Polling liefert die Antwort des Supervisors nie." }
+        }
+      ],
+      "explanation": {
+        "en": "Run a workflow from code with one conversation and an agent reference to its name; answer a pause by sending the input as another message in that same conversation.",
+        "de": "Starte einen Workflow per Code mit einer Conversation und einer Agent-Referenz auf seinen Namen; beantworte eine Pause, indem du die Eingabe als weitere Nachricht in genau dieser Conversation schickst."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/build-agent-workflows-microsoft-foundry/8-use-workflows-in-code",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/runtime-components"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-workflows-05",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.4",
+      "module": "agent-workflows",
+      "difficulty": 2,
+      "stem": {
+        "en": "In an existing Foundry workflow, a triage agent returns JSON that matches a JSON schema, and the workflow saves it in the variable `Triage`, which has a numeric `confidence` field. New business rule: route automatically only when confidence is at least 0.8; otherwise a person reviews the ticket. Which condition do you enter in the new if/else node?",
+        "de": "In einem bestehenden Foundry-Workflow liefert ein Triage-Agent JSON nach einem JSON-Schema, und der Workflow speichert es in der Variablen `Triage` mit einem numerischen Feld `confidence`. Neue Geschäftsregel: Nur bei einer Konfidenz von mindestens 0,8 wird automatisch weitergeleitet, sonst prüft eine Person das Ticket. Welche Bedingung trägst du im neuen if/else-Knoten ein?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`Local.Triage.confidence >= 0.8`", "de": "`Local.Triage.confidence >= 0.8`" },
+          "correct": true,
+          "why": { "en": "Saved variables are local and need the `Local.` prefix; the comparison returns true or false for the branch.", "de": "Gespeicherte Variablen sind lokal und brauchen das Präfix `Local.`; der Vergleich liefert true oder false für den Zweig." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`Triage.confidence >= 0.8`", "de": "`Triage.confidence >= 0.8`" },
+          "correct": false,
+          "why": { "en": "Without a scope prefix, Power Fx reports \"Name isn't valid\".", "de": "Ohne Scope-Präfix meldet Power Fx „Name isn't valid“." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`System.Triage.confidence >= 0.8`", "de": "`System.Triage.confidence >= 0.8`" },
+          "correct": false,
+          "why": { "en": "`System.` holds built-in values such as `Conversation`, `LastMessage` or `User`, not the variables you save.", "de": "`System.` enthält eingebaute Werte wie `Conversation`, `LastMessage` oder `User`, nicht deine gespeicherten Variablen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`Local.Triage.confidence >= \"0.8\"`", "de": "`Local.Triage.confidence >= \"0.8\"`" },
+          "correct": false,
+          "why": { "en": "Comparing a number with text causes a type mismatch; use a number literal or a conversion such as `Value()`.", "de": "Ein Vergleich von Zahl und Text führt zu einem Typkonflikt; nutze ein Zahlenliteral oder eine Umwandlung wie `Value()`." }
+        }
+      ],
+      "explanation": {
+        "en": "Hybrid routing with an LLM and rules: the agent produces structured output, and a deterministic Power Fx condition on `Local.` variables decides the branch. In Agent Framework declarative YAML the same expression is written with a leading `=`.",
+        "de": "Hybrides Routing aus LLM und Regeln: Der Agent erzeugt strukturierte Ausgabe, und eine deterministische Power-Fx-Bedingung auf `Local.`-Variablen entscheidet den Zweig. In deklarativem YAML von Agent Framework schreibst du denselben Ausdruck mit führendem `=`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow",
+        "https://learn.microsoft.com/en-us/training/modules/build-agent-workflows-microsoft-foundry/6-apply-power-fx",
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/declarative?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-workflows-06",
+      "type": "multi",
+      "domain": "D1",
+      "skill": "1.4.4",
+      "skills": ["2.2.5"],
+      "module": "agent-workflows",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your team maintains an existing Foundry workflow in which an agent prepares supplier payments. New requirements: the agent may use only the tools it needs, and payments above 5,000 EUR need a manager's sign-off before the payment step. Which TWO configurations should you apply?",
+        "de": "Dein Team pflegt einen bestehenden Foundry-Workflow, in dem ein Agent Lieferantenzahlungen vorbereitet. Neue Anforderungen: Der Agent darf nur die Tools nutzen, die er braucht, und Zahlungen über 5.000 EUR brauchen vor dem Zahlungsschritt die Freigabe eines Managers. Welche ZWEI Konfigurationen setzt du um?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "In the **Invoke agent** node, configure the payment agent with only the tools and knowledge required for drafting the payment", "de": "Im **Invoke agent**-Knoten den Zahlungs-Agent nur mit den Tools und dem Wissen konfigurieren, die er für den Zahlungsentwurf braucht" },
+          "correct": true,
+          "why": { "en": "Agent nodes let you configure each agent's model, prompt and tools; least-privilege tool access constrains what the agent can do.", "de": "In Agent-Knoten konfigurierst du Modell, Prompt und Tools jedes Agents; Tool-Zugriff nach dem Minimalprinzip begrenzt, was der Agent tun kann." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Add an **if/else** node with a Power Fx condition on the amount that sends high payments to an **Ask a question** node for the manager before the payment step", "de": "Einen **if/else**-Knoten mit einer Power-Fx-Bedingung auf den Betrag einfügen, der hohe Zahlungen vor dem Zahlungsschritt an einen **Ask a question**-Knoten für den Manager leitet" },
+          "correct": true,
+          "why": { "en": "A deterministic rule decides when oversight is required, and the question node waits for the manager's answer.", "de": "Eine deterministische Regel entscheidet, wann Aufsicht nötig ist, und der Frage-Knoten wartet auf die Antwort des Managers." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Store the payment API key in a workflow variable so the agent can execute payments directly", "de": "Den API-Key der Zahlungs-API in einer Workflow-Variablen speichern, damit der Agent Zahlungen direkt ausführen kann" },
+          "correct": false,
+          "why": { "en": "Secrets must not be placed in JSON schemas, prompts or saved workflow variables, and this widens the agent's access instead of restricting it.", "de": "Geheimnisse gehören nicht in JSON-Schemas, Prompts oder gespeicherte Workflow-Variablen, und das erweitert den Zugriff des Agents, statt ihn zu begrenzen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Save the workflow after every change so each version can be restored later", "de": "Den Workflow nach jeder Änderung speichern, damit jede Version später wiederhergestellt werden kann" },
+          "correct": false,
+          "why": { "en": "Versioning tracks and protects changes, but it neither limits the agent's tools nor adds a sign-off.", "de": "Versionierung verfolgt und sichert Änderungen, begrenzt aber weder die Tools des Agents noch fügt sie eine Freigabe hinzu." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Add a note to the agent node saying that payments above 5,000 EUR need approval", "de": "Dem Agent-Knoten eine Notiz hinzufügen, dass Zahlungen über 5.000 EUR eine Freigabe brauchen" },
+          "correct": false,
+          "why": { "en": "Notes document the design for maintainers; they don't enforce anything at run time.", "de": "Notizen dokumentieren das Design für Maintainer; zur Laufzeit erzwingen sie nichts." }
+        }
+      ],
+      "explanation": {
+        "en": "Govern workflow agents with least-privilege tools per agent node and deterministic, rule-triggered human approval — not with notes, versions or credentials in variables.",
+        "de": "Steuere Workflow-Agents mit Tools nach dem Minimalprinzip pro Agent-Knoten und deterministisch ausgelöster menschlicher Freigabe – nicht mit Notizen, Versionen oder Zugangsdaten in Variablen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/workflow",
+        "https://learn.microsoft.com/en-us/training/modules/build-agent-workflows-microsoft-foundry/5-add-agents-to-workflow"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

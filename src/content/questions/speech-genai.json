@@ -1,0 +1,150 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "speech-genai",
+  "questions": [
+    {
+      "id": "q-speech-genai-01",
+      "type": "match",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "skills": ["1.1.1"],
+      "module": "speech-genai",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your team builds a multilingual customer-service app on Microsoft Foundry. Match each requirement to the model deployment and API call that fits it best.",
+        "de": "Dein Team baut eine mehrsprachige Kundenservice-App auf Microsoft Foundry. Ordne jede Anforderung dem Modell-Deployment und API-Aufruf zu, der am besten passt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Turn an 8 MB recorded German support call into German text", "de": "Einen 8 MB großen, aufgezeichneten deutschen Supportanruf in deutschen Text umwandeln" },
+          "answer": "t1",
+          "why": { "en": "Transcription models return a transcript in the spoken language, and the file is well below the 25 MB limit of the transcription API.", "de": "Transkriptionsmodelle liefern ein Transkript in der gesprochenen Sprache, und die Datei liegt deutlich unter dem 25-MB-Limit der Transkriptions-API." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Read an order confirmation aloud in a calm, friendly tone that you describe in plain words", "de": "Eine Bestellbestätigung in einem ruhigen, freundlichen Ton vorlesen, den du in Worten beschreibst" },
+          "answer": "t2",
+          "why": { "en": "`gpt-4o-mini-tts` converts text to speech, and its `instructions` parameter steers tone and style in natural language.", "de": "`gpt-4o-mini-tts` wandelt Text in Sprache um, und sein Parameter `instructions` steuert Ton und Stil in natürlicher Sprache." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Hold a live spoken conversation in a browser where the caller can interrupt the assistant", "de": "Ein Live-Gespräch im Browser führen, bei dem der Anrufer den Assistenten unterbrechen kann" },
+          "answer": "t3",
+          "why": { "en": "Realtime models stream speech in and out with low latency, and WebRTC is the recommended connection for browser clients.", "de": "Realtime-Modelle streamen Sprache mit geringer Latenz hin und zurück, und WebRTC ist die empfohlene Verbindung für Browser-Clients." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`gpt-4o-transcribe` with `audio.transcriptions.create()`", "de": "`gpt-4o-transcribe` mit `audio.transcriptions.create()`" } },
+        { "id": "t2", "text": { "en": "`gpt-4o-mini-tts` with `audio.speech.create()` and `instructions`", "de": "`gpt-4o-mini-tts` mit `audio.speech.create()` und `instructions`" } },
+        { "id": "t3", "text": { "en": "`gpt-realtime` through the Realtime API over WebRTC", "de": "`gpt-realtime` über die Realtime API per WebRTC" } },
+        { "id": "t4", "text": { "en": "`whisper` with `audio.translations.create()`", "de": "`whisper` mit `audio.translations.create()`" } }
+      ],
+      "explanation": {
+        "en": "Choose the audio model by the job: transcription models for audio to text in the same language, `gpt-4o-mini-tts` for text to speech with style instructions, realtime models for live two-way speech. Whisper translation always produces English text, so it doesn't fit a German transcript.",
+        "de": "Wähle das Audiomodell nach der Aufgabe: Transkriptionsmodelle für Audio zu Text in derselben Sprache, `gpt-4o-mini-tts` für Text zu Sprache mit Stilanweisungen, Realtime-Modelle für Live-Gespräche in beide Richtungen. Die Whisper-Übersetzung liefert immer englischen Text und passt daher nicht zu einem deutschen Transkript."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/transcribe-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/realtime-audio"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-genai-02",
+      "type": "code",
+      "domain": "D4",
+      "skill": "4.2.3",
+      "module": "speech-genai",
+      "difficulty": 2,
+      "stem": {
+        "en": "A voicemail triage app sends each recording to a `gpt-audio-mini` deployment and asks what the caller wants. The app needs a spoken reply plus its text for the ticket log. Complete the code.",
+        "de": "Eine App zur Voicemail-Triage schickt jede Aufnahme an ein `gpt-audio-mini`-Deployment und fragt, was der Anrufer möchte. Die App braucht eine gesprochene Antwort plus deren Text für das Ticket-Log. Vervollständige den Code."
+      },
+      "template": "with open(\"voicemail.wav\", \"rb\") as f:\n    audio_b64 = base64.b64encode(f.read()).decode(\"utf-8\")\n\ncompletion = client.chat.completions.create(\n    model=\"gpt-audio-mini\",\n    {{b1}}=[\"text\", \"audio\"],\n    audio={\"voice\": \"alloy\", \"format\": \"wav\"},\n    messages=[{\"role\": \"user\", \"content\": [\n        {\"type\": \"text\", \"text\": \"What does the caller want?\"},\n        {\"type\": \"input_audio\", \"input_audio\": {\"data\": {{b2}}, \"format\": \"wav\"}},\n    ]}],\n)\nlog_text = completion.choices[0].message.{{b3}}",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "modalities", "correct": true, "why": { "en": "Requests both text and audio output; the voice and audio format go into the `audio` parameter.", "de": "Fordert Text- und Audioausgabe an; Stimme und Audioformat gehören in den Parameter `audio`." } },
+            { "id": "b", "code": "response_format", "correct": false, "why": { "en": "Controls the text output format, such as JSON; it doesn't choose between text and audio output.", "de": "Steuert das Textausgabeformat, etwa JSON; zwischen Text- und Audioausgabe wählt es nicht." } },
+            { "id": "c", "code": "voice", "correct": false, "why": { "en": "Not a top-level Chat Completions parameter; the voice belongs inside the `audio` object.", "de": "Kein Parameter auf oberster Ebene von Chat Completions; die Stimme gehört in das Objekt `audio`." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "audio_b64", "correct": true, "why": { "en": "`input_audio.data` expects the base64-encoded audio as a string.", "de": "`input_audio.data` erwartet das Base64-kodierte Audio als String." } },
+            { "id": "b", "code": "f", "correct": false, "why": { "en": "A file object is what `audio.transcriptions.create(file=...)` uploads; a chat message carries base64 text.", "de": "Ein Dateiobjekt lädt `audio.transcriptions.create(file=...)` hoch; eine Chatnachricht transportiert Base64-Text." } },
+            { "id": "c", "code": "\"voicemail.wav\"", "correct": false, "why": { "en": "A file name is just a string — the service can't read your local file, so you must send the encoded bytes.", "de": "Ein Dateiname ist nur ein String – der Dienst kann deine lokale Datei nicht lesen, also musst du die kodierten Bytes senden." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "audio.transcript", "correct": true, "why": { "en": "With audio output, the text of the spoken answer is returned in `message.audio.transcript`.", "de": "Bei Audioausgabe steht der Text der gesprochenen Antwort in `message.audio.transcript`." } },
+            { "id": "b", "code": "audio.data", "correct": false, "why": { "en": "Holds the base64-encoded audio bytes for playback, not readable text for a log.", "de": "Enthält die Base64-kodierten Audiobytes zum Abspielen, keinen lesbaren Text für ein Log." } },
+            { "id": "c", "code": "output_text", "correct": false, "why": { "en": "`output_text` belongs to the Responses API; a Chat Completions message has no such property.", "de": "`output_text` gehört zur Responses API; eine Chat-Completions-Nachricht hat keine solche Eigenschaft." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Audio-capable chat models take audio as a base64 `input_audio` content part and return speech when you set `modalities` and `audio`; the spoken answer's text is in `message.audio.transcript`, the audio in `message.audio.data`.",
+        "de": "Audiofähige Chatmodelle nehmen Audio als Base64-Inhaltsteil `input_audio` an und liefern Sprache, wenn du `modalities` und `audio` setzt; der Text der gesprochenen Antwort steht in `message.audio.transcript`, das Audio in `message.audio.data`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/audio-completions-quickstart"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-genai-03",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.3",
+      "skills": ["4.2.1"],
+      "module": "speech-genai",
+      "difficulty": 3,
+      "stem": {
+        "en": "A contact center wants to answer free-form questions about recorded calls, such as \"Did the agent offer a refund, and who asked for it?\". Recordings are stereo WAV files of up to 3 hours (about 500 MB), and answers must show which speaker said what. Which approach meets all requirements?",
+        "de": "Ein Contact Center möchte frei formulierte Fragen zu aufgezeichneten Anrufen beantworten, etwa „Hat der Mitarbeiter eine Erstattung angeboten, und wer hat danach gefragt?“. Die Aufnahmen sind Stereo-WAV-Dateien von bis zu 3 Stunden (etwa 500 MB), und die Antworten müssen erkennen lassen, welcher Sprecher was gesagt hat. Welcher Ansatz erfüllt alle Anforderungen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Transcribe each call with Azure Speech batch transcription and diarization, then send the transcript and the question to a chat model deployment", "de": "Jeden Anruf mit der Batch-Transkription von Azure Speech samt Diarisierung transkribieren und dann Transkript und Frage an ein Chatmodell-Deployment schicken" },
+          "correct": true,
+          "why": { "en": "Batch transcription handles files larger than 25 MB (up to 1 GB) and labels speakers; a chat model can then reason over the speaker-tagged transcript.", "de": "Die Batch-Transkription verarbeitet Dateien über 25 MB (bis 1 GB) und kennzeichnet Sprecher; ein Chatmodell kann danach über das Transkript mit Sprecherzuordnung schlussfolgern." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Send each recording as an `input_audio` content part to a `gpt-audio` deployment and ask the question directly", "de": "Jede Aufnahme als `input_audio`-Inhaltsteil an ein `gpt-audio`-Deployment senden und die Frage direkt stellen" },
+          "correct": false,
+          "why": { "en": "Audio chat requests accept at most 20 MB of audio, far below these recordings.", "de": "Audio-Chat-Requests akzeptieren höchstens 20 MB Audio – weit weniger als diese Aufnahmen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Call `audio.transcriptions.create()` with `gpt-4o-transcribe` and put the question into the `prompt` parameter", "de": "`audio.transcriptions.create()` mit `gpt-4o-transcribe` aufrufen und die Frage in den Parameter `prompt` schreiben" },
+          "correct": false,
+          "why": { "en": "The transcription API accepts files up to 25 MB, and `prompt` only guides how the transcript is written — it doesn't answer questions.", "de": "Die Transkriptions-API akzeptiert Dateien bis 25 MB, und `prompt` steuert nur, wie das Transkript geschrieben wird – Fragen beantwortet es nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Stream each recording through a Voice Live session that uses `gpt-realtime`", "de": "Jede Aufnahme durch eine Voice-Live-Session mit `gpt-realtime` streamen" },
+          "correct": false,
+          "why": { "en": "Real-time speech services target live, low-latency conversations; prerecorded files in bulk belong in batch transcription.", "de": "Echtzeit-Sprachdienste zielen auf Live-Gespräche mit geringer Latenz; vorab aufgezeichnete Dateien in großer Menge gehören in die Batch-Transkription." }
+        }
+      ],
+      "explanation": {
+        "en": "When audio exceeds the limits of audio chat (20 MB) or the transcription API (25 MB), or you need speaker labels, transcribe with Azure Speech batch transcription first and let a language model reason over the diarized transcript.",
+        "de": "Wenn Audio die Limits von Audio-Chat (20 MB) oder der Transkriptions-API (25 MB) überschreitet oder du Sprecherzuordnungen brauchst, transkribierst du zuerst mit der Batch-Transkription von Azure Speech und lässt dann ein Sprachmodell über das diarisierte Transkript schlussfolgern."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/transcribe-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/audio-completions-quickstart"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

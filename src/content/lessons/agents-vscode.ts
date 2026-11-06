@@ -251,6 +251,7 @@ from azure.ai.projects.models import PromptAgentDefinition
 project = AIProjectClient(
     endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
     credential=DefaultAzureCredential(),
+    allow_preview=True,  # needed for get_openai_client(agent_name=...) (preview)
 )
 
 agent = project.agents.create_version(          # each call = new immutable version
@@ -289,6 +290,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 project = AIProjectClient(
     endpoint=os.environ["FOUNDRY_PROJECT_ENDPOINT"],
     credential=DefaultAzureCredential(),
+    allow_preview=True,  # needed for get_openai_client(agent_name=...) (preview)
 )
 configure_azure_monitor(
     connection_string=project.telemetry.get_application_insights_connection_string()

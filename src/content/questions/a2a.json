@@ -1,0 +1,206 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "a2a",
+  "questions": [
+    {
+      "id": "q-a2a-01",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "a2a",
+      "difficulty": 2,
+      "stem": {
+        "en": "You expose an agent as an A2A server in Python with the current A2A SDK (v1). Put the steps in order.",
+        "de": "Du stellst einen Agent mit dem aktuellen A2A SDK (v1) in Python als A2A-Server bereit. Bringe die Schritte in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Define the agent's skills with `AgentSkill`", "de": "Die Skills des Agents mit `AgentSkill` definieren" },
+          "why": { "en": "Skills are the building blocks that the agent card advertises.", "de": "Skills sind die Bausteine, die die Agent Card bewirbt." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Create the `AgentCard` with those skills and the endpoint in `supported_interfaces`", "de": "Die `AgentCard` mit diesen Skills und dem Endpoint in `supported_interfaces` erstellen" },
+          "why": { "en": "The card lists the skills, so they must exist first.", "de": "Die Card listet die Skills auf, also müssen sie zuerst existieren." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Create a `DefaultRequestHandler` with your agent executor, an `InMemoryTaskStore` and the agent card", "de": "Einen `DefaultRequestHandler` mit deinem Agent Executor, einem `InMemoryTaskStore` und der Agent Card erstellen" },
+          "why": { "en": "In SDK v1 the request handler requires the executor, a task store and the card.", "de": "Im SDK v1 braucht der Request Handler den Executor, einen Task Store und die Card." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Build a Starlette app from `create_agent_card_routes(card)` and `create_jsonrpc_routes(handler, \"/\")`", "de": "Eine Starlette-App aus `create_agent_card_routes(card)` und `create_jsonrpc_routes(handler, \"/\")` bauen" },
+          "why": { "en": "The routes serve the card and pass JSON-RPC requests to the handler, so the handler must exist.", "de": "Die Routen liefern die Card aus und reichen JSON-RPC-Anfragen an den Handler weiter – der Handler muss also existieren." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Start the app with Uvicorn so clients can fetch the card and send messages", "de": "Die App mit Uvicorn starten, damit Clients die Card abrufen und Nachrichten senden können" },
+          "why": { "en": "The ASGI server makes the finished app reachable on the network.", "de": "Der ASGI-Server macht die fertige App im Netzwerk erreichbar." }
+        }
+      ],
+      "explanation": {
+        "en": "Skills → card → request handler (executor + task store + card) → Starlette routes → Uvicorn. The `A2AStarletteApplication` class from older samples no longer exists in SDK v1.",
+        "de": "Skills → Card → Request Handler (Executor + Task Store + Card) → Starlette-Routen → Uvicorn. Die Klasse `A2AStarletteApplication` aus älteren Beispielen gibt es im SDK v1 nicht mehr."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/hosting/self-hosting/a2a/server?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/migration-guide/agent-to-agent-sdk-v1?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/training/modules/discover-agents-with-a2a/4-host-a2a-agent-server"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-a2a-02",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "a2a",
+      "difficulty": 1,
+      "stem": {
+        "en": "Match each responsibility in an A2A server to the building block that handles it.",
+        "de": "Ordne jede Aufgabe in einem A2A-Server dem Baustein zu, der sie übernimmt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Lets clients and routing agents discover the agent's name, endpoint, capabilities and skills", "de": "Lässt Clients und Routing-Agents Namen, Endpoint, Fähigkeiten und Skills des Agents entdecken" },
+          "answer": "t1",
+          "why": { "en": "The agent card is the agent's published profile for discovery.", "de": "Die Agent Card ist das veröffentlichte Profil des Agents für die Erkennung." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Runs the agent logic for a request and publishes messages, task updates or artifacts to an event queue", "de": "Führt die Agent-Logik für eine Anfrage aus und veröffentlicht Nachrichten, Task-Updates oder Artefakte in einer Event Queue" },
+          "answer": "t2",
+          "why": { "en": "The executor's `execute` method reads the `RequestContext` and writes results to the `EventQueue`.", "de": "Die `execute`-Methode des Executors liest den `RequestContext` und schreibt Ergebnisse in die `EventQueue`." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Routes incoming A2A requests to the executor and manages the task lifecycle", "de": "Leitet eingehende A2A-Anfragen an den Executor weiter und verwaltet den Task-Lebenszyklus" },
+          "answer": "t3",
+          "why": { "en": "`DefaultRequestHandler` connects the protocol endpoints with the executor and the task store.", "de": "`DefaultRequestHandler` verbindet die Protokoll-Endpoints mit Executor und Task Store." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Keeps the state of tasks so long-running and streamed work can be tracked across requests", "de": "Hält den Zustand von Tasks, damit lange und gestreamte Arbeit über Anfragen hinweg verfolgt werden kann" },
+          "answer": "t4",
+          "why": { "en": "The task store, for example `InMemoryTaskStore`, tracks tasks for the request handler.", "de": "Der Task Store, etwa `InMemoryTaskStore`, verfolgt Tasks für den Request Handler." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Agent card", "de": "Agent Card" } },
+        { "id": "t2", "text": { "en": "Agent executor", "de": "Agent Executor" } },
+        { "id": "t3", "text": { "en": "Request handler", "de": "Request Handler" } },
+        { "id": "t4", "text": { "en": "Task store", "de": "Task Store" } },
+        { "id": "t5", "text": { "en": "Agent skill", "de": "Agent Skill" } }
+      ],
+      "explanation": {
+        "en": "Card = discovery, executor = logic and events, request handler = routing and task lifecycle, task store = task state; skills are entries inside the card.",
+        "de": "Card = Erkennung, Executor = Logik und Events, Request Handler = Routing und Task-Lebenszyklus, Task Store = Task-Zustand; Skills sind Einträge in der Card."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/discover-agents-with-a2a/3-implement-agent-executor",
+        "https://learn.microsoft.com/en-us/training/modules/discover-agents-with-a2a/4-host-a2a-agent-server",
+        "https://learn.microsoft.com/en-us/agent-framework/hosting/self-hosting/a2a/?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-a2a-03",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "a2a",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so the app discovers a remote agent through its well-known agent card and sends it a request.",
+        "de": "Vervollständige den Code so, dass die App einen entfernten Agent über seine Agent Card am Well-known-Pfad findet und ihm eine Anfrage schickt."
+      },
+      "template": "import httpx\nfrom a2a.client import A2ACardResolver\nfrom agent_framework.a2a import A2AAgent\n\nasync with httpx.AsyncClient(timeout=60.0) as http_client:\n    resolver = A2ACardResolver(httpx_client=http_client, base_url=\"https://travel.contoso.com\")\n    card = await resolver.{{b1}}()\n\nasync with A2AAgent({{b2}}=card) as remote:\n    response = await remote.{{b3}}(\"Find a hotel in Oslo for May 3\")\n    print(response.messages[0].text)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "get_agent_card", "correct": true, "why": { "en": "Fetches the agent card from the standard well-known path under the base URL.", "de": "Ruft die Agent Card vom Standard-Well-known-Pfad unter der Basis-URL ab." } },
+            { "id": "b", "code": "get_card", "correct": false, "why": { "en": "`get_card` belongs to Agent Framework's hosting adapter, which generates a card on the server side; the resolver uses `get_agent_card`.", "de": "`get_card` gehört zum Hosting-Adapter von Agent Framework, der serverseitig eine Card erzeugt; der Resolver nutzt `get_agent_card`." } },
+            { "id": "c", "code": "create_agent_card_routes", "correct": false, "why": { "en": "A server-side helper that publishes a card in a Starlette app; it isn't a resolver method.", "de": "Ein serverseitiger Helfer, der eine Card in einer Starlette-App veröffentlicht; keine Methode des Resolvers." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "agent_card", "correct": true, "why": { "en": "`A2AAgent` accepts the resolved card and negotiates the transport from its `supported_interfaces`.", "de": "`A2AAgent` akzeptiert die aufgelöste Card und wählt den Transport anhand ihrer `supported_interfaces`." } },
+            { "id": "b", "code": "url", "correct": false, "why": { "en": "`url` expects the endpoint URL as a string, not an `AgentCard` object.", "de": "`url` erwartet die Endpoint-URL als String, kein `AgentCard`-Objekt." } },
+            { "id": "c", "code": "client", "correct": false, "why": { "en": "`client` takes an existing A2A client instance, not a card.", "de": "`client` nimmt eine bestehende A2A-Client-Instanz, keine Card." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "run", "correct": true, "why": { "en": "`A2AAgent` is a standard Agent Framework agent, so you call `run` (add `stream=True` to stream).", "de": "`A2AAgent` ist ein normaler Agent-Framework-Agent, also rufst du `run` auf (mit `stream=True` zum Streamen)." } },
+            { "id": "b", "code": "send_message", "correct": false, "why": { "en": "`send_message` is a method of the raw A2A SDK client, not of `A2AAgent`.", "de": "`send_message` ist eine Methode des reinen A2A-SDK-Clients, nicht von `A2AAgent`." } },
+            { "id": "c", "code": "invoke", "correct": false, "why": { "en": "Agent Framework agents don't have an `invoke` method; use `run`.", "de": "Agents in Agent Framework haben keine `invoke`-Methode; nutze `run`." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Client flow: resolve the card from the base URL with `A2ACardResolver.get_agent_card()`, wrap it in `A2AAgent(agent_card=...)`, then call `run`.",
+        "de": "Client-Ablauf: Card über die Basis-URL mit `A2ACardResolver.get_agent_card()` auflösen, in `A2AAgent(agent_card=...)` einpacken und dann `run` aufrufen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/agent-services/a2a?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/enable-agent-to-agent-endpoint"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-a2a-04",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.3",
+      "skills": ["2.2.4"],
+      "module": "a2a",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your Foundry prompt agent must delegate itinerary questions to a partner's A2A-compliant agent in production. Credentials for the partner endpoint must be stored centrally and reused across agent versions. What should you configure?",
+        "de": "Dein Foundry Prompt Agent soll Reiseplan-Fragen produktiv an den A2A-kompatiblen Agent eines Partners delegieren. Die Zugangsdaten für den Partner-Endpoint sollen zentral gespeichert und über Agent-Versionen hinweg wiederverwendet werden. Was konfigurierst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A project connection for the partner's A2A endpoint with its authentication, plus `A2ATool(a2a_version=A2AProtocolVersion.V1_0, project_connection_id=...)` in the agent definition", "de": "Eine Projektverbindung für den A2A-Endpoint des Partners samt Authentifizierung, plus `A2ATool(a2a_version=A2AProtocolVersion.V1_0, project_connection_id=...)` in der Agent-Definition" },
+          "correct": true,
+          "why": { "en": "The connection stores endpoint and credentials for reuse, and the generally available `a2a` tool (protocol 1.0) lets the agent call the remote agent.", "de": "Die Verbindung speichert Endpoint und Zugangsdaten zur Wiederverwendung, und das allgemein verfügbare `a2a`-Tool (Protokoll 1.0) lässt den Agent den entfernten Agent aufrufen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The `a2a_preview` tool that targets A2A protocol version 0.3", "de": "Das `a2a_preview`-Tool für A2A-Protokollversion 0.3" },
+          "correct": false,
+          "why": { "en": "The preview tool remains for existing integrations; new production integrations should use the generally available `a2a` tool.", "de": "Das Preview-Tool bleibt für bestehende Integrationen; neue produktive Integrationen nutzen das allgemein verfügbare `a2a`-Tool." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Enable incoming A2A on your prompt agent with `update_details(...)` and an agent card", "de": "Eingehendes A2A an deinem Prompt Agent mit `update_details(...)` und einer Agent Card aktivieren" },
+          "correct": false,
+          "why": { "en": "That exposes your agent so others can call it; it doesn't let your agent call the partner.", "de": "Damit stellst du deinen Agent bereit, damit andere ihn aufrufen; deinen Agent den Partner aufrufen lässt es nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The Connected Agents tool pointing to the partner agent", "de": "Das Connected-Agents-Tool, das auf den Partner-Agent zeigt" },
+          "correct": false,
+          "why": { "en": "Connected Agents came from the classic Agents API and isn't available in the new Foundry Agent Service; use the A2A tool instead.", "de": "Connected Agents stammt aus der klassischen Agents API und ist im neuen Foundry Agent Service nicht verfügbar; nutze stattdessen das A2A-Tool." }
+        }
+      ],
+      "explanation": {
+        "en": "To call out from Foundry: a project connection (created by a Foundry Project Manager) plus the GA `a2a` tool with protocol 1.0 on the agent (Foundry User). Incoming A2A is the opposite direction.",
+        "de": "Um aus Foundry heraus aufzurufen: eine Projektverbindung (angelegt von einem Foundry Project Manager) plus das GA-Tool `a2a` mit Protokoll 1.0 am Agent (Foundry User). Eingehendes A2A ist die Gegenrichtung."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/agent-to-agent",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/enable-agent-to-agent-endpoint"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

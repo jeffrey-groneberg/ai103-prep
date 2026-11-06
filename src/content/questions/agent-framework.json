@@ -1,0 +1,254 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "agent-framework",
+  "questions": [
+    {
+      "id": "q-agent-framework-01",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.5",
+      "module": "agent-framework",
+      "difficulty": 1,
+      "stem": {
+        "en": "Your Python app must use an existing prompt agent named `policy-agent`, version `3`. Its model, instructions and tools are managed in the Foundry portal and must not be redefined in code. Which Agent Framework construct should the app use?",
+        "de": "Deine Python-App soll einen bestehenden Prompt Agent namens `policy-agent` in Version `3` nutzen. Modell, Instructions und Tools werden im Foundry-Portal verwaltet und dürfen im Code nicht neu definiert werden. Welches Agent-Framework-Konstrukt nutzt die App?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`FoundryAgent(project_endpoint=..., agent_name=\"policy-agent\", agent_version=\"3\", credential=...)`", "de": "`FoundryAgent(project_endpoint=..., agent_name=\"policy-agent\", agent_version=\"3\", credential=...)`" },
+          "correct": true,
+          "why": { "en": "`FoundryAgent` connects to a prompt or hosted agent defined in Foundry; the stored model, instructions and hosted tools stay authoritative.", "de": "`FoundryAgent` verbindet sich mit einem in Foundry definierten Prompt- oder Hosted Agent; gespeichertes Modell, Instructions und gehostete Tools bleiben maßgeblich." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`Agent(client=FoundryChatClient(...), instructions=\"...\")`", "de": "`Agent(client=FoundryChatClient(...), instructions=\"...\")`" },
+          "correct": false,
+          "why": { "en": "This creates an app-owned agent with its own instructions on a model deployment; it doesn't use the portal-managed agent definition.", "de": "Das erzeugt einen app-eigenen Agent mit eigenen Instructions auf einem Modell-Deployment; die im Portal verwaltete Agent-Definition nutzt er nicht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`OpenAIChatCompletionClient(...).as_agent(...)`", "de": "`OpenAIChatCompletionClient(...).as_agent(...)`" },
+          "correct": false,
+          "why": { "en": "This targets the Chat Completions API of an Azure OpenAI or OpenAI endpoint and knows nothing about Foundry agent definitions.", "de": "Das zielt auf die Chat Completions API eines Azure-OpenAI- oder OpenAI-Endpoints und kennt keine Foundry-Agent-Definitionen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`AzureAIAgentClient(...)`", "de": "`AzureAIAgentClient(...)`" },
+          "correct": false,
+          "why": { "en": "This early preview class was removed from current Agent Framework; Foundry agents are reached with `FoundryAgent`.", "de": "Diese frühe Preview-Klasse wurde aus dem aktuellen Agent Framework entfernt; Foundry-Agents erreichst du mit `FoundryAgent`." }
+        }
+      ],
+      "explanation": {
+        "en": "Service-managed Foundry agents → `FoundryAgent` (agent name, plus the version for prompt agents); app-owned agents on a Foundry model → `Agent(client=FoundryChatClient(...))`.",
+        "de": "Dienstverwaltete Foundry-Agents → `FoundryAgent` (Agent-Name, bei Prompt Agents plus Version); app-eigene Agents auf einem Foundry-Modell → `Agent(client=FoundryChatClient(...))`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/agent-services/foundry?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/model-providers/microsoft-foundry?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-framework-02",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.2.1",
+      "module": "agent-framework",
+      "difficulty": 1,
+      "stem": {
+        "en": "Put the steps for building a multi-turn agent with Microsoft Agent Framework on a Foundry model deployment in order.",
+        "de": "Bringe die Schritte für einen Agent mit mehreren Gesprächsrunden mit Microsoft Agent Framework auf einem Foundry-Modell-Deployment in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Install `agent-framework-foundry` and sign in with `az login`", "de": "`agent-framework-foundry` installieren und mit `az login` anmelden" },
+          "why": { "en": "The package provides the Foundry client, and the credential needs a signed-in identity.", "de": "Das Paket liefert den Foundry-Client, und die Anmeldeinformation braucht eine angemeldete Identität." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Create `FoundryChatClient` with the project endpoint, the model deployment name and a credential", "de": "`FoundryChatClient` mit Project Endpoint, Name des Modell-Deployments und Anmeldeinformation erstellen" },
+          "why": { "en": "The agent needs a chat client before it can be created.", "de": "Der Agent braucht einen Chat-Client, bevor er erstellt werden kann." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Create an `Agent` with that client, `instructions` and `tools`", "de": "Einen `Agent` mit diesem Client, `instructions` und `tools` erstellen" },
+          "why": { "en": "Instructions define the role and goal; tools extend what the agent can do.", "de": "Instructions legen Rolle und Ziel fest; Tools erweitern, was der Agent tun kann." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Call `agent.create_session()`", "de": "`agent.create_session()` aufrufen" },
+          "why": { "en": "The session is created from the agent and holds the conversation state.", "de": "Die Session entsteht aus dem Agent und hält den Gesprächszustand." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Call `await agent.run(...)` with `session=session` for each user turn", "de": "Für jede Nutzerrunde `await agent.run(...)` mit `session=session` aufrufen" },
+          "why": { "en": "Passing the same session to every run keeps the multi-turn context.", "de": "Dieselbe Session in jedem Lauf hält den Kontext über mehrere Runden." }
+        }
+      ],
+      "explanation": {
+        "en": "Package and identity → client → agent (role, goal, tools) → session → runs that reuse the session.",
+        "de": "Paket und Identität → Client → Agent (Rolle, Ziel, Tools) → Session → Läufe, die die Session wiederverwenden."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/get-started/your-first-agent?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/session?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-framework-03",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.1",
+      "module": "agent-framework",
+      "difficulty": 2,
+      "stem": {
+        "en": "Your agent runs on several container instances behind a load balancer, and instances are replaced during deployments. It uses `OpenAIChatCompletionClient`, so each session keeps its chat history in memory. Follow-up questions must keep their context without you operating your own history database. What should you change?",
+        "de": "Dein Agent läuft auf mehreren Container-Instanzen hinter einem Load Balancer, und Instanzen werden bei Deployments ersetzt. Er nutzt `OpenAIChatCompletionClient`, daher hält jede Session ihren Chatverlauf im Speicher. Folgefragen sollen ihren Kontext behalten, ohne dass du eine eigene Verlaufsdatenbank betreibst. Was änderst du?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Switch to a provider with service-managed history, such as `FoundryChatClient`, store each user's `service_session_id` in your app, and reopen it with `agent.get_session(service_session_id=...)`", "de": "Zu einem Anbieter mit dienstverwaltetem Verlauf wechseln, etwa `FoundryChatClient`, die `service_session_id` jedes Nutzers in deiner App speichern und sie mit `agent.get_session(service_session_id=...)` wieder öffnen" },
+          "correct": true,
+          "why": { "en": "With service-managed storage the conversation lives in the service and the session only holds an ID, so any instance can continue it.", "de": "Bei dienstverwaltetem Speicher liegt das Gespräch im Dienst, und die Session hält nur eine ID – jede Instanz kann es fortsetzen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Add `InMemoryHistoryProvider` explicitly to `context_providers`", "de": "`InMemoryHistoryProvider` explizit in `context_providers` eintragen" },
+          "correct": false,
+          "why": { "en": "That is still local, in-process history; it disappears when an instance is replaced and isn't shared across instances.", "de": "Das ist weiterhin lokaler Verlauf im Prozess; er verschwindet, wenn eine Instanz ersetzt wird, und wird nicht zwischen Instanzen geteilt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Enable sticky sessions on the load balancer", "de": "Sticky Sessions am Load Balancer aktivieren" },
+          "correct": false,
+          "why": { "en": "Pinning users to an instance doesn't help when that instance is replaced during a deployment.", "de": "Nutzer an eine Instanz zu binden hilft nicht, wenn genau diese Instanz beim Deployment ersetzt wird." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Create a new session for every request and send only the latest message", "de": "Für jede Anfrage eine neue Session erstellen und nur die neueste Nachricht senden" },
+          "correct": false,
+          "why": { "en": "A new session has no earlier turns, so follow-up questions lose their context.", "de": "Eine neue Session kennt keine früheren Runden, Folgefragen verlieren also ihren Kontext." }
+        }
+      ],
+      "explanation": {
+        "en": "Chat Completions providers keep history locally; Responses-based providers such as Foundry can store it in the service, referenced by `service_session_id`. Keep that ID in trusted storage and check the user before resuming.",
+        "de": "Chat-Completions-Anbieter halten den Verlauf lokal; Responses-basierte Anbieter wie Foundry können ihn im Dienst speichern, referenziert über `service_session_id`. Bewahre diese ID vertrauenswürdig auf und prüfe den Nutzer, bevor du fortsetzt."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/storage?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/model-providers/?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/session?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-framework-04",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.2.2",
+      "skills": ["2.2.1", "2.2.5"],
+      "module": "agent-framework",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so the model gets a well-described refund function and a person must approve every refund before it runs.",
+        "de": "Vervollständige den Code so, dass das Modell eine gut beschriebene Erstattungsfunktion bekommt und eine Person jede Erstattung freigeben muss, bevor sie ausgeführt wird."
+      },
+      "template": "from typing import Annotated\nfrom pydantic import Field\nfrom agent_framework import Agent, {{b1}}\n\n@tool(approval_mode={{b2}})\ndef issue_refund(\n    order_id: Annotated[str, Field(description=\"Order to refund.\")],\n    amount: Annotated[float, Field(description=\"Amount in EUR.\")],\n) -> str:\n    \"\"\"Issue a refund for an order.\"\"\"\n    return f\"Refunded {amount} EUR for {order_id}.\"\n\nagent = Agent(client=client, instructions=\"Handle refunds.\", {{b3}}=[issue_refund])",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "tool", "correct": true, "why": { "en": "`@tool` turns the function into a function tool and accepts `approval_mode`.", "de": "`@tool` macht die Funktion zum Funktionstool und akzeptiert `approval_mode`." } },
+            { "id": "b", "code": "ai_function", "correct": false, "why": { "en": "Former decorator name from early previews; it was renamed to `@tool`.", "de": "Früherer Decorator-Name aus frühen Previews; er wurde in `@tool` umbenannt." } },
+            { "id": "c", "code": "kernel_function", "correct": false, "why": { "en": "That is the Semantic Kernel decorator, not part of Agent Framework.", "de": "Das ist der Decorator von Semantic Kernel, nicht Teil von Agent Framework." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "\"always_require\"", "correct": true, "why": { "en": "Every call pauses and returns an approval request before the function runs.", "de": "Jeder Aufruf pausiert und liefert eine Freigabeanfrage, bevor die Funktion läuft." } },
+            { "id": "b", "code": "\"never_require\"", "correct": false, "why": { "en": "The function would run without any human approval.", "de": "Die Funktion liefe ganz ohne menschliche Freigabe." } },
+            { "id": "c", "code": "\"on_request\"", "correct": false, "why": { "en": "Not a documented approval mode; use `always_require` or `never_require`.", "de": "Kein dokumentierter Freigabemodus; nutze `always_require` oder `never_require`." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "tools", "correct": true, "why": { "en": "Function tools are passed to the agent in the `tools` parameter.", "de": "Funktionstools übergibst du dem Agent im Parameter `tools`." } },
+            { "id": "b", "code": "functions", "correct": false, "why": { "en": "`Agent` has no `functions` parameter.", "de": "`Agent` hat keinen Parameter `functions`." } },
+            { "id": "c", "code": "plugins", "correct": false, "why": { "en": "Plugins are a Semantic Kernel concept; Agent Framework uses `tools`.", "de": "Plugins sind ein Semantic-Kernel-Konzept; Agent Framework nutzt `tools`." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Describe parameters with `Annotated` and `Field(description=...)`, mark sensitive actions with `@tool(approval_mode=\"always_require\")` and pass the function in `tools`.",
+        "de": "Beschreibe Parameter mit `Annotated` und `Field(description=...)`, markiere heikle Aktionen mit `@tool(approval_mode=\"always_require\")` und übergib die Funktion in `tools`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/function-tools?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/tool-approval?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-framework-05",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.2.2",
+      "skills": ["2.2.3"],
+      "module": "agent-framework",
+      "difficulty": 2,
+      "stem": {
+        "en": "You build an HR agent with `Agent(client=FoundryChatClient(...))`. It must answer questions from uploaded HR policy PDFs and look up an employee's remaining vacation days through an internal REST API. Which TWO tools should you add?",
+        "de": "Du baust einen HR-Agent mit `Agent(client=FoundryChatClient(...))`. Er soll Fragen anhand hochgeladener HR-Richtlinien-PDFs beantworten und die Resturlaubstage eines Mitarbeiters über eine interne REST-API abfragen. Welche ZWEI Tools fügst du hinzu?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`FoundryChatClient.get_file_search_tool(...)` over a vector store with the PDFs", "de": "`FoundryChatClient.get_file_search_tool(...)` über einen Vector Store mit den PDFs" },
+          "correct": true,
+          "why": { "en": "File search retrieves passages from uploaded documents in Foundry vector stores — grounding for the policy questions.", "de": "File Search holt Passagen aus hochgeladenen Dokumenten in Foundry-Vector-Stores – Grounding für die Richtlinienfragen." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A Python function `get_vacation_days(employee_id: Annotated[str, Field(description=...)])` that calls the internal API, passed in `tools`", "de": "Eine Python-Funktion `get_vacation_days(employee_id: Annotated[str, Field(description=...)])`, die die interne API aufruft, übergeben in `tools`" },
+          "correct": true,
+          "why": { "en": "A custom function tool runs in your process and can call internal APIs; the annotations tell the model how to call it.", "de": "Ein eigenes Funktionstool läuft in deinem Prozess und kann interne APIs aufrufen; die Annotationen sagen dem Modell, wie es aufzurufen ist." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`FoundryChatClient.get_web_search_tool()`", "de": "`FoundryChatClient.get_web_search_tool()`" },
+          "correct": false,
+          "why": { "en": "Web search grounds answers in public web results, not in your uploaded PDFs or internal API.", "de": "Web Search stützt Antworten auf öffentliche Webergebnisse, nicht auf deine PDFs oder die interne API." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`HostedFileSearchTool(...)`", "de": "`HostedFileSearchTool(...)`" },
+          "correct": false,
+          "why": { "en": "The `Hosted*Tool` classes were removed; hosted tools now come from client factories such as `get_file_search_tool()`.", "de": "Die `Hosted*Tool`-Klassen wurden entfernt; gehostete Tools kommen jetzt aus Client-Factories wie `get_file_search_tool()`." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "`FoundryChatClient.get_code_interpreter_tool()`", "de": "`FoundryChatClient.get_code_interpreter_tool()`" },
+          "correct": false,
+          "why": { "en": "Code interpreter runs Python in a sandbox for calculations; it neither searches your documents nor reaches the internal API.", "de": "Code Interpreter führt Python in einer Sandbox für Berechnungen aus; er durchsucht weder deine Dokumente noch erreicht er die interne API." }
+        }
+      ],
+      "explanation": {
+        "en": "Combine a hosted retrieval tool (file search over a vector store) with a custom function tool for live system data; hosted tools come from `client.get_*_tool()` factories.",
+        "de": "Kombiniere ein gehostetes Retrieval-Tool (File Search über einen Vector Store) mit einem eigenen Funktionstool für Live-Systemdaten; gehostete Tools kommen aus `client.get_*_tool()`-Factories."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/model-providers/microsoft-foundry?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/function-tools?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

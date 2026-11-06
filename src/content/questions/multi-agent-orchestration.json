@@ -1,0 +1,305 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "multi-agent-orchestration",
+  "questions": [
+    {
+      "id": "q-multi-agent-orchestration-01",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "multi-agent-orchestration",
+      "difficulty": 1,
+      "stem": {
+        "en": "Match each scenario to the Microsoft Agent Framework orchestration pattern that fits it best.",
+        "de": "Ordne jedes Szenario dem Orchestrierungsmuster in Microsoft Agent Framework zu, das am besten passt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "A research agent, a marketing agent and a legal agent each assess the same launch plan independently; you want all three opinions at once.", "de": "Ein Research-, ein Marketing- und ein Legal-Agent bewerten unabhängig voneinander denselben Launch-Plan; du willst alle drei Meinungen auf einmal." },
+          "answer": "t1",
+          "why": { "en": "Concurrent sends the same input to all agents in parallel and aggregates their independent results.", "de": "Concurrent schickt dieselbe Eingabe parallel an alle Agents und führt ihre unabhängigen Ergebnisse zusammen." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "A drafting agent writes, a translation agent translates the draft and a proofreading agent polishes it — always in that order.", "de": "Ein Entwurfs-Agent schreibt, ein Übersetzungs-Agent übersetzt den Entwurf und ein Korrektur-Agent poliert ihn – immer in dieser Reihenfolge." },
+          "answer": "t2",
+          "why": { "en": "Sequential runs the agents as a fixed pipeline in which each one builds on the previous output.", "de": "Sequential führt die Agents als feste Pipeline aus, in der jeder auf der vorherigen Ausgabe aufbaut." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "A triage agent passes the whole customer conversation to a refund or shipping specialist, who then owns it.", "de": "Ein Triage-Agent übergibt das ganze Kundengespräch an einen Erstattungs- oder Versandspezialisten, der es dann verantwortet." },
+          "answer": "t3",
+          "why": { "en": "Handoff transfers control and ownership of the conversation between agents based on context.", "de": "Handoff überträgt Kontrolle und Verantwortung für das Gespräch je nach Kontext zwischen Agents." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "An open-ended analysis: a manager agent plans, delegates to a researcher and a coder, tracks progress and re-plans when the team gets stuck.", "de": "Eine offene Analyse: Ein Manager-Agent plant, delegiert an Researcher und Coder, verfolgt den Fortschritt und plant neu, wenn das Team feststeckt." },
+          "answer": "t4",
+          "why": { "en": "Magentic uses a planning manager with progress tracking, stall detection and re-planning for open-ended tasks.", "de": "Magentic nutzt einen planenden Manager mit Fortschrittsverfolgung, Stall-Erkennung und Neuplanung für offene Aufgaben." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "Concurrent", "de": "Concurrent" } },
+        { "id": "t2", "text": { "en": "Sequential", "de": "Sequential" } },
+        { "id": "t3", "text": { "en": "Handoff", "de": "Handoff" } },
+        { "id": "t4", "text": { "en": "Magentic", "de": "Magentic" } },
+        { "id": "t5", "text": { "en": "Group chat", "de": "Group chat" } }
+      ],
+      "explanation": {
+        "en": "Ask who decides the next step: a fixed order (sequential), nobody because all run at once (concurrent), the current agent (handoff), an orchestrator (group chat) or a planning manager (Magentic).",
+        "de": "Frag, wer den nächsten Schritt entscheidet: eine feste Reihenfolge (Sequential), niemand, weil alle gleichzeitig laufen (Concurrent), der aktuelle Agent (Handoff), ein Orchestrator (Group chat) oder ein planender Manager (Magentic)."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/handoff?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/magentic?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-multi-agent-orchestration-02",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "multi-agent-orchestration",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so that the triage agent receives the first message and may hand off only to the refund and shipping agents.",
+        "de": "Vervollständige den Code so, dass der Triage-Agent die erste Nachricht erhält und nur an den Erstattungs- und den Versand-Agent übergeben darf."
+      },
+      "template": "from agent_framework.{{b1}} import HandoffBuilder\n\nworkflow = (\n    HandoffBuilder(\n        name=\"support\",\n        participants=[triage, refunds, shipping],\n    )\n    .{{b2}}(triage)\n    .{{b3}}(triage, [refunds, shipping])\n    .build()\n)\nevents = [e async for e in workflow.run(\"My parcel never arrived\", stream=True)]",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "orchestrations", "correct": true, "why": { "en": "The orchestration builders live in `agent_framework.orchestrations`.", "de": "Die Orchestrierungs-Builder liegen in `agent_framework.orchestrations`." } },
+            { "id": "b", "code": "workflows", "correct": false, "why": { "en": "Early previews imported builders from a workflows namespace; current Python uses `agent_framework.orchestrations`.", "de": "Frühe Previews importierten Builder aus einem Workflows-Namespace; aktuelles Python nutzt `agent_framework.orchestrations`." } },
+            { "id": "c", "code": "foundry", "correct": false, "why": { "en": "`agent_framework.foundry` contains Foundry clients such as `FoundryChatClient`, not orchestration builders.", "de": "`agent_framework.foundry` enthält Foundry-Clients wie `FoundryChatClient`, keine Orchestrierungs-Builder." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "with_start_agent", "correct": true, "why": { "en": "Sets the agent that receives the initial user input.", "de": "Legt den Agent fest, der die erste Nutzereingabe erhält." } },
+            { "id": "b", "code": "set_start_executor", "correct": false, "why": { "en": "A removed fluent method of `WorkflowBuilder`; it never configured handoff workflows.", "de": "Eine entfernte Fluent-Methode von `WorkflowBuilder`; Handoff-Workflows hat sie nie konfiguriert." } },
+            { "id": "c", "code": "with_manager", "correct": false, "why": { "en": "Managers belong to manager-led patterns such as Magentic; handoff has no central orchestrator.", "de": "Manager gehören zu manager-geführten Mustern wie Magentic; Handoff hat keinen zentralen Orchestrator." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "add_handoff", "correct": true, "why": { "en": "Restricts which agents a given agent may hand off to; without it, all agents can hand off to each other.", "de": "Beschränkt, an welche Agents ein bestimmter Agent übergeben darf; ohne diesen Aufruf dürfen alle an alle übergeben." } },
+            { "id": "b", "code": "add_edge", "correct": false, "why": { "en": "Edges connect executors in a custom `WorkflowBuilder` graph; handoff rules use `add_handoff`.", "de": "Edges verbinden Executors in einem eigenen `WorkflowBuilder`-Graphen; Handoff-Regeln setzt `add_handoff`." } },
+            { "id": "c", "code": "with_autonomous_mode", "correct": false, "why": { "en": "Autonomous mode lets agents continue without user input; it doesn't restrict handoff targets.", "de": "Der autonome Modus lässt Agents ohne Nutzereingabe weitermachen; Handoff-Ziele beschränkt er nicht." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Handoff workflows: `HandoffBuilder(participants=...)`, `.with_start_agent(...)` for the entry point, optional `.add_handoff(source, [targets])` rules, then `.build()` and `workflow.run(..., stream=True)`.",
+        "de": "Handoff-Workflows: `HandoffBuilder(participants=...)`, `.with_start_agent(...)` für den Einstieg, optionale Regeln mit `.add_handoff(quelle, [ziele])`, dann `.build()` und `workflow.run(..., stream=True)`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/handoff?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-multi-agent-orchestration-03",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.4",
+      "module": "multi-agent-orchestration",
+      "difficulty": 3,
+      "stem": {
+        "en": "A trip-planning agent must stay responsible for the whole conversation with the user. For one subtask it should ask a currency specialist agent for an exchange rate, get the answer back and continue planning. Which approach fits best?",
+        "de": "Ein Reiseplanungs-Agent soll für das gesamte Gespräch mit dem Nutzer verantwortlich bleiben. Für eine Teilaufgabe soll er einen Währungs-Agent nach einem Wechselkurs fragen, die Antwort zurückbekommen und weiterplanen. Welcher Ansatz passt am besten?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Wrap the specialist with `currency_agent.as_tool()` and pass it in the planner's `tools`", "de": "Den Spezialisten mit `currency_agent.as_tool()` kapseln und in den `tools` des Planers übergeben" },
+          "correct": true,
+          "why": { "en": "As a tool, the specialist handles the subtask and returns the result; the planner keeps ownership and context.", "de": "Als Tool erledigt der Spezialist die Teilaufgabe und liefert das Ergebnis zurück; der Planer behält Verantwortung und Kontext." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Build a `HandoffBuilder` workflow with the planner as start agent and a handoff to the currency agent", "de": "Einen `HandoffBuilder`-Workflow mit dem Planer als Start-Agent und einem Handoff an den Währungs-Agent bauen" },
+          "correct": false,
+          "why": { "en": "In a handoff the receiving agent takes full ownership of the conversation; control doesn't automatically return to the planner.", "de": "Beim Handoff übernimmt der empfangende Agent die volle Verantwortung für das Gespräch; die Kontrolle kehrt nicht automatisch zum Planer zurück." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Use `ConcurrentBuilder` to run both agents on every user message and aggregate the results", "de": "Mit `ConcurrentBuilder` beide Agents bei jeder Nutzernachricht laufen lassen und die Ergebnisse zusammenführen" },
+          "correct": false,
+          "why": { "en": "The currency agent would run on every message whether or not a rate is needed, and the planner couldn't use the rate in its own reasoning.", "de": "Der Währungs-Agent liefe bei jeder Nachricht, egal ob ein Kurs gebraucht wird, und der Planer könnte den Kurs nicht in sein eigenes Denken einbeziehen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Use `MagenticBuilder` with the planner as `manager_agent`", "de": "`MagenticBuilder` mit dem Planer als `manager_agent` nutzen" },
+          "correct": false,
+          "why": { "en": "Magentic adds a full planning loop with ledgers for open-ended problems — far more than a single delegated lookup needs.", "de": "Magentic ergänzt eine komplette Planungsschleife mit Ledgern für offene Probleme – weit mehr, als ein einzelnes delegiertes Nachschlagen braucht." }
+        }
+      ],
+      "explanation": {
+        "en": "Agent-as-tool: the primary agent delegates a subtask and keeps control and context. Handoff: the receiving agent takes over the task entirely.",
+        "de": "Agent-as-Tool: Der primäre Agent delegiert eine Teilaufgabe und behält Kontrolle und Kontext. Handoff: Der empfangende Agent übernimmt die Aufgabe vollständig."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/handoff?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/agents/tools/?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-multi-agent-orchestration-04",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.3.4",
+      "skills": ["2.2.4"],
+      "module": "multi-agent-orchestration",
+      "difficulty": 3,
+      "stem": {
+        "en": "In an Agent Framework workflow, an LLM agent classifies incoming emails as spam or not. Routing to a quarantine executor or to a reply-drafting agent must be decided by deterministic code, not by another model call. Which TWO elements should you use?",
+        "de": "In einem Agent-Framework-Workflow klassifiziert ein LLM-Agent eingehende E-Mails als Spam oder nicht. Ob eine Mail an einen Quarantäne-Executor oder an einen Agent für Antwortentwürfe geht, soll deterministischer Code entscheiden, nicht ein weiterer Modellaufruf. Welche ZWEI Elemente setzt du ein?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Give the classifier a Pydantic output model through `default_options={\"response_format\": ...}`", "de": "Dem Klassifizierer über `default_options={\"response_format\": ...}` ein Pydantic-Ausgabemodell geben" },
+          "correct": true,
+          "why": { "en": "Structured output makes the classification reliably parsable, so code can evaluate it.", "de": "Strukturierte Ausgabe macht die Klassifizierung zuverlässig auswertbar, sodass Code sie prüfen kann." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Connect the classifier to both targets with `WorkflowBuilder.add_edge(..., condition=...)`, where each condition parses the result and returns `True` or `False`", "de": "Den Klassifizierer mit `WorkflowBuilder.add_edge(..., condition=...)` an beide Ziele anbinden, wobei jede Bedingung das Ergebnis parst und `True` oder `False` liefert" },
+          "correct": true,
+          "why": { "en": "Conditional edges are Python predicates evaluated by the workflow runtime — deterministic routing without another LLM call.", "de": "Bedingte Edges sind Python-Prädikate, die die Workflow-Runtime auswertet – deterministisches Routing ohne weiteren LLM-Aufruf." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A `GroupChatBuilder` with an `orchestrator_agent` that decides which participant acts next", "de": "Ein `GroupChatBuilder` mit einem `orchestrator_agent`, der entscheidet, wer als Nächstes handelt" },
+          "correct": false,
+          "why": { "en": "An orchestrator agent is another LLM making the routing decision — exactly what the requirement excludes.", "de": "Ein Orchestrator-Agent ist ein weiteres LLM, das die Routing-Entscheidung trifft – genau das schließt die Anforderung aus." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A `ConcurrentBuilder` so that the quarantine executor and the reply agent both receive every email", "de": "Ein `ConcurrentBuilder`, damit Quarantäne-Executor und Antwort-Agent jede E-Mail erhalten" },
+          "correct": false,
+          "why": { "en": "Concurrent broadcasts the input to all participants; nothing is routed.", "de": "Concurrent verteilt die Eingabe an alle Teilnehmer; geroutet wird nichts." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "An instruction for the reply agent: \"Never draft replies to spam\"", "de": "Eine Anweisung an den Antwort-Agent: „Entwirf nie Antworten auf Spam“" },
+          "correct": false,
+          "why": { "en": "A prompt instruction is probabilistic and every email still reaches the reply agent; it isn't deterministic routing.", "de": "Eine Prompt-Anweisung ist probabilistisch, und jede Mail erreicht den Antwort-Agent trotzdem; das ist kein deterministisches Routing." }
+        }
+      ],
+      "explanation": {
+        "en": "Hybrid LLM plus rules: let the model produce structured output, then route with conditional (or switch-case) edges whose conditions are plain code.",
+        "de": "Hybrid aus LLM und Regeln: Lass das Modell strukturierte Ausgabe erzeugen und route dann mit bedingten (oder Switch-Case-)Edges, deren Bedingungen einfacher Code sind."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/edges?pivots=programming-language-python"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-multi-agent-orchestration-05",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.4",
+      "skills": ["2.2.4", "2.2.5"],
+      "module": "multi-agent-orchestration",
+      "difficulty": 2,
+      "stem": {
+        "en": "You use Magentic orchestration for an open-ended market analysis with a researcher and a coder agent. Requirements: a person approves the manager's plan before the agents start, the run is capped at 10 coordination rounds, and the manager re-plans automatically when progress stalls. Which configuration meets all requirements?",
+        "de": "Du nutzt Magentic-Orchestrierung für eine offene Marktanalyse mit einem Researcher- und einem Coder-Agent. Anforderungen: Eine Person gibt den Plan des Managers frei, bevor die Agents starten, der Lauf ist auf 10 Koordinationsrunden begrenzt, und der Manager plant automatisch neu, wenn es nicht vorangeht. Welche Konfiguration erfüllt alle Anforderungen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`MagenticBuilder(participants=[researcher, coder], manager_agent=manager, enable_plan_review=True, max_round_count=10, max_stall_count=3).build()`", "de": "`MagenticBuilder(participants=[researcher, coder], manager_agent=manager, enable_plan_review=True, max_round_count=10, max_stall_count=3).build()`" },
+          "correct": true,
+          "why": { "en": "Plan review adds the human sign-off, `max_round_count` caps the rounds, and stall detection with `max_stall_count` triggers re-planning.", "de": "Plan-Review ergänzt die menschliche Freigabe, `max_round_count` begrenzt die Runden, und die Stall-Erkennung mit `max_stall_count` löst Neuplanung aus." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`MagenticBuilder(participants=[researcher, coder], manager_agent=manager, max_round_count=10, max_stall_count=3).build()`", "de": "`MagenticBuilder(participants=[researcher, coder], manager_agent=manager, max_round_count=10, max_stall_count=3).build()`" },
+          "correct": false,
+          "why": { "en": "In Python, plan review is off by default, so nobody approves the plan before execution.", "de": "In Python ist Plan-Review standardmäßig aus, also gibt niemand den Plan vor der Ausführung frei." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`GroupChatBuilder(participants=[researcher, coder], orchestrator_agent=manager, max_rounds=10).build()`", "de": "`GroupChatBuilder(participants=[researcher, coder], orchestrator_agent=manager, max_rounds=10).build()`" },
+          "correct": false,
+          "why": { "en": "A group chat orchestrator only picks speakers; it doesn't build a plan, keep a ledger or re-plan on stalls.", "de": "Ein Group-chat-Orchestrator wählt nur Sprecher; er erstellt keinen Plan, führt kein Ledger und plant bei Stillstand nicht neu." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`SequentialBuilder(participants=[manager, researcher, coder]).with_request_info(agents=[\"manager\"]).build()`", "de": "`SequentialBuilder(participants=[manager, researcher, coder]).with_request_info(agents=[\"manager\"]).build()`" },
+          "correct": false,
+          "why": { "en": "A person can review the manager's response, but the order is fixed and nothing tracks progress or re-plans.", "de": "Eine Person kann die Antwort des Managers prüfen, aber die Reihenfolge ist fest, und nichts verfolgt den Fortschritt oder plant neu." }
+        }
+      ],
+      "explanation": {
+        "en": "Magentic = planning manager + ledgers + stall-triggered re-planning, bounded by `max_round_count`, `max_stall_count` and `max_reset_count`. Add `enable_plan_review=True` (off by default in Python) for human plan approval.",
+        "de": "Magentic = planender Manager + Ledger + Neuplanung bei Stillstand, begrenzt durch `max_round_count`, `max_stall_count` und `max_reset_count`. Ergänze `enable_plan_review=True` (in Python standardmäßig aus) für die menschliche Plan-Freigabe."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/magentic?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-multi-agent-orchestration-06",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.3.2",
+      "skills": ["2.2.4"],
+      "module": "multi-agent-orchestration",
+      "difficulty": 2,
+      "stem": {
+        "en": "A writer agent and a reviewer agent must iterate: the writer drafts, the reviewer critiques, the writer revises — until the reviewer approves or a round limit is reached. Which Agent Framework setup implements this self-critique loop?",
+        "de": "Ein Writer- und ein Reviewer-Agent sollen iterieren: Der Writer entwirft, der Reviewer kritisiert, der Writer überarbeitet – bis der Reviewer freigibt oder ein Rundenlimit erreicht ist. Welcher Aufbau in Agent Framework setzt diese Selbstkritik-Schleife um?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`GroupChatBuilder` with both agents, a `selection_func` that alternates between them, a `termination_condition` that detects the reviewer's approval, and `max_rounds`", "de": "`GroupChatBuilder` mit beiden Agents, einer `selection_func`, die zwischen ihnen wechselt, einer `termination_condition`, die die Freigabe des Reviewers erkennt, und `max_rounds`" },
+          "correct": true,
+          "why": { "en": "Group chat shares one conversation across rounds, so the writer sees each critique; the termination condition and the round limit end the loop.", "de": "Group chat teilt ein Gespräch über mehrere Runden, sodass der Writer jede Kritik sieht; Abbruchbedingung und Rundenlimit beenden die Schleife." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`SequentialBuilder(participants=[writer, reviewer])`", "de": "`SequentialBuilder(participants=[writer, reviewer])`" },
+          "correct": false,
+          "why": { "en": "One fixed pass: the reviewer critiques once, but the writer never gets to revise.", "de": "Ein fester Durchlauf: Der Reviewer kritisiert einmal, aber der Writer überarbeitet nie." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`ConcurrentBuilder(participants=[writer, reviewer])`", "de": "`ConcurrentBuilder(participants=[writer, reviewer])`" },
+          "correct": false,
+          "why": { "en": "Both agents receive the same input in parallel; the reviewer never sees the draft.", "de": "Beide Agents erhalten parallel dieselbe Eingabe; der Reviewer sieht den Entwurf nie." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`MagenticBuilder` with `enable_plan_review=True`", "de": "`MagenticBuilder` mit `enable_plan_review=True`" },
+          "correct": false,
+          "why": { "en": "Plan review lets a person approve the manager's plan; it isn't an agent critiquing another agent's output.", "de": "Plan-Review lässt eine Person den Plan des Managers freigeben; das ist keine Kritik eines Agents an der Ausgabe eines anderen." }
+        }
+      ],
+      "explanation": {
+        "en": "Reflection through a maker-checker loop: a group chat that alternates writer and reviewer and ends on the reviewer's approval or a round limit.",
+        "de": "Reflexion über eine Maker-Checker-Schleife: ein Group chat, der zwischen Writer und Reviewer wechselt und mit der Freigabe des Reviewers oder einem Rundenlimit endet."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/group-chat?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/training/modules/orchestrate-semantic-kernel-multi-agent-solution/6-use-group-chat-orchestration"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

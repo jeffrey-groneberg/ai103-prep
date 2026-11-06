@@ -1,0 +1,218 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "speech-service",
+  "questions": [
+    {
+      "id": "q-speech-service-01",
+      "type": "code",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "skills": ["1.3.4"],
+      "module": "speech-service",
+      "difficulty": 2,
+      "stem": {
+        "en": "A drive-through ordering agent must transcribe one spoken order from a WAV file by using the Speech SDK with keyless authentication. Complete the code.",
+        "de": "Ein Drive-through-Bestellagent soll mit dem Speech SDK und schlüsselloser Anmeldung eine gesprochene Bestellung aus einer WAV-Datei transkribieren. Vervollständige den Code."
+      },
+      "template": "import azure.cognitiveservices.speech as speechsdk\nfrom azure.identity import DefaultAzureCredential\n\nspeech_config = speechsdk.SpeechConfig(\n    token_credential=DefaultAzureCredential(),\n    endpoint=\"https://contoso-speech.cognitiveservices.azure.com/\",\n)\nspeech_config.speech_recognition_language = \"en-US\"\naudio_config = speechsdk.audio.{{b1}}(filename=\"order.wav\")\nrecognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)\n\nresult = recognizer.{{b2}}().get()\nif result.reason == speechsdk.ResultReason.{{b3}}:\n    print(result.text)",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "AudioConfig", "correct": true, "why": { "en": "Defines the audio input source — the default microphone or, as here, a file.", "de": "Legt die Audioquelle für die Eingabe fest – das Standardmikrofon oder, wie hier, eine Datei." } },
+            { "id": "b", "code": "AudioOutputConfig", "correct": false, "why": { "en": "Defines where synthesized speech goes (speaker or file); it belongs to `SpeechSynthesizer`, not to recognition.", "de": "Legt fest, wohin synthetisierte Sprache geht (Lautsprecher oder Datei); sie gehört zum `SpeechSynthesizer`, nicht zur Erkennung." } },
+            { "id": "c", "code": "AudioDataStream", "correct": false, "why": { "en": "Wraps synthesized audio from a result so you can save it; it isn't an input source.", "de": "Kapselt synthetisiertes Audio aus einem Ergebnis, damit du es speichern kannst; eine Eingabequelle ist es nicht." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "recognize_once_async", "correct": true, "why": { "en": "Recognizes a single utterance and returns a future; `.get()` waits for the result.", "de": "Erkennt eine einzelne Äußerung und liefert ein Future; `.get()` wartet auf das Ergebnis." } },
+            { "id": "b", "code": "start_continuous_recognition", "correct": false, "why": { "en": "Starts an event-driven session; results arrive through the `recognized` event, not as one return value.", "de": "Startet eine ereignisgesteuerte Session; Ergebnisse kommen über das Event `recognized`, nicht als ein Rückgabewert." } },
+            { "id": "c", "code": "speak_text_async", "correct": false, "why": { "en": "A `SpeechSynthesizer` method that turns text into speech.", "de": "Eine Methode des `SpeechSynthesizer`, die Text in Sprache umwandelt." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "RecognizedSpeech", "correct": true, "why": { "en": "Signals a successful recognition; `result.text` then contains the transcript.", "de": "Signalisiert eine erfolgreiche Erkennung; `result.text` enthält dann das Transkript." } },
+            { "id": "b", "code": "SynthesizingAudioCompleted", "correct": false, "why": { "en": "Signals finished speech synthesis, not recognition.", "de": "Signalisiert eine abgeschlossene Sprachsynthese, keine Erkennung." } },
+            { "id": "c", "code": "NoMatch", "correct": false, "why": { "en": "Means the audio was processed but no speech could be recognized.", "de": "Bedeutet, dass das Audio verarbeitet, aber keine Sprache erkannt wurde." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "Speech to text with the Speech SDK: `SpeechConfig` (endpoint plus key or Entra token credential) → `AudioConfig` (microphone or file) → `SpeechRecognizer` → `recognize_once_async().get()` → check `ResultReason.RecognizedSpeech` and read `text`.",
+        "de": "Speech to Text mit dem Speech SDK: `SpeechConfig` (Endpoint plus Key oder Entra-Token-Anmeldung) → `AudioConfig` (Mikrofon oder Datei) → `SpeechRecognizer` → `recognize_once_async().get()` → auf `ResultReason.RecognizedSpeech` prüfen und `text` lesen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-recognize-speech",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-configure-azure-ad-auth"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-service-02",
+      "type": "multi",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "module": "speech-service",
+      "difficulty": 2,
+      "stem": {
+        "en": "A pharmacy voice agent reads pickup confirmations with `en-US-JennyNeural`. It must greet customers in a cheerful style, pause for half a second before the pickup code, and read the code `RX7Q` character by character. Which THREE SSML elements should you use?",
+        "de": "Ein Apotheken-Sprachagent liest Abholbestätigungen mit `en-US-JennyNeural` vor. Er soll Kunden in fröhlichem Stil begrüßen, vor dem Abholcode eine halbe Sekunde pausieren und den Code `RX7Q` Zeichen für Zeichen vorlesen. Welche DREI SSML-Elemente solltest du verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`<mstts:express-as style=\"cheerful\">`", "de": "`<mstts:express-as style=\"cheerful\">`" },
+          "correct": true,
+          "why": { "en": "Applies a speaking style; `cheerful` is one of the styles that `en-US-JennyNeural` supports.", "de": "Setzt einen Sprechstil; `cheerful` gehört zu den Stilen, die `en-US-JennyNeural` unterstützt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`<break time=\"500ms\"/>`", "de": "`<break time=\"500ms\"/>`" },
+          "correct": true,
+          "why": { "en": "Inserts an explicit pause anywhere in the text; `time` accepts milliseconds.", "de": "Fügt an beliebiger Stelle im Text eine explizite Pause ein; `time` akzeptiert Millisekunden." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`<say-as interpret-as=\"characters\">`", "de": "`<say-as interpret-as=\"characters\">`" },
+          "correct": true,
+          "why": { "en": "Tells the engine to speak the enclosed text as individual letters and digits.", "de": "Sagt der Engine, den eingeschlossenen Text als einzelne Buchstaben und Ziffern zu sprechen." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`<prosody rate=\"slow\">`", "de": "`<prosody rate=\"slow\">`" },
+          "correct": false,
+          "why": { "en": "Slows the whole passage down; it neither spells the code nor adds a defined pause.", "de": "Verlangsamt die ganze Passage; den Code buchstabiert es nicht, und eine definierte Pause fügt es auch nicht ein." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "`<mstts:backgroundaudio src=\"…\"/>`", "de": "`<mstts:backgroundaudio src=\"…\"/>`" },
+          "correct": false,
+          "why": { "en": "Mixes a background audio file into the output; it doesn't change how the text is read.", "de": "Mischt eine Hintergrund-Audiodatei in die Ausgabe; wie der Text gelesen wird, ändert es nicht." }
+        },
+        {
+          "id": "f",
+          "text": { "en": "`<lang xml:lang=\"en-US\">`", "de": "`<lang xml:lang=\"en-US\">`" },
+          "correct": false,
+          "why": { "en": "Switches the speaking language of multilingual voices; it doesn't control style, pauses or spelling.", "de": "Wechselt die Sprechsprache mehrsprachiger Stimmen; Stil, Pausen oder Buchstabieren steuert es nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Map each requirement to its SSML element: speaking style → `mstts:express-as` (only for voices that support the style), pause → `break`, reading rules such as characters, dates or numbers → `say-as`. `prosody` changes rate, pitch and volume.",
+        "de": "Ordne jede Anforderung ihrem SSML-Element zu: Sprechstil → `mstts:express-as` (nur bei Stimmen, die den Stil unterstützen), Pause → `break`, Leseregeln wie Zeichen, Datum oder Zahlen → `say-as`. `prosody` ändert Tempo, Tonhöhe und Lautstärke."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-synthesis-markup-voice",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-synthesis-markup-structure",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-synthesis-markup-pronunciation"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-service-03",
+      "type": "order",
+      "domain": "D4",
+      "skill": "4.2.2",
+      "module": "speech-service",
+      "difficulty": 1,
+      "stem": {
+        "en": "A clinic's real-time dictation agent misrecognizes drug names. Put the steps to fix this with custom speech in order.",
+        "de": "Der Echtzeit-Diktieragent einer Klinik erkennt Medikamentennamen falsch. Bringe die Schritte zur Behebung mit Custom Speech in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Start a custom speech fine-tuning project for the `en-US` locale", "de": "Ein Custom-Speech-Fine-Tuning-Projekt für das Gebietsschema `en-US` anlegen" },
+          "why": { "en": "Custom speech work is organized per locale; datasets, models and endpoints belong to the project.", "de": "Custom Speech wird pro Gebietsschema organisiert; Datasets, Modelle und Endpoints gehören zum Projekt." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Upload training data (drug names as plain text) and test data (audio with human-labeled transcripts)", "de": "Trainingsdaten (Medikamentennamen als Klartext) und Testdaten (Audio mit menschlich erstellten Transkripten) hochladen" },
+          "why": { "en": "You can only train and measure once the datasets exist.", "de": "Trainieren und messen kannst du erst, wenn die Datasets vorhanden sind." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Train a custom model from a base model", "de": "Ein Custom-Modell auf Basis eines Basismodells trainieren" },
+          "why": { "en": "Training combines the base model with your data.", "de": "Das Training kombiniert das Basismodell mit deinen Daten." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Compare the word error rate (WER) of the custom and base models on the test data", "de": "Die Wortfehlerrate (WER) von Custom- und Basismodell auf den Testdaten vergleichen" },
+          "why": { "en": "Quantitative testing shows whether the custom model really improves accuracy before you pay for hosting.", "de": "Quantitative Tests zeigen, ob das Custom-Modell die Genauigkeit wirklich verbessert, bevor du für das Hosting zahlst." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Deploy the model to a custom endpoint", "de": "Das Modell auf einem Custom-Endpoint bereitstellen" },
+          "why": { "en": "Real-time recognition with a custom model requires a deployed endpoint.", "de": "Echtzeiterkennung mit einem Custom-Modell erfordert einen bereitgestellten Endpoint." }
+        },
+        {
+          "id": "s6",
+          "text": { "en": "Set `speech_config.endpoint_id` in the agent's Speech SDK code", "de": "`speech_config.endpoint_id` im Speech-SDK-Code des Agents setzen" },
+          "why": { "en": "The SDK routes recognition to your custom model through its endpoint ID.", "de": "Über die Endpoint-ID leitet das SDK die Erkennung an dein Custom-Modell weiter." }
+        }
+      ],
+      "explanation": {
+        "en": "Custom speech lifecycle: project (per locale) → data → train → test (WER) → deploy an endpoint → reference it with `endpoint_id`. Only batch transcription can use a custom model without a deployed endpoint.",
+        "de": "Lebenszyklus von Custom Speech: Projekt (pro Gebietsschema) → Daten → Training → Test (WER) → Endpoint bereitstellen → mit `endpoint_id` referenzieren. Nur die Batch-Transkription kann ein Custom-Modell ohne bereitgestellten Endpoint nutzen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/custom-speech-overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-custom-speech-test-and-train",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-recognize-speech"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-service-04",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.2",
+      "skills": ["1.3.1"],
+      "module": "speech-service",
+      "difficulty": 3,
+      "stem": {
+        "en": "An insurer transcribes call recordings every night with Azure Speech batch transcription. Product names such as \"FlexiCover Plus\" are often misrecognized. The team wants better recognition while keeping training time and ongoing hosting costs as low as possible. What should you do?",
+        "de": "Ein Versicherer transkribiert jede Nacht Anrufaufzeichnungen mit der Batch-Transkription von Azure Speech. Produktnamen wie „FlexiCover Plus“ werden oft falsch erkannt. Das Team möchte eine bessere Erkennung bei möglichst kurzer Trainingszeit und möglichst niedrigen laufenden Hosting-Kosten. Was solltest du tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Train a custom speech model with plain-text data that contains the product names, and reference the model in the batch transcription request without deploying an endpoint", "de": "Ein Custom-Speech-Modell mit Klartextdaten trainieren, die die Produktnamen enthalten, und das Modell im Batch-Transkriptions-Request referenzieren, ohne einen Endpoint bereitzustellen" },
+          "correct": true,
+          "why": { "en": "Text data improves the recognition of special terms and trains in minutes, and batch transcription can use a custom model without a hosted endpoint — so there is no hosting cost.", "de": "Textdaten verbessern die Erkennung von Fachbegriffen und trainieren in Minuten, und die Batch-Transkription kann ein Custom-Modell ohne gehosteten Endpoint nutzen – es fallen also keine Hosting-Kosten an." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Train a custom speech model with hundreds of hours of call audio and human-labeled transcripts, then deploy it to a custom endpoint", "de": "Ein Custom-Speech-Modell mit Hunderten Stunden Anrufaudio und menschlich erstellten Transkripten trainieren und dann auf einem Custom-Endpoint bereitstellen" },
+          "correct": false,
+          "why": { "en": "Audio training can take days and mainly helps with accents and noise, and the endpoint adds a hosting cost that batch transcription doesn't need.", "de": "Training mit Audio kann Tage dauern und hilft vor allem bei Akzenten und Störgeräuschen, und der Endpoint verursacht Hosting-Kosten, die die Batch-Transkription nicht braucht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Deploy the custom model to an endpoint and set `endpoint_id` on a `SpeechConfig` that the nightly batch job uses", "de": "Das Custom-Modell auf einem Endpoint bereitstellen und `endpoint_id` in einer `SpeechConfig` setzen, die der nächtliche Batch-Job nutzt" },
+          "correct": false,
+          "why": { "en": "`endpoint_id` targets Speech SDK recognition; a batch job references the model in its request, and a hosted endpoint only adds cost.", "de": "`endpoint_id` zielt auf die Erkennung mit dem Speech SDK; ein Batch-Job referenziert das Modell im Request, und ein gehosteter Endpoint verursacht nur Kosten." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Create a professional custom voice that pronounces the product names correctly", "de": "Eine professionelle Custom Voice erstellen, die die Produktnamen korrekt ausspricht" },
+          "correct": false,
+          "why": { "en": "Custom voice changes text-to-speech output; it doesn't improve speech recognition.", "de": "Custom Voice verändert die Text-to-Speech-Ausgabe; die Spracherkennung verbessert sie nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Fix vocabulary problems with plain-text or structured-text custom speech data, which trains much faster than audio. A deployed endpoint is required for real-time recognition, but batch transcription can use a custom model directly — no hosting needed.",
+        "de": "Vokabularprobleme löst du mit Klartext- oder strukturierten Textdaten für Custom Speech, die viel schneller trainieren als Audio. Für die Echtzeiterkennung ist ein bereitgestellter Endpoint nötig, die Batch-Transkription kann ein Custom-Modell aber direkt nutzen – ganz ohne Hosting."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/custom-speech-overview",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-custom-speech-test-and-train",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/batch-transcription-create"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

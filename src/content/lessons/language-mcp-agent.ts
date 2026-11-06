@@ -243,6 +243,7 @@ from azure.ai.projects.models import MCPTool, PromptAgentDefinition
 project = AIProjectClient(
     endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
     credential=DefaultAzureCredential(),
+    allow_preview=True,  # needed for get_openai_client(agent_name=...) (preview)
 )
 
 language_tool = MCPTool(

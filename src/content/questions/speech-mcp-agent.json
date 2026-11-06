@@ -1,0 +1,159 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "speech-mcp-agent",
+  "questions": [
+    {
+      "id": "q-speech-mcp-agent-01",
+      "type": "multi",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "skills": ["2.2.3"],
+      "module": "speech-mcp-agent",
+      "difficulty": 1,
+      "stem": {
+        "en": "You add the **Azure Speech MCP Server** from the tool catalog to a Foundry agent. Which THREE values do you provide when you set up the connection?",
+        "de": "Du fügst einem Foundry-Agent den **Azure Speech MCP Server** aus dem Tool-Katalog hinzu. Welche DREI Werte gibst du bei der Einrichtung der Verbindung an?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The name of the Foundry resource (`foundry-resource-name`)", "de": "Den Namen der Foundry-Ressource (`foundry-resource-name`)" },
+          "correct": true,
+          "why": { "en": "It identifies the Foundry resource whose speech capabilities the server uses.", "de": "Er bestimmt die Foundry-Ressource, deren Sprachfunktionen der Server nutzt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A key of the Foundry resource as the `Bearer` value", "de": "Einen Key der Foundry-Ressource als `Bearer`-Wert" },
+          "correct": true,
+          "why": { "en": "The Speech MCP connection uses key-based authentication with KEY1 or KEY2 of the resource.", "de": "Die Speech-MCP-Verbindung nutzt Key-basierte Authentifizierung mit KEY1 oder KEY2 der Ressource." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A Blob container SAS URL with read and write permissions as `X-Blob-Container-Url`", "de": "Eine SAS-URL für einen Blob-Container mit Lese- und Schreibrechten als `X-Blob-Container-Url`" },
+          "correct": true,
+          "why": { "en": "The service stores the audio files it generates in this container.", "de": "In diesem Container speichert der Dienst die Audiodateien, die er erzeugt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The endpoint URL of the Foundry project", "de": "Die Endpoint-URL des Foundry-Projekts" },
+          "correct": false,
+          "why": { "en": "The agent already runs in the project; the Speech tool needs the resource name, not the project endpoint.", "de": "Der Agent läuft bereits im Projekt; das Speech-Tool braucht den Ressourcennamen, nicht den Project Endpoint." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "The access key of the storage account", "de": "Den Zugriffsschlüssel des Storage-Kontos" },
+          "correct": false,
+          "why": { "en": "The tool receives a container-scoped SAS URL instead; an account key would grant far more access than needed.", "de": "Das Tool bekommt stattdessen eine auf den Container beschränkte SAS-URL; ein Kontoschlüssel würde weit mehr Zugriff gewähren als nötig." }
+        },
+        {
+          "id": "f",
+          "text": { "en": "A default neural voice such as `en-US-JennyNeural`", "de": "Eine Standardstimme wie `en-US-JennyNeural`" },
+          "correct": false,
+          "why": { "en": "The voice isn't part of the connection; users can request a voice in the prompt for each synthesis.", "de": "Die Stimme gehört nicht zur Verbindung; Nutzer können sie im Prompt für jede Synthese anfordern." }
+        }
+      ],
+      "explanation": {
+        "en": "Speech MCP connection = Foundry resource name + resource key (`Bearer`) + container SAS URL with read and write permissions (`X-Blob-Container-Url`). Treat the key and the SAS URL as secrets.",
+        "de": "Speech-MCP-Verbindung = Name der Foundry-Ressource + Ressourcen-Key (`Bearer`) + Container-SAS-URL mit Lese- und Schreibrechten (`X-Blob-Container-Url`). Behandle Key und SAS-URL als Geheimnisse."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/azure-ai-speech"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-mcp-agent-02",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "module": "speech-mcp-agent",
+      "difficulty": 2,
+      "stem": {
+        "en": "An agent uses the Azure Speech MCP Server. A user asks it to transcribe a recording stored in a private Blob container and then to read a short summary aloud. Which statement describes how the audio is handled?",
+        "de": "Ein Agent nutzt den Azure Speech MCP Server. Ein Nutzer bittet ihn, eine Aufnahme aus einem privaten Blob-Container zu transkribieren und danach eine kurze Zusammenfassung vorzulesen. Welche Aussage beschreibt, wie die Audiodaten behandelt werden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The prompt must include a SAS URL with read permission for the recording; the spoken summary is saved as a WAV file in the connected container, and the agent replies with a link", "de": "Der Prompt muss eine SAS-URL mit Leserecht für die Aufnahme enthalten; die gesprochene Zusammenfassung wird als WAV-Datei im verbundenen Container gespeichert, und der Agent antwortet mit einem Link" },
+          "correct": true,
+          "why": { "en": "Speech to text reads audio from a SAS or public URL; text to speech writes its output to the container from `X-Blob-Container-Url`.", "de": "Speech to Text liest Audio von einer SAS- oder öffentlichen URL; Text to Speech schreibt seine Ausgabe in den Container aus `X-Blob-Container-Url`." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The user attaches the WAV file to the chat, and the agent returns the spoken summary as base64 audio in `output_text`", "de": "Der Nutzer hängt die WAV-Datei an den Chat an, und der Agent liefert die gesprochene Zusammenfassung als Base64-Audio in `output_text`" },
+          "correct": false,
+          "why": { "en": "The tool reads audio from URLs, and `output_text` carries text — synthesized speech comes back as a link to a file.", "de": "Das Tool liest Audio von URLs, und `output_text` transportiert Text – synthetisierte Sprache kommt als Link auf eine Datei zurück." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "The prompt can point to a local path such as `./meeting.wav`, and the summary is played on the server's default speaker", "de": "Der Prompt kann auf einen lokalen Pfad wie `./meeting.wav` zeigen, und die Zusammenfassung wird auf dem Standardlautsprecher des Servers abgespielt" },
+          "correct": false,
+          "why": { "en": "The remote MCP server can't reach files on your machine and doesn't play audio; it writes files to Blob Storage.", "de": "Der Remote-MCP-Server erreicht keine Dateien auf deinem Rechner und spielt kein Audio ab; er schreibt Dateien in den Blob Storage." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Both directions stream audio over a WebSocket session that the client opens to the MCP server", "de": "Beide Richtungen streamen Audio über eine WebSocket-Session, die der Client zum MCP-Server öffnet" },
+          "correct": false,
+          "why": { "en": "Streaming audio over a WebSocket describes Voice Live, not the file-based Speech MCP tool.", "de": "Audiostreaming über einen WebSocket beschreibt Voice Live, nicht das dateibasierte Speech-MCP-Tool." }
+        }
+      ],
+      "explanation": {
+        "en": "The Speech MCP tool is file-based: audio comes in through a SAS or public URL, and speech goes out as a WAV file in your Blob container plus a link in the agent's reply.",
+        "de": "Das Speech-MCP-Tool arbeitet dateibasiert: Audio kommt über eine SAS- oder öffentliche URL herein, und Sprache geht als WAV-Datei in deinen Blob-Container plus Link in der Antwort des Agents hinaus."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/azure-ai-speech"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-speech-mcp-agent-03",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.2",
+      "skills": ["2.2.3"],
+      "module": "speech-mcp-agent",
+      "difficulty": 3,
+      "stem": {
+        "en": "You connect the Azure Speech MCP Server to an agent, and the tool shows a connected status. When you ask \"What can you do?\", the agent never mentions speech capabilities, and it doesn't call the tool for transcription requests. The container SAS URL is valid. What is the most likely cause?",
+        "de": "Du verbindest den Azure Speech MCP Server mit einem Agent, und das Tool zeigt den Status „verbunden“. Auf die Frage „Was kannst du?“ nennt der Agent nie Sprachfunktionen, und bei Transkriptionsanfragen ruft er das Tool nicht auf. Die SAS-URL des Containers ist gültig. Was ist die wahrscheinlichste Ursache?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "The agent's model doesn't support tool calling", "de": "Das Modell des Agents unterstützt kein Tool Calling" },
+          "correct": true,
+          "why": { "en": "Models without tool calling can't invoke the Speech MCP server; select a tool-capable model such as `gpt-4o` or later.", "de": "Modelle ohne Tool Calling können den Speech-MCP-Server nicht aufrufen; wähle ein Tool-fähiges Modell wie `gpt-4o` oder neuer." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "The Foundry resource doesn't support MCP tools", "de": "Die Foundry-Ressource unterstützt keine MCP-Tools" },
+          "correct": false,
+          "why": { "en": "Then the connection itself would fail with `Invalid tool value(s): mcp`, but the tool connected successfully.", "de": "Dann würde schon die Verbindung mit `Invalid tool value(s): mcp` scheitern, doch das Tool wurde erfolgreich verbunden." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Your account lacks the Storage Blob Data Contributor role on the storage account", "de": "Deinem Konto fehlt die Rolle Storage Blob Data Contributor auf dem Storage-Konto" },
+          "correct": false,
+          "why": { "en": "That role matters for uploading audio and generating SAS URLs; it doesn't affect whether the model uses the tools.", "de": "Diese Rolle ist für das Hochladen von Audio und das Erzeugen von SAS-URLs wichtig; ob das Modell die Tools nutzt, beeinflusst sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The resource key in the `Bearer` field has expired", "de": "Der Ressourcen-Key im Feld `Bearer` ist abgelaufen" },
+          "correct": false,
+          "why": { "en": "An incorrect or expired key makes the connection fail with authorization errors — the tool wouldn't show as connected.", "de": "Ein falscher oder abgelaufener Key lässt die Verbindung mit Autorisierungsfehlern scheitern – das Tool würde nicht als verbunden angezeigt." }
+        }
+      ],
+      "explanation": {
+        "en": "Troubleshoot by symptom: connection errors point to the resource tier or the key, broken audio links point to the SAS URL, and an agent that ignores a connected tool points to a model without tool calling.",
+        "de": "Fehlersuche nach Symptom: Verbindungsfehler deuten auf den Tarif der Ressource oder den Key, kaputte Audio-Links auf die SAS-URL, und ein Agent, der ein verbundenes Tool ignoriert, auf ein Modell ohne Tool Calling."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/azure-ai-speech",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "voice-live",
+  "questions": [
+    {
+      "id": "q-voice-live-01",
+      "type": "match",
+      "domain": "D4",
+      "skill": "4.2.2",
+      "skills": ["4.2.1"],
+      "module": "voice-live",
+      "difficulty": 2,
+      "stem": {
+        "en": "You configure a Voice Live session for a voice agent at a noisy hardware-store counter. Match each requirement to the session setting that addresses it.",
+        "de": "Du konfigurierst eine Voice-Live-Session für einen Sprachagenten an der lauten Theke eines Baumarkts. Ordne jede Anforderung der Session-Einstellung zu, die sie erfüllt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Filter drills and other background noise out of the microphone audio", "de": "Bohrmaschinen und andere Hintergrundgeräusche aus dem Mikrofonaudio herausfiltern" },
+          "answer": "t1",
+          "why": { "en": "Noise suppression removes environmental noise from the input audio before turn detection and recognition.", "de": "Die Rauschunterdrückung entfernt Umgebungsgeräusche aus dem Eingabeaudio, bevor Turn-Erkennung und Spracherkennung greifen." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Keep the agent from hearing its own replies that play through the kiosk speaker", "de": "Verhindern, dass der Agent seine eigenen Antworten aus dem Kiosk-Lautsprecher hört" },
+          "answer": "t2",
+          "why": { "en": "Server echo cancellation removes the model's own voice that the microphone picks up, so the client needs no echo cancellation of its own.", "de": "Die serverseitige Echounterdrückung entfernt die eigene Stimme des Modells, die das Mikrofon aufnimmt – der Client braucht keine eigene Echounterdrückung." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Decide from what customers say whether they have finished, and don't treat an \"umm\" as an interruption", "de": "Anhand des Gesagten entscheiden, ob Kunden fertig sind, und ein „ähm“ nicht als Unterbrechung werten" },
+          "answer": "t3",
+          "why": { "en": "Azure semantic VAD detects the end of speech from meaning, works with all models and can remove filler words to reduce false barge-ins.", "de": "Azure Semantic VAD erkennt das Sprechende anhand der Bedeutung, funktioniert mit allen Modellen und kann Füllwörter entfernen, um falsche Barge-ins zu reduzieren." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Use the store's custom speech model to recognize German product names", "de": "Das Custom-Speech-Modell des Markts nutzen, um deutsche Produktnamen zu erkennen" },
+          "answer": "t4",
+          "why": { "en": "Custom speech models are referenced in `input_audio_transcription` with the `azure-speech` model and a `custom_speech` map from locale to model ID.", "de": "Custom-Speech-Modelle werden in `input_audio_transcription` mit dem Modell `azure-speech` und einer `custom_speech`-Zuordnung von Gebietsschema zu Modell-ID referenziert." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`input_audio_noise_reduction` with `azure_deep_noise_suppression`", "de": "`input_audio_noise_reduction` mit `azure_deep_noise_suppression`" } },
+        { "id": "t2", "text": { "en": "`input_audio_echo_cancellation` with `server_echo_cancellation`", "de": "`input_audio_echo_cancellation` mit `server_echo_cancellation`" } },
+        { "id": "t3", "text": { "en": "`turn_detection` with `azure_semantic_vad` and `remove_filler_words`", "de": "`turn_detection` mit `azure_semantic_vad` und `remove_filler_words`" } },
+        { "id": "t4", "text": { "en": "`input_audio_transcription` with `azure-speech` and `custom_speech`", "de": "`input_audio_transcription` mit `azure-speech` und `custom_speech`" } },
+        { "id": "t5", "text": { "en": "`voice` of type `azure-custom` with an `endpoint_id`", "de": "`voice` vom Typ `azure-custom` mit einer `endpoint_id`" } }
+      ],
+      "explanation": {
+        "en": "Voice Live adds Azure audio processing to the real-time session: noise suppression and server echo cancellation clean the input, Azure semantic VAD decides when a turn ends, and `azure-speech` transcription carries phrase lists and custom speech. A custom *voice* (`azure-custom`) only changes the output.",
+        "de": "Voice Live ergänzt die Echtzeit-Session um Azure-Audioverarbeitung: Rauschunterdrückung und serverseitige Echounterdrückung säubern die Eingabe, Azure Semantic VAD entscheidet über das Turn-Ende, und die Transkription `azure-speech` trägt Phrasenlisten und Custom Speech. Eine Custom *Voice* (`azure-custom`) ändert nur die Ausgabe."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to-customize"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-voice-live-02",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.2",
+      "skills": ["1.3.4"],
+      "module": "voice-live",
+      "difficulty": 3,
+      "stem": {
+        "en": "Your company has a Foundry prompt agent with instructions and tools for order tracking. You must add a voice channel by using Voice Live. Security policy forbids API keys in clients, the agent's instructions must stay centrally managed in Foundry, and voice settings such as the voice and turn detection should be managed together with the agent. What should you do?",
+        "de": "Dein Unternehmen hat einen Foundry-Prompt-Agent mit Anweisungen und Tools für die Sendungsverfolgung. Du sollst mit Voice Live einen Sprachkanal ergänzen. Die Sicherheitsrichtlinie verbietet API-Keys in Clients, die Anweisungen des Agents sollen zentral in Foundry verwaltet bleiben, und Spracheinstellungen wie Stimme und Turn-Erkennung sollen zusammen mit dem Agent verwaltet werden. Was solltest du tun?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Store the Voice Live settings in the agent version's metadata (`microsoft.voice-live.configuration`), connect with `agent_name` and `project_name` by using a Microsoft Entra ID credential, and don't send `instructions` in `session.update`", "de": "Die Voice-Live-Einstellungen in den Metadaten der Agent-Version speichern (`microsoft.voice-live.configuration`), mit `agent_name` und `project_name` über eine Microsoft-Entra-ID-Anmeldung verbinden und keine `instructions` in `session.update` senden" },
+          "correct": true,
+          "why": { "en": "Agent mode works only with Entra ID, the agent owns its instructions, and Voice Live settings can be stored in the agent's metadata.", "de": "Der Agent-Modus funktioniert nur mit Entra ID, die Anweisungen gehören dem Agent, und Voice-Live-Einstellungen lassen sich in den Metadaten des Agents speichern." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Connect with an `api-key` header and resend the agent's instructions in `session.update` at the start of every session", "de": "Mit einem `api-key`-Header verbinden und die Anweisungen des Agents zu Beginn jeder Session in `session.update` erneut senden" },
+          "correct": false,
+          "why": { "en": "Agent mode doesn't support key-based authentication, and `instructions` in `session.update` aren't supported with an agent.", "de": "Der Agent-Modus unterstützt keine Key-basierte Authentifizierung, und `instructions` in `session.update` werden mit einem Agent nicht unterstützt." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Connect with `model=\"gpt-4.1\"` and copy the agent's instructions and tool definitions into each client's session configuration", "de": "Mit `model=\"gpt-4.1\"` verbinden und Anweisungen sowie Tool-Definitionen des Agents in die Session-Konfiguration jedes Clients kopieren" },
+          "correct": false,
+          "why": { "en": "Connecting to a model bypasses the agent, so instructions and tools would be duplicated in every client instead of being managed centrally.", "de": "Eine Verbindung zu einem Modell umgeht den Agent; Anweisungen und Tools würden in jedem Client dupliziert statt zentral verwaltet." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Change the existing text agent's interaction mode to voice so that Voice Live hosts it", "de": "Den Interaktionsmodus des bestehenden Textagents auf Sprache umstellen, damit Voice Live ihn hostet" },
+          "correct": false,
+          "why": { "en": "You can't change an existing text agent's interaction mode to voice; a Foundry voice agent would be a new, separate agent.", "de": "Den Interaktionsmodus eines bestehenden Textagents kannst du nicht auf Sprache umstellen; ein Foundry-Voice-Agent wäre ein neuer, eigener Agent." }
+        }
+      ],
+      "explanation": {
+        "en": "Voice Live with a Foundry agent: keep the voice settings in the agent's metadata, call `connect()` with `agent_name` and `project_name` and an Entra ID credential, and leave instructions to the agent — it stays the single source of truth.",
+        "de": "Voice Live mit einem Foundry-Agent: Spracheinstellungen in den Metadaten des Agents halten, `connect()` mit `agent_name`, `project_name` und einer Entra-ID-Anmeldung aufrufen und die Anweisungen dem Agent überlassen – er bleibt die einzige Quelle der Wahrheit."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-agents-quickstart",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/migrate-from-voice-live"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-voice-live-03",
+      "type": "order",
+      "domain": "D4",
+      "skill": "4.2.1",
+      "module": "voice-live",
+      "difficulty": 2,
+      "stem": {
+        "en": "Put the steps of the first spoken turn in a Voice Live session in order, from connecting to receiving the complete reply.",
+        "de": "Bringe die Schritte des ersten gesprochenen Turns einer Voice-Live-Session in die richtige Reihenfolge – vom Verbinden bis zur vollständigen Antwort."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "The client opens the real-time connection with `connect()`", "de": "Der Client öffnet die Echtzeitverbindung mit `connect()`" },
+          "why": { "en": "Every event travels over this connection, so it comes first.", "de": "Jedes Event läuft über diese Verbindung, daher kommt sie zuerst." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "The client sends `session.update` with voice, turn detection and audio settings", "de": "Der Client sendet `session.update` mit Stimme, Turn-Erkennung und Audioeinstellungen" },
+          "why": { "en": "The session is configured before any audio flows.", "de": "Die Session wird konfiguriert, bevor Audio fließt." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "The service confirms with `session.updated`, and the client starts streaming microphone audio with `input_audio_buffer.append`", "de": "Der Dienst bestätigt mit `session.updated`, und der Client beginnt, Mikrofonaudio mit `input_audio_buffer.append` zu streamen" },
+          "why": { "en": "Starting the capture after the confirmation ensures the settings already apply to the user's audio.", "de": "Startet die Aufnahme erst nach der Bestätigung, gelten die Einstellungen bereits für das Audio des Nutzers." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Turn detection raises `input_audio_buffer.speech_started` and then `input_audio_buffer.speech_stopped`", "de": "Die Turn-Erkennung meldet `input_audio_buffer.speech_started` und danach `input_audio_buffer.speech_stopped`" },
+          "why": { "en": "Voice activity detection marks the start and end of the user's speech; the end triggers the response.", "de": "Die Sprachaktivitätserkennung markiert Beginn und Ende der Äußerung; das Ende löst die Antwort aus." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "The service streams `response.audio.delta` chunks, and the client plays them", "de": "Der Dienst streamt `response.audio.delta`-Chunks, und der Client spielt sie ab" },
+          "why": { "en": "The spoken reply arrives in chunks while it is being generated.", "de": "Die gesprochene Antwort kommt in Chunks, während sie erzeugt wird." }
+        },
+        {
+          "id": "s6",
+          "text": { "en": "The service sends `response.done`", "de": "Der Dienst sendet `response.done`" },
+          "why": { "en": "It marks that response generation is complete.", "de": "Es markiert, dass die Antworterzeugung abgeschlossen ist." }
+        }
+      ],
+      "explanation": {
+        "en": "Voice Live follows the realtime event pattern: configure (`session.update` → `session.updated`), stream audio (`input_audio_buffer.append`), let VAD detect the turn (`speech_started`, `speech_stopped`), play `response.audio.delta` chunks and finish with `response.done`.",
+        "de": "Voice Live folgt dem Realtime-Event-Muster: konfigurieren (`session.update` → `session.updated`), Audio streamen (`input_audio_buffer.append`), die VAD den Turn erkennen lassen (`speech_started`, `speech_stopped`), `response.audio.delta`-Chunks abspielen und mit `response.done` abschließen."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-api-reference-2026-07-15",
+        "https://learn.microsoft.com/en-us/python/api/overview/azure/ai-voicelive-readme"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-voice-live-04",
+      "type": "single",
+      "domain": "D4",
+      "skill": "4.2.3",
+      "module": "voice-live",
+      "difficulty": 1,
+      "stem": {
+        "en": "A language-learning app uses Voice Live. The tutor model must process the learner's spoken audio directly instead of an Azure speech-to-text transcript of it. Which model should the session use?",
+        "de": "Eine Sprachlern-App nutzt Voice Live. Das Tutor-Modell soll das gesprochene Audio der Lernenden direkt verarbeiten statt eines Azure-Speech-to-Text-Transkripts davon. Welches Modell sollte die Session verwenden?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`gpt-realtime`", "de": "`gpt-realtime`" },
+          "correct": true,
+          "why": { "en": "Realtime models take audio natively — speech in, speech out — so the model itself hears the learner.", "de": "Realtime-Modelle nehmen Audio nativ entgegen – Sprache rein, Sprache raus –, das Modell selbst hört also die Lernenden." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`gpt-4.1`", "de": "`gpt-4.1`" },
+          "correct": false,
+          "why": { "en": "In Voice Live, text models receive the user's audio as an Azure speech-to-text transcript.", "de": "In Voice Live erhalten Textmodelle das Audio des Nutzers als Azure-Speech-to-Text-Transkript." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`gpt-4o-mini-tts`", "de": "`gpt-4o-mini-tts`" },
+          "correct": false,
+          "why": { "en": "A text-to-speech model: it generates speech from text and isn't a Voice Live conversation model.", "de": "Ein Text-to-Speech-Modell: Es erzeugt Sprache aus Text und ist kein Gesprächsmodell von Voice Live." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "`gpt-4o-transcribe`", "de": "`gpt-4o-transcribe`" },
+          "correct": false,
+          "why": { "en": "A transcription model: in Voice Live it can only transcribe the input for realtime models; it doesn't hold the conversation.", "de": "Ein Transkriptionsmodell: In Voice Live kann es nur die Eingabe für Realtime-Modelle transkribieren; das Gespräch führt es nicht." }
+        }
+      ],
+      "explanation": {
+        "en": "Native audio models (the `gpt-realtime` family) hear the audio itself; cascaded text models such as `gpt-4.1` and Foundry agents work on an `azure-speech` transcript — which is also where phrase lists and custom speech apply.",
+        "de": "Native Audiomodelle (die `gpt-realtime`-Familie) hören das Audio selbst; kaskadierte Textmodelle wie `gpt-4.1` und Foundry-Agents arbeiten mit einem `azure-speech`-Transkript – dort greifen auch Phrasenlisten und Custom Speech."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live",
+        "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/overview"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}

@@ -265,6 +265,7 @@ from azure.ai.projects.models import PromptAgentDefinition, MCPTool
 project = AIProjectClient(
     endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
     credential=DefaultAzureCredential(),
+    allow_preview=True,  # needed for get_openai_client(agent_name=...) (preview)
 )
 kb_mcp_url = ("https://<search>.search.windows.net/knowledgebases/hr-policy-kb/mcp"
               "?api-version=2026-08-01-preview")

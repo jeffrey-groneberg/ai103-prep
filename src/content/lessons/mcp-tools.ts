@@ -218,7 +218,8 @@ def ask_reviewer(tool: str, args) -> bool:               # your approval UI
     return input(f"Approve {tool}({args})? [y/N] ").strip().lower() == "y"
 
 project = AIProjectClient(endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
-                          credential=DefaultAzureCredential())
+                          credential=DefaultAzureCredential(),
+                          allow_preview=True)  # agent endpoint via get_openai_client(agent_name=...) is preview in SDK 2.10
 orders = MCPTool(
     server_label="orders",
     server_url="https://<your-mcp-server>/mcp",

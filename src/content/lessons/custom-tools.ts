@@ -249,7 +249,8 @@ def get_order_status(order_id: str) -> str:          # runs in YOUR app
     return json.dumps({"order_id": order_id, "status": "shipped"})
 
 project = AIProjectClient(endpoint="https://<resource>.services.ai.azure.com/api/projects/<project>",
-                          credential=DefaultAzureCredential())
+                          credential=DefaultAzureCredential(),
+                          allow_preview=True)  # agent endpoint via get_openai_client(agent_name=...) is preview in SDK 2.10
 tool = FunctionTool(
     name="get_order_status",
     description="Get the shipping status of a Fabrikam order.",
