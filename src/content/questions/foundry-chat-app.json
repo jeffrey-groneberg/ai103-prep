@@ -1,0 +1,247 @@
+{
+  "$schema": "../schema/question-file.schema.json",
+  "module": "foundry-chat-app",
+  "questions": [
+    {
+      "id": "q-foundry-chat-app-01",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.6",
+      "module": "foundry-chat-app",
+      "difficulty": 1,
+      "stem": {
+        "en": "A Python app must create a Foundry agent and run cloud evaluations in the same project. Which client should the app create first?",
+        "de": "Eine Python-App soll im selben Projekt einen Foundry-Agent anlegen und Cloud-Evaluierungen ausführen. Welchen Client sollte die App zuerst erzeugen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`AIProjectClient` from `azure-ai-projects`, pointed at the project endpoint", "de": "`AIProjectClient` aus `azure-ai-projects`, gerichtet auf den Project Endpoint" },
+          "correct": true,
+          "why": { "en": "Agents and evaluations are project features. The project client exposes them and can also hand out an OpenAI-compatible client via `get_openai_client()`.", "de": "Agents und Evaluierungen sind Projekt-Features. Der Projekt-Client stellt sie bereit und liefert über `get_openai_client()` zusätzlich einen OpenAI-kompatiblen Client." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`", "de": "`OpenAI(base_url=\"https://<resource>.openai.azure.com/openai/v1/\")`" },
+          "correct": false,
+          "why": { "en": "The plain OpenAI client handles inference only; it has no access to Foundry agents or evaluations.", "de": "Der einfache OpenAI-Client deckt nur Inferenz ab; auf Foundry-Agents oder Evaluierungen hat er keinen Zugriff." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`AzureOpenAI(azure_endpoint=..., api_version=...)` with an API key", "de": "`AzureOpenAI(azure_endpoint=..., api_version=...)` mit einem API-Key" },
+          "correct": false,
+          "why": { "en": "`AzureOpenAI` only pins an API version for model calls; it adds no project features and uses a key instead of keyless auth.", "de": "`AzureOpenAI` fixiert nur eine API-Version für Modellaufrufe; Projekt-Features fehlen, und statt schlüsselloser Anmeldung wird ein Key genutzt." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "A REST call to the Azure Resource Manager endpoint of the Foundry resource", "de": "Ein REST-Aufruf an den Azure-Resource-Manager-Endpoint der Foundry-Ressource" },
+          "correct": false,
+          "why": { "en": "ARM is the control plane for creating and configuring resources, not the data plane for agents and evaluation runs.", "de": "ARM ist die Control Plane zum Anlegen und Konfigurieren von Ressourcen, nicht die Data Plane für Agents und Evaluierungsläufe." }
+        }
+      ],
+      "explanation": {
+        "en": "Use the Foundry SDK with `AIProjectClient` whenever a scenario needs project-level features such as agents, evaluations, tracing or connections; use the OpenAI SDK alone for portable inference.",
+        "de": "Nutze das Foundry SDK mit `AIProjectClient`, sobald ein Szenario Projekt-Features wie Agents, Evaluierungen, Tracing oder Verbindungen braucht; das OpenAI SDK allein reicht für portable Inferenz."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code",
+        "https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-02",
+      "type": "multi",
+      "domain": "D2",
+      "skill": "2.3.1",
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "You call `responses.create()` for a support chatbot. Answers are too long and vary too much between identical prompts. Which TWO parameter changes address this?",
+        "de": "Du rufst `responses.create()` für einen Support-Chatbot auf. Die Antworten sind zu lang und schwanken bei identischen Prompts zu stark. Welche ZWEI Parameteränderungen helfen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "Lower `temperature`", "de": "`temperature` senken" },
+          "correct": true,
+          "why": { "en": "Lower temperature makes token sampling more deterministic, so identical prompts produce more consistent answers.", "de": "Eine niedrigere Temperatur macht die Token-Auswahl deterministischer; identische Prompts liefern konsistentere Antworten." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "Set `max_output_tokens`", "de": "`max_output_tokens` setzen" },
+          "correct": true,
+          "why": { "en": "`max_output_tokens` caps how many tokens the model may generate, which limits answer length.", "de": "`max_output_tokens` begrenzt, wie viele Tokens das Modell erzeugen darf, und damit die Antwortlänge." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "Set `stream=True`", "de": "`stream=True` setzen" },
+          "correct": false,
+          "why": { "en": "Streaming changes how output is delivered (incrementally), not its length or variability.", "de": "Streaming ändert nur die Auslieferung (schrittweise), nicht Länge oder Schwankung der Ausgabe." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Pass `previous_response_id`", "de": "`previous_response_id` übergeben" },
+          "correct": false,
+          "why": { "en": "It chains conversation context; it does not shorten answers or make sampling deterministic.", "de": "Es verkettet den Gesprächskontext; Antworten werden dadurch weder kürzer noch die Auswahl deterministischer." }
+        },
+        {
+          "id": "e",
+          "text": { "en": "Raise `top_p` to 1.0", "de": "`top_p` auf 1,0 erhöhen" },
+          "correct": false,
+          "why": { "en": "A higher `top_p` widens the candidate token pool and tends to increase variation, the opposite of the goal.", "de": "Ein höheres `top_p` vergrößert die Auswahl möglicher Tokens und erhöht eher die Schwankung – das Gegenteil des Ziels." }
+        }
+      ],
+      "explanation": {
+        "en": "Length is controlled with `max_output_tokens` (and instructions), variability with `temperature` or `top_p` — adjust one of the two sampling parameters, not both at once.",
+        "de": "Die Länge steuerst du mit `max_output_tokens` (und Anweisungen), die Schwankung mit `temperature` oder `top_p` – passe einen der beiden Sampling-Parameter an, nicht beide gleichzeitig."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-03",
+      "type": "code",
+      "domain": "D2",
+      "skill": "2.1.5",
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "Complete the code so the second call continues the conversation started by the first call.",
+        "de": "Vervollständige den Code so, dass der zweite Aufruf das Gespräch des ersten Aufrufs fortsetzt."
+      },
+      "template": "openai = project.{{b1}}()\n\nfirst = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=\"Name three Foundry Tools.\",\n)\nsecond = openai.responses.create(\n    model=\"gpt-4.1\",\n    input=\"Which one handles speech?\",\n    {{b2}}=first.id,\n)\nprint(second.{{b3}})",
+      "blanks": [
+        {
+          "id": "b1",
+          "options": [
+            { "id": "a", "code": "get_openai_client", "correct": true, "why": { "en": "Returns an OpenAI-compatible client bound to the project.", "de": "Liefert einen an das Projekt gebundenen, OpenAI-kompatiblen Client." } },
+            { "id": "b", "code": "get_chat_client", "correct": false, "why": { "en": "No such method exists on `AIProjectClient`.", "de": "Diese Methode gibt es auf `AIProjectClient` nicht." } },
+            { "id": "c", "code": "connections.get", "correct": false, "why": { "en": "Reads a project connection; it does not return a chat client.", "de": "Liest eine Projektverbindung; einen Chat-Client liefert es nicht." } }
+          ]
+        },
+        {
+          "id": "b2",
+          "options": [
+            { "id": "a", "code": "previous_response_id", "correct": true, "why": { "en": "Links this call to the earlier response so the service supplies its context.", "de": "Verknüpft den Aufruf mit der früheren Antwort, sodass der Dienst deren Kontext ergänzt." } },
+            { "id": "b", "code": "thread_id", "correct": false, "why": { "en": "Threads belong to the older Assistants-style agent API, not to the Responses API.", "de": "Threads gehören zur älteren Agent-API im Assistants-Stil, nicht zur Responses API." } },
+            { "id": "c", "code": "conversation_history", "correct": false, "why": { "en": "Not a Responses API parameter; manual history goes into `input` as a list.", "de": "Kein Parameter der Responses API; manueller Verlauf gehört als Liste in `input`." } }
+          ]
+        },
+        {
+          "id": "b3",
+          "options": [
+            { "id": "a", "code": "output_text", "correct": true, "why": { "en": "Convenience property with the generated text of the response.", "de": "Komfort-Eigenschaft mit dem generierten Text der Antwort." } },
+            { "id": "b", "code": "choices[0].message.content", "correct": false, "why": { "en": "That is the Chat Completions response shape, not the Responses API.", "de": "Das ist die Antwortstruktur von Chat Completions, nicht der Responses API." } },
+            { "id": "c", "code": "usage", "correct": false, "why": { "en": "`usage` holds token counts, not the answer text.", "de": "`usage` enthält Token-Zahlen, nicht den Antworttext." } }
+          ]
+        }
+      ],
+      "explanation": {
+        "en": "With the Responses API you chain turns through `previous_response_id` and read the answer from `output_text`.",
+        "de": "Mit der Responses API verkettest du Runden über `previous_response_id` und liest die Antwort aus `output_text`."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses",
+        "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-04",
+      "type": "match",
+      "domain": "D2",
+      "skill": "2.1.6",
+      "module": "foundry-chat-app",
+      "difficulty": 2,
+      "stem": {
+        "en": "Match each connection detail to the client that uses it.",
+        "de": "Ordne jedes Verbindungsdetail dem Client zu, der es nutzt."
+      },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "`https://<resource>.services.ai.azure.com/api/projects/<project>`", "de": "`https://<resource>.services.ai.azure.com/api/projects/<project>`" },
+          "answer": "t1",
+          "why": { "en": "The project endpoint is passed to `AIProjectClient`.", "de": "Der Project Endpoint wird an `AIProjectClient` übergeben." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "`base_url=\"https://<resource>.openai.azure.com/openai/v1/\"`", "de": "`base_url=\"https://<resource>.openai.azure.com/openai/v1/\"`" },
+          "answer": "t2",
+          "why": { "en": "The v1 route works with the plain `OpenAI()` client, no API version needed.", "de": "Die v1-Route funktioniert mit dem einfachen `OpenAI()`-Client, ohne API-Version." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "`azure_endpoint=...` plus a mandatory `api_version=...`", "de": "`azure_endpoint=...` plus ein verpflichtendes `api_version=...`" },
+          "answer": "t3",
+          "why": { "en": "`AzureOpenAI()` requires an explicit API version; use it only when you must pin one.", "de": "`AzureOpenAI()` verlangt eine explizite API-Version; nutze es nur, wenn du eine festnageln musst." }
+        }
+      ],
+      "targets": [
+        { "id": "t1", "text": { "en": "`AIProjectClient`", "de": "`AIProjectClient`" } },
+        { "id": "t2", "text": { "en": "`OpenAI()`", "de": "`OpenAI()`" } },
+        { "id": "t3", "text": { "en": "`AzureOpenAI()`", "de": "`AzureOpenAI()`" } },
+        { "id": "t4", "text": { "en": "`SearchClient`", "de": "`SearchClient`" } }
+      ],
+      "explanation": {
+        "en": "Read the URL shape: `/api/projects/` means project client; `/openai/v1/` means the OpenAI client; a required `api_version` means the `AzureOpenAI` client.",
+        "de": "Lies die URL-Form: `/api/projects/` bedeutet Projekt-Client; `/openai/v1/` bedeutet OpenAI-Client; eine Pflicht-`api_version` bedeutet `AzureOpenAI`-Client."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code",
+        "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses"
+      ],
+      "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-foundry-chat-app-05",
+      "type": "order",
+      "domain": "D2",
+      "skill": "2.1.1",
+      "module": "foundry-chat-app",
+      "difficulty": 1,
+      "stem": {
+        "en": "Put the steps for building a first keyless chat app with the Foundry SDK in order.",
+        "de": "Bringe die Schritte für eine erste schlüssellose Chat-App mit dem Foundry SDK in die richtige Reihenfolge."
+      },
+      "items": [
+        {
+          "id": "s1",
+          "text": { "en": "Deploy a model in the Foundry project", "de": "Ein Modell im Foundry-Projekt bereitstellen" },
+          "why": { "en": "Calls target a deployment name, so a deployment must exist first.", "de": "Aufrufe zielen auf einen Deployment-Namen; also muss zuerst ein Deployment existieren." }
+        },
+        {
+          "id": "s2",
+          "text": { "en": "Sign in with `az login` (or run under a managed identity) and install `azure-ai-projects`", "de": "Mit `az login` anmelden (oder unter einer Managed Identity laufen) und `azure-ai-projects` installieren" },
+          "why": { "en": "`DefaultAzureCredential` needs an Entra identity, and the SDK must be installed before code runs.", "de": "`DefaultAzureCredential` braucht eine Entra-Identität, und das SDK muss vor dem Code installiert sein." }
+        },
+        {
+          "id": "s3",
+          "text": { "en": "Create `AIProjectClient` with the project endpoint and `DefaultAzureCredential`", "de": "`AIProjectClient` mit Project Endpoint und `DefaultAzureCredential` erzeugen" },
+          "why": { "en": "The project client is the entry point to the project.", "de": "Der Projekt-Client ist der Einstieg ins Projekt." }
+        },
+        {
+          "id": "s4",
+          "text": { "en": "Call `get_openai_client()`", "de": "`get_openai_client()` aufrufen" },
+          "why": { "en": "It returns the OpenAI-compatible client used for responses.", "de": "Es liefert den OpenAI-kompatiblen Client für Antworten." }
+        },
+        {
+          "id": "s5",
+          "text": { "en": "Call `responses.create(model=<deployment>, input=...)` and read `output_text`", "de": "`responses.create(model=<Deployment>, input=...)` aufrufen und `output_text` lesen" },
+          "why": { "en": "Generation happens last, once client and deployment exist.", "de": "Die Generierung kommt zuletzt, wenn Client und Deployment bereitstehen." }
+        }
+      ],
+      "explanation": {
+        "en": "Deployment → identity and SDK → project client → OpenAI-compatible client → response. Skipping the deployment or the identity is the most common cause of first-run errors.",
+        "de": "Deployment → Identität und SDK → Projekt-Client → OpenAI-kompatibler Client → Antwort. Fehlendes Deployment oder fehlende Identität sind die häufigsten Ursachen für Fehler beim ersten Lauf."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/quickstarts/get-started-code"
+      ],
+      "lastVerified": "2026-11-06"
+    }
+  ]
+}
