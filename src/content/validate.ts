@@ -11,6 +11,7 @@ import type {
 import { edgePoints, labelRect, midpoint, rectsOverlap, segmentHitsRect, type Rect } from '../lib/geometry.ts'
 import { allBullets, bulletById } from './domains.ts'
 import { moduleById, modules } from './course.ts'
+import { findOutdatedModels, scanText, type ModelLifecycle } from './model-currency.ts'
 
 export interface Issue {
   level: 'error' | 'warning'
@@ -52,6 +53,8 @@ export interface ValidateOptions {
   today?: string
   minPerBullet?: number
   minPerModule?: number
+  /** Snapshot of Learn's model retirement schedule; enables the model-currency check. */
+  modelLifecycle?: ModelLifecycle
 }
 
 const LEARN_URL = /^https:\/\/learn\.microsoft\.com\/(?:[a-z]{2}-[a-z]{2}\/)?[a-z]/
@@ -109,6 +112,13 @@ function checkLegacy(issues: Issue[], where: string, strings: string[]) {
         issues.push({ level: 'error', where, message: `outdated name ${pattern} — use "${current}" (or frame it as a former name)` })
       }
     }
+  }
+}
+
+function checkModels(issues: Issue[], where: string, value: unknown, lifecycle: ModelLifecycle | undefined, today: string) {
+  if (!lifecycle) return
+  for (const f of findOutdatedModels(scanText(value), lifecycle, today)) {
+    issues.push({ level: 'error', where, message: `${f.status} model "${f.model}" (${f.detail}) — use a current model, or frame it as retired/deprecated` })
   }
 }
 
@@ -370,6 +380,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     checkL10n(issues, where, 'scenario', c.scenario, { minLen: 200 })
     for (const m of c.modules) if (!moduleById.has(m)) issues.push({ level: 'error', where, message: `unknown module "${m}"` })
     checkLegacy(issues, where, textOf(c.scenario))
+    checkModels(issues, where, c, options.modelLifecycle, today)
   }
 
   const allQuestions: Question[] = []
@@ -380,7 +391,10 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     if (!moduleById.has(data.module)) issues.push({ level: 'error', where: file, message: `unknown module "${data.module}"` })
     for (const q of data.questions ?? []) {
       allQuestions.push(q)
-      if (inScope(data.module)) validateQuestion(q, issues, { file, fileModule: data.module, caseIds, today })
+      if (inScope(data.module)) {
+        validateQuestion(q, issues, { file, fileModule: data.module, caseIds, today })
+        checkModels(issues, `${file} › ${q.id}`, q, options.modelLifecycle, today)
+      }
     }
   }
   uniqueIds(issues, 'questions', 'question', allQuestions.map((q) => q.id))
@@ -389,7 +403,10 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
   for (const { file, lesson } of bundle.lessons) {
     if (lessonModules.has(lesson.module)) issues.push({ level: 'error', where: file, message: `second lesson for module "${lesson.module}"` })
     lessonModules.set(lesson.module, file)
-    if (inScope(lesson.module)) validateLesson(lesson, issues, file)
+    if (inScope(lesson.module)) {
+      validateLesson(lesson, issues, file)
+      checkModels(issues, `${file} › lesson ${lesson.module}`, lesson, options.modelLifecycle, today)
+    }
   }
 
   const moduleCounts: Record<string, number> = Object.fromEntries(modules.map((m) => [m.id, 0]))

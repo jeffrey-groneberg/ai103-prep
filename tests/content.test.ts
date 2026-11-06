@@ -8,6 +8,8 @@ import { cases, lessons, questions } from '../src/content/index.ts'
 import { hasSourceTitle, sourceLabel } from '../src/content/sources.ts'
 import questionSchema from '../src/content/schema/question-file.schema.json'
 import caseSchema from '../src/content/schema/case-file.schema.json'
+import modelLifecycle from '../src/content/model-lifecycle.json'
+import type { ModelLifecycle } from '../src/content/model-currency.ts'
 
 const dir = join(process.cwd(), 'src', 'content')
 const questionFiles = readdirSync(join(dir, 'questions'))
@@ -35,7 +37,7 @@ describe('real content', () => {
         cases: caseFiles.flatMap((c) => c.data.cases),
         lessons: lessons.map((lesson) => ({ file: `${lesson.module}.ts`, lesson })),
       },
-      { today: '2026-11-06' },
+      { today: '2026-11-06', modelLifecycle: modelLifecycle as ModelLifecycle },
     )
     expect(report.errors.map((e) => `${e.where}: ${e.message}`)).toEqual([])
   })

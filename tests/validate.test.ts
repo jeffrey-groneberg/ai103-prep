@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { validateContent, type ContentBundle } from '../src/content/validate.ts'
 import type { Lesson, Question } from '../src/lib/types.ts'
 import { code, multi, single } from './fixtures.ts'
+import { findOutdatedModels, modelStatus, type ModelLifecycle } from '../src/content/model-currency.ts'
 
 const t = (s: string) => ({ en: s, de: `${s} (de)` })
 
@@ -149,5 +150,34 @@ describe('validator — lessons and diagrams', () => {
     const report = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
     expect(report.errors.map((e) => e.message).join('\n')).toMatch(/edge long \(a → c\) runs through node/)
     expect(report.warnings.map((e) => e.message).join('\n')).toMatch(/label "a label that is long" of edge long overlaps node/)
+  })
+})
+
+describe('model currency', () => {
+  const lifecycle: ModelLifecycle = {
+    source: 'test',
+    retrieved: '2026-11-06',
+    overrides: { 'video-x': { status: 'available', note: 'docs still list it' } },
+    models: {
+      'gpt-old': [{ version: '1', lifecycle: 'GA', retirement: '2026-10-15', replacement: '—' }],
+      'gpt-dep': [{ version: '1', lifecycle: 'Deprecated', retirement: '2027-04-14', replacement: 'gpt-new' }],
+      'gpt-new': [{ version: '1', lifecycle: 'GA', retirement: '2027-07-13', replacement: '—' }],
+      'video-x': [{ version: '1', lifecycle: 'Preview', retirement: '2026-10-15', replacement: '—' }],
+    },
+  }
+
+  it('classifies models relative to today', () => {
+    expect(modelStatus('gpt-old', lifecycle, '2026-11-06')).toBe('retired')
+    expect(modelStatus('gpt-old', lifecycle, '2026-10-01')).toBe('available')
+    expect(modelStatus('gpt-dep', lifecycle, '2026-11-06')).toBe('deprecated')
+    expect(modelStatus('gpt-new', lifecycle, '2026-11-06')).toBe('available')
+    expect(modelStatus('video-x', lifecycle, '2026-11-06')).toBe('available')
+  })
+
+  it('flags outdated models unless the text frames them as outdated', () => {
+    const found = findOutdatedModels('Deploy `gpt-dep` and call model="gpt-old" for transcription.', lifecycle, '2026-11-06')
+    expect(found.map((f) => f.model).sort()).toEqual(['gpt-dep', 'gpt-old'])
+    expect(findOutdatedModels('gpt-dep is deprecated; move to gpt-new.', lifecycle, '2026-11-06')).toEqual([])
+    expect(findOutdatedModels('Use gpt-new or gpt-dep-mini.', lifecycle, '2026-11-06')).toEqual([])
   })
 })

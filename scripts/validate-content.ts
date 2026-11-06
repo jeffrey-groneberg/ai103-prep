@@ -11,6 +11,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { Ajv2020 } from 'ajv/dist/2020.js'
 import type { CaseFile, Lesson, QuestionFile } from '../src/lib/types.ts'
 import { validateContent, type ContentBundle } from '../src/content/validate.ts'
+import type { ModelLifecycle } from '../src/content/model-currency.ts'
 import { domains } from '../src/content/domains.ts'
 import { learningPaths, moduleById } from '../src/content/course.ts'
 
@@ -66,7 +67,8 @@ const files = readJsonDir<QuestionFile>(join(contentDir, 'questions'))
 const cases = readJsonDir<CaseFile>(join(contentDir, 'cases')).flatMap((c) => c.data.cases)
 const lessons = await loadLessons()
 
-const report = validateContent({ files: files.map(({ file, data }) => ({ file, data })), cases, lessons }, { only })
+const modelLifecycle = JSON.parse(readFileSync(join(contentDir, 'model-lifecycle.json'), 'utf8')) as ModelLifecycle
+const report = validateContent({ files: files.map(({ file, data }) => ({ file, data })), cases, lessons }, { only, modelLifecycle })
 
 // JSON Schema check (same schemas editors use via "$schema").
 const ajv = new Ajv2020({ allErrors: true, strict: false })
