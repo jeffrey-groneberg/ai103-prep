@@ -29,18 +29,20 @@ for (const f of readdirSync(join(content, 'lessons')).filter((f) => f.endsWith('
   for (const s of mod.lesson.sources) add(s.url, `lesson:${mod.lesson.module}`)
 }
 
+// Learn rate-limits bursts (HTTP 429): honor Retry-After and back off; network errors get retried too.
 async function check(url: string): Promise<number> {
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < 6; attempt++) {
     try {
-      const res = await fetch(url, { method: 'GET', redirect: 'follow', headers: { 'user-agent': 'ai103-prep-link-check' }, signal: AbortSignal.timeout(20000) })
+      const res = await fetch(url, { method: 'GET', redirect: 'follow', headers: { 'user-agent': 'ai103-prep-link-check' }, signal: AbortSignal.timeout(30000) })
       await res.body?.cancel()
       if (res.status === 429) {
-        await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)))
+        const retryAfter = Number(res.headers.get('retry-after'))
+        await new Promise((r) => setTimeout(r, (Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter : 5 * (attempt + 1)) * 1000))
         continue
       }
       return res.status
     } catch {
-      await new Promise((r) => setTimeout(r, 1000))
+      await new Promise((r) => setTimeout(r, 3000 * (attempt + 1)))
     }
   }
   return 0
@@ -56,7 +58,7 @@ async function worker() {
     if (status !== 200) failures.push({ url, status, where: [...where] })
   }
 }
-await Promise.all(Array.from({ length: 6 }, worker))
+await Promise.all(Array.from({ length: 3 }, worker))
 
 if (failures.length) {
   console.error(`✗ ${failures.length} of ${entries.length} URLs failed:`)

@@ -25,7 +25,7 @@
   color: var(--ink-3);
   font-size: 14px;
   line-height: 20px;
-  max-width: 80ch;
+  max-width: 68ch;
 }
 
 .dg-canvas {
@@ -140,12 +140,42 @@
     filter var(--dur) var(--ease-out);
 }
 
-.has-focus .is-dim {
-  opacity: 0.16;
+.dg-node .dg-shape,
+.dg-node .dg-shape-line,
+.dg-actor,
+.dg-node text,
+.dg-edge-label rect,
+.dg-edge-label text,
+.dg-group rect,
+.dg-group-label {
+  transition:
+    opacity var(--dur) var(--ease-out),
+    fill var(--dur) var(--ease-out);
 }
 
-.has-focus .dg-group.is-dim {
-  opacity: 0.35;
+/* Receded parts stay readable (text ≥ 3:1): shapes and lines fade, text turns grey. */
+.has-focus .dg-node.is-dim .dg-shape,
+.has-focus .dg-node.is-dim .dg-shape-line,
+.has-focus .dg-node.is-dim .dg-actor {
+  opacity: 0.32;
+}
+
+.has-focus .dg-node.is-dim text,
+.has-focus .dg-edge-label.is-dim text,
+.has-focus .dg-group.is-dim .dg-group-label {
+  fill: #858585;
+}
+
+.has-focus .dg-edge.is-dim {
+  opacity: 0.25;
+}
+
+.has-focus .dg-edge-label.is-dim rect {
+  opacity: 0.6;
+}
+
+.has-focus .dg-group.is-dim rect {
+  opacity: 0.55;
 }
 
 .dg-node.is-focus {
@@ -257,7 +287,7 @@
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
-  max-width: 82ch;
+  max-width: 68ch;
 }
 
 .dg-narration__text--hint {
@@ -289,12 +319,62 @@
   border: 1.5px solid var(--g-stroke);
 }
 
-.dg--mini {
-  pointer-events: none;
+/* Thumbnail: the first three parts of the flow, legible at card size. */
+.dg-summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--s2);
+  padding: var(--s4) var(--s3);
+  border: 1px solid var(--brand-tint-2);
+  border-radius: var(--r-md);
+  background: #f5f9fe;
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur-fast);
 }
 
-.dg--mini .dg-svg {
-  width: 100%;
+.dg-summary__item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.dg-summary__tile {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--g-fill);
+  border: 1.5px solid var(--g-stroke);
+  color: var(--g-ink);
+}
+
+.dg-summary__label {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.dg-summary__sub {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-3);
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.dg-summary__arrow {
+  flex: none;
+  margin-top: 14px;
+  color: var(--ink-3);
 }
 
 /* ---------- Code ---------- */
@@ -374,7 +454,7 @@
   font-size: 17px;
   line-height: 26px;
   color: var(--ink);
-  max-width: 75ch;
+  max-width: 62ch;
 }
 
 .choices {
@@ -855,7 +935,7 @@
   font-size: 15px;
   line-height: 24px;
   color: var(--ink-2);
-  max-width: 80ch;
+  max-width: 66ch;
 }
 
 .explanation__links {

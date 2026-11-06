@@ -8,7 +8,26 @@ import type {
   QuestionFile,
   Text,
 } from '../lib/types.ts'
-import { edgePoints, labelRect, midpoint, rectsOverlap, segmentHitsRect, type Rect } from '../lib/geometry.ts'
+import {
+  ARROW_CLEARANCE,
+  DIAMOND_INSET,
+  edgePoints,
+  GROUP_RADIUS,
+  groupTitleRect,
+  nodeTextLayout,
+  placeEdgeLabels,
+  pointInRect,
+  polylineLength,
+  rectContains,
+  rectsOverlap,
+  samplePolyline,
+  segmentHitsRect,
+  storeCap,
+  type Outlined,
+  type Pt,
+  type Rect,
+} from '../lib/geometry.ts'
+import { textWidth } from '../lib/text-metrics.ts'
 import { allBullets, bulletById } from './domains.ts'
 import { moduleById, modules } from './course.ts'
 import { findOutdatedModels, scanText, type ModelLifecycle } from './model-currency.ts'
@@ -244,6 +263,140 @@ export function validateQuestion(q: Question, issues: Issue[], ctx: { file: stri
   checkLegacy(issues, where, questionStrings(q))
 }
 
+/** Width available to a text block of height `blockH` inside a node, as rendered. */
+function availableTextWidth(n: Outlined, blockH: number): number {
+  switch (n.shape) {
+    case 'actor':
+      return n.w - 42
+    case 'pill': {
+      const r = n.h / 2
+      const dy = Math.min(r, blockH / 2 + 1)
+      return n.w - 2 * (r - Math.sqrt(r * r - dy * dy)) - 16
+    }
+    case 'diamond': {
+      const dy = Math.min(n.h / 2, blockH / 2 + 1)
+      return n.w - 2 * ((DIAMOND_INSET * dy) / (n.h / 2)) - 18
+    }
+    default:
+      return n.w - 16
+  }
+}
+
+/** Node labels must fit the drawn shape in every language (real font metrics). */
+function checkNodeText(issues: Issue[], where: string, n: Diagram['nodes'][number]) {
+  const labels = textOf(n.label)
+  const subs = textOf(n.sub)
+  labels.forEach((label, i) => {
+    const lang = i === 0 ? 'en' : 'de'
+    const labelLines = label.split('\n')
+    const subLines = subs[i] ? subs[i].split('\n') : []
+    const { blockH } = nodeTextLayout(n, labelLines.length, subLines.length)
+    const cap = n.shape === 'store' ? 2 * storeCap(n.h) : 0
+    const room = n.h - cap - (n.shape === 'store' ? 6 : 8)
+    if (blockH > room) {
+      issues.push({ level: 'error', where, message: `node ${n.id} (${lang}): ${labelLines.length} label + ${subLines.length} sub line(s) need ${blockH}px of height but only ${Math.floor(room)}px fit — make the node at least ${Math.ceil(n.h + blockH - room)}px tall or use fewer lines` })
+    }
+    const avail = availableTextWidth(n, blockH)
+    const tooWide = (line: string, style: 'label' | 'sub') => {
+      const tw = textWidth(line, style)
+      if (tw > avail) {
+        issues.push({ level: 'error', where, message: `node ${n.id} (${lang}) ${style} line "${line}" is ${Math.ceil(tw)}px wide but only ${Math.floor(avail)}px fit — widen the node to at least ${Math.ceil(n.w + tw - avail)}px, break the line with \\n, or shorten it` })
+      }
+    }
+    labelLines.forEach((line) => tooWide(line, 'label'))
+    subLines.forEach((line) => tooWide(line, 'sub'))
+  })
+}
+
+function distanceToPolyline(p: Pt, pts: Pt[]): number {
+  let best = Infinity
+  for (let i = 1; i < pts.length; i++) {
+    const [ax, ay] = pts[i - 1]
+    const [bx, by] = pts[i]
+    const dx = bx - ax
+    const dy = by - ay
+    const l2 = dx * dx + dy * dy
+    const t = l2 ? Math.max(0, Math.min(1, ((p[0] - ax) * dx + (p[1] - ay) * dy) / l2)) : 0
+    best = Math.min(best, Math.hypot(p[0] - (ax + t * dx), p[1] - (ay + t * dy)))
+  }
+  return best
+}
+
+/** Geometry exactly as rendered: arrows, labels, groups and titles must not collide. */
+function checkDiagramGeometry(issues: Issue[], w: string, d: Diagram) {
+  const err = (message: string) => issues.push({ level: 'error', where: w, message })
+  const nodes = d.nodes ?? []
+  const groups = d.groups ?? []
+  const shapes = new Map<string, Outlined>()
+  for (const g of groups) shapes.set(g.id, { ...g, radius: GROUP_RADIUS })
+  for (const n of nodes) shapes.set(n.id, n)
+  const canvas: Rect = { x: 0, y: 0, w: d.width, h: d.height }
+
+  const titles = groups.flatMap((g) => [...new Set(textOf(g.label))].map((t) => ({ g, text: t, box: groupTitleRect(g, t) })))
+  for (const t of titles) {
+    if (t.box.w > t.g.w - 28) err(`group ${t.g.id} title "${t.text}" is ${Math.ceil(t.box.w)}px wide but the group is only ${t.g.w}px — widen the group to at least ${Math.ceil(t.box.w + 28)}px or shorten the title`)
+    for (const n of nodes) if (rectsOverlap(t.box, n, 2)) err(`group ${t.g.id} title "${t.text}" touches node ${n.id} — move the node down (the title needs ~30px at the top of the group)`)
+  }
+  for (const g of groups) {
+    for (const n of nodes) if (rectsOverlap(g, n) && !rectContains(g, n)) err(`node ${n.id} sits across the border of group ${g.id} — move it fully inside or outside`)
+    for (const o of groups) if (o.id > g.id && rectsOverlap(g, o) && !rectContains(g, o) && !rectContains(o, g)) err(`groups ${g.id} and ${o.id} partly overlap — nest one inside the other or separate them`)
+  }
+
+  const paths = (d.edges ?? []).flatMap((e) => {
+    const pts = edgePoints(e, shapes)
+    return pts ? [{ e, pts, len: polylineLength(pts), samples: samplePolyline(pts, 2) }] : []
+  })
+  for (const { e, pts, len, samples } of paths) {
+    const name = `edge ${e.id} (${e.from} → ${e.to})`
+    for (const n of nodes) {
+      if (n.id === e.from || n.id === e.to) continue
+      for (let i = 1; i < pts.length; i++) {
+        if (segmentHitsRect(pts[i - 1], pts[i], n)) {
+          err(`${name} runs through node ${n.id}; move nodes or add via points`)
+          break
+        }
+      }
+    }
+    for (const t of titles) if (samples.some((p) => pointInRect(t.box, [p[0], p[1]], 1))) err(`${name} crosses the title of group ${t.g.id}; route it with via points away from the title`)
+    if (len < 20) err(`${name} is only ${Math.round(len)}px long, so its arrowhead hides it — move the nodes apart`)
+  }
+
+  // Edge labels, placed exactly like the renderer does (on the arrow, else beside it), per language.
+  const langs = [...new Set((d.edges ?? []).flatMap((e) => textOf(e.label).map((_, i) => i)))]
+  for (const li of langs.length ? langs : []) {
+    const pick = (t: Text | undefined) => textOf(t)[li] ?? textOf(t)[0] ?? ''
+    const items = paths.filter((p) => p.e.label).map((p) => ({ id: p.e.id, text: pick(p.e.label), pts: p.pts }))
+    const blocked = groups.map((g) => groupTitleRect(g, pick(g.label)))
+    const placed = placeEdgeLabels(items, paths.map((p) => ({ id: p.e.id, pts: p.pts })), nodes, blocked, canvas)
+    for (const l of placed) {
+      if (l.free) continue
+      const p = paths.find((x) => x.e.id === l.id)!
+      err(
+        `label "${l.text}" of edge ${l.id} (${p.e.from} → ${p.e.to}) has no free spot: on the arrow it would hide the arrowhead ` +
+          `(arrow ${Math.round(p.len)}px, needs about ${Math.ceil(l.box.w + 2 * ARROW_CLEARANCE)}px horizontally or ${l.box.h + 2 * ARROW_CLEARANCE}px vertically), ` +
+          `and beside the arrow it would collide with a node, a group title, another label, another arrow or the canvas edge — move nodes apart, shorten the label or reroute the arrow`,
+      )
+    }
+  }
+
+  // Arrows drawn on top of each other. A shared trunk is fine when it fans out from one source
+  // or merges into one target (a "bus").
+  for (let i = 0; i < paths.length; i++) {
+    for (let j = i + 1; j < paths.length; j++) {
+      const a = paths[i]
+      const b = paths[j]
+      const close = a.samples.filter(([x, y]) => distanceToPolyline([x, y], b.pts) < 2.5)
+      if (close.length * 2 <= 20) continue
+      const first = close[0][2]
+      const last = close[close.length - 1][2]
+      const contiguous = last - first <= close.length * 2 + 4
+      const fanOut = a.e.from === b.e.from && first < 6 && contiguous
+      const fanIn = a.e.to === b.e.to && last > a.len - 6 && contiguous
+      if (!fanOut && !fanIn) err(`edges ${a.e.id} (${a.e.from} → ${a.e.to}) and ${b.e.id} (${b.e.from} → ${b.e.to}) run on top of each other for ~${close.length * 2}px — use one bidirectional edge or separate them with via points`)
+    }
+  }
+}
+
 export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
   const w = `${where} › diagram ${d.id}`
   checkL10n(issues, w, 'title', d.title)
@@ -258,14 +411,7 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
       issues.push({ level: 'error', where: w, message: `node ${n.id} lies outside the ${d.width}×${d.height} canvas` })
     }
     if (n.w < 60 || n.h < 30) issues.push({ level: 'error', where: w, message: `node ${n.id} is too small (min 60×30)` })
-    for (const line of textOf(n.label).flatMap((s) => s.split('\n'))) {
-      const capacity = Math.floor((n.w - 16 - (n.shape === 'actor' ? 26 : 0)) / 7.4)
-      if (line.length > capacity) issues.push({ level: 'error', where: w, message: `node ${n.id} label line "${line}" is too long for width ${n.w} (max ~${capacity} chars)` })
-    }
-    for (const line of textOf(n.sub).flatMap((s) => s.split('\n'))) {
-      const capacity = Math.floor((n.w - 16 - (n.shape === 'actor' ? 26 : 0)) / 6.2)
-      if (line.length > capacity) issues.push({ level: 'error', where: w, message: `node ${n.id} sub line "${line}" is too long for width ${n.w} (max ~${capacity} chars)` })
-    }
+    checkNodeText(issues, w, n)
   }
   const nodes = d.nodes ?? []
   for (let i = 0; i < nodes.length; i++) {
@@ -283,30 +429,7 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
     if (!nodeOrGroup.has(e.to)) issues.push({ level: 'error', where: w, message: `edge ${e.id} ends at unknown node "${e.to}"` })
   }
 
-  // Geometry exactly as rendered: arrows must not run through other nodes, labels should not sit on nodes.
-  const rects = new Map<string, Rect>()
-  for (const g of d.groups ?? []) rects.set(g.id, g)
-  for (const n of nodes) rects.set(n.id, n)
-  for (const e of d.edges ?? []) {
-    const pts = edgePoints(e, rects)
-    if (!pts) continue
-    for (const n of nodes) {
-      if (n.id === e.from || n.id === e.to) continue
-      for (let i = 1; i < pts.length; i++) {
-        if (segmentHitsRect(pts[i - 1], pts[i], n)) {
-          issues.push({ level: 'error', where: w, message: `edge ${e.id} (${e.from} → ${e.to}) runs through node ${n.id}; move nodes or add via points` })
-          break
-        }
-      }
-    }
-    if (e.label) {
-      for (const text of new Set(textOf(e.label))) {
-        const box = labelRect(text, midpoint(pts))
-        const hit = nodes.find((n) => rectsOverlap(box, n))
-        if (hit) issues.push({ level: 'warning', where: w, message: `label "${text}" of edge ${e.id} overlaps node ${hit.id}` })
-      }
-    }
-  }
+  checkDiagramGeometry(issues, w, d)
   if ((d.steps ?? []).length < 2) issues.push({ level: 'error', where: w, message: 'needs at least two steps for the step-through' })
   ;(d.steps ?? []).forEach((s, i) => {
     checkL10n(issues, w, `step ${i + 1}.title`, s.title)

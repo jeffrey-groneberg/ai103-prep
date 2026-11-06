@@ -137,19 +137,41 @@ describe('validator — lessons and diagrams', () => {
       .join('\n')
     expect(text).toMatch(/overlap/)
     expect(text).toMatch(/unknown id "ghost"/)
-    expect(text).toMatch(/too long for width/)
+    expect(text).toMatch(/px wide but only \d+px fit/)
   })
 
-  it('flags arrows that run through another node and labels that sit on nodes', () => {
+  it('flags arrows that run through another node', () => {
     const l = lesson()
     const d = l.diagrams[0]
     d.nodes.push({ id: 'c', x: 600, y: 20, w: 160, h: 60, label: 'Store', tone: 'data' })
     d.nodes.push({ id: 'mid', x: 380, y: 25, w: 120, h: 50, label: 'Middle', tone: 'tool' })
     d.nodes[1] = { ...d.nodes[1], x: 210 }
-    d.edges.push({ id: 'long', from: 'a', to: 'c', label: 'a label that is long' })
+    d.edges.push({ id: 'long', from: 'a', to: 'c' })
     const report = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
     expect(report.errors.map((e) => e.message).join('\n')).toMatch(/edge long \(a → c\) runs through node/)
-    expect(report.warnings.map((e) => e.message).join('\n')).toMatch(/label "a label that is long" of edge long overlaps node/)
+  })
+
+  it('reports a label that has no free spot on or beside its arrow', () => {
+    const l = lesson()
+    const d = l.diagrams[0]
+    d.width = 700
+    d.height = 300
+    d.nodes = [
+      { id: 'a', x: 20, y: 120, w: 200, h: 60, label: t('Alpha'), tone: 'app' },
+      { id: 'b', x: 260, y: 120, w: 200, h: 60, label: t('Beta'), tone: 'model' },
+      { id: 'top', x: 150, y: 40, w: 180, h: 74, label: t('Top'), tone: 'data' },
+      { id: 'bottom', x: 150, y: 186, w: 180, h: 74, label: t('Bottom'), tone: 'data' },
+    ]
+    d.groups = []
+    d.edges = [{ id: 'ab', from: 'a', to: 'b', label: t('a label that is far too long') }]
+    d.steps = [
+      { title: t('One'), text: t('The first step of the flow.'), focus: ['a'] },
+      { title: t('Two'), text: t('The second step of the flow.'), focus: ['b'] },
+    ]
+    const text = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
+      .errors.map((e) => e.message)
+      .join('\n')
+    expect(text).toMatch(/label "a label that is far too long.*" of edge ab \(a → b\) has no free spot/)
   })
 })
 

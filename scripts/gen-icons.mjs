@@ -71,6 +71,11 @@ const icons = {
   stepNext: 'next_20_regular',
   stepPrev: 'previous_20_regular',
   expand: 'arrow_maximize_20_regular',
+  person: 'person_20_regular',
+  window: 'window_20_regular',
+  database: 'database_20_regular',
+  wrench: 'wrench_20_regular',
+  cube: 'cube_20_regular',
 }
 
 const lines = [

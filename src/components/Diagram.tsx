@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react'
+import { Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import type { Diagram as DiagramData, DiagramNode, Lang, Tone } from '../lib/types.ts'
-import { edgePoints, labelRect, midpoint, type Rect } from '../lib/geometry.ts'
+import { edgePoints, GROUP_RADIUS, groupTitleRect, nodeTextLayout, placeEdgeLabels, storeCap, type Outlined, type Pt } from '../lib/geometry.ts'
 import { tx } from '../lib/i18n.ts'
 import { renderInline } from './inline.tsx'
 import { Icon } from './Icon.tsx'
+import type { IconName } from './icons.generated.ts'
 
 const TONES: Tone[] = ['user', 'app', 'foundry', 'model', 'data', 'tool', 'safety', 'external', 'neutral']
 const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
@@ -17,6 +18,17 @@ const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
   external: { de: 'Externes System', en: 'External system' },
   neutral: { de: 'Sonstiges', en: 'Other' },
 }
+const TONE_ICON: Record<Tone, IconName> = {
+  user: 'person',
+  app: 'window',
+  foundry: 'cloud',
+  model: 'brain',
+  data: 'database',
+  tool: 'wrench',
+  safety: 'shield',
+  external: 'globe',
+  neutral: 'cube',
+}
 
 function NodeShape({ n }: { n: DiagramNode }) {
   const { x, y, w, h } = n
@@ -24,7 +36,7 @@ function NodeShape({ n }: { n: DiagramNode }) {
     case 'pill':
       return <rect className="dg-shape" x={x} y={y} width={w} height={h} rx={h / 2} />
     case 'store': {
-      const e = Math.min(9, h / 5)
+      const e = storeCap(h)
       return (
         <g>
           <path className="dg-shape" d={`M${x},${y + e} a${w / 2},${e} 0 0 1 ${w},0 v${h - 2 * e} a${w / 2},${e} 0 0 1 ${-w},0 z`} />
@@ -53,12 +65,9 @@ function NodeShape({ n }: { n: DiagramNode }) {
 function NodeText({ n, lang }: { n: DiagramNode; lang: Lang }) {
   const label = tx(n.label, lang).split('\n')
   const sub = n.sub ? tx(n.sub, lang).split('\n') : []
-  const actorPad = n.shape === 'actor' ? 26 : 0
-  const cx = n.x + actorPad / 2 + n.w / 2
+  const { cx, top } = nodeTextLayout(n, label.length, sub.length)
   const lineH = 18
   const subH = 16
-  const blockH = label.length * lineH + sub.length * subH
-  const top = n.y + n.h / 2 - blockH / 2 + 13
   return (
     <g>
       {n.shape === 'actor' && (
@@ -88,20 +97,114 @@ interface DiagramProps {
   mini?: boolean
 }
 
+/** The first nodes a learner meets in the step-through, for thumbnails. */
+function summaryNodes(d: DiagramData, count = 3): DiagramNode[] {
+  const byId = new Map(d.nodes.map((n) => [n.id, n]))
+  const picked: DiagramNode[] = []
+  for (const s of d.steps) {
+    for (const id of s.focus) {
+      const n = byId.get(id)
+      if (n && !picked.includes(n)) picked.push(n)
+      if (picked.length === count) return picked
+    }
+  }
+  for (const n of [...d.nodes].sort((a, b) => a.y - b.y || a.x - b.x)) {
+    if (!picked.includes(n)) picked.push(n)
+    if (picked.length === count) break
+  }
+  return picked
+}
+
+function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang }) {
+  const nodes = summaryNodes(diagram)
+  const first = (t: Parameters<typeof tx>[0]) => tx(t, lang).split('\n')[0]
+  return (
+    <div className="dg-summary" role="img" aria-label={`${tx(diagram.title, lang)}: ${nodes.map((n) => first(n.label)).join(' → ')}`}>
+      {nodes.map((n, i) => (
+        <Fragment key={n.id}>
+          {i > 0 && <Icon name="arrowRight" size={18} className="dg-summary__arrow" />}
+          <div className={`dg-summary__item tone-${n.tone}`}>
+            <span className="dg-summary__tile">
+              <Icon name={TONE_ICON[n.tone]} size={24} />
+            </span>
+            <span className="dg-summary__label">{first(n.label)}</span>
+            {n.sub && <span className="dg-summary__sub">{first(n.sub)}</span>}
+          </div>
+        </Fragment>
+      ))}
+    </div>
+  )
+}
+
 export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
   const uid = useId().replace(/:/g, '')
   const [step, setStep] = useState(-1)
   const [playing, setPlaying] = useState(false)
+  const canvasRef = useRef<HTMLDivElement>(null)
   const steps = diagram.steps
   const active = step >= 0 ? steps[step] : null
   const focus = useMemo(() => new Set(active?.focus ?? []), [active])
 
-  const rects = useMemo(() => {
-    const m = new Map<string, Rect>()
-    for (const g of diagram.groups ?? []) m.set(g.id, g)
+  const shapes = useMemo(() => {
+    const m = new Map<string, Outlined>()
+    for (const g of diagram.groups ?? []) m.set(g.id, { ...g, radius: GROUP_RADIUS })
     for (const n of diagram.nodes) m.set(n.id, n)
     return m
   }, [diagram])
+
+  const paths = useMemo(
+    () => diagram.edges.flatMap((e) => {
+      const pts = edgePoints(e, shapes)
+      return pts ? [{ id: e.id, pts }] : []
+    }),
+    [diagram, shapes],
+  )
+
+  const labels = useMemo(() => {
+    const ptsById = new Map(paths.map((p) => [p.id, p.pts]))
+    const items = diagram.edges.flatMap((e) => {
+      const pts: Pt[] | undefined = ptsById.get(e.id)
+      return e.label && pts ? [{ id: e.id, text: tx(e.label, lang), pts }] : []
+    })
+    const titles = (diagram.groups ?? []).map((g) => groupTitleRect(g, tx(g.label, lang)))
+    const canvas = { x: 0, y: 0, w: diagram.width, h: diagram.height }
+    return new Map(placeEdgeLabels(items, paths, diagram.nodes, titles, canvas).map((l) => [l.id, l]))
+  }, [diagram, lang, paths])
+
+  // Endpoints of a lit arrow stay readable (context), even when the step doesn't name them.
+  const context = useMemo(() => {
+    const c = new Set<string>()
+    for (const e of diagram.edges) {
+      if (!focus.has(e.id)) continue
+      if (!focus.has(e.from)) c.add(e.from)
+      if (!focus.has(e.to)) c.add(e.to)
+    }
+    return c
+  }, [diagram, focus])
+
+  // On narrow screens the canvas scrolls sideways: bring the lit part of each step into view.
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas || !active || canvas.scrollWidth <= canvas.clientWidth + 4) return
+    const nodeIds = new Set(diagram.nodes.map((n) => n.id))
+    const ids = [...focus, ...context]
+    for (const e of diagram.edges) if (focus.has(e.id)) ids.push(e.from, e.to)
+    // Aim at the lit nodes; groups only when a step lights nothing else.
+    const nodeBoxes = ids.filter((id) => nodeIds.has(id)).map((id) => shapes.get(id)).filter((b): b is Outlined => !!b)
+    const boxes = nodeBoxes.length ? nodeBoxes : ids.map((id) => shapes.get(id)).filter((b): b is Outlined => !!b)
+    if (!boxes.length) return
+    const svg = canvas.querySelector('svg')
+    if (!svg) return
+    const svgBox = svg.getBoundingClientRect()
+    const scale = svgBox.width / diagram.width
+    const minX = Math.min(...boxes.map((b) => b.x))
+    const maxX = Math.max(...boxes.map((b) => b.x + b.w))
+    const svgLeft = svgBox.left - canvas.getBoundingClientRect().left + canvas.scrollLeft
+    const regionPx = (maxX - minX) * scale
+    const left = regionPx + 32 > canvas.clientWidth ? svgLeft + minX * scale - 16 : svgLeft + ((minX + maxX) / 2) * scale - canvas.clientWidth / 2
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    canvas.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' })
+  }, [active, focus, context, shapes, diagram])
 
   const go = useCallback(
     (next: number) => {
@@ -121,7 +224,8 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
 
   const cls = (id: string, base: string) => {
     if (!active) return base
-    return focus.has(id) ? `${base} is-focus` : `${base} is-dim`
+    if (focus.has(id)) return `${base} is-focus`
+    return context.has(id) ? `${base} is-context` : `${base} is-dim`
   }
 
   const onKey = (e: KeyboardEvent) => {
@@ -156,16 +260,15 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
         </marker>
       </defs>
       {(diagram.groups ?? []).map((g) => (
-        <g key={g.id} className={cls(g.id, `dg-group tone-${g.tone ?? 'neutral'}`)}>
+        <g key={g.id} className={cls(g.id, `dg-group tone-${g.tone ?? 'neutral'}`)} data-group={g.id}>
           <rect x={g.x} y={g.y} width={g.w} height={g.h} rx={12} />
           <text x={g.x + 14} y={g.y + 20} className="dg-group-label">
             {tx(g.label, lang)}
           </text>
         </g>
       ))}
-      {diagram.edges.map((e) => {
-        const pts = edgePoints(e, rects)
-        if (!pts) return null
+      {paths.map(({ id, pts }) => {
+        const e = diagram.edges.find((x) => x.id === id)!
         const on = active ? focus.has(e.id) : false
         const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')
         return (
@@ -173,37 +276,33 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
             key={e.id}
             d={d}
             className={cls(e.id, `dg-edge${e.dashed ? ' is-dashed' : ''}`)}
+            data-edge={e.id}
+            data-from={e.from}
+            data-to={e.to}
+            data-bidir={e.bidir ? '' : undefined}
             markerEnd={`url(#${uid}-${on ? 'arrow-on' : 'arrow'})`}
             markerStart={e.bidir ? `url(#${uid}-${on ? 'arrow-on' : 'arrow'})` : undefined}
           />
         )
       })}
       {diagram.nodes.map((n) => (
-        <g key={n.id} className={cls(n.id, `dg-node tone-${n.tone}`)}>
+        <g key={n.id} className={cls(n.id, `dg-node tone-${n.tone}`)} data-node={n.id} data-shape={n.shape ?? 'box'}>
           <NodeShape n={n} />
           <NodeText n={n} lang={lang} />
         </g>
       ))}
-      {diagram.edges.map((e) => {
-        if (!e.label) return null
-        const pts = edgePoints(e, rects)
-        if (!pts) return null
-        const [mx, my] = midpoint(pts)
-        const text = tx(e.label, lang)
-        const box = labelRect(text, [mx, my])
-        return (
-          <g key={`${e.id}-label`} className={cls(e.id, 'dg-edge-label')}>
-            <rect x={box.x} y={box.y} width={box.w} height={box.h} rx={10} />
-            <text x={mx} y={my + 4} textAnchor="middle">
-              {text}
-            </text>
-          </g>
-        )
-      })}
+      {[...labels.values()].map((l) => (
+        <g key={`${l.id}-label`} className={cls(l.id, 'dg-edge-label')} data-label-for={l.id} data-mode={l.mode}>
+          <rect x={l.box.x} y={l.box.y} width={l.box.w} height={l.box.h} rx={10} />
+          <text x={l.box.x + l.box.w / 2} y={l.box.y + l.box.h / 2 + 4} textAnchor="middle">
+            {l.text}
+          </text>
+        </g>
+      ))}
     </svg>
   )
 
-  if (mini) return <div className="dg dg--mini">{svg}</div>
+  if (mini) return <DiagramSummary diagram={diagram} lang={lang} />
 
   return (
     <figure className="dg" aria-label={title}>
@@ -211,7 +310,7 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
         <h3 className="dg-title">{title}</h3>
         {diagram.caption && <p className="dg-caption">{tx(diagram.caption, lang)}</p>}
       </figcaption>
-      <div className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={`${title} – Pfeiltasten wechseln die Schritte`}>
+      <div ref={canvasRef} className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={`${title} – Pfeiltasten wechseln die Schritte`}>
         {svg}
       </div>
       <p className="dg-swipe-hint" aria-hidden="true">
