@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
 import { learningPaths, moduleById, COURSE_URL, CATALOG_RETRIEVED } from '../content/course.ts'
 import { SKILLS_OUTLINE_DATE, STUDY_GUIDE_URL } from '../content/domains.ts'
+import { SKILL_REPO_URL } from '../lib/links.ts'
 
 const OFFICIAL = [
   {
@@ -180,6 +181,25 @@ export function Resources() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="panel" aria-labelledby="skill-h">
+        <h2 id="skill-h" className="panel__title">
+          Eine App wie diese für deine Prüfung
+        </h2>
+        <ul className="resource-list">
+          <li>
+            <a href={SKILL_REPO_URL} target="_blank" rel="noreferrer" className="resource-list__link">
+              Agent-Skill exam-prep-app auf GitHub
+              <Icon name="open" size={14} />
+            </a>
+            <p>
+              Diese App ist mit einem KI-Agenten entstanden. Den Ablauf gibt es als frei verfügbaren Skill für GitHub Copilot und andere Agenten: Er recherchiert Prüfung,
+              Study Guide und Kurs auf Microsoft Learn, schreibt eigene Lektionen, Fragen und Zettel, prüft sie gegen die Doku und veröffentlicht die App auf GitHub Pages –
+              für jede Microsoft-Zertifizierung.
+            </p>
+          </li>
+        </ul>
       </section>
     </div>
   )

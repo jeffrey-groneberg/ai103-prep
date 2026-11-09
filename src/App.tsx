@@ -16,6 +16,7 @@ import { Coverage } from './pages/Coverage.tsx'
 import { Resources } from './pages/Resources.tsx'
 import { Zettelkasten, ZettelModule, ZettelSession } from './pages/Zettelkasten.tsx'
 import { NotFound } from './pages/NotFound.tsx'
+import { SKILL_REPO_URL } from './lib/links.ts'
 
 interface NavItem {
   to: string
@@ -167,6 +168,13 @@ export function App() {
         <p>
           Persönliche Lern-App, kein offizielles Microsoft-Produkt. Fragen sind eigene Formulierungen auf Basis der aktuellen Microsoft-Learn-Dokumentation – keine
           Prüfungsfragen, keine Dumps.
+        </p>
+        <p>
+          Du willst so eine App für deine eigene Prüfung? Der Agent-Skill{' '}
+          <a href={SKILL_REPO_URL} target="_blank" rel="noreferrer">
+            exam-prep-app
+          </a>{' '}
+          baut sie mit GitHub Copilot oder einem anderen KI-Agenten aus aktuellen Microsoft-Learn-Inhalten.
         </p>
       </footer>
       <nav className="tabbar" aria-label="Hauptnavigation (mobil)">

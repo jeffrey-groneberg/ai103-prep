@@ -64,7 +64,7 @@ Die App ist unter <https://jeffrey-groneberg.github.io/ai103-prep/> veröffentli
 | **Zettelkasten** | Karteikarten, vorbefüllt aus allen Lektionen, dazu deine eigenen Zettel. Jede Frage beantwortest du wie in der Prüfung mit einer von vier Antwortoptionen; danach erklärt der Zettel kurz, warum jede Option stimmt oder nicht. Richtig: Der Zettel wandert ein Fach nach vorn; falsch: zurück nach hinten in Fach 1. Ziel: alle Zettel in Fach 3. Siehe [Zettelkasten](#zettelkasten). |
 | **Fortschritt** | Skills-Landkarte je Domäne und Modul. Lernstand exportieren, importieren oder zurücksetzen. |
 | **Abdeckung** | Abdeckungsmatrix: Skill → Modul → Lektion → Fragen. |
-| **Ressourcen** | Study Guide, Kurs, Lernpfade und Module auf Learn, Practice Assessment, Exam Sandbox – dazu John Savills AI-103 Study Cram als Wiederholung aus der Community. |
+| **Ressourcen** | Study Guide, Kurs, Lernpfade und Module auf Learn, Practice Assessment, Exam Sandbox – dazu John Savills AI-103 Study Cram als Wiederholung aus der Community und der Agent-Skill [exam-prep-app](https://github.com/jeffrey-groneberg/exam-prep-app-skill), mit dem du so eine App für deine eigene Prüfung baust. |
 
 Die Oberfläche ist deutsch. Lektionen, Fragen und Zettel schaltest du zwischen Deutsch und Englisch um; auf Englisch übst du die Begriffe so, wie sie in der Prüfung stehen. Am Handy erreichst du Zettelkasten, Fortschritt, Ressourcen und Abdeckung über das Menü oben rechts; der Zettelkasten steht außerdem auf der Startseite direkt unter „Als Nächstes dran“.
 
