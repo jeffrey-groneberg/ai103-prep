@@ -1,29 +1,34 @@
 import { Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import type { Diagram as DiagramData, DiagramNode, Lang, Tone } from '../lib/types.ts'
 import { edgePoints, GROUP_RADIUS, groupTitleRect, nodeContentLayout, placeEdgeLabels, storeCap, type Outlined, type Pt } from '../lib/geometry.ts'
-import type { DiagramIconId } from '../content/diagram-icons.ts'
-import { tx } from '../lib/i18n.ts'
+import { isDiagramIcon, type DiagramIconId } from '../content/diagram-icons.ts'
+import { messages, tx } from '../i18n/index.ts'
 import { summaryParts, summaryPath } from '../lib/diagram-summary.ts'
 import { renderInline } from './inline.tsx'
 import { Icon } from './Icon.tsx'
 import { FeedbackLink } from './Feedback.tsx'
+import type { IconName } from './icons.generated.ts'
+import { exam } from '../config.ts'
 
-const TONES: Tone[] = ['user', 'app', 'foundry', 'model', 'data', 'tool', 'safety', 'external', 'neutral']
-const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
-  user: { de: 'Person', en: 'Person' },
-  app: { de: 'Deine App / SDK', en: 'Your app / SDK' },
-  foundry: { de: 'Foundry-Plattform', en: 'Foundry platform' },
-  model: { de: 'Modell', en: 'Model' },
-  data: { de: 'Daten / Index', en: 'Data / index' },
-  tool: { de: 'Tool / Funktion', en: 'Tool / function' },
-  safety: { de: 'Sicherheit / Guardrail', en: 'Safety / guardrail' },
-  external: { de: 'Externes System', en: 'External system' },
-  neutral: { de: 'Sonstiges', en: 'Other' },
+const TONES: Tone[] = ['user', 'app', 'platform', 'model', 'data', 'tool', 'safety', 'external', 'neutral']
+
+/** Thumbnail glyph per tone (Fluent UI System Icons) for nodes without an official product icon. */
+const TONE_ICON: Record<Tone, IconName> = {
+  user: 'person',
+  app: 'window',
+  platform: 'cloud',
+  model: 'brain',
+  data: 'database',
+  tool: 'wrench',
+  safety: 'shield',
+  external: 'globe',
+  neutral: 'cube',
 }
 
-// Official Azure Architecture Icons (unaltered SVG files), referenced as images so their gradient ids never clash.
-const ICON_URLS = import.meta.glob<string>('../assets/azure-icons/*.svg', { eager: true, query: '?url', import: 'default' })
-const diagramIconUrl = (id: DiagramIconId) => ICON_URLS[`../assets/azure-icons/${id}.svg`]
+// Official product icons registered in src/content/diagram-icons.ts (unaltered SVG files in src/assets/diagram-icons/),
+// referenced as images so their gradient ids never clash.
+const ICON_URLS = import.meta.glob<string>('../assets/diagram-icons/*.svg', { eager: true, query: '?url', import: 'default' })
+const diagramIconUrl = (id: DiagramIconId | undefined): string | undefined => (id && isDiagramIcon(id) ? ICON_URLS[`../assets/diagram-icons/${id}.svg`] : undefined)
 
 function NodeShape({ n }: { n: DiagramNode }) {
   const { x, y, w, h } = n
@@ -60,12 +65,13 @@ function NodeShape({ n }: { n: DiagramNode }) {
 function NodeText({ n, lang }: { n: DiagramNode; lang: Lang }) {
   const label = tx(n.label, lang).split('\n')
   const sub = n.sub ? tx(n.sub, lang).split('\n') : []
-  const { cx, top, labelCx, icon } = nodeContentLayout(n, label, sub)
+  const iconUrl = diagramIconUrl(n.icon)
+  const { cx, top, labelCx, icon } = nodeContentLayout(n, label, sub, !!iconUrl)
   const lineH = 18
   const subH = 16
   return (
     <g>
-      <image className="dg-icon" href={diagramIconUrl(n.icon)} x={icon.x} y={icon.y} width={icon.w} height={icon.h} aria-hidden="true" />
+      {iconUrl && icon && <image className="dg-icon" href={iconUrl} x={icon.x} y={icon.y} width={icon.w} height={icon.h} aria-hidden="true" />}
       {label.map((l, i) => (
         <text key={`l${i}`} className="dg-label" x={labelCx} y={top + i * lineH} textAnchor="middle">
           {l}
@@ -109,7 +115,7 @@ function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang })
           {i > 0 && (linked ? <Icon name="arrowRight" size={18} className="dg-summary__arrow" /> : <span className="dg-summary__gap" aria-hidden="true" />)}
           <div className={`dg-summary__item tone-${n.tone}`}>
             <span className="dg-summary__tile">
-              <img src={diagramIconUrl(n.icon)} width={24} height={24} alt="" />
+              {diagramIconUrl(n.icon) ? <img src={diagramIconUrl(n.icon)} width={24} height={24} alt="" /> : <Icon name={TONE_ICON[n.tone] ?? 'cube'} size={24} />}
             </span>
             <span className="dg-summary__label">
               <SummaryText text={tx(n.label, lang)} />
@@ -127,6 +133,7 @@ function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang })
 }
 
 export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
+  const t = messages(lang)
   const uid = useId().replace(/:/g, '')
   const [step, setStep] = useState(-1)
   const [playing, setPlaying] = useState(false)
@@ -217,11 +224,11 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
 
   useEffect(() => {
     if (!playing) return
-    const t = setTimeout(() => {
+    const timer = setTimeout(() => {
       if (step >= steps.length - 1) setPlaying(false)
       else go(step + 1)
     }, step < 0 ? 600 : 4200)
-    return () => clearTimeout(t)
+    return () => clearTimeout(timer)
   }, [playing, step, steps.length, go])
 
   const cls = (id: string, base: string) => {
@@ -240,7 +247,7 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
     } else if (e.key === 'Escape') go(-1)
   }
 
-  const usedTones = TONES.filter((t) => diagram.nodes.some((n) => n.tone === t))
+  const usedTones = TONES.filter((tone) => diagram.nodes.some((n) => n.tone === tone))
   const title = tx(diagram.title, lang)
 
   const svg = (
@@ -315,13 +322,13 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
             {title}
           </h3>
           <FeedbackLink
-            about="zu diesem Diagramm"
+            about="diagram"
             compact
             target={{
-              subject: `Diagramm ${diagram.id}`,
+              subject: t.feedback.subject.diagram(diagram.id),
               details: [
-                ['Diagramm', title],
-                ['Schritt', step < 0 ? 'Gesamtbild' : `${step + 1} von ${diagram.steps.length}`],
+                [t.feedback.detail.diagram, title],
+                [t.feedback.detail.step, step < 0 ? t.diagram.whole : t.feedback.stepOf(step + 1, diagram.steps.length)],
               ],
             }}
           />
@@ -332,26 +339,26 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
           </p>
         )}
       </figcaption>
-      <div ref={canvasRef} className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={`${title} – Pfeiltasten wechseln die Schritte`}>
+      <div ref={canvasRef} className={`dg-canvas${active ? ' has-focus' : ''}`} tabIndex={0} onKeyDown={onKey} aria-label={t.diagram.keys(title)}>
         {svg}
       </div>
       <p className="dg-swipe-hint" aria-hidden="true">
-        Diagramm seitlich wischen
+        {t.diagram.swipe}
         <Icon name="arrowRight" size={14} />
       </p>
       <div className="dg-controls">
         <button type="button" className="btn btn--secondary btn--small" onClick={() => go(step - 1)} disabled={step < 0}>
           <Icon name="chevronLeft" size={16} />
-          Zurück
+          {t.common.back}
         </button>
-        <ol className="dg-steps" aria-label="Schritte">
+        <ol className="dg-steps" aria-label={t.diagram.steps}>
           {steps.map((s, i) => (
             <li key={i}>
               <button
                 type="button"
                 className={`dg-step-dot${i === step ? ' is-active' : ''}${i < step ? ' is-done' : ''}`}
                 aria-current={i === step ? 'step' : undefined}
-                aria-label={`Schritt ${i + 1}: ${tx(s.title, lang)}`}
+                aria-label={t.diagram.step(i + 1, tx(s.title, lang))}
                 onClick={() => {
                   setPlaying(false)
                   go(i)
@@ -363,7 +370,7 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
           ))}
         </ol>
         <button type="button" className="btn btn--primary btn--small" onClick={() => go(step + 1)} disabled={step >= steps.length - 1}>
-          {step < 0 ? 'Schritt für Schritt' : 'Weiter'}
+          {step < 0 ? t.diagram.stepByStep : t.common.next}
           <Icon name="chevronRight" size={16} />
         </button>
         <button
@@ -376,11 +383,11 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
           aria-pressed={playing}
         >
           <Icon name={playing ? 'pause' : 'play'} size={16} />
-          {playing ? 'Pause' : 'Abspielen'}
+          {playing ? t.diagram.pause : t.diagram.play}
         </button>
         {step >= 0 && (
-          <button type="button" className="btn btn--subtle btn--small" onClick={() => { setPlaying(false); go(-1) }}>
-            Gesamtbild
+          <button type="button" className="btn btn--subtle btn--small" data-whole="" onClick={() => { setPlaying(false); go(-1) }}>
+            {t.diagram.whole}
           </button>
         )}
       </div>
@@ -397,15 +404,15 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
           </>
         ) : (
           <p className="dg-narration__text dg-narration__text--hint">
-            {steps.length} Schritte. Starte mit „Schritt für Schritt“ oder nutze die Pfeiltasten im Diagramm.
+            {t.diagram.hint(steps.length)}
           </p>
         )}
       </div>
-      <ul className="dg-legend" aria-label="Legende">
-        {usedTones.map((t) => (
-          <li key={t} lang={lang}>
-            <span className={`dg-swatch tone-${t}`} aria-hidden="true" />
-            {TONE_LABEL[t][lang]}
+      <ul className="dg-legend" aria-label={t.common.legend}>
+        {usedTones.map((tone) => (
+          <li key={tone}>
+            <span className={`dg-swatch tone-${tone}`} aria-hidden="true" />
+            {exam.toneLabels?.[tone] ? tx(exam.toneLabels[tone], lang) : t.labels.tone[tone]}
           </li>
         ))}
       </ul>

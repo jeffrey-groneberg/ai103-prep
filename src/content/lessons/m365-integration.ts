@@ -21,13 +21,13 @@ export const lesson: Lesson = {
       width: 960,
       height: 480,
       groups: [
-        { id: 'g-proj', x: 10, y: 20, w: 300, h: 440, label: 'Foundry project', tone: 'foundry' },
+        { id: 'g-proj', x: 10, y: 20, w: 300, h: 440, label: 'Foundry project', tone: 'platform' },
         { id: 'g-m365', x: 600, y: 20, w: 350, h: 440, label: 'Microsoft 365', tone: 'external' },
         { id: 'g-chan', x: 620, y: 130, w: 310, h: 200, label: { en: 'Channels', de: 'Kanäle' }, tone: 'external' },
       ],
       nodes: [
-        { id: 'ver', x: 40, y: 60, w: 240, h: 56, label: { en: 'Agent versions', de: 'Agent-Versionen' }, sub: 'v1 · v2 · v3', icon: 'foundry-agent-service', tone: 'foundry' },
-        { id: 'agent', x: 40, y: 194, w: 240, h: 72, label: { en: 'Agent endpoint', de: 'Agent-Endpoint' }, sub: { en: 'stable URL · own identity', de: 'stabile URL · eigene Identität' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'ver', x: 40, y: 60, w: 240, h: 56, label: { en: 'Agent versions', de: 'Agent-Versionen' }, sub: 'v1 · v2 · v3', icon: 'foundry-agent-service', tone: 'platform' },
+        { id: 'agent', x: 40, y: 194, w: 240, h: 72, label: { en: 'Agent endpoint', de: 'Agent-Endpoint' }, sub: { en: 'stable URL · own identity', de: 'stabile URL · eigene Identität' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'wiqtool', x: 40, y: 380, w: 240, h: 64, label: { en: 'Work IQ MCP tool', de: 'Work-IQ-MCP-Tool' }, sub: 'OAuth · WorkIQAgent.Ask', icon: 'toolbox', tone: 'tool' },
         { id: 'pkg', x: 350, y: 52, w: 180, h: 72, label: { en: 'App package (.zip)', de: 'App-Paket (.zip)' }, sub: { en: 'manifest.json · icons', de: 'manifest.json · Icons' }, icon: 'file', tone: 'neutral', shape: 'doc' },
         { id: 'admin', x: 630, y: 60, w: 290, h: 56, label: { en: 'M365 admin center', de: 'M365 Admin Center' }, sub: { en: 'approves org-wide scope', de: 'genehmigt den Org-Scope' }, icon: 'management-portal', tone: 'safety' },

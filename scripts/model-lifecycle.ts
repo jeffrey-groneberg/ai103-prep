@@ -19,7 +19,7 @@ const snapshotFile = join(content, 'model-lifecycle.json')
 const decode = (s: string) => s.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x2014;|&mdash;/g, '—').replace(/&[a-z#0-9]+;/gi, ' ').trim()
 
 async function fetchSchedule(): Promise<Record<string, ModelVersion[]>> {
-  const res = await fetch(SOURCE, { headers: { 'user-agent': 'ai103-prep-model-lifecycle' }, signal: AbortSignal.timeout(30000) })
+  const res = await fetch(SOURCE, { headers: { 'user-agent': 'exam-prep-model-lifecycle' }, signal: AbortSignal.timeout(30000) })
   if (!res.ok) throw new Error(`HTTP ${res.status} for ${SOURCE}`)
   const html = await res.text()
   const models: Record<string, ModelVersion[]> = {}
@@ -35,17 +35,19 @@ async function fetchSchedule(): Promise<Record<string, ModelVersion[]>> {
   return models
 }
 
+const list = (dir: string, ext: string) => (existsSync(join(content, dir)) ? readdirSync(join(content, dir)).filter((f) => f.endsWith(ext) && !f.startsWith('_')) : [])
+
 async function contentTexts(): Promise<Array<{ where: string; text: string }>> {
   const out: Array<{ where: string; text: string }> = []
-  for (const f of readdirSync(join(content, 'questions')).filter((f) => f.endsWith('.json'))) {
+  for (const f of list('questions', '.json')) {
     const data = JSON.parse(readFileSync(join(content, 'questions', f), 'utf8')) as { questions: Array<{ id: string }> }
     for (const q of data.questions) out.push({ where: q.id, text: scanText(q) })
   }
-  for (const f of readdirSync(join(content, 'cases')).filter((f) => f.endsWith('.json'))) {
+  for (const f of list('cases', '.json')) {
     const data = JSON.parse(readFileSync(join(content, 'cases', f), 'utf8')) as { cases: Array<{ id: string }> }
     for (const c of data.cases) out.push({ where: c.id, text: scanText(c) })
   }
-  for (const f of readdirSync(join(content, 'lessons')).filter((f) => f.endsWith('.ts') && !f.startsWith('_'))) {
+  for (const f of list('lessons', '.ts')) {
     const { lesson } = (await import(pathToFileURL(join(content, 'lessons', f)).href)) as { lesson: { module: string } }
     out.push({ where: `lesson ${lesson.module}`, text: scanText(lesson) })
   }

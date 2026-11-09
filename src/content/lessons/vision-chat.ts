@@ -22,7 +22,7 @@ export const lesson: Lesson = {
       height: 410,
       groups: [
         { id: 'g-app', x: 225, y: 20, w: 260, h: 310, label: { en: 'Your app', de: 'Deine App' }, tone: 'app' },
-        { id: 'g-res', x: 535, y: 20, w: 210, h: 310, label: 'Foundry resource', tone: 'foundry' },
+        { id: 'g-res', x: 535, y: 20, w: 210, h: 310, label: 'Foundry resource', tone: 'platform' },
       ],
       nodes: [
         { id: 'img', x: 20, y: 60, w: 170, h: 72, label: { en: 'Image', de: 'Bild' }, sub: 'URL · data URL · file ID', icon: 'image', tone: 'data', shape: 'doc' },

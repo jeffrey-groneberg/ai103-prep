@@ -22,15 +22,15 @@ export const lesson: Lesson = {
       height: 450,
       groups: [
         { id: 'g-app', x: 10, y: 40, w: 290, h: 380, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
-        { id: 'g-res', x: 340, y: 20, w: 610, h: 410, label: 'Foundry resource', tone: 'foundry' },
-        { id: 'g-proj', x: 360, y: 56, w: 300, h: 224, label: 'Foundry project', tone: 'foundry' },
+        { id: 'g-res', x: 340, y: 20, w: 610, h: 410, label: 'Foundry resource', tone: 'platform' },
+        { id: 'g-proj', x: 360, y: 56, w: 300, h: 224, label: 'Foundry project', tone: 'platform' },
       ],
       nodes: [
         { id: 'sdkF', x: 35, y: 120, w: 240, h: 70, label: 'Foundry SDK', sub: 'AIProjectClient', icon: 'code', tone: 'app' },
         { id: 'sdkO', x: 35, y: 300, w: 240, h: 70, label: 'OpenAI SDK', sub: 'OpenAI(base_url=…/v1/)', icon: 'code', tone: 'app' },
-        { id: 'epP', x: 385, y: 100, w: 250, h: 60, label: 'Project endpoint', sub: '…/api/projects/<project>', icon: 'foundry-project', tone: 'foundry' },
-        { id: 'feat', x: 385, y: 200, w: 250, h: 60, label: 'Agents · evals · tracing', sub: { en: 'project features', de: 'Projekt-Features' }, icon: 'foundry-project', tone: 'foundry' },
-        { id: 'epA', x: 385, y: 330, w: 250, h: 64, label: 'Azure OpenAI endpoint', sub: '…openai.azure.com/openai/v1/', icon: 'azure-openai', tone: 'foundry' },
+        { id: 'epP', x: 385, y: 100, w: 250, h: 60, label: 'Project endpoint', sub: '…/api/projects/<project>', icon: 'foundry-project', tone: 'platform' },
+        { id: 'feat', x: 385, y: 200, w: 250, h: 60, label: 'Agents · evals · tracing', sub: { en: 'project features', de: 'Projekt-Features' }, icon: 'foundry-project', tone: 'platform' },
+        { id: 'epA', x: 385, y: 330, w: 250, h: 64, label: 'Azure OpenAI endpoint', sub: '…openai.azure.com/openai/v1/', icon: 'azure-openai', tone: 'platform' },
         { id: 'dep', x: 755, y: 190, w: 190, h: 110, label: 'Model deployments', sub: 'gpt-5-mini · DeepSeek · …', icon: 'foundry-models', tone: 'model', shape: 'store' },
       ],
       edges: [

@@ -1,7 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/jeffrey-groneberg/ai103-prep/schema/question-file.schema.json",
-  "title": "AI-103 Prep question file",
+  "title": "Question file",
   "description": "One file per course module. All questions are original and grounded in current learn.microsoft.com documentation.",
   "type": "object",
   "required": ["module", "questions"],
@@ -42,9 +41,9 @@
       "properties": {
         "id": { "type": "string", "pattern": "^q-[a-z0-9-]+$" },
         "type": { "enum": ["single", "multi", "order", "match", "code"] },
-        "domain": { "enum": ["D1", "D2", "D3", "D4", "D5"] },
-        "skill": { "type": "string", "pattern": "^[1-5]\\.[1-4]\\.[1-8]$" },
-        "skills": { "type": "array", "items": { "type": "string", "pattern": "^[1-5]\\.[1-4]\\.[1-8]$" } },
+        "domain": { "type": "string", "pattern": "^D[1-9][0-9]*$" },
+        "skill": { "type": "string", "pattern": "^[1-9][0-9]*\\.[1-9][0-9]*\\.[1-9][0-9]*$" },
+        "skills": { "type": "array", "items": { "type": "string", "pattern": "^[1-9][0-9]*\\.[1-9][0-9]*\\.[1-9][0-9]*$" } },
         "module": { "type": "string", "pattern": "^[a-z0-9-]+$" },
         "difficulty": { "enum": [1, 2, 3] },
         "caseId": { "type": "string", "pattern": "^case-[a-z0-9-]+$" },

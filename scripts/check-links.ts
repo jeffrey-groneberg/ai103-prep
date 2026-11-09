@@ -1,14 +1,15 @@
 /**
- * Verifies that every learn.microsoft.com URL cited by lessons, questions and the course map
+ * Verifies that every learn.microsoft.com URL cited by lessons, questions, the course map and exam.json
  * still resolves (HTTP 200 after redirects).
  *
  *   npm run check:links
  */
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Lesson, QuestionFile } from '../src/lib/types.ts'
-import { modules } from '../src/content/course.ts'
+import { learningPaths, modules } from '../src/content/outline.ts'
+import { exam } from '../src/config.ts'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const content = join(root, 'src', 'content')
@@ -19,12 +20,15 @@ const add = (url: string, where: string) => {
   urls.get(key)!.add(where)
 }
 
+for (const [name, url] of Object.entries(exam.links)) if (url.startsWith('https://learn.microsoft.com/')) add(url, `exam.json:${name}`)
+for (const p of learningPaths) add(p.url, `path:${p.id}`)
 for (const m of modules) add(m.url, `course:${m.id}`)
-for (const f of readdirSync(join(content, 'questions')).filter((f) => f.endsWith('.json'))) {
+const list = (dir: string, ext: string) => (existsSync(join(content, dir)) ? readdirSync(join(content, dir)).filter((f) => f.endsWith(ext) && !f.startsWith('_')) : [])
+for (const f of list('questions', '.json')) {
   const data = JSON.parse(readFileSync(join(content, 'questions', f), 'utf8')) as QuestionFile
   for (const q of data.questions) for (const s of q.sources) add(s, q.id)
 }
-for (const f of readdirSync(join(content, 'lessons')).filter((f) => f.endsWith('.ts') && !f.startsWith('_'))) {
+for (const f of list('lessons', '.ts')) {
   const mod = (await import(pathToFileURL(join(content, 'lessons', f)).href)) as { lesson: Lesson }
   for (const s of mod.lesson.sources) add(s.url, `lesson:${mod.lesson.module}`)
 }
@@ -33,7 +37,7 @@ for (const f of readdirSync(join(content, 'lessons')).filter((f) => f.endsWith('
 async function check(url: string): Promise<number> {
   for (let attempt = 0; attempt < 6; attempt++) {
     try {
-      const res = await fetch(url, { method: 'GET', redirect: 'follow', headers: { 'user-agent': 'ai103-prep-link-check' }, signal: AbortSignal.timeout(30000) })
+      const res = await fetch(url, { method: 'GET', redirect: 'follow', headers: { 'user-agent': 'exam-prep-link-check' }, signal: AbortSignal.timeout(30000) })
       await res.body?.cancel()
       if (res.status === 429) {
         const retryAfter = Number(res.headers.get('retry-after'))

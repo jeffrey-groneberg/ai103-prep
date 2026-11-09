@@ -1,26 +1,17 @@
 import titles from './source-titles.json'
+import { exam } from '../config.ts'
 
 const TITLES = titles as Record<string, string>
 
-const DOCSETS: Array<[RegExp, string]> = [
-  [/^\/training\//, 'Training'],
-  [/^\/agent-framework\//, 'Agent Framework'],
-  [/^\/azure\/foundry\//, 'Foundry'],
-  [/^\/azure\/search\//, 'AI Search'],
-  [/^\/azure\/ai-services\/content-understanding\//, 'Content Understanding'],
-  [/^\/azure\/ai-services\/document-intelligence\//, 'Document Intelligence'],
-  [/^\/azure\/ai-services\/speech-service\//, 'Speech'],
-  [/^\/azure\/ai-services\/language-service\//, 'Language'],
-  [/^\/azure\/ai-services\/translator\//, 'Translator'],
-  [/^\/azure\/ai-services\/content-safety\//, 'Content Safety'],
-  [/^\/python\/api\//, 'Python SDK'],
-  [/^\/rest\/api\//, 'REST API'],
-  [/^\/web-iq\//, 'Web IQ'],
-  [/^\/microsoft-365\//, 'Microsoft 365'],
-]
+export interface SourceLabelOptions {
+  /** Fetched page titles by URL (src/content/source-titles.json). */
+  titles?: Record<string, string>
+  /** Doc set label per Learn path prefix (exam.json sourceDocsets). */
+  docsets?: ReadonlyArray<{ prefix: string; label: string }>
+}
 
 /** Link text for a cited Learn URL: "<doc set>: <page title>", falling back to the URL slug. */
-export function sourceLabel(url: string): string {
+export function sourceLabel(url: string, opts: SourceLabelOptions = {}): string {
   const key = url.split('#')[0]
   let path = ''
   let slug = url
@@ -32,11 +23,11 @@ export function sourceLabel(url: string): string {
   } catch {
     return url
   }
-  const title = TITLES[key] ?? slug
-  const docset = DOCSETS.find(([re]) => re.test(path))?.[1] ?? 'Learn'
+  const title = (opts.titles ?? TITLES)[key] ?? slug
+  const docset = (opts.docsets ?? exam.sourceDocsets).find((d) => path.startsWith(d.prefix))?.label ?? 'Learn'
   return title.toLowerCase().includes(docset.toLowerCase()) ? title : `${docset}: ${title}`
 }
 
-export function hasSourceTitle(url: string): boolean {
-  return url.split('#')[0] in TITLES
+export function hasSourceTitle(url: string, titles: Record<string, string> = TITLES): boolean {
+  return url.split('#')[0] in titles
 }

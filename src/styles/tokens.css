@@ -42,7 +42,7 @@
   --warn-line: #fdcfb4;
   --mark: #c48a00;
 
-  /* Exam domains (fill · ink for text · tint for backgrounds) */
+  /* Exam domains by position in the outline (fill · ink for text · tint for backgrounds) */
   --d1: #0f6cbd;
   --d1-ink: #0f548c;
   --d1-tint: #ebf3fc;
@@ -58,6 +58,9 @@
   --d5: #ca5010;
   --d5-ink: #9c3d0a;
   --d5-tint: #fdf0e8;
+  --d6: #8764b8;
+  --d6-ink: #5c2e91;
+  --d6-tint: #f7f4fb;
 
   /* Diagram tones (fill · stroke · ink) */
   --tone-user-fill: #fff8e6;
@@ -66,9 +69,9 @@
   --tone-app-fill: #ebf3fc;
   --tone-app-stroke: #0f6cbd;
   --tone-app-ink: #0f548c;
-  --tone-foundry-fill: #f0effc;
-  --tone-foundry-stroke: #5b5fc7;
-  --tone-foundry-ink: #3d3f99;
+  --tone-platform-fill: #f0effc;
+  --tone-platform-stroke: #5b5fc7;
+  --tone-platform-ink: #3d3f99;
   --tone-model-fill: #e6f4f4;
   --tone-model-stroke: #038387;
   --tone-model-ink: #025b5e;

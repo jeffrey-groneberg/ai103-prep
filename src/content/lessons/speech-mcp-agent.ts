@@ -21,18 +21,18 @@ export const lesson: Lesson = {
       width: 960,
       height: 480,
       groups: [
-        { id: 'g-proj', x: 290, y: 15, w: 250, h: 290, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'foundry' },
-        { id: 'g-res', x: 610, y: 165, w: 310, h: 300, label: { en: 'Foundry resource', de: 'Foundry-Ressource' }, tone: 'foundry' },
+        { id: 'g-proj', x: 290, y: 15, w: 250, h: 290, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'platform' },
+        { id: 'g-res', x: 610, y: 165, w: 310, h: 300, label: { en: 'Foundry resource', de: 'Foundry-Ressource' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'user', x: 20, y: 40, w: 150, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'asks in chat', de: 'fragt im Chat' }, icon: 'users', tone: 'user', shape: 'actor' },
         { id: 'client', x: 20, y: 200, w: 150, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: 'responses.create()', icon: 'browser', tone: 'app' },
         { id: 'blob', x: 10, y: 376, w: 170, h: 72, label: { en: 'Blob container', de: 'Blob-Container' }, sub: { en: 'SAS URL · WAV files', de: 'SAS-URL · WAV-Dateien' }, icon: 'storage-container', tone: 'data', shape: 'store' },
         { id: 'approval', x: 320, y: 50, w: 190, h: 72, label: { en: 'Tool approval', de: 'Tool-Freigabe' }, sub: 'mcp_approval_request\nmcp_approval_response', icon: 'conditional-access', tone: 'safety', shape: 'pill' },
-        { id: 'agent', x: 320, y: 200, w: 190, h: 64, label: { en: 'Speech agent', de: 'Speech-Agent' }, sub: { en: 'prompt agent · gpt-5-mini', de: 'Prompt Agent · gpt-5-mini' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'agent', x: 320, y: 200, w: 190, h: 64, label: { en: 'Speech agent', de: 'Speech-Agent' }, sub: { en: 'prompt agent · gpt-5-mini', de: 'Prompt Agent · gpt-5-mini' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'mcp', x: 305, y: 380, w: 220, h: 64, label: { en: 'Azure Speech MCP server', de: 'Azure Speech MCP Server' }, sub: { en: 'remote MCP', de: 'Remote-MCP' }, icon: 'speech', tone: 'tool' },
-        { id: 'stt', x: 640, y: 220, w: 250, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: 'recognize', icon: 'speech', tone: 'foundry' },
-        { id: 'tts', x: 640, y: 380, w: 250, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: 'synthesize', icon: 'speech', tone: 'foundry' },
+        { id: 'stt', x: 640, y: 220, w: 250, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: 'recognize', icon: 'speech', tone: 'platform' },
+        { id: 'tts', x: 640, y: 380, w: 250, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: 'synthesize', icon: 'speech', tone: 'platform' },
       ],
       edges: [
         { id: 'm1', from: 'user', to: 'client', label: { en: 'prompt', de: 'Prompt' } },

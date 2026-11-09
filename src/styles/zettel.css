@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Zettelkasten — a Leitner card box with three compartments.
-   The box: Fach 1 (back, start) → Fach 2 → Fach 3 (front, goal). Cards are
+   Flashcards (Zettelkasten in the German UI) — a Leitner card box with three
+   compartments: stage 1 (back, start) → stage 2 → stage 3 (front, goal). Cards are
    drawn as stacks of card edges; paper and edge colour climb the brand ramp
-   toward the front. The register: one index divider per module.
+   toward the front. The index: one divider per learning path and module.
    ========================================================================== */
 
 /* ---------- The box (signature) ---------- */
@@ -143,7 +143,7 @@
   color: var(--brand);
 }
 
-/* Return path: from Fach 3 and Fach 2 back down to Fach 1. */
+/* Return path: from stage 3 and stage 2 back down to stage 1. */
 .zbox__return {
   position: relative;
   padding-top: 26px;
@@ -288,7 +288,7 @@
   line-height: 18px;
 }
 
-/* ---------- Register: one index divider per module ---------- */
+/* ---------- Index: one divider per learning path and module ---------- */
 .zk-path + .zk-path {
   margin-top: var(--s6);
 }
@@ -1192,7 +1192,7 @@ kbd.zk-keys {
   line-height: 20px;
 }
 
-/* Feedback for the card in a round: at the foot of the card, so the header keeps side, module and compartment readable. */
+/* Feedback for the card in a round: at the foot of the card, so the header keeps side, module and stage readable. */
 .zk-flip__feedback {
   display: flex;
   justify-content: flex-end;

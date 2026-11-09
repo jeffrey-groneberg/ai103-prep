@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEven
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
 import { FeedbackLink } from '../components/Feedback.tsx'
+import { feedbackEnabled } from '../lib/feedback.ts'
 import { RichText } from '../components/RichText.tsx'
 import { ChoiceList } from '../components/QuestionView.tsx'
 import { orderChoices, type ChoiceSet } from '../lib/choices.ts'
@@ -10,12 +11,11 @@ import { ZettelBox } from '../components/ZettelBox.tsx'
 import { store } from '../lib/store.ts'
 import { advance, buildDeck, countByFach, fachOf, GOAL, type Fach, type OwnChoice, type OwnZettel, type ZettelStates } from '../lib/zettel.ts'
 import { nextRound, ROUND_SIZE, useZettelBox } from '../lib/zettel-box.ts'
-import { plural, tx } from '../lib/i18n.ts'
+import { tx, useT, type Messages } from '../i18n/index.ts'
 import type { Lang, Zettel } from '../lib/types.ts'
 import { orderedModules, starterZettel } from '../content/index.ts'
-import { learningPaths, moduleById } from '../content/course.ts'
+import { learningPaths, moduleById } from '../content/outline.ts'
 
-const KIND_LABEL: Record<Zettel['kind'], string> = { concept: 'Begriff', trap: 'Prüfungsfalle', takeaway: 'Merksatz', own: 'Eigener Zettel' }
 const moduleNumber = new Map(orderedModules.map((m, i) => [m.id, i + 1]))
 
 const ids = (cards: readonly Zettel[]) => cards.map((z) => z.id)
@@ -23,23 +23,26 @@ const ids = (cards: readonly Zettel[]) => cards.map((z) => z.id)
 const langOf = (z: Zettel, lang: Lang) => (z.kind === 'own' ? undefined : lang)
 
 function FachBadge({ fach }: { fach: Fach }) {
-  return <span className={`zk-fach zk-fach--${fach}`}>Fach {fach}</span>
+  const t = useT()
+  return <span className={`zk-fach zk-fach--${fach}`}>{t.cards.stage(fach)}</span>
 }
 
 function SplitBar({ counts }: { counts: readonly [number, number, number] }) {
+  const t = useT()
   return (
-    <span className="zk-split" role="img" aria-label={`Fach 1: ${counts[0]}, Fach 2: ${counts[1]}, Fach 3: ${counts[2]}`}>
+    <span className="zk-split" role="img" aria-label={t.cards.split(counts[0], counts[1], counts[2])}>
       {counts.map((n, i) => (n > 0 ? <span key={i} className={`zk-split__seg zk-split__seg--${i + 1}`} style={{ flexGrow: n }} /> : null))}
     </span>
   )
 }
 
 /**
- * "Alle zurück in Fach 1" asks first: it undoes the learner's progress for every card in scope. The question
- * focuses Abbrechen, never the destructive action; afterwards focus returns to the trigger (Abbrechen) or moves
- * to `focusAfter` (Zurücklegen), and a status line says what happened.
+ * "All back to stage 1" asks first: it undoes the learner's progress for every card in scope. The question
+ * focuses Cancel, never the destructive action; afterwards focus returns to the trigger (Cancel) or moves
+ * to `focusAfter` (Put back), and a status line says what happened.
  */
 function ResetCards({ cardIds, states, focusAfter }: { cardIds: string[]; states: ZettelStates; focusAfter: string }) {
+  const t = useT()
   const [asking, setAsking] = useState(false)
   const [announce, setAnnounce] = useState('')
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -56,7 +59,7 @@ function ResetCards({ cardIds, states, focusAfter }: { cardIds: string[]; states
   const reset = () => {
     store.resetZettel(moved)
     setAsking(false)
-    setAnnounce(`${moved.length} ${moved.length === 1 ? 'Zettel liegt' : 'Zettel liegen'} wieder in Fach 1.`)
+    setAnnounce(t.cards.resetDone(moved.length))
     requestAnimationFrame(() => document.getElementById(focusAfter)?.focus())
   }
   if (!moved.length) return status
@@ -74,7 +77,7 @@ function ResetCards({ cardIds, states, focusAfter }: { cardIds: string[]; states
           }}
         >
           <Icon name="reset" size={18} />
-          Alle zurück in Fach 1
+          {t.cards.resetAll}
         </button>
       </>
     )
@@ -84,27 +87,28 @@ function ResetCards({ cardIds, states, focusAfter }: { cardIds: string[]; states
       {status}
       <div className="zk-confirm" role="group" aria-labelledby="zk-confirm-q" onKeyDown={(e) => e.key === 'Escape' && cancel()}>
         <p id="zk-confirm-q" className="zk-confirm__q">
-          {plural(moved.length, 'Zettel', 'Zettel')} zurück in Fach 1 legen?
+          {t.cards.resetAsk(moved.length)}
         </p>
         <button type="button" className="btn btn--danger btn--large" onClick={reset}>
-          Zurücklegen
+          {t.cards.putBack}
         </button>
         <button type="button" className="btn btn--subtle btn--large" autoFocus onClick={cancel}>
-          Abbrechen
+          {t.common.cancel}
         </button>
       </div>
     </>
   )
 }
 
-/** Fach colours of the split bars, as their legend. */
+/** Stage colours of the split bars, as their legend. */
 function FachLegend() {
+  const t = useT()
   return (
-    <ul className="zk-legend" aria-label="Farben der Fächer">
+    <ul className="zk-legend" aria-label={t.cards.legend}>
       {[1, 2, 3].map((f) => (
         <li key={f}>
           <span className={`zk-legend__swatch zk-split__seg--${f}`} aria-hidden="true" />
-          Fach {f}
+          {t.cards.stage(f)}
         </li>
       ))}
     </ul>
@@ -126,6 +130,7 @@ const EMPTY_WRONG = [
 ]
 
 export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorProps) {
+  const t = useT()
   const initialRight = initial?.choices?.find((c) => c.correct)?.text ?? ''
   const initialWrong = initial?.choices?.filter((c) => !c.correct).map((c) => ({ text: c.text, why: c.why ?? '' })) ?? []
   const [front, setFront] = useState(initial?.front ?? '')
@@ -164,49 +169,47 @@ export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorPr
 
   return (
     <form className="zk-editor" onSubmit={submit} onKeyDown={(e) => e.key === 'Escape' && onDone()}>
-      <h2 className="panel__title">{initial ? 'Zettel bearbeiten' : 'Neuer Zettel'}</h2>
+      <h2 className="panel__title">{initial ? t.cards.editTitle : t.cards.newTitle}</h2>
       <label className="zk-field">
-        <span className="zk-field__label">Vorderseite · Frage</span>
-        <textarea ref={frontRef} className="zk-input" rows={3} value={front} onChange={(e) => setFront(e.target.value)} placeholder="Was willst du dich fragen?" required />
+        <span className="zk-field__label">{t.cards.front}</span>
+        <textarea ref={frontRef} className="zk-input" rows={3} value={front} onChange={(e) => setFront(e.target.value)} placeholder={t.cards.frontPlaceholder} required />
       </label>
       <label className="zk-field">
-        <span className="zk-field__label">Rückseite · Antwort und warum</span>
-        <textarea className="zk-input" rows={4} value={back} onChange={(e) => setBack(e.target.value)} placeholder="Die Antwort und kurz, warum sie stimmt." required />
+        <span className="zk-field__label">{t.cards.back}</span>
+        <textarea className="zk-input" rows={4} value={back} onChange={(e) => setBack(e.target.value)} placeholder={t.cards.backPlaceholder} required />
       </label>
       <details className="zk-editor__choices" open={initialRight !== ''}>
-        <summary>Antwortoptionen wie in der Prüfung</summary>
-        <p className="zk-editor__hint">Mit einer richtigen und mindestens zwei falschen Optionen fragt die Runde diesen Zettel als Multiple Choice ab. Ohne Optionen drehst du ihn um und schätzt dich selbst ein.</p>
+        <summary>{t.cards.options}</summary>
+        <p className="zk-editor__hint">{t.cards.optionsHint}</p>
         <label className="zk-field">
-          <span className="zk-field__label">Richtige Option</span>
+          <span className="zk-field__label">{t.cards.rightOption}</span>
           <input className="zk-input" value={right} onChange={(e) => setRight(e.target.value)} />
         </label>
         {wrong.map((w, i) => (
           <div key={i} className="zk-editor__wrong">
             <label className="zk-field">
-              <span className="zk-field__label">Falsche Option {i + 1}</span>
+              <span className="zk-field__label">{t.cards.wrongOption(i + 1)}</span>
               <input className="zk-input" value={w.text} onChange={(e) => setWrong(wrong.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))} />
             </label>
             <label className="zk-field">
-              <span className="zk-field__label">Warum falsch?</span>
+              <span className="zk-field__label">{t.cards.whyWrong}</span>
               <input className="zk-input" value={w.why} onChange={(e) => setWrong(wrong.map((x, j) => (j === i ? { ...x, why: e.target.value } : x)))} />
             </label>
           </div>
         ))}
         {usesChoices && !choicesComplete && (
           <p className="zk-editor__missing" role="status">
-            Für Multiple Choice fehlen noch {right.trim() ? '' : 'die richtige Option'}
-            {!right.trim() && wrongFilled.length < 2 ? ' und ' : ''}
-            {wrongFilled.length < 2 ? `${2 - wrongFilled.length} falsche Option${2 - wrongFilled.length === 1 ? '' : 'en'}` : ''}.
+            {t.cards.missing(!right.trim(), Math.max(0, 2 - wrongFilled.length))}
           </p>
         )}
       </details>
       <label className="zk-field">
-        <span className="zk-field__label">Modul</span>
+        <span className="zk-field__label">{t.cards.module}</span>
         <select className="select zk-input" value={module} onChange={(e) => setModule(e.target.value)}>
-          <option value="">Ohne Modul</option>
+          <option value="">{t.cards.noModule}</option>
           {learningPaths.map((p) => (
             <optgroup key={p.id} label={p.title}>
-              {p.modules.map((id) => (
+              {p.modules.filter((id) => moduleById.has(id)).map((id) => (
                 <option key={id} value={id}>
                   {moduleNumber.get(id)}. {moduleById.get(id)?.title}
                 </option>
@@ -215,18 +218,18 @@ export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorPr
           ))}
         </select>
       </label>
-      <p className="zk-editor__hint">Code setzt du in `Backticks`. Neue Zettel starten hinten in Fach 1.</p>
+      <p className="zk-editor__hint">{t.cards.editorHint}</p>
       <div className="zk-editor__actions">
         <button type="submit" className="btn btn--primary" disabled={!ready}>
-          {initial ? 'Speichern' : 'In Fach 1 legen'}
+          {initial ? t.cards.save : t.cards.addToBox}
         </button>
         <button type="button" className="btn btn--subtle" onClick={onDone}>
-          {saved ? 'Fertig' : 'Abbrechen'}
+          {saved ? t.cards.done : t.common.cancel}
         </button>
         {saved > 0 && (
           <p className="zk-editor__saved" role="status">
             <Icon name="check" size={16} />
-            {saved === 1 ? 'Liegt in Fach 1.' : `${saved} Zettel liegen in Fach 1.`}
+            {t.cards.saved(saved)}
           </p>
         )}
       </div>
@@ -249,6 +252,7 @@ interface DividerProps {
 }
 
 function Divider({ to, learnTo, tab, title, cards, states, slot, next = false }: DividerProps) {
+  const t = useT()
   const counts = countByFach(ids(cards), states)
   const open = counts[0] + counts[1]
   const done = cards.length > 0 && open === 0
@@ -264,18 +268,18 @@ function Divider({ to, learnTo, tab, title, cards, states, slot, next = false }:
             {title}
           </Link>
           <span className="zk-divider__meta">
-            {cards.length ? `${plural(cards.length, 'Zettel', 'Zettel')} · ${counts[2]} vorne` : 'Noch leer'}
-            {done && <span className="sr-only"> · alle vorne</span>}
-            {next && <span className="tag tag--brand">Nächste Runde</span>}
+            {cards.length ? t.cards.meta(cards.length, counts[2]) : t.cards.emptyTab}
+            {done && <span className="sr-only">{t.cards.allFrontSr}</span>}
+            {next && <span className="tag tag--brand">{t.cards.nextRound}</span>}
           </span>
         </div>
         {cards.length > 0 && <SplitBar counts={counts} />}
         {open > 0 ? (
-          <Link to={learnTo} className="btn btn--secondary btn--small zk-divider__go" aria-label={`${title}: ${plural(open, 'offenen Zettel', 'offene Zettel')} lernen`}>
-            Lernen
+          <Link to={learnTo} className="btn btn--secondary btn--small zk-divider__go" aria-label={t.cards.studyLabel(title, open)}>
+            {t.cards.study}
           </Link>
         ) : (
-          <span className="zk-divider__go zk-divider__state">{done ? 'Alle vorne' : ''}</span>
+          <span className="zk-divider__go zk-divider__state">{done ? t.cards.allFront : ''}</span>
         )}
       </div>
     </li>
@@ -284,6 +288,7 @@ function Divider({ to, learnTo, tab, title, cards, states, slot, next = false }:
 
 /** The divider in front of a learning path's modules: its whole split and a round across the path. */
 function PathDivider({ index, pathId, title, cards, states }: { index: number; pathId: string; title: string; cards: readonly Zettel[]; states: ZettelStates }) {
+  const t = useT()
   const counts = countByFach(ids(cards), states)
   const open = counts[0] + counts[1]
   const done = cards.length > 0 && open === 0
@@ -291,29 +296,23 @@ function PathDivider({ index, pathId, title, cards, states }: { index: number; p
     <div className={`zk-divider zk-divider--path${done ? ' is-done' : ''}`}>
       <span className="zk-divider__tab" aria-hidden="true">
         {done && <Icon name="check" size={12} />}
-        Lernpfad {index}
+        {t.cards.pathTab(index)}
       </span>
       <div className="zk-divider__body">
         <div className="zk-divider__text">
           <h3 className="zk-divider__heading">
-            <span className="sr-only">Lernpfad {index}: </span>
+            <span className="sr-only">{t.cards.pathSr(index)}</span>
             {title}
           </h3>
-          <span className="zk-divider__meta">
-            {plural(cards.length, 'Zettel', 'Zettel')} · {counts[2]} vorne
-          </span>
+          <span className="zk-divider__meta">{t.cards.meta(cards.length, counts[2])}</span>
         </div>
         <SplitBar counts={counts} />
         {open > 0 ? (
-          <Link
-            to={`/zettel/lernen?pfad=${pathId}`}
-            className="btn btn--secondary btn--small zk-divider__go"
-            aria-label={`Lernpfad ${index}: Runde mit bis zu ${ROUND_SIZE} offenen Zetteln`}
-          >
-            Lernen
+          <Link to={`/cards/round?path=${pathId}`} className="btn btn--secondary btn--small zk-divider__go" aria-label={t.cards.pathRound(index, ROUND_SIZE)}>
+            {t.cards.study}
           </Link>
         ) : (
-          <span className="zk-divider__go zk-divider__state">{done ? 'Alle vorne' : ''}</span>
+          <span className="zk-divider__go zk-divider__state">{done ? t.cards.allFront : ''}</span>
         )}
       </div>
     </div>
@@ -321,9 +320,10 @@ function PathDivider({ index, pathId, title, cards, states }: { index: number; p
 }
 
 export function Zettelkasten() {
+  const t = useT()
   const { cards, zettel, lessonsRead, ownZettel } = useZettelBox()
   const { search } = useLocation()
-  const [adding, setAdding] = useState(() => new URLSearchParams(search).get('neu') === '1')
+  const [adding, setAdding] = useState(() => new URLSearchParams(search).get('new') === '1')
   const counts = countByFach(ids(cards), zettel)
   const round = nextRound(cards, zettel, lessonsRead)
   const byModule = useMemo(() => {
@@ -339,45 +339,38 @@ export function Zettelkasten() {
   return (
     <div className="page zk">
       <header className="page-head">
-        <h1 className="page-title">Zettelkasten</h1>
-        <p className="page-sub">
-          Vorderseite: eine Frage mit vier Antwortoptionen wie in der Prüfung. Rückseite: die richtige Antwort und kurz, warum jede Option stimmt oder nicht. Richtig
-          beantwortet, wandert der Zettel ein Fach nach vorn; falsch, kommt er zurück nach hinten in Fach 1. Geschafft ist ein Zettel, wenn er zwei Fächer vorgerückt ist
-          und in Fach 3 steht.
-        </p>
+        <h1 className="page-title">{t.cards.title}</h1>
+        <p className="page-sub">{t.cards.sub}</p>
       </header>
 
       <div className="zk__grid">
         <div className="zk__side">
           <section className="panel zk-boxpanel" aria-labelledby="zk-box-h">
             <h2 id="zk-box-h" className="panel__title" tabIndex={-1}>
-              Dein Kasten
+              {t.cards.box}
             </h2>
             <ZettelBox counts={counts} />
             <p className="zk-tally">
-              <strong>{counts[2]}</strong> von {cards.length} Zetteln stehen vorne
+              <strong>{counts[2]}</strong>
+              {t.cards.tally(cards.length)}
             </p>
-            <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={`${pct} % der Zettel in Fach 3`}>
+            <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={t.cards.inFront(pct)}>
               <span className="meter__fill bg-brand" style={{ width: `${pct}%` }} />
             </div>
             <div className="zk-actions">
               {round.length > 0 && (
-                <Link to="/zettel/lernen" className="btn btn--primary btn--large">
-                  Runde mit {plural(round.length, 'Zettel', 'Zetteln')}
+                <Link to="/cards/round" className="btn btn--primary btn--large">
+                  {t.cards.round(round.length)}
                   <Icon name="arrowRight" size={18} />
                 </Link>
               )}
               <button type="button" className="btn btn--secondary btn--large" aria-expanded={adding} aria-controls="zk-editor" onClick={() => setAdding(true)}>
                 <Icon name="add" size={18} />
-                Neuer Zettel
+                {t.cards.newCard}
               </button>
               {round.length === 0 && <ResetCards cardIds={ids(cards)} states={zettel} focusAfter="zk-box-h" />}
             </div>
-            <p className="zk-note">
-              {round.length > 0
-                ? `Eine Runde nimmt bis zu ${ROUND_SIZE} offene Zettel, Module mit gelesener Lektion zuerst, und läuft, bis jeder davon in Fach 3 steht. Im Register siehst du, woher die nächste Runde kommt; ein Modul oder einen Lernpfad übst du über sein Register.`
-                : 'Jeder Zettel steht in Fach 3. Leg alle zurück in Fach 1, wenn du den Kasten noch einmal durcharbeiten willst.'}
-            </p>
+            {cards.length > 0 && <p className="zk-note">{round.length > 0 ? t.cards.roundNote(ROUND_SIZE) : t.cards.allFrontNote}</p>}
           </section>
           {adding && (
             <section id="zk-editor" className="panel">
@@ -389,20 +382,21 @@ export function Zettelkasten() {
         <section className="panel zk-register" aria-labelledby="zk-reg-h">
           <div className="panel__head">
             <h2 id="zk-reg-h" className="panel__title">
-              Register
+              {t.cards.index}
             </h2>
             <FachLegend />
           </div>
+          {!learningPaths.length && <p className="zk-note">{t.cards.noPaths}</p>}
           {learningPaths.map((p, pi) => (
             <div key={p.id} className="zk-path">
               <PathDivider index={pi + 1} pathId={p.id} title={p.title} cards={p.modules.flatMap((id) => byModule.get(id) ?? [])} states={zettel} />
-              <ol className="zk-dividers" aria-label={`Module in Lernpfad ${pi + 1}`}>
-                {p.modules.map((id, i) => (
+              <ol className="zk-dividers" aria-label={t.cards.pathModules(pi + 1)}>
+                {p.modules.filter((id) => moduleById.has(id)).map((id, i) => (
                   <Divider
                     key={id}
-                    to={`/zettel/modul/${id}`}
-                    learnTo={`/zettel/lernen?modul=${id}`}
-                    tab={`Modul ${moduleNumber.get(id)}`}
+                    to={`/cards/module/${id}`}
+                    learnTo={`/cards/round?module=${id}`}
+                    tab={t.cards.moduleTab(moduleNumber.get(id) ?? 0)}
                     title={moduleById.get(id)?.title ?? id}
                     cards={byModule.get(id) ?? []}
                     states={zettel}
@@ -414,11 +408,11 @@ export function Zettelkasten() {
             </div>
           ))}
           <div className="zk-path">
-            <h3 className="zk-own__title">Deine eigenen Zettel</h3>
+            <h3 className="zk-own__title">{t.cards.ownTitle}</h3>
             <ol className="zk-dividers">
-              <Divider to="/zettel/eigene" learnTo="/zettel/lernen?eigene=1" tab="Eigene" title="Eigene Zettel" cards={own} states={zettel} slot={0} next={own.some((z) => round.includes(z.id))} />
+              <Divider to="/cards/own" learnTo="/cards/round?own=1" tab={t.cards.ownTab} title={t.cards.ownCards} cards={own} states={zettel} slot={0} next={own.some((z) => round.includes(z.id))} />
             </ol>
-            {ownZettel.length === 0 && <p className="zk-note">Schreib dir Zettel zu allem, was du dir merken willst; sie landen hier und im Register ihres Moduls.</p>}
+            {ownZettel.length === 0 && <p className="zk-note">{t.cards.ownHint}</p>}
           </div>
         </section>
       </div>
@@ -430,16 +424,18 @@ export function Zettelkasten() {
 
 /** Feedback for a starter card; the issue names the card and quotes its question. */
 function ZettelFeedback({ z, iconOnly = false }: { z: Zettel; iconOnly?: boolean }) {
+  const t = useT()
+  const f = t.feedback
   return (
     <FeedbackLink
-      about="zu diesem Zettel"
+      about="card"
       iconOnly={iconOnly}
       compact
       target={{
-        subject: `Zettel ${z.id}`,
+        subject: f.subject.card(z.id),
         details: [
-          ['Modul', z.module ?? 'eigener Zettel'],
-          ['Art', KIND_LABEL[z.kind]],
+          [f.detail.module, z.module ?? f.ownCard],
+          [f.detail.kind, t.labels.kind[z.kind]],
         ],
         excerpt: z.front,
       }}
@@ -448,6 +444,7 @@ function ZettelFeedback({ z, iconOnly = false }: { z: Zettel; iconOnly?: boolean
 }
 
 function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
+  const t = useT()
   const [editing, setEditing] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const own = z.kind === 'own' ? store.get().ownZettel.find((o) => o.id === z.id) : undefined
@@ -463,23 +460,23 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
   return (
     <li className="zk-card">
       <div className="zk-card__head">
-        <span className="zk-card__kind">{KIND_LABEL[z.kind]}</span>
+        <span className="zk-card__kind">{t.labels.kind[z.kind]}</span>
         <FachBadge fach={fach} />
         {!own && <ZettelFeedback z={z} iconOnly />}
         {!own && (
-          <button type="button" className="icon-btn zk-card__hide" onClick={() => store.setZettelHidden(z.id, true)} aria-label="Aus dem Kasten nehmen" title="Aus dem Kasten nehmen">
+          <button type="button" className="icon-btn zk-card__hide" onClick={() => store.setZettelHidden(z.id, true)} aria-label={t.cards.hide} title={t.cards.hide}>
             <Icon name="eyeOff" size={16} />
           </button>
         )}
       </div>
       <RichText text={tx(z.front, lang)} className="zk-card__front" lang={contentLang} />
       <details className="zk-card__answer">
-        <summary>Antwort</summary>
+        <summary>{t.cards.answer}</summary>
         {right && (
           <p className="zk-card__right" lang={contentLang}>
             <Icon name="checkCircle" size={16} className="ink-ok" />
             <span>
-              <span className="sr-only">Richtige Option: </span>
+              <span className="sr-only">{t.cards.rightOptionSr}</span>
               {renderInline(tx(right.text, lang))}
             </span>
           </p>
@@ -492,21 +489,21 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
           {confirmDelete ? (
             <>
               <button type="button" className="btn btn--danger btn--small" onClick={() => store.deleteOwnZettel(z.id)}>
-                Endgültig löschen
+                {t.cards.deleteForGood}
               </button>
               <button type="button" className="btn btn--subtle btn--small" onClick={() => setConfirmDelete(false)}>
-                Abbrechen
+                {t.common.cancel}
               </button>
             </>
           ) : (
             <>
               <button type="button" className="btn btn--subtle btn--small" onClick={() => setEditing(true)}>
                 <Icon name="edit" size={16} />
-                Bearbeiten
+                {t.cards.edit}
               </button>
               <button type="button" className="btn btn--subtle btn--small" onClick={() => setConfirmDelete(true)}>
                 <Icon name="trash" size={16} />
-                Löschen
+                {t.cards.delete}
               </button>
             </>
           )}
@@ -517,6 +514,7 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
 }
 
 export function ZettelModule({ own = false }: { own?: boolean }) {
+  const t = useT()
   const { moduleId = '' } = useParams()
   const { cards, zettel, lang, hiddenZettel } = useZettelBox()
   const [adding, setAdding] = useState(false)
@@ -524,10 +522,10 @@ export function ZettelModule({ own = false }: { own?: boolean }) {
   if (!own && !module) {
     return (
       <div className="page">
-        <h1 className="page-title">Register nicht gefunden</h1>
-        <p className="page-sub">Dieses Modul gibt es nicht.</p>
-        <Link to="/zettel" className="btn btn--primary">
-          Zum Zettelkasten
+        <h1 className="page-title">{t.cards.notFoundTitle}</h1>
+        <p className="page-sub">{t.cards.notFoundText}</p>
+        <Link to="/cards" className="btn btn--primary">
+          {t.cards.toBox}
         </Link>
       </div>
     )
@@ -536,44 +534,40 @@ export function ZettelModule({ own = false }: { own?: boolean }) {
   const hidden = own ? [] : starterZettel.filter((z) => z.module === moduleId && hiddenZettel.includes(z.id))
   const counts = countByFach(ids(list), zettel)
   const open = counts[0] + counts[1]
-  const title = own ? 'Eigene Zettel' : module!.title
-  const learnTo = own ? '/zettel/lernen?eigene=1' : `/zettel/lernen?modul=${moduleId}`
+  const title = own ? t.cards.ownCards : module!.title
+  const learnTo = own ? '/cards/round?own=1' : `/cards/round?module=${moduleId}`
 
   return (
     <div className="page zk-module">
-      <nav className="breadcrumb" aria-label="Brotkrumen">
-        <Link to="/zettel">Zettelkasten</Link>
+      <nav className="breadcrumb" aria-label={t.common.breadcrumb}>
+        <Link to="/cards">{t.cards.title}</Link>
         <Icon name="chevronRight" size={16} />
-        <span aria-current="page">{own ? 'Eigene Zettel' : `Modul ${moduleNumber.get(moduleId)}`}</span>
+        <span aria-current="page">{own ? t.cards.ownCards : t.cards.moduleTab(moduleNumber.get(moduleId) ?? 0)}</span>
       </nav>
       <header className="page-head">
         <h1 id="zk-module-h" className="page-title" tabIndex={-1}>
           {title}
         </h1>
-        <p className="page-sub">
-          {own
-            ? 'Zettel, die du selbst geschrieben hast. Sie stehen auch im Register ihres Moduls.'
-            : `${plural(list.length, 'Zettel', 'Zettel')} zu den Begriffen, Prüfungsfallen und Merksätzen der Lektion – plus deine eigenen zu diesem Modul.`}
-        </p>
+        <p className="page-sub">{own ? t.cards.ownSub : t.cards.moduleSub(list.length)}</p>
       </header>
 
-      <section className="panel zk-module__box" aria-label="Fächer dieses Registers">
+      <section className="panel zk-module__box" aria-label={t.cards.stages}>
         <ZettelBox counts={counts} variant="compact" />
         <div className="zk-actions">
           {open > 0 && (
             <Link to={learnTo} className="btn btn--primary btn--large">
-              {plural(open, 'Zettel', 'Zettel')} lernen
+              {t.cards.studyN(open)}
               <Icon name="arrowRight" size={18} />
             </Link>
           )}
           {!own && (
-            <Link to={`/lernen/${moduleId}`} className="btn btn--secondary btn--large">
-              Zur Lektion
+            <Link to={`/learn/${moduleId}`} className="btn btn--secondary btn--large">
+              {t.cards.toLesson}
             </Link>
           )}
           <button type="button" className="btn btn--secondary btn--large" aria-expanded={adding} onClick={() => setAdding(true)}>
             <Icon name="add" size={18} />
-            Neuer Zettel
+            {t.cards.newCard}
           </button>
           <ResetCards cardIds={ids(list)} states={zettel} focusAfter="zk-module-h" />
         </div>
@@ -594,20 +588,20 @@ export function ZettelModule({ own = false }: { own?: boolean }) {
       ) : (
         <div className="panel empty">
           <Icon name="zettel" size={28} className="ink-brand" />
-          <p>{own ? 'Noch keine eigenen Zettel. Schreib dir den ersten – er startet in Fach 1.' : 'In diesem Register liegt gerade kein Zettel.'}</p>
+          <p>{own ? t.cards.noOwn : t.cards.noneHere}</p>
         </div>
       )}
 
       {hidden.length > 0 && (
         <details className="panel zk-hidden">
-          <summary>Aus dem Kasten genommen ({hidden.length})</summary>
+          <summary>{t.cards.hidden(hidden.length)}</summary>
           <ul className="zk-hidden__list">
             {hidden.map((z) => (
               <li key={z.id}>
                 <RichText inline text={tx(z.front, lang)} lang={lang} />
                 <button type="button" className="btn btn--subtle btn--small" onClick={() => store.setZettelHidden(z.id, false)}>
                   <Icon name="undo" size={16} />
-                  Zurücklegen
+                  {t.cards.putBack}
                 </button>
               </li>
             ))}
@@ -637,27 +631,28 @@ function revealExplanation() {
   window.scrollBy({ top: top - window.innerHeight * 0.3, behavior: reduce ? 'auto' : 'smooth' })
 }
 
-function destination(r: RoundResult): string {
-  if (!r.knew) return 'Der Zettel kommt zurück nach hinten in Fach 1.'
-  return r.after === GOAL ? 'Der Zettel wandert nach vorne in Fach 3.' : `Der Zettel wandert in Fach ${r.after}.`
+function destination(r: RoundResult, t: Messages): string {
+  if (!r.knew) return t.cards.toBack
+  return r.after === GOAL ? t.cards.toFront : t.cards.toStage(r.after)
 }
 
 function RoundSession({ search }: { search: string }) {
   const navigate = useNavigate()
+  const t = useT()
   const { cards, zettel, lang } = useZettelBox()
   const params = new URLSearchParams(search)
-  const scopeModule = params.get('modul')
-  const ownOnly = params.get('eigene') === '1'
-  const pathIndex = learningPaths.findIndex((p) => p.id === params.get('pfad'))
+  const scopeModule = params.get('module')
+  const ownOnly = params.get('own') === '1'
+  const pathIndex = learningPaths.findIndex((p) => p.id === params.get('path'))
   const scopePath = pathIndex >= 0 ? learningPaths[pathIndex] : undefined
-  const exitTo = scopeModule ? `/zettel/modul/${scopeModule}` : ownOnly ? '/zettel/eigene' : '/zettel'
+  const exitTo = scopeModule ? `/cards/module/${scopeModule}` : ownOnly ? '/cards/own' : '/cards'
   const scopeTitle = scopeModule
-    ? `Modul ${moduleNumber.get(scopeModule)} · ${moduleById.get(scopeModule)?.title ?? ''}`
+    ? `${t.cards.moduleTab(moduleNumber.get(scopeModule) ?? 0)} · ${moduleById.get(scopeModule)?.title ?? ''}`
     : ownOnly
-      ? 'Eigene Zettel'
+      ? t.cards.ownCards
       : scopePath
-        ? `Lernpfad ${pathIndex + 1} · ${scopePath.title}`
-        : 'Gemischte Runde'
+        ? `${t.cards.pathTab(pathIndex + 1)} · ${scopePath.title}`
+        : t.cards.mixed
   const pool = useMemo(
     () =>
       cards.filter((z) =>
@@ -706,10 +701,10 @@ function RoundSession({ search }: { search: string }) {
     const after = fachOf(store.get().zettel, current!.id)
     const r = { knew, from, after, counts }
     setResult(r)
-    setTally((t) => (knew ? { ...t, right: t.right + 1 } : { ...t, wrong: t.wrong + 1 }))
+    setTally((prev) => (knew ? { ...prev, right: prev.right + 1 } : { ...prev, wrong: prev.wrong + 1 }))
     const right = choiceSet?.options.find((o) => o.correct)
-    const hint = !knew && right ? ` Richtig ist: ${tx(right.text, lang).replace(/[`*]/g, '')}.` : ''
-    setAnnounce(`${knew ? words[0] : words[1]}.${hint} ${destination(r)}`)
+    const hint = !knew && right ? t.cards.rightIs(tx(right.text, lang).replace(/[`*]/g, '')) : ''
+    setAnnounce(`${knew ? words[0] : words[1]}.${hint} ${destination(r, t)}`)
     return after
   }
 
@@ -748,7 +743,7 @@ function RoundSession({ search }: { search: string }) {
 
   const check = () => {
     if (!current || !choiceSet || !picked || result) return
-    record(choiceSet.options.find((o) => o.id === picked)?.correct === true, ['Richtig', 'Falsch'])
+    record(choiceSet.options.find((o) => o.id === picked)?.correct === true, [t.cards.right, t.cards.wrong])
     requestAnimationFrame(revealExplanation)
   }
   const next = () => {
@@ -757,7 +752,7 @@ function RoundSession({ search }: { search: string }) {
   }
   const rate = (knew: boolean) => {
     if (!current || result) return
-    fly(record(knew, ['Gewusst', 'Nicht gewusst']))
+    fly(record(knew, [t.cards.knew, t.cards.didntKnow]))
   }
 
   useEffect(() => {
@@ -813,30 +808,34 @@ function RoundSession({ search }: { search: string }) {
       <div className="session-done zk-done">
         <div className="panel session-done__panel">
           <h1 ref={doneRef} tabIndex={-1} className="page-title">
-            {deck.length ? 'Runde geschafft' : 'Hier ist alles vorne'}
+            {deck.length ? t.cards.roundDone : pool.length ? t.cards.allFrontHere : t.cards.noCards}
           </h1>
           <p className="session-done__score">
             {deck.length ? (
               <>
-                Alle <strong>{deck.length}</strong> Zettel dieser Runde stehen in Fach 3. Richtig: {tally.right}, falsch: {tally.wrong}.
+                {t.cards.doneAll}
+                <strong>{deck.length}</strong>
+                {t.cards.doneText(tally.right, tally.wrong)}
               </>
+            ) : pool.length ? (
+              t.cards.doneNone
             ) : (
-              'In dieser Auswahl steht schon jeder Zettel in Fach 3.'
+              t.cards.noCardsText
             )}
           </p>
           <ZettelBox counts={after} variant="compact" />
           <div className="session-done__actions">
             {stillOpen > 0 && (
-              <button type="button" className="btn btn--primary btn--large" onClick={() => navigate(`/zettel/lernen?${new URLSearchParams({ ...Object.fromEntries(params), r: String(Date.now()) })}`)}>
-                Nächste Runde
+              <button type="button" className="btn btn--primary btn--large" onClick={() => navigate(`/cards/round?${new URLSearchParams({ ...Object.fromEntries(params), r: String(Date.now()) })}`)}>
+                {t.cards.nextRound}
                 <Icon name="arrowRight" size={18} />
               </button>
             )}
             <Link to={exitTo} className={`btn ${stillOpen > 0 ? 'btn--secondary' : 'btn--primary'} btn--large`}>
-              {scopeModule || ownOnly ? 'Zum Register' : 'Zum Zettelkasten'}
+              {scopeModule || ownOnly ? t.cards.toIndex : t.cards.toBox}
             </Link>
             <Link to="/" className="btn btn--subtle btn--large">
-              Zur Startseite
+              {t.common.toHome}
             </Link>
           </div>
         </div>
@@ -850,7 +849,7 @@ function RoundSession({ search }: { search: string }) {
   return (
     <div className="session zk-session">
       <div className="session__top">
-        <button type="button" className="icon-btn icon-btn--large" onClick={() => navigate(exitTo)} aria-label="Runde beenden">
+        <button type="button" className="icon-btn icon-btn--large" onClick={() => navigate(exitTo)} aria-label={t.common.endRound}>
           <Icon name="dismiss" size={22} />
         </button>
         <div
@@ -859,13 +858,11 @@ function RoundSession({ search }: { search: string }) {
           aria-valuemin={0}
           aria-valuemax={deck.length}
           aria-valuenow={roundCounts[2]}
-          aria-label={`${roundCounts[2]} von ${deck.length} Zetteln dieser Runde in Fach 3`}
+          aria-label={t.cards.roundProgress(roundCounts[2], deck.length)}
         >
           <span style={{ width: `${(roundCounts[2] / deck.length) * 100}%` }} />
         </div>
-        <span className="session__count">
-          {roundCounts[2]}/{deck.length} vorne
-        </span>
+        <span className="session__count">{t.cards.roundCount(roundCounts[2], deck.length)}</span>
       </div>
       <p className="zk-session__scope">{scopeTitle}</p>
       <div ref={boxRef} className="zk-session__box">
@@ -883,10 +880,10 @@ function RoundSession({ search }: { search: string }) {
       >
         <header className="zk-flip__head">
           <span id="zk-side" className="zk-flip__side">
-            {revealed ? 'Rückseite · Antwort' : 'Vorderseite · Frage'}
+            {revealed ? t.cards.sideBack : t.cards.sideFront}
           </span>
           <span className="zk-flip__module">
-            {[current.module ? `Modul ${moduleNumber.get(current.module)}` : null, KIND_LABEL[current.kind]].filter(Boolean).join(' · ')}
+            {[current.module ? t.cards.moduleTab(moduleNumber.get(current.module) ?? 0) : null, t.labels.kind[current.kind]].filter(Boolean).join(' · ')}
           </span>
           <FachBadge fach={fach} />
         </header>
@@ -907,16 +904,16 @@ function RoundSession({ search }: { search: string }) {
             {revealed &&
               (own ? (
                 <div className="zk-flip__backtext">
-                  <p className="zk-flip__label">Deine Rückseite</p>
+                  <p className="zk-flip__label">{t.cards.yourBack}</p>
                   <RichText text={tx(current.back, lang)} />
                 </div>
               ) : (
                 <details className="zk-lesson">
-                  <summary>Aus der Lektion{current.term ? `: ${current.term}` : ''}</summary>
+                  <summary>{t.cards.fromLesson(current.term ?? '')}</summary>
                   <RichText text={tx(current.back, lang)} className="zk-lesson__text" lang={contentLang} />
                 </details>
               ))}
-            {!own && (
+            {!own && feedbackEnabled && (
               <div className="zk-flip__feedback">
                 <ZettelFeedback z={current} />
               </div>
@@ -935,7 +932,7 @@ function RoundSession({ search }: { search: string }) {
             <div id="zk-content">
               <RichText text={tx(current.front, lang)} className="zk-flip__question" lang={contentLang} />
             </div>
-            <p className="zk-flip__tap">Antworte im Kopf, dann dreh den Zettel um.</p>
+            <p className="zk-flip__tap">{t.cards.tap}</p>
           </div>
         )}
       </article>
@@ -951,33 +948,33 @@ function RoundSession({ search }: { search: string }) {
                 <p className="session__verdict">
                   <Icon name={result.knew ? 'checkCircle' : 'dismissCircle'} size={28} />
                   <span>
-                    <strong>{result.knew ? 'Richtig!' : 'Falsch'}</strong>
-                    <span className="session__verdict-sub">{destination(result)}</span>
+                    <strong>{result.knew ? `${t.cards.right}!` : t.cards.wrong}</strong>
+                    <span className="session__verdict-sub">{destination(result, t)}</span>
                   </span>
                 </p>
                 <button type="button" className="btn btn--primary btn--large" onClick={next} autoFocus>
-                  Weiter
+                  {t.common.next}
                   <Icon name="arrowRight" size={18} />
                 </button>
               </>
             ) : (
               <>
                 <p className="session__hint">
-                  {picked ? 'Bereit zum Prüfen.' : 'Wähle eine Antwort.'} <span className="zk-keys">· 1–4 wählt, Enter prüft</span>
+                  {picked ? t.cards.readyToCheck : t.cards.pick} <span className="zk-keys">{t.cards.keysChoice}</span>
                 </p>
                 <button type="button" className="btn btn--primary btn--large" onClick={check} disabled={!picked}>
-                  Prüfen
+                  {t.common.check}
                 </button>
               </>
             )
           ) : !flipped ? (
             <>
               <p className="session__hint">
-                Noch {plural(queue.length, 'Zettel', 'Zettel')} in dieser Runde <span className="zk-keys">· Leertaste dreht um</span>
+                {t.cards.left(queue.length)} <span className="zk-keys">{t.cards.keysFlip}</span>
               </p>
               <button type="button" className="btn btn--primary btn--large" onClick={() => setFlipped(true)}>
                 <Icon name="eye" size={18} />
-                Antwort zeigen
+                {t.cards.showAnswer}
               </button>
             </>
           ) : (
@@ -985,16 +982,16 @@ function RoundSession({ search }: { search: string }) {
               <button type="button" className="btn btn--large zk-rate__btn zk-rate__btn--miss" onClick={() => rate(false)}>
                 <Icon name="dismissCircle" size={20} />
                 <span className="zk-rate__text">
-                  Nicht gewusst
-                  <span className="zk-rate__dest">zurück in Fach 1</span>
+                  {t.cards.didntKnow}
+                  <span className="zk-rate__dest">{t.cards.backToStage1}</span>
                 </span>
                 <kbd className="zk-keys">1</kbd>
               </button>
               <button type="button" className="btn btn--large zk-rate__btn zk-rate__btn--hit" onClick={() => rate(true)}>
                 <Icon name="checkCircle" size={20} />
                 <span className="zk-rate__text">
-                  Gewusst
-                  <span className="zk-rate__dest">{fach === GOAL ? 'bleibt in Fach 3' : `weiter in Fach ${nextFach}`}</span>
+                  {t.cards.knew}
+                  <span className="zk-rate__dest">{fach === GOAL ? t.cards.staysFront : t.cards.onToStage(nextFach)}</span>
                 </span>
                 <kbd className="zk-keys">2</kbd>
               </button>

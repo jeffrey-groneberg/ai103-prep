@@ -1,15 +1,42 @@
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import { defineConfig } from 'vitest/config'
+import { defineConfig, type Plugin } from 'vitest/config'
 import { execSync } from 'node:child_process'
+import exam from './src/content/exam.json' with { type: 'json' }
+import { en } from './src/i18n/en.ts'
+import { de } from './src/i18n/de.ts'
+
+// Install name, description and page title come from src/content/exam.json, in its default language.
+const copy = exam.defaultLang === 'de' ? de : en
+const appTitle = copy.meta.title(exam.appName)
+const appDescription = copy.meta.description(exam.code)
 
 /** Short commit of this build: shown in feedback issues, so a report names the exact version it came from. */
 function appVersion(): string {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7)
   try {
-    return execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+    return execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() || 'dev'
   } catch {
     return 'dev'
+  }
+}
+
+const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/** Fills the __APP_…__ placeholders in index.html from exam.json. */
+function examHtml(): Plugin {
+  const values: Record<string, string> = {
+    __APP_LANG__: exam.defaultLang,
+    __APP_TITLE__: appTitle,
+    __APP_SHORT_NAME__: exam.shortName,
+    __APP_DESCRIPTION__: appDescription,
+  }
+  return {
+    name: 'exam-html',
+    transformIndexHtml: {
+      order: 'pre',
+      handler: (html) => html.replace(/__APP_[A-Z_]+__/g, (key) => escapeHtml(values[key] ?? key)),
+    },
   }
 }
 
@@ -19,6 +46,7 @@ export default defineConfig({
   base: './',
   define: { __APP_VERSION__: JSON.stringify(appVersion()) },
   plugins: [
+    examHtml(),
     react(),
     // Installable app with offline support. Production builds only; the site still works as a normal web page.
     VitePWA({
@@ -26,10 +54,10 @@ export default defineConfig({
       injectRegister: 'auto',
       manifest: {
         id: './',
-        name: 'AI-103 Prep',
-        short_name: 'AI-103',
-        description: 'Lern-App für die Microsoft-Prüfung AI-103: Lektionen mit Diagrammen, Übungsfragen und Prüfungssimulation, auch offline.',
-        lang: 'de',
+        name: exam.appName,
+        short_name: exam.shortName,
+        description: appDescription,
+        lang: exam.defaultLang,
         start_url: './',
         scope: './',
         display: 'standalone',
@@ -45,17 +73,20 @@ export default defineConfig({
       includeManifestIcons: false,
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
-        // Lessons and questions ship in one bundle (about 2.6 MB) and the Zettelkasten cards in another (about
-        // 1.3 MB), both above Workbox's 2 MiB default; the limit leaves room for the content to grow.
+        // A full exam's lessons and questions ship in one bundle and the flashcards in another; both can outgrow
+        // Workbox's 2 MiB default, so the limit leaves room for the content to grow.
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         cleanupOutdatedCaches: true,
       },
     }),
   ],
   build: {
+    // Lessons and questions ship in the main bundle on purpose (offline, no loading states); a full exam's content
+    // runs to a few MB, so the warning threshold sits above that.
+    chunkSizeWarningLimit: 4096,
     rolldownOptions: {
       output: {
-        // The Zettelkasten cards (four options with reasons each) get their own file, so the main bundle stays lean.
+        // The flashcards (four options with reasons each) get their own file, so the main bundle stays lean.
         advancedChunks: { groups: [{ name: 'zettel-cards', test: /src[\\/]content[\\/]cards[\\/]/ }] },
       },
     },
@@ -67,5 +98,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/**/*.test.{ts,tsx}'],
+    // Node's experimental global localStorage warns in node-environment tests; jsdom tests bring their own.
+    execArgv: ['--no-experimental-webstorage'],
   },
 })

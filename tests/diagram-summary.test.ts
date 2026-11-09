@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { lessons } from '../src/content/index.ts'
 import { summaryLines, summaryParts, summaryPath } from '../src/lib/diagram-summary.ts'
-import { tx } from '../src/lib/i18n.ts'
+import { tx } from '../src/i18n/index.ts'
 import type { Diagram } from '../src/lib/types.ts'
 
 const hasEdge = (d: Diagram, from: string, to: string) =>

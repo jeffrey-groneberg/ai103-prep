@@ -1,0 +1,100 @@
+{
+  "$schema": "./schema/exam.schema.json",
+  "code": "AI-103",
+  "title": {
+    "en": "Developing AI Apps and Agents on Azure",
+    "de": "Developing AI Apps and Agents on Azure"
+  },
+  "appName": "AI-103 Prep",
+  "shortName": "AI-103",
+  "badge": "103",
+  "storageKey": "ai103-prep:v1",
+  "defaultLang": "en",
+  "skillsOutlineDate": "2026-04-16",
+  "courseNumber": "AI-103T00",
+  "courseTitle": "Develop AI apps and agents on Azure",
+  "codeLanguage": "Python",
+  "exam": {
+    "minutes": 100,
+    "questions": 50,
+    "passPercent": 70,
+    "seatMinutes": 120
+  },
+  "links": {
+    "examPage": "https://learn.microsoft.com/credentials/certifications/exams/ai-103/",
+    "studyGuide": "https://learn.microsoft.com/credentials/certifications/resources/study-guides/ai-103",
+    "course": "https://learn.microsoft.com/training/courses/ai-103t00/",
+    "practiceAssessment": "https://aka.ms/AI103-PA",
+    "examSandbox": "https://aka.ms/examdemo"
+  },
+  "feedback": {
+    "issuesUrl": "https://github.com/jeffrey-groneberg/ai103-prep/issues/new"
+  },
+  "official": [
+    {
+      "title": "Exam Prep Video",
+      "url": "https://aka.ms/AI103-ExamPrep",
+      "note": { "en": "Official preparation video for the exam.", "de": "Offizielles Vorbereitungsvideo zur Prüfung." }
+    },
+    {
+      "title": { "en": "Certification: Azure AI Apps and Agents Developer Associate", "de": "Zertifizierung: Azure AI Apps and Agents Developer Associate" },
+      "url": "https://learn.microsoft.com/credentials/certifications/azure-ai-apps-and-agents-developer-associate/",
+      "note": { "en": "The certification this exam earns, with exam registration.", "de": "Zertifizierungsseite mit Prüfungsanmeldung." }
+    }
+  ],
+  "community": [
+    {
+      "title": "John Savill: AI-103 Develop AI Apps and Agents on Azure Study Cram",
+      "url": "https://www.youtube.com/watch?v=WK2BvjOYTCQ",
+      "note": {
+        "en": "Just under two hours at the whiteboard through all five exam domains (August 2026, in English). Good as a review before your exam date.",
+        "de": "Knapp zwei Stunden am Whiteboard durch alle fünf Prüfungsbereiche (August 2026, Englisch). Gut als Wiederholung vor dem Termin."
+      }
+    },
+    {
+      "title": { "en": "Whiteboard for the Study Cram", "de": "Whiteboard zum Study Cram" },
+      "url": "https://github.com/johnthebrit/CertificationMaterials/blob/main/whiteboards/AI-103-Whiteboard.png",
+      "note": { "en": "The whiteboard from the video as an image to look things up.", "de": "Das Whiteboard aus dem Video als Bild zum Nachschlagen." }
+    }
+  ],
+  "toneLabels": {
+    "platform": { "en": "Foundry platform", "de": "Foundry-Plattform" }
+  },
+  "legacyNames": [
+    { "pattern": "\\bAzure AI Studio\\b", "current": "Microsoft Foundry" },
+    { "pattern": "\\bAzure OpenAI Studio\\b", "current": "Microsoft Foundry portal" },
+    { "pattern": "\\bAzure AI Foundry\\b", "current": "Microsoft Foundry" },
+    { "pattern": "\\bAI Foundry Agent Service\\b", "current": "Foundry Agent Service" },
+    { "pattern": "\\bCognitive Services\\b(?!(?: [A-Z][A-Za-z]+)* (?:User|Contributor|Reader|Writer|Owner)\\b)", "current": "Foundry Tools" },
+    { "pattern": "\\bAzure AI services\\b", "current": "Foundry Tools" },
+    { "pattern": "\\bForm Recognizer\\b", "current": "Azure Document Intelligence in Foundry Tools" },
+    { "pattern": "\\bLUIS\\b|\\bLanguage Understanding \\(LUIS\\)", "current": "conversational language understanding" },
+    { "pattern": "\\bQnA Maker\\b", "current": "question answering" },
+    { "pattern": "\\bAssistants API\\b", "current": "Responses API (Agents v2)" },
+    { "pattern": "\\bprompt flow\\b", "flags": "i", "current": "workflows / Agent Framework" },
+    { "pattern": "\\bAzure AI (?:User|Owner|Account Owner|Project Manager)\\b", "current": "Foundry User / Foundry Owner / Foundry Account Owner / Foundry Project Manager" }
+  ],
+  "sourceDocsets": [
+    { "prefix": "/training/", "label": "Training" },
+    { "prefix": "/agent-framework/", "label": "Agent Framework" },
+    { "prefix": "/azure/foundry/", "label": "Foundry" },
+    { "prefix": "/azure/search/", "label": "AI Search" },
+    { "prefix": "/azure/ai-services/content-understanding/", "label": "Content Understanding" },
+    { "prefix": "/azure/ai-services/document-intelligence/", "label": "Document Intelligence" },
+    { "prefix": "/azure/ai-services/speech-service/", "label": "Speech" },
+    { "prefix": "/azure/ai-services/language-service/", "label": "Language" },
+    { "prefix": "/azure/ai-services/translator/", "label": "Translator" },
+    { "prefix": "/azure/ai-services/content-safety/", "label": "Content Safety" },
+    { "prefix": "/python/api/", "label": "Python SDK" },
+    { "prefix": "/rest/api/", "label": "REST API" },
+    { "prefix": "/web-iq/", "label": "Web IQ" },
+    { "prefix": "/microsoft-365/", "label": "Microsoft 365" }
+  ],
+  "targets": {
+    "minQuestions": 200,
+    "minPerBullet": 2,
+    "minPerModule": 3,
+    "minCases": 3,
+    "domainShareTolerance": 2
+  }
+}

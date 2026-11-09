@@ -22,7 +22,7 @@ export const lesson: Lesson = {
       height: 520,
       groups: [
         { id: 'g-app', x: 10, y: 20, w: 940, h: 330, label: { en: 'Your Python app (agent_framework)', de: 'Deine Python-App (agent_framework)' }, tone: 'app' },
-        { id: 'g-foundry', x: 360, y: 380, w: 480, h: 124, label: { en: 'Foundry resource · via project endpoint', de: 'Foundry-Ressource · über den Projekt-Endpoint' }, tone: 'foundry' },
+        { id: 'g-foundry', x: 360, y: 380, w: 480, h: 124, label: { en: 'Foundry resource · via project endpoint', de: 'Foundry-Ressource · über den Projekt-Endpoint' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'instr', x: 380, y: 50, w: 170, h: 64, label: { en: 'Instructions', de: 'Anweisungen' }, sub: { en: 'role · goal · rules', de: 'Rolle · Ziel · Regeln' }, icon: 'guide', tone: 'neutral', shape: 'doc' },

@@ -15,16 +15,17 @@ import type { Answer } from '../lib/scoring.ts'
 import { scoreQuestion } from '../lib/scoring.ts'
 import { createRng, hashSeed, shuffle, shuffleAwayFrom } from '../lib/random.ts'
 import { orderChoices, type ChoiceSet } from '../lib/choices.ts'
-import { DIFFICULTY_LABEL, QUESTION_TYPE_LABEL, tx } from '../lib/i18n.ts'
+import { messages, tx } from '../i18n/index.ts'
+import { exam } from '../config.ts'
 import { sourceLabel } from '../content/sources.ts'
-import { bulletById } from '../content/domains.ts'
-import { moduleById } from '../content/course.ts'
+import { bulletById, domainHue, moduleById } from '../content/outline.ts'
 import { RichText } from './RichText.tsx'
 import { renderInline } from './inline.tsx'
 import { CodeBlock } from './CodeBlock.tsx'
 import { highlightPython } from './highlight.tsx'
 import { Icon } from './Icon.tsx'
 import { FeedbackLink } from './Feedback.tsx'
+import { feedbackEnabled } from '../lib/feedback.ts'
 
 const LETTERS = 'ABCDEFGH'
 
@@ -41,17 +42,19 @@ interface QuestionViewProps {
 }
 
 /** Feedback for one question; the issue names the question, its module and skill, and quotes the stem. */
-export function QuestionFeedback({ q }: { q: Question }) {
+export function QuestionFeedback({ q, lang }: { q: Question; lang: Lang }) {
+  const t = messages(lang)
+  const f = t.feedback
   return (
     <FeedbackLink
-      about="zu dieser Frage"
+      about="question"
       compact
       target={{
-        subject: `Frage ${q.id}`,
+        subject: f.subject.question(q.id),
         details: [
-          ['Modul', q.module],
-          ['Skill', q.skill],
-          ['Fragetyp', QUESTION_TYPE_LABEL[q.type]],
+          [f.detail.module, q.module],
+          [f.detail.skill, q.skill],
+          [f.detail.questionType, t.labels.questionType[q.type]],
         ],
         excerpt: q.stem,
       }}
@@ -59,19 +62,20 @@ export function QuestionFeedback({ q }: { q: Question }) {
   )
 }
 
-export function QuestionMeta({ q }: { q: Question }) {
+export function QuestionMeta({ q, lang }: { q: Question; lang: Lang }) {
+  const t = messages(lang)
   const bullet = bulletById.get(q.skill)
   return (
     <div className="q-meta">
-      <span className={`domain-chip domain-${q.domain}`}>{q.domain}</span>
-      <span className="q-meta__item">{QUESTION_TYPE_LABEL[q.type]}</span>
-      <span className="q-meta__item">{DIFFICULTY_LABEL[q.difficulty]}</span>
+      <span className={`domain-chip domain-${domainHue(q.domain)}`}>{q.domain}</span>
+      <span className="q-meta__item">{t.labels.questionType[q.type]}</span>
+      <span className="q-meta__item">{t.labels.difficulty[q.difficulty]}</span>
       {bullet && (
-        <span className="q-meta__item" title={bullet.en}>
-          Skill {q.skill}
+        <span className="q-meta__item" title={tx(bullet, lang)}>
+          {t.question.skill(q.skill)}
         </span>
       )}
-      <QuestionFeedback q={q} />
+      <QuestionFeedback q={q} lang={lang} />
     </div>
   )
 }
@@ -94,6 +98,7 @@ export function ChoiceList({
   /** The learner wrote these options: they carry no content language. */
   ownText?: boolean
 }) {
+  const t = messages(lang)
   const options = useMemo(() => orderChoices(q, seed), [q, seed])
   const multi = q.type === 'multi'
   const need = multi ? q.options.filter((o) => o.correct).length : 1
@@ -115,12 +120,8 @@ export function ChoiceList({
 
   return (
     <fieldset className="choices">
-      <legend className="sr-only">{multi ? `Wähle ${need} Antworten` : 'Wähle eine Antwort'}</legend>
-      {multi && !revealed && (
-        <p className="choices__hint">
-          Wähle {need} Antworten · {chosen.size}/{need} gewählt
-        </p>
-      )}
+      <legend className="sr-only">{multi ? t.question.chooseN(need) : t.question.chooseOne}</legend>
+      {multi && !revealed && <p className="choices__hint">{t.question.chosen(need, chosen.size)}</p>}
       {options.map((o, i) => {
         const picked = chosen.has(o.id)
         let state = ''
@@ -151,7 +152,7 @@ export function ChoiceList({
               {revealed && (o.correct || picked) && (
                 <span className="choice__verdict">
                   <Icon name={o.correct ? 'checkCircle' : 'dismissCircle'} size={20} />
-                  <span className="sr-only">{o.correct ? 'richtig' : 'falsch'}</span>
+                  <span className="sr-only">{o.correct ? t.question.right : t.question.wrong}</span>
                 </span>
               )}
             </label>
@@ -182,6 +183,7 @@ function BuildList({
   revealed: boolean
   seed: number
 }) {
+  const t = messages(lang)
   const shuffled = useMemo(() => shuffleAwayFrom(q.items, createRng(hashSeed(q.id) ^ seed)), [q, seed])
   const order = answer.type === 'order' ? answer.order : []
   const byId = new Map(q.items.map((i) => [i.id, i]))
@@ -212,16 +214,16 @@ function BuildList({
   return (
     <div className="build-list">
       <div className="build-list__col">
-        <h4 className="build-list__head">Aktionen</h4>
+        <h4 className="build-list__head">{t.question.actions}</h4>
         <ul className="build-list__pool" onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); if (dragId) remove(dragId); setDragId(null) }}>
-          {pool.length === 0 && <li className="build-list__empty">Alle Schritte eingeordnet.</li>}
+          {pool.length === 0 && <li className="build-list__empty">{t.question.allPlaced}</li>}
           {pool.map((item) => (
             <li key={item.id} className="bl-item" draggable={!revealed} onDragStart={() => setDragId(item.id)}>
               <Icon name="drag" size={16} className="bl-item__grip" />
               <span className="bl-item__text" lang={lang}>
                 {renderInline(tx(item.text, lang))}
               </span>
-              <button type="button" className="icon-btn" onClick={() => add(item.id)} disabled={revealed} aria-label="In den Antwortbereich verschieben">
+              <button type="button" className="icon-btn" onClick={() => add(item.id)} disabled={revealed} aria-label={t.question.toAnswer}>
                 <Icon name="arrowRight" size={16} />
               </button>
             </li>
@@ -229,9 +231,9 @@ function BuildList({
         </ul>
       </div>
       <div className="build-list__col">
-        <h4 className="build-list__head">Antwortbereich (Reihenfolge)</h4>
+        <h4 className="build-list__head">{t.question.answerOrder}</h4>
         <ol className="build-list__answer" onDragOver={(e) => e.preventDefault()} onDrop={(e) => dropOnAnswer(e)}>
-          {order.length === 0 && <li className="build-list__empty">Ziehe Schritte hierher oder nutze die Pfeil-Schaltflächen.</li>}
+          {order.length === 0 && <li className="build-list__empty">{t.question.dragHere}</li>}
           {order.map((id, idx) => {
             const item = byId.get(id)
             if (!item) return null
@@ -254,13 +256,13 @@ function BuildList({
                 </span>
                 {!revealed && (
                   <span className="bl-item__actions">
-                    <button type="button" className="icon-btn" onClick={() => move(idx, -1)} disabled={idx === 0} aria-label="Nach oben">
+                    <button type="button" className="icon-btn" onClick={() => move(idx, -1)} disabled={idx === 0} aria-label={t.question.up}>
                       <Icon name="arrowUp" size={16} />
                     </button>
-                    <button type="button" className="icon-btn" onClick={() => move(idx, 1)} disabled={idx === order.length - 1} aria-label="Nach unten">
+                    <button type="button" className="icon-btn" onClick={() => move(idx, 1)} disabled={idx === order.length - 1} aria-label={t.question.down}>
                       <Icon name="arrowDown" size={16} />
                     </button>
-                    <button type="button" className="icon-btn" onClick={() => remove(id)} aria-label="Zurück zu den Aktionen">
+                    <button type="button" className="icon-btn" onClick={() => remove(id)} aria-label={t.question.toActions}>
                       <Icon name="dismiss" size={16} />
                     </button>
                   </span>
@@ -273,7 +275,7 @@ function BuildList({
       </div>
       {revealed && (
         <div className="reveal-block">
-          <h4>Richtige Reihenfolge</h4>
+          <h4>{t.question.correctOrder}</h4>
           <ol className="reveal-list">
             {q.items.map((item) => (
               <li key={item.id} lang={lang}>
@@ -303,9 +305,10 @@ function MatchArea({
   revealed: boolean
   seed: number
 }) {
+  const t = messages(lang)
   const targets = useMemo(() => shuffle(q.targets, createRng(hashSeed(q.id) ^ seed)), [q, seed])
   const pairs = answer.type === 'match' ? answer.pairs : {}
-  const targetById = new Map(q.targets.map((t) => [t.id, t]))
+  const targetById = new Map(q.targets.map((target) => [target.id, target]))
   const [dragTarget, setDragTarget] = useState<string | null>(null)
   const setPair = (promptId: string, targetId: string | null) => {
     if (revealed) return
@@ -315,21 +318,21 @@ function MatchArea({
   return (
     <div className="match">
       <div className="match__values">
-        <h4 className="build-list__head">Werte</h4>
+        <h4 className="build-list__head">{t.question.values}</h4>
         <ul className="match__chips">
-          {targets.map((t) => (
-            <li key={t.id} className="match-chip" draggable={!revealed} onDragStart={() => setDragTarget(t.id)}>
+          {targets.map((target) => (
+            <li key={target.id} className="match-chip" draggable={!revealed} onDragStart={() => setDragTarget(target.id)}>
               <Icon name="drag" size={14} className="bl-item__grip" />
               <span className="match-chip__text" lang={lang}>
-                {renderInline(tx(t.text, lang))}
+                {renderInline(tx(target.text, lang))}
               </span>
             </li>
           ))}
         </ul>
-        <p className="match__note">Ziehe einen Wert in den Antwortbereich oder wähle ihn dort aus. Ein Wert kann einmal, mehrfach oder gar nicht passen.</p>
+        <p className="match__note">{t.question.matchNote}</p>
       </div>
       <div className="match__answer">
-        <h4 className="build-list__head">Antwortbereich</h4>
+        <h4 className="build-list__head">{t.question.answerArea}</h4>
         <ul className="match__rows">
           {q.prompts.map((p) => {
             const value = pairs[p.id] ?? null
@@ -349,13 +352,13 @@ function MatchArea({
                   }}
                 >
                   <label className="sr-only" htmlFor={`${q.id}-${p.id}`}>
-                    Wert für: {tx(p.prompt, lang)}
+                    {t.question.valueFor(tx(p.prompt, lang))}
                   </label>
                   <select id={`${q.id}-${p.id}`} value={value ?? ''} disabled={revealed} onChange={(e) => setPair(p.id, e.target.value || null)}>
-                    <option value="">Wert wählen …</option>
-                    {targets.map((t) => (
-                      <option key={t.id} value={t.id} lang={lang}>
-                        {tx(t.text, lang).replace(/`/g, '')}
+                    <option value="">{t.question.chooseValue}</option>
+                    {targets.map((target) => (
+                      <option key={target.id} value={target.id} lang={lang}>
+                        {tx(target.text, lang).replace(/`/g, '')}
                       </option>
                     ))}
                   </select>
@@ -365,7 +368,8 @@ function MatchArea({
                   <p className="match-row__why">
                     {!ok && (
                       <>
-                        Richtig: <strong lang={lang}>{renderInline(tx(targetById.get(p.answer)?.text, lang))}</strong>.{' '}
+                        {t.question.correctIs}
+                        <strong lang={lang}>{renderInline(tx(targetById.get(p.answer)?.text, lang))}</strong>.{' '}
                       </>
                     )}
                     <span lang={lang}>{renderInline(tx(p.why, lang))}</span>
@@ -395,25 +399,27 @@ function CodeCompletion({
   revealed: boolean
   seed: number
 }) {
+  const t = messages(lang)
   const blanks = answer.type === 'code' ? answer.blanks : {}
   const blankById = new Map(q.blanks.map((b) => [b.id, b]))
   const shuffled = useMemo(
     () => new Map(q.blanks.map((b) => [b.id, shuffle(b.options, createRng(hashSeed(q.id + b.id) ^ seed))])),
     [q, seed],
   )
+  const python = (exam.codeLanguage ?? '').toLowerCase() === 'python'
   const parts = q.template.split(/(\{\{[a-z0-9]+\}\})/g)
   let blankIndex = 0
   return (
     <div className="code-q">
       <figure className="code-block">
         <div className="code-block__bar">
-          <span className="code-block__lang">Python · Lücken ergänzen</span>
+          <span className="code-block__lang">{t.question.fillGaps(exam.codeLanguage ?? '')}</span>
         </div>
         <pre>
           <code>
             {parts.map((part, i) => {
               const m = part.match(/^\{\{([a-z0-9]+)\}\}$/)
-              if (!m) return <span key={i}>{highlightPython(part)}</span>
+              if (!m) return <span key={i}>{python ? highlightPython(part) : part}</span>
               const b = blankById.get(m[1])
               if (!b) return <span key={i}>{part}</span>
               blankIndex++
@@ -426,10 +432,10 @@ function CodeCompletion({
                   className={`code-blank${state}`}
                   value={value}
                   disabled={revealed}
-                  aria-label={`Lücke ${blankIndex}`}
+                  aria-label={t.question.gap(blankIndex)}
                   onChange={(e) => onChange({ type: 'code', blanks: { ...blanks, [b.id]: e.target.value || null } })}
                 >
-                  <option value="">{`▾ Lücke ${blankIndex}`}</option>
+                  <option value="">{`▾ ${t.question.gap(blankIndex)}`}</option>
                   {shuffled.get(b.id)!.map((o) => (
                     <option key={o.id} value={o.id}>
                       {o.code}
@@ -443,7 +449,7 @@ function CodeCompletion({
       </figure>
       {revealed && (
         <div className="reveal-block">
-          <h4>Auflösung</h4>
+          <h4>{t.question.solution}</h4>
           <ol className="reveal-list">
             {q.blanks.map((b, i) => {
               const correctOpt = b.options.find((o) => o.correct)!
@@ -451,12 +457,13 @@ function CodeCompletion({
               return (
                 <li key={b.id}>
                   <strong>
-                    Lücke {i + 1}: <code>{correctOpt.code}</code>
+                    {t.question.gap(i + 1)}: <code>{correctOpt.code}</code>
                   </strong>
                   <span lang={lang}>{renderInline(tx(correctOpt.why, lang))}</span>
                   {pick && !pick.correct && (
                     <span className="reveal-list__wrong">
-                      Deine Wahl <code>{pick.code}</code>: <span lang={lang}>{renderInline(tx(pick.why, lang))}</span>
+                      {t.question.yourChoice}
+                      <code>{pick.code}</code>: <span lang={lang}>{renderInline(tx(pick.why, lang))}</span>
                     </span>
                   )}
                 </li>
@@ -470,12 +477,13 @@ function CodeCompletion({
 }
 
 export function CasePanel({ caseStudy, lang }: { caseStudy: CaseStudy; lang: Lang }) {
+  const t = messages(lang)
   return (
-    <aside className="case-panel" aria-label="Fallstudie">
+    <aside className="case-panel" aria-label={t.question.caseStudy}>
       <h3 className="case-panel__title">
         <Icon name="document" size={20} />
         <span>
-          Fallstudie: <span lang={lang}>{tx(caseStudy.title, lang)}</span>
+          {t.question.caseStudy}: <span lang={lang}>{tx(caseStudy.title, lang)}</span>
         </span>
       </h3>
       <RichText text={tx(caseStudy.scenario, lang)} className="case-panel__body" lang={lang} />
@@ -489,11 +497,13 @@ export function QuestionView({ question: q, lang, answer, onChange, revealed, se
       {caseStudy && <CasePanel caseStudy={caseStudy} lang={lang} />}
       <div className="question__main">
         {examMode ? (
-          <div className="q-meta q-meta--exam">
-            <QuestionFeedback q={q} />
-          </div>
+          feedbackEnabled && (
+            <div className="q-meta q-meta--exam">
+              <QuestionFeedback q={q} lang={lang} />
+            </div>
+          )
         ) : (
-          <QuestionMeta q={q} />
+          <QuestionMeta q={q} lang={lang} />
         )}
         <RichText text={tx(q.stem, lang)} className="question__stem" lang={lang} />
         {q.code && <CodeBlock code={q.code} />}
@@ -507,19 +517,18 @@ export function QuestionView({ question: q, lang, answer, onChange, revealed, se
 }
 
 export function Explanation({ q, lang, answer }: { q: Question; lang: Lang; answer: Answer }) {
+  const t = messages(lang)
   const r = scoreQuestion(q, answer)
   const mod = moduleById.get(q.module)
   return (
     <div className="explanation">
-      <p className="explanation__score">
-        {r.correct ? 'Vollständig richtig.' : r.score > 0 ? `Teilweise richtig: ${r.partsCorrect} von ${r.parts} Teilen.` : 'Nicht richtig.'}
-      </p>
+      <p className="explanation__score">{r.correct ? t.question.fully : r.score > 0 ? t.question.partly(r.partsCorrect, r.parts) : t.question.not}</p>
       <RichText text={tx(q.explanation, lang)} className="explanation__text" lang={lang} />
       <div className="explanation__links">
         {mod && (
-          <Link to={`/lernen/${mod.id}`} className="link-inline">
+          <Link to={`/learn/${mod.id}`} className="link-inline">
             <Icon name="book" size={16} />
-            Lektion: {mod.title}
+            {t.question.lesson(mod.title)}
           </Link>
         )}
         {q.sources.map((s) => (

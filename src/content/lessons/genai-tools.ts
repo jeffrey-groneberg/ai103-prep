@@ -22,7 +22,7 @@ export const lesson: Lesson = {
       height: 540,
       groups: [
         { id: 'g-app', x: 10, y: 20, w: 940, h: 130, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
-        { id: 'g-foundry', x: 10, y: 205, w: 690, h: 315, label: 'Microsoft Foundry', tone: 'foundry' },
+        { id: 'g-foundry', x: 10, y: 205, w: 690, h: 315, label: 'Microsoft Foundry', tone: 'platform' },
         { id: 'g-ext', x: 720, y: 205, w: 230, h: 315, label: { en: 'Outside Foundry', de: 'Außerhalb von Foundry' }, tone: 'external' },
       ],
       nodes: [
@@ -119,7 +119,7 @@ export const lesson: Lesson = {
       width: 960,
       height: 320,
       groups: [
-        { id: 'g-managed', x: 260, y: 10, w: 490, h: 135, label: { en: 'Managed by the service', de: 'Vom Dienst verwaltet' }, tone: 'foundry' },
+        { id: 'g-managed', x: 260, y: 10, w: 490, h: 135, label: { en: 'Managed by the service', de: 'Vom Dienst verwaltet' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'F1', x: 10, y: 50, w: 140, h: 70, label: { en: 'Your files', de: 'Deine Dateien' }, sub: 'PDF · DOCX · MD · …', icon: 'file', tone: 'data', shape: 'doc' },

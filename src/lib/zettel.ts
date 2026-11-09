@@ -63,7 +63,7 @@ export function applyZettel(prev: ZettelState | undefined, knew: boolean, now: D
   }
 }
 
-/** Cards per compartment: [Fach 1, Fach 2, Fach 3]. */
+/** Cards per compartment: [stage 1, stage 2, stage 3]. */
 export function countByFach(ids: Iterable<string>, states: ZettelStates): [number, number, number] {
   const out: [number, number, number] = [0, 0, 0]
   for (const id of ids) out[fachOf(states, id) - 1]++

@@ -4,6 +4,7 @@ import type {
   CourseModule,
   Diagram,
   L10n,
+  LegacyName,
   Lesson,
   Question,
   QuestionFile,
@@ -31,9 +32,9 @@ import {
 } from '../lib/geometry.ts'
 import { textWidth } from '../lib/text-metrics.ts'
 import { isDiagramIcon } from './diagram-icons.ts'
-import { allBullets, bulletById } from './domains.ts'
-import { moduleById, modules } from './course.ts'
+import { indexOutline, outline as defaultOutline, type Outline, type OutlineIndex } from './outline.ts'
 import { findOutdatedModels, scanText, type ModelLifecycle } from './model-currency.ts'
+import { exam } from '../config.ts'
 
 export interface Issue {
   level: 'error' | 'warning'
@@ -79,33 +80,34 @@ export interface ValidateOptions {
   only?: string[]
   /** ISO date used to reject lastVerified dates in the future. */
   today?: string
+  /** Defaults to exam.json targets. */
   minPerBullet?: number
   minPerModule?: number
   /** Snapshot of Learn's model retirement schedule; enables the model-currency check. */
   modelLifecycle?: ModelLifecycle
+  /** Skills outline and course map to check against; defaults to src/content/domains.ts and course.ts. */
+  outline?: Outline
+  /** Renamed or retired product names; defaults to exam.json legacyNames. */
+  legacyNames?: LegacyName[]
 }
 
 const LEARN_URL = /^https:\/\/learn\.microsoft\.com\/(?:[a-z]{2}-[a-z]{2}\/)?[a-z]/
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 
+/** A legacy name compiled for matching. */
+export interface LegacyPattern {
+  pattern: RegExp
+  current: string
+}
+
 /**
- * Names that were renamed or retired. They may only appear when the text explicitly
+ * Names that were renamed or retired (exam.json legacyNames). They may only appear when the text explicitly
  * frames them as former names (e.g. "formerly", "classic").
  */
-export const LEGACY_NAMES: Array<{ pattern: RegExp; current: string }> = [
-  { pattern: /\bAzure AI Studio\b/, current: 'Microsoft Foundry' },
-  { pattern: /\bAzure OpenAI Studio\b/, current: 'Microsoft Foundry portal' },
-  { pattern: /\bAzure AI Foundry\b/, current: 'Microsoft Foundry' },
-  { pattern: /\bAI Foundry Agent Service\b/, current: 'Foundry Agent Service' },
-  { pattern: /\bCognitive Services\b(?!(?: [A-Z][A-Za-z]+)* (?:User|Contributor|Reader|Writer|Owner)\b)/, current: 'Foundry Tools' },
-  { pattern: /\bAzure AI services\b/, current: 'Foundry Tools' },
-  { pattern: /\bForm Recognizer\b/, current: 'Azure Document Intelligence in Foundry Tools' },
-  { pattern: /\bLUIS\b|\bLanguage Understanding \(LUIS\)/, current: 'conversational language understanding' },
-  { pattern: /\bQnA Maker\b/, current: 'question answering' },
-  { pattern: /\bAssistants API\b/, current: 'Responses API (Agents v2)' },
-  { pattern: /\bprompt flow\b/i, current: 'workflows / Agent Framework' },
-  { pattern: /\bAzure AI (?:User|Owner|Account Owner|Project Manager)\b/, current: 'Foundry User / Foundry Owner / Foundry Account Owner / Foundry Project Manager' },
-]
+export function compileLegacyNames(list: readonly LegacyName[] = exam.legacyNames): LegacyPattern[] {
+  return list.map((l) => ({ pattern: new RegExp(l.pattern, (l.flags ?? '').replace(/g/g, '')), current: l.current }))
+}
+
 const LEGACY_FRAMING = /formerly|previously|renamed|retired|deprecated|classic|legacy|ehemals|früher|umbenannt|eingestellt|veraltet|Vorgänger|predecessor/i
 
 function textOf(t: Text | undefined): string[] {
@@ -133,9 +135,9 @@ function checkL10n(issues: Issue[], where: string, field: string, v: L10n | unde
   }
 }
 
-function checkLegacy(issues: Issue[], where: string, strings: string[]) {
+function checkLegacy(issues: Issue[], where: string, strings: string[], legacy: readonly LegacyPattern[]) {
   for (const s of strings) {
-    for (const { pattern, current } of LEGACY_NAMES) {
+    for (const { pattern, current } of legacy) {
       if (pattern.test(s) && !LEGACY_FRAMING.test(s)) {
         issues.push({ level: 'error', where, message: `outdated name ${pattern} — use "${current}" (or frame it as a former name)` })
       }
@@ -180,13 +182,23 @@ function questionStrings(q: Question): string[] {
   return out
 }
 
-export function validateQuestion(q: Question, issues: Issue[], ctx: { file: string; fileModule: string; caseIds: Set<string>; today: string }) {
+export interface QuestionContext {
+  file: string
+  fileModule: string
+  caseIds: Set<string>
+  today: string
+  outline?: OutlineIndex
+  legacy?: readonly LegacyPattern[]
+}
+
+export function validateQuestion(q: Question, issues: Issue[], ctx: QuestionContext) {
+  const { moduleById, bulletById } = ctx.outline ?? defaultOutline
   const where = `${ctx.file} › ${q.id ?? '(no id)'}`
   if (!q.id || !/^q-[a-z0-9-]+$/.test(q.id)) issues.push({ level: 'error', where, message: 'id must match ^q-[a-z0-9-]+$' })
   if (q.module !== ctx.fileModule) issues.push({ level: 'error', where, message: `module "${q.module}" differs from file module "${ctx.fileModule}"` })
-  if (!moduleById.has(q.module)) issues.push({ level: 'error', where, message: `unknown module "${q.module}"` })
+  if (!moduleById.has(q.module)) issues.push({ level: 'error', where, message: `unknown module "${q.module}" — add it to src/content/course.ts` })
   const bullet = bulletById.get(q.skill)
-  if (!bullet) issues.push({ level: 'error', where, message: `unknown skill bullet "${q.skill}"` })
+  if (!bullet) issues.push({ level: 'error', where, message: `unknown skill bullet "${q.skill}" — add it to src/content/domains.ts` })
   else if (bullet.domain !== q.domain) issues.push({ level: 'error', where, message: `skill ${q.skill} belongs to ${bullet.domain}, not ${q.domain}` })
   for (const s of q.skills ?? []) if (!bulletById.has(s)) issues.push({ level: 'error', where, message: `unknown secondary skill "${s}"` })
   if (![1, 2, 3].includes(q.difficulty)) issues.push({ level: 'error', where, message: 'difficulty must be 1, 2 or 3' })
@@ -269,7 +281,7 @@ export function validateQuestion(q: Question, issues: Issue[], ctx: { file: stri
     default:
       issues.push({ level: 'error', where, message: `unknown question type "${(q as { type: string }).type}"` })
   }
-  checkLegacy(issues, where, questionStrings(q))
+  checkLegacy(issues, where, questionStrings(q), ctx.legacy ?? compileLegacyNames())
 }
 
 /** Width available to a text block of height `blockH` inside a node, as rendered. */
@@ -304,11 +316,12 @@ function checkNodeText(issues: Issue[], where: string, n: Diagram['nodes'][numbe
       issues.push({ level: 'error', where, message: `node ${n.id} (${lang}): ${labelLines.length} label + ${subLines.length} sub line(s) need ${blockH}px of height but only ${Math.floor(room)}px fit — make the node at least ${Math.ceil(n.h + blockH - room)}px tall or use fewer lines` })
     }
     const avail = availableTextWidth(n, blockH)
-    // Label lines share their row with the node's icon; sub lines use the full width.
+    // Label lines share their row with the node's icon, if it has one; sub lines use the full width.
+    const iconSlot = n.icon ? ICON_SLOT : 0
     const tooWide = (line: string, style: 'label' | 'sub') => {
-      const tw = textWidth(line, style) + (style === 'label' ? ICON_SLOT : 0)
+      const tw = textWidth(line, style) + (style === 'label' ? iconSlot : 0)
       if (tw > avail) {
-        const what = style === 'label' ? `label line "${line}" needs ${Math.ceil(tw)}px with its icon` : `sub line "${line}" is ${Math.ceil(tw)}px wide`
+        const what = style === 'label' ? `label line "${line}" needs ${Math.ceil(tw)}px${iconSlot ? ' with its icon' : ''}` : `sub line "${line}" is ${Math.ceil(tw)}px wide`
         issues.push({ level: 'error', where, message: `node ${n.id} (${lang}) ${what} but only ${Math.floor(avail)}px fit — widen the node to at least ${Math.ceil(n.w + tw - avail)}px, break the line with \\n, or shorten it` })
       }
     }
@@ -420,7 +433,9 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
       issues.push({ level: 'error', where: w, message: `node ${n.id} lies outside the ${d.width}×${d.height} canvas` })
     }
     if (n.w < 60 || n.h < 30) issues.push({ level: 'error', where: w, message: `node ${n.id} is too small (min 60×30)` })
-    if (!isDiagramIcon(n.icon)) issues.push({ level: 'error', where: w, message: `node ${n.id} needs an official icon id from src/content/diagram-icons.ts (got ${JSON.stringify(n.icon)})` })
+    if (n.icon !== undefined && !isDiagramIcon(n.icon)) {
+      issues.push({ level: 'error', where: w, message: `node ${n.id}: icon ${JSON.stringify(n.icon)} is not registered in src/content/diagram-icons.ts — register it (see src/assets/diagram-icons/NOTICE.md) or remove the icon` })
+    }
     checkNodeText(issues, w, n)
   }
   const nodes = d.nodes ?? []
@@ -449,9 +464,10 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
   })
 }
 
-export function validateLesson(lesson: Lesson, issues: Issue[], file: string) {
+export function validateLesson(lesson: Lesson, issues: Issue[], file: string, opts: { outline?: OutlineIndex; legacy?: readonly LegacyPattern[] } = {}) {
+  const { moduleById } = opts.outline ?? defaultOutline
   const where = `${file} › lesson ${lesson.module}`
-  if (!moduleById.has(lesson.module)) issues.push({ level: 'error', where, message: `unknown module "${lesson.module}"` })
+  if (!moduleById.has(lesson.module)) issues.push({ level: 'error', where, message: `unknown module "${lesson.module}" — add it to src/content/course.ts` })
   checkL10n(issues, where, 'summary', lesson.summary, { minLen: 40 })
   checkL10n(issues, where, 'examFocus', lesson.examFocus, { minLen: 30 })
   if (!lesson.diagrams?.length) issues.push({ level: 'error', where, message: 'needs at least one diagram' })
@@ -493,7 +509,7 @@ export function validateLesson(lesson: Lesson, issues: Issue[], file: string) {
       ...d.steps.flatMap((s) => [...textOf(s.title), ...textOf(s.text)]),
     ]),
   ]
-  checkLegacy(issues, where, strings)
+  checkLegacy(issues, where, strings, opts.legacy ?? compileLegacyNames())
 }
 
 /** Phrases that only make sense on the lesson page, never on a card. */
@@ -643,7 +659,8 @@ function lessonItems(lesson: Lesson, kind: (typeof CARD_KINDS)[number]): L10n[] 
 }
 
 /** One card per concept, exam trap and takeaway; fronts ask a question, backs answer it in both languages. */
-export function validateCardFile(data: CardFile, lesson: Lesson | undefined, issues: Issue[], file: string) {
+export function validateCardFile(data: CardFile, lesson: Lesson | undefined, issues: Issue[], file: string, opts: { legacy?: readonly LegacyPattern[] } = {}) {
+  const legacy = opts.legacy ?? compileLegacyNames()
   const seen = new Set<string>()
   for (const c of data.cards ?? []) {
     const w = `${file} › ${c.id}`
@@ -679,7 +696,7 @@ export function validateCardFile(data: CardFile, lesson: Lesson | undefined, iss
       }
     }
     checkCardChoices(issues, w, c.choices)
-    checkLegacy(issues, w, [...textOf(c.front), ...textOf(c.back), ...(c.choices ?? []).flatMap((o) => [...textOf(o.text), ...textOf(o.why)])])
+    checkLegacy(issues, w, [...textOf(c.front), ...textOf(c.back), ...(c.choices ?? []).flatMap((o) => [...textOf(o.text), ...textOf(o.why)])], legacy)
   }
   if (!lesson) return
   for (const kind of CARD_KINDS) {
@@ -694,8 +711,37 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
   const today = options.today ?? new Date().toISOString().slice(0, 10)
   const only = options.only?.length ? new Set(options.only) : null
   const inScope = (moduleId: string) => !only || only.has(moduleId)
-  const minPerBullet = options.minPerBullet ?? 2
-  const minPerModule = options.minPerModule ?? 3
+  const minPerBullet = options.minPerBullet ?? exam.targets.minPerBullet
+  const minPerModule = options.minPerModule ?? exam.targets.minPerModule
+  const ix = options.outline ? indexOutline(options.outline) : defaultOutline
+  const { allBullets, bulletById, moduleById, modules } = ix
+  const legacy = compileLegacyNames(options.legacyNames ?? exam.legacyNames)
+
+  if (!only) {
+    if (!ix.domains.length) issues.push({ level: 'error', where: 'src/content/domains.ts', message: 'no domains yet — add the skills outline from the study guide (domains, skill groups and bullets)' })
+    if (!modules.length) issues.push({ level: 'error', where: 'src/content/course.ts', message: 'no modules yet — add the learning paths and modules of the official course (learn-catalog.mjs prints a draft)' })
+  }
+  const domainIds = new Set<string>()
+  for (const d of ix.domains) {
+    if (domainIds.has(d.id)) issues.push({ level: 'error', where: 'src/content/domains.ts', message: `duplicate domain id "${d.id}"` })
+    domainIds.add(d.id)
+    if (!(d.weight[0] > 0 && d.weight[1] >= d.weight[0])) issues.push({ level: 'error', where: `domain ${d.id}`, message: `weight [${d.weight.join(', ')}] must be the official range in percent, e.g. [25, 30]` })
+    if (!d.groups.some((g) => g.bullets.length)) issues.push({ level: 'error', where: `domain ${d.id}`, message: 'has no skill bullets' })
+  }
+  uniqueIds(issues, 'src/content/domains.ts', 'skill bullet', allBullets.map((b) => b.id))
+  const inPaths = new Map<string, string>()
+  for (const p of ix.learningPaths) {
+    if (!p.modules.length) issues.push({ level: 'error', where: `learning path ${p.id}`, message: 'has no modules' })
+    for (const id of p.modules) {
+      if (!moduleById.has(id)) issues.push({ level: 'error', where: `learning path ${p.id}`, message: `lists unknown module "${id}" — add it to modules in src/content/course.ts` })
+      if (inPaths.has(id)) issues.push({ level: 'error', where: `learning path ${p.id}`, message: `module "${id}" is already in learning path ${inPaths.get(id)}` })
+      inPaths.set(id, p.id)
+    }
+  }
+  for (const m of modules) {
+    if (!inPaths.has(m.id)) issues.push({ level: 'error', where: `course ${m.id}`, message: 'module is in no learning path — list it in its learning path in src/content/course.ts' })
+    else if (inPaths.get(m.id) !== m.pathId) issues.push({ level: 'error', where: `course ${m.id}`, message: `pathId "${m.pathId}" differs from the learning path that lists it ("${inPaths.get(m.id)}")` })
+  }
 
   const caseIds = new Set(bundle.cases.map((c) => c.id))
   uniqueIds(issues, 'cases', 'case', bundle.cases.map((c) => c.id))
@@ -705,7 +751,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     checkL10n(issues, where, 'title', c.title)
     checkL10n(issues, where, 'scenario', c.scenario, { minLen: 200 })
     for (const m of c.modules) if (!moduleById.has(m)) issues.push({ level: 'error', where, message: `unknown module "${m}"` })
-    checkLegacy(issues, where, textOf(c.scenario))
+    checkLegacy(issues, where, textOf(c.scenario), legacy)
     checkModels(issues, where, c, options.modelLifecycle, today)
   }
 
@@ -718,7 +764,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     for (const q of data.questions ?? []) {
       allQuestions.push(q)
       if (inScope(data.module)) {
-        validateQuestion(q, issues, { file, fileModule: data.module, caseIds, today })
+        validateQuestion(q, issues, { file, fileModule: data.module, caseIds, today, outline: ix, legacy })
         checkModels(issues, `${file} › ${q.id}`, q, options.modelLifecycle, today)
       }
     }
@@ -730,7 +776,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     if (lessonModules.has(lesson.module)) issues.push({ level: 'error', where: file, message: `second lesson for module "${lesson.module}"` })
     lessonModules.set(lesson.module, file)
     if (inScope(lesson.module)) {
-      validateLesson(lesson, issues, file)
+      validateLesson(lesson, issues, file, { outline: ix, legacy })
       checkModels(issues, `${file} › lesson ${lesson.module}`, lesson, options.modelLifecycle, today)
     }
   }
@@ -747,7 +793,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
       if (!moduleById.has(data.module)) issues.push({ level: 'error', where: file, message: `unknown module "${data.module}"` })
       if (!file.endsWith(`/${data.module}.json`)) issues.push({ level: 'error', where: file, message: `card file for "${data.module}" must be named ${data.module}.json` })
       if (!inScope(data.module)) continue
-      validateCardFile(data, lessonOf.get(data.module), issues, file)
+      validateCardFile(data, lessonOf.get(data.module), issues, file, { legacy })
       checkModels(issues, `${file} › cards`, data, options.modelLifecycle, today)
     }
     uniqueIds(issues, 'cards', 'card', bundle.cards.flatMap(({ data }) => (data.cards ?? []).map((c) => c.id)))
@@ -761,7 +807,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
   }
 
   const moduleCounts: Record<string, number> = Object.fromEntries(modules.map((m) => [m.id, 0]))
-  const domainCounts: Record<string, number> = { D1: 0, D2: 0, D3: 0, D4: 0, D5: 0 }
+  const domainCounts: Record<string, number> = Object.fromEntries(ix.domains.map((d) => [d.id, 0]))
   const typeCounts: Record<string, number> = {}
   const difficultyCounts: Record<string, number> = {}
   const primary = new Map<string, number>()

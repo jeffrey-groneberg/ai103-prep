@@ -4,6 +4,7 @@ import type { Answer } from './scoring.ts'
 import { applyResult, type CardState } from './srs.ts'
 import type { ExamSummary } from './exam.ts'
 import { applyZettel, newOwnId, type OwnZettel, type ZettelState } from './zettel.ts'
+import { exam } from '../config.ts'
 
 export interface ExamSession {
   id: string
@@ -44,10 +45,12 @@ export interface ProgressState {
   hiddenZettel: string[]
 }
 
-const KEY = 'ai103-prep:v1'
+/** localStorage key from exam.json; each exam app keeps its own progress. */
+export const STORAGE_KEY = exam.storageKey
+const KEY = STORAGE_KEY
 
 export function initialState(): ProgressState {
-  return { version: 1, lang: 'de', cards: {}, lessonsRead: {}, exams: [], activeExam: null, zettel: {}, ownZettel: [], hiddenZettel: [] }
+  return { version: 1, lang: exam.defaultLang, cards: {}, lessonsRead: {}, exams: [], activeExam: null, zettel: {}, ownZettel: [], hiddenZettel: [] }
 }
 
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -55,6 +58,7 @@ const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'obj
 /** Fills fields that older saves and exports lack, so they load without losing anything. */
 export function normalizeState(parsed: Partial<ProgressState>): ProgressState {
   const s = { ...initialState(), ...parsed }
+  if (s.lang !== 'de' && s.lang !== 'en') s.lang = exam.defaultLang
   if (!isRecord(s.cards)) s.cards = {}
   if (!isRecord(s.lessonsRead)) s.lessonsRead = {}
   if (!Array.isArray(s.exams)) s.exams = []

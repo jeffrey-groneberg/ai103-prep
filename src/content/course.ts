@@ -1,11 +1,11 @@
 import type { CourseModule, LearningPath } from '../lib/types.ts'
 
 /**
- * Official course AI-103T00 "Develop AI apps and agents on Azure" as listed by the
- * Microsoft Learn Catalog API (course.ai-103t00), retrieved 2026-11-06.
- * Module and unit titles are the official English titles.
+ * Official course AI-103T00 "Develop AI apps and agents on Azure" as listed by the Microsoft Learn Catalog API
+ * (course.ai-103t00), retrieved 2026-11-06: learning paths in course order, each with its modules (official English
+ * titles, URLs, minutes and unit titles) and the skills-outline bullets each module teaches. `npm run check:learn`
+ * reports drift.
  */
-export const COURSE_URL = 'https://learn.microsoft.com/en-us/training/courses/ai-103t00'
 export const CATALOG_RETRIEVED = '2026-11-06'
 
 export const learningPaths: LearningPath[] = [
@@ -627,5 +627,3 @@ export const modules: CourseModule[] = [
   },
 ]
 
-export const moduleById = new Map(modules.map((m) => [m.id, m]))
-export const pathById = new Map(learningPaths.map((p) => [p.id, p]))

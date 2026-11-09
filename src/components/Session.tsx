@@ -4,15 +4,15 @@ import type { Question } from '../lib/types.ts'
 import { emptyAnswer, isAnswerComplete, scoreQuestion, type Answer } from '../lib/scoring.ts'
 import { store, useProgress } from '../lib/store.ts'
 import { caseById } from '../content/index.ts'
-import { moduleById } from '../content/course.ts'
+import { moduleById } from '../content/outline.ts'
 import { Explanation, QuestionView } from './QuestionView.tsx'
 import { Icon } from './Icon.tsx'
-import { tx } from '../lib/i18n.ts'
+import { tx, useT } from '../i18n/index.ts'
 
 interface SessionProps {
   questions: Question[]
   title: string
-  /** Where "Beenden" leads. */
+  /** Where ending the round leads. */
   exitTo: string
   onRestartWrong?: (ids: string[]) => void
 }
@@ -34,6 +34,7 @@ function revealFeedback() {
 
 export function Session({ questions, title, exitTo, onRestartWrong }: SessionProps) {
   const { lang } = useProgress()
+  const t = useT()
   const navigate = useNavigate()
   const [index, setIndex] = useState(0)
   const [answers, setAnswers] = useState<Record<string, Answer>>({})
@@ -47,10 +48,10 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
   if (!questions.length) {
     return (
       <div className="session-empty panel">
-        <h2 className="panel__title">Keine passenden Fragen</h2>
-        <p>Für diese Auswahl gibt es (noch) keine Fragen. Ändere die Filter oder wähle ein anderes Modul.</p>
+        <h2 className="panel__title">{t.session.emptyTitle}</h2>
+        <p>{t.session.emptyText}</p>
         <Link to={exitTo} className="btn btn--primary">
-          Zurück
+          {t.common.back}
         </Link>
       </div>
     )
@@ -63,16 +64,17 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
     return (
       <div className="session-done">
         <div className="panel session-done__panel">
-          <h1 className="page-title">Runde geschafft</h1>
+          <h1 className="page-title">{t.common.roundDone}</h1>
           <p className="session-done__score">
-            <strong>{correct}</strong> von {results.length} vollständig richtig · {pct} % der Punkte
+            <strong>{correct}</strong>
+            {t.session.score(results.length, pct)}
           </p>
           <div className="meter meter--large" aria-hidden="true">
             <span className="meter__fill bg-ok" style={{ width: `${pct}%` }} />
           </div>
           {wrong.length > 0 && (
             <>
-              <h2 className="panel__title">Zum Wiederholen vorgemerkt</h2>
+              <h2 className="panel__title">{t.session.marked}</h2>
               <ul className="wrong-list">
                 {wrong.map((r) => {
                   const wq = questions.find((x) => x.id === r.id)!
@@ -80,7 +82,7 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
                     <li key={r.id}>
                       <Icon name="dismissCircle" size={18} className="ink-bad" />
                       <span className="wrong-list__stem">{tx(wq.stem, lang).replace(/[`*]/g, '')}</span>
-                      <Link to={`/lernen/${wq.module}`} className="link-inline">
+                      <Link to={`/learn/${wq.module}`} className="link-inline">
                         {moduleById.get(wq.module)?.title}
                       </Link>
                     </li>
@@ -92,14 +94,14 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
           <div className="session-done__actions">
             {wrong.length > 0 && onRestartWrong && (
               <button type="button" className="btn btn--primary btn--large" onClick={() => onRestartWrong(wrong.map((w) => w.id))}>
-                {wrong.length} Fehler sofort wiederholen
+                {t.session.reviewNow(wrong.length)}
               </button>
             )}
             <Link to="/" className={`btn ${wrong.length ? 'btn--secondary' : 'btn--primary'} btn--large`}>
-              Zur Startseite
+              {t.common.toHome}
             </Link>
             <Link to={exitTo} className="btn btn--subtle btn--large">
-              Neue Runde
+              {t.session.newRound}
             </Link>
           </div>
         </div>
@@ -124,10 +126,10 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
   return (
     <div className="session">
       <div className="session__top">
-        <button type="button" className="icon-btn icon-btn--large" onClick={() => navigate(exitTo)} aria-label="Runde beenden">
+        <button type="button" className="icon-btn icon-btn--large" onClick={() => navigate(exitTo)} aria-label={t.common.endRound}>
           <Icon name="dismiss" size={22} />
         </button>
-        <div className="session__progress" role="progressbar" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={index} aria-label={`${title}: Frage ${index + 1} von ${questions.length}`}>
+        <div className="session__progress" role="progressbar" aria-valuemin={0} aria-valuemax={questions.length} aria-valuenow={index} aria-label={t.session.progress(title, index + 1, questions.length)}>
           <span style={{ width: `${(index / questions.length) * 100}%` }} />
         </div>
         <span className="session__count">
@@ -157,21 +159,21 @@ export function Session({ questions, title, exitTo, onRestartWrong }: SessionPro
             <p className="session__verdict" role="status">
               <Icon name={result.correct ? 'checkCircle' : 'dismissCircle'} size={28} />
               <span>
-                <strong>{result.correct ? 'Richtig!' : result.score > 0 ? 'Teilweise richtig' : 'Nicht ganz'}</strong>
-                <span className="session__verdict-sub">{result.correct ? 'Die Frage rückt eine Box weiter.' : 'Sie kommt in deine Wiederholungen.'}</span>
+                <strong>{result.correct ? t.common.correct : result.score > 0 ? t.common.partly : t.common.notQuite}</strong>
+                <span className="session__verdict-sub">{result.correct ? t.session.movesUp : t.session.toReviews}</span>
               </span>
             </p>
           ) : (
-            <p className="session__hint">{isAnswerComplete(q, answer) ? 'Bereit zum Prüfen.' : 'Wähle deine Antwort.'}</p>
+            <p className="session__hint">{isAnswerComplete(q, answer) ? t.session.ready : t.session.choose}</p>
           )}
           {result ? (
             <button type="button" className="btn btn--primary btn--large" onClick={next} autoFocus>
-              {index + 1 < questions.length ? 'Weiter' : 'Auswertung'}
+              {index + 1 < questions.length ? t.common.next : t.common.results}
               <Icon name="arrowRight" size={18} />
             </button>
           ) : (
             <button type="button" className="btn btn--primary btn--large" onClick={check} disabled={!isAnswerComplete(q, answer)}>
-              Prüfen
+              {t.common.check}
             </button>
           )}
         </div>

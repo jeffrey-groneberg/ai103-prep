@@ -117,7 +117,7 @@
 
 .tone-user { --g-fill: var(--tone-user-fill); --g-stroke: var(--tone-user-stroke); --g-ink: var(--tone-user-ink); }
 .tone-app { --g-fill: var(--tone-app-fill); --g-stroke: var(--tone-app-stroke); --g-ink: var(--tone-app-ink); }
-.tone-foundry { --g-fill: var(--tone-foundry-fill); --g-stroke: var(--tone-foundry-stroke); --g-ink: var(--tone-foundry-ink); }
+.tone-platform { --g-fill: var(--tone-platform-fill); --g-stroke: var(--tone-platform-stroke); --g-ink: var(--tone-platform-ink); }
 .tone-model { --g-fill: var(--tone-model-fill); --g-stroke: var(--tone-model-stroke); --g-ink: var(--tone-model-ink); }
 .tone-data { --g-fill: var(--tone-data-fill); --g-stroke: var(--tone-data-stroke); --g-ink: var(--tone-data-ink); }
 .tone-tool { --g-fill: var(--tone-tool-fill); --g-stroke: var(--tone-tool-stroke); --g-ink: var(--tone-tool-ink); }

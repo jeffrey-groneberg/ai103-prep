@@ -4,7 +4,7 @@
  *
  *   npm run sources:titles
  */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { QuestionFile } from '../src/lib/types.ts'
@@ -14,7 +14,8 @@ const content = join(root, 'src', 'content')
 const outFile = join(content, 'source-titles.json')
 
 const urls = new Set<string>()
-for (const f of readdirSync(join(content, 'questions')).filter((f) => f.endsWith('.json'))) {
+const questionDir = join(content, 'questions')
+for (const f of existsSync(questionDir) ? readdirSync(questionDir).filter((f) => f.endsWith('.json')) : []) {
   const data = JSON.parse(readFileSync(join(content, 'questions', f), 'utf8')) as QuestionFile
   for (const q of data.questions) for (const s of q.sources) urls.add(s.split('#')[0])
 }
@@ -30,7 +31,7 @@ const decode = (s: string) =>
 async function title(url: string): Promise<string | null> {
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'ai103-prep-source-titles' }, signal: AbortSignal.timeout(20000) })
+      const res = await fetch(url, { redirect: 'follow', headers: { 'user-agent': 'exam-prep-source-titles' }, signal: AbortSignal.timeout(20000) })
       if (res.status === 429) {
         await res.body?.cancel()
         await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)))

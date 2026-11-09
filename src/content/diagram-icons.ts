@@ -1,7 +1,7 @@
 /**
  * Official Azure Architecture Icons (Azure Public Service Icons V25, November 2026) used in the lesson diagrams.
  * Source: https://learn.microsoft.com/azure/architecture/icons/ — Microsoft permits their use in architectural
- * diagrams, training materials and documentation; the files in src/assets/azure-icons/<id>.svg are unaltered copies.
+ * diagrams, training materials and documentation; the files in src/assets/diagram-icons/<id>.svg are unaltered copies.
  * Every diagram node names one of these ids; product nodes use the product icon, general building blocks use the
  * general icons of the same set.
  */

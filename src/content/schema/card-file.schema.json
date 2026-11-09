@@ -1,7 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/jeffrey-groneberg/ai103-prep/schema/card-file.schema.json",
-  "title": "AI-103 Prep Zettelkasten card file",
+  "title": "Flashcard file (Zettelkasten)",
   "description": "One file per course module: one card per concept, exam trap and takeaway of the module's lesson. The front asks a question and offers four exam-style answer options (exactly one correct, each with a short reason why it is right or wrong); the back answers it from the lesson text (concept cards take the lesson's concept text unless they carry their own back).",
   "type": "object",
   "required": ["module", "cards"],

@@ -8,10 +8,9 @@ import { renderInline } from '../components/inline.tsx'
 import { InlineQuestion } from '../components/InlineQuestion.tsx'
 import { FeedbackLink } from '../components/Feedback.tsx'
 import { store, useProgress } from '../lib/store.ts'
-import { MASTERY_LABELS, moduleStatus } from '../lib/progress.ts'
-import { tx } from '../lib/i18n.ts'
-import { learningPaths, moduleById } from '../content/course.ts'
-import { bulletById } from '../content/domains.ts'
+import { moduleStatus } from '../lib/progress.ts'
+import { tx, useT, type Messages } from '../i18n/index.ts'
+import { bulletById, domainHue, learningPaths, moduleById } from '../content/outline.ts'
 import { lessonByModule, orderedModules, questionsForModule, questions } from '../content/index.ts'
 import { NotFound } from './NotFound.tsx'
 import type { CourseModule, Question } from '../lib/types.ts'
@@ -19,17 +18,10 @@ import { moduleDomains } from '../lib/select.ts'
 import { useZettelBox } from '../lib/zettel-box.ts'
 import { countByFach } from '../lib/zettel.ts'
 
-const SECTIONS = [
-  { id: 'worum', label: 'Worum geht’s' },
-  { id: 'bild', label: 'Das große Bild' },
-  { id: 'konzepte', label: 'Kernkonzepte' },
-  { id: 'vergleich', label: 'Welcher Dienst wofür' },
-  { id: 'code', label: 'So sieht’s im Code aus' },
-  { id: 'fallen', label: 'Prüfungsfallen' },
-  { id: 'merke', label: 'Merksätze' },
-  { id: 'quiz', label: 'Mini-Quiz' },
-  { id: 'quellen', label: 'Quellen & offizielles Modul' },
-]
+type SectionId = keyof Messages['lesson']['sections']
+
+/** Lesson sections in page order; the ids are the anchors (?section=…). */
+const SECTIONS: SectionId[] = ['about', 'diagrams', 'concepts', 'compare', 'code', 'traps', 'takeaways', 'quiz', 'sources']
 
 export function LessonPage() {
   const { moduleId: rawId = '' } = useParams()
@@ -37,6 +29,7 @@ export function LessonPage() {
   const { hash, search } = useLocation()
   const navigate = useNavigate()
   const progress = useProgress()
+  const t = useT()
   const { cards: boxCards } = useZettelBox()
   const { lang } = progress
   const mod = moduleById.get(moduleId)
@@ -45,20 +38,20 @@ export function LessonPage() {
   const quiz = pickQuiz(moduleQuestions)
 
   useEffect(() => {
-    const section = new URLSearchParams(search).get('abschnitt') ?? (hash ? hash.slice(1) : decodeURIComponent(rawId).split('#')[1])
+    const section = new URLSearchParams(search).get('section') ?? (hash ? hash.slice(1) : decodeURIComponent(rawId).split('#')[1])
     if (!section) return
     const el = document.getElementById(section)
     el?.scrollIntoView({ block: 'start' })
   }, [hash, search, rawId, moduleId])
 
-  // "Auf dieser Seite" marks the section being read, like Microsoft Learn: the last section whose
+  // "On this page" marks the section being read, like Microsoft Learn: the last section whose
   // heading has passed a reading line a quarter down the window (below the top bar).
   const [activeSection, setActiveSection] = useState<string | null>(null)
   useEffect(() => {
     let frame = 0
     const update = () => {
       const line = 56 + window.innerHeight * 0.25
-      const present = SECTIONS.map((s) => document.getElementById(s.id)).filter((el): el is HTMLElement => !!el)
+      const present = SECTIONS.map((s) => document.getElementById(s)).filter((el): el is HTMLElement => !!el)
       let current = present[0]?.id ?? null
       for (const el of present) if (el.getBoundingClientRect().top <= line) current = el.id
       if (present.length && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = present[present.length - 1].id
@@ -84,33 +77,31 @@ export function LessonPage() {
   const prev = orderedModules[index - 1]
   const next = orderedModules[index + 1]
   const path = learningPaths.find((p) => p.id === mod.pathId)
-  const sections = SECTIONS.filter((s) => (s.id === 'vergleich' ? lesson?.comparison : s.id === 'quiz' ? quiz.length > 0 : true))
+  const sections = SECTIONS.filter((s) => (s === 'compare' ? lesson?.comparison : s === 'quiz' ? quiz.length > 0 : true))
   const zettel = boxCards.filter((z) => z.module === mod.id)
   const zettelCounts = countByFach(zettel.map((z) => z.id), progress.zettel)
   const zettelOpen = zettelCounts[0] + zettelCounts[1]
 
   const finish = () => {
     store.markLessonRead(mod.id)
-    navigate(moduleQuestions.length ? `/ueben/sitzung?modul=${mod.id}&neu=1` : '/')
+    navigate(moduleQuestions.length ? `/practice/session?module=${mod.id}&new=1` : '/')
   }
 
   return (
     <div className="page lesson">
-      <nav className="breadcrumb" aria-label="Brotkrumen">
-        <Link to="/lernen">Lernen</Link>
+      <nav className="breadcrumb" aria-label={t.common.breadcrumb}>
+        <Link to="/learn">{t.learn.title}</Link>
         <Icon name="chevronRight" size={14} />
         <span>{path?.title}</span>
         <Icon name="chevronRight" size={14} />
-        <span aria-current="page">Modul {index + 1}</span>
+        <span aria-current="page">{t.lesson.module(index + 1)}</span>
       </nav>
       <header className="lesson-head">
         <h1 className="page-title">{mod.title}</h1>
-        <p className="page-sub">
-          Modul {index + 1} von {orderedModules.length} · ca. {mod.minutes} Min auf Learn · {moduleQuestions.length} Übungsfragen · {MASTERY_LABELS[status.mastery.level]}
-        </p>
+        <p className="page-sub">{t.lesson.sub(index + 1, orderedModules.length, mod.minutes, moduleQuestions.length, t.labels.mastery[status.mastery.level])}</p>
         <div className="lesson-head__chips">
           {moduleDomains(mod.skills).map((d) => (
-            <span key={d} className={`domain-chip domain-${d}`}>
+            <span key={d} className={`domain-chip domain-${domainHue(d)}`}>
               {d}
             </span>
           ))}
@@ -123,23 +114,23 @@ export function LessonPage() {
         <div className="lesson-head__actions">
           <a className="btn btn--secondary" href={mod.url} target="_blank" rel="noreferrer">
             <Icon name="open" size={16} />
-            Offizielles Modul auf Learn
+            {t.lesson.officialModule}
           </a>
           {moduleQuestions.length > 0 && (
-            <Link className="btn btn--secondary" to={`/ueben/sitzung?modul=${mod.id}`}>
+            <Link className="btn btn--secondary" to={`/practice/session?module=${mod.id}`}>
               <Icon name="practice" size={16} />
-              {moduleQuestions.length} Fragen üben
+              {t.lesson.practiceN(moduleQuestions.length)}
             </Link>
           )}
           {zettel.length > 0 && (
-            <Link className="btn btn--secondary" to={`/zettel/modul/${mod.id}`}>
+            <Link className="btn btn--secondary" to={`/cards/module/${mod.id}`}>
               <Icon name="zettel" size={16} />
-              {zettel.length} Zettel
+              {t.lesson.cardsN(zettel.length)}
             </Link>
           )}
           <button type="button" className={`btn btn--subtle${status.lessonRead ? ' is-on' : ''}`} onClick={() => store.markLessonRead(mod.id, !status.lessonRead)} aria-pressed={status.lessonRead}>
             <Icon name={status.lessonRead ? 'checkCircle' : 'check'} size={16} />
-            {status.lessonRead ? 'Als gelesen markiert' : 'Als gelesen markieren'}
+            {status.lessonRead ? t.lesson.markedRead : t.lesson.markRead}
           </button>
         </div>
       </header>
@@ -148,33 +139,33 @@ export function LessonPage() {
         <article className="lesson__body">
           {!lesson ? (
             <section className="lesson-section">
-              <h2>Lektion folgt</h2>
-              <p>Diese Lektion wird gerade auf Basis der aktuellen Microsoft-Learn-Dokumentation erstellt. Bis dahin: das offizielle Modul behandelt diese Einheiten:</p>
+              <h2>{t.lesson.comingTitle}</h2>
+              <p>{t.lesson.comingText}</p>
               <UnitList units={mod.units} url={mod.url} />
             </section>
           ) : (
             <>
-              <section id="worum" className="lesson-section">
-                <SectionHead mod={mod} title="Worum geht’s" />
+              <section id="about" className="lesson-section">
+                <SectionHead mod={mod} title={t.lesson.sections.about} />
                 <RichText text={tx(lesson.summary, lang)} className="lesson-lead" lang={lang} />
                 <div className="callout callout--exam">
                   <Icon name="target" size={20} />
                   <div>
-                    <p className="callout__title">So wird’s geprüft</p>
+                    <p className="callout__title">{t.lesson.examFocus}</p>
                     <RichText text={tx(lesson.examFocus, lang)} lang={lang} />
                   </div>
                 </div>
               </section>
 
-              <section id="bild" className="lesson-section">
-                <h2>Das große Bild</h2>
+              <section id="diagrams" className="lesson-section">
+                <h2>{t.lesson.sections.diagrams}</h2>
                 {lesson.diagrams.map((d) => (
                   <Diagram key={d.id} diagram={d} lang={lang} />
                 ))}
               </section>
 
-              <section id="konzepte" className="lesson-section">
-                <SectionHead mod={mod} title="Kernkonzepte" />
+              <section id="concepts" className="lesson-section">
+                <SectionHead mod={mod} title={t.lesson.sections.concepts} />
                 <dl className="concepts" lang={lang}>
                   {lesson.concepts.map((c) => (
                     <div key={c.term} className="concept">
@@ -186,8 +177,8 @@ export function LessonPage() {
               </section>
 
               {lesson.comparison && (
-                <section id="vergleich" className="lesson-section">
-                  <SectionHead mod={mod} title="Welcher Dienst wofür" />
+                <section id="compare" className="lesson-section">
+                  <SectionHead mod={mod} title={t.lesson.sections.compare} />
                   <div className="table-wrap" tabIndex={0} role="region" aria-label={tx(lesson.comparison.title, lang)} lang={lang}>
                     <table className="compare stack-table" role="table">
                       <caption>{tx(lesson.comparison.title, lang)}</caption>
@@ -223,17 +214,17 @@ export function LessonPage() {
               )}
 
               <section id="code" className="lesson-section">
-                <h2>So sieht’s im Code aus</h2>
+                <h2>{t.lesson.sections.code}</h2>
                 {lesson.code.map((c, i) => (
                   <div key={i} className="code-sample">
                     <h3 lang={lang}>{tx(c.title, lang)}</h3>
                     <CodeBlock
                       code={c.code}
                       feedback={{
-                        subject: `Lektion ${mod.id} · Codebeispiel ${i + 1}`,
+                        subject: t.feedback.subject.code(mod.id, i + 1),
                         details: [
-                          ['Modul', `${mod.id} (${mod.title})`],
-                          ['Codebeispiel', tx(c.title, lang)],
+                          [t.feedback.detail.module, `${mod.id} (${mod.title})`],
+                          [t.feedback.detail.codeSample, tx(c.title, lang)],
                         ],
                       }}
                     />
@@ -248,37 +239,34 @@ export function LessonPage() {
                 ))}
               </section>
 
-              <section id="fallen" className="lesson-section">
-                <SectionHead mod={mod} title="Prüfungsfallen" />
+              <section id="traps" className="lesson-section">
+                <SectionHead mod={mod} title={t.lesson.sections.traps} />
                 <ul className="traps" lang={lang}>
-                  {lesson.traps.map((t, i) => (
+                  {lesson.traps.map((trap, i) => (
                     <li key={i}>
                       <Icon name="warning" size={20} />
-                      <span>{renderInline(tx(t, lang))}</span>
+                      <span>{renderInline(tx(trap, lang))}</span>
                     </li>
                   ))}
                 </ul>
               </section>
 
-              <section id="merke" className="lesson-section">
-                <SectionHead mod={mod} title="Merksätze" />
+              <section id="takeaways" className="lesson-section">
+                <SectionHead mod={mod} title={t.lesson.sections.takeaways} />
                 <ul className="takeaways" lang={lang}>
-                  {lesson.takeaways.map((t, i) => (
+                  {lesson.takeaways.map((takeaway, i) => (
                     <li key={i}>
                       <Icon name="lightbulb" size={20} />
-                      <span>{renderInline(tx(t, lang))}</span>
+                      <span>{renderInline(tx(takeaway, lang))}</span>
                     </li>
                   ))}
                 </ul>
                 {zettel.length > 0 && (
                   <div className="lesson-zettel">
                     <Icon name="zettel" size={20} className="ink-brand" />
-                    <p>
-                      Begriffe, Prüfungsfallen und Merksätze dieser Lektion liegen als {zettel.length} Zettel in deinem Zettelkasten
-                      {zettelCounts[2] > 0 ? `, ${zettelCounts[2]} davon schon vorne in Fach 3.` : '.'}
-                    </p>
-                    <Link to={zettelOpen > 0 ? `/zettel/lernen?modul=${mod.id}` : `/zettel/modul/${mod.id}`} className="btn btn--secondary">
-                      {zettelOpen > 0 ? 'Zettel lernen' : 'Zum Register'}
+                    <p>{t.lesson.cards(zettel.length, zettelCounts[2])}</p>
+                    <Link to={zettelOpen > 0 ? `/cards/round?module=${mod.id}` : `/cards/module/${mod.id}`} className="btn btn--secondary">
+                      {zettelOpen > 0 ? t.lesson.studyCards : t.lesson.toIndex}
                       <Icon name="arrowRight" size={16} />
                     </Link>
                   </div>
@@ -287,16 +275,16 @@ export function LessonPage() {
 
               {quiz.length > 0 && (
                 <section id="quiz" className="lesson-section">
-                  <h2>Mini-Quiz</h2>
-                  <p className="section-sub">Drei Fragen aus der Fragenbank zu diesem Modul. Antworten zählen für deinen Fortschritt.</p>
+                  <h2>{t.lesson.sections.quiz}</h2>
+                  <p className="section-sub">{t.lesson.quizSub}</p>
                   {quiz.map((q, i) => (
                     <InlineQuestion key={q.id} q={q} seed={i + 1} />
                   ))}
                 </section>
               )}
 
-              <section id="quellen" className="lesson-section">
-                <SectionHead mod={mod} title="Quellen & offizielles Modul" />
+              <section id="sources" className="lesson-section">
+                <SectionHead mod={mod} title={t.lesson.sections.sources} />
                 <ul className="sources">
                   {lesson.sources.map((s) => (
                     <li key={s.url}>
@@ -307,7 +295,7 @@ export function LessonPage() {
                     </li>
                   ))}
                 </ul>
-                <h3 className="units-head">Einheiten des offiziellen Moduls</h3>
+                <h3 className="units-head">{t.lesson.units}</h3>
                 <UnitList units={mod.units} url={mod.url} />
               </section>
             </>
@@ -315,18 +303,18 @@ export function LessonPage() {
 
           <div className="lesson-end">
             <button type="button" className="btn btn--primary btn--large" onClick={finish}>
-              {moduleQuestions.length ? 'Lektion abschließen & Fragen üben' : 'Lektion abschließen'}
+              {moduleQuestions.length ? t.lesson.finishAndPractice : t.lesson.finish}
               <Icon name="arrowRight" size={18} />
             </button>
             <div className="lesson-end__nav">
               {prev && (
-                <Link to={`/lernen/${prev.id}`} className="link-inline">
+                <Link to={`/learn/${prev.id}`} className="link-inline">
                   <Icon name="chevronLeft" size={16} />
                   {prev.title}
                 </Link>
               )}
               {next && (
-                <Link to={`/lernen/${next.id}`} className="link-inline">
+                <Link to={`/learn/${next.id}`} className="link-inline">
                   {next.title}
                   <Icon name="chevronRight" size={16} />
                 </Link>
@@ -335,29 +323,30 @@ export function LessonPage() {
           </div>
         </article>
 
-        <aside className="lesson__rail" aria-label="Auf dieser Seite">
+        <aside className="lesson__rail" aria-label={t.lesson.onThisPage}>
           <div className="rail-box">
-            <p className="rail-box__title">Auf dieser Seite</p>
+            <p className="rail-box__title">{t.lesson.onThisPage}</p>
             <ol className="toc">
               {lesson &&
                 sections.map((s) => (
-                  <li key={s.id}>
+                  <li key={s}>
                     <a
-                      href={`#/lernen/${mod.id}?abschnitt=${s.id}`}
-                      className={activeSection === s.id ? 'is-active' : undefined}
-                      aria-current={activeSection === s.id ? 'location' : undefined}
+                      href={`#/learn/${mod.id}?section=${s}`}
+                      className={activeSection === s ? 'is-active' : undefined}
+                      aria-current={activeSection === s ? 'location' : undefined}
                       onClick={(e) => {
-                      e.preventDefault()
-                      document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                    }}>
-                      {s.label}
+                        e.preventDefault()
+                        document.getElementById(s)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }}
+                    >
+                      {t.lesson.sections[s]}
                     </a>
                   </li>
                 ))}
             </ol>
           </div>
           <div className="rail-box">
-            <p className="rail-box__title">Skills aus dem Study Guide</p>
+            <p className="rail-box__title">{t.lesson.skills}</p>
             <ul className="rail-skills">
               {mod.skills.map((s) => (
                 <li key={s}>
@@ -375,17 +364,18 @@ export function LessonPage() {
 
 /** A section heading with a feedback link that names the module and the section. */
 function SectionHead({ mod, title }: { mod: CourseModule; title: string }) {
+  const f = useT().feedback
   return (
     <div className="section-head">
       <h2>{title}</h2>
       <FeedbackLink
-        about="zu diesem Abschnitt"
+        about="section"
         compact
         target={{
-          subject: `Lektion ${mod.id} · ${title}`,
+          subject: f.subject.section(mod.id, title),
           details: [
-            ['Modul', `${mod.id} (${mod.title})`],
-            ['Abschnitt', title],
+            [f.detail.module, `${mod.id} (${mod.title})`],
+            [f.detail.section, title],
           ],
         }}
       />
@@ -405,6 +395,7 @@ function pickQuiz(moduleQuestions: Question[]): Question[] {
 }
 
 function UnitList({ units, url }: { units: string[]; url: string }) {
+  const t = useT()
   return (
     <ol className="unit-list">
       {units.map((u) => (
@@ -412,7 +403,7 @@ function UnitList({ units, url }: { units: string[]; url: string }) {
       ))}
       <li className="unit-list__link">
         <a href={url} target="_blank" rel="noreferrer">
-          Modul auf Microsoft Learn öffnen (inkl. Knowledge Check)
+          {t.lesson.openModule}
           <Icon name="open" size={14} />
         </a>
       </li>

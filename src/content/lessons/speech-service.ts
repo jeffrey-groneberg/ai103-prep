@@ -22,7 +22,7 @@ export const lesson: Lesson = {
       height: 430,
       groups: [
         { id: 'g-app', x: 10, y: 20, w: 450, h: 390, label: { en: 'Your app (Speech SDK)', de: 'Deine App (Speech SDK)' }, tone: 'app' },
-        { id: 'g-res', x: 620, y: 20, w: 330, h: 390, label: { en: 'Foundry resource · Azure Speech', de: 'Foundry-Ressource · Azure Speech' }, tone: 'foundry' },
+        { id: 'g-res', x: 620, y: 20, w: 330, h: 390, label: { en: 'Foundry resource · Azure Speech', de: 'Foundry-Ressource · Azure Speech' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'a1', x: 28, y: 60, w: 174, h: 64, label: 'AudioConfig', sub: { en: 'microphone or WAV file', de: 'Mikrofon oder WAV-Datei' }, icon: 'speech', tone: 'app' },
@@ -31,9 +31,9 @@ export const lesson: Lesson = {
         { id: 'a3', x: 250, y: 190, w: 190, h: 64, label: 'SpeechConfig', sub: { en: 'endpoint + key or token', de: 'Endpoint + Key oder Token' }, icon: 'speech', tone: 'app' },
         { id: 'a4', x: 28, y: 320, w: 174, h: 64, label: { en: 'SSML or plain text', de: 'SSML oder Klartext' }, sub: '<speak><voice>…</voice>', icon: 'speech', tone: 'app', shape: 'doc' },
         { id: 'a5', x: 250, y: 320, w: 190, h: 64, label: 'SpeechSynthesizer', sub: 'speak_text_async()\nspeak_ssml_async()', icon: 'speech', tone: 'app' },
-        { id: 'f1', x: 640, y: 60, w: 290, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'real-time (SDK) · fast/batch (REST)', de: 'Echtzeit (SDK) · Fast/Batch (REST)' }, icon: 'speech', tone: 'foundry' },
+        { id: 'f1', x: 640, y: 60, w: 290, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'real-time (SDK) · fast/batch (REST)', de: 'Echtzeit (SDK) · Fast/Batch (REST)' }, icon: 'speech', tone: 'platform' },
         { id: 'f3', x: 640, y: 190, w: 290, h: 64, label: { en: 'Custom speech model', de: 'Custom-Speech-Modell' }, sub: { en: 'your data · WER · endpoint', de: 'eigene Daten · WER · Endpoint' }, icon: 'speech', tone: 'model', shape: 'store' },
-        { id: 'f2', x: 640, y: 320, w: 290, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'neural · HD · custom voices', de: 'Neural · HD · Custom Voice' }, icon: 'speech', tone: 'foundry' },
+        { id: 'f2', x: 640, y: 320, w: 290, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'neural · HD · custom voices', de: 'Neural · HD · Custom Voice' }, icon: 'speech', tone: 'platform' },
       ],
       edges: [
         { id: 's1', from: 'a1', to: 'a2' },

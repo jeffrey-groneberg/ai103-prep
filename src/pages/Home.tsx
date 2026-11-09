@@ -4,31 +4,28 @@ import { Icon } from '../components/Icon.tsx'
 import { Diagram } from '../components/Diagram.tsx'
 import { useProgress } from '../lib/store.ts'
 import { domainMastery, dueQuestions, moduleStatus, nextModule, type ModuleStatus, type ModuleStep } from '../lib/progress.ts'
-import { DOMAIN_ICON, plural, tx } from '../lib/i18n.ts'
+import { tx, useT } from '../i18n/index.ts'
 import { lessonByModule, orderedModules, questions } from '../content/index.ts'
-import { learningPaths, moduleById } from '../content/course.ts'
-import { domains } from '../content/domains.ts'
-import { DOMAIN_IDS, EXAM_DEFAULTS } from '../lib/exam.ts'
+import { domainHue, domains, learningPaths, moduleById } from '../content/outline.ts'
+import { EXAM_DEFAULTS } from '../lib/exam.ts'
+import { exam } from '../config.ts'
 import { ZettelBox } from '../components/ZettelBox.tsx'
 import { countByFach } from '../lib/zettel.ts'
 import { nextRound, useZettelBox } from '../lib/zettel-box.ts'
 
-const STEPS: Array<{ id: Exclude<ModuleStep, 'done'>; label: string }> = [
-  { id: 'lesson', label: 'Lektion' },
-  { id: 'questions', label: 'Fragen' },
-  { id: 'review', label: 'Wiederholung' },
-]
+const STEPS: Array<Exclude<ModuleStep, 'done'>> = ['lesson', 'questions', 'review']
 
 function Stepper({ step }: { step: ModuleStep }) {
-  const idx = step === 'done' ? 3 : STEPS.findIndex((s) => s.id === step)
+  const t = useT()
+  const idx = step === 'done' ? 3 : STEPS.indexOf(step)
   return (
-    <ol className="stepper" aria-label="Schritte im Modul">
+    <ol className="stepper" aria-label={t.home.stepsLabel}>
       {STEPS.map((s, i) => {
         const state = i < idx ? 'is-done' : i === idx ? 'is-current' : ''
         return (
-          <li key={s.id} className={`stepper__item ${state}`} aria-current={i === idx ? 'step' : undefined}>
+          <li key={s} className={`stepper__item ${state}`} aria-current={i === idx ? 'step' : undefined}>
             <span className="stepper__dot">{i < idx ? <Icon name="check" size={14} /> : i + 1}</span>
-            <span className="stepper__label">{s.label}</span>
+            <span className="stepper__label">{t.home.steps[s]}</span>
           </li>
         )
       })}
@@ -45,23 +42,37 @@ function stationState(s: ModuleStatus, isNext: boolean) {
 
 function NextCard({ status }: { status: ModuleStatus | null }) {
   const { lang } = useProgress()
+  const t = useT()
+  if (!orderedModules.length) {
+    return (
+      <section className="panel next-card" aria-labelledby="next-h">
+        <h2 id="next-h" className="panel__title">
+          {t.home.next}
+        </h2>
+        <h3 className="next-card__module">{t.empty.title}</h3>
+        <p className="next-card__meta">{t.empty.modules}</p>
+      </section>
+    )
+  }
   if (!status) {
     return (
       <section className="panel next-card" aria-labelledby="next-h">
         <h2 id="next-h" className="panel__title">
-          Als Nächstes dran
+          {t.home.next}
         </h2>
-        <h3 className="next-card__module">Alle 31 Module sind durchgearbeitet.</h3>
-        <p className="next-card__meta">Halte dein Wissen mit fälligen Wiederholungen frisch und teste dich unter Prüfungsbedingungen.</p>
+        <h3 className="next-card__module">{t.home.allDone(orderedModules.length)}</h3>
+        <p className="next-card__meta">{t.home.allDoneText}</p>
         <div className="next-card__actions">
-          <Link to="/pruefung" className="btn btn--primary btn--large">
-            Prüfungssimulation starten
+          <Link to="/exam" className="btn btn--primary btn--large">
+            {t.home.startExam}
             <Icon name="arrowRight" size={18} />
           </Link>
-          <a className="btn btn--secondary btn--large" href="http://aka.ms/AI103-PA" target="_blank" rel="noreferrer">
-            Offizielles Practice Assessment
-            <Icon name="open" size={16} />
-          </a>
+          {exam.links.practiceAssessment && (
+            <a className="btn btn--secondary btn--large" href={exam.links.practiceAssessment} target="_blank" rel="noreferrer">
+              {t.home.practiceAssessment}
+              <Icon name="open" size={16} />
+            </a>
+          )}
         </div>
       </section>
     )
@@ -72,29 +83,27 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
   const lesson = lessonByModule.get(m.id)
   const primary =
     status.step === 'lesson'
-      ? { to: `/lernen/${m.id}`, label: 'Lektion starten' }
+      ? { to: `/learn/${m.id}`, label: t.home.startLesson }
       : status.step === 'questions'
-        ? { to: `/ueben/sitzung?modul=${m.id}&neu=1`, label: `${plural(status.total - status.attempted, 'Frage', 'Fragen')} üben` }
-        : { to: `/wiederholen/sitzung?modul=${m.id}`, label: `${plural(status.wrongOpen, 'Fehler', 'Fehler')} wiederholen` }
+        ? { to: `/practice/session?module=${m.id}&new=1`, label: t.home.practiceN(status.total - status.attempted) }
+        : { to: `/review/session?module=${m.id}`, label: t.home.reviewMistakes(status.wrongOpen) }
   return (
     <section className="panel next-card" aria-labelledby="next-h">
       <h2 id="next-h" className="panel__title">
-        Als Nächstes dran
+        {t.home.next}
       </h2>
       <h3 className="next-card__module">
-        <Link to={`/lernen/${m.id}`}>{m.title}</Link>
+        <Link to={`/learn/${m.id}`}>{m.title}</Link>
       </h3>
-      <p className="next-card__meta">
-        Modul {index} von {orderedModules.length} · {path?.title} · ca. {m.minutes} Min auf Learn
-      </p>
+      <p className="next-card__meta">{t.home.moduleMeta(index, orderedModules.length, path?.title ?? '', m.minutes)}</p>
       <Stepper step={status.step} />
       <div className="next-card__body">
         {lesson?.diagrams[0] && (
-          <Link to={`/lernen/${m.id}?abschnitt=bild`} className="next-card__thumb" aria-label={`Diagramm ansehen: ${tx(lesson.diagrams[0].title, lang)}`}>
+          <Link to={`/learn/${m.id}?section=diagrams`} className="next-card__thumb" aria-label={t.home.viewDiagram(tx(lesson.diagrams[0].title, lang))}>
             <Diagram diagram={lesson.diagrams[0]} lang={lang} mini />
           </Link>
         )}
-        <p className="next-card__summary" lang={lesson ? lang : undefined}>{lesson ? firstSentences(tx(lesson.summary, lang)) : 'Die Lektion für dieses Modul wird gerade vorbereitet.'}</p>
+        <p className="next-card__summary" lang={lesson ? lang : undefined}>{lesson ? firstSentences(tx(lesson.summary, lang)) : t.home.lessonComing}</p>
       </div>
       <div className="next-card__actions">
         <Link to={primary.to} className="btn btn--primary btn--large">
@@ -102,8 +111,8 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
           <Icon name="arrowRight" size={18} />
         </Link>
         {status.step === 'lesson' && status.total > 0 && (
-          <Link to={`/ueben/sitzung?modul=${m.id}`} className="btn btn--secondary btn--large">
-            Direkt zu den Fragen
+          <Link to={`/practice/session?module=${m.id}`} className="btn btn--secondary btn--large">
+            {t.home.straightToQuestions}
           </Link>
         )}
       </div>
@@ -113,6 +122,7 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
 
 /** The Zettelkasten on the start page: the box at a glance and the next round one tap away. */
 function ZettelPanel() {
+  const t = useT()
   const { cards, zettel, lessonsRead } = useZettelBox()
   const counts = countByFach(cards.map((z) => z.id), zettel)
   const round = nextRound(cards, zettel, lessonsRead)
@@ -120,36 +130,45 @@ function ZettelPanel() {
     <section className="panel zk-home" aria-labelledby="zk-home-h">
       <div className="panel__head">
         <h2 id="zk-home-h" className="panel__title">
-          Zettelkasten
+          {t.cardsPanel.title}
         </h2>
-        <Link to="/zettel" className="link-inline">
-          Register
+        <Link to="/cards" className="link-inline">
+          {t.cardsPanel.index}
           <Icon name="chevronRight" size={16} />
         </Link>
       </div>
       <div className="zk-home__body">
-        <Link to="/zettel" className="zk-home__box" aria-label={`Zettelkasten öffnen: ${counts[0]} Zettel in Fach 1, ${counts[1]} in Fach 2, ${counts[2]} in Fach 3`}>
+        <Link to="/cards" className="zk-home__box" aria-label={t.cardsPanel.open(counts[0], counts[1], counts[2])}>
           <ZettelBox counts={counts} variant="compact" />
         </Link>
         <div className="zk-home__side">
           <p className="zk-home__tally">
-            <strong>{counts[2]}</strong> von {cards.length} Zetteln vorne
+            {cards.length > 0 ? (
+              <>
+                <strong>{counts[2]}</strong>
+                {t.cardsPanel.tally(cards.length)}
+              </>
+            ) : (
+              t.cards.noCards
+            )}
           </p>
-          <p className="zk-home__rule">Fragen mit Antwortoptionen wie in der Prüfung, jede Antwort kurz erklärt. Richtig: ein Fach nach vorn. Falsch: zurück in Fach 1.</p>
+          <p className="zk-home__rule">{cards.length > 0 ? t.cardsPanel.rule : t.cards.noCardsText}</p>
           <div className="zk-home__actions">
             {round.length > 0 ? (
-              <Link to="/zettel/lernen" className="btn btn--secondary btn--large">
-                Runde mit {plural(round.length, 'Zettel', 'Zetteln')}
+              <Link to="/cards/round" className="btn btn--secondary btn--large">
+                {t.cardsPanel.round(round.length)}
                 <Icon name="arrowRight" size={18} />
               </Link>
             ) : (
-              <Link to="/zettel" className="btn btn--secondary btn--large">
-                Alles vorne – zum Kasten
-              </Link>
+              cards.length > 0 && (
+                <Link to="/cards" className="btn btn--secondary btn--large">
+                  {t.cardsPanel.allFront}
+                </Link>
+              )
             )}
-            <Link to="/zettel?neu=1" className="btn btn--subtle btn--large">
+            <Link to="/cards?new=1" className="btn btn--subtle btn--large">
               <Icon name="add" size={18} />
-              Neuer Zettel
+              {t.cardsPanel.newCard}
             </Link>
           </div>
         </div>
@@ -190,33 +209,38 @@ function useStickyWhenFits() {
 export function Home() {
   const sideRef = useStickyWhenFits()
   const progress = useProgress()
-  const { cards, lessonsRead, exams } = progress
+  const t = useT()
+  const { cards, lessonsRead, exams, lang } = progress
   const statuses = new Map(orderedModules.map((m) => [m.id, moduleStatus(m, questions, cards, lessonsRead)]))
   const next = nextModule(orderedModules, questions, cards, lessonsRead)
   const due = dueQuestions(questions, cards)
   const doneCount = [...statuses.values()].filter((s) => s.step === 'done').length
   const lastExam = exams[0]
-  const dueByDomain = DOMAIN_IDS.map((d) => ({ d, n: due.filter((q) => q.domain === d).length }))
+  const dueByDomain = domains.map((d) => ({ d, n: due.filter((q) => q.domain === d.id).length }))
 
   return (
     <div className="page home">
-      <h1 className="sr-only">Dein Lernpfad zu AI-103</h1>
+      <h1 className="sr-only">{t.home.heading(exam.code)}</h1>
 
       <div className="home__grid">
         <section className="panel path-panel" aria-labelledby="path-h">
           <div className="path-panel__head">
             <h2 id="path-h" className="panel__title">
-              Lernpfad
+              {t.home.path}
             </h2>
-            <p className="path-panel__meta">
-              Kurs AI-103T00 · {orderedModules.length} Module · {questions.length} Fragen · {doneCount} von {orderedModules.length} abgeschlossen
-            </p>
+            <p className="path-panel__meta">{t.home.pathMeta(exam.courseNumber ?? '', orderedModules.length, questions.length, doneCount)}</p>
           </div>
+          {!learningPaths.length && (
+            <div className="empty">
+              <Icon name="book" size={28} className="ink-brand" />
+              <p>{t.empty.modules}</p>
+            </div>
+          )}
           {learningPaths.map((p) => (
             <div key={p.id} className="path-group">
               <h3 className="path-group__title">{p.title}</h3>
               <ol className="stations">
-                {p.modules.map((id) => {
+                {p.modules.filter((id) => statuses.has(id)).map((id) => {
                   const s = statuses.get(id)!
                   const isNext = next?.module.id === id
                   const st = stationState(s, isNext)
@@ -227,14 +251,14 @@ export function Home() {
                         {s.step === 'done' && <Icon name="check" size={14} />}
                       </span>
                       <div className="station__body">
-                        <Link to={`/lernen/${id}`} className="station__title">
+                        <Link to={`/learn/${id}`} className="station__title">
                           {moduleById.get(id)?.title}
                         </Link>
                         <span className="station__meta">
-                          Modul {index} · {plural(s.total, 'Frage', 'Fragen')}
-                          {s.attempted > 0 && ` · ${s.attempted}/${s.total} beantwortet`}
-                          {isNext && <span className="tag tag--brand">Als Nächstes</span>}
-                          {s.step === 'done' && <span className="sr-only"> · abgeschlossen</span>}
+                          {t.home.station(index, s.total)}
+                          {s.attempted > 0 && t.home.answered(s.attempted, s.total)}
+                          {isNext && <span className="tag tag--brand">{t.home.nextTag}</span>}
+                          {s.step === 'done' && <span className="sr-only">{t.home.doneSr}</span>}
                         </span>
                       </div>
                     </li>
@@ -253,30 +277,30 @@ export function Home() {
           <div className="home__pair">
           <section className="panel today" aria-labelledby="today-h">
             <h2 id="today-h" className="panel__title">
-              Heute
+              {t.home.today}
             </h2>
             <ul className="today__list">
               <li className="today__item">
                 <Icon name="review" size={22} className="today__icon" />
                 <div className="today__text">
-                  <h3 className="today__title">Fällige Wiederholungen</h3>
-                  <p className="today__meta">{due.length ? plural(due.length, 'Frage', 'Fragen') + ' fällig' : 'Nichts fällig – beantwortete Fragen kommen hier zurück.'}</p>
+                  <h3 className="today__title">{t.home.due}</h3>
+                  <p className="today__meta">{due.length ? t.home.dueN(due.length) : t.home.nothingDue}</p>
                   {due.length > 0 && (
                     <>
                       <div className="stackbar" aria-hidden="true">
                         {dueByDomain
                           .filter((x) => x.n > 0)
                           .map((x) => (
-                            <span key={x.d} className={`stackbar__seg bg-${x.d}`} style={{ flexGrow: x.n }} />
+                            <span key={x.d.id} className={`stackbar__seg bg-domain-${domainHue(x.d.id)}`} style={{ flexGrow: x.n }} />
                           ))}
                       </div>
-                      <ul className="due-legend" aria-label="Fällig nach Domäne">
+                      <ul className="due-legend" aria-label={t.home.dueByDomain}>
                         {dueByDomain
                           .filter((x) => x.n > 0)
                           .map((x) => (
-                            <li key={x.d}>
-                              <span className={`due-legend__dot bg-${x.d}`} aria-hidden="true" />
-                              {domains.find((d) => d.id === x.d)?.short.de}
+                            <li key={x.d.id}>
+                              <span className={`due-legend__dot bg-domain-${domainHue(x.d.id)}`} aria-hidden="true" />
+                              {tx(x.d.short, lang)}
                               <strong>{x.n}</strong>
                             </li>
                           ))}
@@ -284,31 +308,31 @@ export function Home() {
                     </>
                   )}
                 </div>
-                <Link to="/wiederholen" className={`btn btn--small ${due.length ? 'btn--primary' : 'btn--secondary'}`}>
-                  Wiederholen
+                <Link to="/review" className={`btn btn--small ${due.length ? 'btn--primary' : 'btn--secondary'}`}>
+                  {t.home.reviewCta}
                 </Link>
               </li>
               <li className="today__item">
                 <Icon name="practice" size={22} className="today__icon" />
                 <div className="today__text">
-                  <h3 className="today__title">Kurze Runde</h3>
-                  <p className="today__meta">10 gemischte Fragen, sofortiges Feedback</p>
+                  <h3 className="today__title">{t.home.quick}</h3>
+                  <p className="today__meta">{t.home.quickMeta}</p>
                 </div>
-                <Link to="/ueben/sitzung?runde=10" className="btn btn--small btn--secondary">
-                  Starten
+                <Link to="/practice/session?count=10" className="btn btn--small btn--secondary">
+                  {t.common.start}
                 </Link>
               </li>
               <li className="today__item">
                 <Icon name="exam" size={22} className="today__icon" />
                 <div className="today__text">
-                  <h3 className="today__title">Prüfungssimulation</h3>
+                  <h3 className="today__title">{t.home.simulation}</h3>
                   <p className="today__meta">
-                    {EXAM_DEFAULTS.questions} Fragen · {EXAM_DEFAULTS.minutes} Min
-                    {lastExam && ` · zuletzt ${lastExam.summary.percent} %`}
+                    {t.home.simulationMeta(Math.min(EXAM_DEFAULTS.questions, questions.length), EXAM_DEFAULTS.minutes)}
+                    {lastExam && t.home.lastScore(lastExam.summary.percent)}
                   </p>
                 </div>
-                <Link to="/pruefung" className="btn btn--small btn--secondary">
-                  Simulation
+                <Link to="/exam" className="btn btn--small btn--secondary">
+                  {t.home.simulationCta}
                 </Link>
               </li>
             </ul>
@@ -317,10 +341,10 @@ export function Home() {
           <section className="panel readiness" aria-labelledby="ready-h">
             <div className="panel__head">
               <h2 id="ready-h" className="panel__title">
-                Prüfungsbereitschaft
+                {t.home.readiness}
               </h2>
-              <Link to="/fortschritt" className="link-inline">
-                Skills-Landkarte
+              <Link to="/progress" className="link-inline">
+                {t.home.skillsMap}
                 <Icon name="chevronRight" size={16} />
               </Link>
             </div>
@@ -330,22 +354,23 @@ export function Home() {
                 const pct = Math.round(m.value * 100)
                 return (
                   <li key={d.id} className="readiness__row">
-                    <Icon name={DOMAIN_ICON[d.id]} size={20} className={`ink-${d.id}`} />
+                    <Icon name={d.icon} size={20} className={`ink-domain-${domainHue(d.id)}`} />
                     <div className="readiness__label">
-                      <span className="readiness__name">{d.short.de}</span>
+                      <span className="readiness__name">{tx(d.short, lang)}</span>
                       <span className="readiness__weight">
-                        {d.weight[0]}–{d.weight[1]} %<span className="sr-only"> der Prüfung</span>
+                        {t.format.percentRange(d.weight[0], d.weight[1])}<span className="sr-only">{t.home.ofExam}</span>
                       </span>
                     </div>
-                    <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={`${d.short.de}: ${pct} % gefestigt`}>
-                      <span className={`meter__fill bg-${d.id}`} style={{ width: `${pct}%` }} />
+                    <div className="meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-label={t.home.retained(tx(d.short, lang), pct)}>
+                      <span className={`meter__fill bg-domain-${domainHue(d.id)}`} style={{ width: `${pct}%` }} />
                     </div>
-                    <span className="readiness__pct">{m.attempted ? `${pct} %` : '–'}</span>
+                    <span className="readiness__pct">{m.attempted ? t.format.percent(pct) : '–'}</span>
                   </li>
                 )
               })}
             </ul>
-            <p className="readiness__note">Gefestigt = über Wiederholungen hinweg richtig beantwortet (Leitner-Boxen), nicht bloß angeklickt.</p>
+            {!domains.length && <p className="readiness__note">{t.empty.domains}</p>}
+            <p className="readiness__note">{t.home.readinessNote}</p>
           </section>
           </div>
         </div>

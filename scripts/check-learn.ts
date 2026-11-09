@@ -3,12 +3,16 @@
  *
  *   npm run check:learn
  *
- * - Learn Catalog API: course.ai-103t00 → learning paths → modules → units (order, titles, URLs)
- * - Study guide: "Skills measured as of …" versions and every skills-outline bullet
+ * - Learn Catalog API: course.<courseNumber> from exam.json → learning paths → modules → units (order, titles, URLs)
+ * - Study guide (exam.json links.studyGuide): "Skills measured as of …" versions and every skills-outline bullet
  * Exits with code 1 when anything drifted, so content updates start from the current learning path.
  */
-import { learningPaths, modules, CATALOG_RETRIEVED } from '../src/content/course.ts'
-import { allBullets, SKILLS_OUTLINE_DATE, STUDY_GUIDE_URL } from '../src/content/domains.ts'
+import { allBullets, CATALOG_RETRIEVED, learningPaths, modules } from '../src/content/outline.ts'
+import { exam } from '../src/config.ts'
+
+const SKILLS_OUTLINE_DATE = exam.skillsOutlineDate
+const STUDY_GUIDE_URL = exam.links.studyGuide
+const COURSE_UID = exam.courseNumber ? `course.${exam.courseNumber.toLowerCase()}` : ''
 
 const CATALOG = 'https://learn.microsoft.com/api/catalog/'
 const drift: string[] = []
@@ -46,9 +50,13 @@ const norm = (s: string) =>
     .trim()
 
 async function checkCatalog() {
-  const [course] = await catalog('courses', ['course.ai-103t00'])
+  if (!COURSE_UID) {
+    console.log('No courseNumber in exam.json: skipping the course check.')
+    return
+  }
+  const [course] = await catalog('courses', [COURSE_UID])
   if (!course) {
-    drift.push('course.ai-103t00 not found in the Learn catalog')
+    drift.push(`${COURSE_UID} not found in the Learn catalog`)
     return
   }
   const livePaths = (course.study_guide ?? []).filter((s) => s.type === 'learningPath').map((s) => s.uid)
@@ -86,6 +94,10 @@ async function checkCatalog() {
 }
 
 async function checkStudyGuide() {
+  if (!STUDY_GUIDE_URL) {
+    drift.push('exam.json has no links.studyGuide')
+    return
+  }
   const res = await fetch(STUDY_GUIDE_URL)
   if (!res.ok) {
     drift.push(`study guide fetch failed: ${res.status}`)

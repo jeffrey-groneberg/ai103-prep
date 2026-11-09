@@ -1,7 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/jeffrey-groneberg/ai103-prep/schema/case-file.schema.json",
-  "title": "AI-103 Prep case study",
+  "title": "Case study file",
   "type": "object",
   "required": ["cases"],
   "additionalProperties": false,

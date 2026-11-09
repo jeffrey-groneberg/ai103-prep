@@ -1,18 +1,19 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
-import { store, useProgress } from '../lib/store.ts'
-import { masteryOf, MASTERY_LABELS, moduleStatus, type MasteryLevel } from '../lib/progress.ts'
-import { DOMAIN_ICON, formatDate } from '../lib/i18n.ts'
-import { domains } from '../content/domains.ts'
-import { learningPaths, moduleById } from '../content/course.ts'
-import { questions, questionsForBullet } from '../content/index.ts'
+import { store, STORAGE_KEY, useProgress } from '../lib/store.ts'
+import { masteryOf, moduleStatus, type MasteryLevel } from '../lib/progress.ts'
+import { tx, useT } from '../i18n/index.ts'
+import { domainHue, domains, learningPaths, moduleById } from '../content/outline.ts'
+import { orderedModules, questions, questionsForBullet } from '../content/index.ts'
+import { exam } from '../config.ts'
 
 const LEVELS: MasteryLevel[] = [0, 1, 2, 3]
 
 export function ProgressPage() {
   const progress = useProgress()
   const { cards, lessonsRead, exams, lang } = progress
+  const t = useT()
   const [confirmReset, setConfirmReset] = useState(false)
   const [importMsg, setImportMsg] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
@@ -23,49 +24,47 @@ export function ProgressPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `ai103-prep-fortschritt-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `${STORAGE_KEY.replace(/:v\d+$/, '')}-${t.progress.fileName}-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
   const upload = async (file: File) => {
     const ok = store.importJson(await file.text())
-    setImportMsg(ok ? 'Fortschritt importiert.' : 'Import fehlgeschlagen: Die Datei ist kein AI-103-Prep-Export.')
+    setImportMsg(ok ? t.progress.imported : t.progress.importFailed(exam.appName))
   }
 
   return (
     <div className="page progress-page">
       <header className="page-head">
-        <h1 className="page-title">Fortschritt</h1>
-        <p className="page-sub">
-          {answered} von {questions.length} Fragen beantwortet · {Object.keys(lessonsRead).length} von 31 Lektionen gelesen · {exams.length} Simulationen. Gespeichert nur in diesem Browser.
-        </p>
+        <h1 className="page-title">{t.progress.title}</h1>
+        <p className="page-sub">{t.progress.sub(answered, questions.length, Object.keys(lessonsRead).length, orderedModules.length, exams.length)}</p>
       </header>
 
       <section className="panel skills-map" aria-labelledby="map-h">
         <div className="panel__head">
           <h2 id="map-h" className="panel__title">
-            Skills-Landkarte AI-103
+            {t.progress.map(exam.code)}
           </h2>
-          <ul className="mastery-legend" aria-label="Legende">
+          <ul className="mastery-legend" aria-label={t.common.legend}>
             {LEVELS.map((l) => (
               <li key={l}>
                 <span className={`tile-swatch level-${l}`} aria-hidden="true" />
-                {MASTERY_LABELS[l]}
+                {t.labels.mastery[l]}
               </li>
             ))}
           </ul>
         </div>
-        <p className="muted small skills-map__hint">Jede Kachel ist ein Punkt aus dem offiziellen Skills-Outline. Kachel antippen, um genau diesen Skill zu üben.</p>
+        <p className="muted small skills-map__hint">{domains.length ? t.progress.mapHint : t.empty.domains}</p>
         {domains.map((d) => (
           <div key={d.id} className="skills-row">
             <div className="skills-row__head">
-              <span className={`skills-row__icon ink-${d.id}`} aria-hidden="true">
-                <Icon name={DOMAIN_ICON[d.id]} size={20} />
+              <span className={`skills-row__icon ink-domain-${domainHue(d.id)}`} aria-hidden="true">
+                <Icon name={d.icon} size={20} />
               </span>
               <div>
-                <p className="skills-row__title">{lang === 'de' ? d.title.de : d.title.en}</p>
+                <p className="skills-row__title">{tx(d.title, lang)}</p>
                 <p className="skills-row__weight">
-                  {d.id} · {d.weight[0]}–{d.weight[1]} %
+                  {d.id} · {t.format.percentRange(d.weight[0], d.weight[1])}
                 </p>
               </div>
             </div>
@@ -74,10 +73,10 @@ export function ProgressPage() {
                 g.bullets.map((b) => {
                   const qs = questionsForBullet(b.id)
                   const m = masteryOf(qs, cards)
-                  const label = `${b.id} ${lang === 'de' ? b.de : b.en} — ${MASTERY_LABELS[m.level]}, ${m.correctLast}/${m.total} zuletzt richtig`
+                  const label = t.progress.tile(b.id, tx(b, lang), t.labels.mastery[m.level], m.correctLast, m.total)
                   return (
                     <li key={b.id}>
-                      <Link to={`/ueben/sitzung?skill=${b.id}`} className={`tile level-${m.level}`} aria-label={label} data-tip={label}>
+                      <Link to={`/practice/session?skill=${b.id}`} className={`tile level-${m.level}`} aria-label={label} data-tip={label}>
                         <span className="tile__id">{b.id}</span>
                       </Link>
                     </li>
@@ -92,45 +91,45 @@ export function ProgressPage() {
       <section className="panel" aria-labelledby="mods-h">
         <div className="panel__head">
           <h2 id="mods-h" className="panel__title">
-            Module
+            {t.progress.modules}
           </h2>
-          <Link to="/abdeckung" className="link-inline">
-            Abdeckungsmatrix
+          <Link to="/coverage" className="link-inline">
+            {t.progress.matrix}
             <Icon name="chevronRight" size={16} />
           </Link>
         </div>
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Fortschritt je Modul">
+        <div className="table-wrap" tabIndex={0} role="region" aria-label={t.progress.perModule}>
           <table className="data-table stack-table" role="table">
             <thead role="rowgroup">
               <tr role="row">
-                <th scope="col" role="columnheader">Modul</th>
-                <th scope="col" role="columnheader">Lektion</th>
-                <th scope="col" role="columnheader">Fragen</th>
-                <th scope="col" role="columnheader">Stand</th>
+                <th scope="col" role="columnheader">{t.progress.module}</th>
+                <th scope="col" role="columnheader">{t.progress.lesson}</th>
+                <th scope="col" role="columnheader">{t.progress.questions}</th>
+                <th scope="col" role="columnheader">{t.progress.status}</th>
               </tr>
             </thead>
             <tbody role="rowgroup">
               {learningPaths.flatMap((p) =>
-                p.modules.map((id) => {
+                p.modules.filter((id) => moduleById.has(id)).map((id) => {
                   const m = moduleById.get(id)!
                   const s = moduleStatus(m, questions, cards, lessonsRead)
                   return (
                     <tr key={id} role="row">
                       <th scope="row" role="rowheader">
-                        <Link to={`/lernen/${id}`}>{m.title}</Link>
+                        <Link to={`/learn/${id}`}>{m.title}</Link>
                       </th>
-                      <td role="cell" data-label="Lektion">
-                        {s.lessonRead ? <Icon name="checkCircle" size={18} className="ink-ok" label="gelesen" /> : <span className="muted">–</span>}
+                      <td role="cell" data-label={t.progress.lesson}>
+                        {s.lessonRead ? <Icon name="checkCircle" size={18} className="ink-ok" label={t.progress.read} /> : <span className="muted">–</span>}
                       </td>
-                      <td role="cell" data-label="Fragen">
+                      <td role="cell" data-label={t.progress.questions}>
                         {s.attempted}/{s.total}
                       </td>
-                      <td role="cell" data-label="Stand">
+                      <td role="cell" data-label={t.progress.status}>
                         <span className="mastery-cell">
                           <span className={`mastery-bar level-${s.mastery.level}`} aria-hidden="true">
                             <span style={{ width: `${Math.round(s.mastery.value * 100)}%` }} />
                           </span>
-                          <span className="small">{MASTERY_LABELS[s.mastery.level]}</span>
+                          <span className="small">{t.labels.mastery[s.mastery.level]}</span>
                         </span>
                       </td>
                     </tr>
@@ -145,38 +144,38 @@ export function ProgressPage() {
       {exams.length > 0 && (
         <section className="panel" aria-labelledby="ex-h">
           <h2 id="ex-h" className="panel__title">
-            Simulationen
+            {t.progress.simulations}
           </h2>
-          <ol className="exam-trend">
+          <ol className="exam-trend" style={{ '--pass': `${exam.exam.passPercent}%` } as CSSProperties}>
             {exams
               .slice(0, 10)
               .reverse()
               .map((e) => (
                 <li key={e.id}>
-                  <Link to={`/pruefung/ergebnis/${e.id}`} className="exam-trend__bar" aria-label={`${formatDate(e.finishedAt)}: ${e.summary.percent} %`}>
+                  <Link to={`/exam/result/${e.id}`} className="exam-trend__bar" aria-label={t.progress.trendBar(t.format.date(e.finishedAt), e.summary.percent)}>
                     <span className={e.summary.passed ? 'bg-ok' : 'bg-brand-soft'} style={{ height: `${Math.max(4, e.summary.percent)}%` }} />
                   </Link>
-                  <span className="exam-trend__label">{e.summary.percent} %</span>
+                  <span className="exam-trend__label">{t.format.percent(e.summary.percent)}</span>
                 </li>
               ))}
           </ol>
-          <p className="muted small">Die Linie bei 70 % ist der Richtwert dieser App.</p>
+          <p className="muted small">{t.progress.trendNote(exam.exam.passPercent)}</p>
         </section>
       )}
 
       <section className="panel" aria-labelledby="data-h">
         <h2 id="data-h" className="panel__title">
-          Daten
+          {t.progress.data}
         </h2>
-        <p className="muted">Dein Fortschritt liegt nur lokal im Browser (localStorage). Exportiere ihn samt deiner eigenen Zettel, um ihn auf ein anderes Gerät mitzunehmen. Zurücksetzen löscht den Lernstand; deine eigenen Zettel bleiben und starten wieder in Fach 1.</p>
+        <p className="muted">{t.progress.dataText}</p>
         <div className="callout__actions">
           <button type="button" className="btn btn--secondary" onClick={download}>
             <Icon name="download" size={16} />
-            Fortschritt exportieren
+            {t.progress.export}
           </button>
           <button type="button" className="btn btn--secondary" onClick={() => fileRef.current?.click()}>
             <Icon name="upload" size={16} />
-            Importieren
+            {t.progress.import}
           </button>
           <input
             ref={fileRef}
@@ -192,7 +191,7 @@ export function ProgressPage() {
           {!confirmReset ? (
             <button type="button" className="btn btn--subtle" onClick={() => setConfirmReset(true)}>
               <Icon name="reset" size={16} />
-              Zurücksetzen
+              {t.progress.reset}
             </button>
           ) : (
             <>
@@ -204,10 +203,10 @@ export function ProgressPage() {
                   setConfirmReset(false)
                 }}
               >
-                Lernstand löschen
+                {t.progress.resetConfirm}
               </button>
               <button type="button" className="btn btn--subtle" onClick={() => setConfirmReset(false)}>
-                Abbrechen
+                {t.common.cancel}
               </button>
             </>
           )}

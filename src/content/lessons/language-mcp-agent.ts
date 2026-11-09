@@ -20,14 +20,14 @@ export const lesson: Lesson = {
       },
       width: 960,
       height: 400,
-      groups: [{ id: 'g-proj', x: 370, y: 50, w: 290, h: 320, label: 'Foundry project', tone: 'foundry' }],
+      groups: [{ id: 'g-proj', x: 370, y: 50, w: 290, h: 320, label: 'Foundry project', tone: 'platform' }],
       nodes: [
         { id: 'user', x: 20, y: 170, w: 120, h: 64, label: { en: 'User', de: 'Nutzer:in' }, icon: 'users', tone: 'user', shape: 'actor' },
         { id: 'app', x: 180, y: 170, w: 150, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: 'responses.create', icon: 'browser', tone: 'app' },
-        { id: 'agent', x: 395, y: 100, w: 220, h: 70, label: { en: 'Prompt agent', de: 'Prompt-Agent' }, sub: 'model + MCPTool', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'agent', x: 395, y: 100, w: 220, h: 70, label: { en: 'Prompt agent', de: 'Prompt-Agent' }, sub: 'model + MCPTool', icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'conn', x: 395, y: 270, w: 220, h: 70, label: { en: 'Project connection', de: 'Projektverbindung' }, sub: 'Ocp-Apim-Subscription-Key', icon: 'resource-linked', tone: 'safety' },
         { id: 'mcp', x: 700, y: 100, w: 240, h: 70, label: 'Language MCP server', sub: '…/language/mcp', icon: 'language', tone: 'tool' },
-        { id: 'lang', x: 700, y: 270, w: 240, h: 70, label: 'Azure Language', sub: { en: 'detect · NER · PII …', de: 'Erkennung · NER · PII …' }, icon: 'language', tone: 'foundry' },
+        { id: 'lang', x: 700, y: 270, w: 240, h: 70, label: 'Azure Language', sub: { en: 'detect · NER · PII …', de: 'Erkennung · NER · PII …' }, icon: 'language', tone: 'platform' },
       ],
       edges: [
         { id: 'e-user-app', from: 'user', to: 'app' },

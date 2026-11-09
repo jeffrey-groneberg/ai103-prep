@@ -21,7 +21,7 @@ export const lesson: Lesson = {
       width: 960,
       height: 440,
       groups: [
-        { id: 'g-res', x: 750, y: 10, w: 200, h: 120, label: 'Foundry resource', tone: 'foundry' },
+        { id: 'g-res', x: 750, y: 10, w: 200, h: 120, label: 'Foundry resource', tone: 'platform' },
       ],
       nodes: [
         { id: 'prompt', x: 18, y: 40, w: 223, h: 70, label: { en: 'Prompt + settings', de: 'Prompt + Einstellungen' }, sub: { en: 'size · seconds\n+ optional input_reference', de: 'size · seconds\n+ optionale input_reference' }, icon: 'users', tone: 'user', shape: 'pill' },

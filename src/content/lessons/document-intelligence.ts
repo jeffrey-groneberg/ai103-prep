@@ -20,7 +20,7 @@ export const lesson: Lesson = {
       },
       width: 960,
       height: 330,
-      groups: [{ id: 'g-di', x: 165, y: 40, w: 630, h: 140, label: 'Azure Document Intelligence', tone: 'foundry' }],
+      groups: [{ id: 'g-di', x: 165, y: 40, w: 630, h: 140, label: 'Azure Document Intelligence', tone: 'platform' }],
       nodes: [
         { id: 'doc', x: 20, y: 90, w: 120, h: 70, label: { en: 'Document', de: 'Dokument' }, sub: 'PDF · PNG · TIFF', icon: 'file', tone: 'data', shape: 'doc' },
         { id: 'read', x: 185, y: 90, w: 150, h: 70, label: 'Read', sub: { en: 'OCR: lines · words', de: 'OCR: Zeilen · Wörter' }, icon: 'document-intelligence', tone: 'model' },
@@ -91,7 +91,7 @@ export const lesson: Lesson = {
         { id: 'd2', x: 383, y: 170, w: 153, h: 80, label: { en: 'Prebuilt fits?', de: 'Prebuilt passt?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
         { id: 'r2', x: 383, y: 40, w: 153, h: 64, label: { en: 'Prebuilt model', de: 'Prebuilt-Modell' }, sub: 'invoice · receipt', icon: 'document-intelligence', tone: 'model' },
         { id: 'd4', x: 585, y: 170, w: 188, h: 80, label: { en: 'Labeled samples?', de: 'Gelabelte Beispiele?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
-        { id: 'r6', x: 569, y: 30, w: 201, h: 70, label: { en: 'Content Understanding\ncustom analyzer', de: 'Content Understanding\neigener Analyzer' }, sub: { en: 'fields in plain language', de: 'Felder in Alltagssprache' }, icon: 'foundry-tools', tone: 'foundry' },
+        { id: 'r6', x: 569, y: 30, w: 201, h: 70, label: { en: 'Content Understanding\ncustom analyzer', de: 'Content Understanding\neigener Analyzer' }, sub: { en: 'fields in plain language', de: 'Felder in Alltagssprache' }, icon: 'foundry-tools', tone: 'platform' },
         { id: 'd3', x: 585, y: 310, w: 170, h: 80, label: { en: 'Layouts vary?', de: 'Layouts variabel?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
         { id: 'r3', x: 351, y: 318, w: 189, h: 64, label: { en: 'Template or neural', de: 'Template oder Neural' }, sub: { en: 'one fixed layout', de: 'ein festes Layout' }, icon: 'document-intelligence', tone: 'model' },
         { id: 'r4', x: 795, y: 318, w: 145, h: 64, label: { en: 'Custom neural', de: 'Custom Neural' }, sub: { en: 'varying layouts', de: 'variable Layouts' }, icon: 'document-intelligence', tone: 'model' },

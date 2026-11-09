@@ -1,5 +1,6 @@
 /**
- * Extracts the Fluent UI System Icons this app uses into a small typed module.
+ * Extracts the Fluent UI System Icons this app uses into a small typed module. Add a name here (any icon from
+ * https://github.com/microsoft/fluentui-system-icons, e.g. for a domain in src/content/domains.ts) and run it again.
  * Icons: https://github.com/microsoft/fluentui-system-icons (MIT License, © Microsoft Corporation).
  *
  *   node scripts/gen-icons.mjs
@@ -78,6 +79,13 @@ const icons = {
   trash: 'delete_20_regular',
   eyeOff: 'eye_off_20_regular',
   undo: 'arrow_undo_20_regular',
+  // Diagram thumbnails show one glyph per node tone when the node has no official product icon.
+  person: 'person_20_regular',
+  window: 'window_20_regular',
+  database: 'database_20_regular',
+  wrench: 'wrench_20_regular',
+  globe: 'globe_20_regular',
+  cube: 'cube_20_regular',
 }
 
 const lines = [

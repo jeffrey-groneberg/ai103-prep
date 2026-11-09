@@ -21,13 +21,13 @@ export const lesson: Lesson = {
       width: 960,
       height: 420,
       nodes: [
-        { id: 'c-cat', x: 20, y: 50, w: 170, h: 64, label: { en: 'Model catalog', de: 'Modellkatalog' }, sub: { en: 'filters · model cards', de: 'Filter · Model Cards' }, icon: 'foundry-models', tone: 'foundry', shape: 'doc' },
-        { id: 'c-board', x: 300, y: 50, w: 180, h: 64, label: 'Leaderboards', sub: { en: 'quality · safety · cost', de: 'Qualität · Safety · Kosten' }, icon: 'metrics', tone: 'foundry' },
+        { id: 'c-cat', x: 20, y: 50, w: 170, h: 64, label: { en: 'Model catalog', de: 'Modellkatalog' }, sub: { en: 'filters · model cards', de: 'Filter · Model Cards' }, icon: 'foundry-models', tone: 'platform', shape: 'doc' },
+        { id: 'c-board', x: 300, y: 50, w: 180, h: 64, label: 'Leaderboards', sub: { en: 'quality · safety · cost', de: 'Qualität · Safety · Kosten' }, icon: 'metrics', tone: 'platform' },
         { id: 'c-dep', x: 590, y: 50, w: 190, h: 64, label: 'Deployment', sub: { en: 'type · name · capacity', de: 'Typ · Name · Kapazität' }, icon: 'foundry-models', tone: 'model', shape: 'store' },
-        { id: 'c-play', x: 590, y: 190, w: 190, h: 64, label: 'Playground', sub: { en: 'manual, up to 3 models', de: 'manuell, bis zu 3 Modelle' }, icon: 'foundry', tone: 'foundry' },
+        { id: 'c-play', x: 590, y: 190, w: 190, h: 64, label: 'Playground', sub: { en: 'manual, up to 3 models', de: 'manuell, bis zu 3 Modelle' }, icon: 'foundry', tone: 'platform' },
         { id: 'c-app', x: 20, y: 325, w: 170, h: 64, label: { en: 'Your app', de: 'Deine App' }, sub: { en: 'model = deployment', de: 'model = Deployment' }, icon: 'code', tone: 'app' },
         { id: 'c-gate', x: 300, y: 320, w: 180, h: 74, label: { en: 'Meets the bar?', de: 'Gut genug?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
-        { id: 'c-eval', x: 300, y: 190, w: 180, h: 64, label: { en: 'Evaluation', de: 'Evaluierung' }, sub: { en: 'evaluators + dataset', de: 'Evaluatoren + Dataset' }, icon: 'metrics', tone: 'foundry' },
+        { id: 'c-eval', x: 300, y: 190, w: 180, h: 64, label: { en: 'Evaluation', de: 'Evaluierung' }, sub: { en: 'evaluators + dataset', de: 'Evaluatoren + Dataset' }, icon: 'metrics', tone: 'platform' },
         { id: 'c-iter', x: 590, y: 325, w: 190, h: 64, label: { en: 'Improve', de: 'Verbessern' }, sub: { en: 'prompt · RAG · model', de: 'Prompt · RAG · Modell' }, icon: 'gear', tone: 'neutral' },
       ],
       edges: [

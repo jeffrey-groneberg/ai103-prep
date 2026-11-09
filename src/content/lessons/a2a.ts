@@ -94,16 +94,16 @@ export const lesson: Lesson = {
       width: 960,
       height: 430,
       groups: [
-        { id: 'g-out', x: 20, y: 20, w: 920, h: 234, label: { en: 'Call out: A2A tool on a Foundry agent', de: 'Nach außen: A2A-Tool an einem Foundry-Agent' }, tone: 'foundry' },
-        { id: 'g-in', x: 20, y: 290, w: 920, h: 124, label: { en: 'Be called: incoming A2A on a Foundry agent', de: 'Aufgerufen werden: eingehendes A2A an einem Foundry-Agent' }, tone: 'foundry' },
+        { id: 'g-out', x: 20, y: 20, w: 920, h: 234, label: { en: 'Call out: A2A tool on a Foundry agent', de: 'Nach außen: A2A-Tool an einem Foundry-Agent' }, tone: 'platform' },
+        { id: 'g-in', x: 20, y: 290, w: 920, h: 124, label: { en: 'Be called: incoming A2A on a Foundry agent', de: 'Aufgerufen werden: eingehendes A2A an einem Foundry-Agent' }, tone: 'platform' },
       ],
       nodes: [
-        { id: 'fa', x: 36, y: 60, w: 208, h: 64, label: { en: 'Foundry prompt agent', de: 'Foundry Prompt Agent' }, sub: 'A2ATool · a2a v1.0', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'fa', x: 36, y: 60, w: 208, h: 64, label: { en: 'Foundry prompt agent', de: 'Foundry Prompt Agent' }, sub: 'A2ATool · a2a v1.0', icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'conn', x: 36, y: 170, w: 208, h: 64, label: { en: 'RemoteA2A connection', de: 'RemoteA2A-Verbindung' }, sub: { en: 'project connection', de: 'Projektverbindung' }, icon: 'resource-linked', tone: 'safety' },
         { id: 'remote', x: 640, y: 60, w: 280, h: 64, label: { en: 'Remote A2A agent', de: 'Entfernter A2A-Agent' }, sub: { en: 'partner or other framework', de: 'Partner oder anderes Framework' }, icon: 'server-farm', tone: 'external' },
         { id: 'caller', x: 40, y: 330, w: 180, h: 64, label: { en: 'External agent', de: 'Externer Agent' }, sub: 'Foundry Agent Consumer', icon: 'server-farm', tone: 'external' },
-        { id: 'ep', x: 330, y: 330, w: 200, h: 64, label: { en: 'A2A endpoint', de: 'A2A-Endpoint' }, sub: '…/protocols/a2a', icon: 'foundry-agent-service', tone: 'foundry' },
-        { id: 'target', x: 640, y: 330, w: 280, h: 64, label: { en: 'Foundry prompt agent', de: 'Foundry Prompt Agent' }, sub: { en: 'agent card + skills', de: 'Agent Card + Skills' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'ep', x: 330, y: 330, w: 200, h: 64, label: { en: 'A2A endpoint', de: 'A2A-Endpoint' }, sub: '…/protocols/a2a', icon: 'foundry-agent-service', tone: 'platform' },
+        { id: 'target', x: 640, y: 330, w: 280, h: 64, label: { en: 'Foundry prompt agent', de: 'Foundry Prompt Agent' }, sub: { en: 'agent card + skills', de: 'Agent Card + Skills' }, icon: 'foundry-agent-service', tone: 'platform' },
       ],
       edges: [
         { id: 'o1', from: 'fa', to: 'remote', label: { en: 'A2A message (v1.0)', de: 'A2A-Nachricht (v1.0)' } },

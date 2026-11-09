@@ -21,13 +21,13 @@ export const lesson: Lesson = {
       width: 960,
       height: 420,
       groups: [
-        { id: 'g-proj', x: 160, y: 20, w: 220, h: 270, label: 'Foundry project', tone: 'foundry' },
+        { id: 'g-proj', x: 160, y: 20, w: 220, h: 270, label: 'Foundry project', tone: 'platform' },
         { id: 'g-webiq', x: 410, y: 20, w: 540, h: 270, label: 'Microsoft Web IQ', tone: 'external' },
       ],
       nodes: [
         { id: 'user', x: 20, y: 70, w: 120, h: 64, label: { en: 'User', de: 'Nutzer' }, icon: 'users', tone: 'user', shape: 'actor' },
-        { id: 'answer', x: 0, y: 196, w: 160, h: 64, label: { en: 'Cited answer', de: 'Antwort + Links' }, sub: { en: 'links next to text', de: 'Links am Text' }, icon: 'file', tone: 'foundry', shape: 'pill' },
-        { id: 'agent', x: 180, y: 66, w: 180, h: 72, label: 'Foundry agent', sub: { en: 'MCP tool: Web IQ', de: 'MCP-Tool: Web IQ' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'answer', x: 0, y: 196, w: 160, h: 64, label: { en: 'Cited answer', de: 'Antwort + Links' }, sub: { en: 'links next to text', de: 'Links am Text' }, icon: 'file', tone: 'platform', shape: 'pill' },
+        { id: 'agent', x: 180, y: 66, w: 180, h: 72, label: 'Foundry agent', sub: { en: 'MCP tool: Web IQ', de: 'MCP-Tool: Web IQ' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'conn', x: 180, y: 196, w: 180, h: 64, label: { en: 'Tool connection', de: 'Tool-Verbindung' }, sub: { en: 'stores the API key', de: 'speichert API-Key' }, icon: 'resource-linked', tone: 'safety' },
         { id: 'mcp', x: 430, y: 66, w: 180, h: 72, label: 'Web IQ MCP server', sub: 'api.microsoft.ai/v3/mcp', icon: 'globe', tone: 'external' },
         { id: 'tools', x: 430, y: 190, w: 180, h: 76, label: { en: 'MCP tools', de: 'MCP-Tools' }, sub: 'web · news · browse ·\nimages · videos', icon: 'toolbox', tone: 'tool' },

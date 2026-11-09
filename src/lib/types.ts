@@ -1,4 +1,5 @@
 import type { DiagramIconId } from '../content/diagram-icons.ts'
+import type { IconName } from '../components/icons.generated.ts'
 
 export type Lang = 'de' | 'en'
 
@@ -10,12 +11,13 @@ export interface L10n {
 
 export type Text = string | L10n
 
-export type DomainId = 'D1' | 'D2' | 'D3' | 'D4' | 'D5'
+/** Domain id from src/content/domains.ts, by convention D1, D2, … in the order of the study guide. */
+export type DomainId = string
 
 export interface SkillBullet {
   /** e.g. "1.1.1" = domain 1, skill group 1, bullet 1 */
   id: string
-  /** Official English wording from the study guide (skills measured as of April 16, 2026). */
+  /** Official English wording from the study guide (exam.json skillsOutlineDate). */
   en: string
   de: string
 }
@@ -29,11 +31,12 @@ export interface SkillGroup {
 
 export interface Domain {
   id: DomainId
-  index: number
   title: L10n
   short: L10n
   /** Official weight range in percent, e.g. [25, 30]. */
   weight: [number, number]
+  /** Fluent UI icon beside the domain (src/components/icons.generated.ts). */
+  icon: IconName
   groups: SkillGroup[]
 }
 
@@ -153,7 +156,7 @@ export interface MatchQuestion extends QuestionBase {
 
 export interface CodeQuestion extends QuestionBase {
   type: 'code'
-  /** Python template with {{blankId}} placeholders. */
+  /** Code template with {{blankId}} placeholders. */
   template: string
   blanks: CodeBlank[]
 }
@@ -181,7 +184,7 @@ export interface CaseFile {
 
 /* ---------- Lessons & diagrams ---------- */
 
-export type Tone = 'user' | 'app' | 'foundry' | 'model' | 'data' | 'tool' | 'safety' | 'external' | 'neutral'
+export type Tone = 'user' | 'app' | 'platform' | 'model' | 'data' | 'tool' | 'safety' | 'external' | 'neutral'
 
 export type NodeShape = 'box' | 'pill' | 'store' | 'doc' | 'actor' | 'diamond'
 
@@ -193,8 +196,8 @@ export interface DiagramNode {
   h: number
   label: Text
   sub?: Text
-  /** Official Azure Architecture icon (src/content/diagram-icons.ts), shown beside the label. */
-  icon: DiagramIconId
+  /** Optional official product icon registered in src/content/diagram-icons.ts, shown beside the label. */
+  icon?: DiagramIconId
   tone: Tone
   shape?: NodeShape
 }
@@ -316,4 +319,71 @@ export interface Zettel {
   term?: string
   /** Answer options for a multiple-choice round; cards without them are turned and rated by the learner. */
   choices?: ChoiceOption[]
+}
+
+/* ---------- Exam configuration (src/content/exam.json) ---------- */
+
+export interface ExamLinks {
+  /** Exam page on Microsoft Learn. */
+  examPage: string
+  studyGuide: string
+  /** Official course; empty when there is none. */
+  course: string
+  /** Official practice assessment; empty until known. */
+  practiceAssessment: string
+  examSandbox: string
+}
+
+/** A link on the Resources page; a plain-string title stays the same in both languages (an official title). */
+export interface ResourceLink {
+  title: Text
+  url: string
+  note?: Text
+}
+
+export interface LegacyName {
+  /** Regular expression source. */
+  pattern: string
+  flags?: string
+  current: string
+}
+
+export interface ExamTargets {
+  minQuestions: number
+  minPerBullet: number
+  minPerModule: number
+  minCases: number
+  /** Percentage points a domain's share of the bank may fall below the lower end of its weight range. */
+  domainShareTolerance: number
+}
+
+export interface ExamConfig {
+  /** Open setup tasks; the validator warns while any remain. */
+  todo?: string[]
+  code: string
+  title: L10n
+  appName: string
+  shortName: string
+  badge: string
+  storageKey: string
+  defaultLang: Lang
+  /** ISO date of the skills outline version ("Skills measured as of …"). */
+  skillsOutlineDate: string
+  courseNumber?: string
+  courseTitle?: string
+  /** Language of code samples and code questions; "Python" is highlighted. */
+  codeLanguage?: string
+  /** seatMinutes: optional seat time of the real exam, shown on Resources. */
+  exam: { minutes: number; questions: number; passPercent: number; seatMinutes?: number }
+  links: ExamLinks
+  /** Feedback links open a prefilled issue here; without an issuesUrl the app shows none. */
+  feedback?: { issuesUrl?: string }
+  /** Further official Microsoft pages for this exam (certification page, exam prep video …). */
+  official?: ResourceLink[]
+  community: ResourceLink[]
+  legacyNames: LegacyName[]
+  /** Exam-specific names for diagram tones in the legend, e.g. platform: "Foundry platform". */
+  toneLabels?: Partial<Record<Tone, L10n>>
+  sourceDocsets: Array<{ prefix: string; label: string }>
+  targets: ExamTargets
 }

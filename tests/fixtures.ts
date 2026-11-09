@@ -1,4 +1,5 @@
-import type { CaseStudy, ChoiceOption, Question } from '../src/lib/types.ts'
+import type { CaseStudy, ChoiceOption, CourseModule, Domain, LegacyName, Question } from '../src/lib/types.ts'
+import type { Outline } from '../src/content/outline.ts'
 
 const t = (s: string) => ({ en: s, de: s })
 const why = t('Because the docs say so.')
@@ -142,3 +143,57 @@ export function bank(perDomain: number): Question[] {
   }
   return out
 }
+
+/* ---------- A fixed outline, so engine tests don't depend on the app's content ---------- */
+
+const bullet = (id: string) => ({ id, en: `Skill ${id} as worded in the study guide`, de: `Skill ${id} auf Deutsch` })
+const group = (id: string, bullets: string[]) => ({ id, title: { en: `Group ${id}`, de: `Gruppe ${id}` }, bullets: bullets.map(bullet) })
+const domain = (id: string, weight: [number, number], groups: ReturnType<typeof group>[]): Domain => ({
+  id,
+  title: { en: `Domain ${id}`, de: `Domäne ${id}` },
+  short: { en: `Short ${id}`, de: `Kurz ${id}` },
+  weight,
+  icon: 'cloud',
+  groups,
+})
+
+/** Five domains weighted like a typical associate exam. */
+export const TEST_DOMAINS: Domain[] = [
+  domain('D1', [25, 30], [group('1.1', ['1.1.1']), group('1.2', ['1.2.2']), group('1.3', ['1.3.4']), group('1.4', ['1.4.1'])]),
+  domain('D2', [30, 35], [group('2.1', ['2.1.1', '2.1.5', '2.1.6']), group('2.2', ['2.2.1', '2.2.4']), group('2.3', ['2.3.1'])]),
+  domain('D3', [10, 15], [group('3.1', ['3.1.1']), group('3.2', ['3.2.1'])]),
+  domain('D4', [10, 15], [group('4.1', ['4.1.1', '4.1.3']), group('4.2', ['4.2.1'])]),
+  domain('D5', [10, 15], [group('5.1', ['5.1.1', '5.1.2']), group('5.2', ['5.2.1'])]),
+]
+
+const mod = (id: string, pathId: string, skills: string[]): CourseModule => ({
+  id,
+  uid: `learn.test.${id}`,
+  title: `Module ${id}`,
+  url: `https://learn.microsoft.com/en-us/training/modules/${id}/`,
+  minutes: 45,
+  pathId,
+  units: ['Introduction', 'Summary'],
+  skills,
+})
+
+export const TEST_OUTLINE: Outline = {
+  domains: TEST_DOMAINS,
+  learningPaths: [
+    { id: 'p1', uid: 'learn.test.p1', title: 'Path one', url: 'https://learn.microsoft.com/en-us/training/paths/p1/', modules: ['plan-prepare', 'foundry-chat-app'] },
+    { id: 'p2', uid: 'learn.test.p2', title: 'Path two', url: 'https://learn.microsoft.com/en-us/training/paths/p2/', modules: ['knowledge-mining', 'translation', 'a2a'] },
+  ],
+  modules: [
+    mod('plan-prepare', 'p1', ['1.1.1', '1.2.2', '1.3.4', '1.4.1']),
+    mod('foundry-chat-app', 'p1', ['2.1.1', '2.1.5', '2.1.6', '2.2.4', '2.3.1']),
+    mod('knowledge-mining', 'p2', ['3.1.1', '3.2.1', '5.1.1', '5.1.2', '5.2.1']),
+    mod('translation', 'p2', ['4.1.1', '4.1.3', '4.2.1']),
+    mod('a2a', 'p2', ['2.2.1']),
+  ],
+}
+
+/** Renamed products the validator tests use, independent of exam.json. */
+export const TEST_LEGACY: LegacyName[] = [
+  { pattern: '\\bAzure AI Studio\\b', current: 'Microsoft Foundry' },
+  { pattern: '\\bAzure AI (?:User|Owner)\\b', current: 'Foundry User / Foundry Owner' },
+]

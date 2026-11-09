@@ -1,12 +1,12 @@
 import type { CardFile, CaseFile, CaseStudy, Lesson, Question, QuestionFile, StarterCard, Zettel } from '../lib/types.ts'
-import { modules, learningPaths } from './course.ts'
+import { outline } from './outline.ts'
 
 const questionFiles = import.meta.glob<QuestionFile>('./questions/*.json', { eager: true, import: 'default' })
 const caseFiles = import.meta.glob<CaseFile>('./cases/*.json', { eager: true, import: 'default' })
 const lessonFiles = import.meta.glob<{ lesson: Lesson }>('./lessons/*.ts', { eager: true })
 const cardFiles = import.meta.glob<CardFile>('./cards/*.json', { eager: true, import: 'default' })
 
-const moduleOrder = new Map(learningPaths.flatMap((p) => p.modules).map((id, i) => [id, i]))
+const moduleOrder = new Map(outline.orderedModules.map((m, i) => [m.id, i]))
 
 export const questions: Question[] = Object.values(questionFiles)
   .flatMap((f) => f.questions)
@@ -24,7 +24,7 @@ export const lessons: Lesson[] = Object.entries(lessonFiles)
 export const lessonByModule = new Map(lessons.map((l) => [l.module, l]))
 
 /** Modules in official course order (learning path order). */
-export const orderedModules = learningPaths.flatMap((p) => p.modules).map((id) => modules.find((m) => m.id === id)!)
+export const orderedModules = outline.orderedModules
 
 export function questionsForModule(moduleId: string): Question[] {
   return questions.filter((q) => q.module === moduleId)

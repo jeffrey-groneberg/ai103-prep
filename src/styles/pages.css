@@ -1442,7 +1442,8 @@
   gap: var(--s3);
   height: 180px;
   padding: var(--s2) 0;
-  background: linear-gradient(to top, transparent calc(70% - 1px), var(--line-strong) calc(70% - 1px), var(--line-strong) 70%, transparent 70%);
+  /* The pass guideline (exam.json passPercent) arrives as --pass. */
+  background: linear-gradient(to top, transparent calc(var(--pass, 70%) - 1px), var(--line-strong) calc(var(--pass, 70%) - 1px), var(--line-strong) var(--pass, 70%), transparent var(--pass, 70%));
 }
 
 .exam-trend li {

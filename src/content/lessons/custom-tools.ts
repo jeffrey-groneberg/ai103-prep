@@ -22,13 +22,13 @@ export const lesson: Lesson = {
       height: 460,
       groups: [
         { id: 'g-app', x: 10, y: 15, w: 250, h: 425, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
-        { id: 'g-svc', x: 700, y: 15, w: 250, h: 425, label: 'Microsoft Foundry', tone: 'foundry' },
+        { id: 'g-svc', x: 700, y: 15, w: 250, h: 425, label: 'Microsoft Foundry', tone: 'platform' },
       ],
       nodes: [
         { id: 'client', x: 25, y: 55, w: 220, h: 80, label: { en: 'Agent client', de: 'Agent-Client' }, sub: 'responses.create()', icon: 'code', tone: 'app' },
         { id: 'fco', x: 35, y: 210, w: 200, h: 64, label: 'function_call_output', sub: { en: 'same call_id', de: 'gleiche call_id' }, icon: 'code', tone: 'app', shape: 'pill' },
         { id: 'func', x: 25, y: 340, w: 220, h: 80, label: 'get_order_status()', sub: { en: 'your code, your network', de: 'dein Code, dein Netzwerk' }, icon: 'code', tone: 'tool' },
-        { id: 'agent', x: 715, y: 55, w: 220, h: 80, label: 'Agent version', sub: { en: 'model + FunctionTool schema', de: 'Modell + FunctionTool-Schema' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'agent', x: 715, y: 55, w: 220, h: 80, label: 'Agent version', sub: { en: 'model + FunctionTool schema', de: 'Modell + FunctionTool-Schema' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'model', x: 715, y: 340, w: 220, h: 80, label: 'Model deployment', sub: { en: 'decides: call tool or answer', de: 'entscheidet: Tool oder Antwort' }, icon: 'foundry-models', tone: 'model' },
         { id: 'fc', x: 380, y: 348, w: 200, h: 64, label: 'function_call', sub: 'name · arguments · call_id', icon: 'foundry-models', tone: 'model', shape: 'pill' },
       ],
@@ -92,9 +92,9 @@ export const lesson: Lesson = {
       },
       width: 960,
       height: 460,
-      groups: [{ id: 'g-def', x: 10, y: 5, w: 510, h: 450, label: { en: 'Agent definition (tools list)', de: 'Agent-Definition (Tool-Liste)' }, tone: 'foundry' }],
+      groups: [{ id: 'g-def', x: 10, y: 5, w: 510, h: 450, label: { en: 'Agent definition (tools list)', de: 'Agent-Definition (Tool-Liste)' }, tone: 'platform' }],
       nodes: [
-        { id: 'agent', x: 30, y: 200, w: 200, h: 74, label: 'Agent version', sub: 'tools=[…]', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'agent', x: 30, y: 200, w: 200, h: 74, label: 'Agent version', sub: 'tools=[…]', icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'fn', x: 300, y: 40, w: 200, h: 64, label: 'Function tool', sub: 'FunctionTool', icon: 'code', tone: 'tool' },
         { id: 'oa', x: 300, y: 150, w: 200, h: 64, label: 'OpenAPI tool', sub: 'OpenApiTool', icon: 'toolbox', tone: 'tool' },
         { id: 'af', x: 300, y: 260, w: 200, h: 64, label: 'Azure Functions tool', sub: 'AzureFunctionTool', icon: 'functions', tone: 'tool' },

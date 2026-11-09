@@ -305,7 +305,7 @@ export function nodeTextLayout(n: Outlined, labelLines: number, subLines: number
   return { cx: n.x + n.w / 2, top: n.y + n.h / 2 - blockH / 2 + 13 + shift, blockH }
 }
 
-/** Official icon size in a node, and the gap to its label. */
+/** Size of an official product icon in a node, and the gap to its label. */
 export const ICON_SIZE = 18
 export const ICON_GAP = 6
 /** Horizontal room the icon takes beside the label lines. */
@@ -317,30 +317,33 @@ export interface NodeContentLayout {
   /** Baseline of the first label line. */
   top: number
   blockH: number
-  /** Centre of the label lines, right of the icon. */
+  /** Centre of the label lines (right of the icon when there is one). */
   labelCx: number
   /** Widest label line. */
   labelW: number
-  icon: Rect
+  /** Where the icon goes; null for a node without an icon. */
+  icon: Rect | null
 }
 
 /**
  * Icon and label lines sit side by side, centred as one group on the node's text axis; sub lines run the full
- * width below. Renderer, validator and render audit all use this one layout.
+ * width below. Without an icon the label lines centre on the axis. Renderer, validator and render audit all use
+ * this one layout.
  */
-export function nodeContentLayout(n: Outlined, label: string[], sub: string[]): NodeContentLayout {
+export function nodeContentLayout(n: Outlined, label: string[], sub: string[], withIcon = false): NodeContentLayout {
   const { cx, top, blockH } = nodeTextLayout(n, label.length, sub.length)
   const labelW = Math.max(0, ...label.map((l) => textWidth(l, 'label')))
-  const left = cx - (ICON_SLOT + labelW) / 2
+  const slot = withIcon ? ICON_SLOT : 0
+  const left = cx - (slot + labelW) / 2
   // Optically centred on the label text: its cap-height centre sits about 5px above each baseline.
   const labelCenter = top - 5 + ((label.length - 1) * LINE_H) / 2
   return {
     cx,
     top,
     blockH,
-    labelCx: left + ICON_SLOT + labelW / 2,
+    labelCx: left + slot + labelW / 2,
     labelW,
-    icon: { x: left, y: labelCenter - ICON_SIZE / 2, w: ICON_SIZE, h: ICON_SIZE },
+    icon: withIcon ? { x: left, y: labelCenter - ICON_SIZE / 2, w: ICON_SIZE, h: ICON_SIZE } : null,
   }
 }
 

@@ -7,7 +7,8 @@
 // Writes report.json and one PNG per diagram and language to <outDir> (default audit-diagrams/).
 // Exits with code 1 when any error is found.
 import { chromium } from 'playwright'
-import { mkdirSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs'
+import exam from '../src/content/exam.json' with { type: 'json' }
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 
@@ -15,11 +16,16 @@ const out = process.argv[2] ?? 'audit-diagrams'
 const base = (process.argv[3] ?? 'http://localhost:5173/').replace(/\/?$/, '/')
 const filter = process.argv[4] ?? ''
 const lessonsDir = fileURLToPath(new URL('../src/content/lessons', import.meta.url))
-const modules = readdirSync(lessonsDir)
+const modules = (existsSync(lessonsDir) ? readdirSync(lessonsDir) : [])
   .filter((f) => f.endsWith('.ts') && !f.startsWith('_'))
   .map((f) => f.replace(/\.ts$/, ''))
   .filter((m) => !filter || m.includes(filter))
   .sort()
+
+if (!modules.length) {
+  console.log('No lessons to audit yet (src/content/lessons/ is empty).')
+  process.exit(0)
+}
 
 try {
   await fetch(base)
@@ -103,10 +109,10 @@ function auditInPage() {
         if (over > 0.5) add('text-overflow', 'error', [n.id], `${q(t.text)} is ${over.toFixed(1)} px too wide for its box (${n.kind}, w=${w.toFixed(0)})`)
         if (overV > 0.5) add('text-overflow', 'error', [n.id], `${q(t.text)} sticks out ${overV.toFixed(1)} px vertically (h=${h.toFixed(0)})`)
       }
-      // The official icon: present, fully inside the drawn shape, clear of every text line.
+      // An official product icon (optional): fully inside the drawn shape, clear of every text line.
       const icon = n.g.querySelector('image.dg-icon')
-      if (!icon || !icon.getAttribute('href')) add('icon-missing', 'error', [n.id], `${q(n.name)} has no official icon`)
-      else {
+      if (icon && !icon.getAttribute('href')) add('icon-missing', 'error', [n.id], `the icon of ${q(n.name)} has no image`)
+      else if (icon) {
         const ib = bb(icon)
         const corners = [[ib.x + 1, ib.y + 1], [ib.x + ib.w - 1, ib.y + 1], [ib.x + 1, ib.y + ib.h - 1], [ib.x + ib.w - 1, ib.y + ib.h - 1]]
         if (!corners.every(([cx, cy2]) => fill(n.shape, cx, cy2))) add('icon-outside', 'error', [n.id], `the icon of ${q(n.name)} sticks out of its ${n.kind}`)
@@ -254,7 +260,7 @@ async function stepChecks(page) {
           if (dim.length) issues.push({ kind: 'step-arrow-to-dim', severity: 'warning', msg: `step ${si + 1} lights arrow ${p.dataset.edge} (${p.dataset.from} → ${p.dataset.to}) but leaves ${dim.join(', ')} dimmed` })
         }
       }
-      const reset = [...fig.querySelectorAll('.dg-controls button')].find((b) => b.textContent?.includes('Gesamtbild'))
+      const reset = fig.querySelector('.dg-controls button[data-whole]')
       reset?.click()
       await wait()
       all.push({ index: fi, issues })
@@ -268,14 +274,14 @@ const report = []
 for (const lang of ['en', 'de']) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 })
   await ctx.addInitScript((l) => {
-    localStorage.setItem('ai103-prep:v1', JSON.stringify({ version: 1, lang: l, cards: {}, lessonsRead: {}, exams: [], activeExam: null }))
-  }, lang)
+    localStorage.setItem(l.key, JSON.stringify({ version: 1, lang: l.lang, cards: {}, lessonsRead: {}, exams: [], activeExam: null }))
+  }, { key: exam.storageKey, lang })
   const page = await ctx.newPage()
   const errors = []
   page.on('pageerror', (e) => errors.push(String(e)))
   mkdirSync(join(out, lang), { recursive: true })
   for (const m of modules) {
-    await page.goto(`${base}#/lernen/${m}`, { waitUntil: 'networkidle' })
+    await page.goto(`${base}#/learn/${m}`, { waitUntil: 'networkidle' })
     await page.waitForSelector('figure.dg svg.dg-svg', { timeout: 15000 })
     await page.evaluate(() => document.fonts.ready)
     const res = await page.evaluate(auditInPage)

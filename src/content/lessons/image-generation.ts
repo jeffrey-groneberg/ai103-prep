@@ -22,7 +22,7 @@ export const lesson: Lesson = {
       height: 400,
       groups: [
         { id: 'g-app', x: 210, y: 10, w: 220, h: 260, label: { en: 'Your app', de: 'Deine App' }, tone: 'app' },
-        { id: 'g-res', x: 470, y: 20, w: 250, h: 354, label: 'Foundry resource', tone: 'foundry' },
+        { id: 'g-res', x: 470, y: 20, w: 250, h: 354, label: 'Foundry resource', tone: 'platform' },
       ],
       nodes: [
         { id: 'prompt', x: 20, y: 60, w: 170, h: 64, label: { en: 'Text prompt', de: 'Text-Prompt' }, sub: { en: 'content + style', de: 'Inhalt + Stil' }, icon: 'users', tone: 'user', shape: 'pill' },

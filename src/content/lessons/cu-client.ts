@@ -22,17 +22,17 @@ export const lesson: Lesson = {
       height: 460,
       groups: [
         { id: 'g-app', x: 20, y: 20, w: 330, h: 430, label: { en: 'Your app (Python)', de: 'Deine App (Python)' }, tone: 'app' },
-        { id: 'g-svc', x: 610, y: 20, w: 330, h: 430, label: 'Foundry resource', tone: 'foundry' },
+        { id: 'g-svc', x: 610, y: 20, w: 330, h: 430, label: 'Foundry resource', tone: 'platform' },
       ],
       nodes: [
         { id: 'a1', x: 45, y: 65, w: 280, h: 56, label: 'PATCH …/defaults', sub: { en: 'map model names → deployments', de: 'Modellnamen → Deployments zuordnen' }, icon: 'foundry-tools', tone: 'app', shape: 'pill' },
         { id: 'a2', x: 45, y: 165, w: 280, h: 56, label: 'PUT …/analyzers/{id}', sub: { en: 'analyzer JSON: base + schema', de: 'Analyzer-JSON: Basis + Schema' }, icon: 'foundry-tools', tone: 'app', shape: 'pill' },
         { id: 'a3', x: 45, y: 265, w: 280, h: 56, label: 'POST …/analyzers/{id}:analyze', sub: 'inputs: [{ "url": … }]', icon: 'foundry-tools', tone: 'app', shape: 'pill' },
         { id: 'a4', x: 45, y: 365, w: 280, h: 56, label: 'GET …/analyzerResults/{id}', sub: { en: 'poll every 1–2 seconds', de: 'alle 1–2 Sekunden abfragen' }, icon: 'foundry-tools', tone: 'app', shape: 'pill' },
-        { id: 's1', x: 635, y: 65, w: 280, h: 56, label: { en: 'Defaults stored', de: 'Defaults gespeichert' }, sub: { en: 'once per resource', de: 'einmal pro Ressource' }, icon: 'foundry-tools', tone: 'foundry', shape: 'pill' },
-        { id: 's2', x: 635, y: 165, w: 280, h: 56, label: '201 + Operation-Location', sub: { en: 'poll until Succeeded', de: 'abfragen bis Succeeded' }, icon: 'foundry-tools', tone: 'foundry', shape: 'pill' },
-        { id: 's3', x: 635, y: 265, w: 280, h: 56, label: '202 + Operation-Location', sub: '{ "status": "NotStarted" }', icon: 'foundry-tools', tone: 'foundry', shape: 'pill' },
-        { id: 's4', x: 635, y: 365, w: 280, h: 56, label: '200 · status: Succeeded', sub: { en: 'result.contents: markdown + fields', de: 'result.contents: Markdown + Felder' }, icon: 'foundry-tools', tone: 'foundry', shape: 'pill' },
+        { id: 's1', x: 635, y: 65, w: 280, h: 56, label: { en: 'Defaults stored', de: 'Defaults gespeichert' }, sub: { en: 'once per resource', de: 'einmal pro Ressource' }, icon: 'foundry-tools', tone: 'platform', shape: 'pill' },
+        { id: 's2', x: 635, y: 165, w: 280, h: 56, label: '201 + Operation-Location', sub: { en: 'poll until Succeeded', de: 'abfragen bis Succeeded' }, icon: 'foundry-tools', tone: 'platform', shape: 'pill' },
+        { id: 's3', x: 635, y: 265, w: 280, h: 56, label: '202 + Operation-Location', sub: '{ "status": "NotStarted" }', icon: 'foundry-tools', tone: 'platform', shape: 'pill' },
+        { id: 's4', x: 635, y: 365, w: 280, h: 56, label: '200 · status: Succeeded', sub: { en: 'result.contents: markdown + fields', de: 'result.contents: Markdown + Felder' }, icon: 'foundry-tools', tone: 'platform', shape: 'pill' },
       ],
       edges: [
         { id: 'e1', from: 'a1', to: 's1', label: { en: 'one-time setup', de: 'einmalig' } },

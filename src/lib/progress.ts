@@ -3,14 +3,6 @@ import { isDue, retention, type CardState } from './srs.ts'
 
 export type MasteryLevel = 0 | 1 | 2 | 3
 
-/** Khan-style mastery labels: not started · seen · proficient · mastered. */
-export const MASTERY_LABELS: Record<MasteryLevel, string> = {
-  0: 'Nicht begonnen',
-  1: 'Gesehen',
-  2: 'Sicher',
-  3: 'Gemeistert',
-}
-
 export interface MasteryInfo {
   level: MasteryLevel
   /** Average retention 0..1 over all questions (unseen = 0). */
@@ -21,8 +13,9 @@ export interface MasteryInfo {
 }
 
 /**
- * Mastery reflects retained knowledge, not clicks: each question contributes its
- * Leitner box (0..5). "Gemeistert" needs most questions answered correctly over spaced reviews.
+ * Mastery reflects retained knowledge, not clicks: each question contributes its Leitner box (0..5).
+ * Levels (labels in the dictionaries): 0 not started · 1 seen · 2 proficient · 3 mastered, which needs most
+ * questions answered correctly over spaced reviews.
  */
 export function masteryOf(questions: Question[], cards: Record<string, CardState | undefined>): MasteryInfo {
   const total = questions.length

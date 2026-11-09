@@ -21,17 +21,17 @@ export const lesson: Lesson = {
       width: 960,
       height: 430,
       groups: [
-        { id: 'g-vl', x: 435, y: 20, w: 505, h: 384, label: { en: 'Voice Live session · one real-time connection', de: 'Voice-Live-Session · eine Echtzeitverbindung' }, tone: 'foundry' },
+        { id: 'g-vl', x: 435, y: 20, w: 505, h: 384, label: { en: 'Voice Live session · one real-time connection', de: 'Voice-Live-Session · eine Echtzeitverbindung' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'mic', x: 20, y: 60, w: 150, h: 64, label: { en: 'Microphone', de: 'Mikrofon' }, sub: 'PCM16 audio', icon: 'mobile', tone: 'user', shape: 'actor' },
         { id: 'client', x: 180, y: 190, w: 150, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: 'azure-ai-voicelive', icon: 'browser', tone: 'app' },
         { id: 'speaker', x: 20, y: 320, w: 150, h: 64, label: { en: 'Speaker', de: 'Lautsprecher' }, sub: { en: 'plays deltas', de: 'spielt Deltas ab' }, icon: 'mobile', tone: 'user', shape: 'actor' },
-        { id: 'noise', x: 452, y: 60, w: 216, h: 64, label: { en: 'Noise suppression', de: 'Rauschunterdrückung' }, sub: { en: '+ echo cancellation', de: '+ Echounterdrückung' }, icon: 'speech', tone: 'foundry' },
-        { id: 'turn', x: 710, y: 60, w: 210, h: 64, label: { en: 'Turn detection', de: 'Turn-Erkennung' }, sub: 'server_vad · azure_semantic_vad', icon: 'speech', tone: 'foundry' },
-        { id: 'stt', x: 710, y: 190, w: 210, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'azure-speech · phrase list', de: 'azure-speech · Phrasenliste' }, icon: 'speech', tone: 'foundry' },
+        { id: 'noise', x: 452, y: 60, w: 216, h: 64, label: { en: 'Noise suppression', de: 'Rauschunterdrückung' }, sub: { en: '+ echo cancellation', de: '+ Echounterdrückung' }, icon: 'speech', tone: 'platform' },
+        { id: 'turn', x: 710, y: 60, w: 210, h: 64, label: { en: 'Turn detection', de: 'Turn-Erkennung' }, sub: 'server_vad · azure_semantic_vad', icon: 'speech', tone: 'platform' },
+        { id: 'stt', x: 710, y: 190, w: 210, h: 64, label: { en: 'Speech to text', de: 'Speech to Text' }, sub: { en: 'azure-speech · phrase list', de: 'azure-speech · Phrasenliste' }, icon: 'speech', tone: 'platform' },
         { id: 'model', x: 452, y: 190, w: 216, h: 64, label: { en: 'Model or agent call', de: 'Modell oder Agent-Aufruf' }, sub: 'gpt-realtime · gpt-5-mini · …', icon: 'foundry-models', tone: 'model' },
-        { id: 'tts', x: 452, y: 320, w: 216, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'Azure standard · HD · custom', de: 'Azure Standard · HD · Custom' }, icon: 'speech', tone: 'foundry' },
+        { id: 'tts', x: 452, y: 320, w: 216, h: 64, label: { en: 'Text to speech', de: 'Text to Speech' }, sub: { en: 'Azure standard · HD · custom', de: 'Azure Standard · HD · Custom' }, icon: 'speech', tone: 'platform' },
       ],
       edges: [
         { id: 'v1', from: 'mic', to: 'client' },
@@ -98,14 +98,14 @@ export const lesson: Lesson = {
       width: 960,
       height: 420,
       groups: [
-        { id: 'g-proj', x: 680, y: 20, w: 270, h: 384, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'foundry' },
+        { id: 'g-proj', x: 680, y: 20, w: 270, h: 384, label: { en: 'Foundry project', de: 'Foundry-Projekt' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'caller', x: 20, y: 190, w: 130, h: 64, label: { en: 'Caller', de: 'Anrufer' }, icon: 'users', tone: 'user', shape: 'actor' },
         { id: 'app', x: 210, y: 190, w: 160, h: 64, label: { en: 'Client app', de: 'Client-App' }, sub: { en: 'Entra ID token', de: 'Entra-ID-Token' }, icon: 'browser', tone: 'app' },
-        { id: 'vl', x: 460, y: 190, w: 160, h: 64, label: 'Voice Live', sub: { en: 'STT · turns · TTS', de: 'STT · Turns · TTS' }, icon: 'speech', tone: 'foundry' },
+        { id: 'vl', x: 460, y: 190, w: 160, h: 64, label: 'Voice Live', sub: { en: 'STT · turns · TTS', de: 'STT · Turns · TTS' }, icon: 'speech', tone: 'platform' },
         { id: 'settings', x: 700, y: 50, w: 230, h: 64, label: { en: 'Voice Live settings', de: 'Voice-Live-Einstellungen' }, sub: { en: 'agent metadata (JSON)', de: 'Agent-Metadaten (JSON)' }, icon: 'gear', tone: 'data', shape: 'doc' },
-        { id: 'agent', x: 700, y: 190, w: 230, h: 64, label: { en: 'Prompt agent version', de: 'Prompt-Agent-Version' }, sub: { en: 'instructions · tools · model', de: 'Anweisungen · Tools · Modell' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'agent', x: 700, y: 190, w: 230, h: 64, label: { en: 'Prompt agent version', de: 'Prompt-Agent-Version' }, sub: { en: 'instructions · tools · model', de: 'Anweisungen · Tools · Modell' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'conv', x: 700, y: 320, w: 230, h: 64, label: { en: 'Conversation', de: 'Konversation' }, sub: 'conversation_id (optional)', icon: 'table', tone: 'data', shape: 'store' },
       ],
       edges: [

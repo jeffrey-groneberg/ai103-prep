@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { answerCues, checkAnswerCues, validateCardFile, validateContent, type ContentBundle, type Issue } from '../src/content/validate.ts'
+import { answerCues, checkAnswerCues, compileLegacyNames, validateCardFile, validateContent as validateWith, type ContentBundle, type Issue, type ValidateOptions } from '../src/content/validate.ts'
 import type { CardFile, Lesson, Question } from '../src/lib/types.ts'
-import { code, multi, single } from './fixtures.ts'
+import { code, multi, single, TEST_LEGACY, TEST_OUTLINE } from './fixtures.ts'
 import { findOutdatedModels, modelStatus, type ModelLifecycle } from '../src/content/model-currency.ts'
 
 const t = (s: string) => ({ en: s, de: `${s} (de)` })
+
+/** The validator against the fixed test outline and legacy names, not the app's content. */
+const validateContent = (bundle: ContentBundle, opts: ValidateOptions = {}) => validateWith(bundle, { outline: TEST_OUTLINE, legacyNames: TEST_LEGACY, ...opts })
+const legacy = compileLegacyNames(TEST_LEGACY)
 
 function bundleWith(questions: Question[], lessons: Lesson[] = []): ContentBundle {
   const byModule = new Map<string, Question[]>()
@@ -85,8 +89,30 @@ describe('validator — coverage', () => {
     expect(text).toMatch(/coverage 1\.1\.1: skills-outline bullet has no questions/)
     expect(text).toMatch(/coverage knowledge-mining: module has no questions/)
     expect(text).toMatch(/coverage knowledge-mining: module has no lesson/)
-    expect(report.coverage).toHaveLength(64)
+    expect(report.coverage).toHaveLength(TEST_OUTLINE.domains.flatMap((d) => d.groups.flatMap((g) => g.bullets)).length)
     expect(report.coverage.every((r) => r.modules.length > 0)).toBe(true)
+  })
+
+  it('reports a missing outline with a helpful message instead of failing', () => {
+    const empty = { domains: [], learningPaths: [], modules: [] }
+    const report = validateContent({ files: [], cases: [], lessons: [], cards: [] }, { outline: empty, today: '2026-11-06' })
+    const text = report.errors.map((e) => `${e.where}: ${e.message}`).join('\n')
+    expect(text).toMatch(/src\/content\/domains\.ts: no domains yet/)
+    expect(text).toMatch(/src\/content\/course\.ts: no modules yet/)
+    expect(report.coverage).toEqual([])
+  })
+
+  it('checks that learning paths and modules agree', () => {
+    const broken = {
+      ...TEST_OUTLINE,
+      learningPaths: [{ ...TEST_OUTLINE.learningPaths[0], modules: [...TEST_OUTLINE.learningPaths[0].modules, 'ghost'] }, TEST_OUTLINE.learningPaths[1]],
+      modules: [...TEST_OUTLINE.modules, { ...TEST_OUTLINE.modules[0], id: 'orphan' }],
+    }
+    const text = validateContent(bundleWith([]), { outline: broken, today: '2026-11-06' })
+      .errors.map((e) => `${e.where}: ${e.message}`)
+      .join('\n')
+    expect(text).toMatch(/learning path p1: lists unknown module "ghost"/)
+    expect(text).toMatch(/course orphan: module is in no learning path/)
   })
 
   it('skips global coverage when scoped to modules', () => {
@@ -106,8 +132,8 @@ describe('validator — lessons and diagrams', () => {
         width: 960,
         height: 300,
         nodes: [
-          { id: 'a', x: 20, y: 20, w: 160, h: 60, label: 'App', icon: 'code', tone: 'app' },
-          { id: 'b', x: 300, y: 20, w: 160, h: 60, label: 'Model', icon: 'code', tone: 'model' },
+          { id: 'a', x: 20, y: 20, w: 160, h: 60, label: 'App', tone: 'app' },
+          { id: 'b', x: 300, y: 20, w: 160, h: 60, label: 'Model', tone: 'model' },
         ],
         edges: [{ id: 'e', from: 'a', to: 'b' }],
         steps: [
@@ -137,26 +163,25 @@ describe('validator — lessons and diagrams', () => {
       .join('\n')
     expect(text).toMatch(/overlap/)
     expect(text).toMatch(/unknown id "ghost"/)
-    expect(text).toMatch(/needs \d+px with its icon but only \d+px fit/)
+    expect(text).toMatch(/label line "A label that is far too long for this node" needs \d+px but only \d+px fit/)
   })
 
-  it('requires every node to name an official icon', () => {
+  it('accepts nodes without an icon and rejects icons that are not registered', () => {
     const l = lesson()
-    const [a, b] = l.diagrams[0].nodes
-    l.diagrams[0].nodes[0] = { ...a, icon: undefined as unknown as typeof a.icon }
+    const b = l.diagrams[0].nodes[1]
     l.diagrams[0].nodes[1] = { ...b, icon: 'logo' as unknown as typeof b.icon }
     const text = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
       .errors.map((e) => e.message)
       .join('\n')
-    expect(text).toMatch(/node a .*icon/)
-    expect(text).toMatch(/node b .*"logo"/)
+    expect(text).not.toMatch(/node a/)
+    expect(text).toMatch(/node b: icon "logo" is not registered in src\/content\/diagram-icons\.ts/)
   })
 
   it('flags arrows that run through another node', () => {
     const l = lesson()
     const d = l.diagrams[0]
-    d.nodes.push({ id: 'c', x: 600, y: 20, w: 160, h: 60, label: 'Store', icon: 'code', tone: 'data' })
-    d.nodes.push({ id: 'mid', x: 380, y: 25, w: 120, h: 50, label: 'Middle', icon: 'code', tone: 'tool' })
+    d.nodes.push({ id: 'c', x: 600, y: 20, w: 160, h: 60, label: 'Store', tone: 'data' })
+    d.nodes.push({ id: 'mid', x: 380, y: 25, w: 120, h: 50, label: 'Middle', tone: 'tool' })
     d.nodes[1] = { ...d.nodes[1], x: 210 }
     d.edges.push({ id: 'long', from: 'a', to: 'c' })
     const report = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
@@ -169,10 +194,10 @@ describe('validator — lessons and diagrams', () => {
     d.width = 700
     d.height = 300
     d.nodes = [
-      { id: 'a', x: 20, y: 120, w: 200, h: 60, label: t('Alpha'), icon: 'code', tone: 'app' },
-      { id: 'b', x: 260, y: 120, w: 200, h: 60, label: t('Beta'), icon: 'code', tone: 'model' },
-      { id: 'top', x: 150, y: 40, w: 180, h: 74, label: t('Top'), icon: 'code', tone: 'data' },
-      { id: 'bottom', x: 150, y: 186, w: 180, h: 74, label: t('Bottom'), icon: 'code', tone: 'data' },
+      { id: 'a', x: 20, y: 120, w: 200, h: 60, label: t('Alpha'), tone: 'app' },
+      { id: 'b', x: 260, y: 120, w: 200, h: 60, label: t('Beta'), tone: 'model' },
+      { id: 'top', x: 150, y: 40, w: 180, h: 74, label: t('Top'), tone: 'data' },
+      { id: 'bottom', x: 150, y: 186, w: 180, h: 74, label: t('Bottom'), tone: 'data' },
     ]
     d.groups = []
     d.edges = [{ id: 'ab', from: 'a', to: 'b', label: t('a label that is far too long') }]
@@ -218,7 +243,7 @@ describe('validator — Zettelkasten cards', () => {
   })
   const cardErrors = (data: CardFile, lesson = cardLesson()) => {
     const issues: Issue[] = []
-    validateCardFile(data, lesson, issues, 'src/content/cards/a2a.json')
+    validateCardFile(data, lesson, issues, 'src/content/cards/a2a.json', { legacy })
     return issues.filter((i) => i.level === 'error').map((i) => i.message).join('\n')
   }
 

@@ -1,20 +1,18 @@
 import type { Domain } from '../lib/types.ts'
 
 /**
- * Exam AI-103 skills outline, "Skills measured as of April 16, 2026".
- * English bullet text is quoted from the official study guide:
- * https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103
+ * The exam's skills outline: domains with their official weight ranges, skill groups and bullets.
+ * English bullet text is quoted verbatim from the study guide (exam.json links.studyGuide, version
+ * skillsOutlineDate, "Skills measured as of April 16, 2026"); German text is a translation. Bullet ids
+ * ("1.2.3" = domain 1, group 2, bullet 3) are the app's own numbering, because the study guide does not number its bullets.
  */
-export const SKILLS_OUTLINE_DATE = '2026-04-16'
-export const STUDY_GUIDE_URL = 'https://learn.microsoft.com/en-us/credentials/certifications/resources/study-guides/ai-103'
-
 export const domains: Domain[] = [
   {
     id: 'D1',
-    index: 1,
     title: { en: 'Plan and manage an Azure AI solution', de: 'Azure-KI-Lösung planen und verwalten' },
     short: { en: 'Plan & manage', de: 'Planen & verwalten' },
     weight: [25, 30],
+    icon: 'cloud',
     groups: [
       {
         id: '1.1',
@@ -60,10 +58,10 @@ export const domains: Domain[] = [
   },
   {
     id: 'D2',
-    index: 2,
     title: { en: 'Implement generative AI and agentic solutions', de: 'Generative KI und agentische Lösungen implementieren' },
     short: { en: 'GenAI & agents', de: 'GenAI & Agents' },
     weight: [30, 35],
+    icon: 'brain',
     groups: [
       {
         id: '2.1',
@@ -103,10 +101,10 @@ export const domains: Domain[] = [
   },
   {
     id: 'D3',
-    index: 3,
     title: { en: 'Implement computer vision solutions', de: 'Computer-Vision-Lösungen implementieren' },
     short: { en: 'Computer vision', de: 'Computer Vision' },
     weight: [10, 15],
+    icon: 'eye',
     groups: [
       {
         id: '3.1',
@@ -146,10 +144,10 @@ export const domains: Domain[] = [
   },
   {
     id: 'D4',
-    index: 4,
     title: { en: 'Implement text analysis solutions', de: 'Textanalyse-Lösungen implementieren' },
     short: { en: 'Text & speech', de: 'Text & Sprache' },
     weight: [10, 15],
+    icon: 'textList',
     groups: [
       {
         id: '4.1',
@@ -175,10 +173,10 @@ export const domains: Domain[] = [
   },
   {
     id: 'D5',
-    index: 5,
     title: { en: 'Implement information extraction solutions', de: 'Lösungen zur Informationsextraktion implementieren' },
     short: { en: 'Information extraction', de: 'Informationsextraktion' },
     weight: [10, 15],
+    icon: 'documentSearch',
     groups: [
       {
         id: '5.1',
@@ -204,15 +202,3 @@ export const domains: Domain[] = [
   },
 ]
 
-export const allBullets = domains.flatMap((d) =>
-  d.groups.flatMap((g) => g.bullets.map((b) => ({ ...b, domain: d.id, group: g.id }))),
-)
-
-export const bulletById = new Map(allBullets.map((b) => [b.id, b]))
-export const domainById = new Map(domains.map((d) => [d.id, d]))
-
-export function domainMidpoint(id: Domain['id']): number {
-  const d = domainById.get(id)
-  if (!d) return 0
-  return (d.weight[0] + d.weight[1]) / 2
-}

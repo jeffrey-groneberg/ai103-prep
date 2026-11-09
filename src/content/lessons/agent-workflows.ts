@@ -21,14 +21,14 @@ export const lesson: Lesson = {
       width: 960,
       height: 360,
       groups: [
-        { id: 'g-wf', x: 150, y: 20, w: 805, h: 322, label: { en: 'Foundry workflow (preview)', de: 'Foundry-Workflow (Preview)' }, tone: 'foundry' },
+        { id: 'g-wf', x: 150, y: 20, w: 805, h: 322, label: { en: 'Foundry workflow (preview)', de: 'Foundry-Workflow (Preview)' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'start', x: 10, y: 70, w: 130, h: 64, label: { en: 'User', de: 'Nutzer' }, sub: { en: 'chat request', de: 'Chat-Anfrage' }, icon: 'users', tone: 'user', shape: 'actor' },
         { id: 'sup', x: 10, y: 250, w: 130, h: 64, label: 'Supervisor', sub: { en: 'answers via\nyour app', de: 'antwortet über\ndeine App' }, icon: 'users', tone: 'user', shape: 'actor' },
-        { id: 'triage', x: 175, y: 70, w: 170, h: 64, label: { en: 'Triage agent', de: 'Triage-Agent' }, sub: 'JSON → Local.Triage', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'triage', x: 175, y: 70, w: 170, h: 64, label: { en: 'Triage agent', de: 'Triage-Agent' }, sub: 'JSON → Local.Triage', icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'cond', x: 385, y: 62, w: 180, h: 80, label: { en: 'Confident?', de: 'Sicher genug?' }, sub: '≥ 0.8 · Power Fx', icon: 'branch', tone: 'neutral', shape: 'diamond' },
-        { id: 'resolve', x: 605, y: 70, w: 160, h: 64, label: { en: 'Resolver agent', de: 'Lösungs-Agent' }, sub: 'Invoke agent', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'resolve', x: 605, y: 70, w: 160, h: 64, label: { en: 'Resolver agent', de: 'Lösungs-Agent' }, sub: 'Invoke agent', icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'reply', x: 805, y: 70, w: 130, h: 64, label: { en: 'Reply', de: 'Antwort' }, sub: 'Send message', icon: 'workflow', tone: 'neutral', shape: 'pill' },
         { id: 'ask', x: 395, y: 250, w: 160, h: 64, label: 'Ask a question', sub: '→ Local.Approval', icon: 'workflow', tone: 'neutral', shape: 'pill' },
         { id: 'approved', x: 600, y: 242, w: 170, h: 80, label: { en: 'Approved?', de: 'Genehmigt?' }, sub: 'Power Fx if/else', icon: 'branch', tone: 'neutral', shape: 'diamond' },
@@ -106,16 +106,16 @@ export const lesson: Lesson = {
       width: 960,
       height: 490,
       groups: [
-        { id: 'g-portal', x: 10, y: 20, w: 940, h: 124, label: { en: 'Foundry project · workflow designer (preview, retires Dec 1, 2026)', de: 'Foundry-Projekt · Workflow-Designer (Preview, endet am 1. Dez. 2026)' }, tone: 'foundry' },
+        { id: 'g-portal', x: 10, y: 20, w: 940, h: 124, label: { en: 'Foundry project · workflow designer (preview, retires Dec 1, 2026)', de: 'Foundry-Projekt · Workflow-Designer (Preview, endet am 1. Dez. 2026)' }, tone: 'platform' },
         { id: 'g-code', x: 10, y: 350, w: 940, h: 124, label: { en: 'Code-first path (recommended)', de: 'Code-first-Weg (empfohlen)' }, tone: 'app' },
       ],
       nodes: [
-        { id: 'designer', x: 73, y: 60, w: 174, h: 64, label: { en: 'Workflow designer', de: 'Workflow-Designer' }, sub: { en: 'visual canvas', de: 'visueller Canvas' }, icon: 'workflow', tone: 'foundry' },
+        { id: 'designer', x: 73, y: 60, w: 174, h: 64, label: { en: 'Workflow designer', de: 'Workflow-Designer' }, sub: { en: 'visual canvas', de: 'visueller Canvas' }, icon: 'workflow', tone: 'platform' },
         { id: 'yaml', x: 375, y: 60, w: 170, h: 64, label: { en: 'YAML view', de: 'YAML-Ansicht' }, sub: { en: 'same definition', de: 'dieselbe Definition' }, icon: 'file', tone: 'data', shape: 'doc' },
-        { id: 'wf', x: 695, y: 60, w: 190, h: 64, label: { en: 'Saved version', de: 'Gespeicherte Version' }, sub: { en: 'immutable · by name', de: 'unveränderlich · Name' }, icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'wf', x: 695, y: 60, w: 190, h: 64, label: { en: 'Saved version', de: 'Gespeicherte Version' }, sub: { en: 'immutable · by name', de: 'unveränderlich · Name' }, icon: 'foundry-agent-service', tone: 'platform' },
         { id: 'app', x: 695, y: 210, w: 190, h: 64, label: { en: 'Your app', de: 'Deine App' }, sub: 'responses.create', icon: 'code', tone: 'app' },
         { id: 'af', x: 375, y: 390, w: 170, h: 64, label: 'Agent Framework', sub: { en: 'declarative YAML', de: 'deklaratives YAML' }, icon: 'code', tone: 'app' },
-        { id: 'hosted', x: 695, y: 390, w: 190, h: 64, label: { en: 'Hosted agent', de: 'Hosted Agent' }, sub: 'Foundry Agent Service', icon: 'foundry-agent-service', tone: 'foundry' },
+        { id: 'hosted', x: 695, y: 390, w: 190, h: 64, label: { en: 'Hosted agent', de: 'Hosted Agent' }, sub: 'Foundry Agent Service', icon: 'foundry-agent-service', tone: 'platform' },
       ],
       edges: [
         { id: 'e-dy', from: 'designer', to: 'yaml', bidir: true, label: { en: 'synced', de: 'synchron' } },

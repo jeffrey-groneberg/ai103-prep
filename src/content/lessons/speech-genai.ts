@@ -21,7 +21,7 @@ export const lesson: Lesson = {
       width: 960,
       height: 450,
       groups: [
-        { id: 'g-res', x: 305, y: 20, w: 330, h: 420, label: { en: 'Foundry resource · model deployments', de: 'Foundry-Ressource · Modell-Deployments' }, tone: 'foundry' },
+        { id: 'g-res', x: 305, y: 20, w: 330, h: 420, label: { en: 'Foundry resource · model deployments', de: 'Foundry-Ressource · Modell-Deployments' }, tone: 'platform' },
       ],
       nodes: [
         { id: 'in-file', x: 20, y: 60, w: 200, h: 60, label: { en: 'Recorded audio', de: 'Aufgenommenes Audio' }, sub: 'mp3 · wav · m4a · ≤ 25 MB', icon: 'media', tone: 'data', shape: 'doc' },

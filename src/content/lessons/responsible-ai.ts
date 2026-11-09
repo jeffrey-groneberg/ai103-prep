@@ -101,10 +101,10 @@ export const lesson: Lesson = {
         { id: 'measure', x: 260, y: 110, w: 190, h: 70, label: '2 · Measure', sub: { en: 'baseline from test prompts', de: 'Baseline aus Testprompts' }, icon: 'guide', tone: 'neutral' },
         { id: 'mitigate', x: 510, y: 110, w: 190, h: 70, label: '3 · Mitigate', sub: { en: 'four layers, then re-test', de: 'vier Ebenen, neu messen' }, icon: 'guide', tone: 'neutral' },
         { id: 'manage', x: 760, y: 110, w: 190, h: 70, label: '4 · Manage', sub: { en: 'release in phases, monitor', de: 'Rollout + Monitoring' }, icon: 'guide', tone: 'neutral' },
-        { id: 'redteam', x: 10, y: 250, w: 190, h: 64, label: 'AI Red Teaming Agent', sub: { en: 'PyRIT attacks, ASR', de: 'PyRIT-Angriffe, ASR' }, icon: 'foundry-agent-service', tone: 'foundry' },
-        { id: 'evals', x: 260, y: 250, w: 190, h: 64, label: { en: 'Evaluators', de: 'Evaluatoren' }, sub: { en: 'quality + risk & safety', de: 'Qualität + Risk & Safety' }, icon: 'metrics', tone: 'foundry' },
+        { id: 'redteam', x: 10, y: 250, w: 190, h: 64, label: 'AI Red Teaming Agent', sub: { en: 'PyRIT attacks, ASR', de: 'PyRIT-Angriffe, ASR' }, icon: 'foundry-agent-service', tone: 'platform' },
+        { id: 'evals', x: 260, y: 250, w: 190, h: 64, label: { en: 'Evaluators', de: 'Evaluatoren' }, sub: { en: 'quality + risk & safety', de: 'Qualität + Risk & Safety' }, icon: 'metrics', tone: 'platform' },
         { id: 'guard', x: 510, y: 250, w: 190, h: 64, label: 'Guardrails', sub: { en: '+ safety system message', de: '+ Safety-Systemnachricht' }, icon: 'content-safety', tone: 'safety' },
-        { id: 'monitor', x: 760, y: 250, w: 190, h: 64, label: 'Monitoring', sub: 'continuous + scheduled eval', icon: 'monitor', tone: 'foundry' },
+        { id: 'monitor', x: 760, y: 250, w: 190, h: 64, label: 'Monitoring', sub: 'continuous + scheduled eval', icon: 'monitor', tone: 'platform' },
       ],
       edges: [
         { id: 'f1', from: 'map', to: 'measure' },
