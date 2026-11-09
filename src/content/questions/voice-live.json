@@ -35,9 +35,9 @@
         },
         {
           "id": "p4",
-          "prompt": { "en": "Use the store's custom speech model to recognize its own product names", "de": "Das Custom-Speech-Modell des Markts nutzen, um die eigenen Produktnamen zu erkennen" },
+          "prompt": { "en": "Use the store's deployed custom speech model to recognize its own product names", "de": "Das bereitgestellte Custom-Speech-Modell des Markts nutzen, um die eigenen Produktnamen zu erkennen" },
           "answer": "t4",
-          "why": { "en": "Custom speech models are referenced in `input_audio_transcription` with the `azure-speech` model and a `custom_speech` map from locale to model ID.", "de": "Custom-Speech-Modelle werden in `input_audio_transcription` mit dem Modell `azure-speech` und einer `custom_speech`-Zuordnung von Gebietsschema zu Modell-ID referenziert." }
+          "why": { "en": "Custom speech works only with the `azure-speech` transcription model: `custom_speech` maps a locale to the endpoint ID of the custom speech endpoint deployed on the same Foundry resource — not to the model ID.", "de": "Custom Speech funktioniert nur mit dem Transkriptionsmodell `azure-speech`: `custom_speech` ordnet einem Gebietsschema die Endpoint-ID des Custom-Speech-Endpoints zu, der auf derselben Foundry-Ressource bereitgestellt ist – nicht die Modell-ID." }
         }
       ],
       "targets": [
@@ -48,14 +48,14 @@
         { "id": "t5", "text": { "en": "`voice` of type `azure-custom` with an `endpoint_id`", "de": "`voice` vom Typ `azure-custom` mit einer `endpoint_id`" } }
       ],
       "explanation": {
-        "en": "Voice Live adds Azure audio processing to the real-time session: noise suppression and server echo cancellation clean the input, Azure semantic VAD decides when a turn ends, and `azure-speech` transcription carries phrase lists and custom speech. A custom *voice* (`azure-custom`) only changes the output.",
-        "de": "Voice Live ergänzt die Echtzeit-Session um Azure-Audioverarbeitung: Rauschunterdrückung und serverseitige Echounterdrückung säubern die Eingabe, Azure Semantic VAD entscheidet über das Turn-Ende, und die Transkription `azure-speech` trägt Phrasenlisten und Custom Speech. Eine Custom *Voice* (`azure-custom`) ändert nur die Ausgabe."
+        "en": "Voice Live adds Azure audio processing to the real-time session: noise suppression and server echo cancellation clean the input, Azure semantic VAD decides when a turn ends, and `azure-speech` transcription carries phrase lists and custom speech (referenced by the endpoint ID of the deployed custom speech endpoint). A custom *voice* (`azure-custom` with its own `endpoint_id`) only changes the output.",
+        "de": "Voice Live ergänzt die Echtzeit-Session um Azure-Audioverarbeitung: Rauschunterdrückung und serverseitige Echounterdrückung säubern die Eingabe, Azure Semantic VAD entscheidet über das Turn-Ende, und die Transkription `azure-speech` trägt Phrasenlisten und Custom Speech (referenziert über die Endpoint-ID des bereitgestellten Custom-Speech-Endpoints). Eine Custom *Voice* (`azure-custom` mit eigener `endpoint_id`) ändert nur die Ausgabe."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to",
         "https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-how-to-customize"
       ],
-      "lastVerified": "2026-11-06"
+      "lastVerified": "2026-11-09"
     },
     {
       "id": "q-voice-live-02",

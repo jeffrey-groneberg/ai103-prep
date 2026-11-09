@@ -372,8 +372,8 @@ with open("answer.wav", "wb") as out:
       de: 'Chat Completions kennt kein `output_text` – bei Audioausgabe liest du `choices[0].message.audio.transcript` für den Text und `.data` für das Audio.',
     },
     {
-      en: 'Watch model currency: `gpt-4o-transcribe` from the training module was retired on 2026-10-15, and `whisper`, `tts` and `tts-hd` retire on 2026-12-15. `gpt-4o-mini-tts` speaks but can’t transcribe, and `instructions` don’t work with `tts-1`/`tts-1-hd`.',
-      de: 'Achte auf die Modellaktualität: `gpt-4o-transcribe` aus dem Trainingsmodul wurde am 2026-10-15 eingestellt, `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt. `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `instructions` funktionieren nicht mit `tts-1`/`tts-1-hd`.',
+      en: 'Watch model currency: `gpt-4o-transcribe` from the training module was retired on 2026-10-15, and `whisper`, `tts` and `tts-hd` retire on 2026-12-15. `gpt-4o-mini-tts` speaks but can’t transcribe, and `instructions` don’t work with `tts` or `tts-hd` (`tts-1`/`tts-1-hd` in the REST reference).',
+      de: 'Achte auf die Modellaktualität: `gpt-4o-transcribe` aus dem Trainingsmodul wurde am 2026-10-15 eingestellt, `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt. `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `instructions` funktionieren nicht mit `tts` oder `tts-hd` (`tts-1`/`tts-1-hd` in der REST-Referenz).',
     },
   ],
   takeaways: [

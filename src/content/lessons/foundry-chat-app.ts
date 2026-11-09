@@ -314,6 +314,10 @@ print(completion.choices[0].message.content)`,
       en: '`previous_response_id` doesn\'t carry `instructions` over — resend them on every call, or the follow-up runs without your system prompt.',
       de: '`previous_response_id` übernimmt keine `instructions` – sende sie bei jedem Aufruf mit, sonst läuft die Folgefrage ohne deinen Systemprompt.',
     },
+    {
+      en: 'An API key isn\'t scoped to a project: it\'s one static secret for the whole Foundry resource, with all-or-nothing access. It works for model calls, but agents, evaluations and toolboxes accept only Microsoft Entra ID.',
+      de: 'Ein API-Key gilt nicht pro Projekt: Er ist ein statisches Geheimnis für die ganze Foundry-Ressource und gewährt Zugriff nach dem Alles-oder-nichts-Prinzip. Für Modellaufrufe funktioniert er, Agents, Evaluierungen und Toolboxes akzeptieren aber nur Microsoft Entra ID.',
+    },
   ],
   takeaways: [
     { en: 'New chat apps: Responses API first; Chat Completions for compatibility.', de: 'Neue Chat-Apps: zuerst Responses API; Chat Completions für Kompatibilität.' },
@@ -327,5 +331,6 @@ print(completion.choices[0].message.content)`,
     { title: 'Microsoft Foundry SDKs and endpoints', url: 'https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview' },
     { title: 'Role-based access control for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry' },
     { title: 'Microsoft Foundry Playgrounds', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/concept-playgrounds' },
+    { title: 'Authentication and authorization in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry' },
   ],
 }

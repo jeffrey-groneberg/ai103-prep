@@ -7,8 +7,8 @@ export const lesson: Lesson = {
     de: 'Generative KI kann schädliche, falsche oder manipulierte Ausgaben erzeugen. Microsoft beschreibt verantwortungsvolle Entwicklung deshalb als vierstufigen Prozess: potenzielle Schäden **mappen**, ihre Häufigkeit **messen**, sie in mehreren Schichten **mindern** und die Lösung im Betrieb **managen**. Microsoft Foundry liefert für jede Phase ein Werkzeug: Der AI Red Teaming Agent und Evaluatoren finden und messen Schäden, **Guardrails** (basierend auf Klassifizierern von Azure AI Content Safety) prüfen Ein- und Ausgaben von Modellen und Agents, und Monitoring mit Continuous Evaluation wacht nach dem Release weiter. Sieh es als Kreislauf, nicht als Checkliste: Jede Gegenmaßnahme und jedes Signal aus dem Betrieb führt dich zurück zum Messen.',
   },
   examFocus: {
-    en: 'Expect scenarios that make you pick the right guardrail control (harm categories, Prompt Shields, protected material, PII — personally identifiable information, blocklists), set the correct blocking level or intervention point for models versus agents, choose evaluators (groundedness, relevance or safety) and read their scores, and decide between red teaming, continuous evaluation, scheduled evaluation and Azure Monitor safety metrics. For images, know **Analyze Image** for visual harms and OCR (optical character recognition) plus Prompt Shields for instructions hidden as text in images.',
-    de: 'Rechne mit Szenarien, in denen du das passende Guardrail-Control wählst (Schadenskategorien, Prompt Shields, Protected Material, PII – personenbezogene Daten, Blocklisten), den richtigen Blocking Level oder Intervention Point für Modelle bzw. Agents festlegst, Evaluatoren auswählst (Groundedness, Relevance oder Safety) und ihre Scores liest und zwischen Red Teaming, Continuous Evaluation, Scheduled Evaluation und Sicherheitsmetriken in Azure Monitor entscheidest. Bei Bildern: **Analyze Image** für visuelle Schäden sowie OCR (optische Zeichenerkennung) plus Prompt Shields für Anweisungen, die als Text im Bild versteckt sind.',
+    en: 'Expect scenarios that make you pick the right guardrail control (harm categories, Prompt Shields, protected material, PII — personally identifiable information, blocklists, Task Adherence), set the correct blocking level or intervention point for models versus agents, choose evaluators (groundedness, relevance or safety) and read their scores, and decide between red teaming, continuous evaluation, scheduled evaluation and Azure Monitor safety metrics. For images, know **Analyze Image** for visual harms and OCR (optical character recognition) plus Prompt Shields for instructions hidden as text in images.',
+    de: 'Rechne mit Szenarien, in denen du das passende Guardrail-Control wählst (Schadenskategorien, Prompt Shields, Protected Material, PII – personenbezogene Daten, Blocklisten, Task Adherence), den richtigen Blocking Level oder Intervention Point für Modelle bzw. Agents festlegst, Evaluatoren auswählst (Groundedness, Relevance oder Safety) und ihre Scores liest und zwischen Red Teaming, Continuous Evaluation, Scheduled Evaluation und Sicherheitsmetriken in Azure Monitor entscheidest. Bei Bildern: **Analyze Image** für visuelle Schäden sowie OCR (optische Zeichenerkennung) plus Prompt Shields für Anweisungen, die als Text im Bild versteckt sind.',
   },
   diagrams: [
     {
@@ -264,6 +264,18 @@ export const lesson: Lesson = {
         { en: 'Retires April 30, 2027 — use the Groundedness evaluator', de: 'Wird am 30. April 2027 eingestellt – nutze den Groundedness-Evaluator' },
       ],
       [
+        { en: 'Stop agent actions that don\'t match what the user asked', de: 'Agent-Aktionen stoppen, die nicht zur Anfrage des Nutzers passen' },
+        { en: 'Guardrail: Task Adherence (preview)', de: 'Guardrail: Task Adherence (Preview)' },
+        { en: 'Planned tool calls, tool input/output and responses vs. the user\'s intent (models and agents)', de: 'Geplante Tool-Aufrufe, Tool-Ein- und -Ausgaben und Antworten vs. Absicht des Nutzers (Modelle und Agents)' },
+        { en: 'Not in DefaultV2; flags misaligned calls so they can be blocked or escalated to a human', de: 'Nicht in DefaultV2; meldet unpassende Aufrufe, damit sie blockiert oder an einen Menschen eskaliert werden' },
+      ],
+      [
+        { en: 'Let a hosted agent reach only approved hosts', de: 'Einen Hosted Agent nur freigegebene Hosts erreichen lassen' },
+        { en: 'Guardrail: network egress controls (preview) in the RAI policy the agent references', de: 'Guardrail: Network Egress Controls (Preview) in der RAI-Policy, auf die der Agent verweist' },
+        { en: 'Outbound requests of hosted agents (also prompt agents on the Copilot harness, a preview runtime), not model deployments', de: 'Ausgehende Anfragen von Hosted Agents (auch Prompt-Agents mit Copilot-Harness, einer Preview-Laufzeit), nicht von Modell-Deployments' },
+        { en: 'Ordered host rules, first match wins; start in Audit (would-be denials are only logged), then Enforce (blocked calls get HTTP 403)', de: 'Geordnete Host-Regeln, die erste passende gewinnt; erst Audit (abzulehnende Anfragen werden nur protokolliert), dann Enforce (blockierte Aufrufe erhalten HTTP 403)' },
+      ],
+      [
         { en: 'Moderate uploaded images without a model call', de: 'Hochgeladene Bilder ohne Modellaufruf moderieren' },
         'API: Analyze Image (Azure AI Content Safety)',
         { en: 'The image', de: 'Das Bild' },
@@ -425,12 +437,20 @@ print(run.status, run.report_url)`,
       en: 'The Groundedness guardrail control (preview) is scheduled to retire on April 30, 2027. Measure grounding quality with the Groundedness evaluator in evaluations and continuous evaluation instead.',
       de: 'Das Guardrail-Control Groundedness (Preview) wird am 30. April 2027 eingestellt. Miss die Grounding-Qualität stattdessen mit dem Groundedness-Evaluator in Evaluierungen und in der Continuous Evaluation.',
     },
+    {
+      en: 'Prompt Shields catch attacks, not an agent that turns a harmless request into the wrong action: the **Task Adherence** control (preview, not in Microsoft.DefaultV2) flags planned tool calls that don\'t match the user\'s intent, such as a delete when the user only asked to read, so they can be blocked or escalated to a human. The Task Adherence evaluator only scores responses afterwards.',
+      de: 'Prompt Shields erkennen Angriffe, aber keinen Agent, der aus einer harmlosen Anfrage die falsche Aktion macht: Das Control **Task Adherence** (Preview, nicht in Microsoft.DefaultV2) meldet geplante Tool-Aufrufe, die nicht zur Absicht des Nutzers passen – etwa Löschen, obwohl er nur lesen wollte –, damit sie blockiert oder an einen Menschen eskaliert werden. Der Evaluator Task Adherence bewertet Antworten nur im Nachhinein.',
+    },
+    {
+      en: 'A deployment\'s guardrail is only the default for its calls: a request can name another custom guardrail in the `x-policy-id` header, which then overrides the deployment\'s guardrail for that call. This isn\'t available for image input (chat with images), and an unknown name returns `InvalidContentFilterPolicy`.',
+      de: 'Der Guardrail eines Deployments ist nur der Standard für seine Aufrufe: Eine Anfrage kann im Header `x-policy-id` einen anderen eigenen Guardrail nennen, der dann für diesen Aufruf den des Deployments ersetzt. Bei Bildeingaben (Chat mit Bildern) geht das nicht, und ein unbekannter Name liefert `InvalidContentFilterPolicy`.',
+    },
   ],
   takeaways: [
     { en: 'Map → Measure → Mitigate → Manage — and measure again after every mitigation.', de: 'Map → Measure → Mitigate → Manage – und nach jeder Gegenmaßnahme erneut messen.' },
     {
-      en: 'Choose the control by risk: harms → blocking level, attacks → Prompt Shields, copyright → protected material, personal data → PII, your own terms → blocklist.',
-      de: 'Wähle das Control nach Risiko: Schäden → Blocking Level, Angriffe → Prompt Shields, Urheberrecht → Protected Material, personenbezogene Daten → PII, eigene Begriffe → Blockliste.',
+      en: 'Choose the control by risk: harms → blocking level, attacks → Prompt Shields, copyright → protected material, personal data → PII, your own terms → blocklist, agent actions that miss the user\'s intent → Task Adherence (preview).',
+      de: 'Wähle das Control nach Risiko: Schäden → Blocking Level, Angriffe → Prompt Shields, Urheberrecht → Protected Material, personenbezogene Daten → PII, eigene Begriffe → Blockliste, Agent-Aktionen abseits der Nutzerabsicht → Task Adherence (Preview).',
     },
     {
       en: 'Before release, measure with evaluators and the AI Red Teaming Agent; after release, monitor with continuous and scheduled evaluation.',
@@ -447,5 +467,8 @@ print(run.status, run.report_url)`,
     { title: 'Built-in evaluators reference', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators' },
     { title: 'Introduction to cloud evaluation with Microsoft Foundry SDK', url: 'https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/cloud-evaluation' },
     { title: 'Monitor agents with the Agent Monitoring Dashboard', url: 'https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard' },
+    { title: 'Agentic Workflows: Task Adherence (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/guardrails/task-adherence' },
+    { title: 'How to configure guardrails and controls in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/guardrails/how-to-create-guardrails' },
+    { title: 'Add guardrails to a hosted agent', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/add-hosted-agent-guardrails' },
   ],
 }

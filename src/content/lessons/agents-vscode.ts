@@ -169,10 +169,10 @@ export const lesson: Lesson = {
   ],
   concepts: [
     {
-      term: 'Prompt agent vs hosted agent',
+      term: 'Agent types: prompt, voice-based prompt, hosted',
       text: {
-        en: 'A **prompt agent** is configuration only — model deployment, instructions, tools — and Foundry runs it without code or containers. A **hosted agent** is your own code (for example Microsoft Agent Framework or LangGraph) shipped as a container image or .zip that Foundry runs with a managed endpoint, scaling and identity. Declarative workflows in Foundry retire on December 1, 2026; build new workflows with Microsoft Agent Framework.',
-        de: 'Ein **Prompt Agent** ist reine Konfiguration – Modell-Deployment, Anweisungen, Tools – und Foundry betreibt ihn ohne Code oder Container. Ein **Hosted Agent** ist dein eigener Code (z. B. Microsoft Agent Framework oder LangGraph) als Container-Image oder .zip, den Foundry mit verwaltetem Endpoint, Skalierung und Identität betreibt. Deklarative Workflows in Foundry werden am 1. Dezember 2026 eingestellt; neue Workflows baust du mit Microsoft Agent Framework.',
+        en: 'Foundry Agent Service offers three agent types. A **prompt agent** is configuration only — model deployment, instructions, tools — and Foundry runs it without code or containers; when you create one, you can select the **Microsoft Copilot harness** (preview) as its runtime for multi-step tool, skill, file and command work, and it stays a prompt agent. A **voice-based prompt agent** (preview) talks in real time through Voice Live, and Foundry runs the voice orchestration. A **hosted agent** is your own code (for example Microsoft Agent Framework or LangGraph) shipped as a container image or .zip that Foundry runs with a managed endpoint, scaling and identity; choose it for your own framework or orchestration, custom protocols such as webhooks, control over compute or stateful work. Should the definition live in your app code, with no saved agent? Call the Responses API directly — an *ephemeral agent*, which can’t use the Copilot harness.',
+        de: 'Foundry Agent Service kennt drei Agent-Typen. Ein **Prompt Agent** ist reine Konfiguration – Modell-Deployment, Anweisungen, Tools – und Foundry betreibt ihn ohne Code oder Container; beim Anlegen kannst du als Laufzeit den **Microsoft Copilot harness** (Preview) für mehrstufige Arbeit mit Tools, Skills, Dateien und Befehlen wählen, und der Agent bleibt dabei ein Prompt Agent. Ein **Voice-based Prompt Agent** (Preview) spricht in Echtzeit über Voice Live, und die Sprach-Orchestrierung betreibt Foundry. Ein **Hosted Agent** ist dein eigener Code (z. B. Microsoft Agent Framework oder LangGraph) als Container-Image oder .zip, den Foundry mit verwaltetem Endpoint, Skalierung und Identität betreibt; wähle ihn für ein eigenes Framework oder eigene Orchestrierung, eigene Protokolle wie Webhooks, Kontrolle über die Rechenleistung oder zustandsbehaftete Arbeit. Soll die Definition in deinem App-Code liegen, ohne gespeicherten Agent? Dann rufst du die Responses API direkt auf – ein *ephemeral agent*, der den Copilot harness nicht nutzen kann.',
       },
     },
     {
@@ -372,6 +372,10 @@ print(response.output_text, response.usage.total_tokens)`,
       en: 'The training module still lists YAML workflow agents, but declarative workflows in Foundry retire on December 1, 2026 — use Microsoft Agent Framework for new orchestration.',
       de: 'Das Trainingsmodul nennt noch YAML-Workflow-Agents, aber deklarative Workflows in Foundry werden am 1. Dezember 2026 eingestellt – nutze Microsoft Agent Framework für neue Orchestrierung.',
     },
+    {
+      en: 'The agent identity doesn’t pull a hosted agent’s image: the **project managed identity** does, so it needs Container Registry Repository Reader (or AcrPull) on the Azure Container Registry. The **agent identity**, created at deploy time, is what your code uses at run time to call models, tools and other Azure services, so roles on downstream services such as Storage go to it.',
+      de: 'Das Image eines Hosted Agents zieht nicht die Agent-Identität, sondern die **Managed Identity des Projekts**; sie braucht daher Container Registry Repository Reader (oder AcrPull) auf der Azure Container Registry. Die beim Deployment erzeugte **Agent-Identität** nutzt dein Code zur Laufzeit, um Modelle, Tools und andere Azure-Dienste aufzurufen, also bekommt sie die Rollen auf nachgelagerten Diensten wie Storage.',
+    },
   ],
   takeaways: [
     { en: 'Prompt agent = configuration; hosted agent = your code in a Foundry-managed container.', de: 'Prompt Agent = Konfiguration; Hosted Agent = dein Code in einem von Foundry verwalteten Container.' },
@@ -386,5 +390,8 @@ print(response.output_text, response.usage.total_tokens)`,
     { title: 'Configure and share your agent', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/configure-agent' },
     { title: 'Set up tracing in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/trace-agent-setup' },
     { title: 'Agent evaluators', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators' },
+    { title: 'Agents in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/overview' },
+    { title: 'What are hosted agents?', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agents' },
+    { title: 'Hosted agent permissions reference', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agent-permissions' },
   ],
 }

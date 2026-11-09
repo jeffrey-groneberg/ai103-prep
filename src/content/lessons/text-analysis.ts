@@ -191,8 +191,8 @@ export const lesson: Lesson = {
     {
       term: 'PII detection and redaction',
       text: {
-        en: '`recognize_pii_entities()` returns PII entities plus `redacted_text` (REST: `redactedText`, omitted with `noMask`). Narrow it with `categories_filter` (REST: `piiCategories`) or `domain_filter="phi"`, which keeps only PHI (protected health information) — use that to hide personal data in clinical text, and Text Analytics for health to *extract* the medical facts. Variants exist for conversations and native documents (PDF, DOCX, TXT).',
-        de: '`recognize_pii_entities()` liefert PII-Entitäten plus `redacted_text` (REST: `redactedText`, fehlt bei `noMask`). Eingrenzen kannst du mit `categories_filter` (REST: `piiCategories`) oder `domain_filter="phi"`, das nur PHI (Protected Health Information, geschützte Gesundheitsdaten) behält – damit verbirgst du personenbezogene Daten in klinischen Texten, während Text Analytics for health die medizinischen Fakten *extrahiert*. Varianten gibt es für Konversationen und native Dokumente (PDF, DOCX, TXT).',
+        en: '`recognize_pii_entities()` returns PII entities plus `redacted_text` (REST: `redactedText`, omitted with `noMask`). Narrow it with `categories_filter` (REST: `piiCategories`) or `domain_filter="phi"`, which keeps only PHI (protected health information) — use that to hide personal data in clinical text, and Text Analytics for health to *extract* the medical facts. That call is **Text PII** (synchronous, strings in); **Conversation PII** runs asynchronous jobs over multi-turn chats and transcripts, and **Document-based PII** asynchronously redacts .pdf, .docx or .txt files from Azure Blob Storage, writing copies that keep their layout plus a JSON result to a target container.',
+        de: '`recognize_pii_entities()` liefert PII-Entitäten plus `redacted_text` (REST: `redactedText`, fehlt bei `noMask`). Eingrenzen kannst du mit `categories_filter` (REST: `piiCategories`) oder `domain_filter="phi"`, das nur PHI (Protected Health Information, geschützte Gesundheitsdaten) behält – damit verbirgst du personenbezogene Daten in klinischen Texten, während Text Analytics for health die medizinischen Fakten *extrahiert*. Dieser Aufruf ist **Text PII** (synchron, Strings rein); **Conversation PII** verarbeitet mehrteilige Chats und Transkripte in asynchronen Jobs, und **Document-based PII** schwärzt .pdf-, .docx- oder .txt-Dateien aus Azure Blob Storage asynchron und schreibt Kopien mit erhaltenem Layout plus ein JSON-Ergebnis in einen Zielcontainer.',
       },
     },
     {
@@ -386,6 +386,8 @@ print(reply.json()["results"]["documents"][0]["redactedText"])`,
   sources: [
     { title: 'What is Azure Language in Foundry Tools?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/overview' },
     { title: 'Detect and redact PII in text', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/how-to/redact-text-pii' },
+    { title: 'What is PII detection in Azure Language?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview' },
+    { title: 'Document-based PII overview', url: 'https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/document-based-pii-overview' },
     { title: 'Azure Text Analytics client library for Python', url: 'https://learn.microsoft.com/en-us/python/api/overview/azure/ai-textanalytics-readme' },
     { title: 'Structured outputs', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs' },
     { title: 'Authenticate requests to Foundry Tools', url: 'https://learn.microsoft.com/en-us/azure/ai-services/authentication' },

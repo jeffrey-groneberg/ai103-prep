@@ -1,6 +1,6 @@
 {
  "source": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule",
- "retrieved": "2026-11-06",
+ "retrieved": "2026-11-09",
  "overrides": {
   "sora-2": {
    "status": "available",
@@ -909,6 +909,14 @@
     "version": "2026-06-12",
     "lifecycle": "Preview",
     "retirement": "2027-04-16",
+    "replacement": "—"
+   }
+  ],
+  "kimi-k3.1-pro": [
+   {
+    "version": "2026-11-04",
+    "lifecycle": "GA",
+    "retirement": "2027-11-04",
     "replacement": "—"
    }
   ],

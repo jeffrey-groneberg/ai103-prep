@@ -196,8 +196,8 @@ export const lesson: Lesson = {
     {
       term: 'Fine-tuning (SFT, DPO, RFT)',
       text: {
-        en: 'Further trains a model\'s weights on task data in JSONL files. **Supervised fine-tuning (SFT)** learns from demonstrations (prompt + ideal response), **direct preference optimization (DPO)** from preferred vs. rejected responses to the same input, **reinforcement fine-tuning (RFT)** from a grader that scores outputs. It aligns style and format, improves tool use and lets you use shorter prompts — but adds training and hosting costs, doesn\'t replace retrieval for fresh facts, and not every model supports every method.',
-        de: 'Trainiert die Gewichte eines Modells mit Aufgabendaten in JSONL-Dateien weiter. **Supervised Fine-Tuning (SFT)** lernt aus Beispielen (Prompt + ideale Antwort), **Direct Preference Optimization (DPO)** aus bevorzugten vs. abgelehnten Antworten auf dieselbe Eingabe, **Reinforcement Fine-Tuning (RFT)** von einem Grader, der Ausgaben bewertet. Es vereinheitlicht Stil und Format, verbessert die Tool-Nutzung und erlaubt kürzere Prompts – kostet aber Training und Hosting, ersetzt kein Retrieval für aktuelle Fakten, und nicht jedes Modell unterstützt jede Methode.',
+        en: 'Further trains a model\'s weights on task data in JSONL files. **Supervised fine-tuning (SFT)** learns from demonstrations (prompt + ideal response), **direct preference optimization (DPO)** from preferred vs. rejected responses to the same input, **reinforcement fine-tuning (RFT)** from a grader that scores outputs. It aligns style and format, improves tool use and lets you use shorter prompts — but adds training and hosting costs, doesn\'t replace retrieval for fresh facts, and not every model supports every method. Training uses **LoRA** (low-rank adaptation): it updates only a small set of important parameters instead of all weights, so it runs faster and cheaper. **Distillation** uses a large teacher model\'s outputs as SFT training data for a smaller model, so the smaller model can reach similar quality on that task at lower cost and latency.',
+        de: 'Trainiert die Gewichte eines Modells mit Aufgabendaten in JSONL-Dateien weiter. **Supervised Fine-Tuning (SFT)** lernt aus Beispielen (Prompt + ideale Antwort), **Direct Preference Optimization (DPO)** aus bevorzugten vs. abgelehnten Antworten auf dieselbe Eingabe, **Reinforcement Fine-Tuning (RFT)** von einem Grader, der Ausgaben bewertet. Es vereinheitlicht Stil und Format, verbessert die Tool-Nutzung und erlaubt kürzere Prompts – kostet aber Training und Hosting, ersetzt kein Retrieval für aktuelle Fakten, und nicht jedes Modell unterstützt jede Methode. Das Training nutzt **LoRA** (Low-Rank Adaptation): Es passt nur einen kleinen Teil wichtiger Parameter an statt aller Gewichte und läuft dadurch schneller und günstiger. **Destillation** nutzt die Ausgaben eines großen Teacher-Modells als SFT-Trainingsdaten für ein kleineres Modell, das so bei dieser Aufgabe ähnliche Qualität mit weniger Kosten und Latenz erreichen kann.',
       },
     },
     {
@@ -210,8 +210,8 @@ export const lesson: Lesson = {
     {
       term: 'Model router',
       text: {
-        en: 'A trained model you deploy once; for each prompt it picks a suitable underlying model. Routing modes: Balanced (default), Cost, Quality; a model subset limits the pool, and the response\'s `model` field shows which model answered.',
-        de: 'Ein trainiertes Modell, das du einmal bereitstellst; pro Prompt wählt es ein passendes zugrunde liegendes Modell. Routing-Modi: Balanced (Standard), Cost, Quality; ein Model Subset begrenzt die Auswahl, und das Feld `model` der Antwort zeigt, welches Modell geantwortet hat.',
+        en: 'A trained model you deploy once; for each prompt it picks a suitable underlying model. Routing modes: Balanced (default), Cost, Quality; a model subset limits the pool, and the response\'s `model` field shows which model answered. A router deployment can also serve as a Foundry agent\'s model: each agent request is routed separately, and only models that support the agent\'s tools are eligible. Direct Chat Completions calls can send a session ID (session affinity, preview) so a conversation\'s turns try the same model first.',
+        de: 'Ein trainiertes Modell, das du einmal bereitstellst; pro Prompt wählt es ein passendes zugrunde liegendes Modell. Routing-Modi: Balanced (Standard), Cost, Quality; ein Model Subset begrenzt die Auswahl, und das Feld `model` der Antwort zeigt, welches Modell geantwortet hat. Ein Router-Deployment kann auch als Modell eines Foundry-Agents dienen: Jede Anfrage des Agents wird einzeln geroutet, und infrage kommen nur Modelle, die seine Tools unterstützen. Direkte Chat-Completions-Aufrufe können eine Session-ID mitschicken (Session Affinity, Preview), damit die Runden eines Gesprächs zuerst dasselbe Modell versuchen.',
       },
     },
   ],
@@ -370,6 +370,10 @@ print(job.id, job.status)`,
       en: 'Model router\'s context window is limited by its smallest underlying model, and `temperature`/`top_p` are ignored when it picks a reasoning model — use a model subset for long prompts.',
       de: 'Das Kontextfenster des Model Routers ist durch sein kleinstes zugrunde liegendes Modell begrenzt, und `temperature`/`top_p` werden ignoriert, wenn er ein Reasoning-Modell wählt – nutze für lange Prompts ein Model Subset.',
     },
+    {
+      en: 'Model router needs no deployments of its underlying models — except Claude. Deploy each Claude model in the same Foundry resource with a matching SKU (deployment type) before you add it to the model subset, or the router deployment fails with `InvalidResourceProperties`.',
+      de: 'Model Router braucht keine eigenen Deployments seiner zugrunde liegenden Modelle – außer bei Claude. Stelle jedes Claude-Modell zuerst in derselben Foundry-Ressource mit passender SKU (Deployment-Typ) bereit, bevor du es ins Model Subset aufnimmst, sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl.',
+    },
   ],
   takeaways: [
     {
@@ -392,6 +396,10 @@ print(job.id, job.status)`,
       en: 'Use structured outputs when downstream code needs reliable JSON.',
       de: 'Nutze Structured Outputs, wenn nachgelagerter Code verlässliches JSON braucht.',
     },
+    {
+      en: 'Optimize the context (RAG) when knowledge is missing; optimize the model (fine-tuning) when format, style or tone must stay consistent. Prompt engineering underpins both, and you can combine them.',
+      de: 'Optimiere den Kontext (RAG), wenn Wissen fehlt; optimiere das Modell (Fine-Tuning), wenn Format, Stil oder Ton konsistent bleiben müssen. Prompt Engineering ist die Basis für beides, und du kannst beides kombinieren.',
+    },
   ],
   sources: [
     { title: 'Prompt engineering techniques', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/prompt-engineering' },
@@ -399,5 +407,9 @@ print(job.id, job.status)`,
     { title: 'Retrieval augmented generation (RAG) and indexes', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/retrieval-augmented-generation' },
     { title: 'Fine-tuning in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/fine-tuning/overview' },
     { title: 'Model router for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-router' },
+    { title: 'Use model router for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/model-router' },
+    { title: 'Use model router with Foundry agents', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/model-router-agents' },
+    { title: 'Fine-tune a model for consistent behavior', url: 'https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/4-fine-tune-model' },
+    { title: 'Compare and combine optimization strategies', url: 'https://learn.microsoft.com/en-us/training/modules/optimize-generative-ai-model-performance/5-compare-combine-strategies' },
   ],
 }

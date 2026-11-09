@@ -400,6 +400,10 @@ print(response.output_text)`,
       en: 'Steer tool use with `tool_choice`, and validate every argument before you act on it.',
       de: 'Steuere die Tool-Nutzung mit `tool_choice` und prüfe jedes Argument, bevor du danach handelst.',
     },
+    {
+      en: 'Instructions only steer tool use — describe what each tool is for and when to use it. To force a call in a request, set `tool_choice` to `required` or a named tool.',
+      de: 'Anweisungen (`instructions`) lenken die Tool-Nutzung nur – beschreib, wofür jedes Tool da ist und wann es zum Einsatz kommen soll. Um in einer Anfrage einen Aufruf zu erzwingen, setzt du `tool_choice` auf `required` oder ein benanntes Tool.',
+    },
   ],
   sources: [
     { title: 'Use the Azure OpenAI Responses API', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/responses' },
@@ -407,5 +411,6 @@ print(response.output_text)`,
     { title: 'File search tool for agents', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/file-search' },
     { title: 'How to use function calling with Microsoft Foundry Models', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/function-calling' },
     { title: 'Structured outputs', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/structured-outputs' },
+    { title: 'Tool best practices for Microsoft Foundry Agent Service', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-best-practice' },
   ],
 }

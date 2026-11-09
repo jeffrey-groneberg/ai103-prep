@@ -46,6 +46,20 @@ const OFFICIAL = [
   },
 ]
 
+/** Community material: used only as a pointer to emphases; every fact the app adopts is checked against Microsoft Learn. */
+const COMMUNITY = [
+  {
+    title: 'John Savill: AI-103 Develop AI Apps and Agents on Azure Study Cram',
+    url: 'https://www.youtube.com/watch?v=WK2BvjOYTCQ',
+    text: 'Knapp zwei Stunden am Whiteboard durch alle fünf Prüfungsbereiche (August 2026, Englisch). Gut als Wiederholung vor dem Termin.',
+  },
+  {
+    title: 'Whiteboard zum Study Cram',
+    url: 'https://github.com/johnthebrit/CertificationMaterials/blob/main/whiteboards/AI-103-Whiteboard.png',
+    text: 'Das Whiteboard aus dem Video als Bild zum Nachschlagen.',
+  },
+]
+
 const FACTS = [
   'Associate-Prüfungen ohne Labs: 100 Minuten Prüfungszeit, 120 Minuten Sitzzeit. Die meisten Prüfungen haben 40–60 Fragen.',
   'Bestehen ab 700 von 1000 Punkten. Der Wert ist skaliert und entspricht nicht unbedingt 70 % der Punkte.',
@@ -61,7 +75,7 @@ export function Resources() {
     <div className="page resources">
       <header className="page-head">
         <h1 className="page-title">Ressourcen</h1>
-        <p className="page-sub">Offizielle Quellen für AI-103 – alles hier verlinkt direkt zu Microsoft.</p>
+        <p className="page-sub">Offizielle Quellen für AI-103 direkt bei Microsoft, dazu eine empfehlenswerte Wiederholung aus der Community.</p>
       </header>
 
       <section className="panel" aria-labelledby="off-h">
@@ -70,6 +84,23 @@ export function Resources() {
         </h2>
         <ul className="resource-list">
           {OFFICIAL.map((r) => (
+            <li key={r.url}>
+              <a href={r.url} target="_blank" rel="noreferrer" className="resource-list__link">
+                {r.title}
+                <Icon name="open" size={14} />
+              </a>
+              <p>{r.text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="panel" aria-labelledby="community-h">
+        <h2 id="community-h" className="panel__title">
+          Aus der Community (nicht offiziell)
+        </h2>
+        <ul className="resource-list">
+          {COMMUNITY.map((r) => (
             <li key={r.url}>
               <a href={r.url} target="_blank" rel="noreferrer" className="resource-list__link">
                 {r.title}
@@ -107,6 +138,10 @@ export function Resources() {
             <li>
               <Icon name="documentSearch" size={18} />
               <span>Jede Frage nennt mindestens eine aktuelle Seite auf learn.microsoft.com und ein Prüfdatum.</span>
+            </li>
+            <li>
+              <Icon name="lightbulb" size={18} />
+              <span>Community-Videos wie John Savills Study Cram dienen nur als Hinweis auf Schwerpunkte. Übernommen wird nur, was die aktuelle Learn-Doku bestätigt, in eigenen Worten.</span>
             </li>
             <li>
               <Icon name="calendar" size={18} />

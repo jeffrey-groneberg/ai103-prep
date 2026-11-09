@@ -890,7 +890,7 @@
           "id": "b",
           "text": { "en": "The same client, but with `model=\"Phi-4-mini-instruct\"`", "de": "Derselbe Client, aber mit `model=\"Phi-4-mini-instruct\"`" },
           "correct": false,
-          "why": { "en": "Requests are routed by deployment name; the catalog model name only works if the deployment carries that name.", "de": "Requests werden über den Deployment-Namen geroutet; der Katalogname funktioniert nur, wenn das Deployment genau so heißt." }
+          "why": { "en": "A deployment is addressed by its deployment name, so the model name doesn't reach `phi-summarizer`. Only instant access (preview) accepts plain model names, and it calls the model without your deployment.", "de": "Ein Deployment wird über seinen Deployment-Namen angesprochen, der Modellname erreicht `phi-summarizer` also nicht. Nur Instant Access (Preview) akzeptiert reine Modellnamen – und ruft das Modell dann ohne dein Deployment auf." }
         },
         {
           "id": "c",
@@ -908,9 +908,54 @@
       "explanation": { "en": "To consume a deployment, combine the right endpoint (`/openai/v1/` for the OpenAI SDK) with the deployment name in `model` and a Microsoft Entra token (or key).", "de": "Um ein Deployment zu nutzen, kombinierst du den richtigen Endpoint (`/openai/v1/` für das OpenAI SDK) mit dem Deployment-Namen in `model` und einem Microsoft-Entra-Token (oder Key)." },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/create-model-deployments",
-        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview"
+        "https://learn.microsoft.com/en-us/azure/foundry/how-to/develop/sdk-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/instant-models"
       ],
-      "lastVerified": "2026-11-06"
+      "lastVerified": "2026-11-09"
+    },
+    {
+      "id": "q-model-catalog-19",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.1.4",
+      "skills": [
+        "1.4.2"
+      ],
+      "module": "model-catalog",
+      "difficulty": 2,
+      "stem": { "en": "An IT helpdesk agent must follow company rules: verify the caller's identity before a password reset, call the ticketing tool with the right parameters, and escalate hardware faults instead of troubleshooting them. Some rules matter more than others, and there are no reference answers. What should you set up as the primary quality measure?", "de": "Ein IT-Helpdesk-Agent muss Unternehmensregeln befolgen: vor einem Passwort-Reset die Identität prüfen, das Ticket-Tool mit den richtigen Parametern aufrufen und Hardwarefehler eskalieren, statt sie selbst zu beheben. Manche Regeln wiegen schwerer als andere, und es gibt keine Referenzantworten. Was richtest du als wichtigstes Qualitätsmaß ein?" },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A rubric evaluator generated from the agent's instructions, then reviewed and re-weighted", "de": "Einen Rubric-Evaluator, aus den Anweisungen des Agents erzeugt und danach geprüft und neu gewichtet" },
+          "correct": true,
+          "why": { "en": "A rubric turns your rules into weighted dimensions that an LLM judge scores 1–5; the weighted average is normalized to 0–1 and passes at 0.5 by default. It judges against your criteria, not against a reference answer.", "de": "Eine Rubrik macht aus deinen Regeln gewichtete Dimensionen, die ein LLM-Judge mit 1–5 bewertet; der gewichtete Mittelwert wird auf 0–1 normiert und gilt standardmäßig ab 0,5 als bestanden. Bewertet wird gegen deine Kriterien, nicht gegen eine Referenzantwort." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "F1 and BLEU scores against expected answers", "de": "F1- und BLEU-Scores gegen erwartete Antworten" },
+          "correct": false,
+          "why": { "en": "There are no reference answers, and overlap metrics only compare wording; they can't tell whether the agent followed a rule.", "de": "Es gibt keine Referenzantworten, und Überlappungsmetriken vergleichen nur Formulierungen; ob der Agent eine Regel befolgt hat, erkennen sie nicht." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "A rubric evaluator generated from the agent's production traces alone", "de": "Einen Rubric-Evaluator, allein aus den Produktions-Traces des Agents erzeugt" },
+          "correct": false,
+          "why": { "en": "Traces can only be added on top of a Foundry agent, an agent system prompt or reference files; they can't be the only input for generating a rubric.", "de": "Traces lassen sich nur ergänzend zu einem Foundry-Agent, einem System-Prompt des Agents oder Referenzdateien nutzen; als einzige Eingabe für die Rubrik-Erzeugung reichen sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The Coherence and Fluency evaluators", "de": "Die Evaluatoren Coherence und Fluency" },
+          "correct": false,
+          "why": { "en": "They rate how logical and readable a response is, not whether it follows your business rules.", "de": "Sie bewerten, wie schlüssig und gut lesbar eine Antwort ist, nicht, ob sie deine Geschäftsregeln einhält." }
+        }
+      ],
+      "explanation": { "en": "For use-case-specific agent quality, Foundry recommends a rubric evaluator (preview) as the primary measure: auto-generate it from the agent's context, review dimensions, weights and pass threshold, and pair it with built-in safety and groundedness evaluators for the risks it doesn't measure.", "de": "Für anwendungsspezifische Agent-Qualität empfiehlt Foundry einen Rubric-Evaluator (Preview) als Hauptmaß: automatisch aus dem Kontext des Agents erzeugen, Dimensionen, Gewichte und Schwellenwert prüfen und mit integrierten Safety- und Groundedness-Evaluatoren für die Risiken kombinieren, die er nicht misst." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/rubric-evaluators",
+        "https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators"
+      ],
+      "lastVerified": "2026-11-09"
     }
   ]
 }

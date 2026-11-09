@@ -199,6 +199,13 @@ export const lesson: Lesson = {
         de: 'Eine Foundry-**Toolbox** bündelt Tools – MCP-Server, OpenAPI-Tools, File Search und mehr – hinter einem versionierten, MCP-kompatiblen Endpoint mit zentraler Authentifizierung (eine neue Version wird erst nach dem Hochstufen ausgeliefert); wähle sie, um einen kuratierten Tool-Satz in mehreren Agents und Frameworks wiederzuverwenden. Ihr `require_approval` ist eine Metainformation, die die nutzende Runtime durchsetzen muss. Ein **AI Gateway** (Preview) ist eine mit der Foundry-Ressource verbundene Azure-API-Management-Instanz: Neue MCP-Tools, die du im Portal anlegst, laufen darüber, sodass API-Management-Richtlinien Ratenlimits, IP-Filter und Logging durchsetzen, ohne Server oder Agent-Code zu ändern; wähle es, wenn MCP-Traffic zentral gesteuert werden muss.',
       },
     },
+    {
+      term: 'Toolbox: tool search, guardrail and sign-in',
+      text: {
+        en: '**Tool search** (`{"type": "toolbox_search"}`; Python `ToolSearchToolboxTool()`) hides the toolbox’s tools from `tools/list` and offers two meta-tools: `tool_search` returns the tools that match a plain-language request, and `call_tool` runs one by name; `pin` keeps critical tools listed. Turn it on above roughly 10–15 tools to save tokens and avoid wrong picks. A **guardrail** on a toolbox version screens tool inputs and outputs at the toolbox layer, independent of model-level content filters. Agents connect to the consumer endpoint `…/toolboxes/<name>/mcp` with a Microsoft Entra token (API keys aren’t supported); it serves the default version — the first one automatically, later ones once you promote them.',
+        de: '**Tool Search** (`{"type": "toolbox_search"}`; in Python `ToolSearchToolboxTool()`) blendet die Tools der Toolbox in `tools/list` aus und bietet zwei Meta-Tools: `tool_search` liefert die Tools, die zu einer Anfrage in Alltagssprache passen, und `call_tool` ruft eines per Name auf; mit `pin` bleiben wichtige Tools sichtbar. Ab etwa 10–15 Tools lohnt sich das: weniger Tokens, weniger Fehlgriffe. Ein **Guardrail** auf einer Toolbox-Version prüft Tool-Ein- und -Ausgaben auf Toolbox-Ebene, unabhängig von Inhaltsfiltern des Modells. Agents verbinden sich mit einem Microsoft-Entra-Token (API-Keys werden nicht unterstützt) mit dem Consumer-Endpoint `…/toolboxes/<name>/mcp`; er liefert die Standardversion aus – die erste automatisch, spätere erst nach dem Hochstufen.',
+      },
+    },
   ],
   comparison: {
     title: { en: 'Which MCP authentication option?', de: 'Welche MCP-Authentifizierungsoption?' },
@@ -330,6 +337,10 @@ asyncio.run(main())`,
       en: 'Tool descriptions and results from third-party servers are untrusted input (indirect prompt injection). Instructions are not an access control — `allowed_tools`, approvals and identity permissions are.',
       de: 'Tool-Beschreibungen und Ergebnisse fremder Server sind nicht vertrauenswürdiger Input (indirekte Prompt Injection). Anweisungen sind keine Zugriffskontrolle – `allowed_tools`, Freigaben und Identitätsberechtigungen schon.',
     },
+    {
+      en: 'A toolbox can’t hold every tool: function calling (it runs client-side), Azure Functions, SharePoint, Grounding with Bing, Fabric data agent, image generation and computer use must be attached to the agent directly, while MCP, Web search and Fabric IQ do fit in a toolbox.',
+      de: 'Eine Toolbox nimmt nicht jedes Tool auf: Function Calling (läuft clientseitig), Azure Functions, SharePoint, Grounding with Bing, Fabric Data Agent, Bildgenerierung und Computer Use hängst du direkt an den Agent; MCP, Web Search und Fabric IQ passen dagegen in eine Toolbox.',
+    },
   ],
   takeaways: [
     { en: 'The server publishes, the client discovers and calls — tools change without redeploying the agent.', de: 'Der Server veröffentlicht, der Client entdeckt und ruft auf – Tools ändern sich ohne Redeployment des Agents.' },
@@ -344,5 +355,8 @@ asyncio.run(main())`,
     { title: 'Create and manage a toolbox in Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/toolbox' },
     { title: 'Govern MCP tools by using an AI gateway (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/governance' },
     { title: 'Using MCP tools with Agents (Microsoft Agent Framework)', url: 'https://learn.microsoft.com/en-us/agent-framework/agents/tools/local-mcp-tools' },
+    { title: 'What is Toolbox in Foundry?', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/toolbox-overview' },
+    { title: 'Enable tool search in a toolbox', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/tool-search' },
+    { title: 'Authentication and authorization in Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/authentication-authorization-foundry' },
   ],
 }

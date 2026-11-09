@@ -447,15 +447,15 @@
         { "id": "t5", "text": { "en": "Task adherence", "de": "Task Adherence" } }
       ],
       "explanation": {
-        "en": "Choose the control by risk: jailbreaks → Prompt Shields, copyrighted output → protected material, your own forbidden terms → blocklists, personal data → PII (preview). The four harm categories alone cover none of these requirements.",
-        "de": "Wähle das Control nach Risiko: Jailbreaks → Prompt Shields, urheberrechtlich geschützte Ausgaben → Protected Material, eigene verbotene Begriffe → Blocklisten, personenbezogene Daten → PII (Preview). Die vier Schadenskategorien allein decken keine dieser Anforderungen ab."
+        "en": "Choose the control by risk: jailbreaks → Prompt Shields, copyrighted output → protected material, your own forbidden terms → blocklists, personal data → PII (preview). The four harm categories alone cover none of these requirements, and Task adherence (preview) checks whether an agent's planned tool calls fit the user's intent.",
+        "de": "Wähle das Control nach Risiko: Jailbreaks → Prompt Shields, urheberrechtlich geschützte Ausgaben → Protected Material, eigene verbotene Begriffe → Blocklisten, personenbezogene Daten → PII (Preview). Die vier Schadenskategorien allein decken keine dieser Anforderungen ab, und Task Adherence (Preview) prüft, ob die geplanten Tool-Aufrufe eines Agents zur Absicht des Nutzers passen."
       },
       "sources": [
         "https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview",
         "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/use-blocklists",
         "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/content-filter-personal-information"
       ],
-      "lastVerified": "2026-11-06"
+      "lastVerified": "2026-11-09"
     },
     {
       "id": "q-responsible-ai-10",
@@ -851,6 +851,55 @@
         "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/quickstart-multimodal"
       ],
       "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-responsible-ai-18",
+      "type": "single",
+      "domain": "D1",
+      "skill": "1.4.1",
+      "skills": ["1.4.4"],
+      "module": "responsible-ai",
+      "difficulty": 2,
+      "stem": {
+        "en": "A travel-booking agent in Foundry Agent Service uses an OpenAPI tool with the operations `getBooking` and `cancelBooking`. During testing, a user asks 'How much does it cost to cancel my hotel booking?' and the agent plans to call `cancelBooking`. You need the agent's guardrail to catch planned tool calls that don't match what the user asked for. What should you add to the guardrail?",
+        "de": "Ein Reisebuchungs-Agent in Foundry Agent Service nutzt ein OpenAPI-Tool mit den Operationen `getBooking` und `cancelBooking`. Im Test fragt ein Nutzer „Was kostet es, meine Hotelbuchung zu stornieren?“, und der Agent plant einen Aufruf von `cancelBooking`. Der Guardrail des Agents soll geplante Tool-Aufrufe erkennen, die nicht zu dem passen, was der Nutzer verlangt hat. Was solltest du dem Guardrail hinzufügen?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "A **Task Adherence** (preview) control with **Annotate and block**", "de": "Ein Control **Task Adherence** (Preview) mit **Annotate and block**" },
+          "correct": true,
+          "why": { "en": "Task Adherence compares planned tool use with the user's intent and flags misaligned calls, such as a cancellation when the user only asked about the cost, so the call can be blocked or escalated to a human.", "de": "Task Adherence vergleicht die geplante Tool-Nutzung mit der Absicht des Nutzers und meldet unpassende Aufrufe – etwa eine Stornierung, obwohl nur nach den Kosten gefragt wurde –, damit der Aufruf blockiert oder an einen Menschen eskaliert werden kann." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "A **user prompt attack** (Prompt Shields) control at the **User input** intervention point", "de": "Ein Control **User Prompt Attack** (Prompt Shields) am Intervention Point **User input**" },
+          "correct": false,
+          "why": { "en": "The question is a harmless request, not a jailbreak; Prompt Shields detect attempts to bypass the system rules, not actions that miss the user's intent.", "de": "Die Frage ist eine harmlose Anfrage, kein Jailbreak; Prompt Shields erkennen Versuche, die Systemregeln zu umgehen, nicht Aktionen, die an der Absicht des Nutzers vorbeigehen." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "An **indirect attack** control at the **Tool response** intervention point", "de": "Ein Control **Indirect Attack** am Intervention Point **Tool response**" },
+          "correct": false,
+          "why": { "en": "It scans content that a tool returns for injected instructions; here the problem is the planned call itself, before the tool has returned anything.", "de": "Es prüft von einem Tool zurückgegebene Inhalte auf eingeschleuste Anweisungen; hier liegt das Problem im geplanten Aufruf selbst, bevor das Tool etwas zurückgegeben hat." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "The **Task Adherence** evaluator in a continuous evaluation rule", "de": "Der Evaluator **Task Adherence** in einer Regel für Continuous Evaluation" },
+          "correct": false,
+          "why": { "en": "Continuous evaluation scores sampled responses after they complete; it can reveal the problem afterwards but can't stop the planned tool call.", "de": "Continuous Evaluation bewertet Stichproben von Antworten erst nach ihrem Abschluss; sie kann das Problem im Nachhinein zeigen, den geplanten Tool-Aufruf aber nicht stoppen." }
+        }
+      ],
+      "explanation": {
+        "en": "Match the control to the risk: attacks in the prompt → Prompt Shields, injected instructions in tool results → indirect attack at **Tool response**, actions that don't fit the user's request → **Task Adherence** (preview). Task Adherence isn't part of Microsoft.DefaultV2, so add it to a custom guardrail; the evaluator with the same name only measures afterwards.",
+        "de": "Wähle das Control nach Risiko: Angriffe im Prompt → Prompt Shields, eingeschleuste Anweisungen in Tool-Ergebnissen → Indirect Attack bei **Tool response**, Aktionen, die nicht zur Anfrage passen → **Task Adherence** (Preview). Task Adherence ist nicht Teil von Microsoft.DefaultV2 – füge es einem eigenen Guardrail hinzu; der gleichnamige Evaluator misst nur im Nachhinein."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/task-adherence",
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/guardrails-overview",
+        "https://learn.microsoft.com/en-us/azure/foundry/guardrails/default-safety-policies"
+      ],
+      "lastVerified": "2026-11-09"
     }
   ]
 }

@@ -217,6 +217,27 @@ export const lesson: Lesson = {
         de: 'Manuelle Prüfungen (Playground-Tests, menschliche Bewertungen, Nutzerstudien) erfassen Ton und Nützlichkeit; automatisierte Evaluatoren skalieren. Kenne die Eingaben: `context` ist der Text, den deine App abgerufen hat, **Ground Truth** die erwartete Antwort, die du vorgibst. KI-gestützte Qualitäts-Evaluatoren nutzen ein Modell-Deployment als Richter und brauchen keine Ground Truth: Groundedness (Antwort durch den Kontext gedeckt), Relevance (beantwortet die Frage), Coherence und Fluency. Response Completeness (deckt alles aus der erwarteten Antwort ab) und Textähnlichkeits-Metriken (F1, BLEU, ROUGE, METEOR, GLEU) brauchen Ground Truth. Risiko- und Sicherheits-Evaluatoren (Hass und Unfairness, sexuelle Inhalte, Gewalt, Selbstverletzung, geschütztes Material, indirekte Angriffe) brauchen Frage und Antwort und laufen auf gehosteten Sicherheitsmodellen, ohne dein Richter-Deployment.',
       },
     },
+    {
+      term: 'Model types',
+      text: {
+        en: '**LLMs** (for example GPT-5) handle deep reasoning, complex generation and long context but need more compute; **SLMs** (for example Phi-4) cover common language tasks faster and cheaper and can even run on edge devices. Most language models are **chat completion** models; **reasoning models** spend more time on hard multi-step problems in math, code or science. Task-specific models add **embeddings** (vectors for semantic search and RAG), image or video generation, **multimodal** image analysis (text and images in one prompt) and speech to text or text to speech.',
+        de: '**LLMs** (etwa GPT-5) übernehmen tiefes Reasoning, komplexe Generierung und langen Kontext, brauchen aber mehr Rechenleistung; **SLMs** (etwa Phi-4) erledigen gängige Sprachaufgaben schneller und günstiger und laufen sogar auf Edge-Geräten. Die meisten Sprachmodelle sind **Chat-Completion**-Modelle; **Reasoning-Modelle** investieren mehr Zeit in schwierige mehrstufige Aufgaben aus Mathe, Code oder Naturwissenschaften. Spezialisierte Modelle ergänzen **Embeddings** (Vektoren für semantische Suche und RAG), Bild- oder Videogenerierung, **multimodale** Bildanalyse (Text und Bilder in einem Prompt) sowie Speech-to-Text und Text-to-Speech.',
+      },
+    },
+    {
+      term: 'Instant access (preview)',
+      text: {
+        en: 'Calls supported models by model name (for example `gpt-5-mini`) without any deployment, through the same SDK and API; you get the latest version unless you append a date suffix (`model-name-2025-04-01`). During the preview it needs a project in West US 3 and the Foundry User role, applies default guardrails (no custom guardrail per model), draws on a per-model global quota and doesn\'t support fine-tuned models. You still need a deployment for PTUs, data residency, custom guardrails, fine-tuned models or quota split across teams — then `model` is the deployment name again, and a deployment named like a model takes precedence over instant access.',
+        de: 'Ruft unterstützte Modelle über ihren Modellnamen auf (etwa `gpt-5-mini`) – ganz ohne Deployment, mit demselben SDK und derselben API; du bekommst die neueste Version, außer du hängst ein Datumssuffix an (`model-name-2025-04-01`). In der Preview brauchst du ein Projekt in West US 3 und die Rolle Foundry User; es gelten Standard-Guardrails (kein eigener Guardrail pro Modell) und ein globales Kontingent pro Modell, und feinabgestimmte Modelle werden nicht unterstützt. Ein Deployment brauchst du weiterhin für PTUs, Datenresidenz, eigene Guardrails, feinabgestimmte Modelle oder ein auf Teams aufgeteiltes Kontingent – dann ist `model` wieder der Deployment-Name, und ein Deployment, das wie ein Modell heißt, hat Vorrang vor Instant Access.',
+      },
+    },
+    {
+      term: 'Rubric evaluator (preview)',
+      text: {
+        en: 'Your own grading sheet and the recommended primary measure of agent quality: weighted dimensions (for example policy enforcement or tool usage) that an LLM judge scores from 1 to 5 wherever they apply; the overall score is the weighted average normalized to 0–1, and the default pass threshold is 0.5. Auto-generate the rubric (recommended) from a Foundry agent, an agent system prompt or reference files — production traces only on top, never alone — then review its dimensions, weights and threshold. Pair it with built-in safety and groundedness evaluators to cover risks the rubric doesn\'t measure.',
+        de: 'Dein eigener Bewertungsbogen und das empfohlene Hauptmaß für Agent-Qualität: gewichtete Dimensionen (etwa Einhaltung von Regeln oder Tool-Nutzung), die ein LLM-Judge mit 1 bis 5 bewertet, sofern sie zutreffen; der Gesamtscore ist der gewichtete Mittelwert, normiert auf 0–1, und der Standard-Schwellenwert zum Bestehen liegt bei 0,5. Erzeuge die Rubrik am besten automatisch aus einem Foundry-Agent, einem System-Prompt des Agents oder Referenzdateien – Produktions-Traces nur ergänzend, nie allein – und prüfe danach Dimensionen, Gewichte und Schwellenwert. Kombiniere den Rubric-Evaluator mit integrierten Safety- und Groundedness-Evaluatoren für Risiken, die die Rubrik nicht misst.',
+      },
+    },
   ],
   comparison: {
     title: { en: 'Deployment types at a glance', de: 'Deployment-Typen im Überblick' },
@@ -341,8 +362,8 @@ print(run.id, run.status)`,
   ],
   traps: [
     {
-      en: 'The `model` parameter takes your **deployment name** — not the catalog model name if you renamed the deployment, and never the asset ID that Azure Policy uses.',
-      de: 'Der Parameter `model` erwartet deinen **Deployment-Namen** – nicht den Katalog-Modellnamen, wenn du das Deployment umbenannt hast, und nie die Asset-ID, die Azure Policy verwendet.',
+      en: 'For a deployed model, the `model` parameter takes your **deployment name** — not the catalog model name if you renamed the deployment, and never the asset ID that Azure Policy uses. Only instant access (preview) takes a plain model name, without any deployment.',
+      de: 'Bei einem bereitgestellten Modell erwartet der Parameter `model` deinen **Deployment-Namen** – nicht den Katalog-Modellnamen, wenn du das Deployment umbenannt hast, und nie die Asset-ID, die Azure Policy verwendet. Nur Instant Access (Preview) nimmt einen reinen Modellnamen – ganz ohne Deployment.',
     },
     {
       en: 'Not every 429 means you need more quota. If `x-ratelimit-limit-tokens` is below your configured TPM, the service has temporarily lowered your limit — retry with backoff or move steady traffic to PTUs instead of filing a quota request.',
@@ -360,6 +381,14 @@ print(run.id, run.status)`,
       en: 'On the safety leaderboard, a higher WMDP score means more knowledge of hazardous capabilities — not a safer model. For HarmBench, a lower attack success rate is better.',
       de: 'Im Sicherheits-Leaderboard bedeutet ein höherer WMDP-Score mehr Wissen über gefährliche Fähigkeiten – kein sichereres Modell. Bei HarmBench ist eine niedrigere Attack Success Rate besser.',
     },
+    {
+      en: 'Priority processing isn\'t a deployment type: it\'s a pay-as-you-go service tier for lower, steadier latency that you enable on a Global Standard or Data Zone Standard (US) deployment — for the whole deployment or per request with `service_tier: "priority"`. It uses the same quota as standard processing, and sharp traffic ramps can push requests back to standard processing (billed at standard rates).',
+      de: 'Priority Processing ist kein Deployment-Typ, sondern ein nutzungsbasierter Service Tier für niedrigere, gleichmäßigere Latenz, den du auf einem Global-Standard- oder Data-Zone-Standard-Deployment (US) aktivierst – für das ganze Deployment oder pro Request mit `service_tier: "priority"`. Er nutzt dasselbe Kontingent wie die Standardverarbeitung, und steile Lastanstiege können Requests zurück in die Standardverarbeitung schieben (zum Standardpreis abgerechnet).',
+    },
+    {
+      en: 'Generative output isn\'t deterministic: the same prompt can return a different answer each time, and many answers can be right, so exact-match tests don\'t work. Score qualities with evaluators instead; overlap metrics such as F1 or BLEU need a definitive correct answer or a reference text (ground truth) and are less suitable for open-ended generation, where many valid responses exist.',
+      de: 'Generative Ausgabe ist nicht deterministisch: Derselbe Prompt kann jedes Mal eine andere Antwort liefern, und viele Antworten können richtig sein – exakte Vergleichstests funktionieren deshalb nicht. Bewerte stattdessen Eigenschaften mit Evaluatoren; Überlappungsmetriken wie F1 oder BLEU brauchen eine eindeutige richtige Antwort oder einen Referenztext (Ground Truth) und eignen sich weniger für offene Generierung, bei der viele gültige Antworten möglich sind.',
+    },
   ],
   takeaways: [
     { en: 'Start on Global Standard; switch only for residency, reserved throughput, batch or fine-tuned tests.', de: 'Starte mit Global Standard; wechsle nur für Residenz, reservierten Durchsatz, Batch oder Fine-Tuning-Tests.' },
@@ -367,6 +396,7 @@ print(run.id, run.status)`,
     { en: 'Steady, latency-critical load → PTUs plus spillover; bulk async work → Batch; mixed prompt complexity → model router.', de: 'Dauerlast mit Latenzanspruch → PTUs plus Spillover; asynchrone Massenarbeit → Batch; gemischte Prompt-Komplexität → Model Router.' },
     { en: 'Groundedness and relevance work without ground truth; F1, BLEU, ROUGE and response completeness need it.', de: 'Groundedness und Relevance funktionieren ohne Ground Truth; F1, BLEU, ROUGE und Response Completeness brauchen sie.' },
     { en: 'Shortlist with benchmarks, decide with evaluations on your own data, then ship the deployment name.', de: 'Shortlist mit Benchmarks, Entscheidung mit Evaluierungen auf deinen Daten, dann den Deployment-Namen ausliefern.' },
+    { en: 'Near-real-time spend → the Monitor tab of a model or agent in the Foundry portal (estimated cost, without discounts or PTUs); billed cost, budgets and chargeback → Microsoft Cost Management.', de: 'Ausgaben nahezu in Echtzeit → der Monitor-Tab eines Modells oder Agents im Foundry-Portal (geschätzte Kosten, ohne Rabatte und PTUs); abgerechnete Kosten, Budgets und interne Verrechnung → Microsoft Cost Management.' },
   ],
   sources: [
     { title: 'Overview of Microsoft Foundry Models', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/foundry-models-overview' },
@@ -374,5 +404,12 @@ print(run.id, run.status)`,
     { title: 'Manage Azure OpenAI in Microsoft Foundry Models quota', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/quota' },
     { title: 'What is provisioned throughput for Foundry Models?', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/provisioned-throughput' },
     { title: 'Built-in evaluators reference', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators' },
+    { title: 'Explore the model catalog', url: 'https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/2-explore-model-catalog' },
+    { title: 'Instant access to models in Microsoft Foundry (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/instant-models' },
+    { title: 'Rubric evaluators', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/rubric-evaluators' },
+    { title: 'Enable priority processing for Microsoft Foundry models', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/priority-processing' },
+    { title: 'Evaluate model performance', url: 'https://learn.microsoft.com/en-us/training/modules/model-catalog-evaluate/5-evaluate-performance' },
+    { title: 'Learn how to use reproducible output (preview) (classic)', url: 'https://learn.microsoft.com/en-us/azure/foundry-classic/openai/how-to/reproducible-output' },
+    { title: 'Plan and manage costs for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/manage-costs' },
   ],
 }

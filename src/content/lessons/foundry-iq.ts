@@ -210,8 +210,8 @@ export const lesson: Lesson = {
     {
       term: 'Choosing a knowledge integration',
       text: {
-        en: 'Curated content from several sources, shared by many agents → Foundry IQ knowledge base. One existing index with a fixed `index_name`, `query_type` or `filter` → Azure AI Search tool. Files a user provides in the conversation → file search (vector store). Learned user facts → memory. Current public web → Web Search tool or Web IQ. The user’s Microsoft 365 mail and meetings → Work IQ.',
-        de: 'Kuratierte Inhalte aus mehreren Quellen, von vielen Agents genutzt → Foundry-IQ-Knowledge-Base. Ein bestehender Index mit festem `index_name`, `query_type` oder `filter` → Azure AI Search Tool. Dateien, die ein Nutzer im Gespräch bereitstellt → File Search (Vector Store). Gelernte Nutzerfakten → Memory. Aktuelles öffentliches Web → Web Search Tool oder Web IQ. Mails und Meetings des Nutzers in Microsoft 365 → Work IQ.',
+        en: 'Curated content from several sources, shared by many agents → Foundry IQ knowledge base. One existing index with a fixed `index_name`, `query_type` or `filter` → Azure AI Search tool. Files a user provides in the conversation → file search (vector store). Learned user facts → memory. Current public web → Web Search tool or Web IQ. The user’s Microsoft 365 mail and meetings → Work IQ. Business entities, relationships and measures modeled in Microsoft Fabric (ontology, Power BI semantic model, data agent) → Fabric IQ (preview), as an agent tool or as a Fabric Ontology or Fabric Data Agent knowledge source.',
+        de: 'Kuratierte Inhalte aus mehreren Quellen, von vielen Agents genutzt → Foundry-IQ-Knowledge-Base. Ein bestehender Index mit festem `index_name`, `query_type` oder `filter` → Azure AI Search Tool. Dateien, die ein Nutzer im Gespräch bereitstellt → File Search (Vector Store). Gelernte Nutzerfakten → Memory. Aktuelles öffentliches Web → Web Search Tool oder Web IQ. Mails und Meetings des Nutzers in Microsoft 365 → Work IQ. In Microsoft Fabric modellierte Geschäftsobjekte, Beziehungen und Kennzahlen (Ontologie, Power-BI-Semantikmodell, Data Agent) → Fabric IQ (Preview), als Agent-Tool oder als Knowledge Source vom Typ Fabric Ontology bzw. Fabric Data Agent.',
       },
     },
   ],
@@ -396,5 +396,6 @@ print(result.response[0].content[0].text)   # JSON chunks, each with a ref_id fo
     { title: 'Agentic retrieval in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/agentic-retrieval-overview' },
     { title: 'What is a knowledge source?', url: 'https://learn.microsoft.com/en-us/azure/search/agentic-knowledge-source-overview' },
     { title: 'Memory in Microsoft Foundry Agent Service (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-memory' },
+    { title: 'Connect agents to Microsoft Fabric with Fabric IQ (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/fabric-iq' },
   ],
 }

@@ -250,6 +250,55 @@
         "https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes"
       ],
       "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-agent-framework-06",
+      "type": "single",
+      "domain": "D2",
+      "skill": "2.2.2",
+      "skills": ["2.2.1"],
+      "module": "agent-framework",
+      "difficulty": 2,
+      "stem": {
+        "en": "You build a language-tutor agent with `Agent(client=FoundryChatClient(...))`, and learners sign in with Microsoft Entra ID. When a learner starts a new conversation days later, the tutor must already know their level and the grammar topics they struggle with, without replaying old transcripts, and no learner may ever see another learner's details. A Foundry memory store already exists. What should you add to the agent?",
+        "de": "Du baust einen Sprachtutor-Agent mit `Agent(client=FoundryChatClient(...))`, und Lernende melden sich mit Microsoft Entra ID an. Startet eine lernende Person Tage später ein neues Gespräch, soll der Tutor ihr Niveau und die Grammatikthemen, die ihr schwerfallen, bereits kennen – ohne alte Verläufe erneut einzuspielen, und niemand darf je die Angaben einer anderen Person sehen. Ein Foundry Memory Store existiert bereits. Was fügst du dem Agent hinzu?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "text": { "en": "`context_providers=[FoundryMemoryProvider(project_client=..., memory_store_name=\"tutor-memory\", scope=user_id)]`, where `user_id` comes from the learner's Entra ID sign-in", "de": "`context_providers=[FoundryMemoryProvider(project_client=..., memory_store_name=\"tutor-memory\", scope=user_id)]`, wobei `user_id` aus der Entra-ID-Anmeldung der lernenden Person stammt" },
+          "correct": true,
+          "why": { "en": "The provider extracts facts such as the level into the memory store and retrieves the relevant ones in later sessions; a stable scope from the trusted sign-in keeps each learner's memories together and apart from everyone else's.", "de": "Der Provider extrahiert Fakten wie das Niveau in den Memory Store und holt die passenden in späteren Sessions zurück; ein stabiler Scope aus der vertrauenswürdigen Anmeldung hält die Erinnerungen jeder Person zusammen und von allen anderen getrennt." }
+        },
+        {
+          "id": "b",
+          "text": { "en": "`context_providers=[InMemoryHistoryProvider(load_messages=True)]`", "de": "`context_providers=[InMemoryHistoryProvider(load_messages=True)]`" },
+          "correct": false,
+          "why": { "en": "This keeps only the local chat history of one session; a new conversation starts with an empty history.", "de": "Das hält nur den lokalen Chatverlauf einer Session; ein neues Gespräch startet mit leerem Verlauf." }
+        },
+        {
+          "id": "c",
+          "text": { "en": "`context_providers=[FoundryMemoryProvider(project_client=..., memory_store_name=\"tutor-memory\")]` without a `scope`", "de": "`context_providers=[FoundryMemoryProvider(project_client=..., memory_store_name=\"tutor-memory\")]` ohne `scope`" },
+          "correct": false,
+          "why": { "en": "Without `scope` the session ID becomes the scope, so memories are shared only within that session and the new conversation can't see them.", "de": "Ohne `scope` wird die Session-ID zum Scope; Erinnerungen gelten also nur innerhalb dieser Session, und das neue Gespräch sieht sie nicht." }
+        },
+        {
+          "id": "d",
+          "text": { "en": "Add \"Remember each learner's level and weak topics.\" to the agent's `instructions`", "de": "„Merke dir Niveau und Schwachstellen jeder lernenden Person.“ in die `instructions` des Agents aufnehmen" },
+          "correct": false,
+          "why": { "en": "Instructions steer the model but store nothing; a new session still starts without the learner's earlier details.", "de": "Instructions steuern das Modell, speichern aber nichts; eine neue Session startet trotzdem ohne die früheren Angaben der Person." }
+        }
+      ],
+      "explanation": {
+        "en": "Session history is the short-term memory of one conversation. Facts that must survive across sessions need a memory context provider such as `FoundryMemoryProvider`, with `scope` set to a stable, trusted user key; without a scope, the session ID becomes the scope.",
+        "de": "Der Session-Verlauf ist das Kurzzeitgedächtnis eines Gesprächs. Fakten, die Sessions überdauern sollen, brauchen einen Memory-Context-Provider wie `FoundryMemoryProvider`, dessen `scope` auf einen stabilen, vertrauenswürdigen Nutzerschlüssel zeigt; ohne Scope wird die Session-ID zum Scope."
+      },
+      "sources": [
+        "https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/context-providers/microsoft-foundry?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/context-providers?pivots=programming-language-python",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-memory"
+      ],
+      "lastVerified": "2026-11-09"
     }
   ]
 }

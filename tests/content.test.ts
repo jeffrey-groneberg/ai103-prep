@@ -37,7 +37,7 @@ describe('real content', () => {
         cases: caseFiles.flatMap((c) => c.data.cases),
         lessons: lessons.map((lesson) => ({ file: `${lesson.module}.ts`, lesson })),
       },
-      { today: '2026-11-06', modelLifecycle: modelLifecycle as ModelLifecycle },
+      { today: '2026-11-09', modelLifecycle: modelLifecycle as ModelLifecycle },
     )
     expect(report.errors.map((e) => `${e.where}: ${e.message}`)).toEqual([])
   })

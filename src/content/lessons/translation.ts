@@ -174,8 +174,8 @@ export const lesson: Lesson = {
     {
       term: 'Azure Translator in Foundry Tools',
       text: {
-        en: 'Cloud translation for text and documents, available through a Translator resource (NMT and Custom Translator; region *Global* or one Azure region — a *regional resource*) or a Foundry resource, which can also host the LLM deployments that LLM translation needs. Text calls go to the global endpoint `api.cognitive.microsofttranslator.com` or your custom-domain endpoint `https://<resource>.cognitiveservices.azure.com` (see the authentication sample below). The Languages operation (`get_supported_languages()` in Python) needs no authentication.',
-        de: 'Clouddienst für die Übersetzung von Text und Dokumenten, verfügbar über eine Translator-Ressource (NMT und Custom Translator; Region *Global* oder eine Azure-Region – eine *regionale Ressource*) oder über eine Foundry-Ressource, die zusätzlich die LLM-Deployments für die LLM-Übersetzung hosten kann. Textaufrufe gehen an den globalen Endpoint `api.cognitive.microsofttranslator.com` oder an deinen Custom-Domain-Endpoint `https://<resource>.cognitiveservices.azure.com` (siehe Authentifizierungsbeispiel unten). Die Languages-Operation (`get_supported_languages()` in Python) braucht keine Authentifizierung.',
+        en: 'Cloud translation for text and documents, available through a Translator resource (NMT and Custom Translator; region *Global* or one Azure region — a *regional resource*) or a Foundry resource, which can also host the LLM deployments that LLM translation needs. Text calls go to the global endpoint `api.cognitive.microsofttranslator.com`, a geography endpoint (`api-nam`, `api-apc` or `api-eur.cognitive.microsofttranslator.com`) or your custom-domain endpoint `https://<resource>.cognitiveservices.azure.com` (see the authentication sample below). The Languages operation (`get_supported_languages()` in Python) needs no authentication.',
+        de: 'Clouddienst für die Übersetzung von Text und Dokumenten, verfügbar über eine Translator-Ressource (NMT und Custom Translator; Region *Global* oder eine Azure-Region – eine *regionale Ressource*) oder über eine Foundry-Ressource, die zusätzlich die LLM-Deployments für die LLM-Übersetzung hosten kann. Textaufrufe gehen an den globalen Endpoint `api.cognitive.microsofttranslator.com`, an einen Geografie-Endpoint (`api-nam`, `api-apc` oder `api-eur.cognitive.microsofttranslator.com`) oder an deinen Custom-Domain-Endpoint `https://<resource>.cognitiveservices.azure.com` (siehe Authentifizierungsbeispiel unten). Die Languages-Operation (`get_supported_languages()` in Python) braucht keine Authentifizierung.',
       },
     },
     {
@@ -374,6 +374,10 @@ custom_entra = TextTranslationClient(endpoint=custom, credential=token)`,
       en: 'Batch document translation needs Azure Blob Storage containers; the synchronous single-file API doesn\'t — and the Foundry portal only offers the synchronous variant.',
       de: 'Die Batch-Dokumentübersetzung braucht Azure-Blob-Storage-Container; die synchrone Einzeldatei-API nicht – und das Foundry-Portal bietet nur die synchrone Variante.',
     },
+    {
+      en: 'The `region` value (header `Ocp-Apim-Subscription-Region`) only names your resource\'s region for authentication; it doesn\'t decide where text is processed. For NMT the endpoint does — the global endpoint uses the closest datacenter and can fail over outside your geography, while `api-eur`, `api-nam` and `api-apc` keep processing in Europe, the Americas or Asia Pacific (LLM translation follows its deployment type instead).',
+      de: 'Der Wert `region` (Header `Ocp-Apim-Subscription-Region`) nennt nur die Region deiner Ressource für die Authentifizierung; er bestimmt nicht, wo der Text verarbeitet wird. Bei NMT entscheidet der Endpoint – der globale Endpoint nutzt das nächstgelegene Rechenzentrum und kann bei einem Ausfall außerhalb deiner Geografie verarbeiten, `api-eur`, `api-nam` und `api-apc` halten die Verarbeitung in Europa, Amerika bzw. im asiatisch-pazifischen Raum (LLM-Übersetzung folgt stattdessen ihrem Deployment-Typ).',
+    },
   ],
   takeaways: [
     { en: 'High-volume text → Translator NMT; tone, gender or adaptive needs → Translator with an LLM deployment.', de: 'Text in großen Mengen → Translator NMT; Ton, Gender oder adaptive Anforderungen → Translator mit LLM-Deployment.' },
@@ -388,5 +392,6 @@ custom_entra = TextTranslationClient(endpoint=custom, credential=token)`,
     { title: 'Translator: authentication and authorization', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/reference/authentication' },
     { title: 'How to recognize and translate speech', url: 'https://learn.microsoft.com/en-us/azure/ai-services/speech-service/how-to-translate-speech' },
     { title: 'GPT Realtime Translate overview', url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/gpt-realtime-translate' },
+    { title: 'Region support for Azure Translator in Foundry Tools', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/region-support' },
   ],
 }

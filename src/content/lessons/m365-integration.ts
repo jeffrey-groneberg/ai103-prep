@@ -318,6 +318,10 @@ agent = project.agents.create_version(
       en: 'Published agents don’t support streaming responses or citations, and file uploads and image generation work in Teams but not in Microsoft 365 Copilot. If users must see sources (for example under Web IQ’s link-back rule), instruct the agent to write the source links into the answer text.',
       de: 'Veröffentlichte Agents unterstützen kein Streaming und keine Zitate; Datei-Uploads und Bildgenerierung funktionieren in Teams, aber nicht in Microsoft 365 Copilot. Müssen Nutzer Quellen sehen (etwa wegen der Link-Pflicht von Web IQ), weise den Agent an, die Quellenlinks in den Antworttext zu schreiben.',
     },
+    {
+      en: 'The training unit “Understand Foundry agent publishing options” still describes the legacy model, in which publishing creates an **Agent Application** with its own URL and identity plus an Azure Bot Service resource in your subscription. Today every new agent has its stable endpoint and its own Microsoft Entra agent identity from creation, and publishing only distributes it to Microsoft 365 Copilot and Teams, with Foundry handling the bot registration.',
+      de: 'Die Trainingseinheit „Understand Foundry agent publishing options“ beschreibt noch das Legacy-Modell, in dem Veröffentlichen eine **Agent Application** mit eigener URL und Identität plus eine Azure-Bot-Service-Ressource in deinem Abonnement erzeugt. Heute hat jeder neue Agent ab dem Anlegen seinen stabilen Endpoint und seine eigene Microsoft-Entra-Agent-Identität, und Veröffentlichen verteilt ihn nur noch an Microsoft 365 Copilot und Teams; die Bot-Registrierung übernimmt Foundry.',
+    },
   ],
   takeaways: [
     { en: 'Default path: **Publish** › **Teams and Microsoft Copilot** in the Foundry portal; use the Agents Toolkit only for custom SSO, middleware or multi-environment pipelines.', de: 'Standardweg: **Publish** › **Teams and Microsoft Copilot** im Foundry-Portal; das Agents Toolkit nur für eigenes SSO, Middleware oder Pipelines über mehrere Umgebungen.' },
@@ -332,5 +336,6 @@ agent = project.agents.create_version(
     { title: 'Configure and share your agent', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/configure-agent' },
     { title: 'Connect agents to Microsoft 365 with Work IQ (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/work-iq' },
     { title: 'Custom engine agents for Microsoft 365 overview', url: 'https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/overview-custom-engine-agent' },
+    { title: 'Migrate from agent applications to the new agent endpoint and publishing experience', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/migrate-agent-applications' },
   ],
 }

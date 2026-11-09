@@ -382,6 +382,10 @@ for doc in results:
       en: 'A vector query with a very selective filter and a small `k_nearest_neighbors` can return too few results with `vectorFilterMode` `postFilter`. `preFilter`, the default for current indexes, filters during the vector search and returns the requested number whenever enough matches exist.',
       de: 'Eine Vektorabfrage mit sehr selektivem Filter und kleinem `k_nearest_neighbors` kann mit `vectorFilterMode` = `postFilter` zu wenige Ergebnisse liefern. `preFilter`, der Standard für aktuelle Indizes, filtert während der Vektorsuche und liefert die angeforderte Anzahl, sobald genug Treffer existieren.',
     },
+    {
+      en: '"Semantic search" in Azure AI Search means the semantic ranker: a query-side second pass that reranks the top 50 BM25 or RRF results by their text — it needs no embeddings and can\'t find documents the first pass missed. Search by meaning over embeddings is vector search; keyword plus vector in one request is hybrid search.',
+      de: '„Semantische Suche“ meint in Azure AI Search den Semantic Ranker: einen zweiten Durchgang zur Abfragezeit, der die Top 50 der BM25- oder RRF-Treffer anhand ihres Texts neu ordnet – er braucht keine Embeddings und findet keine Dokumente, die der erste Durchgang verpasst hat. Suche nach Bedeutung über Embeddings ist Vektorsuche; Keyword plus Vektor in einer Anfrage ist Hybridsuche.',
+    },
   ],
   takeaways: [
     {
@@ -410,6 +414,7 @@ for doc in results:
     { title: 'AI enrichment in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/cognitive-search-concept-intro' },
     { title: 'Indexers in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/search-indexer-overview' },
     { title: 'Relevance in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/search-relevance-overview' },
+    { title: 'Semantic ranking in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/semantic-search-overview' },
     { title: 'Monitor indexer status and results in Azure AI Search', url: 'https://learn.microsoft.com/en-us/azure/search/search-monitor-indexers' },
   ],
 }

@@ -573,15 +573,17 @@
         },
         {
           "id": "s5",
-          "text": { "en": "Run `azd ai agent eval run` or a smoke test against the new version before promoting it", "de": "`azd ai agent eval run` oder einen Smoke-Test gegen die neue Version ausführen, bevor du sie freigibst" },
-          "why": { "en": "Readiness doesn't prove behavior; evaluate the exact candidate version before it takes production traffic.", "de": "Bereitschaft beweist kein korrektes Verhalten; evaluiere genau die Kandidatenversion, bevor sie Produktions-Traffic bekommt." }
+          "text": { "en": "Gate the new version before promoting it: an `azd ai eval run start --fail-on pass-rate=0.8` quality gate or a version-pinned smoke test", "de": "Die neue Version vor der Freigabe prüfen: per Quality Gate mit `azd ai eval run start --fail-on pass-rate=0.8` oder per Smoke-Test auf genau diese Version" },
+          "why": { "en": "Readiness doesn't prove behavior; check the candidate version before it takes production traffic. `azd ai eval` (extension `azure.ai.evaluations`) replaces the deprecated `azd ai agent eval` commands.", "de": "Bereitschaft beweist kein korrektes Verhalten; prüfe die Kandidatenversion, bevor sie Produktions-Traffic bekommt. `azd ai eval` (Extension `azure.ai.evaluations`) ersetzt die veralteten `azd ai agent eval`-Befehle." }
         }
       ],
       "explanation": { "en": "Author → first deployment → `azd pipeline config` → provision, then deploy in CI → evaluate before promotion.", "de": "Erstellen → erstes Deployment → `azd pipeline config` → in CI provisionieren, dann bereitstellen → vor der Freigabe evaluieren." },
       "sources": [
-        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli"
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli",
+        "https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/azure-developer-cli-evaluation",
+        "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/create-optimizer-dataset"
       ],
-      "lastVerified": "2026-11-06"
+      "lastVerified": "2026-11-09"
     },
     {
       "id": "q-plan-prepare-12",
@@ -917,6 +919,69 @@
         "https://learn.microsoft.com/en-us/azure/ai-services/disable-local-auth"
       ],
       "lastVerified": "2026-11-06"
+    },
+    {
+      "id": "q-plan-prepare-19",
+      "type": "match",
+      "domain": "D1",
+      "skill": "1.4.2",
+      "module": "plan-prepare",
+      "difficulty": 1,
+      "stem": { "en": "Your team writes a responsible AI checklist for a new AI app. Match each engineering practice to the responsible AI principle it supports.", "de": "Dein Team schreibt eine Responsible-AI-Checkliste für eine neue KI-App. Ordne jede Engineering-Praxis dem Prinzip verantwortungsvoller KI zu, das sie unterstützt." },
+      "prompts": [
+        {
+          "id": "p1",
+          "prompt": { "en": "Check that the training data covers every customer group and compare error rates per group before each release", "de": "Prüfen, ob die Trainingsdaten jede Kundengruppe abdecken, und vor jedem Release die Fehlerquoten je Gruppe vergleichen" },
+          "answer": "t1",
+          "why": { "en": "Fairness means the system treats all groups equally well, so you need representative training data and quality measured per group, not only on average.", "de": "Fairness heißt, dass das System alle Gruppen gleich gut behandelt – dafür brauchst du repräsentative Trainingsdaten und eine Qualitätsmessung je Gruppe, nicht nur im Durchschnitt." }
+        },
+        {
+          "id": "p2",
+          "prompt": { "en": "Act on a prediction only above a tested confidence threshold, and run the full test suite before each release", "de": "Nur oberhalb einer getesteten Konfidenzschwelle auf eine Vorhersage reagieren und vor jedem Release die komplette Testsuite ausführen" },
+          "answer": "t2",
+          "why": { "en": "Reliability and safety calls for rigorous testing before release and for thresholds that account for the probabilistic nature of model predictions.", "de": "Zuverlässigkeit und Sicherheit verlangt gründliche Tests vor dem Release und Schwellenwerte, die den probabilistischen Charakter von Modellvorhersagen berücksichtigen." }
+        },
+        {
+          "id": "p3",
+          "prompt": { "en": "Tell users that they're working with an AI system, what it's for and which limitations to expect", "de": "Nutzer:innen sagen, dass sie mit einem KI-System arbeiten, wofür es gedacht ist und mit welchen Grenzen sie rechnen müssen" },
+          "answer": "t3",
+          "why": { "en": "Transparency means people understand the system's purpose, how it works and what limitations to expect.", "de": "Transparenz heißt, dass Menschen Zweck, Funktionsweise und zu erwartende Grenzen des Systems verstehen." }
+        },
+        {
+          "id": "p4",
+          "prompt": { "en": "Name an owner who signs off every model change under a documented governance process", "de": "Eine verantwortliche Person benennen, die jede Modelländerung nach einem dokumentierten Governance-Prozess freigibt" },
+          "answer": "t4",
+          "why": { "en": "Accountability keeps people answerable for the AI system: named owners who work within a governance framework.", "de": "Verantwortlichkeit hält Menschen für das KI-System in der Pflicht: benannte Verantwortliche, die in einem Governance-Rahmen arbeiten." }
+        }
+      ],
+      "targets": [
+        {
+          "id": "t1",
+          "text": { "en": "Fairness", "de": "Fairness" }
+        },
+        {
+          "id": "t2",
+          "text": { "en": "Reliability and safety", "de": "Zuverlässigkeit und Sicherheit" }
+        },
+        {
+          "id": "t3",
+          "text": { "en": "Transparency", "de": "Transparenz" }
+        },
+        {
+          "id": "t4",
+          "text": { "en": "Accountability", "de": "Verantwortlichkeit" }
+        },
+        {
+          "id": "t5",
+          "text": { "en": "Privacy and security", "de": "Datenschutz und Security" }
+        }
+      ],
+      "explanation": { "en": "Each principle comes with an engineering habit: fairness → representative data and per-group evaluation; reliability and safety → rigorous testing and confidence thresholds; privacy and security → safeguards for personal data in training and at inference; inclusiveness → diverse people in design and testing; transparency → disclose purpose, workings and limits; accountability → named owners within a governance framework.", "de": "Jedes Prinzip bringt eine Engineering-Gewohnheit mit: Fairness → repräsentative Daten und Evaluierung je Gruppe; Zuverlässigkeit und Sicherheit → gründliche Tests und Konfidenzschwellen; Datenschutz und Security → Schutz personenbezogener Daten in Training und Inferenz; Inklusion → vielfältige Menschen in Design und Tests; Transparenz → Zweck, Funktionsweise und Grenzen offenlegen; Verantwortlichkeit → benannte Verantwortliche in einem Governance-Rahmen." },
+      "sources": [
+        "https://learn.microsoft.com/en-us/training/modules/prepare-azure-ai-development/6-responsible-ai",
+        "https://learn.microsoft.com/en-us/azure/machine-learning/concept-responsible-ai"
+      ],
+      "lastVerified": "2026-11-09"
     }
   ]
 }

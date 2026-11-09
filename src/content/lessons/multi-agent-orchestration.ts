@@ -205,6 +205,13 @@ export const lesson: Lesson = {
         de: 'Tools mit `approval_mode="always_require"` pausieren jede Orchestrierung mit einem `request_info`-Event; `SequentialBuilder(...).with_request_info(agents=[...])` pausiert nach ausgewählten Agents. Jedes Event trägt eine `request_id` und die Anfrage in `data`; du setzt mit `workflow.run(responses={request_id: antwort}, stream=True)` fort.',
       },
     },
+    {
+      term: 'Agent, workflow or plain function?',
+      text: {
+        en: 'An **agent** fits open-ended or conversational tasks in which the model plans and picks tools itself and a single agent run can cover the work. A **workflow** fits processes with clearly defined steps, where you must control the execution order explicitly or several agents and functions have to work together; agents can still be executors, but the edges set the path. And if a plain function can do the job, Learn\'s advice is to write that function instead of using an agent.',
+        de: 'Ein **Agent** passt zu offenen oder dialogorientierten Aufgaben, bei denen das Modell selbst plant und Tools wählt und ein einzelner Agent-Lauf die Arbeit abdeckt. Ein **Workflow** passt zu Abläufen mit klar definierten Schritten, bei denen du die Ausführungsreihenfolge explizit steuern musst oder mehrere Agents und Funktionen zusammenarbeiten müssen; Agents können darin weiter Executors sein, aber die Edges legen den Weg fest. Und kann eine einfache Funktion die Aufgabe erledigen, rät Learn, diese Funktion zu schreiben, statt einen Agent einzusetzen.',
+      },
+    },
   ],
   comparison: {
     title: { en: 'Pick an orchestration pattern', de: 'Das passende Orchestrierungsmuster wählen' },
@@ -376,5 +383,6 @@ async def support_chat(triage, refunds, shipping) -> None:    # Agents built fro
     { title: 'Handoff orchestration', url: 'https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/handoff?pivots=programming-language-python' },
     { title: 'Magentic orchestration', url: 'https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/magentic?pivots=programming-language-python' },
     { title: 'Workflow edges', url: 'https://learn.microsoft.com/en-us/agent-framework/concepts/workflows/edges?pivots=programming-language-python' },
+    { title: 'Microsoft Agent Framework overview (agents vs workflows)', url: 'https://learn.microsoft.com/en-us/agent-framework/overview/?pivots=programming-language-python' },
   ],
 }

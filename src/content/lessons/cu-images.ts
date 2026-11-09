@@ -316,6 +316,10 @@ for item in fields["DamagedParts"].value:    # array -> list of object fields
       en: 'The field schema belongs to the analyzer definition, not to the analyze request. To add fields to a prebuilt\'s output, create a custom analyzer.',
       de: 'Das Feldschema gehört zur Analyzer-Definition, nicht zur Analyse-Anfrage. Wenn du der Ausgabe eines Prebuilts Felder hinzufügen willst, legst du einen eigenen Analyzer an.',
     },
+    {
+      en: 'Custom Vision and the Image Analysis API of Azure Vision in Foundry Tools (v3.2 and v4.0) retire on September 25, 2028, so don\'t start new image tagging, classification or captioning on them. New image analysis uses Content Understanding (for example a custom analyzer on `prebuilt-image`) or a GPT model in Foundry; OCR goes to Document Intelligence, faces to the Face API, and classifiers or object detectors you train yourself to Azure Machine Learning AutoML.',
+      de: 'Custom Vision und die Image Analysis API von Azure Vision in Foundry Tools (v3.2 und v4.0) werden am 25. September 2028 eingestellt – starte darauf also kein neues Tagging, keine Klassifizierung und keine Bildbeschreibung. Neue Bildanalyse nutzt Content Understanding (etwa einen eigenen Analyzer auf `prebuilt-image`) oder ein GPT-Modell in Foundry; OCR übernimmt Document Intelligence, Gesichter die Face API und selbst trainierte Klassifikatoren oder Objektdetektoren Azure Machine Learning AutoML.',
+    },
   ],
   takeaways: [
     { en: 'Analyzer = base analyzer + field schema + models (+ config).', de: 'Analyzer = Basis-Analyzer + Feldschema + Modelle (+ config).' },
@@ -330,5 +334,7 @@ for item in fields["DamagedParts"].value:    # array -> list of object fields
     { title: 'What is a Content Understanding analyzer?', url: 'https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/analyzer-reference' },
     { title: 'Prebuilt analyzers in Azure Content Understanding', url: 'https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/concepts/prebuilt-analyzers' },
     { title: 'Create a custom analyzer', url: 'https://learn.microsoft.com/en-us/azure/ai-services/content-understanding/tutorial/create-custom-analyzer' },
+    { title: 'Migrate from Azure Vision in Foundry Tools - Image Analysis', url: 'https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/migration-options' },
+    { title: 'Migrate from Custom Vision Service', url: 'https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/migration-options' },
   ],
 }

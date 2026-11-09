@@ -192,8 +192,8 @@ export const lesson: Lesson = {
     {
       term: 'Input transcription and customization',
       text: {
-        en: 'Text models and agents can’t hear, so Voice Live transcribes the input with `azure-speech` (`input_audio_transcription.model`, active automatically). You tune that transcript with a `phrase_list` (words boosted per session, no training) or `custom_speech` (locale → model ID on the same Foundry resource). Native audio models hear the audio themselves; transcription for them (for example `gpt-4o-mini-transcribe`) runs separately and only gives you the user’s words as text — a rough guide for captions or logs.',
-        de: 'Textmodelle und Agents können nicht hören, deshalb transkribiert Voice Live die Eingabe mit `azure-speech` (`input_audio_transcription.model`, automatisch aktiv). Dieses Transkript verbesserst du mit einer `phrase_list` (pro Session verstärkte Wörter, ohne Training) oder `custom_speech` (Gebietsschema → Modell-ID auf derselben Foundry-Ressource). Native Audiomodelle hören das Audio selbst; eine Transkription für sie (zum Beispiel `gpt-4o-mini-transcribe`) läuft getrennt und liefert dir nur die Worte des Nutzers als Text – ein grober Anhaltspunkt für Untertitel oder Logs.',
+        en: 'Text models and agents can’t hear, so Voice Live transcribes the input with `azure-speech` (`input_audio_transcription.model`, active automatically) or, alternatively, `mai-transcribe` (preview). You tune that transcript with a `phrase_list` (words boosted per session, no training; works with both) or, only with `azure-speech`, `custom_speech`: locale → **endpoint ID** of a custom speech endpoint deployed on the same Foundry resource, not the model ID. Native audio models hear the audio themselves; transcription for them (for example `gpt-4o-mini-transcribe`) runs separately and only gives you the user’s words as text — a rough guide for captions or logs.',
+        de: 'Textmodelle und Agents können nicht hören, deshalb transkribiert Voice Live die Eingabe mit `azure-speech` (`input_audio_transcription.model`, automatisch aktiv) oder alternativ mit `mai-transcribe` (Preview). Dieses Transkript verbesserst du mit einer `phrase_list` (pro Session verstärkte Wörter, ohne Training; geht mit beiden) oder, nur mit `azure-speech`, mit `custom_speech`: Gebietsschema → **Endpoint-ID** eines Custom-Speech-Endpoints, der auf derselben Foundry-Ressource bereitgestellt ist, nicht die Modell-ID. Native Audiomodelle hören das Audio selbst; eine Transkription für sie (zum Beispiel `gpt-4o-mini-transcribe`) läuft getrennt und liefert dir nur die Worte des Nutzers als Text – ein grober Anhaltspunkt für Untertitel oder Logs.',
       },
     },
     {
@@ -356,14 +356,14 @@ async def tune_input(conn):                                  # conn: the connect
             model="azure-speech",                            # text models and agents (active by default)
             language="de-DE",
             phrase_list=["Contoso", "Akkuschrauber X2"],    # boost words, no training
-            # custom_speech={"de-DE": "<custom-speech-model-id>"},  # optional: your trained model
+            # custom_speech={"de-DE": "<custom-speech-endpoint-id>"},  # optional: endpoint ID, not model ID
         ),
         turn_detection=AzureSemanticVadMultilingual(),     # azure_semantic_vad is mainly English
     ))`,
       notes: [
         {
-          en: 'You can put these fields into the first `session.update`. The custom speech model must be on the same Foundry resource as Voice Live.',
-          de: 'Diese Felder kannst du schon ins erste `session.update` schreiben. Das Custom-Speech-Modell muss auf derselben Foundry-Ressource wie Voice Live liegen.',
+          en: 'You can put these fields into the first `session.update`. `custom_speech` takes the endpoint ID of a custom speech endpoint deployed on the same Foundry resource as Voice Live — not the model ID — and works only with `azure-speech`.',
+          de: 'Diese Felder kannst du schon ins erste `session.update` schreiben. `custom_speech` erwartet die Endpoint-ID eines Custom-Speech-Endpoints, der auf derselben Foundry-Ressource wie Voice Live bereitgestellt ist – nicht die Modell-ID –, und funktioniert nur mit `azure-speech`.',
         },
       ],
     },
@@ -382,8 +382,8 @@ async def tune_input(conn):                                  # conn: the connect
       de: '`semantic_vad` funktioniert nur mit `gpt-realtime`-Modellen; `azure_semantic_vad` funktioniert mit allen Modellen, unterstützt aber vor allem Englisch – für Deutsch nimmst du `azure_semantic_vad_multilingual`. Ohne Einstellung gilt `server_vad`.',
     },
     {
-      en: 'Custom speech in Voice Live works only with `azure-speech` transcription, and the model must be on the same Foundry resource — copy it there if it was trained elsewhere.',
-      de: 'Custom Speech funktioniert in Voice Live nur mit der Transkription `azure-speech`, und das Modell muss auf derselben Foundry-Ressource liegen – kopiere es dorthin, wenn es woanders trainiert wurde.',
+      en: 'Custom speech in Voice Live works only with `azure-speech` transcription and needs a custom speech endpoint deployed on the same Foundry resource: copy a model trained elsewhere there, deploy it and pass the endpoint ID, not the model ID.',
+      de: 'Custom Speech funktioniert in Voice Live nur mit der Transkription `azure-speech` und braucht einen Custom-Speech-Endpoint, der auf derselben Foundry-Ressource bereitgestellt ist: Kopiere ein woanders trainiertes Modell dorthin, stelle es bereit und übergib die Endpoint-ID, nicht die Modell-ID.',
     },
     {
       en: 'On `input_audio_buffer.speech_started`, clear the playback queue; a client that keeps playing makes the agent talk over the user.',

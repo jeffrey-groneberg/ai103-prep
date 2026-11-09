@@ -97,8 +97,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Automate it', de: 'Automatisieren' },
           text: {
-            en: '`azd provision` applies your Bicep or Terraform to the resource; `azd deploy` ships a new agent version into the project. `azd pipeline config` generates the GitHub Actions or Azure DevOps pipeline; on GitHub it signs in with an OIDC federated credential (GitHub\'s token is swapped for a Microsoft Entra token, so no secret is stored). `azd ai agent eval run` evaluates the deployed agent; to gate a release, pin production to the current version before you deploy and fail CI with `azd ai eval run start --fail-on`.',
-            de: '`azd provision` wendet dein Bicep oder Terraform auf die Ressource an; `azd deploy` liefert eine neue Agent-Version ins Projekt. `azd pipeline config` erzeugt die Pipeline für GitHub Actions oder Azure DevOps; auf GitHub meldet sie sich per OIDC-Federated-Credential an (GitHubs Token wird gegen ein Microsoft-Entra-Token getauscht – kein gespeichertes Secret). `azd ai agent eval run` evaluiert den bereitgestellten Agent; für ein Release-Gate pinnst du Produktion vor dem Deployment auf die aktuelle Version und lässt CI per `azd ai eval run start --fail-on` an Qualitätsschwellen scheitern.',
+            en: '`azd provision` applies your Bicep or Terraform to the resource; `azd deploy` ships a new agent version into the project. `azd pipeline config` generates the GitHub Actions or Azure DevOps pipeline; on GitHub it signs in with an OIDC federated credential (GitHub\'s token is swapped for a Microsoft Entra token, so no secret is stored). Evaluations run with `azd ai eval` (extension `azure.ai.evaluations`, preview; the older `azd ai agent eval` commands are deprecated): `azd ai eval run start --fail-on pass-rate=0.8` fails CI below your threshold. To gate a release, pin production to the current version before you deploy.',
+            de: '`azd provision` wendet dein Bicep oder Terraform auf die Ressource an; `azd deploy` liefert eine neue Agent-Version ins Projekt. `azd pipeline config` erzeugt die Pipeline für GitHub Actions oder Azure DevOps; auf GitHub meldet sie sich per OIDC-Federated-Credential an (GitHubs Token wird gegen ein Microsoft-Entra-Token getauscht – kein gespeichertes Secret). Evaluierungen laufen mit `azd ai eval` (Extension `azure.ai.evaluations`, Preview; die älteren `azd ai agent eval`-Befehle sind veraltet): `azd ai eval run start --fail-on pass-rate=0.8` lässt CI unter deinem Schwellenwert scheitern. Für ein Release-Gate pinnst du Produktion vor dem Deployment auf die aktuelle Version.',
           },
           focus: ['n-cicd', 'e-cicd', 'e-cicd-deploy', 'n-ep', 'n-assets'],
         },
@@ -205,8 +205,8 @@ export const lesson: Lesson = {
     {
       term: 'Foundry Tools',
       text: {
-        en: 'Prebuilt, task-specific APIs hosted in your Foundry resource: Azure Language, Speech, Translator, Vision, Document Intelligence, Content Understanding and Azure AI Content Safety. They give predictable output and cost for common tasks and use tool-specific endpoints such as `https://<resource>.cognitiveservices.azure.com/`.',
-        de: 'Vorgefertigte, aufgabenspezifische APIs in deiner Foundry-Ressource: Azure Language, Speech, Translator, Vision, Document Intelligence, Content Understanding und Azure AI Content Safety. Sie liefern für Standardaufgaben vorhersehbare Ergebnisse und Kosten und nutzen eigene Endpoints wie `https://<resource>.cognitiveservices.azure.com/`.',
+        en: 'Prebuilt, task-specific APIs hosted in your Foundry resource: Azure Language, Speech, Translator, Vision, Document Intelligence, Content Understanding and Azure AI Content Safety. They give predictable output and cost for common tasks and use tool-specific endpoints such as `https://<resource>.cognitiveservices.azure.com/`. Don\'t start new image analysis on the Image Analysis API of Azure Vision or on Custom Vision: both retire on September 25, 2028.',
+        de: 'Vorgefertigte, aufgabenspezifische APIs in deiner Foundry-Ressource: Azure Language, Speech, Translator, Vision, Document Intelligence, Content Understanding und Azure AI Content Safety. Sie liefern für Standardaufgaben vorhersehbare Ergebnisse und Kosten und nutzen eigene Endpoints wie `https://<resource>.cognitiveservices.azure.com/`. Starte keine neue Bildanalyse auf der Image Analysis API von Azure Vision oder auf Custom Vision: Beide werden am 25. September 2028 eingestellt.',
       },
     },
     {
@@ -255,9 +255,14 @@ export const lesson: Lesson = {
         { en: 'One analyzer for every modality, generated fields, confidence scores and grounding', de: 'Ein Analyzer für alle Modalitäten, generierte Felder, Konfidenzwerte und Grounding' },
       ],
       [
-        { en: 'Transcribe speech, translate text, detect PII, analyze images', de: 'Sprache transkribieren, Text übersetzen, PII erkennen, Bilder analysieren' },
-        'Speech · Translator · Language · Vision',
+        { en: 'Transcribe speech, translate text, detect PII', de: 'Sprache transkribieren, Text übersetzen, PII erkennen' },
+        'Speech · Translator · Language',
         { en: 'Purpose-built Foundry Tools: predictable output and cost, no prompt engineering', de: 'Spezialisierte Foundry Tools: vorhersehbare Ausgabe und Kosten, kein Prompt Engineering' },
+      ],
+      [
+        { en: 'Describe, tag or classify images in a new solution', de: 'Bilder in einer neuen Lösung beschreiben, taggen oder klassifizieren' },
+        { en: 'Content Understanding (custom analyzer on `prebuilt-image`) or a vision-capable GPT model', de: 'Content Understanding (eigener Analyzer auf `prebuilt-image`) oder ein Vision-fähiges GPT-Modell' },
+        { en: 'The Image Analysis API of Azure Vision and Custom Vision retire on September 25, 2028; OCR → Document Intelligence, faces → Face API, a classifier or object detector you train yourself → Azure Machine Learning AutoML', de: 'Die Image Analysis API von Azure Vision und Custom Vision werden am 25. September 2028 eingestellt; OCR → Document Intelligence, Gesichter → Face API, selbst trainierte Klassifikatoren oder Objektdetektoren → Azure Machine Learning AutoML' },
       ],
       [
         { en: 'Answer questions from files you upload', de: 'Fragen aus hochgeladenen Dateien beantworten' },
@@ -297,7 +302,7 @@ export const lesson: Lesson = {
       [
         { en: 'Call models with portable code', de: 'Modelle mit portablem Code aufrufen' },
         'OpenAI SDK',
-        { en: '`/openai/v1/` route or `project.get_openai_client()`; `model` = deployment name', de: '`/openai/v1/`-Route oder `project.get_openai_client()`; `model` = Deployment-Name' },
+        { en: '`/openai/v1/` route or `project.get_openai_client()`; `model` = deployment name (instant access, preview: the model name)', de: '`/openai/v1/`-Route oder `project.get_openai_client()`; `model` = Deployment-Name (Instant Access, Preview: der Modellname)' },
       ],
       [
         { en: 'Scaffold, provision and deploy from a terminal or pipeline', de: 'Gerüst anlegen, provisionieren und bereitstellen – im Terminal oder in der Pipeline' },
@@ -380,6 +385,14 @@ for doc in language.recognize_pii_entities(tickets):
       en: 'The visual workflow designer in the Foundry portal retires on December 1, 2026. Build new multi-agent workflows in code with Microsoft Agent Framework (the SDK) and run them in Foundry as hosted agents (the runtime) — the two work together, they aren\'t alternatives.',
       de: 'Der visuelle Workflow-Designer im Foundry-Portal wird am 1. Dezember 2026 eingestellt. Baue neue Multi-Agent-Workflows im Code mit Microsoft Agent Framework (dem SDK) und betreibe sie in Foundry als Hosted Agents (der Laufzeit) – beides arbeitet zusammen, es sind keine Alternativen.',
     },
+    {
+      en: 'Projects in one Foundry resource aren\'t equal: only the **default project** (normally the resource\'s first project; tag `default`, property `is_default`) can use the OpenAI Batch, fine-tuning and stored completions APIs and Speech fine-tuning — other projects get only Responses, Files and Conversations from the OpenAI API. A team that needs its own fine-tuning gets a separate Foundry resource.',
+      de: 'Projekte einer Foundry-Ressource sind nicht gleichwertig: Nur das **Default-Projekt** (meist das erste Projekt der Ressource; Tag `default`, Eigenschaft `is_default`) kann die OpenAI-APIs für Batch, Fine-Tuning und Stored Completions sowie Speech-Fine-Tuning nutzen – andere Projekte bekommen aus der OpenAI-API nur Responses, Files und Conversations. Braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource.',
+    },
+    {
+      en: 'Regional endpoints such as `https://westus.api.cognitive.microsoft.com/` accept keys but not Microsoft Entra ID tokens: keyless calls to a Foundry Tool need the resource\'s custom subdomain endpoint (`https://<resource>.cognitiveservices.azure.com/`). Translator\'s global endpoint is the exception — it accepts a token together with the resource ID header (`Ocp-Apim-ResourceId`), plus `Ocp-Apim-Subscription-Region` when the resource is regional or multi-service.',
+      de: 'Regionale Endpoints wie `https://westus.api.cognitive.microsoft.com/` akzeptieren Keys, aber keine Microsoft-Entra-ID-Tokens: Schlüssellose Aufrufe eines Foundry Tools brauchen den Custom-Subdomain-Endpoint der Ressource (`https://<resource>.cognitiveservices.azure.com/`). Ausnahme ist der globale Endpoint von Translator – er nimmt ein Token zusammen mit dem Header für die Ressourcen-ID (`Ocp-Apim-ResourceId`) an, bei einer regionalen oder Multi-Service-Ressource zusätzlich mit `Ocp-Apim-Subscription-Region`.',
+    },
   ],
   takeaways: [
     { en: 'Foundry resource = governance boundary; project = development boundary.', de: 'Foundry-Ressource = Governance-Grenze; Projekt = Entwicklungsgrenze.' },
@@ -394,5 +407,13 @@ for doc in language.recognize_pii_entities(tickets):
     { title: 'Role-based access control for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/rbac-foundry' },
     { title: 'How to configure network isolation for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-private-link' },
     { title: 'Set up CI/CD for hosted agents with the Azure Developer CLI', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli' },
+    { title: 'Run agent evaluations with the azd CLI (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/azure-developer-cli-evaluation' },
+    { title: 'Create an evaluation dataset and evaluators', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/create-optimizer-dataset' },
+    { title: 'Create a project for Microsoft Foundry', url: 'https://learn.microsoft.com/en-us/azure/foundry/how-to/create-projects' },
+    { title: 'Instant access to models in Microsoft Foundry (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/concepts/instant-models' },
+    { title: 'Migrate from Azure Vision in Foundry Tools - Image Analysis', url: 'https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/migration-options' },
+    { title: 'Migrate from Custom Vision Service', url: 'https://learn.microsoft.com/en-us/azure/ai-services/custom-vision-service/migration-options' },
+    { title: 'Authenticate requests to Foundry Tools', url: 'https://learn.microsoft.com/en-us/azure/ai-services/authentication' },
+    { title: 'Enable Microsoft Entra ID authentication (Azure Translator)', url: 'https://learn.microsoft.com/en-us/azure/ai-services/translator/how-to/microsoft-entra-id-auth' },
   ],
 }

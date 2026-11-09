@@ -210,6 +210,13 @@ export const lesson: Lesson = {
         de: '`specialist.as_tool()` macht aus einem Agent ein Funktionstool für einen anderen Agent. Der koordinierende Agent delegiert eine Teilaufgabe, bekommt das Ergebnis zurück und behält die Verantwortung für das Gespräch.',
       },
     },
+    {
+      term: 'Context providers (memory)',
+      text: {
+        en: 'Context providers run around every `agent.run()`: before the call they can add instructions, messages or tools, and afterwards they can save what they learned; you pass them in `context_providers=[...]`. Short-term memory is one session\'s history (for example `InMemoryHistoryProvider`). For long-term memory across sessions, `FoundryMemoryProvider(project_client=..., memory_store_name=..., scope=...)` extracts facts such as preferences into a Foundry memory store (preview) and retrieves the relevant ones in later runs. Set `scope` to a stable, trusted key such as the signed-in user\'s ID; without it the session ID becomes the scope, so the memories stay inside that one session.',
+        de: 'Context Provider laufen rund um jedes `agent.run()`: Vorher können sie Instructions, Nachrichten oder Tools ergänzen, danach können sie speichern, was sie gelernt haben; du übergibst sie in `context_providers=[...]`. Kurzzeitgedächtnis ist der Verlauf einer Session (etwa über `InMemoryHistoryProvider`). Für ein Langzeitgedächtnis über Sessions hinweg extrahiert `FoundryMemoryProvider(project_client=..., memory_store_name=..., scope=...)` Fakten wie Vorlieben in einen Foundry Memory Store (Preview) und holt die passenden in späteren Läufen zurück. Setze `scope` auf einen stabilen, vertrauenswürdigen Schlüssel wie die ID des angemeldeten Nutzers; ohne ihn wird die Session-ID zum Scope, und die Erinnerungen bleiben in dieser einen Session.',
+      },
+    },
   ],
   comparison: {
     title: { en: 'Which Agent Framework class for which target?', de: 'Welche Agent-Framework-Klasse für welches Ziel?' },
@@ -359,5 +366,8 @@ asyncio.run(main())`,
     { title: 'Microsoft Foundry Agent Service (FoundryAgent)', url: 'https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/agent-services/foundry?pivots=programming-language-python' },
     { title: 'Using function tools with an agent', url: 'https://learn.microsoft.com/en-us/agent-framework/agents/tools/function-tools?pivots=programming-language-python' },
     { title: 'Python 2026 significant changes guide', url: 'https://learn.microsoft.com/en-us/agent-framework/support/upgrade/python-2026-significant-changes' },
+    { title: 'Context providers (Microsoft Agent Framework)', url: 'https://learn.microsoft.com/en-us/agent-framework/concepts/agents/conversations/context-providers?pivots=programming-language-python' },
+    { title: 'Microsoft Foundry context providers (FoundryMemoryProvider)', url: 'https://learn.microsoft.com/en-us/agent-framework/integrations/by-component/context-providers/microsoft-foundry?pivots=programming-language-python' },
+    { title: 'Memory in Microsoft Foundry Agent Service (preview)', url: 'https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-memory' },
   ],
 }
