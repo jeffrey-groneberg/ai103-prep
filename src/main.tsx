@@ -9,6 +9,11 @@ import './styles/content.css'
 import './styles/pages.css'
 import { App } from './App.tsx'
 
+// Installed as an app (home screen or desktop), ask the browser to keep the locally stored progress
+// instead of clearing it when the device runs low on space.
+const standalone = window.matchMedia?.('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone
+if (standalone) void navigator.storage?.persist?.()
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HashRouter>

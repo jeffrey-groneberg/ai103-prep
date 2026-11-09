@@ -16,6 +16,7 @@
     "check:links": "node scripts/check-links.ts",
     "audit:diagrams": "node scripts/audit-diagrams.mjs",
     "icons": "node scripts/gen-icons.mjs",
+    "icons:pwa": "node scripts/gen-pwa-icons.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run validate",
     "export:lessons": "node scripts/export-lessons.ts",
     "sources:titles": "node scripts/source-titles.ts",
@@ -40,6 +41,7 @@
     "playwright": "^1.65.0-alpha-2026-10-30",
     "typescript": "~7.0.2",
     "vite": "^8.3.5",
+    "vite-plugin-pwa": "^2.0.0",
     "vitest": "^5.0.5"
   },
   "engines": {

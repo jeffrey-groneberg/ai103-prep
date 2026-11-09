@@ -4,6 +4,8 @@ Lern-App für die Microsoft-Prüfung **AI-103: Developing AI Apps and Agents on 
 
 Die App folgt dem offiziellen Kurs **AI-103T00** (4 Lernpfade, 31 Module) und dem Skills-Katalog *„skills measured as of April 16, 2026“*. Zu jedem Modul gibt es eine bebilderte Lektion mit Schritt-für-Schritt-Diagrammen und eigene Übungsfragen. Alles läuft im Browser: kein Backend, kein Konto.
 
+**Online:** <https://jeffrey-groneberg.github.io/ai103-prep/> – im Browser am Rechner oder Handy; auf Wunsch als App installierbar und offline nutzbar (siehe [Online und als App](#online-und-als-app)).
+
 **Stand:** Inhalte zuletzt mit Microsoft Learn abgeglichen am **6. November 2026**.
 
 > [!IMPORTANT]
@@ -23,7 +25,22 @@ npm run dev      # jeden Tag zum Starten
 Dann <http://localhost:5173> öffnen. Beenden mit `Strg+C` im Terminal.
 
 > [!NOTE]
-> Dein Lernstand liegt im Browser – und zwar **pro Browser und pro Adresse**. Nutze deshalb immer denselben Browser und `http://localhost:5173`. Ist Port 5173 schon belegt, bricht der Start mit einer Meldung ab, statt still auf einen anderen Port auszuweichen (dort wäre dein Lernstand leer). Sichere den Lernstand ab und zu unter **Fortschritt → Exportieren**.
+> Dein Lernstand liegt im Browser – und zwar **pro Browser und pro Adresse**. Bleib deshalb bei einem Browser und einer Adresse: der [Online-Version](https://jeffrey-groneberg.github.io/ai103-prep/) oder lokal `http://localhost:5173`. Ist Port 5173 schon belegt, bricht der Start mit einer Meldung ab, statt still auf einen anderen Port auszuweichen (dort wäre dein Lernstand leer). Sichere den Lernstand ab und zu unter **Fortschritt → Exportieren**.
+
+## Online und als App
+
+Die App ist unter <https://jeffrey-groneberg.github.io/ai103-prep/> veröffentlicht und läuft in jedem aktuellen Browser, am Rechner wie am Handy. Zusätzlich kannst du sie als App installieren; dann startet sie vom Home-Bildschirm ohne Browserleiste:
+
+| Gerät | So installierst du die App |
+|---|---|
+| iPhone, iPad (Safari) | Teilen-Symbol → **Zum Home-Bildschirm** |
+| Android (Chrome) | Menü ⋮ → **App installieren** bzw. **Zum Startbildschirm hinzufügen** |
+| Windows, macOS (Edge, Chrome) | Installieren-Symbol rechts in der Adressleiste |
+
+- **Offline:** Nach dem ersten Öffnen funktionieren Lektionen, Diagramme, Fragen, Wiederholung und Prüfungssimulation ohne Internet. Nur die Links zu Microsoft Learn brauchen eine Verbindung.
+- **Updates:** Jeder Push auf `main` prüft (`npm run check`), baut und veröffentlicht die Seite neu – siehe `.github/workflows/pages.yml`. Die App lädt die neue Version beim nächsten Start.
+- **Lernstand:** Die Online-Version und `localhost:5173` haben getrennte Lernstände. Auf dem iPhone hat die installierte App zusätzlich einen eigenen Lernstand, getrennt von Safari. Umziehen kannst du ihn mit **Fortschritt → Exportieren** und **Importieren**.
+- **Sichtbarkeit:** Das Repository ist privat, die Seite selbst ist öffentlich: Wer den Link kennt, kann sie öffnen. Suchmaschinen werden gebeten, sie nicht aufzunehmen (`noindex`).
 
 ## So lernst du damit
 
@@ -158,7 +175,7 @@ Alles nach `--` reicht npm an das Skript weiter.
 |---|---|
 | `npm run dev` | Entwicklungsserver auf <http://localhost:5173> |
 | `npm run build` | Typprüfung und statischer Build nach `dist/` |
-| `npm run preview` | Den Build unter derselben Adresse ansehen (vorher `npm run dev` beenden) |
+| `npm run preview` | Den Build wie online testen, mit Offline-Modus: <http://localhost:4173> (eigener Lernstand) |
 | `npm run check` | Lint, Typprüfung, Tests und Inhaltsprüfung |
 | `npm run validate` | Fragen, Lektionen, Diagramme, Modelle und Abdeckung prüfen |
 | `npm run validate -- --matrix` | Wie oben und zusätzlich `docs/coverage.md` neu schreiben |
@@ -170,6 +187,7 @@ Alles nach `--` reicht npm an das Skript weiter.
 | `npm run sources:titles` | Seitentitel aller zitierten Learn-Seiten abrufen |
 | `npm run export:lessons` | Alle Lektionen auf Englisch als Markdown nach `dist-lessons/` exportieren |
 | `npm run export:lessons -- dist-lessons de` | Dasselbe auf Deutsch (1. Argument: Zielordner, 2. Argument: Sprache) |
+| `npm run icons:pwa` | App-Icons für Home-Bildschirm und Installation neu erzeugen (`public/icons/`) |
 
 ## Projektstruktur
 
@@ -190,11 +208,13 @@ src/
   components/            Diagramm-Renderer, Fragetypen, Lernsitzungen, Code-Highlighting, Icons
   pages/                 Start, Lernen, Lektion, Üben, Prüfung, Wiederholen, Fortschritt, Abdeckung, Ressourcen
   styles/                Design-Tokens und Styles
+public/                  Favicon und App-Icons
 scripts/                 validate-content, check-learn, check-links, model-lifecycle, source-titles,
-                         export-lessons, gen-icons, audit-diagrams
+                         export-lessons, gen-icons, gen-pwa-icons, audit-diagrams
 tests/                   Vitest: Bewertung, Prüfung, Leitner, Inhaltsprüfung, Geometrie, Diagramm-Vorschau,
                          App-Smoke-Test, kompletter Fragenkatalog
 docs/                    content-guide.md (Regeln und geprüfte Fakten), coverage.md (generiert)
+.github/workflows/       pages.yml: prüfen, bauen, auf GitHub Pages veröffentlichen
 ```
 
 ## Fragen ergänzen oder ändern
@@ -229,7 +249,9 @@ Dein Fortschritt liegt nur im `localStorage` deines Browsers (Schlüssel `ai103-
 
 ## Veröffentlichen
 
-`npm run build` erzeugt eine statische Seite mit relativen Pfaden und Hash-Routing. Den Ordner `dist/` kannst du auf jeden statischen Host legen, auch in einen Unterordner.
+Die Seite wird automatisch veröffentlicht: Bei jedem Push auf `main` führt GitHub Actions `npm run check` und `npm run build` aus und stellt `dist/` auf GitHub Pages bereit (`.github/workflows/pages.yml`). Den Lauf startest du auch von Hand unter **Actions → Deploy to GitHub Pages → Run workflow**.
+
+`npm run build` erzeugt eine statische Seite mit relativen Pfaden und Hash-Routing, dazu Web-App-Manifest und Service Worker (vite-plugin-pwa) für Installation und Offline-Betrieb. Den Ordner `dist/` kannst du deshalb auch auf jeden anderen statischen Host legen, auch in einen Unterordner.
 
 ## Design
 
