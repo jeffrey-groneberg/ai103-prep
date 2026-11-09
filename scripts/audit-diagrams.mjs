@@ -54,7 +54,7 @@ function auditInPage() {
     const nodes = [...svg.querySelectorAll('g[data-node]')].map((g) => {
       const shape = g.querySelector('.dg-shape')
       const texts = [...g.querySelectorAll('text')].map((t) => ({ text: t.textContent, box: bb(t), sub: t.classList.contains('dg-sub') }))
-      return { id: g.dataset.node, kind: g.dataset.shape, shape, box: bb(shape), texts, name: texts.filter((t) => !t.sub).map((t) => t.text).join(' ') }
+      return { id: g.dataset.node, g, kind: g.dataset.shape, shape, box: bb(shape), texts, name: texts.filter((t) => !t.sub).map((t) => t.text).join(' ') }
     })
     const nodeById = new Map(nodes.map((n) => [n.id, n]))
     const groupById = new Map(groups.map((g) => [g.id, g]))
@@ -88,7 +88,6 @@ function auditInPage() {
       let right = x + w - 7
       let top = y + 1.5
       let bottom = y + h - 1.5
-      if (n.kind === 'actor') left = x + 33
       if (n.kind === 'store') top = y + 2 * Math.min(9, h / 5) + 0.5
       for (const t of n.texts) {
         let l = left
@@ -103,6 +102,15 @@ function auditInPage() {
         const overV = Math.max(top - t.box.y, t.box.y + t.box.h - bottom)
         if (over > 0.5) add('text-overflow', 'error', [n.id], `${q(t.text)} is ${over.toFixed(1)} px too wide for its box (${n.kind}, w=${w.toFixed(0)})`)
         if (overV > 0.5) add('text-overflow', 'error', [n.id], `${q(t.text)} sticks out ${overV.toFixed(1)} px vertically (h=${h.toFixed(0)})`)
+      }
+      // The official icon: present, fully inside the drawn shape, clear of every text line.
+      const icon = n.g.querySelector('image.dg-icon')
+      if (!icon || !icon.getAttribute('href')) add('icon-missing', 'error', [n.id], `${q(n.name)} has no official icon`)
+      else {
+        const ib = bb(icon)
+        const corners = [[ib.x + 1, ib.y + 1], [ib.x + ib.w - 1, ib.y + 1], [ib.x + 1, ib.y + ib.h - 1], [ib.x + ib.w - 1, ib.y + ib.h - 1]]
+        if (!corners.every(([cx, cy2]) => fill(n.shape, cx, cy2))) add('icon-outside', 'error', [n.id], `the icon of ${q(n.name)} sticks out of its ${n.kind}`)
+        for (const t of n.texts) if (inter(ib, t.box, -0.5)) add('icon-text', 'error', [n.id], `the icon of ${q(n.name)} overlaps ${q(t.text)}`)
       }
     }
 

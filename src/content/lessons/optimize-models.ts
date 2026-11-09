@@ -21,8 +21,8 @@ export const lesson: Lesson = {
       width: 960,
       height: 470,
       nodes: [
-        { id: 'N1', x: 10, y: 180, w: 150, h: 70, label: { en: 'Evaluate baseline', de: 'Baseline messen' }, sub: { en: 'test set + evaluators', de: 'Testset + Evaluatoren' }, tone: 'foundry' },
-        { id: 'D', x: 200, y: 175, w: 160, h: 80, label: { en: "What's wrong?", de: 'Was hakt?' }, tone: 'neutral', shape: 'diamond' },
+        { id: 'N1', x: 5, y: 180, w: 160, h: 70, label: { en: 'Evaluate baseline', de: 'Baseline messen' }, sub: { en: 'test set + evaluators', de: 'Testset + Evaluatoren' }, icon: 'metrics', tone: 'foundry' },
+        { id: 'D', x: 200, y: 175, w: 160, h: 80, label: { en: "What's wrong?", de: 'Was hakt?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
         {
           id: 'S1',
           x: 472,
@@ -31,6 +31,7 @@ export const lesson: Lesson = {
           h: 74,
           label: 'Prompt engineering',
           sub: { en: 'system message · few-shot · params', de: 'Systemprompt · Few-Shot · Parameter' },
+          icon: 'guide',
           tone: 'app',
         },
         {
@@ -41,10 +42,11 @@ export const lesson: Lesson = {
           h: 74,
           label: { en: 'RAG (grounding)', de: 'RAG (Grounding)' },
           sub: { en: 'retrieve · augment · generate', de: 'abrufen · anreichern · generieren' },
+          icon: 'search',
           tone: 'data',
         },
-        { id: 'S3', x: 472, y: 326, w: 240, h: 74, label: 'Fine-tuning', sub: 'SFT · DPO · RFT', tone: 'model' },
-        { id: 'C', x: 765, y: 178, w: 180, h: 74, label: { en: 'Combine + re-test', de: 'Kombinieren + testen' }, sub: { en: 'e.g. prompts + RAG', de: 'z. B. Prompts + RAG' }, tone: 'neutral' },
+        { id: 'S3', x: 472, y: 326, w: 240, h: 74, label: 'Fine-tuning', sub: 'SFT · DPO · RFT', icon: 'foundry-models', tone: 'model' },
+        { id: 'C', x: 761, y: 178, w: 187, h: 74, label: { en: 'Combine + re-test', de: 'Kombinieren + testen' }, sub: { en: 'e.g. prompts + RAG', de: 'z. B. Prompts + RAG' }, icon: 'gear', tone: 'neutral' },
       ],
       edges: [
         { id: 'd0', from: 'N1', to: 'D' },
@@ -109,13 +111,13 @@ export const lesson: Lesson = {
       width: 960,
       height: 440,
       nodes: [
-        { id: 'R', x: 10, y: 60, w: 160, h: 64, label: { en: 'Task + criteria', de: 'Aufgabe + Kriterien' }, tone: 'user', shape: 'pill' },
-        { id: 'G', x: 240, y: 56, w: 180, h: 72, label: { en: 'Generator model', de: 'Generator-Modell' }, sub: { en: 'writes the draft', de: 'schreibt den Entwurf' }, tone: 'model' },
-        { id: 'J', x: 495, y: 56, w: 200, h: 72, label: { en: 'Judge / evaluator', de: 'Judge / Evaluator' }, sub: { en: 'score or pass/fail + reason', de: 'Score oder Pass/Fail + Grund' }, tone: 'foundry' },
-        { id: 'P', x: 505, y: 200, w: 180, h: 80, label: { en: 'Passes?', de: 'Bestanden?' }, tone: 'neutral', shape: 'diamond' },
-        { id: 'A', x: 765, y: 206, w: 170, h: 68, label: { en: 'Final answer', de: 'Finale Antwort' }, tone: 'app', shape: 'pill' },
-        { id: 'K', x: 250, y: 200, w: 160, h: 80, label: { en: 'Rounds left?', de: 'Runden übrig?' }, tone: 'neutral', shape: 'diamond' },
-        { id: 'X', x: 240, y: 350, w: 180, h: 70, label: { en: 'Stop + escalate', de: 'Stopp + eskalieren' }, sub: { en: 'max rounds reached', de: 'max. Runden erreicht' }, tone: 'safety' },
+        { id: 'R', x: 10, y: 60, w: 160, h: 64, label: { en: 'Task + criteria', de: 'Aufgabe +\nKriterien' }, icon: 'users', tone: 'user', shape: 'pill' },
+        { id: 'G', x: 240, y: 56, w: 180, h: 72, label: { en: 'Generator model', de: 'Generator-Modell' }, sub: { en: 'writes the draft', de: 'schreibt den Entwurf' }, icon: 'foundry-models', tone: 'model' },
+        { id: 'J', x: 495, y: 56, w: 200, h: 72, label: { en: 'Judge / evaluator', de: 'Judge / Evaluator' }, sub: { en: 'score or pass/fail + reason', de: 'Score oder Pass/Fail + Grund' }, icon: 'metrics', tone: 'foundry' },
+        { id: 'P', x: 505, y: 200, w: 180, h: 80, label: { en: 'Passes?', de: 'Bestanden?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
+        { id: 'A', x: 765, y: 206, w: 170, h: 68, label: { en: 'Final answer', de: 'Finale Antwort' }, icon: 'file', tone: 'app', shape: 'pill' },
+        { id: 'K', x: 250, y: 200, w: 160, h: 80, label: { en: 'Rounds left?', de: 'Runden übrig?' }, icon: 'branch', tone: 'neutral', shape: 'diamond' },
+        { id: 'X', x: 240, y: 350, w: 180, h: 70, label: { en: 'Stop + escalate', de: 'Stopp + eskalieren' }, sub: { en: 'max rounds reached', de: 'max. Runden erreicht' }, icon: 'conditional-access', tone: 'safety' },
       ],
       edges: [
         { id: 'l1', from: 'R', to: 'G', label: { en: 'prompt', de: 'Prompt' } },

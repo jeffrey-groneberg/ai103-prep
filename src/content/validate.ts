@@ -11,6 +11,7 @@ import type {
 import {
   ARROW_CLEARANCE,
   DIAMOND_INSET,
+  ICON_SLOT,
   edgePoints,
   GROUP_RADIUS,
   groupTitleRect,
@@ -28,6 +29,7 @@ import {
   type Rect,
 } from '../lib/geometry.ts'
 import { textWidth } from '../lib/text-metrics.ts'
+import { isDiagramIcon } from './diagram-icons.ts'
 import { allBullets, bulletById } from './domains.ts'
 import { moduleById, modules } from './course.ts'
 import { findOutdatedModels, scanText, type ModelLifecycle } from './model-currency.ts'
@@ -266,8 +268,6 @@ export function validateQuestion(q: Question, issues: Issue[], ctx: { file: stri
 /** Width available to a text block of height `blockH` inside a node, as rendered. */
 function availableTextWidth(n: Outlined, blockH: number): number {
   switch (n.shape) {
-    case 'actor':
-      return n.w - 42
     case 'pill': {
       const r = n.h / 2
       const dy = Math.min(r, blockH / 2 + 1)
@@ -297,10 +297,12 @@ function checkNodeText(issues: Issue[], where: string, n: Diagram['nodes'][numbe
       issues.push({ level: 'error', where, message: `node ${n.id} (${lang}): ${labelLines.length} label + ${subLines.length} sub line(s) need ${blockH}px of height but only ${Math.floor(room)}px fit — make the node at least ${Math.ceil(n.h + blockH - room)}px tall or use fewer lines` })
     }
     const avail = availableTextWidth(n, blockH)
+    // Label lines share their row with the node's icon; sub lines use the full width.
     const tooWide = (line: string, style: 'label' | 'sub') => {
-      const tw = textWidth(line, style)
+      const tw = textWidth(line, style) + (style === 'label' ? ICON_SLOT : 0)
       if (tw > avail) {
-        issues.push({ level: 'error', where, message: `node ${n.id} (${lang}) ${style} line "${line}" is ${Math.ceil(tw)}px wide but only ${Math.floor(avail)}px fit — widen the node to at least ${Math.ceil(n.w + tw - avail)}px, break the line with \\n, or shorten it` })
+        const what = style === 'label' ? `label line "${line}" needs ${Math.ceil(tw)}px with its icon` : `sub line "${line}" is ${Math.ceil(tw)}px wide`
+        issues.push({ level: 'error', where, message: `node ${n.id} (${lang}) ${what} but only ${Math.floor(avail)}px fit — widen the node to at least ${Math.ceil(n.w + tw - avail)}px, break the line with \\n, or shorten it` })
       }
     }
     labelLines.forEach((line) => tooWide(line, 'label'))
@@ -411,6 +413,7 @@ export function validateDiagram(d: Diagram, issues: Issue[], where: string) {
       issues.push({ level: 'error', where: w, message: `node ${n.id} lies outside the ${d.width}×${d.height} canvas` })
     }
     if (n.w < 60 || n.h < 30) issues.push({ level: 'error', where: w, message: `node ${n.id} is too small (min 60×30)` })
+    if (!isDiagramIcon(n.icon)) issues.push({ level: 'error', where: w, message: `node ${n.id} needs an official icon id from src/content/diagram-icons.ts (got ${JSON.stringify(n.icon)})` })
     checkNodeText(issues, w, n)
   }
   const nodes = d.nodes ?? []

@@ -1,11 +1,11 @@
 import { Fragment, useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import type { Diagram as DiagramData, DiagramNode, Lang, Tone } from '../lib/types.ts'
-import { edgePoints, GROUP_RADIUS, groupTitleRect, nodeTextLayout, placeEdgeLabels, storeCap, type Outlined, type Pt } from '../lib/geometry.ts'
+import { edgePoints, GROUP_RADIUS, groupTitleRect, nodeContentLayout, placeEdgeLabels, storeCap, type Outlined, type Pt } from '../lib/geometry.ts'
+import type { DiagramIconId } from '../content/diagram-icons.ts'
 import { tx } from '../lib/i18n.ts'
 import { summaryParts, summaryPath } from '../lib/diagram-summary.ts'
 import { renderInline } from './inline.tsx'
 import { Icon } from './Icon.tsx'
-import type { IconName } from './icons.generated.ts'
 
 const TONES: Tone[] = ['user', 'app', 'foundry', 'model', 'data', 'tool', 'safety', 'external', 'neutral']
 const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
@@ -19,17 +19,10 @@ const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
   external: { de: 'Externes System', en: 'External system' },
   neutral: { de: 'Sonstiges', en: 'Other' },
 }
-const TONE_ICON: Record<Tone, IconName> = {
-  user: 'person',
-  app: 'window',
-  foundry: 'cloud',
-  model: 'brain',
-  data: 'database',
-  tool: 'wrench',
-  safety: 'shield',
-  external: 'globe',
-  neutral: 'cube',
-}
+
+// Official Azure Architecture Icons (unaltered SVG files), referenced as images so their gradient ids never clash.
+const ICON_URLS = import.meta.glob<string>('../assets/azure-icons/*.svg', { eager: true, query: '?url', import: 'default' })
+export const diagramIconUrl = (id: DiagramIconId) => ICON_URLS[`../assets/azure-icons/${id}.svg`]
 
 function NodeShape({ n }: { n: DiagramNode }) {
   const { x, y, w, h } = n
@@ -66,19 +59,14 @@ function NodeShape({ n }: { n: DiagramNode }) {
 function NodeText({ n, lang }: { n: DiagramNode; lang: Lang }) {
   const label = tx(n.label, lang).split('\n')
   const sub = n.sub ? tx(n.sub, lang).split('\n') : []
-  const { cx, top } = nodeTextLayout(n, label.length, sub.length)
+  const { cx, top, labelCx, icon } = nodeContentLayout(n, label, sub)
   const lineH = 18
   const subH = 16
   return (
     <g>
-      {n.shape === 'actor' && (
-        <g className="dg-actor" transform={`translate(${n.x + 12} ${n.y + n.h / 2 - 11})`}>
-          <circle cx="9" cy="6" r="5" />
-          <path d="M0,22 a9,8 0 0 1 18,0 z" />
-        </g>
-      )}
+      <image className="dg-icon" href={diagramIconUrl(n.icon)} x={icon.x} y={icon.y} width={icon.w} height={icon.h} aria-hidden="true" />
       {label.map((l, i) => (
-        <text key={`l${i}`} className="dg-label" x={cx} y={top + i * lineH} textAnchor="middle">
+        <text key={`l${i}`} className="dg-label" x={labelCx} y={top + i * lineH} textAnchor="middle">
           {l}
         </text>
       ))}
@@ -120,7 +108,7 @@ function DiagramSummary({ diagram, lang }: { diagram: DiagramData; lang: Lang })
           {i > 0 && (linked ? <Icon name="arrowRight" size={18} className="dg-summary__arrow" /> : <span className="dg-summary__gap" aria-hidden="true" />)}
           <div className={`dg-summary__item tone-${n.tone}`}>
             <span className="dg-summary__tile">
-              <Icon name={TONE_ICON[n.tone]} size={24} />
+              <img src={diagramIconUrl(n.icon)} width={24} height={24} alt="" />
             </span>
             <span className="dg-summary__label">
               <SummaryText text={tx(n.label, lang)} />

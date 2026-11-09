@@ -1,3 +1,5 @@
+import type { DiagramIconId } from '../content/diagram-icons.ts'
+
 export type Lang = 'de' | 'en'
 
 /** Localized content string. Product, API and SDK names stay English in both languages. */
@@ -191,6 +193,8 @@ export interface DiagramNode {
   h: number
   label: Text
   sub?: Text
+  /** Official Azure Architecture icon (src/content/diagram-icons.ts), shown beside the label. */
+  icon: DiagramIconId
   tone: Tone
   shape?: NodeShape
 }

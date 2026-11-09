@@ -300,10 +300,48 @@ export function groupTitleRect(g: Rect, text: string): Rect {
 
 /** Baseline of the first label line and the horizontal text center for a node (matches the renderer). */
 export function nodeTextLayout(n: Outlined, labelLines: number, subLines: number): { cx: number; top: number; blockH: number } {
-  const actorPad = n.shape === 'actor' ? 26 : 0
   const blockH = labelLines * LINE_H + subLines * SUB_H
   const shift = n.shape === 'store' ? storeCap(n.h) : 0
-  return { cx: n.x + actorPad / 2 + n.w / 2, top: n.y + n.h / 2 - blockH / 2 + 13 + shift, blockH }
+  return { cx: n.x + n.w / 2, top: n.y + n.h / 2 - blockH / 2 + 13 + shift, blockH }
+}
+
+/** Official icon size in a node, and the gap to its label. */
+export const ICON_SIZE = 18
+export const ICON_GAP = 6
+/** Horizontal room the icon takes beside the label lines. */
+export const ICON_SLOT = ICON_SIZE + ICON_GAP
+
+export interface NodeContentLayout {
+  /** Text axis of the sub lines. */
+  cx: number
+  /** Baseline of the first label line. */
+  top: number
+  blockH: number
+  /** Centre of the label lines, right of the icon. */
+  labelCx: number
+  /** Widest label line. */
+  labelW: number
+  icon: Rect
+}
+
+/**
+ * Icon and label lines sit side by side, centred as one group on the node's text axis; sub lines run the full
+ * width below. Renderer, validator and render audit all use this one layout.
+ */
+export function nodeContentLayout(n: Outlined, label: string[], sub: string[]): NodeContentLayout {
+  const { cx, top, blockH } = nodeTextLayout(n, label.length, sub.length)
+  const labelW = Math.max(0, ...label.map((l) => textWidth(l, 'label')))
+  const left = cx - (ICON_SLOT + labelW) / 2
+  // Optically centred on the label text: its cap-height centre sits about 5px above each baseline.
+  const labelCenter = top - 5 + ((label.length - 1) * LINE_H) / 2
+  return {
+    cx,
+    top,
+    blockH,
+    labelCx: left + ICON_SLOT + labelW / 2,
+    labelW,
+    icon: { x: left, y: labelCenter - ICON_SIZE / 2, w: ICON_SIZE, h: ICON_SIZE },
+  }
 }
 
 export function rectsOverlap(a: Rect, b: Rect, pad = 0): boolean {

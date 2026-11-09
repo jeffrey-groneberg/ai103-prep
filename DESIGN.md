@@ -760,7 +760,7 @@ The home's left column: four learning paths, 31 stations on a vertical rail.
 
 The thumbnail restates the lesson's first diagram as three tone tiles:
 - Brand Wash with a Brand Tint Deep border, 8px, 16px 10px padding; hover turns the border brand and lifts it to shadow-8.
-- Tiles are 46px at 12px corners: tone fill, 1.5px tone stroke and a 24px Fluent icon per tone (person, window, cloud, brain, database, wrench, shield, globe, cube) in tone ink. Labels are 13px/18px/600, subs 12px/16px Tertiary Ink, centred.
+- Tiles are 46px at 12px corners: tone fill, 1.5px tone stroke and, centred in the tile, the node's own 24px official Azure icon (the same icon the diagram draws beside that label). Labels are 13px/18px/600, subs 12px/16px Tertiary Ink, centred.
 - It follows the step-through order and draws an 18px arrow only where the diagram has a real edge; otherwise it leaves a plain 18px gap.
 - The authors' `\n` line breaks are kept. Natural words hyphenate only from 10 characters (`hyphenate-limit-chars: 10 4 4`); code tokens never hyphenate and wrap only at “.”, “/”, “_” and camelCase seams; a non-breaking space before “·” keeps separators off line starts.
 - Below a 380px container width (the `summary` container query) it switches to one tile per row: a 40px tile on the left, label and sub on the right, arrows turned to point down.
@@ -768,7 +768,8 @@ The thumbnail restates the lesson's first diagram as three tone tiles:
 ### Step-Through Diagram (signature)
 Sixty hand-built SVG diagrams on a 960-wide canvas, each opening its lesson's big picture.
 - **Frame:** white, Hairline, 8px. A head (title 16px/22px/600, caption 14px/20px Tertiary Ink at 56ch), a Quiet Wash canvas with a 16px dot grid (#e3e3e3) between soft hairlines, controls, narration, legend.
-- **Nodes:** the nine typed tones with a pale fill and 1.5px tone stroke; label 14px/600 Fluent Ink, sub 12px Tertiary Ink. Shapes: box (8px), pill, store (a cylinder), doc (a 14px folded corner), actor (a box with a person figure) and diamond (14px points). Groups take their tone's fill at 55%, a 1px 6/4 dashed stroke, 12px corners and a 12.5px/600 title in tone ink.
+- **Nodes:** the nine typed tones with a pale fill and 1.5px tone stroke; label 14px/600 Fluent Ink, sub 12px Tertiary Ink. Shapes: box (8px), pill, store (a cylinder), doc (a 14px folded corner), actor (a box for a person or device) and diamond (14px points). Groups take their tone's fill at 55%, a 1px 6/4 dashed stroke, 12px corners and a 12.5px/600 title in tone ink.
+- **Icons:** every node carries one official Azure Architecture Icon (Azure Public Service Icons V25, unaltered SVGs in `src/assets/azure-icons/`, registry in `src/content/diagram-icons.ts`) at 18px, 6px before the label's first line and centred on the label block, so label lines budget 24px more width. Named products take their product icon (Foundry, Foundry Agent Service, Foundry IQ, Foundry Models, Azure AI Search, Speech, Language, Translator, Content Safety, Document Intelligence, Key Vault and so on); generic blocks take the set's general icons (code, file, browser, gear, workflow, users, mobile). A dimmed node greys its icon and fades it to 45%.
 - **Arrows:** 1.5px #8a8a8a with 7px triangular heads, optionally two-headed or dashed (5/4). They start and end on each shape's drawn outline.
 - **Labels:** node text is measured with the real font and checked to fit each shape in each language. Edge labels are white 20px pills (10px corners, Hairline, 11.5px/600 Secondary Ink).
 - **Step states:** focus thickens the stroke to 2.5px and adds the drop shadow; a lit arrow turns brand, 2.5px, dashed 8/6 and flowing, and its label gets a brand border with Brand Ink text. Context keeps the endpoints of a lit arrow at full strength. Dim fades shapes to 32%, arrows to 25%, label pills to 60% and groups to 55%, while all text turns Receded Text Grey. Changes ease over 280ms.
@@ -776,7 +777,9 @@ Sixty hand-built SVG diagrams on a 960-wide canvas, each opening its lesson's bi
 - **Narration:** a Brand Wash panel under a Brand Tint Deep rule, at least 76px tall: a 22px brand number and a 15px/22px/600 title, then 15px/24px Secondary Ink text at 56ch, announced politely to screen readers.
 - **Legend:** 12px Tertiary Ink with 14×10px swatches (3px corners, tone fill and 1.5px stroke) for the tones the diagram uses.
 - **Phones:** the drawing keeps a 640px minimum width and the canvas scrolls sideways under a “Diagramm seitlich wischen” hint. Each step scrolls to its own nodes; arrow endpoints join the view, nearest first, only while everything still fits, and otherwise the view aligns left on the step's nodes.
-- **Quality gate:** the content validator (`npm run validate`) and a Playwright render audit (`npm run audit:diagrams`) enforce text fit, arrow contact, label placement, no edges through nodes or group titles, and canvas bounds; the current result is 0 errors in EN and DE.
+- **Quality gate:** the content validator (`npm run validate`) and a Playwright render audit (`npm run audit:diagrams`) enforce text fit (icon included), a known icon on every node, the icon inside its shape and clear of the text, arrow contact, label placement, no edges through nodes or group titles, and canvas bounds; the current result is 0 errors in EN and DE.
+
+**The Icon-Terms Rule.** Official Azure icons appear only inside diagrams and their thumbnail, always next to the name of what they stand for, at their own proportions: never cropped, flipped, rotated, recoloured or distorted, and never standing for this app. The app's own mark stays the 103 square.
 
 **The Readable Recede Rule.** When a step lights its parts, the rest recedes but stays legible: fills and strokes fade, text only turns Receded Text Grey (at least 3:1), and the endpoints of a lit arrow stay at full strength as context.
 
@@ -816,7 +819,7 @@ Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/
 - **Do** pair every verdict colour with an icon and a word, and show it only after the answer is revealed.
 - **Do** build every concept diagram from the nine typed tones and six shapes, with a legend, numbered steps, narration and the focus, context and dim states, and ship it only at 0 validator and render-audit errors in EN and DE.
 - **Do** hold prose near 54ch (56ch for diagram narration and captions).
-- **Do** draw icons from the generated Fluent set (20px viewBox, currentColor); `.icon` never shrinks in a flex row, so an icon keeps its size when the text beside it wraps.
+- **Do** draw interface icons from the generated Fluent set (20px viewBox, currentColor); `.icon` never shrinks in a flex row, so an icon keeps its size when the text beside it wraps. Diagram nodes take official Azure icons instead.
 - **Do** keep the Wiederholen due count in the navigation (a dot on phones): it shows the next step.
 - **Do** make sticky columns conditional on fitting the window, and let “Als Nächstes dran” lead when columns collapse.
 - **Do** keep every question type keyboard-operable: radios behind the letters, up/down buttons for ordering, selects for matching.
@@ -832,4 +835,4 @@ Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/
 - **Don't** draw a thumbnail arrow where the diagram has no edge, hyphenate code tokens, or start a line with “·”.
 - **Don't** route an arrow through a node or a group title, or sit an edge label on an arrow that would show less than 20px on either side.
 - **Don't** dim diagram text below Receded Text Grey (#858585).
-- **Don't** use Microsoft logos or imply endorsement; the app's mark is the 103 square, and the footer says it is not an official Microsoft product.
+- **Don't** use Microsoft logos or imply endorsement; the app's mark is the 103 square, and the footer says it is not an official Microsoft product. Official Azure icons appear only in diagrams, beside the name of the product or block they stand for.

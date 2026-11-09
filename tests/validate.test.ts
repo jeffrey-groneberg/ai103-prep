@@ -106,8 +106,8 @@ describe('validator — lessons and diagrams', () => {
         width: 960,
         height: 300,
         nodes: [
-          { id: 'a', x: 20, y: 20, w: 160, h: 60, label: 'App', tone: 'app' },
-          { id: 'b', x: 300, y: 20, w: 160, h: 60, label: 'Model', tone: 'model' },
+          { id: 'a', x: 20, y: 20, w: 160, h: 60, label: 'App', icon: 'code', tone: 'app' },
+          { id: 'b', x: 300, y: 20, w: 160, h: 60, label: 'Model', icon: 'code', tone: 'model' },
         ],
         edges: [{ id: 'e', from: 'a', to: 'b' }],
         steps: [
@@ -137,14 +137,26 @@ describe('validator — lessons and diagrams', () => {
       .join('\n')
     expect(text).toMatch(/overlap/)
     expect(text).toMatch(/unknown id "ghost"/)
-    expect(text).toMatch(/px wide but only \d+px fit/)
+    expect(text).toMatch(/needs \d+px with its icon but only \d+px fit/)
+  })
+
+  it('requires every node to name an official icon', () => {
+    const l = lesson()
+    const [a, b] = l.diagrams[0].nodes
+    l.diagrams[0].nodes[0] = { ...a, icon: undefined as unknown as typeof a.icon }
+    l.diagrams[0].nodes[1] = { ...b, icon: 'logo' as unknown as typeof b.icon }
+    const text = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
+      .errors.map((e) => e.message)
+      .join('\n')
+    expect(text).toMatch(/node a .*icon/)
+    expect(text).toMatch(/node b .*"logo"/)
   })
 
   it('flags arrows that run through another node', () => {
     const l = lesson()
     const d = l.diagrams[0]
-    d.nodes.push({ id: 'c', x: 600, y: 20, w: 160, h: 60, label: 'Store', tone: 'data' })
-    d.nodes.push({ id: 'mid', x: 380, y: 25, w: 120, h: 50, label: 'Middle', tone: 'tool' })
+    d.nodes.push({ id: 'c', x: 600, y: 20, w: 160, h: 60, label: 'Store', icon: 'code', tone: 'data' })
+    d.nodes.push({ id: 'mid', x: 380, y: 25, w: 120, h: 50, label: 'Middle', icon: 'code', tone: 'tool' })
     d.nodes[1] = { ...d.nodes[1], x: 210 }
     d.edges.push({ id: 'long', from: 'a', to: 'c' })
     const report = validateContent(bundleWith([], [l]), { only: ['foundry-chat-app'], today: '2026-11-06' })
@@ -157,10 +169,10 @@ describe('validator — lessons and diagrams', () => {
     d.width = 700
     d.height = 300
     d.nodes = [
-      { id: 'a', x: 20, y: 120, w: 200, h: 60, label: t('Alpha'), tone: 'app' },
-      { id: 'b', x: 260, y: 120, w: 200, h: 60, label: t('Beta'), tone: 'model' },
-      { id: 'top', x: 150, y: 40, w: 180, h: 74, label: t('Top'), tone: 'data' },
-      { id: 'bottom', x: 150, y: 186, w: 180, h: 74, label: t('Bottom'), tone: 'data' },
+      { id: 'a', x: 20, y: 120, w: 200, h: 60, label: t('Alpha'), icon: 'code', tone: 'app' },
+      { id: 'b', x: 260, y: 120, w: 200, h: 60, label: t('Beta'), icon: 'code', tone: 'model' },
+      { id: 'top', x: 150, y: 40, w: 180, h: 74, label: t('Top'), icon: 'code', tone: 'data' },
+      { id: 'bottom', x: 150, y: 186, w: 180, h: 74, label: t('Bottom'), icon: 'code', tone: 'data' },
     ]
     d.groups = []
     d.edges = [{ id: 'ab', from: 'a', to: 'b', label: t('a label that is far too long') }]

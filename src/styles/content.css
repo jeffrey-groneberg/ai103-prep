@@ -75,11 +75,6 @@
   stroke-width: 1.5;
 }
 
-.dg-actor circle,
-.dg-actor path {
-  fill: var(--g-stroke);
-}
-
 .dg-label {
   fill: var(--ink);
   font-size: 14px;
@@ -142,7 +137,7 @@
 
 .dg-node .dg-shape,
 .dg-node .dg-shape-line,
-.dg-actor,
+.dg-node .dg-icon,
 .dg-node text,
 .dg-edge-label rect,
 .dg-edge-label text,
@@ -155,9 +150,14 @@
 
 /* Receded parts stay readable (text ≥ 3:1): shapes and lines fade, text turns grey. */
 .has-focus .dg-node.is-dim .dg-shape,
-.has-focus .dg-node.is-dim .dg-shape-line,
-.has-focus .dg-node.is-dim .dg-actor {
+.has-focus .dg-node.is-dim .dg-shape-line {
   opacity: 0.32;
+}
+
+/* Receded icons keep their shape but lose their colour. */
+.has-focus .dg-node.is-dim .dg-icon {
+  opacity: 0.45;
+  filter: grayscale(1);
 }
 
 .has-focus .dg-node.is-dim text,

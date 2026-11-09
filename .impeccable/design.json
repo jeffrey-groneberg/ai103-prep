@@ -249,7 +249,8 @@
       { "name": "The Next-Step Signal Rule", "body": "The Wiederholen count stays in the navigation on purpose: it is Product Principle 1 (“Always show the next step”) in the chrome, a pointer to due work rather than a reward.", "section": "components" },
       { "name": "The Readable Recede Rule", "body": "When a step lights its parts, the rest recedes but stays legible: fills and strokes fade, text only turns Receded Text Grey (at least 3:1), and the endpoints of a lit arrow stay at full strength as context.", "section": "components" },
       { "name": "The Twenty-Pixel Rule", "body": "An edge label sits on its arrow only when at least 20px of arrow stays visible on each side; otherwise it moves beside the arrow (above or right first, then below or left), clear of nodes, group titles, other labels and other arrows.", "section": "components" },
-      { "name": "The Real-Edge Rule", "body": "The thumbnail draws an arrow only where the diagram has an edge between those two nodes; everywhere else it leaves a plain gap.", "section": "components" }
+      { "name": "The Real-Edge Rule", "body": "The thumbnail draws an arrow only where the diagram has an edge between those two nodes; everywhere else it leaves a plain gap.", "section": "components" },
+      { "name": "The Icon-Terms Rule", "body": "Official Azure icons appear only inside diagrams and their thumbnail, always next to the name of what they stand for, at their own proportions: never cropped, flipped, rotated, recoloured or distorted, and never standing for this app. The app's own mark stays the 103 square.", "section": "components" }
     ],
     "dos": [
       "Do put content on white panels (8px, shadow-4) on the #f5f5f5 ground, 20px apart.",
@@ -257,7 +258,7 @@
       "Do pair every verdict colour with an icon and a word, and show it only after the answer is revealed.",
       "Do build every concept diagram from the nine typed tones and six shapes, with a legend, numbered steps, narration and the focus, context and dim states, and ship it only at 0 validator and render-audit errors in EN and DE.",
       "Do hold prose near 54ch (56ch for diagram narration and captions).",
-      "Do draw icons from the generated Fluent set (20px viewBox, currentColor).",
+      "Do draw interface icons from the generated Fluent set (20px viewBox, currentColor); diagram nodes take official Azure icons instead.",
       "Do keep the Wiederholen due count in the navigation (a dot on phones): it shows the next step.",
       "Do make sticky columns conditional on fitting the window, and let “Als Nächstes dran” lead when columns collapse.",
       "Do keep every question type keyboard-operable: radios behind the letters, up/down buttons for ordering, selects for matching.",
@@ -273,7 +274,7 @@
       "Don't draw a thumbnail arrow where the diagram has no edge, hyphenate code tokens, or start a line with “·”.",
       "Don't route an arrow through a node or a group title, or sit an edge label on an arrow that would show less than 20px on either side.",
       "Don't dim diagram text below Receded Text Grey (#858585).",
-      "Don't use Microsoft logos or imply endorsement; the app's mark is the 103 square, and the footer says it is not an official Microsoft product."
+      "Don't use Microsoft logos or imply endorsement; the app's mark is the 103 square, and the footer says it is not an official Microsoft product. Official Azure icons appear only in diagrams, beside the name of the product or block they stand for."
     ]
   }
 }

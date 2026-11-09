@@ -197,6 +197,7 @@ src/
     domains.ts           5 Domänen, 13 Gruppen, 64 Skills im Wortlaut des Study Guides (EN + DE)
     course.ts            Kurs AI-103T00: 4 Lernpfade und 31 Module aus dem Learn-Katalog
     lessons/*.ts         eine Lektion pro Modul: Texte, Diagramme, Code, Prüfungsfallen
+    diagram-icons.ts     Register der offiziellen Azure-Icons, die die Diagramme verwenden
     questions/*.json     Fragen pro Modul
     cases/*.json         Fallstudien
     schema/              JSON-Schemas für Fragen und Fallstudien
@@ -208,11 +209,12 @@ src/
   components/            Diagramm-Renderer, Fragetypen, Lernsitzungen, Code-Highlighting, Icons
   pages/                 Start, Lernen, Lektion, Üben, Prüfung, Wiederholen, Fortschritt, Abdeckung, Ressourcen
   styles/                Design-Tokens und Styles
+  assets/azure-icons/    offizielle Azure-Icons (unverändert, mit NOTICE.md)
 public/                  Favicon und App-Icons
 scripts/                 validate-content, check-learn, check-links, model-lifecycle, source-titles,
                          export-lessons, gen-icons, gen-pwa-icons, audit-diagrams
 tests/                   Vitest: Bewertung, Prüfung, Leitner, Inhaltsprüfung, Geometrie, Diagramm-Vorschau,
-                         App-Smoke-Test, kompletter Fragenkatalog
+                         Diagramm-Icons, App-Smoke-Test, kompletter Fragenkatalog
 docs/                    content-guide.md (Regeln und geprüfte Fakten), coverage.md (generiert)
 .github/workflows/       pages.yml: prüfen, bauen, auf GitHub Pages veröffentlichen
 ```
@@ -255,8 +257,8 @@ Die Seite wird automatisch veröffentlicht: Bei jedem Push auf `main` führt Git
 
 ## Design
 
-Das Erscheinungsbild folgt Microsoft Learn und Fluent 2: Segoe UI, klare Flächen, eine Farbe pro Domäne. Diagramme sind handgebaute SVGs; Beschriftungen werden mit gemessenen Schriftbreiten gesetzt und automatisch so platziert, dass sie keine Pfeile verdecken. Details stehen in [PRODUCT.md](PRODUCT.md) und [DESIGN.md](DESIGN.md).
+Das Erscheinungsbild folgt Microsoft Learn und Fluent 2: Segoe UI, klare Flächen, eine Farbe pro Domäne. Diagramme sind handgebaute SVGs; jeder Baustein trägt das offizielle Azure-Icon des Produkts (oder ein allgemeines Icon aus demselben Set), Beschriftungen werden mit gemessenen Schriftbreiten gesetzt und automatisch so platziert, dass sie keine Pfeile verdecken. Details stehen in [PRODUCT.md](PRODUCT.md) und [DESIGN.md](DESIGN.md).
 
 ## Danksagung
 
-Icons: [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). Code-Schrift: [Cascadia Code](https://github.com/microsoft/cascadia-code) (SIL Open Font License 1.1).
+Icons der Oberfläche: [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). Diagramm-Icons: [Azure Architecture Icons](https://learn.microsoft.com/azure/architecture/icons/) (Azure Public Service Icons V25) © Microsoft, unverändert und gemäß den Icon-Nutzungsbedingungen für Diagramme und Schulungsmaterial verwendet; Liste und Bedingungen in [src/assets/azure-icons/NOTICE.md](src/assets/azure-icons/NOTICE.md). Code-Schrift: [Cascadia Code](https://github.com/microsoft/cascadia-code) (SIL Open Font License 1.1).
