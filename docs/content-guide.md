@@ -82,7 +82,7 @@ Anatomy (the app renders it in this order):
 - Lay out flows left → right or top → bottom in rows/columns so straight arrows never cross a node. Use `via` points for detours. The validator uses the renderer's geometry (`src/lib/geometry.ts`) and fails an arrow through a node or a group title, two arrows drawn on top of each other (a shared trunk that fans out from one source or into one target is fine), overlapping nodes, nodes outside the canvas and text that does not fit.
 - `groups` draw containment (Foundry resource ⊃ project, "Your app", "Azure AI Search"). Keep 20 px padding; a node must sit fully inside or fully outside a group, groups may nest but not partly overlap, and the top 30 px of a group belong to its title.
 - In each step, the endpoints of a lit arrow stay readable as context; still put every node the step talks about into its `focus`.
-- Tones encode meaning (never color alone, labels always present): `user` people, `app` your code/SDK, `foundry` Foundry platform resources, `model` models/deployments, `data` stores/indexes/files, `tool` tools/functions/MCP, `safety` guardrails/identity/security, `external` external systems/web, `neutral` other.
+- Tones encode meaning (never color alone, labels always present): `user` people, `app` your code/SDK, `platform` Foundry platform resources, `model` models/deployments, `data` stores/indexes/files, `tool` tools/functions/MCP, `safety` guardrails/identity/security, `external` external systems/web, `neutral` other.
 - Shapes: `box` (default), `pill` (events/messages), `store` (databases, indexes, storage), `doc` (documents/files), `actor` (people), `diamond` (decisions).
 - 3–6 steps. Each step focuses the nodes/edges/groups it talks about and explains one idea in 1–3 sentences.
 

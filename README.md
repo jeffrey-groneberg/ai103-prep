@@ -13,6 +13,8 @@ Die App folgt dem offiziellen Kurs **AI-103T00** (4 Lernpfade, 31 Module) und de
 
 ![Startseite: geführter Lernpfad, nächste Lektion, Schnellstarts für heute und Prüfungsbereitschaft](docs/screenshots/home.png)
 
+*Die Screenshots zeigen die deutsche Oberfläche; die App startet auf Englisch und wechselt mit DE/EN oben rechts.*
+
 ## Schnellstart
 
 Voraussetzung: Node.js 22.18 oder neuer (entwickelt mit Node 26).
@@ -40,7 +42,7 @@ Die App ist unter <https://jeffrey-groneberg.github.io/ai103-prep/> veröffentli
 - **Offline:** Nach dem ersten Öffnen funktionieren Lektionen, Diagramme, Fragen, Wiederholung, Zettelkasten und Prüfungssimulation ohne Internet. Nur die Links zu Microsoft Learn brauchen eine Verbindung.
 - **Updates:** Jeder Push auf `main` prüft (`npm run check`), baut und veröffentlicht die Seite neu – siehe `.github/workflows/pages.yml`. Die App lädt die neue Version beim nächsten Start.
 - **Lernstand:** Die Online-Version und `localhost:5173` haben getrennte Lernstände. Auf dem iPhone hat die installierte App zusätzlich einen eigenen Lernstand, getrennt von Safari. Umziehen kannst du ihn mit **Fortschritt → Exportieren** und **Importieren**.
-- **Sichtbarkeit:** Das Repository ist privat, die Seite selbst ist öffentlich: Wer den Link kennt, kann sie öffnen. Suchmaschinen werden gebeten, sie nicht aufzunehmen (`noindex`).
+- **Sichtbarkeit:** Repository und Seite sind öffentlich. Über die Feedback-Links kann jede und jeder mit GitHub-Konto ein Issue anlegen. Suchmaschinen werden gebeten, die Seite nicht aufzunehmen (`noindex`).
 
 ## So lernst du damit
 
@@ -56,19 +58,21 @@ Die App ist unter <https://jeffrey-groneberg.github.io/ai103-prep/> veröffentli
 
 | Bereich | Was du dort machst |
 |---|---|
-| **Start** | Siehst, welche Lektion als Nächstes dran ist, und startest direkt etwas für heute: fällige Wiederholungen, eine kurze Runde mit 10 gemischten Fragen oder die Prüfungssimulation. |
-| **Lernen** | 31 Lektionen, eine pro offiziellem Modul: Worum geht’s, Prüfungsfokus, Schritt-für-Schritt-Diagramm, Kernkonzepte, „Welcher Dienst wofür?“, minimaler Python-Code, Prüfungsfallen, Merksätze, Mini-Quiz und Link zum Modul auf Learn. |
-| **Üben** | Lernmodus mit sofortigem Feedback und einer Erklärung zu jeder Antwortoption. Filter nach Domäne, Modul, Skill, Schwierigkeit und Fragetyp. |
-| **Prüfung** | Simulation mit Zeitlimit: 50 Fragen in 100 Minuten, nach Domänen gewichtet, mit einer Fallstudie am Ende – oder kompakt mit 25 Fragen in 50 Minuten. Danach eine Auswertung je Domäne. |
-| **Wiederholen** | Falsch oder nur teilweise richtig beantwortete Fragen kommen nach dem Leitner-Prinzip wieder: Fächer 1–5, fällig nach 0, 1, 3, 7 und 21 Tagen. |
-| **Zettelkasten** | Karteikarten, vorbefüllt aus allen Lektionen, dazu deine eigenen Zettel. Jede Frage beantwortest du wie in der Prüfung mit einer von vier Antwortoptionen; danach erklärt der Zettel kurz, warum jede Option stimmt oder nicht. Richtig: Der Zettel wandert ein Fach nach vorn; falsch: zurück nach hinten in Fach 1. Ziel: alle Zettel in Fach 3. Siehe [Zettelkasten](#zettelkasten). |
-| **Fortschritt** | Skills-Landkarte je Domäne und Modul. Lernstand exportieren, importieren oder zurücksetzen. |
-| **Abdeckung** | Abdeckungsmatrix: Skill → Modul → Lektion → Fragen. |
-| **Ressourcen** | Study Guide, Kurs, Lernpfade und Module auf Learn, Practice Assessment, Exam Sandbox – dazu John Savills AI-103 Study Cram als Wiederholung aus der Community und der Agent-Skill [exam-prep-app](https://github.com/jeffrey-groneberg/exam-prep-app-skill), mit dem du so eine App für deine eigene Prüfung baust. |
+| **Start** (Home) | Siehst, welche Lektion als Nächstes dran ist, und startest direkt etwas für heute: fällige Wiederholungen, eine kurze Runde mit 10 gemischten Fragen oder die Prüfungssimulation. |
+| **Lernen** (Learn) | 31 Lektionen, eine pro offiziellem Modul: Worum geht’s, Prüfungsfokus, Schritt-für-Schritt-Diagramm, Kernkonzepte, „Welcher Dienst wofür?“, minimaler Python-Code, Prüfungsfallen, Merksätze, Mini-Quiz und Link zum Modul auf Learn. |
+| **Üben** (Practice) | Lernmodus mit sofortigem Feedback und einer Erklärung zu jeder Antwortoption. Filter nach Domäne, Modul, Skill, Schwierigkeit und Fragetyp. |
+| **Prüfung** (Exam) | Simulation mit Zeitlimit: 50 Fragen in 100 Minuten, nach Domänen gewichtet, mit einer Fallstudie am Ende – oder kompakt mit 25 Fragen in 50 Minuten. Danach eine Auswertung je Domäne. |
+| **Wiederholen** (Review) | Falsch oder nur teilweise richtig beantwortete Fragen kommen nach dem Leitner-Prinzip wieder: Fächer 1–5, fällig nach 0, 1, 3, 7 und 21 Tagen. |
+| **Zettelkasten** (Flashcards) | Karteikarten, vorbefüllt aus allen Lektionen, dazu deine eigenen Zettel. Jede Frage beantwortest du wie in der Prüfung mit einer von vier Antwortoptionen; danach erklärt der Zettel kurz, warum jede Option stimmt oder nicht. Richtig: Der Zettel wandert ein Fach nach vorn; falsch: zurück nach hinten in Fach 1. Ziel: alle Zettel in Fach 3. Siehe [Zettelkasten](#zettelkasten). |
+| **Fortschritt** (Progress) | Skills-Landkarte je Domäne und Modul. Lernstand exportieren, importieren oder zurücksetzen. |
+| **Abdeckung** (Coverage) | Abdeckungsmatrix: Skill → Modul → Lektion → Fragen. |
+| **Ressourcen** (Resources) | Study Guide, Kurs, Lernpfade und Module auf Learn, Practice Assessment, Exam Sandbox – dazu John Savills AI-103 Study Cram als Wiederholung aus der Community und der Agent-Skill [exam-prep-app](https://github.com/jeffrey-groneberg/exam-prep-app-skill), mit dem du so eine App für deine eigene Prüfung baust. |
 
 **Fehler melden:** Jede Frage, jeder Lektionsabschnitt, jedes Diagramm, jedes Codebeispiel und jeder Zettel hat einen Feedback-Link. Er öffnet in diesem Repository ein neues GitHub-Issue, in dem schon steht, wo es klemmt (Frage- oder Zettel-ID, Modul, Textauszug, Seite, Sprache, App-Version); du beschreibst nur noch, was nicht stimmt. Dafür brauchst du ein GitHub-Konto.
 
-Die Oberfläche ist deutsch. Lektionen, Fragen und Zettel schaltest du zwischen Deutsch und Englisch um; auf Englisch übst du die Begriffe so, wie sie in der Prüfung stehen. Am Handy erreichst du Zettelkasten, Fortschritt, Ressourcen und Abdeckung über das Menü oben rechts; der Zettelkasten steht außerdem auf der Startseite direkt unter „Als Nächstes dran“.
+**Sprache:** Die App gibt es auf Englisch und Deutsch, Standard ist Englisch. Der Umschalter **DE/EN** oben rechts wechselt Oberfläche und Inhalte – Lektionen, Fragen und Zettel – gemeinsam; deine Wahl bleibt im Browser gespeichert, wer schon mit der deutschen Fassung gelernt hat, behält sie. Auf Englisch übst du die Begriffe so, wie sie in der Prüfung stehen. Die englischen Namen der Bereiche stehen in der Tabelle in Klammern; dort heißt der Zettelkasten *Flashcards*, ein Fach *Stage* und das Register *Index*. Am Handy erreichst du Zettelkasten, Fortschritt, Ressourcen und Abdeckung über das Menü oben rechts; der Zettelkasten steht außerdem auf der Startseite direkt unter „Als Nächstes dran“ (*Up next*).
+
+**Adressen:** Die Seiten haben englische Adressen, etwa `#/learn/foundry-iq?section=traps` oder `#/practice/session?module=a2a`. Alte deutsche Links wie `#/lernen/…`, `#/ueben/…`, `#/pruefung`, `#/wiederholen`, `#/zettel/…`, `#/fortschritt`, `#/abdeckung` und `#/ressourcen` – aus Lesezeichen, geteilten Links oder Feedback-Issues – leiten samt Parametern (`modul`, `abschnitt`, `neu` …) auf dieselbe Seite weiter.
 
 | Lektion mit Diagramm | Übungsfrage mit Erklärung |
 |---|---|
@@ -219,8 +223,10 @@ Alles nach `--` reicht npm an das Skript weiter.
 ```text
 src/
   content/
+    exam.json            Prüfungskonfiguration: Namen, Links, Prüfungsformat, Standardsprache, Speicherschlüssel, Ziele
     domains.ts           5 Domänen, 13 Gruppen, 64 Skills im Wortlaut des Study Guides (EN + DE)
     course.ts            Kurs AI-103T00: 4 Lernpfade und 31 Module aus dem Learn-Katalog
+    outline.ts           Nachschlagen in Skills-Outline und Kurs (Skill, Modul und Lernpfad nach ID, Domänenfarben)
     lessons/*.ts         eine Lektion pro Modul: Texte, Diagramme, Code, Prüfungsfallen
     diagram-icons.ts     Register der offiziellen Azure-Icons, die die Diagramme verwenden
     questions/*.json     Fragen pro Modul
@@ -232,15 +238,18 @@ src/
     source-titles.json   Seitentitel der zitierten Learn-Seiten
   lib/                   Bewertung, Prüfungszusammenstellung, Leitner-System, Zettelkasten, Fortschritt, Speicher,
                          Diagramm-Geometrie, gemessene Schriftbreiten, Diagramm-Vorschau der Startseite
-  components/            Diagramm-Renderer, Fragetypen, Lernsitzungen, Code-Highlighting, Icons
+  components/            Diagramm-Renderer, Fragetypen, Lernsitzungen, Code-Highlighting, Feedback-Links, Icons
+  i18n/                  Oberflächentexte: en.ts und de.ts mit denselben Schlüsseln (TypeScript und ein Test prüfen das)
   pages/                 Start, Lernen, Lektion, Üben, Prüfung, Wiederholen, Zettelkasten, Fortschritt, Abdeckung, Ressourcen
   styles/                Design-Tokens und Styles
-  assets/azure-icons/    offizielle Azure-Icons (unverändert, mit NOTICE.md)
+  assets/diagram-icons/  offizielle Azure-Icons (unverändert, mit NOTICE.md)
 public/                  Favicon und App-Icons
 scripts/                 validate-content, check-learn, check-links, model-lifecycle, source-titles,
                          export-lessons, gen-icons, gen-pwa-icons, audit-diagrams
 tests/                   Vitest: Bewertung, Prüfung, Leitner, Zettelkasten, Inhaltsprüfung, Geometrie,
-                         Diagramm-Vorschau, Diagramm-Icons, App-Smoke-Test, kompletter Fragenkatalog
+                         Diagramm-Vorschau, Diagramm-Icons, App-Smoke-Test, kompletter Fragenkatalog,
+                         beide Sprachen ohne Überbleibsel, Oberflächentexte nur aus den Wörterbüchern,
+                         alte deutsche Adressen, leere Zustände, Feedback-Links
 docs/                    content-guide.md (Regeln und geprüfte Fakten), coverage.md (generiert)
 .github/workflows/       pages.yml: prüfen, bauen, auf GitHub Pages veröffentlichen
 ```
@@ -289,4 +298,4 @@ Das Erscheinungsbild folgt Microsoft Learn und Fluent 2: Segoe UI, klare Fläche
 
 ## Danksagung
 
-Icons der Oberfläche: [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). Diagramm-Icons: [Azure Architecture Icons](https://learn.microsoft.com/azure/architecture/icons/) (Azure Public Service Icons V25) © Microsoft, unverändert und gemäß den Icon-Nutzungsbedingungen für Diagramme und Schulungsmaterial verwendet; Liste und Bedingungen in [src/assets/azure-icons/NOTICE.md](src/assets/azure-icons/NOTICE.md). Code-Schrift: [Cascadia Code](https://github.com/microsoft/cascadia-code) (SIL Open Font License 1.1).
+Icons der Oberfläche: [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). Diagramm-Icons: [Azure Architecture Icons](https://learn.microsoft.com/azure/architecture/icons/) (Azure Public Service Icons V25) © Microsoft, unverändert und gemäß den Icon-Nutzungsbedingungen für Diagramme und Schulungsmaterial verwendet; Liste und Bedingungen in [src/assets/diagram-icons/NOTICE.md](src/assets/diagram-icons/NOTICE.md). Code-Schrift: [Cascadia Code](https://github.com/microsoft/cascadia-code) (SIL Open Font License 1.1).
