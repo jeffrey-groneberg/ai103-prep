@@ -160,7 +160,7 @@
           "id": "p1",
           "prompt": { "en": "Summarize 400,000 archived tickets overnight; results within a day at the lowest cost", "de": "400.000 archivierte Tickets über Nacht zusammenfassen; Ergebnisse innerhalb eines Tages zu minimalen Kosten" },
           "answer": "t1",
-          "why": { "en": "Batch processes a file of requests with a 24-hour target at 50 % less than Global Standard, using separate quota.", "de": "Batch verarbeitet eine Datei mit Requests mit 24-Stunden-Ziel zu 50 % weniger Kosten als Global Standard und mit eigenem Kontingent." }
+          "why": { "en": "Batch processes a file of requests with a 24-hour target at 50% less than Global Standard, using separate quota.", "de": "Batch verarbeitet eine Datei mit Requests mit 24-Stunden-Ziel zu 50 % weniger Kosten als Global Standard und mit eigenem Kontingent." }
         },
         {
           "id": "p2",
@@ -618,7 +618,7 @@
           "id": "b",
           "text": { "en": "Run the nightly job on a Global Batch deployment", "de": "Den nächtlichen Job auf einem Global-Batch-Deployment ausführen" },
           "correct": true,
-          "why": { "en": "Batch costs 50 % less than Global Standard and targets completion within 24 hours (no real-time SLA; it can take longer) — fine for work that isn't time-critical.", "de": "Batch kostet 50 % weniger als Global Standard und zielt auf Fertigstellung innerhalb von 24 Stunden (kein Echtzeit-SLA, kann auch länger dauern) – passend für Arbeit, die nicht zeitkritisch ist." }
+          "why": { "en": "Batch costs 50% less than Global Standard and targets completion within 24 hours (no real-time SLA; it can take longer) — fine for work that isn't time-critical.", "de": "Batch kostet 50 % weniger als Global Standard und zielt auf Fertigstellung innerhalb von 24 Stunden (kein Echtzeit-SLA, kann auch länger dauern) – passend für Arbeit, die nicht zeitkritisch ist." }
         },
         {
           "id": "c",

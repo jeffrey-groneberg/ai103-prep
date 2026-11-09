@@ -1160,7 +1160,7 @@
           },
           "correct": true,
           "why": {
-            "en": "PTUs reserve throughput and spillover catches overflow, Batch costs 50 % less for async jobs, and model router picks a fitting model per prompt.",
+            "en": "PTUs reserve throughput and spillover catches overflow, Batch costs 50% less for async jobs, and model router picks a fitting model per prompt.",
             "de": "PTUs reservieren Durchsatz und Spillover fängt Überlauf ab, Batch ist für asynchrone Jobs 50 % günstiger, und der Model Router wählt pro Prompt ein passendes Modell."
           }
         },

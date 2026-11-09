@@ -485,7 +485,7 @@
         {
           "id": "a",
           "text": {
-            "en": "It goes live everywhere except Teams, which still keeps its published version — send 10 % of the traffic to it first with a traffic split",
+            "en": "It goes live everywhere except Teams, which still keeps its published version — send 10% of the traffic to it first with a traffic split",
             "de": "Sie geht überall live außer in Teams, das weiter seine veröffentlichte Version behält – schick ihr zuerst per Traffic-Split 10 % des Traffics"
           },
           "correct": false,
@@ -497,7 +497,7 @@
         {
           "id": "b",
           "text": {
-            "en": "Always use latest serves it at once, even in Teams — send 10 % of the traffic to it first with a traffic split",
+            "en": "Always use latest serves it at once, even in Teams — send 10% of the traffic to it first with a traffic split",
             "de": "Always use latest liefert sie sofort aus, auch in Teams – schick ihr zuerst per Traffic-Split 10 % des Traffics"
           },
           "correct": false,
@@ -1043,7 +1043,7 @@
         {
           "id": "a",
           "text": {
-            "en": "A traffic split that sends 10 % of the users to the new version for a day",
+            "en": "A traffic split that sends 10% of the users to the new version for a day",
             "de": "Ein Traffic-Split, der einen Tag lang 10 % der Nutzer an die neue Version schickt"
           },
           "correct": false,

@@ -1141,7 +1141,7 @@
         {
           "id": "a",
           "text": {
-            "en": "Set the agent endpoint's `version_selector` to a `FixedRatio` rule that sends 100 % of traffic to version 7",
+            "en": "Set the agent endpoint's `version_selector` to a `FixedRatio` rule that sends 100% of traffic to version 7",
             "de": "Den `version_selector` des Agent-Endpoints auf eine `FixedRatio`-Regel setzen, die 100 % des Traffics an Version 7 leitet"
           },
           "correct": true,

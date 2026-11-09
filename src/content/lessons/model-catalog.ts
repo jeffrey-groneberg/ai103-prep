@@ -135,7 +135,7 @@ export const lesson: Lesson = {
         {
           title: { en: 'Bulk work → Batch', de: 'Massenarbeit → Batch' },
           text: {
-            en: 'Jobs that can wait go to Global Batch or Data Zone Batch: one JSONL file of requests, a 24-hour target turnaround, 50 % less cost than Global Standard and a separate enqueued-token quota that leaves online traffic alone.',
+            en: 'Jobs that can wait go to Global Batch or Data Zone Batch: one JSONL file of requests, a 24-hour target turnaround, 50% less cost than Global Standard and a separate enqueued-token quota that leaves online traffic alone.',
             de: 'Jobs, die warten können, gehen an Global Batch oder Data Zone Batch: eine JSONL-Datei mit Requests, Zielbearbeitung in 24 Stunden, 50 % weniger Kosten als Global Standard und ein eigenes Kontingent für eingereihte Tokens, das den Online-Traffic nicht stört.',
           },
           focus: ['t-e0', 't-q1', 't-e1', 't-r1'],
@@ -281,7 +281,7 @@ export const lesson: Lesson = {
         'Global / Data Zone Batch',
         'GlobalBatch · DataZoneBatch',
         { en: 'Global or data zone', de: 'Global oder Datenzone' },
-        { en: '50 % less, 24-hour target', de: '50 % günstiger, Ziel 24 Stunden' },
+        { en: '50% less, 24-hour target', de: '50 % günstiger, Ziel 24 Stunden' },
         { en: 'Large asynchronous jobs', de: 'Große asynchrone Jobs' },
       ],
       [

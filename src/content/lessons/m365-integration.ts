@@ -238,7 +238,7 @@ project.agents.update_details(
     agent_name="helpdesk-agent",
     agent_endpoint=AgentEndpointConfig(
         version_selector=VersionSelector(version_selection_rules=[
-            # exactly one rule at 100 %: the endpoint can't split traffic between versions
+            # exactly one rule at 100%: the endpoint can't split traffic between versions
             FixedRatioVersionSelectionRule(agent_version="2", traffic_percentage=100),
         ]),
     ),
