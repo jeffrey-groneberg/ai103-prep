@@ -1191,3 +1191,10 @@ kbd.zk-keys {
   font-size: 14px;
   line-height: 20px;
 }
+
+/* Feedback for the card in a round: at the foot of the card, so the header keeps side, module and compartment readable. */
+.zk-flip__feedback {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--s3);
+}

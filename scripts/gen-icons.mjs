@@ -38,6 +38,7 @@ const icons = {
   arrowDown: 'arrow_down_20_regular',
   warning: 'warning_20_regular',
   lightbulb: 'lightbulb_20_regular',
+  feedback: 'person_feedback_20_regular',
   flag: 'flag_20_regular',
   flagFilled: 'flag_20_filled',
   drag: 're_order_dots_vertical_20_regular',

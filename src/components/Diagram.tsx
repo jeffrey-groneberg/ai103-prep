@@ -6,6 +6,7 @@ import { tx } from '../lib/i18n.ts'
 import { summaryParts, summaryPath } from '../lib/diagram-summary.ts'
 import { renderInline } from './inline.tsx'
 import { Icon } from './Icon.tsx'
+import { FeedbackLink } from './Feedback.tsx'
 
 const TONES: Tone[] = ['user', 'app', 'foundry', 'model', 'data', 'tool', 'safety', 'external', 'neutral']
 const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
@@ -309,9 +310,22 @@ export function Diagram({ diagram, lang, mini = false }: DiagramProps) {
   return (
     <figure className="dg" aria-label={title}>
       <figcaption className="dg-head">
-        <h3 className="dg-title" lang={lang}>
-          {title}
-        </h3>
+        <div className="dg-head__row">
+          <h3 className="dg-title" lang={lang}>
+            {title}
+          </h3>
+          <FeedbackLink
+            about="zu diesem Diagramm"
+            compact
+            target={{
+              subject: `Diagramm ${diagram.id}`,
+              details: [
+                ['Diagramm', title],
+                ['Schritt', step < 0 ? 'Gesamtbild' : `${step + 1} von ${diagram.steps.length}`],
+              ],
+            }}
+          />
+        </div>
         {diagram.caption && (
           <p className="dg-caption" lang={lang}>
             {tx(diagram.caption, lang)}

@@ -859,6 +859,9 @@ A Leitner card box with three compartments. The front of a card asks a question 
 ### Code
 Code blocks sit on #f7f7f7 inside a Hairline frame, under a white bar with a 12px/600 language label and a subtle Kopieren button; Cascadia 13.5px/21px, tab size 4, VS Code Light+ tokens, comments in italics. Inline code is 0.88em on Sunken Grey with 1px 5px padding and 4px corners, and may wrap anywhere.
 
+### Feedback Links
+Every place where content can be wrong carries a quiet “Feedback” link that opens a prefilled GitHub issue (question meta row, lesson section heads, diagram captions, lesson code bars, card heads in the register, the foot of a card in a round). The link is 12px/600 Tertiary Ink with the 16px person-feedback icon, right-aligned in its row (auto margin), Sunken Grey wash and brand ink on hover. Below 560px tight rows show the icon only; the accessible name always starts with “Feedback” and names the target (“zu dieser Frage”). On touch the target grows to 44px with negative vertical margins, so the row keeps its height. In running text (the footer) it is a plain brand link. It never takes button weight: it sits beside content, not in the learner's path.
+
 ### Tables
 Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/16px/600 Tertiary Ink; row hover Quiet Wash. Comparison tables zebra-stripe in Quiet Wash. At 560px and below every table (`.stack-table`: lesson comparisons, coverage, module progress) restacks into one card per row: the row header on top, then a 12px/600 Tertiary Ink column label beside each value. The header row stays in the markup for screen readers, and explicit table roles keep VoiceOver reading a table.
 

@@ -1,11 +1,23 @@
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
+import { execSync } from 'node:child_process'
+
+/** Short commit of this build: shown in feedback issues, so a report names the exact version it came from. */
+function appVersion(): string {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7)
+  try {
+    return execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim()
+  } catch {
+    return 'dev'
+  }
+}
 
 // Relative base so the build works from any static host or sub-path (hash routing), e.g. GitHub Pages.
 // The dev server keeps one fixed address so the locally stored progress (localStorage is per origin) stays put.
 export default defineConfig({
   base: './',
+  define: { __APP_VERSION__: JSON.stringify(appVersion()) },
   plugins: [
     react(),
     // Installable app with offline support. Production builds only; the site still works as a normal web page.

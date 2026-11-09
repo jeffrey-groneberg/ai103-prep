@@ -52,6 +52,27 @@ describe('app routes render', () => {
     expect(screen.getByRole('heading', { level: 1, name: title })).toBeTruthy()
   })
 
+  it('offers feedback where problems happen: on questions, lesson sections, diagrams, code samples and cards', () => {
+    const hrefOf = (el: HTMLElement) => el.getAttribute('href') ?? ''
+    renderAt('/ueben/sitzung?modul=foundry-chat-app')
+    const question = screen.getByRole('link', { name: /^Feedback zu dieser Frage/ })
+    expect(hrefOf(question)).toMatch(/^https:\/\/github\.com\/jeffrey-groneberg\/ai103-prep\/issues\/new\?/)
+    expect(new URL(hrefOf(question)).searchParams.get('title')).toMatch(/^Feedback: Frage q-foundry-chat-app-\d\d$/)
+    cleanup()
+
+    renderAt('/lernen/foundry-chat-app')
+    expect(screen.getAllByRole('link', { name: /^Feedback zu diesem Abschnitt/ }).length).toBeGreaterThanOrEqual(5)
+    const diagram = screen.getAllByRole('link', { name: /^Feedback zu diesem Diagramm/ })[0]
+    expect(new URL(hrefOf(diagram)).searchParams.get('body')).toMatch(/- Schritt: Gesamtbild/)
+    expect(screen.getAllByRole('link', { name: /^Feedback zu diesem Codebeispiel/ }).length).toBeGreaterThan(0)
+    expect(screen.getByRole('link', { name: /^Feedback zur App/ })).toBeTruthy()
+    cleanup()
+
+    renderAt('/zettel/lernen?modul=a2a')
+    const card = screen.getByRole('link', { name: /^Feedback zu diesem Zettel/ })
+    expect(new URL(hrefOf(card)).searchParams.get('title')).toMatch(/^Feedback: Zettel z-a2a-/)
+  })
+
   it('a practice session shows the first question and a disabled check button', () => {
     renderAt('/ueben/sitzung?modul=foundry-chat-app')
     expect(screen.getByRole('button', { name: 'Prüfen' })).toHaveProperty('disabled', true)

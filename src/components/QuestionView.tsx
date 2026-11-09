@@ -24,6 +24,7 @@ import { renderInline } from './inline.tsx'
 import { CodeBlock } from './CodeBlock.tsx'
 import { highlightPython } from './highlight.tsx'
 import { Icon } from './Icon.tsx'
+import { FeedbackLink } from './Feedback.tsx'
 
 const LETTERS = 'ABCDEFGH'
 
@@ -39,6 +40,25 @@ interface QuestionViewProps {
   examMode?: boolean
 }
 
+/** Feedback for one question; the issue names the question, its module and skill, and quotes the stem. */
+export function QuestionFeedback({ q }: { q: Question }) {
+  return (
+    <FeedbackLink
+      about="zu dieser Frage"
+      compact
+      target={{
+        subject: `Frage ${q.id}`,
+        details: [
+          ['Modul', q.module],
+          ['Skill', q.skill],
+          ['Fragetyp', QUESTION_TYPE_LABEL[q.type]],
+        ],
+        excerpt: q.stem,
+      }}
+    />
+  )
+}
+
 export function QuestionMeta({ q }: { q: Question }) {
   const bullet = bulletById.get(q.skill)
   return (
@@ -51,6 +71,7 @@ export function QuestionMeta({ q }: { q: Question }) {
           Skill {q.skill}
         </span>
       )}
+      <QuestionFeedback q={q} />
     </div>
   )
 }
@@ -467,7 +488,13 @@ export function QuestionView({ question: q, lang, answer, onChange, revealed, se
     <div className={`question${caseStudy ? ' question--case' : ''}`}>
       {caseStudy && <CasePanel caseStudy={caseStudy} lang={lang} />}
       <div className="question__main">
-        {!examMode && <QuestionMeta q={q} />}
+        {examMode ? (
+          <div className="q-meta q-meta--exam">
+            <QuestionFeedback q={q} />
+          </div>
+        ) : (
+          <QuestionMeta q={q} />
+        )}
         <RichText text={tx(q.stem, lang)} className="question__stem" lang={lang} />
         {q.code && <CodeBlock code={q.code} />}
         {(q.type === 'single' || q.type === 'multi') && <ChoiceList q={q} lang={lang} answer={answer} onChange={onChange} revealed={revealed} seed={seed} />}

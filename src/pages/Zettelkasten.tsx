@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
+import { FeedbackLink } from '../components/Feedback.tsx'
 import { RichText } from '../components/RichText.tsx'
 import { ChoiceList } from '../components/QuestionView.tsx'
 import { orderChoices, type ChoiceSet } from '../lib/choices.ts'
@@ -427,6 +428,25 @@ export function Zettelkasten() {
 
 /* ---------- One module's cards (or the own cards) ---------- */
 
+/** Feedback for a starter card; the issue names the card and quotes its question. */
+function ZettelFeedback({ z, iconOnly = false }: { z: Zettel; iconOnly?: boolean }) {
+  return (
+    <FeedbackLink
+      about="zu diesem Zettel"
+      iconOnly={iconOnly}
+      compact
+      target={{
+        subject: `Zettel ${z.id}`,
+        details: [
+          ['Modul', z.module ?? 'eigener Zettel'],
+          ['Art', KIND_LABEL[z.kind]],
+        ],
+        excerpt: z.front,
+      }}
+    />
+  )
+}
+
 function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
   const [editing, setEditing] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -445,6 +465,7 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
       <div className="zk-card__head">
         <span className="zk-card__kind">{KIND_LABEL[z.kind]}</span>
         <FachBadge fach={fach} />
+        {!own && <ZettelFeedback z={z} iconOnly />}
         {!own && (
           <button type="button" className="icon-btn zk-card__hide" onClick={() => store.setZettelHidden(z.id, true)} aria-label="Aus dem Kasten nehmen" title="Aus dem Kasten nehmen">
             <Icon name="eyeOff" size={16} />
@@ -895,6 +916,11 @@ function RoundSession({ search }: { search: string }) {
                   <RichText text={tx(current.back, lang)} className="zk-lesson__text" lang={contentLang} />
                 </details>
               ))}
+            {!own && (
+              <div className="zk-flip__feedback">
+                <ZettelFeedback z={current} />
+              </div>
+            )}
           </div>
         ) : flipped ? (
           <div className="zk-flip__body">

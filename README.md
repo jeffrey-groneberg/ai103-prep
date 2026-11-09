@@ -66,6 +66,8 @@ Die App ist unter <https://jeffrey-groneberg.github.io/ai103-prep/> veröffentli
 | **Abdeckung** | Abdeckungsmatrix: Skill → Modul → Lektion → Fragen. |
 | **Ressourcen** | Study Guide, Kurs, Lernpfade und Module auf Learn, Practice Assessment, Exam Sandbox – dazu John Savills AI-103 Study Cram als Wiederholung aus der Community und der Agent-Skill [exam-prep-app](https://github.com/jeffrey-groneberg/exam-prep-app-skill), mit dem du so eine App für deine eigene Prüfung baust. |
 
+**Fehler melden:** Jede Frage, jeder Lektionsabschnitt, jedes Diagramm, jedes Codebeispiel und jeder Zettel hat einen Feedback-Link. Er öffnet in diesem Repository ein neues GitHub-Issue, in dem schon steht, wo es klemmt (Frage- oder Zettel-ID, Modul, Textauszug, Seite, Sprache, App-Version); du beschreibst nur noch, was nicht stimmt. Dafür brauchst du ein GitHub-Konto.
+
 Die Oberfläche ist deutsch. Lektionen, Fragen und Zettel schaltest du zwischen Deutsch und Englisch um; auf Englisch übst du die Begriffe so, wie sie in der Prüfung stehen. Am Handy erreichst du Zettelkasten, Fortschritt, Ressourcen und Abdeckung über das Menü oben rechts; der Zettelkasten steht außerdem auf der Startseite direkt unter „Als Nächstes dran“.
 
 | Lektion mit Diagramm | Übungsfrage mit Erklärung |

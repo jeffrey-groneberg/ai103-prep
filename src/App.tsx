@@ -17,6 +17,7 @@ import { Resources } from './pages/Resources.tsx'
 import { Zettelkasten, ZettelModule, ZettelSession } from './pages/Zettelkasten.tsx'
 import { NotFound } from './pages/NotFound.tsx'
 import { SKILL_REPO_URL } from './lib/links.ts'
+import { FeedbackLink } from './components/Feedback.tsx'
 
 interface NavItem {
   to: string
@@ -168,6 +169,10 @@ export function App() {
         <p>
           Persönliche Lern-App, kein offizielles Microsoft-Produkt. Fragen sind eigene Formulierungen auf Basis der aktuellen Microsoft-Learn-Dokumentation – keine
           Prüfungsfragen, keine Dumps.
+        </p>
+        <p>
+          Etwas falsch oder kaputt? Fragen, Lektionsabschnitte, Diagramme, Codebeispiele und Zettel haben jeweils einen Feedback-Link, der ein GitHub-Issue mit allen Angaben
+          vorbereitet. Allgemeines zur App: <FeedbackLink about="zur App" plainLabel="Feedback zur App geben" target={{ subject: 'App allgemein' }} />.
         </p>
         <p>
           Du willst so eine App für deine eigene Prüfung? Der Agent-Skill{' '}

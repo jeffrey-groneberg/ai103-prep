@@ -145,6 +145,10 @@ export function Resources() {
               <span>Community-Videos wie John Savills Study Cram dienen nur als Hinweis auf Schwerpunkte. Übernommen wird nur, was die aktuelle Learn-Doku bestätigt, in eigenen Worten.</span>
             </li>
             <li>
+              <Icon name="feedback" size={18} />
+              <span>Fehler gefunden? Jede Frage, jeder Lektionsabschnitt, jedes Diagramm, jedes Codebeispiel und jeder Zettel hat einen Feedback-Link. Er öffnet ein GitHub-Issue, in dem schon steht, wo es klemmt.</span>
+            </li>
+            <li>
               <Icon name="calendar" size={18} />
               <span>
                 Stand: Skills-Outline vom {SKILLS_OUTLINE_DATE.split('-').reverse().join('.')}, Kursstruktur aus dem Learn-Katalog vom {CATALOG_RETRIEVED.split('-').reverse().join('.')}.

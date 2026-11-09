@@ -364,6 +364,69 @@
   font-weight: 600;
 }
 
+/* ---------- Feedback links ----------
+   Quiet by default (they sit next to content), but always visible where a problem can happen. */
+.feedback-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.feedback-link:hover {
+  background: var(--surface-sunken);
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.feedback-link--icon {
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-left: 0;
+  color: var(--ink-2);
+}
+
+.q-meta--exam {
+  justify-content: flex-end;
+}
+
+.dg-head__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+}
+
+@media (max-width: 560px) {
+  .feedback-link--compact .feedback-link__text {
+    display: none;
+  }
+
+  .feedback-link--compact {
+    padding: 4px;
+  }
+}
+
+/* Touch: a 44 px target that doesn't push the row it sits in apart. */
+@media (pointer: coarse) {
+  .feedback-link {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    margin-top: -12px;
+    margin-bottom: -12px;
+  }
+}
+
 /* ---------- Chips, tags, pills ---------- */
 .domain-chip {
   display: inline-flex;

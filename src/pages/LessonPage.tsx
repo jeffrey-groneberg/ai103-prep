@@ -6,6 +6,7 @@ import { CodeBlock } from '../components/CodeBlock.tsx'
 import { RichText } from '../components/RichText.tsx'
 import { renderInline } from '../components/inline.tsx'
 import { InlineQuestion } from '../components/InlineQuestion.tsx'
+import { FeedbackLink } from '../components/Feedback.tsx'
 import { store, useProgress } from '../lib/store.ts'
 import { MASTERY_LABELS, moduleStatus } from '../lib/progress.ts'
 import { tx } from '../lib/i18n.ts'
@@ -13,7 +14,7 @@ import { learningPaths, moduleById } from '../content/course.ts'
 import { bulletById } from '../content/domains.ts'
 import { lessonByModule, orderedModules, questionsForModule, questions } from '../content/index.ts'
 import { NotFound } from './NotFound.tsx'
-import type { Question } from '../lib/types.ts'
+import type { CourseModule, Question } from '../lib/types.ts'
 import { moduleDomains } from '../lib/select.ts'
 import { useZettelBox } from '../lib/zettel-box.ts'
 import { countByFach } from '../lib/zettel.ts'
@@ -154,7 +155,7 @@ export function LessonPage() {
           ) : (
             <>
               <section id="worum" className="lesson-section">
-                <h2>Worum geht’s</h2>
+                <SectionHead mod={mod} title="Worum geht’s" />
                 <RichText text={tx(lesson.summary, lang)} className="lesson-lead" lang={lang} />
                 <div className="callout callout--exam">
                   <Icon name="target" size={20} />
@@ -173,7 +174,7 @@ export function LessonPage() {
               </section>
 
               <section id="konzepte" className="lesson-section">
-                <h2>Kernkonzepte</h2>
+                <SectionHead mod={mod} title="Kernkonzepte" />
                 <dl className="concepts" lang={lang}>
                   {lesson.concepts.map((c) => (
                     <div key={c.term} className="concept">
@@ -186,7 +187,7 @@ export function LessonPage() {
 
               {lesson.comparison && (
                 <section id="vergleich" className="lesson-section">
-                  <h2>Welcher Dienst wofür</h2>
+                  <SectionHead mod={mod} title="Welcher Dienst wofür" />
                   <div className="table-wrap" tabIndex={0} role="region" aria-label={tx(lesson.comparison.title, lang)} lang={lang}>
                     <table className="compare stack-table" role="table">
                       <caption>{tx(lesson.comparison.title, lang)}</caption>
@@ -226,7 +227,16 @@ export function LessonPage() {
                 {lesson.code.map((c, i) => (
                   <div key={i} className="code-sample">
                     <h3 lang={lang}>{tx(c.title, lang)}</h3>
-                    <CodeBlock code={c.code} />
+                    <CodeBlock
+                      code={c.code}
+                      feedback={{
+                        subject: `Lektion ${mod.id} · Codebeispiel ${i + 1}`,
+                        details: [
+                          ['Modul', `${mod.id} (${mod.title})`],
+                          ['Codebeispiel', tx(c.title, lang)],
+                        ],
+                      }}
+                    />
                     {c.notes.length > 0 && (
                       <ul className="code-notes" lang={lang}>
                         {c.notes.map((n, ni) => (
@@ -239,7 +249,7 @@ export function LessonPage() {
               </section>
 
               <section id="fallen" className="lesson-section">
-                <h2>Prüfungsfallen</h2>
+                <SectionHead mod={mod} title="Prüfungsfallen" />
                 <ul className="traps" lang={lang}>
                   {lesson.traps.map((t, i) => (
                     <li key={i}>
@@ -251,7 +261,7 @@ export function LessonPage() {
               </section>
 
               <section id="merke" className="lesson-section">
-                <h2>Merksätze</h2>
+                <SectionHead mod={mod} title="Merksätze" />
                 <ul className="takeaways" lang={lang}>
                   {lesson.takeaways.map((t, i) => (
                     <li key={i}>
@@ -286,7 +296,7 @@ export function LessonPage() {
               )}
 
               <section id="quellen" className="lesson-section">
-                <h2>Quellen & offizielles Modul</h2>
+                <SectionHead mod={mod} title="Quellen & offizielles Modul" />
                 <ul className="sources">
                   {lesson.sources.map((s) => (
                     <li key={s.url}>
@@ -359,6 +369,26 @@ export function LessonPage() {
           </div>
         </aside>
       </div>
+    </div>
+  )
+}
+
+/** A section heading with a feedback link that names the module and the section. */
+function SectionHead({ mod, title }: { mod: CourseModule; title: string }) {
+  return (
+    <div className="section-head">
+      <h2>{title}</h2>
+      <FeedbackLink
+        about="zu diesem Abschnitt"
+        compact
+        target={{
+          subject: `Lektion ${mod.id} · ${title}`,
+          details: [
+            ['Modul', `${mod.id} (${mod.title})`],
+            ['Abschnitt', title],
+          ],
+        }}
+      />
     </div>
   )
 }
