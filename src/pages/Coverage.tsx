@@ -45,25 +45,25 @@ export function Coverage() {
             {questions.filter((q) => q.domain === d.id).length} Fragen
           </h2>
           <div className="table-wrap" tabIndex={0} role="region" aria-label={`Abdeckung ${d.id}`}>
-            <table className="data-table coverage-table">
-              <thead>
-                <tr>
-                  <th scope="col">Skill</th>
-                  <th scope="col">Module (Lektion)</th>
-                  <th scope="col">Fragen</th>
+            <table className="data-table coverage-table stack-table" role="table">
+              <thead role="rowgroup">
+                <tr role="row">
+                  <th scope="col" role="columnheader">Skill</th>
+                  <th scope="col" role="columnheader">Module (Lektion)</th>
+                  <th scope="col" role="columnheader">Fragen</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody role="rowgroup">
                 {d.groups.flatMap((g) =>
                   g.bullets.map((b) => {
                     const mods = modules.filter((m) => m.skills.includes(b.id))
                     const n = primary.get(b.id) ?? 0
                     return (
-                      <tr key={b.id}>
-                        <th scope="row">
+                      <tr key={b.id} role="row">
+                        <th scope="row" role="rowheader">
                           <span className="skill-chip">{b.id}</span> {lang === 'de' ? b.de : b.en}
                         </th>
-                        <td>
+                        <td role="cell" data-label="Module">
                           <ul className="cov-mods">
                             {mods.map((m) => (
                               <li key={m.id}>
@@ -73,7 +73,7 @@ export function Coverage() {
                             ))}
                           </ul>
                         </td>
-                        <td className={n ? '' : 'ink-bad'}>
+                        <td className={n ? '' : 'ink-bad'} role="cell" data-label="Fragen">
                           {n ? (
                             <Link to={`/ueben/sitzung?skill=${b.id}`}>
                               {n}
@@ -97,27 +97,33 @@ export function Coverage() {
           Module → Fragen
         </h2>
         <div className="table-wrap" tabIndex={0} role="region" aria-label="Fragen je Modul">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th scope="col">Lernpfad</th>
-                <th scope="col">Modul</th>
-                <th scope="col">Lektion</th>
-                <th scope="col">Fragen</th>
+          <table className="data-table stack-table" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Lernpfad</th>
+                <th scope="col" role="columnheader">Modul</th>
+                <th scope="col" role="columnheader">Lektion</th>
+                <th scope="col" role="columnheader">Fragen</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {learningPaths.flatMap((p) =>
                 p.modules.map((id) => (
-                  <tr key={id}>
-                    <td className="small">{p.title}</td>
-                    <th scope="row">
+                  <tr key={id} role="row">
+                    <td className="small" role="cell" data-label="Lernpfad">
+                      {p.title}
+                    </td>
+                    <th scope="row" role="rowheader">
                       <a href={moduleById.get(id)?.url} target="_blank" rel="noreferrer">
                         {moduleById.get(id)?.title}
                       </a>
                     </th>
-                    <td>{lessonByModule.has(id) ? <Icon name="checkCircle" size={16} className="ink-ok" label="vorhanden" /> : '–'}</td>
-                    <td>{byModule.get(id) ?? 0}</td>
+                    <td role="cell" data-label="Lektion">
+                      {lessonByModule.has(id) ? <Icon name="checkCircle" size={16} className="ink-ok" label="vorhanden" /> : '–'}
+                    </td>
+                    <td role="cell" data-label="Fragen">
+                      {byModule.get(id) ?? 0}
+                    </td>
                   </tr>
                 )),
               )}

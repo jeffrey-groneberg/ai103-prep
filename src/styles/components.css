@@ -1,6 +1,7 @@
 /* ---------- App shell ---------- */
 .app {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -17,7 +18,7 @@
   max-width: var(--page-max);
   margin: 0 auto;
   height: var(--topbar-h);
-  padding: 0 var(--s6);
+  padding: 0 max(var(--s6), var(--safe-right)) 0 max(var(--s6), var(--safe-left));
   display: flex;
   align-items: center;
   gap: var(--s6);
@@ -157,7 +158,7 @@
 .footer {
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--s6) var(--s6) var(--s10);
+  padding: var(--s6) max(var(--s6), var(--safe-right)) var(--s10) max(var(--s6), var(--safe-left));
   color: var(--ink-3);
   font-size: 12px;
   line-height: 16px;
@@ -172,7 +173,7 @@
 .page {
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--s8) var(--s6) var(--s12);
+  padding: var(--s8) max(var(--s6), var(--safe-right)) var(--s12) max(var(--s6), var(--safe-left));
 }
 
 .page-head {
@@ -729,7 +730,7 @@
 /* ---------- Mobile shell ---------- */
 @media (max-width: 760px) {
   .topbar__inner {
-    padding: 0 var(--s4);
+    padding: 0 max(var(--s4), var(--safe-right)) 0 max(var(--s4), var(--safe-left));
     gap: var(--s3);
   }
 
@@ -742,7 +743,7 @@
   }
 
   .page {
-    padding: var(--s5) var(--s4) calc(var(--s16) + 40px);
+    padding: var(--s5) max(var(--s4), var(--safe-right)) calc(var(--s16) + 40px) max(var(--s4), var(--safe-left));
   }
 
   .page-title {
@@ -764,7 +765,7 @@
     z-index: 50;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    padding: 0 var(--s2) env(safe-area-inset-bottom);
+    padding: 0 max(var(--s2), var(--safe-right)) env(safe-area-inset-bottom) max(var(--s2), var(--safe-left));
     background: var(--surface);
     border-top: 1px solid var(--line);
   }

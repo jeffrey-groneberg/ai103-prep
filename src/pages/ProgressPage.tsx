@@ -100,34 +100,38 @@ export function ProgressPage() {
           </Link>
         </div>
         <div className="table-wrap" tabIndex={0} role="region" aria-label="Fortschritt je Modul">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th scope="col">Modul</th>
-                <th scope="col">Lektion</th>
-                <th scope="col">Fragen</th>
-                <th scope="col">Stand</th>
+          <table className="data-table stack-table" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Modul</th>
+                <th scope="col" role="columnheader">Lektion</th>
+                <th scope="col" role="columnheader">Fragen</th>
+                <th scope="col" role="columnheader">Stand</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody role="rowgroup">
               {learningPaths.flatMap((p) =>
                 p.modules.map((id) => {
                   const m = moduleById.get(id)!
                   const s = moduleStatus(m, questions, cards, lessonsRead)
                   return (
-                    <tr key={id}>
-                      <th scope="row">
+                    <tr key={id} role="row">
+                      <th scope="row" role="rowheader">
                         <Link to={`/lernen/${id}`}>{m.title}</Link>
                       </th>
-                      <td>{s.lessonRead ? <Icon name="checkCircle" size={18} className="ink-ok" label="gelesen" /> : <span className="muted">–</span>}</td>
-                      <td>
+                      <td role="cell" data-label="Lektion">
+                        {s.lessonRead ? <Icon name="checkCircle" size={18} className="ink-ok" label="gelesen" /> : <span className="muted">–</span>}
+                      </td>
+                      <td role="cell" data-label="Fragen">
                         {s.attempted}/{s.total}
                       </td>
-                      <td>
-                        <span className={`mastery-bar level-${s.mastery.level}`} aria-hidden="true">
-                          <span style={{ width: `${Math.round(s.mastery.value * 100)}%` }} />
+                      <td role="cell" data-label="Stand">
+                        <span className="mastery-cell">
+                          <span className={`mastery-bar level-${s.mastery.level}`} aria-hidden="true">
+                            <span style={{ width: `${Math.round(s.mastery.value * 100)}%` }} />
+                          </span>
+                          <span className="small">{MASTERY_LABELS[s.mastery.level]}</span>
                         </span>
-                        <span className="small">{MASTERY_LABELS[s.mastery.level]}</span>
                       </td>
                     </tr>
                   )

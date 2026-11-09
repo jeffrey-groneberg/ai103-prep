@@ -662,12 +662,17 @@ One 1240px column with 24px side padding (32px top, 48px bottom) holds white pan
 - **Grids:** Practice is 1.5fr beside a column of at least 260px; Review, exam setup and Resources are two-up. All stack at 900px.
 - **Rhythm:** a 4px base (4, 8, 12, 16, 20, 24, 32, 40, 48, 64). Components use 8–16 inside, panels and grid cells sit 20 apart, panels pad 24, lesson sections sit 40 apart.
 - **Breakpoints:** 1100px (home single column, lesson rail hidden), 900px (two-up grids stack), 760px (phone shell: tab bar and Menü, tighter padding, scrolling diagram canvas) and the 380px `summary` container query of the thumbnail.
-- **Phones:** pages pad 20px 16px with 104px of bottom clearance above the safe-area-aware tab bar.
+- **Phones:** pages pad 20px 16px with 104px of bottom clearance above the safe-area-aware tab bar. Shell padding never drops below the notch insets (`max(16px, env(safe-area-inset-left/right))` on the top bar, pages, tab bar and the session and exam bars), so nothing slides under the camera housing when an iPhone is held sideways. Phones held sideways (760px wide or less and 500px high or less) get a 48px top bar and a compact tab bar with icon and label side by side.
+- **Installed app:** the same site installs as a PWA (standalone, white status bar, 103 icon) and works offline; nothing in the layout depends on running installed.
 
 ### Named Rules
 **The Sticky-Only-If-It-Fits Rule.** A column sticks only while all of it fits the window; nothing may end up out of reach. Case-study panels cap their height and scroll inside.
 
+**The No-Sideways-Page Rule.** The page itself never scrolls sideways, down to 320px. Only diagram canvases, code blocks and, above 560px, wide tables scroll inside their own frame; grid tracks that hold questions, results or code are `minmax(0, 1fr)` so a long line can't widen them.
+
 **The Next-Step-First Rule.** When columns collapse, “Als Nächstes dran” moves to the top.
+
+**The Finger-Size Rule.** Where the main pointer is a finger, targets are at least 44px tall: buttons, segmented controls, selects, list and table links, breadcrumbs. Icon buttons, diagram step dots, filter chips and skills tiles are at least 40px, and each whole guided-path station is one tap target. Selects use 16px text so iOS never zooms the page on focus.
 
 ## Elevation & Depth
 
@@ -704,7 +709,7 @@ Gentle Fluent corners: 8px on containers, 4px on controls. Circles mark sequence
 
 ### Buttons
 Calm and exact: Fluent buttons that change colour on hover (150ms) and never lift or scale.
-- **Shape:** gently squared (4px), 32px tall by default, 28px small, 40px large; 1px border; 14px/600 text (13px small, 15px large) with a 6px gap to a 16–18px Fluent icon, an arrow on forward actions.
+- **Shape:** gently squared (4px), 32px tall by default, 28px small, 40px large; 1px border; 14px/600 text (13px small, 15px large) with a 6px gap to a 16–18px Fluent icon, an arrow on forward actions. On touch screens (coarse pointer) every button is at least 44px tall (large 48px).
 - **Primary:** brand fill, white text; hover #115ea3, press #0f548c. One per region: the next-card action, “Weiter”, “Lektion starten”.
 - **Secondary:** white with a Control Line border and Fluent Ink text; hover Quiet Wash with a Firm Line border.
 - **Subtle:** transparent with Secondary Ink; hover Sunken Grey and Fluent Ink. Its on state (“Markiert”, “Als gelesen markiert”) turns the text brand.
@@ -729,7 +734,7 @@ Calm and exact: Fluent buttons that change colour on hover (150ms) and never lif
 
 ### Inputs / Fields
 - **Select:** 34px, white, Control Line border with a Tertiary Ink bottom edge (Fluent's underline), 4px, 14px.
-- **Segmented control:** a joined 4px group with Control Line dividers, 13px/600 Secondary Ink, 6px 14px padding; hover Quiet Wash; pressed is a brand fill with white text. The DE/EN content-language toggle in the top bar is built the same way, with 4px 10px padding and a 40px minimum width.
+- **Segmented control:** a joined 4px group with Control Line dividers, 13px/600 Secondary Ink, 6px 14px padding; hover Quiet Wash; pressed is a brand fill with white text. The DE/EN content-language toggle in the top bar is built the same way, with 4px 10px padding and a 40px minimum width (44×36px on touch screens).
 - **Matching slot:** a select drawn as a dashed brand slot on Brand Wash until it is filled, then a solid Control Line border and 600 weight.
 - **Code blank:** an inline 26px select with a dashed brand border on Brand Tint, Cascadia 13px/600; it resolves to solid green or red.
 - **Ordering:** a pool on Quiet Wash and a dashed answer zone; items are 4px white rows with a grip, a 22px Brand Tint position number and up/down icon buttons as the keyboard alternative to dragging.
@@ -748,7 +753,7 @@ The home's left column: four learning paths, 31 stations on a vertical rail.
 - **Rail:** a 2px Hairline connector from dot to dot that turns brand once the station is done.
 - **Dots** (20px): untouched is a 2px Firm Line ring on white; started is a brand ring half filled with Brand Tint Deep; done is a brand disc with a white 14px check; next grows to 28px, a brand ring around a brand core with a 4px Brand Tint halo, with a 600-weight title and the “Als Nächstes” tag.
 - **Text:** the module title at 14px/20px (hover brand), then a 12px/16px Tertiary Ink meta line (“Modul 2 · 18 Fragen · 6/18 beantwortet”).
-- **Module stepper** (in the next card): Lektion, Fragen, Wiederholung as 28px circles joined by 2px lines. The current step is a brand fill with a brand label; a done step is Brand Tint with a brand check, and its line turns brand.
+- **Module stepper** (in the next card): Lektion, Fragen, Wiederholung as 28px circles joined by 2px lines. The current step is a brand fill with a brand label; a done step is Brand Tint with a brand check, and its line turns brand. At 420px and below the 12px labels move under the circles so all three steps fit.
 
 ### Next-Step Card and Diagram Thumbnail
 “Als Nächstes dran” stacks the headline module title, a meta line, the stepper, then the diagram thumbnail beside the summary (1.25fr to 1fr, summary at 15px/24px), then the large primary action, with a secondary “Direkt zu den Fragen” while the lesson is unread.
@@ -801,7 +806,7 @@ Sixty hand-built SVG diagrams on a 960-wide canvas, each opening its lesson's bi
 Code blocks sit on #f7f7f7 inside a Hairline frame, under a white bar with a 12px/600 language label and a subtle Kopieren button; Cascadia 13.5px/21px, tab size 4, VS Code Light+ tokens, comments in italics. Inline code is 0.88em on Sunken Grey with 1px 5px padding and 4px corners, and may wrap anywhere.
 
 ### Tables
-Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/16px/600 Tertiary Ink; row hover Quiet Wash. Comparison tables zebra-stripe in Quiet Wash and scroll sideways below 560px.
+Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/16px/600 Tertiary Ink; row hover Quiet Wash. Comparison tables zebra-stripe in Quiet Wash. At 560px and below every table (`.stack-table`: lesson comparisons, coverage, module progress) restacks into one card per row: the row header on top, then a 12px/600 Tertiary Ink column label beside each value. The header row stays in the markup for screen readers, and explicit table roles keep VoiceOver reading a table.
 
 ## Do's and Don'ts
 

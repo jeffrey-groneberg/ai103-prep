@@ -176,27 +176,29 @@ export function LessonPage() {
                 <section id="vergleich" className="lesson-section">
                   <h2>Welcher Dienst wofür</h2>
                   <div className="table-wrap" tabIndex={0} role="region" aria-label={tx(lesson.comparison.title, lang)} lang={lang}>
-                    <table className="compare">
+                    <table className="compare stack-table" role="table">
                       <caption>{tx(lesson.comparison.title, lang)}</caption>
-                      <thead>
-                        <tr>
+                      <thead role="rowgroup">
+                        <tr role="row">
                           {lesson.comparison.columns.map((c, i) => (
-                            <th key={i} scope="col">
+                            <th key={i} scope="col" role="columnheader">
                               {tx(c, lang)}
                             </th>
                           ))}
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody role="rowgroup">
                         {lesson.comparison.rows.map((row, ri) => (
-                          <tr key={ri}>
+                          <tr key={ri} role="row">
                             {row.map((cell, ci) =>
                               ci === 0 ? (
-                                <th key={ci} scope="row">
+                                <th key={ci} scope="row" role="rowheader">
                                   {renderInline(tx(cell, lang))}
                                 </th>
                               ) : (
-                                <td key={ci}>{renderInline(tx(cell, lang))}</td>
+                                <td key={ci} role="cell" data-label={tx(lesson.comparison!.columns[ci], lang)}>
+                                  {renderInline(tx(cell, lang))}
+                                </td>
                               ),
                             )}
                           </tr>

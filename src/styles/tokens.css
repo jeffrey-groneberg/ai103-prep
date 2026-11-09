@@ -120,6 +120,9 @@
   --s16: 64px;
 
   --topbar-h: 56px;
+  /* Notch and rounded-corner insets: non-zero on iPhones held sideways (viewport-fit=cover). */
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
   --page-max: 1240px;
   --read-max: 760px;
 
