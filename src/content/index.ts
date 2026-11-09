@@ -1,9 +1,10 @@
-import type { CaseFile, CaseStudy, Lesson, Question, QuestionFile } from '../lib/types.ts'
+import type { CardFile, CaseFile, CaseStudy, Lesson, Question, QuestionFile, StarterCard, Zettel } from '../lib/types.ts'
 import { modules, learningPaths } from './course.ts'
 
 const questionFiles = import.meta.glob<QuestionFile>('./questions/*.json', { eager: true, import: 'default' })
 const caseFiles = import.meta.glob<CaseFile>('./cases/*.json', { eager: true, import: 'default' })
 const lessonFiles = import.meta.glob<{ lesson: Lesson }>('./lessons/*.ts', { eager: true })
+const cardFiles = import.meta.glob<CardFile>('./cards/*.json', { eager: true, import: 'default' })
 
 const moduleOrder = new Map(learningPaths.flatMap((p) => p.modules).map((id, i) => [id, i]))
 
@@ -32,3 +33,27 @@ export function questionsForModule(moduleId: string): Question[] {
 export function questionsForBullet(bulletId: string): Question[] {
   return questions.filter((q) => q.skill === bulletId)
 }
+
+const KIND_ORDER = { concept: 0, trap: 1, takeaway: 2 } as const
+
+function resolveCard(c: StarterCard, lesson: Lesson): Zettel | null {
+  const { kind, index } = c.source
+  if (kind === 'concept') {
+    const concept = lesson.concepts[index]
+    return concept ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? concept.text, term: concept.term } : null
+  }
+  const text = (kind === 'trap' ? lesson.traps : lesson.takeaways)[index]
+  return text ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? text } : null
+}
+
+const cardsByModule = new Map(Object.values(cardFiles).map((f) => [f.module, f.cards]))
+
+/** The prefilled Zettelkasten: one card per concept, exam trap and takeaway of every lesson, in course order. */
+export const starterZettel: Zettel[] = orderedModules.flatMap((m) => {
+  const lesson = lessonByModule.get(m.id)
+  if (!lesson) return []
+  return [...(cardsByModule.get(m.id) ?? [])]
+    .sort((a, b) => KIND_ORDER[a.source.kind] - KIND_ORDER[b.source.kind] || a.source.index - b.source.index)
+    .map((c) => resolveCard(c, lesson))
+    .filter((z): z is Zettel => z !== null)
+})

@@ -1,0 +1,198 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "responsible-ai",
+  "cards": [
+    {
+      "id": "z-responsible-ai-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does a guardrail consist of, and how do prompt agents and hosted agents get one?",
+        "de": "Woraus besteht ein Guardrail, und wie erhalten Prompt-Agents und Hosted Agents einen?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does each blocking level block, and on which scales do evaluators and Content Safety APIs rate severity?",
+        "de": "Was blockiert jeder Blocking Level, und auf welchen Skalen bewerten Evaluatoren und Content-Safety-APIs Schweregrade?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which two attack types do Prompt Shields detect, where do they look, and which detection is on by default?",
+        "de": "Welche zwei Angriffsarten erkennen Prompt Shields, wo suchen sie, und welche Erkennung ist standardmäßig an?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "On which four layers do you mitigate harms, and what belongs in each layer?",
+        "de": "Auf welchen vier Ebenen minderst du Schäden, und was gehört jeweils dazu?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How do quality evaluators and risk and safety evaluators differ in how they run and what they return?",
+        "de": "Wie unterscheiden sich Qualitäts- und Risk-and-Safety-Evaluatoren darin, wie sie laufen und was sie liefern?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What does the AI Red Teaming Agent automate, how does it score attacks, and when should you run it?",
+        "de": "Was automatisiert der AI Red Teaming Agent, wie bewertet er Angriffe, und wann führst du ihn aus?"
+      }
+    },
+    {
+      "id": "z-responsible-ai-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does an agent's Monitor tab need, what does it show, and what can you add in its settings?",
+        "de": "Was braucht der Tab Monitor eines Agents, was zeigt er, und was ergänzt du in seinen Einstellungen?"
+      },
+      "back": {
+        "en": "With an Application Insights resource connected to the project, an agent's **Monitor** tab shows token usage, latency, run success rate, evaluation scores and red-teaming results. Its settings add recurring evaluations, red team scans and alerts (preview).",
+        "de": "Ist eine Application-Insights-Ressource mit dem Projekt verbunden, zeigt der Tab **Monitor** eines Agents Token-Verbrauch, Latenz, Run-Erfolgsquote, Evaluierungsscores und Red-Teaming-Ergebnisse. In den Einstellungen ergänzt du wiederkehrende Evaluierungen, Red-Team-Scans und Alerts (Preview)."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which blocking level blocks only high-severity content — High or Low — and what does the other one block?",
+        "de": "Welcher Blocking Level blockiert nur hohe Schweregrade – High oder Low –, und was blockiert der andere?"
+      },
+      "back": {
+        "en": "**Low** blocks only high-severity content; **High** blocks low, medium and high severity. Blocking levels describe strictness, not a threshold.",
+        "de": "**Low** blockiert nur hohe Schweregrade; **High** blockiert niedrige, mittlere und hohe. Blocking Levels beschreiben die Strenge, keinen Schwellenwert."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What is the default for document attack detection, and what do Chat Completions and agents each need for it?",
+        "de": "Wie ist die Erkennung von Document Attacks voreingestellt, und was brauchen Chat Completions und Agents dafür?"
+      },
+      "back": {
+        "en": "Document attack detection is **off by default**. Learn documents the `<documents>` delimiter only for Chat Completions messages (the Responses API page shows no separate format); for agents, add an indirect attack control at the **Tool response** intervention point.",
+        "de": "Die Erkennung von Document Attacks ist **standardmäßig aus**. Learn dokumentiert den Trenner `<documents>` nur für Chat-Completions-Nachrichten (die Seite zur Responses API zeigt kein eigenes Format); bei Agents fügst du ein Indirect-Attack-Control am Intervention Point **Tool response** hinzu."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "How do agent and deployment guardrails combine, and which guardrail options don't apply to agents?",
+        "de": "Wie wirken Guardrails von Agent und Deployment zusammen, und welche Guardrail-Optionen gelten nicht für Agents?"
+      },
+      "back": {
+        "en": "A prompt agent's own guardrail **fully overrides** its deployment's — the two never merge — and without one it inherits the deployment's. A hosted agent gets no agent-level guardrail unless `rai_config` is set. Agents support only **Annotate and block**, and Spotlighting and Groundedness controls do not apply to agents.",
+        "de": "Der eigene Guardrail eines Prompt-Agents **ersetzt** den des Deployments vollständig – sie werden nie zusammengeführt –, und ohne eigenen erbt er den des Deployments. Ein Hosted Agent hat ohne `rai_config` keinen Guardrail auf Agent-Ebene. Agents unterstützen nur **Annotate and block**, und die Controls Spotlighting und Groundedness gelten nicht für Agents."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "How do the scales of quality and content-harm safety evaluators differ, and when does each one pass?",
+        "de": "Wie unterscheiden sich die Skalen von Qualitäts- und Safety-Evaluatoren für Schadensinhalte, und wann bestehen sie?"
+      },
+      "back": {
+        "en": "Evaluator scales point in opposite directions: quality evaluators score 1–5 and pass at or above the threshold (default 3); content-harm safety evaluators score severity 0–7 and pass at or below it (default 3).",
+        "de": "Die Skalen der Evaluatoren laufen in entgegengesetzte Richtungen: Qualitäts-Evaluatoren vergeben 1–5 und bestehen ab dem Schwellenwert (Standard 3); Safety-Evaluatoren für Schadensinhalte bewerten den Schweregrad 0–7 und bestehen bis zum Schwellenwert (Standard 3)."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What is planned for the Groundedness guardrail control, and what measures grounding quality instead?",
+        "de": "Was ist für das Guardrail-Control Groundedness geplant, und womit misst du die Grounding-Qualität stattdessen?"
+      },
+      "back": {
+        "en": "The Groundedness guardrail control (preview) is scheduled to retire on April 30, 2027. Measure grounding quality with the Groundedness evaluator in evaluations and continuous evaluation instead.",
+        "de": "Das Guardrail-Control Groundedness (Preview) wird am 30. April 2027 eingestellt. Miss die Grounding-Qualität stattdessen mit dem Groundedness-Evaluator in Evaluierungen und in der Continuous Evaluation."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "A harmless request makes an agent plan the wrong tool call — why won't Prompt Shields catch it, and what will?",
+        "de": "Ein Agent plant auf eine harmlose Anfrage den falschen Tool-Aufruf – warum greifen Prompt Shields nicht, und was hilft?"
+      },
+      "back": {
+        "en": "Prompt Shields catch attacks, not an agent that turns a harmless request into the wrong action: the **Task Adherence** control (preview, not in Microsoft.DefaultV2) flags planned tool calls that don't match the user's intent, such as a delete when the user only asked to read, so they can be blocked or escalated to a human. The Task Adherence evaluator only scores responses afterwards.",
+        "de": "Prompt Shields erkennen Angriffe, aber keinen Agent, der aus einer harmlosen Anfrage die falsche Aktion macht: Das Control **Task Adherence** (Preview, nicht in Microsoft.DefaultV2) meldet geplante Tool-Aufrufe, die nicht zur Absicht des Nutzers passen – etwa Löschen, obwohl er nur lesen wollte –, damit sie blockiert oder an einen Menschen eskaliert werden. Der Evaluator Task Adherence bewertet Antworten nur im Nachhinein."
+      }
+    },
+    {
+      "id": "z-responsible-ai-trap-7",
+      "source": { "kind": "trap", "index": 6 },
+      "front": {
+        "en": "How can one API call use a different guardrail than its deployment's, and when doesn't that work?",
+        "de": "Wie nutzt ein einzelner API-Aufruf einen anderen Guardrail als sein Deployment, und wann klappt das nicht?"
+      },
+      "back": {
+        "en": "A deployment's guardrail is only the default for its calls: a request can name another custom guardrail in the `x-policy-id` header, which then overrides the deployment's guardrail for that call. This isn't available for image input (chat with images), and an unknown name returns `InvalidContentFilterPolicy`.",
+        "de": "Der Guardrail eines Deployments ist nur der Standard für seine Aufrufe: Eine Anfrage kann im Header `x-policy-id` einen anderen eigenen Guardrail nennen, der dann für diesen Aufruf den des Deployments ersetzt. Bei Bildeingaben (Chat mit Bildern) geht das nicht, und ein unbekannter Name liefert `InvalidContentFilterPolicy`."
+      }
+    },
+    {
+      "id": "z-responsible-ai-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What are the four stages of responsible generative AI, and what do you do after every mitigation?",
+        "de": "Welche vier Phasen hat verantwortungsvolle generative KI, und was tust du nach jeder Gegenmaßnahme?"
+      },
+      "back": {
+        "en": "Map → Measure → Mitigate → Manage — and measure again after every mitigation.",
+        "de": "Map → Measure → Mitigate → Manage – und nach jeder Gegenmaßnahme misst du erneut."
+      }
+    },
+    {
+      "id": "z-responsible-ai-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which guardrail control fits harms, attacks, copyright, personal data, your own terms and misaligned agent actions?",
+        "de": "Welches Control passt zu Schäden, Angriffen, Urheberrecht, Personendaten, eigenen Begriffen und falschen Agent-Aktionen?"
+      },
+      "back": {
+        "en": "Choose the control by risk: harms → blocking level, attacks → Prompt Shields, copyright → protected material, personal data → PII, your own terms → blocklist, agent actions that miss the user's intent → Task Adherence (preview).",
+        "de": "Wähle das Control nach Risiko: Schäden → Blocking Level, Angriffe → Prompt Shields, Urheberrecht → Protected Material, personenbezogene Daten → PII, eigene Begriffe → Blockliste, Agent-Aktionen abseits der Nutzerabsicht → Task Adherence (Preview)."
+      }
+    },
+    {
+      "id": "z-responsible-ai-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "When do you use evaluators and the AI Red Teaming Agent, and what monitors your solution after release?",
+        "de": "Wann setzt du Evaluatoren und den AI Red Teaming Agent ein, und womit überwachst du nach dem Release?"
+      },
+      "back": {
+        "en": "Before release, measure with evaluators and the AI Red Teaming Agent; after release, monitor with continuous and scheduled evaluation.",
+        "de": "Vor dem Release misst du mit Evaluatoren und dem AI Red Teaming Agent, danach überwachst du mit Continuous und Scheduled Evaluation."
+      }
+    },
+    {
+      "id": "z-responsible-ai-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "An image may carry both embedded text and visual harm — which checks handle each?",
+        "de": "Ein Bild kann Text enthalten und visuelle Schäden zeigen – welche Prüfungen decken jeweils was ab?"
+      },
+      "back": {
+        "en": "Text inside an image is untrusted input: extract it with OCR and screen it with Prompt Shields; classify visual harm with Analyze Image.",
+        "de": "Text in einem Bild ist nicht vertrauenswürdige Eingabe: Extrahiere ihn per OCR und prüfe ihn mit Prompt Shields; visuelle Schäden klassifizierst du mit Analyze Image."
+      }
+    }
+  ]
+}

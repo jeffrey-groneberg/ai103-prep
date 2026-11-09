@@ -1,0 +1,190 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "image-generation",
+  "cards": [
+    {
+      "id": "z-image-generation-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What goes into and comes out of a GPT-image model, and which of these models are generally available today?",
+        "de": "Was geht in ein GPT-image-Modell hinein und was heraus, und welche dieser Modelle sind heute allgemein verfügbar?"
+      },
+      "back": {
+        "en": "Azure OpenAI image models: text and images in, image out. Generally available today: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare and gpt-image-2.5-sunburst. `dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired; gpt-image-1.5 retires on December 16, 2026.",
+        "de": "Azure-OpenAI-Bildmodelle: Text und Bilder rein, Bild raus. Heute allgemein verfügbar: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare und gpt-image-2.5-sunburst. `dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt; gpt-image-1.5 wird am 16. Dezember 2026 eingestellt."
+      }
+    },
+    {
+      "id": "z-image-generation-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "When do you pick a FLUX model, and what must you add yourself because Foundry doesn't provide it?",
+        "de": "Wann wählst du ein FLUX-Modell, und was musst du selbst ergänzen, weil Foundry es nicht mitbringt?"
+      }
+    },
+    {
+      "id": "z-image-generation-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How many images can `images.generate()` return, what does `images.edit()` take, and how does a `mask` work?",
+        "de": "Wie viele Bilder liefert `images.generate()`, was nimmt `images.edit()` entgegen, und wie funktioniert eine `mask`?"
+      }
+    },
+    {
+      "id": "z-image-generation-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What do `n`, `output_format`, `output_compression` and `partial_images` control in an image request?",
+        "de": "Was steuern `n`, `output_format`, `output_compression` und `partial_images` in einer Bildanfrage?"
+      },
+      "back": {
+        "en": "`n` sets 1–10 images per call, `output_format` picks PNG (default) or JPEG, `output_compression` (0–100) sets the JPEG compression level, and `stream=True` with `partial_images` returns preview images while the image renders — it improves perceived latency only. Sizes, quality levels and transparency differ per model.",
+        "de": "`n` legt 1–10 Bilder pro Aufruf fest, `output_format` wählt PNG (Standard) oder JPEG, `output_compression` (0–100) setzt die JPEG-Kompressionsstufe, und `stream=True` mit `partial_images` liefert Vorschaubilder während des Renderns – das verbessert nur die gefühlte Wartezeit. Größen, Qualitätsstufen und Transparenz unterscheiden sich je Modell."
+      }
+    },
+    {
+      "id": "z-image-generation-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does the default guardrail screen in image prompts and generated images, and what happens when it blocks?",
+        "de": "Was prüft die Standard-Guardrail in Bild-Prompts und erzeugten Bildern, und was passiert, wenn sie blockiert?"
+      }
+    },
+    {
+      "id": "z-image-generation-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What is a custom blocklist, where do you create it, and what do you attach it to?",
+        "de": "Was ist eine eigene Blockliste, wo legst du sie an, und woran hängst du sie?"
+      }
+    },
+    {
+      "id": "z-image-generation-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What do C2PA Content Credentials record, and how can you verify them on a generated image?",
+        "de": "Was halten C2PA-Content-Credentials fest, und wie prüfst du sie bei einem erzeugten Bild?"
+      }
+    },
+    {
+      "id": "z-image-generation-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which image models are retired or about to retire, and which should you build on instead?",
+        "de": "Welche Bildmodelle sind eingestellt oder werden es bald, und worauf solltest du stattdessen setzen?"
+      },
+      "back": {
+        "en": "`dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired, and gpt-image-1.5 retires on December 16, 2026. Build on gpt-image-2, gpt-image-1-mini or the gpt-image-2.5 models.",
+        "de": "`dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt, gpt-image-1.5 folgt am 16. Dezember 2026. Setze auf gpt-image-2, gpt-image-1-mini oder die gpt-image-2.5-Modelle."
+      }
+    },
+    {
+      "id": "z-image-generation-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What does an app receive from gpt-image-1-mini or gpt-image-2, and how does it get a downloadable image URL?",
+        "de": "Was bekommt eine App von gpt-image-1-mini oder gpt-image-2 zurück, und wie kommt sie an eine Download-URL?"
+      },
+      "back": {
+        "en": "Base64 only (`b64_json`). `response_format` isn't supported, so there is no image URL to download.",
+        "de": "Nur Base64 (`b64_json`). `response_format` wird nicht unterstützt – es gibt also keine Bild-URL zum Herunterladen."
+      }
+    },
+    {
+      "id": "z-image-generation-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Which pixels in a mask mark the area to edit, and what format and size must the mask have?",
+        "de": "Welche Pixel einer Maske markieren den Bearbeitungsbereich, und welches Format und welche Größe braucht sie?"
+      },
+      "back": {
+        "en": "Transparent pixels mark the edit area — not black or white ones. The mask must be a PNG with the same dimensions as the image.",
+        "de": "Transparente Pixel markieren den Bearbeitungsbereich – nicht schwarze oder weiße. Die Maske muss ein PNG mit denselben Abmessungen wie das Bild sein."
+      }
+    },
+    {
+      "id": "z-image-generation-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does `background=\"transparent\"` require, and what is its status on gpt-image-2?",
+        "de": "Was setzt `background=\"transparent\"` voraus, und welchen Status hat es bei gpt-image-2?"
+      },
+      "back": {
+        "en": "It needs `output_format=\"png\"`, because a JPEG can't store transparency. On gpt-image-2, transparent backgrounds are still in preview.",
+        "de": "Es braucht `output_format=\"png\"`, denn ein JPEG kann keine Transparenz speichern. Bei gpt-image-2 sind transparente Hintergründe noch Preview."
+      }
+    },
+    {
+      "id": "z-image-generation-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why can a published AI image lose its Content Credentials, and which file should you verify?",
+        "de": "Warum kann ein veröffentlichtes KI-Bild seine Content Credentials verlieren, und welche Datei solltest du prüfen?"
+      },
+      "back": {
+        "en": "Content Credentials live in the file metadata, and cropping, resizing or converting a generated image can strip them. Verify the file you actually publish.",
+        "de": "Content Credentials stecken in den Dateimetadaten: Zuschneiden, Skalieren oder Konvertieren kann sie entfernen. Prüfe also die Datei, die du tatsächlich veröffentlichst."
+      }
+    },
+    {
+      "id": "z-image-generation-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which call or addition fits text only, input images, and a change to one area only?",
+        "de": "Welcher Aufruf oder Zusatz passt zu nur Text, zu Eingabebildern und zur Änderung nur eines Bereichs?"
+      },
+      "back": {
+        "en": "Text only → images.generate; input images → images.edit; one area only → add a mask.",
+        "de": "Nur Text → images.generate; Eingabebilder → images.edit; nur ein Bereich → Maske dazu."
+      }
+    },
+    {
+      "id": "z-image-generation-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which request controls do you choose to fit the image model you use?",
+        "de": "Welche Parameter wählst du passend zum verwendeten Bildmodell?"
+      },
+      "back": {
+        "en": "Pick controls per model: size, quality, n, output_format, background, input_fidelity.",
+        "de": "Wähle Parameter passend zum Modell: size, quality, n, output_format, background, input_fidelity."
+      }
+    },
+    {
+      "id": "z-image-generation-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which two filter outcomes must an image app handle?",
+        "de": "Welche zwei Filterergebnisse muss eine Bild-App behandeln?"
+      },
+      "back": {
+        "en": "Both filter outcomes: a blocked prompt and a filtered image.",
+        "de": "Beide Filterergebnisse: blockierter Prompt und gefiltertes Bild."
+      }
+    },
+    {
+      "id": "z-image-generation-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which two mechanisms make up an image's provenance, and when should you verify it?",
+        "de": "Welche zwei Mechanismen bilden den Herkunftsnachweis eines Bildes, und wann prüfst du ihn?"
+      },
+      "back": {
+        "en": "Provenance = C2PA Content Credentials + invisible watermarks; verify after processing.",
+        "de": "Herkunftsnachweis = C2PA-Content-Credentials + unsichtbare Wasserzeichen; nach der Bearbeitung prüfen."
+      }
+    },
+    {
+      "id": "z-image-generation-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which safeguard handles brand terms, and which one handles studio characters and public figures?",
+        "de": "Welcher Schutz greift bei Markenbegriffen, und welcher bei Studio-Figuren und Prominenten?"
+      },
+      "back": {
+        "en": "Brand terms → custom blocklist; studio characters and public figures → default guardrail.",
+        "de": "Markenbegriffe → eigene Blockliste; Studio-Figuren und Prominente → Standard-Guardrail."
+      }
+    }
+  ]
+}

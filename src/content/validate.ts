@@ -1,4 +1,5 @@
 import type {
+  CardFile,
   CaseStudy,
   CourseModule,
   Diagram,
@@ -59,12 +60,16 @@ export interface ValidationReport {
   domainCounts: Record<string, number>
   typeCounts: Record<string, number>
   difficultyCounts: Record<string, number>
+  /** Zettelkasten starter cards in the bundle. */
+  cardCount: number
 }
 
 export interface ContentBundle {
   files: Array<{ file: string; data: QuestionFile }>
   cases: CaseStudy[]
   lessons: Array<{ file: string; lesson: Lesson }>
+  /** Zettelkasten starter cards (src/content/cards/*.json); when given, every lesson item needs exactly one card. */
+  cards?: Array<{ file: string; data: CardFile }>
 }
 
 export interface ValidateOptions {
@@ -489,6 +494,63 @@ export function validateLesson(lesson: Lesson, issues: Issue[], file: string) {
   checkLegacy(issues, where, strings)
 }
 
+/** Phrases that only make sense on the lesson page, never on a card. */
+export const PAGE_REFERENCE =
+  /\bsee the (?:table|code)\b|\bsiehe (?:Tabelle|Code)\b|\bthe table below\b|\bdie Tabelle unten\b|\b(?:are|is|stehen|steht) in (?:the|der) (?:table|Tabelle)\b|\b(?:first|second|third) code sample\b|\b(?:erste|zweite|dritte) Codebeispiel\b|\bthe diagram (?:above|below)\b|\bdas Diagramm (?:oben|unten)\b/i
+
+const CARD_KINDS = ['concept', 'trap', 'takeaway'] as const
+
+function lessonItems(lesson: Lesson, kind: (typeof CARD_KINDS)[number]): L10n[] {
+  if (kind === 'concept') return lesson.concepts.map((c) => c.text)
+  return kind === 'trap' ? lesson.traps : lesson.takeaways
+}
+
+/** One card per concept, exam trap and takeaway; fronts ask a question, backs answer it in both languages. */
+export function validateCardFile(data: CardFile, lesson: Lesson | undefined, issues: Issue[], file: string) {
+  const seen = new Set<string>()
+  for (const c of data.cards ?? []) {
+    const w = `${file} › ${c.id}`
+    const kind = c.source?.kind
+    const index = c.source?.index
+    if (!CARD_KINDS.includes(kind)) {
+      issues.push({ level: 'error', where: w, message: `source.kind must be concept, trap or takeaway (got ${JSON.stringify(kind)})` })
+      continue
+    }
+    const items = lesson ? lessonItems(lesson, kind) : []
+    if (!Number.isInteger(index) || index < 0 || index >= items.length) {
+      issues.push({ level: 'error', where: w, message: `source ${kind} ${index} does not exist in the lesson (it has ${items.length})` })
+      continue
+    }
+    const expected = `z-${data.module}-${kind}-${index + 1}`
+    if (c.id !== expected) issues.push({ level: 'error', where: w, message: `id should be "${expected}"` })
+    const key = `${kind}:${index}`
+    if (seen.has(key)) issues.push({ level: 'error', where: w, message: `second card for ${kind} ${index + 1}` })
+    seen.add(key)
+    checkL10n(issues, w, 'front', c.front, { minLen: 10 })
+    for (const lang of ['en', 'de'] as const) {
+      const f = c.front?.[lang]
+      if (typeof f !== 'string') continue
+      if (!f.trim().endsWith('?')) issues.push({ level: 'error', where: w, message: `front.${lang} must be a question ending with "?"` })
+      if (f.length > 160) issues.push({ level: 'warning', where: w, message: `front.${lang} is ${f.length} characters; keep a card question under 160` })
+    }
+    if (kind !== 'concept' || c.back !== undefined) checkL10n(issues, w, 'back', c.back, { minLen: 15 })
+    const answer = c.back ?? items[index]
+    for (const s of textOf(answer)) {
+      if (PAGE_REFERENCE.test(s)) {
+        const what = c.back ? 'back' : `the lesson's ${kind} text (used as the answer)`
+        issues.push({ level: 'error', where: w, message: `${what} points at the lesson page ("${s.match(PAGE_REFERENCE)![0]}") — give the card a back without it` })
+      }
+    }
+    checkLegacy(issues, w, [...textOf(c.front), ...textOf(c.back)])
+  }
+  if (!lesson) return
+  for (const kind of CARD_KINDS) {
+    lessonItems(lesson, kind).forEach((t, i) => {
+      if (!seen.has(`${kind}:${i}`)) issues.push({ level: 'error', where: file, message: `${kind} ${i + 1} ("${textOf(t)[0]?.slice(0, 50)}…") has no card` })
+    })
+  }
+}
+
 export function validateContent(bundle: ContentBundle, options: ValidateOptions = {}): ValidationReport {
   const issues: Issue[] = []
   const today = options.today ?? new Date().toISOString().slice(0, 10)
@@ -532,6 +594,26 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     if (inScope(lesson.module)) {
       validateLesson(lesson, issues, file)
       checkModels(issues, `${file} › lesson ${lesson.module}`, lesson, options.modelLifecycle, today)
+    }
+  }
+
+  let cardCount = 0
+  if (bundle.cards) {
+    const lessonOf = new Map(bundle.lessons.map(({ lesson }) => [lesson.module, lesson]))
+    const cardModules = new Set<string>()
+    for (const { file, data } of bundle.cards) {
+      cardCount += data.cards?.length ?? 0
+      if (cardModules.has(data.module)) issues.push({ level: 'error', where: file, message: `second card file for module "${data.module}"` })
+      cardModules.add(data.module)
+      if (!moduleById.has(data.module)) issues.push({ level: 'error', where: file, message: `unknown module "${data.module}"` })
+      if (!file.endsWith(`/${data.module}.json`)) issues.push({ level: 'error', where: file, message: `card file for "${data.module}" must be named ${data.module}.json` })
+      if (!inScope(data.module)) continue
+      validateCardFile(data, lessonOf.get(data.module), issues, file)
+      checkModels(issues, `${file} › cards`, data, options.modelLifecycle, today)
+    }
+    uniqueIds(issues, 'cards', 'card', bundle.cards.flatMap(({ data }) => (data.cards ?? []).map((c) => c.id)))
+    for (const { file, lesson } of bundle.lessons) {
+      if (inScope(lesson.module) && !cardModules.has(lesson.module)) issues.push({ level: 'error', where: file, message: `lesson has no Zettelkasten cards (src/content/cards/${lesson.module}.json)` })
     }
   }
 
@@ -595,5 +677,6 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     domainCounts,
     typeCounts,
     difficultyCounts,
+    cardCount,
   }
 }

@@ -1,0 +1,186 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "custom-tools",
+  "cards": [
+    {
+      "id": "z-custom-tools-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does a `FunctionTool` contain, what does the model see of it, and how do you change function definitions?",
+        "de": "Was enthält ein `FunctionTool`, was sieht das Modell davon, und womit änderst du Funktionsdefinitionen?"
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does `strict=True` enforce, and how must you write the schema for it, including optional fields?",
+        "de": "Was erzwingt `strict=True`, und wie musst du das Schema dafür schreiben, auch für optionale Felder?"
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does the model send when it needs your function, and how does your app return the result?",
+        "de": "Was schickt das Modell, wenn es deine Funktion braucht, und wie gibt deine App das Ergebnis zurück?"
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Who calls the API with the OpenAPI tool, what must the spec contain, and where does the secret live?",
+        "de": "Wer ruft beim OpenAPI-Tool die API auf, was muss die Spec enthalten, und wo liegt das Secret?"
+      },
+      "back": {
+        "en": "Connects the agent to an HTTP API described by an OpenAPI 3.0 or 3.1 spec; the service calls the API itself. Every operation needs an `operationId` (letters, `-` and `_` only). The secret lives only in a project connection (anonymous, API key or project managed identity); for an API key the spec just declares how it is sent — `components.securitySchemes` plus a top-level `security` entry. The tool takes the connection’s full resource ID, `project.connections.get(name).id`.",
+        "de": "Verbindet den Agent mit einer HTTP-API, die eine OpenAPI-3.0- oder -3.1-Spec beschreibt; der Dienst ruft die API selbst auf. Jede Operation braucht eine `operationId` (nur Buchstaben, `-` und `_`). Das Secret liegt nur in einer Projektverbindung (anonym, API-Key oder Projekt-Managed-Identity); bei einem API-Key legt die Spec nur fest, wie er gesendet wird – `components.securitySchemes` plus ein `security`-Eintrag auf oberster Ebene. Das Tool erwartet die vollständige Ressourcen-ID der Verbindung, `project.connections.get(name).id`."
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How does `AzureFunctionTool` exchange data with your function, and which agent setup does it require?",
+        "de": "Wie tauscht `AzureFunctionTool` Daten mit deiner Function aus, und welches Agent-Setup braucht es?"
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How does the file search tool give an agent RAG, and what do you save by using it?",
+        "de": "Wie verschafft das File-Search-Tool einem Agent RAG, und was sparst du dir damit?"
+      }
+    },
+    {
+      "id": "z-custom-tools-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does a conversation remember, and what does a memory store add for returning users?",
+        "de": "Was hält eine Conversation fest, und was ergänzt ein Memory Store für wiederkehrende Nutzer?"
+      }
+    },
+    {
+      "id": "z-custom-tools-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Your agent skips or misuses a function tool — what is the likely cause, and what do you fix first?",
+        "de": "Dein Agent ruft ein Function Tool nicht oder falsch auf – woran liegt das vermutlich, und was verbesserst du zuerst?"
+      },
+      "back": {
+        "en": "The model can’t read your code. Vague names or descriptions cause missed or wrong calls — improve the schema text before blaming the model.",
+        "de": "Das Modell kann deinen Code nicht lesen. Vage Namen oder Beschreibungen führen zu ausgelassenen oder falschen Aufrufen – verbessere den Schema-Text, bevor du dem Modell die Schuld gibst."
+      }
+    },
+    {
+      "id": "z-custom-tools-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What happens if your app never returns a `function_call_output`, and how do you handle slow work?",
+        "de": "Was passiert, wenn deine App nie ein `function_call_output` zurückgibt, und wie gehst du mit langsamer Arbeit um?"
+      },
+      "back": {
+        "en": "Function tools need your app in the loop: without a `function_call_output` there is no final answer, and the run expires 10 minutes after it was created. For slow work, return a status immediately and let the user poll.",
+        "de": "Function Tools brauchen deine App in der Schleife: Ohne `function_call_output` gibt es keine finale Antwort, und der Lauf verfällt 10 Minuten nach seiner Erstellung. Für langsame Arbeit gibst du sofort einen Status zurück und lässt den Nutzer nachfragen."
+      }
+    },
+    {
+      "id": "z-custom-tools-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What can’t the Foundry portal do with function tools, and where do you configure and test function calling?",
+        "de": "Was kann das Foundry-Portal bei Function Tools nicht, und wo konfigurierst und testest du Function Calling?"
+      },
+      "back": {
+        "en": "The Foundry portal shows agents with function tools but can’t add or edit function definitions and doesn’t execute your functions — configure and test function calling with the SDK or REST API.",
+        "de": "Das Foundry-Portal zeigt Agents mit Function Tools an, kann aber keine Funktionsdefinitionen hinzufügen oder bearbeiten und führt deine Funktionen nicht aus – konfiguriere und teste Function Calling per SDK oder REST API."
+      }
+    },
+    {
+      "id": "z-custom-tools-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Your API key isn’t sent — what does the OpenAPI spec need, and how many API-key schemes fit in one tool?",
+        "de": "Dein API-Key wird nicht gesendet – was braucht die OpenAPI-Spec, und wie viele API-Key-Schemas passen in ein Tool?"
+      },
+      "back": {
+        "en": "The OpenAPI spec needs both `components.securitySchemes` and a top-level `security` section, and only one API-key scheme fits in one OpenAPI tool.",
+        "de": "Die OpenAPI-Spec braucht sowohl `components.securitySchemes` als auch einen `security`-Abschnitt auf oberster Ebene, und pro OpenAPI-Tool passt nur ein API-Key-Schema."
+      }
+    },
+    {
+      "id": "z-custom-tools-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which agent setup doesn’t support the Azure Functions tool, and why must a reply carry the original `CorrelationId`?",
+        "de": "Welches Agent-Setup unterstützt das Azure-Functions-Tool nicht, und wozu braucht die Antwort die `CorrelationId`?"
+      },
+      "back": {
+        "en": "The queue-based Azure Functions tool isn’t supported in the basic agent setup, and a reply without the original `CorrelationId` can’t be matched to its tool call.",
+        "de": "Das Queue-basierte Azure-Functions-Tool wird im Basic-Agent-Setup nicht unterstützt, und eine Antwort ohne die ursprüngliche `CorrelationId` lässt sich keinem Tool-Aufruf zuordnen."
+      }
+    },
+    {
+      "id": "z-custom-tools-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which tool fits code in your process, a REST API with a spec, asynchronous queue work and a shared tool server?",
+        "de": "Welches Tool passt zu Code im eigenen Prozess, REST-API mit Spec, asynchroner Queue-Arbeit und geteiltem Tool-Server?"
+      },
+      "back": {
+        "en": "Must run in your process → function calling; existing REST API with a spec → OpenAPI tool; asynchronous queue work → Azure Functions tool; shared tool server → MCP.",
+        "de": "Muss in deinem Prozess laufen → Function Calling; bestehende REST-API mit Spec → OpenAPI-Tool; asynchrone Queue-Arbeit → Azure-Functions-Tool; geteilter Tool-Server → MCP."
+      }
+    },
+    {
+      "id": "z-custom-tools-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which two rules must a strict function schema follow?",
+        "de": "Welche zwei Regeln muss ein striktes Funktionsschema erfüllen?"
+      },
+      "back": {
+        "en": "Strict schemas list every property in `required` and set `additionalProperties: false`.",
+        "de": "Strikte Schemas führen jede Eigenschaft in `required` auf und setzen `additionalProperties: false`."
+      }
+    },
+    {
+      "id": "z-custom-tools-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How do you answer a `function_call` so that your result is linked to the right call?",
+        "de": "Wie beantwortest du ein `function_call`, damit dein Ergebnis dem richtigen Aufruf zugeordnet wird?"
+      },
+      "back": {
+        "en": "Answer each `function_call` with a `function_call_output` carrying the same `call_id`, in the same conversation.",
+        "de": "Beantworte jedes `function_call` mit einem `function_call_output` mit derselben `call_id` in derselben Conversation."
+      }
+    },
+    {
+      "id": "z-custom-tools-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do secrets for custom tools belong, and where must they never appear?",
+        "de": "Wohin gehören Secrets für Custom Tools, und wo dürfen sie nie stehen?"
+      },
+      "back": {
+        "en": "Secrets live in project connections — never in specs, prompts or code.",
+        "de": "Secrets gehören in Projektverbindungen – nie in Specs, Prompts oder Code."
+      }
+    },
+    {
+      "id": "z-custom-tools-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which one remembers things for a user’s next session — a conversation or a memory store — and why?",
+        "de": "Was merkt sich Dinge für die nächste Sitzung eines Nutzers – eine Conversation oder ein Memory Store –, und warum?"
+      },
+      "back": {
+        "en": "A memory store (preview) holds what to remember next time; a conversation holds this session’s history.",
+        "de": "Ein Memory Store (Preview) hält fest, was beim nächsten Mal erinnert werden soll; eine Conversation hält den Verlauf dieser Sitzung."
+      }
+    }
+  ]
+}

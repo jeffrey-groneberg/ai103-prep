@@ -1,0 +1,186 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "foundry-iq",
+  "cards": [
+    {
+      "id": "z-foundry-iq-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What are the steps of RAG, and how does classic RAG differ from agentic retrieval in Azure AI Search?",
+        "de": "Welche Schritte hat RAG, und wie unterscheidet sich klassisches RAG von Agentic Retrieval in Azure AI Search?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What is Foundry IQ built on, and what does its knowledge base group, store and expose?",
+        "de": "Worauf baut Foundry IQ auf, und was bündelt, speichert und bietet eine Knowledge Base?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How do indexed and remote knowledge sources differ in ingestion and freshness?",
+        "de": "Wie unterscheiden sich indexierte und Remote-Knowledge-Sources bei Aufnahme und Aktualität?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does retrieval reasoning effort control, where is it set, and which level works without an LLM?",
+        "de": "Was steuert der Reasoning Effort von Agentic Retrieval, wo setzt du ihn, und welche Stufe geht ohne LLM?"
+      },
+      "back": {
+        "en": "How much LLM work agentic retrieval does: `minimal`, `low`, `medium` or `auto`. Set it on the knowledge base; a retrieve request can override it. `low` is the default of the preview API (`2026-08-01-preview`) and needs an LLM on the knowledge base; without one, use `minimal`. `auto` exists only in `2026-08-01-preview` and also needs a model: the service starts with a lightweight retrieval pass and adds LLM query planning, up to `medium`, only when that pass doesn’t ground the answer. The GA API (`2026-04-01`) always retrieves at the minimal, extractive level.",
+        "de": "Wie viel LLM-Arbeit Agentic Retrieval leistet: `minimal`, `low`, `medium` oder `auto`. Du setzt ihn auf der Knowledge Base; ein Retrieve-Request kann ihn überschreiben. `low` ist der Standard der Preview-API (`2026-08-01-preview`) und braucht ein LLM auf der Knowledge Base; ohne LLM nutzt du `minimal`. `auto` gibt es nur in `2026-08-01-preview`, und es braucht ebenfalls ein Modell: Der Dienst startet mit einem leichtgewichtigen Retrieval-Durchgang und plant nur dann per LLM nach – bis `medium` –, wenn dieser Durchgang die Antwort nicht ausreichend stützt. Die GA-API (`2026-04-01`) ruft immer auf minimaler, extraktiver Stufe ab."
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "When should a knowledge base return extractive data, when answer synthesis, and what’s special about web sources?",
+        "de": "Wann liefert eine Knowledge Base Extractive Data, wann Answer Synthesis, und was ist bei Web-Quellen anders?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What does a memory store in Foundry Agent Service remember, which agent type uses it, and how are users separated?",
+        "de": "Was merkt sich ein Memory Store in Foundry Agent Service, welcher Agent-Typ nutzt ihn, und wie trennst du Nutzer?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "How do you choose between Foundry IQ, the Azure AI Search tool, file search, memory, Web IQ, Work IQ and Fabric IQ?",
+        "de": "Wie wählst du zwischen Foundry IQ, Azure AI Search Tool, File Search, Memory, Web IQ, Work IQ und Fabric IQ?"
+      }
+    },
+    {
+      "id": "z-foundry-iq-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which service is mandatory for Foundry IQ, and which one is optional?",
+        "de": "Welcher Dienst ist für Foundry IQ Pflicht, und welcher ist optional?"
+      },
+      "back": {
+        "en": "Azure AI Search is mandatory — the knowledge base lives on the search service. Foundry Agent Service, however, is optional: Agent Framework or any app can call the knowledge base.",
+        "de": "Azure AI Search ist Pflicht – die Knowledge Base liegt auf dem Suchdienst. Foundry Agent Service ist dagegen optional: Agent Framework oder jede App kann die Knowledge Base aufrufen."
+      }
+    },
+    {
+      "id": "z-foundry-iq-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What do you give up with `minimal` reasoning effort, and when is it the wrong choice?",
+        "de": "Worauf verzichtest du mit `minimal` Reasoning Effort, und wann ist es die falsche Wahl?"
+      },
+      "back": {
+        "en": "`minimal` means no query planning, no answer synthesis and no web knowledge source. Don’t pick it when multi-part questions must be decomposed.",
+        "de": "`minimal` heißt: keine Abfrageplanung, keine Answer Synthesis und keine Web-Knowledge-Source. Wähle es nicht, wenn mehrteilige Fragen zerlegt werden müssen."
+      }
+    },
+    {
+      "id": "z-foundry-iq-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What two things does permission trimming on indexed sources need, and what happens if one is missing?",
+        "de": "Welche zwei Dinge braucht die Berechtigungsfilterung bei indexierten Quellen, und was passiert, wenn eins fehlt?"
+      },
+      "back": {
+        "en": "Both halves: permission metadata ingested with `ingestionPermissionOptions` and the user’s token on the request. Missing either one returns results unfiltered.",
+        "de": "Beide Hälften: mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten und das Token des Nutzers in der Anfrage. Fehlt eines davon, kommen die Ergebnisse ungefiltert."
+      }
+    },
+    {
+      "id": "z-foundry-iq-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Azure AI Search returns 403 to your agent. Which role is missing, and when is Cognitive Services User needed?",
+        "de": "Azure AI Search antwortet deinem Agent mit 403. Welche Rolle fehlt, und wann ist Cognitive Services User nötig?"
+      },
+      "back": {
+        "en": "The identity the connection authenticates with — the project’s managed identity or the agent identity — lacks **Search Index Data Reader**. **Cognitive Services User** is a different assignment: the search service’s identity on the Foundry resource, needed whenever the knowledge base has an LLM configured (`low`, `medium`, answer synthesis, web sources).",
+        "de": "Der Identität, mit der sich die Verbindung anmeldet – Managed Identity des Projekts oder Agent-Identität –, fehlt **Search Index Data Reader**. **Cognitive Services User** ist eine andere Zuweisung: die Identität des Suchdienstes auf der Foundry-Ressource, nötig, sobald auf der Knowledge Base ein LLM konfiguriert ist (`low`, `medium`, Answer Synthesis, Web-Quellen)."
+      }
+    },
+    {
+      "id": "z-foundry-iq-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "How do memory, Foundry IQ and file search differ in the content they handle?",
+        "de": "Wie unterscheiden sich Memory, Foundry IQ und File Search in den Inhalten, die sie verarbeiten?"
+      },
+      "back": {
+        "en": "Memory is not a knowledge base: it stores learned, user-specific facts. Foundry IQ grounds on curated organizational content, and file search handles documents a user provides in the conversation.",
+        "de": "Memory ist keine Knowledge Base: Es speichert gelernte, nutzerspezifische Fakten. Foundry IQ stützt sich auf kuratierte Unternehmensinhalte, und File Search verarbeitet Dokumente, die ein Nutzer im Gespräch bereitstellt."
+      }
+    },
+    {
+      "id": "z-foundry-iq-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What should new RAG for agents start with, and when do you keep classic RAG?",
+        "de": "Womit startest du neues RAG für Agents, und wann behältst du klassisches RAG?"
+      },
+      "back": {
+        "en": "Start with Foundry IQ and agentic retrieval. Keep classic RAG when you must preserve your own query orchestration.",
+        "de": "Starte mit Foundry IQ und Agentic Retrieval. Behalte klassisches RAG, wenn du deine eigene Abfrage-Orchestrierung erhalten musst."
+      }
+    },
+    {
+      "id": "z-foundry-iq-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "In which order do you create Foundry IQ objects, and what do you wire an agent to the knowledge base with?",
+        "de": "In welcher Reihenfolge legst du Foundry-IQ-Objekte an, und womit verdrahtest du einen Agent mit der Knowledge Base?"
+      },
+      "back": {
+        "en": "Knowledge sources first, then the knowledge base. Wire agents with `MCPTool` + `knowledge_base_retrieve` + a `RemoteTool` project connection.",
+        "de": "Erst Knowledge Sources, dann die Knowledge Base. Agents verdrahtest du mit `MCPTool` + `knowledge_base_retrieve` + einer `RemoteTool`-Projektverbindung."
+      }
+    },
+    {
+      "id": "z-foundry-iq-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What does reasoning effort trade off, how do its levels rank, and what does `auto` do?",
+        "de": "Was wägt der Reasoning Effort ab, wie sind seine Stufen geordnet, und was macht `auto`?"
+      },
+      "back": {
+        "en": "Reasoning effort trades cost and latency for depth: `minimal` < `low` (preview default) < `medium`. `auto` (preview) lets the service pick the depth per request, up to `medium`.",
+        "de": "Der Reasoning Effort tauscht Kosten und Latenz gegen Tiefe: `minimal` < `low` (Preview-Standard) < `medium`. Mit `auto` (Preview) wählt der Dienst die Tiefe pro Anfrage, bis `medium`."
+      }
+    },
+    {
+      "id": "z-foundry-iq-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which output should a knowledge base return to an agent, and where does answer synthesis belong?",
+        "de": "Welche Ausgabe sollte eine Knowledge Base einem Agent liefern, und wofür ist Answer Synthesis gedacht?"
+      },
+      "back": {
+        "en": "For agents, return extractive data and let the agent cite. Answer synthesis is for standalone apps.",
+        "de": "Für Agents Extractive Data zurückgeben und den Agent zitieren lassen. Answer Synthesis ist für eigenständige Apps."
+      }
+    },
+    {
+      "id": "z-foundry-iq-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which question types should you test a knowledge base agent with, and what do you watch in production?",
+        "de": "Mit welchen Fragetypen testest du einen Agent mit Knowledge Base, und was beobachtest du in Produktion?"
+      },
+      "back": {
+        "en": "Test with factual, multi-document, out-of-scope and ambiguous questions. In production, watch citation and “I don’t know” rates and refine instructions or content.",
+        "de": "Teste mit Fakten-, Mehrdokument-, themenfremden und mehrdeutigen Fragen. Beobachte in Produktion die Quote von Zitaten und „Ich weiß es nicht“ und schärfe Instructions oder Inhalte nach."
+      }
+    }
+  ]
+}

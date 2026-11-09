@@ -60,7 +60,6 @@ const icons = {
   target: 'target_20_regular',
   people: 'people_20_regular',
   menu: 'navigation_20_regular',
-  globe: 'globe_20_regular',
   shield: 'shield_checkmark_20_regular',
   sparkle: 'sparkle_20_regular',
   filter: 'filter_20_regular',
@@ -71,11 +70,13 @@ const icons = {
   stepNext: 'next_20_regular',
   stepPrev: 'previous_20_regular',
   expand: 'arrow_maximize_20_regular',
-  person: 'person_20_regular',
-  window: 'window_20_regular',
-  database: 'database_20_regular',
-  wrench: 'wrench_20_regular',
-  cube: 'cube_20_regular',
+  zettel: 'archive_20_regular',
+  zettelFilled: 'archive_20_filled',
+  add: 'add_20_regular',
+  edit: 'edit_20_regular',
+  trash: 'delete_20_regular',
+  eyeOff: 'eye_off_20_regular',
+  undo: 'arrow_undo_20_regular',
 }
 
 const lines = [

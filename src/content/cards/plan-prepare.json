@@ -1,0 +1,206 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "plan-prepare",
+  "cards": [
+    {
+      "id": "z-plan-prepare-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which Azure resource type is a Foundry resource, and which settings do you set there once for all projects?",
+        "de": "Welcher Azure-Ressourcentyp ist eine Foundry-Ressource, und was legst du dort einmal für alle Projekte fest?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "How do you reach a Foundry project, and what does it reuse from its resource versus get on its own?",
+        "de": "Worüber erreichst du ein Foundry-Projekt, was nutzt es von der Ressource mit und was bekommt es selbst?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What lives at resource scope versus project scope, and when does a workload get its own Foundry resource?",
+        "de": "Was liegt auf Ressourcen-, was auf Projektebene, und wann bekommt ein Workload eine eigene Foundry-Ressource?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What are Foundry Tools, why use them for common tasks, and which kind of endpoint do they call?",
+        "de": "Was sind Foundry Tools, warum nutzt du sie für Standardaufgaben, und welche Endpoints verwenden sie?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Where do basic and standard agent setup keep agent state, and which resources does the standard setup use?",
+        "de": "Wo speichern Basic- und Standard-Setup den Agent-Zustand, und welche Ressourcen nutzt das Standard-Setup?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What counts as control-plane `actions` versus data-plane `dataActions`, and which roles allow data actions?",
+        "de": "Was zählt zu Control-Plane-`actions`, was zu Data-Plane-`dataActions`, und welche Rollen erlauben Data Actions?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which responsible AI principles belong in your plan, and which parts of your solution do they shape?",
+        "de": "Welche Prinzipien verantwortungsvoller KI gehören in deinen Plan, und was prägen sie an deiner Lösung?"
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Why do Owner, Contributor and Foundry Account Owner still fail when building agents, and which role is missing?",
+        "de": "Warum scheitern Owner, Contributor und Foundry Account Owner beim Bauen von Agents, und welche Rolle fehlt?"
+      },
+      "back": {
+        "en": "Owner, Contributor and **Foundry Account Owner** can manage the resource and deploy models, but they have no data actions — they still get authorization errors when building agents until they also get **Foundry User**.",
+        "de": "Owner, Contributor und **Foundry Account Owner** können die Ressource verwalten und Modelle bereitstellen, haben aber keine Data Actions – beim Bauen von Agents scheitern sie, bis sie zusätzlich **Foundry User** bekommen."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Where don't API keys work in Foundry, what's the risk where they do, and what should you use instead?",
+        "de": "Wo funktionieren API-Keys in Foundry nicht, welches Risiko bergen sie sonst, und was nutzt du stattdessen?"
+      },
+      "back": {
+        "en": "API keys don't work for Foundry Agent Service, evaluations or `AIProjectClient`, and where they do work they grant full, unscoped access. Use Microsoft Entra ID and disable local auth once every caller uses tokens.",
+        "de": "API-Keys funktionieren nicht für Foundry Agent Service, Evaluierungen oder `AIProjectClient` – und wo sie funktionieren, gewähren sie vollen, unbeschränkten Zugriff. Nutze Microsoft Entra ID und schalte Local Auth ab, sobald alle Aufrufer Tokens verwenden."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What protects connected resources like Azure AI Search when the Foundry resource has a private endpoint and RBAC?",
+        "de": "Was schützt verbundene Ressourcen wie Azure AI Search, wenn die Foundry-Ressource Private Endpoint und RBAC hat?"
+      },
+      "back": {
+        "en": "Not the Foundry resource's private endpoint or RBAC: connected resources (Azure AI Search, Storage, Key Vault, Cosmos DB) don't inherit them. Secure each one separately.",
+        "de": "Nicht Private Endpoint und RBAC der Foundry-Ressource: Verbundene Ressourcen (Azure AI Search, Storage, Key Vault, Cosmos DB) erben beides nicht. Sichere jede einzeln ab."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What do you need to create to isolate Translator for one workload, and why?",
+        "de": "Was musst du anlegen, um Translator für einen Workload zu isolieren, und warum?"
+      },
+      "back": {
+        "en": "A separate Foundry resource. Translator and other APIs that work only at Foundry resource scope aren't isolated by creating another project.",
+        "de": "Eine separate Foundry-Ressource. Translator und andere APIs, die nur auf Ebene der Foundry-Ressource funktionieren, werden durch ein weiteres Projekt nicht isoliert."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What happens to the portal's visual workflow designer, and how do you build and run new multi-agent workflows?",
+        "de": "Was passiert mit dem visuellen Workflow-Designer, und wie baust und betreibst du neue Multi-Agent-Workflows?"
+      },
+      "back": {
+        "en": "The visual workflow designer in the Foundry portal retires on December 1, 2026. Build new multi-agent workflows in code with Microsoft Agent Framework (the SDK) and run them in Foundry as hosted agents (the runtime) — the two work together, they aren't alternatives.",
+        "de": "Der visuelle Workflow-Designer im Foundry-Portal wird am 1. Dezember 2026 eingestellt. Baue neue Multi-Agent-Workflows im Code mit Microsoft Agent Framework (dem SDK) und betreibe sie in Foundry als Hosted Agents (der Laufzeit) – beides arbeitet zusammen, es sind keine Alternativen."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Which OpenAI features work only in a resource's default project, and what do the other projects get?",
+        "de": "Welche OpenAI-Features gibt es nur im Default-Projekt einer Ressource, und was bekommen die anderen Projekte?"
+      },
+      "back": {
+        "en": "Only the **default project** (normally the resource's first project; tag `default`, property `is_default`) can use the OpenAI Batch, fine-tuning and stored completions APIs and Speech fine-tuning. Other projects get only Responses, Files and Conversations from the OpenAI API — a team that needs its own fine-tuning gets a separate Foundry resource.",
+        "de": "Nur das **Default-Projekt** (meist das erste Projekt der Ressource; Tag `default`, Eigenschaft `is_default`) kann die OpenAI-APIs für Batch, Fine-Tuning und Stored Completions sowie Speech-Fine-Tuning nutzen. Andere Projekte bekommen aus der OpenAI-API nur Responses, Files und Conversations – braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource."
+      }
+    },
+    {
+      "id": "z-plan-prepare-trap-7",
+      "source": { "kind": "trap", "index": 6 },
+      "front": {
+        "en": "Which endpoint do keyless (Entra ID) calls to a Foundry Tool need, and which endpoints reject tokens?",
+        "de": "Welchen Endpoint brauchen schlüssellose Aufrufe (Entra ID) eines Foundry Tools, und welche lehnen Tokens ab?"
+      },
+      "back": {
+        "en": "The resource's custom subdomain endpoint (`https://<resource>.cognitiveservices.azure.com/`). Regional endpoints such as `https://westus.api.cognitive.microsoft.com/` accept keys but not Microsoft Entra ID tokens; Translator's global endpoint accepts a token together with the resource ID header (`Ocp-Apim-ResourceId`), plus `Ocp-Apim-Subscription-Region` for a regional or multi-service resource.",
+        "de": "Den Custom-Subdomain-Endpoint der Ressource (`https://<resource>.cognitiveservices.azure.com/`). Regionale Endpoints wie `https://westus.api.cognitive.microsoft.com/` akzeptieren Keys, aber keine Microsoft-Entra-ID-Tokens; der globale Endpoint von Translator nimmt ein Token zusammen mit dem Header für die Ressourcen-ID (`Ocp-Apim-ResourceId`) an, bei einer regionalen oder Multi-Service-Ressource zusätzlich mit `Ocp-Apim-Subscription-Region`."
+      }
+    },
+    {
+      "id": "z-plan-prepare-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which boundary does the Foundry resource draw, and which one does the project draw?",
+        "de": "Welche Grenze zieht die Foundry-Ressource, und welche zieht das Projekt?"
+      },
+      "back": {
+        "en": "The Foundry resource is the governance boundary; the project is the development boundary.",
+        "de": "Die Foundry-Ressource ist die Governance-Grenze; das Projekt ist die Entwicklungsgrenze."
+      }
+    },
+    {
+      "id": "z-plan-prepare-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "When do you choose a Foundry Tool, and when do you choose a model?",
+        "de": "Wann wählst du ein Foundry Tool, und wann ein Modell?"
+      },
+      "back": {
+        "en": "A prebuilt, repeatable task → Foundry Tool; open-ended generation or reasoning → model.",
+        "de": "Eine standardisierte, wiederholbare Aufgabe → Foundry Tool; offene Generierung oder Reasoning → Modell."
+      }
+    },
+    {
+      "id": "z-plan-prepare-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Agent data must stay in your tenant, with CMK or private networking: which agent setup fits, with which resources?",
+        "de": "Agent-Daten im eigenen Tenant, CMK oder private Netzwerke: Welches Agent-Setup passt, mit welchen Ressourcen?"
+      },
+      "back": {
+        "en": "Agent data in your tenant, CMK or private networking → standard agent setup (Storage, AI Search, Cosmos DB).",
+        "de": "Agent-Daten im eigenen Tenant, CMK oder private Netzwerke → Standard-Agent-Setup (Storage, AI Search, Cosmos DB)."
+      }
+    },
+    {
+      "id": "z-plan-prepare-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which identity, role, network setup and key setting make up production access to Foundry?",
+        "de": "Welche Identität, Rolle, Netzwerkanbindung und Key-Einstellung gehören zu produktivem Zugriff auf Foundry?"
+      },
+      "back": {
+        "en": "Production access = managed identity + least-privilege Foundry role + private endpoint, keys disabled.",
+        "de": "Produktiver Zugriff = Managed Identity + Foundry-Rolle mit minimalen Rechten + Private Endpoint, Keys deaktiviert."
+      }
+    },
+    {
+      "id": "z-plan-prepare-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which tools automate provisioning and deployment, how do pipelines sign in, and what gates releases?",
+        "de": "Womit automatisierst du die Bereitstellung, wie melden sich Pipelines an, und was sichert Releases ab?"
+      },
+      "back": {
+        "en": "Automate with Bicep or Terraform and `azd`, sign pipelines in with OIDC and gate releases with evaluations.",
+        "de": "Automatisiere mit Bicep oder Terraform und `azd`, melde Pipelines per OIDC an und sichere Releases mit Evaluierungen ab."
+      }
+    }
+  ]
+}

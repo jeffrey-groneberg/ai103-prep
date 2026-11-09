@@ -1,0 +1,162 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "cu-client",
+  "cards": [
+    {
+      "id": "z-cu-client-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Why does a Content Understanding client call a Foundry resource endpoint, and under which path?",
+        "de": "Warum spricht ein Content-Understanding-Client mit dem Endpoint einer Foundry-Ressource, und unter welchem Pfad?"
+      }
+    },
+    {
+      "id": "z-cu-client-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "How are an analyzer's model names mapped to deployments, and which option is missing for byte uploads?",
+        "de": "Wie werden die Modellnamen eines Analyzers Deployments zugeordnet, und welcher Weg fehlt bei Byte-Uploads?"
+      }
+    },
+    {
+      "id": "z-cu-client-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which statuses end the polling of a long-running operation, and how do the SDK's `begin_*` methods help?",
+        "de": "Bei welchen Statuswerten endet das Abfragen einer Long-Running Operation, und wie helfen die SDK-Methoden `begin_*`?"
+      }
+    },
+    {
+      "id": "z-cu-client-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What video size and duration limits apply when you analyze by URL versus by raw-byte upload?",
+        "de": "Welche Videolimits für Größe und Dauer gelten bei Analyse per URL und beim Upload roher Bytes?"
+      }
+    },
+    {
+      "id": "z-cu-client-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does each entry in `result.contents[]` hold, and when do document fields include `confidence` and `source`?",
+        "de": "Was steckt in jedem Eintrag von `result.contents[]`, und wann enthalten Dokumentfelder `confidence` und `source`?"
+      }
+    },
+    {
+      "id": "z-cu-client-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How long does Content Understanding keep inputs and results, and how can you remove a result sooner?",
+        "de": "Wie lange bewahrt Content Understanding Eingaben und Ergebnisse auf, und wie entfernst du ein Ergebnis früher?"
+      }
+    },
+    {
+      "id": "z-cu-client-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What does the analyze `POST` return, and how do you get to the actual result?",
+        "de": "Was liefert der Analyse-`POST` zurück, und wie kommst du an das eigentliche Ergebnis?"
+      },
+      "back": {
+        "en": "Not the result: it returns `202 Accepted` and an `Operation-Location` that you must poll.",
+        "de": "Nicht das Ergebnis, sondern `202 Accepted` und eine `Operation-Location`, die du abfragen musst."
+      }
+    },
+    {
+      "id": "z-cu-client-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which operation uploads a file's bytes for analysis, and what does `:analyze` expect instead?",
+        "de": "Welche Operation lädt die Bytes einer Datei zur Analyse hoch, und was erwartet `:analyze` stattdessen?"
+      },
+      "back": {
+        "en": "`:analyzeBinary` (SDK: `begin_analyze_binary`) uploads the file itself. `:analyze` expects JSON with `inputs` (URLs).",
+        "de": "`:analyzeBinary` (SDK: `begin_analyze_binary`) lädt die Datei selbst hoch. `:analyze` erwartet JSON mit `inputs` (URLs)."
+      }
+    },
+    {
+      "id": "z-cu-client-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What does an error like “default model deployment not configured” mean — and what doesn't it mean?",
+        "de": "Was bedeutet ein Fehler wie „default model deployment not configured“ – und was bedeutet er nicht?"
+      },
+      "back": {
+        "en": "The defaults mapping is missing. It doesn't mean that the analyzer definition is wrong.",
+        "de": "Die Defaults-Zuordnung fehlt. Er bedeutet nicht, dass die Analyzer-Definition falsch ist."
+      }
+    },
+    {
+      "id": "z-cu-client-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which kind of name goes into an analyzer's `models`, and what does `modelDeployments` map it to?",
+        "de": "Welche Art von Namen steht in `models` eines Analyzers, und worauf bildet `modelDeployments` sie ab?"
+      },
+      "back": {
+        "en": "An analyzer's `models` lists model names; `modelDeployments` (defaults or per request) maps them to deployment names. Mixing the two breaks the mapping.",
+        "de": "Der Eintrag `models` eines Analyzers enthält Modell-Namen; `modelDeployments` (Defaults oder pro Anfrage) ordnet sie Deployment-Namen zu. Wer beides vertauscht, bricht die Zuordnung."
+      }
+    },
+    {
+      "id": "z-cu-client-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which setting makes an `extract` field valid, and which field methods can do without it?",
+        "de": "Welche Einstellung macht ein `extract`-Feld gültig, und welche Feldmethoden kommen ohne sie aus?"
+      },
+      "back": {
+        "en": "`estimateSourceAndConfidence: true` (or the analyzer-wide `estimateFieldSourceAndConfidence`); without it the definition is invalid. `generate` and `classify` fields don't need it.",
+        "de": "`estimateSourceAndConfidence: true` (oder das analyzerweite `estimateFieldSourceAndConfidence`) – ohne ist die Definition ungültig. `generate`- und `classify`-Felder brauchen das nicht."
+      }
+    },
+    {
+      "id": "z-cu-client-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "In which order and how often do you set defaults, create analyzers and analyze files?",
+        "de": "In welcher Reihenfolge und wie oft setzt du Defaults, legst Analyzer an und analysierst Dateien?"
+      },
+      "back": {
+        "en": "Defaults once per resource → analyzer once per schema → analyze many times.",
+        "de": "Defaults einmal pro Ressource → Analyzer einmal pro Schema → beliebig oft analysieren."
+      }
+    },
+    {
+      "id": "z-cu-client-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How do you wait for create and analyze calls to finish, with REST and with the SDK?",
+        "de": "Wie wartest du auf das Ende von Anlege- und Analyseaufrufen, per REST und mit dem SDK?"
+      },
+      "back": {
+        "en": "Every create and analyze call is a long-running operation: follow `Operation-Location` or let the SDK poller wait.",
+        "de": "Jeder Anlege- und Analyseaufruf ist eine Long-Running Operation: Folge der `Operation-Location` oder lass den SDK-Poller warten."
+      }
+    },
+    {
+      "id": "z-cu-client-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which authentication should a Content Understanding app use in production, and what are API keys for?",
+        "de": "Welche Authentifizierung nutzt eine Content-Understanding-App in der Produktion, und wofür sind API-Keys da?"
+      },
+      "back": {
+        "en": "Production uses Microsoft Entra ID (`DefaultAzureCredential`, managed identity); API keys are for quick tests only.",
+        "de": "Produktion nutzt Microsoft Entra ID (`DefaultAzureCredential`, Managed Identity); API-Keys sind nur für schnelle Tests."
+      }
+    },
+    {
+      "id": "z-cu-client-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which properties hold a field's value in the result, and what does the SDK offer instead?",
+        "de": "Welche Eigenschaften enthalten den Wert eines Felds im Ergebnis, und was bietet das SDK stattdessen?"
+      },
+      "back": {
+        "en": "Read values by type — `valueString`, `valueNumber`, `valueDate` — or `.value` in the SDK.",
+        "de": "Lies Werte typgerecht – `valueString`, `valueNumber`, `valueDate` – oder `.value` im SDK."
+      }
+    }
+  ]
+}

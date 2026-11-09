@@ -1,0 +1,242 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "model-catalog",
+  "cards": [
+    {
+      "id": "z-model-catalog-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Who supports and bills Foundry Models sold by Azure, and how does that differ for partner and community models?",
+        "de": "Wer unterstützt Foundry Models sold by Azure und rechnet sie ab, und wie ist das bei Partner- und Community-Modellen?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "By which criteria do model leaderboards rank models, and what can public benchmarks not replace?",
+        "de": "Nach welchen Kriterien ordnen Leaderboards die Katalogmodelle, und was ersetzen öffentliche Benchmarks nicht?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does the deployment type of a Serverless API deployment decide, and what does managed compute host instead?",
+        "de": "Was legt der Deployment-Typ eines Serverless-API-Deployments fest, und was hostet Managed Compute stattdessen?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which three kinds of HTTP 429 can a deployment return, and what is the right response to each?",
+        "de": "Welche drei Arten von HTTP 429 kann ein Deployment liefern, und wie reagierst du jeweils richtig?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How do PTU quota and PTU capacity differ, and where does spillover send overflow traffic?",
+        "de": "Worin unterscheiden sich PTU-Kontingent und PTU-Kapazität, und wohin schickt Spillover den Überlauf?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What does model router do for each prompt, which routing modes does it offer, and what limits its context window?",
+        "de": "Was macht der Model Router pro Prompt, welche Routing-Modi bietet er, und was begrenzt sein Kontextfenster?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What do AI-assisted quality evaluators, textual similarity metrics and risk and safety evaluators each need?",
+        "de": "Was brauchen KI-gestützte Qualitäts-Evaluatoren, Textähnlichkeits-Metriken und Sicherheits-Evaluatoren jeweils?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-8",
+      "source": { "kind": "concept", "index": 7 },
+      "front": {
+        "en": "When do you pick an LLM, an SLM, a reasoning model, an embedding model or a multimodal model?",
+        "de": "Wann wählst du ein LLM, ein SLM, ein Reasoning-Modell, ein Embedding-Modell oder ein multimodales Modell?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-9",
+      "source": { "kind": "concept", "index": 8 },
+      "front": {
+        "en": "What does instant access (preview) let you skip, what are its preview limits, and when do you still deploy?",
+        "de": "Was sparst du dir mit Instant Access (Preview), welche Grenzen hat die Preview, und wann brauchst du ein Deployment?"
+      }
+    },
+    {
+      "id": "z-model-catalog-concept-10",
+      "source": { "kind": "concept", "index": 9 },
+      "front": {
+        "en": "How does a rubric evaluator score a response, what's its default pass threshold, and what do you generate it from?",
+        "de": "Wie bewertet ein Rubric-Evaluator eine Antwort, welcher Standard-Schwellenwert gilt, und woraus erzeugst du ihn?"
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What do you pass as `model` when your deployment name differs from the catalog model name?",
+        "de": "Was übergibst du als `model`, wenn dein Deployment-Name vom Katalog-Modellnamen abweicht?"
+      },
+      "back": {
+        "en": "Your deployment name — not the catalog model name if you renamed the deployment, and never the asset ID that Azure Policy uses. Only instant access (preview) takes a plain model name, without any deployment.",
+        "de": "Deinen Deployment-Namen – nicht den Katalog-Modellnamen, wenn du das Deployment umbenannt hast, und nie die Asset-ID, die Azure Policy verwendet. Nur Instant Access (Preview) nimmt einen reinen Modellnamen – ganz ohne Deployment."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What does a 429 with `x-ratelimit-limit-tokens` below your configured TPM mean, and how should you react?",
+        "de": "Was bedeutet ein 429, wenn `x-ratelimit-limit-tokens` unter deinen konfigurierten TPM liegt, und wie reagierst du?"
+      },
+      "back": {
+        "en": "The service has temporarily lowered your limit — not every 429 means you need more quota. Retry with backoff or move steady traffic to PTUs instead of filing a quota request.",
+        "de": "Der Dienst hat dein Limit vorübergehend gesenkt – nicht jeder 429 bedeutet, dass du mehr Kontingent brauchst. Wiederhole mit Backoff oder verlege Dauerlast auf PTUs, statt Kontingent zu beantragen."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "In which order do you create a provisioned deployment and buy an Azure Reservation, and why?",
+        "de": "In welcher Reihenfolge legst du ein Provisioned-Deployment an und kaufst eine Azure Reservation – und warum?"
+      },
+      "back": {
+        "en": "Create the provisioned deployment first, then buy the reservation to lock in the discount. Neither PTU quota nor an Azure Reservation guarantees capacity.",
+        "de": "Lege zuerst das Provisioned-Deployment an und kaufe dann die Reservierung für den Rabatt. Weder PTU-Kontingent noch eine Azure Reservation garantiert Kapazität."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which deployment types fit a data residency requirement, and where may Global types process prompts?",
+        "de": "Welche Deployment-Typen passen zu Datenresidenz-Anforderungen, und wo dürfen globale Typen Prompts verarbeiten?"
+      },
+      "back": {
+        "en": "Data Zone or Standard types, not Global ones. Global deployment types may process prompts in any Azure region.",
+        "de": "Data-Zone- oder Standard-Typen, keine globalen. Globale Deployment-Typen dürfen Prompts in jeder Azure-Region verarbeiten."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "On the safety leaderboard, what does a higher WMDP score mean, and is a higher or lower HarmBench rate better?",
+        "de": "Was bedeutet im Sicherheits-Leaderboard ein höherer WMDP-Score, und ist bei HarmBench hoch oder niedrig besser?"
+      },
+      "back": {
+        "en": "A higher WMDP score means more knowledge of hazardous capabilities — not a safer model. For HarmBench, a lower attack success rate is better.",
+        "de": "Ein höherer WMDP-Score bedeutet mehr Wissen über gefährliche Fähigkeiten – kein sichereres Modell. Bei HarmBench ist eine niedrigere Attack Success Rate besser."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Is priority processing a deployment type, where can you enable it, and what happens on sharp traffic ramps?",
+        "de": "Ist Priority Processing ein Deployment-Typ, wo aktivierst du es, und was passiert bei steilen Lastanstiegen?"
+      },
+      "back": {
+        "en": "No — it's a pay-as-you-go service tier for lower, steadier latency on a Global Standard or Data Zone Standard (US) deployment, set for the whole deployment or per request with `service_tier: \"priority\"`. It uses the same quota as standard processing, and sharp ramps can push requests back to standard processing (billed at standard rates).",
+        "de": "Nein – es ist ein nutzungsbasierter Service Tier für niedrigere, gleichmäßigere Latenz auf einem Global-Standard- oder Data-Zone-Standard-Deployment (US), aktiviert für das ganze Deployment oder pro Request mit `service_tier: \"priority\"`. Er nutzt dasselbe Kontingent wie die Standardverarbeitung, und steile Lastanstiege können Requests zurück in die Standardverarbeitung schieben (zum Standardpreis abgerechnet)."
+      }
+    },
+    {
+      "id": "z-model-catalog-trap-7",
+      "source": { "kind": "trap", "index": 6 },
+      "front": {
+        "en": "Why don't exact-match tests work for generative output, and when do F1 or BLEU still fit?",
+        "de": "Warum funktionieren exakte Vergleichstests bei generativer Ausgabe nicht, und wann passen F1 oder BLEU trotzdem?"
+      },
+      "back": {
+        "en": "The same prompt can return a different answer each time, and many answers can be right, so you score qualities with evaluators instead. Overlap metrics such as F1 or BLEU fit when you have a definitive correct answer or a reference text (ground truth); they're less suitable for open-ended generation.",
+        "de": "Derselbe Prompt kann jedes Mal eine andere Antwort liefern, und viele Antworten können richtig sein – deshalb bewertest du Eigenschaften mit Evaluatoren. Überlappungsmetriken wie F1 oder BLEU passen, wenn es eine eindeutige richtige Antwort oder einen Referenztext (Ground Truth) gibt; für offene Generierung eignen sie sich weniger."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which deployment type is your default start, and which four needs justify switching away from it?",
+        "de": "Mit welchem Deployment-Typ startest du standardmäßig, und welche vier Anforderungen rechtfertigen einen Wechsel?"
+      },
+      "back": {
+        "en": "Start on Global Standard. Switch only for residency, reserved throughput, batch or fine-tuned tests.",
+        "de": "Starte mit Global Standard; wechsle nur für Residenz, reservierten Durchsatz, Batch oder Fine-Tuning-Tests."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "At which scope is TPM quota granted, and how do your deployments relate to it?",
+        "de": "Auf welcher Ebene wird TPM-Kontingent vergeben, und wie hängen deine Deployments damit zusammen?"
+      },
+      "back": {
+        "en": "Quota is TPM per subscription, region, model and deployment type — the deployments share it.",
+        "de": "Kontingent ist TPM pro Abonnement, Region, Modell und Deployment-Typ – Deployments teilen es sich."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What fits each: steady latency-critical load, bulk async work and mixed prompt complexity?",
+        "de": "Was passt jeweils zu Dauerlast mit Latenzanspruch, asynchroner Massenarbeit und gemischter Prompt-Komplexität?"
+      },
+      "back": {
+        "en": "Steady, latency-critical load → PTUs plus spillover; bulk async work → Batch; mixed prompt complexity → model router.",
+        "de": "Dauerlast mit Latenzanspruch → PTUs plus Spillover; asynchrone Massenarbeit → Batch; gemischte Prompt-Komplexität → Model Router."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which of these need ground truth: groundedness, relevance, F1, BLEU, ROUGE, response completeness?",
+        "de": "Welche davon brauchen Ground Truth: Groundedness, Relevance, F1, BLEU, ROUGE, Response Completeness?"
+      },
+      "back": {
+        "en": "F1, BLEU, ROUGE and response completeness need ground truth. Groundedness and relevance work without it.",
+        "de": "F1, BLEU, ROUGE und Response Completeness brauchen Ground Truth. Groundedness und Relevance funktionieren ohne sie."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "What are benchmarks for, what are evaluations on your own data for, and what do you ship at the end?",
+        "de": "Wofür nutzt du Benchmarks, wofür Evaluierungen auf deinen Daten, und was lieferst du am Ende aus?"
+      },
+      "back": {
+        "en": "Shortlist with benchmarks, decide with evaluations on your own data, then ship the deployment name.",
+        "de": "Shortlist mit Benchmarks, Entscheidung mit Evaluierungen auf deinen Daten, dann den Deployment-Namen ausliefern."
+      }
+    },
+    {
+      "id": "z-model-catalog-takeaway-6",
+      "source": { "kind": "takeaway", "index": 5 },
+      "front": {
+        "en": "Where do you watch estimated model and agent costs, and where do billed costs and budgets live?",
+        "de": "Wo beobachtest du geschätzte Modell- und Agent-Kosten, und wo findest du abgerechnete Kosten und Budgets?"
+      },
+      "back": {
+        "en": "Near real time: the Monitor tab of a model or agent in the Foundry portal (estimated cost, without discounts or PTUs). Billed cost, budgets and chargeback: Microsoft Cost Management.",
+        "de": "Nahezu in Echtzeit: der Monitor-Tab eines Modells oder Agents im Foundry-Portal (geschätzte Kosten, ohne Rabatte und PTUs). Abgerechnete Kosten, Budgets und interne Verrechnung: Microsoft Cost Management."
+      }
+    }
+  ]
+}

@@ -277,3 +277,39 @@ export interface Lesson {
   takeaways: L10n[]
   sources: SourceLink[]
 }
+
+/* ---------- Zettelkasten (Leitner card box) ---------- */
+
+/** Lesson item a starter card asks about. */
+export type ZettelKind = 'concept' | 'trap' | 'takeaway'
+
+/** One starter card in src/content/cards/<module>.json. */
+export interface StarterCard {
+  /** z-<module>-<kind>-<index + 1> */
+  id: string
+  source: { kind: ZettelKind; index: number }
+  /** The question on the front. */
+  front: L10n
+  /**
+   * The answer on the back. Concept cards usually have none, because the lesson's concept text is the
+   * answer; they carry one only when that text points at the page ("the table below").
+   */
+  back?: L10n
+}
+
+export interface CardFile {
+  module: string
+  cards: StarterCard[]
+}
+
+/** A card as the app shows it: a starter card resolved against its lesson, or one the learner wrote. */
+export interface Zettel {
+  id: string
+  /** Module the card belongs to; own cards may have none. */
+  module: string | null
+  kind: ZettelKind | 'own'
+  front: Text
+  back: Text
+  /** Concept cards: the term, shown above the answer. */
+  term?: string
+}

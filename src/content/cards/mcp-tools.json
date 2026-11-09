@@ -1,0 +1,206 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "mcp-tools",
+  "cards": [
+    {
+      "id": "z-mcp-tools-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which roles do the MCP server and the MCP client play, and who is the client for a Foundry prompt agent?",
+        "de": "Welche Rolle spielen MCP-Server und MCP-Client, und wer ist bei einem Foundry-Prompt-Agent der Client?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Why do tools added on an MCP server appear without redeploying the agent, and what can still hide them?",
+        "de": "Warum erscheinen neue Tools eines MCP-Servers ohne Redeployment des Agents, und was kann sie trotzdem ausblenden?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How does `MCPTool` attach a remote server to a prompt agent, and how do you add more than one server?",
+        "de": "Wie bindet `MCPTool` einen Remote-Server an einen Prompt Agent, und wie fügst du mehrere Server hinzu?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does a non-empty `allowed_tools` list restrict, and what is exposed without one?",
+        "de": "Was schränkt eine nicht leere `allowed_tools`-Liste ein, und was ist ohne sie verfügbar?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does `require_approval` do by default, and how do you set different approval rules per tool?",
+        "de": "Was bewirkt `require_approval` standardmäßig, und wie legst du pro Tool unterschiedliche Freigaberegeln fest?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How does an agent reference MCP credentials, and what decides which identity the MCP server sees?",
+        "de": "Wie verweist ein Agent auf MCP-Zugangsdaten, und was bestimmt, welche Identität der MCP-Server sieht?"
+      },
+      "back": {
+        "en": "Store keys or tokens in a project connection and reference it with `project_connection_id` (the samples pass the connection name). The connection’s authentication type decides which identity the server sees: one shared key or token (key-based), the agent’s own Entra identity, the project’s managed identity, the calling user (Microsoft Entra client user delegation) or each user after their own sign-in to the provider (OAuth identity passthrough). Prefer Microsoft Entra when the server supports it: no secrets to manage and automatic token rotation.",
+        "de": "Speichere Keys oder Tokens in einer Projektverbindung und verweise mit `project_connection_id` darauf (die Beispiele übergeben den Verbindungsnamen). Der Authentifizierungstyp der Verbindung entscheidet, welche Identität der Server sieht: ein geteilter Key oder Token (Key-basiert), die eigene Entra-Identität des Agents, die Managed Identity des Projekts, der aufrufende Nutzer (Microsoft Entra Client User Delegation) oder jeder Nutzer nach eigener Anmeldung beim Anbieter (OAuth Identity Passthrough). Bevorzuge Microsoft Entra, wenn der Server es unterstützt: keine Secrets zu verwalten und automatische Token-Rotation."
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "When do you choose a Foundry toolbox, and when an AI gateway, for your MCP tools?",
+        "de": "Wann wählst du für deine MCP-Tools eine Foundry-Toolbox und wann ein AI Gateway?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-concept-8",
+      "source": { "kind": "concept", "index": 7 },
+      "front": {
+        "en": "How does tool search work in a toolbox, what does a toolbox guardrail check, and how do agents connect?",
+        "de": "Wie funktioniert Tool Search in einer Toolbox, was prüft ein Toolbox-Guardrail, und wie verbinden sich Agents?"
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What happens if you set `allowed_tools=[]` to block a server's tools, and what works instead?",
+        "de": "Was passiert, wenn du mit `allowed_tools=[]` die Tools eines Servers blockieren willst, und was hilft stattdessen?"
+      },
+      "back": {
+        "en": "`allowed_tools=[]` does not block tools — it allows all of them. Use a non-empty list, or remove the MCP tool from the agent.",
+        "de": "`allowed_tools=[]` blockiert keine Tools – es erlaubt alle. Nutze eine nicht leere Liste oder entferne das MCP-Tool aus dem Agent."
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Why might the first response of an agent with an MCP tool contain no answer text at all?",
+        "de": "Warum kann die erste Antwort eines Agents mit MCP-Tool überhaupt keinen Antworttext enthalten?"
+      },
+      "back": {
+        "en": "`require_approval` defaults to `always`, so the first response may contain only an `mcp_approval_request`. There is no answer until your app responds.",
+        "de": "`require_approval` ist standardmäßig `always`, daher kann die erste Antwort nur ein `mcp_approval_request` und keinen Text enthalten, bis deine App antwortet."
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Where do you send an MCP approval, what goes into `approval_request_id`, and what if you get it wrong?",
+        "de": "Wohin schickst du eine MCP-Freigabe, was gehört in `approval_request_id`, und was passiert bei einem Fehler?"
+      },
+      "back": {
+        "en": "Send the approval in the same conversation and set `approval_request_id` to the request item's `id`. Otherwise the agent never continues.",
+        "de": "Schick die Freigabe in derselben Conversation und setze `approval_request_id` auf die `id` des Anfrage-Items – sonst setzt der Agent nie fort."
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which MCP endpoints does Foundry Agent Service accept, and how do you handle long-running tools?",
+        "de": "Welche MCP-Endpoints akzeptiert Foundry Agent Service, und wie gehst du mit lang laufenden Tools um?"
+      },
+      "back": {
+        "en": "Only remote MCP endpoints: a server on `localhost` or stdio must first be hosted, for example on Azure Container Apps or Azure Functions. A synchronous MCP tool call fails after 100 seconds; for longer tools run the agent in background mode (preview: `background=True`, then poll the response) with a supporting model such as `gpt-5.4` and a server that implements MCP tasks — or split the work.",
+        "de": "Nur Remote-MCP-Endpoints: Ein Server auf `localhost` oder über stdio muss zuerst gehostet werden, etwa in Azure Container Apps oder Azure Functions. Ein synchroner MCP-Tool-Aufruf scheitert nach 100 Sekunden; für längere Tools führst du den Agent im Background Mode aus (Preview: `background=True`, dann die Antwort abfragen) – mit einem unterstützten Modell wie `gpt-5.4` und einem Server, der MCP Tasks implementiert – oder teilst die Arbeit auf."
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "How should you treat tool descriptions and results from third-party MCP servers, and what really controls access?",
+        "de": "Wie behandelst du Tool-Beschreibungen und Ergebnisse fremder MCP-Server, und was kontrolliert den Zugriff wirklich?"
+      },
+      "back": {
+        "en": "As untrusted input (indirect prompt injection). Instructions are not an access control — `allowed_tools`, approvals and identity permissions are.",
+        "de": "Als nicht vertrauenswürdigen Input (indirekte Prompt Injection). Anweisungen sind keine Zugriffskontrolle – `allowed_tools`, Freigaben und Identitätsberechtigungen schon."
+      }
+    },
+    {
+      "id": "z-mcp-tools-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Which tools can't go into a Foundry toolbox, and how do you use them instead?",
+        "de": "Welche Tools passen nicht in eine Foundry-Toolbox, und wie nutzt du sie stattdessen?"
+      },
+      "back": {
+        "en": "Function calling (it runs client-side), Azure Functions, SharePoint, Grounding with Bing, Fabric data agent, image generation and computer use. Attach them to the agent directly; MCP, Web search and Fabric IQ do fit in a toolbox.",
+        "de": "Function Calling (läuft clientseitig), Azure Functions, SharePoint, Grounding with Bing, Fabric Data Agent, Bildgenerierung und Computer Use. Diese hängst du direkt an den Agent; MCP, Web Search und Fabric IQ passen dagegen in eine Toolbox."
+      }
+    },
+    {
+      "id": "z-mcp-tools-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Who publishes and who discovers MCP tools, and what does that spare you when tools change?",
+        "de": "Wer veröffentlicht MCP-Tools, wer entdeckt sie, und was ersparst du dir dadurch, wenn sich Tools ändern?"
+      },
+      "back": {
+        "en": "The server publishes, the client discovers and calls them. Tools change without redeploying the agent.",
+        "de": "Der Server veröffentlicht, der Client entdeckt und ruft auf – Tools ändern sich ohne Redeployment des Agents."
+      }
+    },
+    {
+      "id": "z-mcp-tools-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What does least privilege look like for an agent's MCP tools?",
+        "de": "Wie sehen minimale Rechte für die MCP-Tools eines Agents aus?"
+      },
+      "back": {
+        "en": "A non-empty `allowed_tools` list plus approvals for write operations.",
+        "de": "Eine nicht leere `allowed_tools`-Liste plus Freigaben für schreibende Operationen."
+      }
+    },
+    {
+      "id": "z-mcp-tools-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which steps make up the MCP approval loop, and how long does it repeat?",
+        "de": "Aus welchen Schritten besteht die MCP-Freigabeschleife, und wie lange wiederholt sie sich?"
+      },
+      "back": {
+        "en": "`mcp_approval_request` → human review → `mcp_approval_response` in the same conversation. It repeats while new requests arrive.",
+        "de": "`mcp_approval_request` → menschliche Prüfung → `mcp_approval_response` in derselben Conversation – wiederholt, solange neue Anfragen kommen."
+      }
+    },
+    {
+      "id": "z-mcp-tools-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do MCP credentials belong, and which kind of authentication is preferable?",
+        "de": "Wo gehören MCP-Zugangsdaten hin, und welche Art der Authentifizierung ist vorzuziehen?"
+      },
+      "back": {
+        "en": "In a project connection (`project_connection_id`), preferably Entra-based.",
+        "de": "In eine Projektverbindung (`project_connection_id`), möglichst Entra-basiert."
+      }
+    },
+    {
+      "id": "z-mcp-tools-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Where do MCP servers go when you need reuse and central governance?",
+        "de": "Wohin gehören MCP-Server, wenn du Wiederverwendung und zentrale Governance brauchst?"
+      },
+      "back": {
+        "en": "Put them in a toolbox or route them through an AI gateway (preview).",
+        "de": "In eine Toolbox oder hinter ein AI Gateway (Preview)."
+      }
+    }
+  ]
+}

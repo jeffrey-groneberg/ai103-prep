@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "video-generation",
+  "cards": [
+    {
+      "id": "z-video-generation-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "From which inputs can Sora 2 create video, which API does it use, and how is it billed?",
+        "de": "Aus welchen Eingaben macht Sora 2 Videos, welche API nutzt es, und wie wird es abgerechnet?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which statuses does a Sora 2 job pass through, how long does it render, and how many jobs can run at once?",
+        "de": "Welche Status durchläuft ein Sora-2-Job, wie lange rendert er, und wie viele Jobs laufen gleichzeitig?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which values do `size` and `seconds` accept, what are the defaults, and why can shorter clips be better?",
+        "de": "Welche Werte nehmen `size` und `seconds`, was ist Standard, und warum können kürzere Clips besser sein?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does `input_reference` anchor in a Sora 2 video, which formats does it take, and what must it match?",
+        "de": "Was verankert `input_reference` in einem Sora-2-Video, welche Formate nimmt es, und was muss passen?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does `videos.remix()` reuse, which parameters does it take, and which changes keep fidelity highest?",
+        "de": "Was übernimmt `videos.remix()`, welche Parameter nimmt es, und welche Änderungen erhalten die höchste Treue?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which content does Sora 2 reject on top of input and output moderation?",
+        "de": "Welche Inhalte lehnt Sora 2 zusätzlich zur Moderation von Ein- und Ausgaben ab?"
+      }
+    },
+    {
+      "id": "z-video-generation-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which elements does a shot-style prompt describe, and which languages should you write it in?",
+        "de": "Welche Elemente gehören in einen Prompt als Shot-Beschreibung, und in welchen Sprachen schreibst du ihn?"
+      }
+    },
+    {
+      "id": "z-video-generation-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What does `videos.create()` return, and what must you do before you can download the video?",
+        "de": "Was liefert `videos.create()` zurück, und was musst du tun, bevor du das Video herunterladen kannst?"
+      },
+      "back": {
+        "en": "Not the video — a job. Poll `videos.retrieve()` and call `download_content()` once the status is `completed`.",
+        "de": "Nicht das Video, sondern einen Job. Frage `videos.retrieve()` ab und rufe `download_content()` auf, sobald der Status `completed` ist."
+      }
+    },
+    {
+      "id": "z-video-generation-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "You want to pass a 2560×1440 photo as `input_reference` for a 1280×720 video. What must you do first?",
+        "de": "Du willst ein 2560×1440-Foto als `input_reference` für ein 1280×720-Video übergeben. Was musst du vorher tun?"
+      },
+      "back": {
+        "en": "Resize the photo to 1280×720 before you pass it: `input_reference` must match the requested `size` exactly.",
+        "de": "Skaliere das Foto auf 1280×720, bevor du es übergibst: `input_reference` muss exakt zur angeforderten `size` passen."
+      }
+    },
+    {
+      "id": "z-video-generation-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What kind of clip do you get if you leave out `size` and `seconds`?",
+        "de": "Welchen Clip bekommst du, wenn du `size` und `seconds` weglässt?"
+      },
+      "back": {
+        "en": "Leaving out `size` and `seconds` gives you a 4-second portrait clip (720x1280).",
+        "de": "Ohne `size` und `seconds` bekommst du einen 4-Sekunden-Clip im Hochformat (720x1280)."
+      }
+    },
+    {
+      "id": "z-video-generation-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does remix need to change a finished video, and what happens if you call `videos.create()` again instead?",
+        "de": "Was braucht Remix für ein fertiges Video, und was passiert, wenn du stattdessen erneut `videos.create()` aufrufst?"
+      },
+      "back": {
+        "en": "Remix needs the `id` of a completed video and works best with one change. Calling `videos.create()` again starts from scratch and loses the original structure.",
+        "de": "Remix braucht die `id` eines fertigen Videos und funktioniert am besten mit einer Änderung. Ein neuer `videos.create()`-Aufruf beginnt bei null und verliert die Struktur des Originals."
+      }
+    },
+    {
+      "id": "z-video-generation-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why do Sora 2 jobs with a public figure or a face in the reference image fail, and what else is rejected?",
+        "de": "Warum scheitern Sora-2-Jobs mit Prominenten oder einem Gesicht im Referenzbild, und was wird noch abgelehnt?"
+      },
+      "back": {
+        "en": "Real people (including public figures), human faces in reference images, copyrighted characters and copyrighted music are rejected — such jobs fail by design.",
+        "de": "Reale Personen (auch Prominente), menschliche Gesichter in Referenzbildern, geschützte Figuren und geschützte Musik werden abgelehnt – solche Jobs scheitern absichtlich."
+      }
+    },
+    {
+      "id": "z-video-generation-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "In which order do you call the Sora 2 video API, and how long do you have to download the result?",
+        "de": "In welcher Reihenfolge rufst du die Sora-2-Video-API auf, und wie lange hast du zum Herunterladen Zeit?"
+      },
+      "back": {
+        "en": "create → retrieve (poll) → download_content, within 24 hours of job creation.",
+        "de": "create → retrieve (abfragen) → download_content, innerhalb von 24 Stunden ab Job-Erstellung."
+      }
+    },
+    {
+      "id": "z-video-generation-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How should you handle `size` and `seconds` in a Sora 2 request?",
+        "de": "Wie gehst du in einer Sora-2-Anfrage mit `size` und `seconds` um?"
+      },
+      "back": {
+        "en": "Set `size` and `seconds` explicitly instead of relying on the defaults.",
+        "de": "Setze `size` und `seconds` explizit, statt dich auf die Standardwerte zu verlassen."
+      }
+    },
+    {
+      "id": "z-video-generation-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How do you turn an image into a video with Sora 2, and what must the image satisfy?",
+        "de": "Wie machst du mit Sora 2 aus einem Bild ein Video, und welche Bedingung muss das Bild erfüllen?"
+      },
+      "back": {
+        "en": "Image to video = `input_reference` with an image of exactly the target size.",
+        "de": "Bild zu Video = `input_reference` mit einem Bild in exakt der Zielgröße."
+      }
+    },
+    {
+      "id": "z-video-generation-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which call edits a generated video, and how many changes should each call make?",
+        "de": "Mit welchem Aufruf bearbeitest du ein generiertes Video, und wie viele Änderungen gehören in einen Aufruf?"
+      },
+      "back": {
+        "en": "Edit generated videos with `videos.remix()`, one change at a time.",
+        "de": "Bearbeite generierte Videos mit `videos.remix()`, eine Änderung nach der anderen."
+      }
+    },
+    {
+      "id": "z-video-generation-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "How should you write Sora 2 prompts, and which rules must they respect?",
+        "de": "Wie formulierst du Sora-2-Prompts, und welche Regeln müssen sie beachten?"
+      },
+      "back": {
+        "en": "Prompt like a cinematographer and respect Sora 2's content rules.",
+        "de": "Formuliere Prompts wie für ein Kamerateam und beachte die Inhaltsregeln von Sora 2."
+      }
+    }
+  ]
+}

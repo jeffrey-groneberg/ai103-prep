@@ -168,7 +168,7 @@ export function ProgressPage() {
         <h2 id="data-h" className="panel__title">
           Daten
         </h2>
-        <p className="muted">Dein Fortschritt liegt nur lokal im Browser (localStorage). Exportiere ihn, um ihn auf ein anderes Gerät mitzunehmen.</p>
+        <p className="muted">Dein Fortschritt liegt nur lokal im Browser (localStorage). Exportiere ihn samt deiner eigenen Zettel, um ihn auf ein anderes Gerät mitzunehmen. Zurücksetzen löscht den Lernstand; deine eigenen Zettel bleiben und starten wieder in Fach 1.</p>
         <div className="callout__actions">
           <button type="button" className="btn btn--secondary" onClick={download}>
             <Icon name="download" size={16} />
@@ -204,7 +204,7 @@ export function ProgressPage() {
                   setConfirmReset(false)
                 }}
               >
-                Alles löschen
+                Lernstand löschen
               </button>
               <button type="button" className="btn btn--subtle" onClick={() => setConfirmReset(false)}>
                 Abbrechen

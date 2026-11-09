@@ -1,0 +1,194 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "agents-vscode",
+  "cards": [
+    {
+      "id": "z-agents-vscode-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which three agent types does Foundry Agent Service offer, and when do you pick a hosted agent or the Responses API?",
+        "de": "Welche drei Agent-Typen bietet Foundry Agent Service, und wann wählst du einen Hosted Agent oder die Responses API?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What is an agent version, and how do you address one exact version instead of the one the endpoint serves?",
+        "de": "Was ist eine Agent-Version, und wie sprichst du genau eine Version an statt der, die der Endpoint ausliefert?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which three ways carry context across turns, and when should you use each one?",
+        "de": "Mit welchen drei Wegen trägst du Kontext über mehrere Runden weiter, und wann nutzt du welchen?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which steps build a prompt agent in the Microsoft Foundry Toolkit, and what debugs hosted agents locally?",
+        "de": "Mit welchen Schritten baust du im Microsoft Foundry Toolkit einen Prompt Agent, und was debuggt Hosted Agents lokal?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Where does `version_selector` send an agent's traffic, and which authentication and role do callers need?",
+        "de": "Wohin leitet `version_selector` den Traffic eines Agents, und welche Authentifizierung und Rolle brauchen Aufrufer?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What decides which identity a downstream service sees from an agent's tool, and who gets the roles?",
+        "de": "Was entscheidet, welche Identität ein nachgelagerter Dienst vom Tool eines Agents sieht, und wer bekommt die Rollen?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Where does Foundry store traces, what do they contain, and what does client-side tracing add?",
+        "de": "Wo speichert Foundry Traces, was enthalten sie, und was ergänzt clientseitiges Tracing?"
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What can't you do with unsaved playground edits, and what must you do first?",
+        "de": "Was geht mit ungespeicherten Änderungen im Playground nicht, und was musst du zuerst tun?"
+      },
+      "back": {
+        "en": "Unsaved playground edits are not a version. To compare versions, keep conversation history, monitor or run full evaluations, save first.",
+        "de": "Ungespeicherte Änderungen im Playground sind keine Version. Um Versionen zu vergleichen, Verlauf zu behalten, zu überwachen oder vollständig zu evaluieren, musst du zuerst speichern."
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What happens when you save a new version under the default routing, and how do you protect production?",
+        "de": "Was passiert, wenn du beim Standard-Routing eine neue Version speicherst, und wie schützt du die Produktion?"
+      },
+      "back": {
+        "en": "The default routing **Always use latest** serves the newly saved version immediately — even in Teams. Pin the `version_selector` in production; splitting traffic between versions isn't supported.",
+        "de": "Das Standard-Routing **Always use latest** liefert die neu gespeicherte Version sofort aus – auch in Teams. Lege den `version_selector` in der Produktion fest; Traffic auf mehrere Versionen aufzuteilen wird nicht unterstützt."
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Why can tool calls of a new agent fail with authorization errors, and what fixes it?",
+        "de": "Warum können Tool-Aufrufe eines neuen Agents mit Autorisierungsfehlern scheitern, und was behebt das?"
+      },
+      "back": {
+        "en": "A new agent identity has no permissions. Tool calls whose project connection authenticates as the agent identity fail until you grant that identity roles on the target service.",
+        "de": "Eine neue Agent-Identität hat keine Berechtigungen. Tool-Aufrufe, deren Projektverbindung sich als Agent-Identität authentifiziert, scheitern, bis du dieser Identität Rollen auf dem Zieldienst gibst."
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "No traces show up — what do you connect first, and which roles do viewers need?",
+        "de": "Es erscheinen keine Traces – was verbindest du zuerst, und welche Rollen brauchen Betrachter?"
+      },
+      "back": {
+        "en": "Connect Application Insights to the project first, and give viewers **Log Analytics Reader** (plus **Privileged Monitoring Data Reader** for protected tables).",
+        "de": "Verbinde zuerst Application Insights mit dem Projekt und gib Betrachtern **Log Analytics Reader** (plus **Privileged Monitoring Data Reader** für geschützte Tabellen)."
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why shouldn't you build new orchestration as YAML workflow agents, and what do you use instead?",
+        "de": "Warum baust du neue Orchestrierung nicht als YAML-Workflow-Agents, und was nutzt du stattdessen?"
+      },
+      "back": {
+        "en": "Declarative workflows in Foundry retire on December 1, 2026, even though the training module still lists YAML workflow agents. Use Microsoft Agent Framework for new orchestration.",
+        "de": "Deklarative Workflows in Foundry werden am 1. Dezember 2026 eingestellt, auch wenn das Trainingsmodul noch YAML-Workflow-Agents nennt. Nutze Microsoft Agent Framework für neue Orchestrierung."
+      }
+    },
+    {
+      "id": "z-agents-vscode-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Which identity pulls a hosted agent's image from Azure Container Registry, and which one calls services at run time?",
+        "de": "Welche Identität zieht beim Hosted Agent das Image aus der Container Registry, und welche ruft zur Laufzeit Dienste auf?"
+      },
+      "back": {
+        "en": "The **project managed identity** pulls the image, so it needs Container Registry Repository Reader (or AcrPull) on the Azure Container Registry. The **agent identity**, created at deploy time, is what your code uses at run time to call models, tools and other Azure services, so roles on downstream services such as Storage go to it.",
+        "de": "Die **Managed Identity des Projekts** zieht das Image und braucht daher Container Registry Repository Reader (oder AcrPull) auf der Azure Container Registry. Die beim Deployment erzeugte **Agent-Identität** nutzt dein Code zur Laufzeit, um Modelle, Tools und andere Azure-Dienste aufzurufen, also bekommt sie die Rollen auf nachgelagerten Diensten wie Storage."
+      }
+    },
+    {
+      "id": "z-agents-vscode-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "How would you sum up a prompt agent versus a hosted agent in one line?",
+        "de": "Wie fasst du Prompt Agent und Hosted Agent in einer Zeile zusammen?"
+      },
+      "back": {
+        "en": "Prompt agent = configuration; hosted agent = your code in a Foundry-managed container.",
+        "de": "Prompt Agent = Konfiguration; Hosted Agent = dein Code in einem von Foundry verwalteten Container."
+      }
+    },
+    {
+      "id": "z-agents-vscode-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What does every saved change create, and how do you keep the endpoint on the version you trust?",
+        "de": "Was entsteht bei jeder gespeicherten Änderung, und wie hältst du den Endpoint auf der Version, der du vertraust?"
+      },
+      "back": {
+        "en": "Every saved change is a new immutable version — pin the endpoint to the version you trust.",
+        "de": "Jede gespeicherte Änderung ist eine neue, unveränderliche Version – binde den Endpoint an die Version, der du vertraust."
+      }
+    },
+    {
+      "id": "z-agents-vscode-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Who keeps the history with a conversation, with `previous_response_id` and with `store=False`?",
+        "de": "Wer hält den Verlauf bei einer Conversation, bei `previous_response_id` und bei `store=False`?"
+      },
+      "back": {
+        "en": "With a conversation, Foundry stores the items; with `previous_response_id`, Foundry stores the responses; with `store=False`, your app resends the history.",
+        "de": "Bei einer Conversation speichert Foundry die Items, bei `previous_response_id` speichert Foundry die Antworten, und bei `store=False` schickt deine App den Verlauf mit."
+      }
+    },
+    {
+      "id": "z-agents-vscode-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which feature explains a single request, and which features watch the whole agent?",
+        "de": "Was erklärt eine einzelne Anfrage, und was beobachtet den ganzen Agent?"
+      },
+      "back": {
+        "en": "Traces explain one request; the Monitor tab and continuous evaluation watch the whole agent.",
+        "de": "Traces erklären eine Anfrage; Monitor-Tab und kontinuierliche Evaluierung beobachten den ganzen Agent."
+      }
+    },
+    {
+      "id": "z-agents-vscode-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Before you move the version selector, what should gate the release in CI?",
+        "de": "Bevor du den Version Selector umstellst: Womit sicherst du das Release in der CI ab?"
+      },
+      "back": {
+        "en": "Gate releases with evaluations in CI (`microsoft/ai-agent-evals`, preview) before you move the version selector.",
+        "de": "Sichere Releases mit Evaluierungen in der CI (`microsoft/ai-agent-evals`, Preview) ab, bevor du den Version Selector umstellst."
+      }
+    }
+  ]
+}

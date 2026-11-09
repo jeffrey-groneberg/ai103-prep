@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "speech-service",
+  "cards": [
+    {
+      "id": "z-speech-service-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What role does `SpeechConfig` play in the Speech SDK, and which connection details and settings does it hold?",
+        "de": "Welche Rolle spielt `SpeechConfig` im Speech SDK, und welche Verbindungsdaten und Einstellungen enthält sie?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What do `AudioConfig` and `AudioOutputConfig` control, and how do you keep synthesized audio in the result?",
+        "de": "Was steuern `AudioConfig` und `AudioOutputConfig`, und wie bleibt synthetisiertes Audio im Ergebnis?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How do real-time, fast and batch transcription deliver results, and which files suit fast transcription?",
+        "de": "Wie liefern Echtzeit-, Fast- und Batch-Transkription Ergebnisse, und für welche Dateien eignet sich Fast Transcription?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How are neural voice names built, what makes HD voices different, and what does custom voice require?",
+        "de": "Wie sind Namen neuronaler Stimmen aufgebaut, was ist an HD-Stimmen anders, und was setzt Custom Voice voraus?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What is SSML for, which elements does it offer, and which method sends it?",
+        "de": "Wofür ist SSML da, welche Elemente bietet es, und mit welcher Methode sendest du es?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which data does custom speech train on, how do you measure the result, and how does it differ from a phrase list?",
+        "de": "Welche Daten nutzt Custom Speech, wie misst du das Ergebnis, und worin unterscheidet es sich von einer Phrasenliste?"
+      }
+    },
+    {
+      "id": "z-speech-service-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does keyless Entra ID access to Speech require, and which roles does Voice Live need instead?",
+        "de": "Was braucht schlüsselloser Entra-ID-Zugriff auf Speech, und welche Rollen braucht Voice Live stattdessen?"
+      }
+    },
+    {
+      "id": "z-speech-service-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What happens if you transcribe a whole call with `recognize_once_async()`, and what should you use instead?",
+        "de": "Was passiert, wenn du einen ganzen Anruf mit `recognize_once_async()` transkribierst, und was nimmst du stattdessen?"
+      },
+      "back": {
+        "en": "It stops after one utterance — at the first silence or after about 30 seconds (SDK reference; one how-to page still says 15). Everything after the first pause is lost, so use continuous recognition or batch transcription.",
+        "de": "Es stoppt nach einer Äußerung – bei der ersten Stille oder nach etwa 30 Sekunden (laut SDK-Referenz; eine How-to-Seite nennt noch 15). Alles nach der ersten Pause geht verloren – nutze kontinuierliche Erkennung oder Batch-Transkription."
+      }
+    },
+    {
+      "id": "z-speech-service-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "You’re Owner of the resource, yet keyless Entra ID calls to Speech fail. What do you need?",
+        "de": "Du bist Owner der Ressource, trotzdem scheitern schlüssellose Entra-ID-Aufrufe an Speech. Was brauchst du?"
+      },
+      "back": {
+        "en": "A custom-domain endpoint and a data-plane role such as Cognitive Services Speech User. The generic Owner or Contributor roles don’t grant access to the speech APIs.",
+        "de": "Einen Custom-Domain-Endpoint und eine Data-Plane-Rolle wie Cognitive Services Speech User. Die allgemeinen Rollen Owner oder Contributor geben keinen Zugriff auf die Speech-APIs."
+      }
+    },
+    {
+      "id": "z-speech-service-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "When does a custom speech model need a deployed endpoint, and how can you avoid its hosting cost?",
+        "de": "Wann braucht ein Custom-Speech-Modell einen bereitgestellten Endpoint, und wie vermeidest du dessen Hosting-Kosten?"
+      },
+      "back": {
+        "en": "Real-time recognition with a custom speech model needs a deployed custom endpoint (`endpoint_id`). Batch transcription can use the custom model without one — and without its hosting cost.",
+        "de": "Echtzeiterkennung mit einem Custom-Speech-Modell braucht einen bereitgestellten Custom-Endpoint (`endpoint_id`). Die Batch-Transkription kann das Custom-Modell ohne Endpoint nutzen – und ohne dessen Hosting-Kosten."
+      }
+    },
+    {
+      "id": "z-speech-service-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does the service do with an invalid `mstts:express-as` style, and what’s limited with HD voices?",
+        "de": "Was macht der Dienst bei ungültigem `mstts:express-as`-Stil, und was ist bei HD-Stimmen eingeschränkt?"
+      },
+      "back": {
+        "en": "`mstts:express-as` styles exist only for some voices; with a missing or invalid style, the service ignores the element and speaks the text in the default neutral style. HD voices don’t support every SSML element, for example `mstts:silence` or `bookmark`.",
+        "de": "`mstts:express-as`-Stile gibt es nur für manche Stimmen; bei fehlendem oder ungültigem Stil ignoriert der Dienst das Element und spricht den Text im neutralen Standardstil. HD-Stimmen unterstützen nicht jedes SSML-Element, zum Beispiel `mstts:silence` oder `bookmark`."
+      }
+    },
+    {
+      "id": "z-speech-service-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "How do custom speech and custom voice differ in what they change, and which one needs approval?",
+        "de": "Wie unterscheiden sich Custom Speech und Custom Voice darin, was sie verändern, und welches braucht eine Genehmigung?"
+      },
+      "back": {
+        "en": "Custom speech improves *recognition*; custom voice changes *synthesis* and requires approved limited access.",
+        "de": "Custom Speech verbessert die *Erkennung*; Custom Voice verändert die *Synthese* und erfordert einen genehmigten eingeschränkten Zugang."
+      }
+    },
+    {
+      "id": "z-speech-service-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "In which order do you set up a Speech SDK call, and what do you check at the end?",
+        "de": "In welcher Reihenfolge baust du einen Speech-SDK-Aufruf auf, und was prüfst du am Ende?"
+      },
+      "back": {
+        "en": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` or `SpeechSynthesizer` → check `result.reason`.",
+        "de": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` oder `SpeechSynthesizer` → `result.reason` prüfen."
+      }
+    },
+    {
+      "id": "z-speech-service-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which recognition approach fits a single utterance, and which fits long audio?",
+        "de": "Welcher Erkennungsweg passt zu einer einzelnen Äußerung, und welcher zu langem Audio?"
+      },
+      "back": {
+        "en": "One utterance: `recognize_once_async()`. Long audio: continuous recognition or batch transcription.",
+        "de": "Eine Äußerung: `recognize_once_async()`. Langes Audio: kontinuierliche Erkennung oder Batch-Transkription."
+      }
+    },
+    {
+      "id": "z-speech-service-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which synthesis method do you call for plain text, and which when you need styles, pauses or pronunciation?",
+        "de": "Welche Synthesemethode rufst du für Klartext auf, und welche für Stile, Pausen oder Aussprache?"
+      },
+      "back": {
+        "en": "Plain text: `speak_text_async()`. Styles, pauses and pronunciation: SSML with `speak_ssml_async()`.",
+        "de": "Klartext: `speak_text_async()`. Stile, Pausen und Aussprache: SSML mit `speak_ssml_async()`."
+      }
+    },
+    {
+      "id": "z-speech-service-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which custom speech training data fixes vocabulary problems, and which fixes accents and noise?",
+        "de": "Welche Trainingsdaten für Custom Speech helfen bei Vokabularproblemen, und welche bei Akzenten und Störgeräuschen?"
+      },
+      "back": {
+        "en": "Vocabulary problems → text data for custom speech. Accents and noise → audio with human-labeled transcripts.",
+        "de": "Vokabularprobleme → Textdaten für Custom Speech. Akzente und Störgeräusche → Audio mit menschlich erstellten Transkripten."
+      }
+    }
+  ]
+}

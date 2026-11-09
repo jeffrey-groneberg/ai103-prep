@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { validateContent, type ContentBundle } from '../src/content/validate.ts'
-import type { Lesson, Question } from '../src/lib/types.ts'
+import { validateCardFile, validateContent, type ContentBundle, type Issue } from '../src/content/validate.ts'
+import type { CardFile, Lesson, Question } from '../src/lib/types.ts'
 import { code, multi, single } from './fixtures.ts'
 import { findOutdatedModels, modelStatus, type ModelLifecycle } from '../src/content/model-currency.ts'
 
@@ -184,6 +184,73 @@ describe('validator — lessons and diagrams', () => {
       .errors.map((e) => e.message)
       .join('\n')
     expect(text).toMatch(/label "a label that is far too long.*" of edge ab \(a → b\) has no free spot/)
+  })
+})
+
+describe('validator — Zettelkasten cards', () => {
+  const cardLesson = (): Lesson => ({
+    module: 'a2a',
+    summary: t('A long enough summary that explains what this module is about for learners.'),
+    examFocus: t('How the exam asks about this topic in practice.'),
+    diagrams: [],
+    concepts: [1, 2].map((i) => ({ term: `Term ${i}`, text: t(`Concept ${i} explained in enough words to be useful.`) })),
+    code: [],
+    traps: [t('A trap that is worth knowing.')],
+    takeaways: [t('A takeaway worth keeping.')],
+    sources: [],
+  })
+  const q = (s: string) => ({ en: `${s}?`, de: `${s} (de)?` })
+  const goodCards = (): CardFile => ({
+    module: 'a2a',
+    cards: [
+      { id: 'z-a2a-concept-1', source: { kind: 'concept', index: 0 }, front: q('What is term one') },
+      { id: 'z-a2a-concept-2', source: { kind: 'concept', index: 1 }, front: q('What is term two') },
+      { id: 'z-a2a-trap-1', source: { kind: 'trap', index: 0 }, front: q('Which trap matters'), back: t('The trap that is worth knowing.') },
+      { id: 'z-a2a-takeaway-1', source: { kind: 'takeaway', index: 0 }, front: q('What do you keep'), back: t('The takeaway worth keeping.') },
+    ],
+  })
+  const cardErrors = (data: CardFile, lesson = cardLesson()) => {
+    const issues: Issue[] = []
+    validateCardFile(data, lesson, issues, 'src/content/cards/a2a.json')
+    return issues.filter((i) => i.level === 'error').map((i) => i.message).join('\n')
+  }
+
+  it('accepts one question card per concept, trap and takeaway', () => {
+    expect(cardErrors(goodCards())).toBe('')
+  })
+
+  it('reports lesson items without a card and cards without a lesson item', () => {
+    const data = goodCards()
+    data.cards = data.cards.filter((c) => c.id !== 'z-a2a-trap-1')
+    data.cards.push({ id: 'z-a2a-takeaway-9', source: { kind: 'takeaway', index: 8 }, front: q('Where is this from'), back: t('Nowhere at all, really.') })
+    const text = cardErrors(data)
+    expect(text).toMatch(/trap 1 \("A trap that is worth knowing\.…"\) has no card/)
+    expect(text).toMatch(/source takeaway 8 does not exist/)
+  })
+
+  it('requires questions on the front, answers on trap and takeaway backs, and matching ids', () => {
+    const data = goodCards()
+    data.cards[0] = { ...data.cards[0], id: 'z-a2a-concept-7', front: t('A statement, not a question') }
+    data.cards[2] = { ...data.cards[2], back: undefined }
+    const text = cardErrors(data)
+    expect(text).toMatch(/id should be "z-a2a-concept-1"/)
+    expect(text).toMatch(/front\.en must be a question ending with "\?"/)
+    expect(text).toMatch(/back: missing localized text/)
+  })
+
+  it('rejects answers that point at the lesson page', () => {
+    const lesson = cardLesson()
+    lesson.concepts[1].text = t('Levels differ per model (see the table) and per API version.')
+    expect(cardErrors(goodCards(), lesson)).toMatch(/points at the lesson page \("see the table"\)/)
+    const fixed = goodCards()
+    fixed.cards[1] = { ...fixed.cards[1], back: t('Levels differ per model and per API version.') }
+    expect(cardErrors(fixed, lesson)).toBe('')
+  })
+
+  it('flags outdated product names on cards', () => {
+    const data = goodCards()
+    data.cards[2] = { ...data.cards[2], back: t('Use Azure AI Studio to deploy the model.') }
+    expect(cardErrors(data)).toMatch(/outdated name/)
   })
 })
 

@@ -1,0 +1,194 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "m365-integration",
+  "cards": [
+    {
+      "id": "z-m365-integration-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does every new Foundry agent get at creation, and which permissions does its identity start with?",
+        "de": "Was bekommt jeder neue Foundry-Agent beim Anlegen, und mit welchen Berechtigungen startet seine Identität?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does the version selector decide, what is its default, and how many versions get traffic at once?",
+        "de": "Was entscheidet der Version Selector, was ist sein Standard, und wie viele Versionen bekommen gleichzeitig Traffic?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does publishing to Teams and Microsoft 365 Copilot set up, and what does Download & customize give you?",
+        "de": "Was richtet das Veröffentlichen in Teams und Microsoft 365 Copilot ein, und was liefert Download & customize?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which authorization scheme do Just you and People in your organization set, and where is each listed?",
+        "de": "Welches Autorisierungsschema setzen Just you und People in your organization, und wo erscheint der Agent jeweils?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What do you build with the Microsoft 365 Agents Toolkit, and when is it the right choice?",
+        "de": "Was baust du mit dem Microsoft 365 Agents Toolkit, und wann ist es die richtige Wahl?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which Microsoft 365 data does Work IQ open up to an agent, and as which identity does it act?",
+        "de": "Welche Microsoft-365-Daten erschließt Work IQ einem Agent, und als welche Identität handelt es?"
+      }
+    },
+    {
+      "id": "z-m365-integration-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Why isn’t a playground test enough before rollout, and what does it mean when users can’t find the agent?",
+        "de": "Warum reicht ein Test im Playground nicht, und worauf deutet es, wenn Nutzer den Agent nicht finden?"
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "With the default version setting, when does a new agent version reach Teams users, and how do you control that?",
+        "de": "Wann erreicht eine neue Agent-Version mit der Standardeinstellung die Teams-Nutzer, und wie steuerst du das?"
+      },
+      "back": {
+        "en": "With the default **Always use latest**, every new agent version goes live in Teams and Microsoft 365 Copilot immediately. For production, pin a version and switch deliberately.",
+        "de": "Mit dem Standard **Always use latest** geht jede neue Agent-Version sofort in Teams und Microsoft 365 Copilot live. Für Produktion pinnst du eine Version und wechselst bewusst."
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Why does nobody find the agent under Built by your org after you publish for People in your organization?",
+        "de": "Warum findet nach dem Veröffentlichen für People in your organization niemand den Agent unter Built by your org?"
+      },
+      "back": {
+        "en": "**People in your organization** isn’t listed for the tenant until a Microsoft 365 admin approves the request in the Microsoft 365 admin center. Until then, nobody finds it under **Built by your org**.",
+        "de": "**People in your organization** wird erst für den Tenant gelistet, wenn ein Microsoft-365-Admin die Anfrage im Microsoft 365 Admin Center freigibt. Bis dahin findet ihn niemand unter **Built by your org**."
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "A tool works in the playground but fails in Teams — which identity do you check, and what does it need?",
+        "de": "Ein Tool läuft im Playground, scheitert aber in Teams – welche Identität prüfst du, und was braucht sie?"
+      },
+      "back": {
+        "en": "“Works in the playground, fails in Teams”: check the identity the failing tool’s connection uses. Agent-identity or project-managed-identity connections need a role on the resource (a new agent identity starts with none, and a migrated agent gets a new identity whose roles don’t transfer); delegated tools run as each Teams user, who needs the access you had in the playground.",
+        "de": "„Läuft im Playground, scheitert in Teams“: Prüfe, welche Identität die Verbindung des scheiternden Tools nutzt. Verbindungen mit Agent-Identität oder Managed Identity des Projekts brauchen eine Rolle auf der Ressource (eine neue Agent-Identität startet ohne, und ein migrierter Agent bekommt eine neue Identität, deren Rollen nicht mitwandern); delegierte Tools laufen als jeder Teams-Nutzer, der den Zugriff braucht, den du im Playground hattest."
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which identity does Work IQ use at runtime, and what does admin consent for `WorkIQAgent.Ask` not do?",
+        "de": "Als welche Identität läuft Work IQ, und was bewirkt Admin-Consent für `WorkIQAgent.Ask` gerade nicht?"
+      },
+      "back": {
+        "en": "Work IQ never runs app-only: it acts as the signed-in user. Admin consent for `WorkIQAgent.Ask` doesn’t widen what that user can see.",
+        "de": "Work IQ läuft nie App-only: Es handelt als angemeldeter Nutzer. Admin-Consent für `WorkIQAgent.Ask` erweitert nicht, was dieser Nutzer sehen darf."
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which features do published agents lack, and how do you still show users the sources?",
+        "de": "Welche Funktionen fehlen veröffentlichten Agents, und wie zeigst du Nutzern trotzdem die Quellen?"
+      },
+      "back": {
+        "en": "Published agents don’t support streaming responses or citations, and file uploads and image generation work in Teams but not in Microsoft 365 Copilot. If users must see sources (for example under Web IQ’s link-back rule), instruct the agent to write the source links into the answer text.",
+        "de": "Veröffentlichte Agents unterstützen kein Streaming und keine Zitate; Datei-Uploads und Bildgenerierung funktionieren in Teams, aber nicht in Microsoft 365 Copilot. Müssen Nutzer Quellen sehen (etwa wegen der Link-Pflicht von Web IQ), weise den Agent an, die Quellenlinks in den Antworttext zu schreiben."
+      }
+    },
+    {
+      "id": "z-m365-integration-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "The training unit says publishing creates an Agent Application with URL and identity. What applies to new agents?",
+        "de": "Laut Trainingseinheit erzeugt Veröffentlichen eine Agent Application mit URL und Identität. Was gilt für neue Agents?"
+      },
+      "back": {
+        "en": "That's the legacy model, which also created an Azure Bot Service resource in your subscription. Every new agent has its stable endpoint and its own Microsoft Entra agent identity from creation; publishing only distributes it to Microsoft 365 Copilot and Teams, and Foundry handles the bot registration.",
+        "de": "Das ist das Legacy-Modell, das auch eine Azure-Bot-Service-Ressource in deinem Abonnement erzeugte. Jeder neue Agent hat ab dem Anlegen seinen stabilen Endpoint und seine eigene Microsoft-Entra-Agent-Identität; Veröffentlichen verteilt ihn nur noch an Microsoft 365 Copilot und Teams, und die Bot-Registrierung übernimmt Foundry."
+      }
+    },
+    {
+      "id": "z-m365-integration-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What is the default path to bring a Foundry agent into Teams, and when do you need the Agents Toolkit instead?",
+        "de": "Was ist der Standardweg, einen Foundry-Agent in Teams zu bringen, und wann brauchst du das Agents Toolkit?"
+      },
+      "back": {
+        "en": "Default path: **Publish** › **Teams and Microsoft Copilot** in the Foundry portal. Use the Agents Toolkit only for custom SSO, middleware or multi-environment pipelines.",
+        "de": "Standardweg: **Publish** › **Teams and Microsoft Copilot** im Foundry-Portal. Das Agents Toolkit nutzt du nur für eigenes SSO, Middleware oder Pipelines über mehrere Umgebungen."
+      }
+    },
+    {
+      "id": "z-m365-integration-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "When is an agent available with Just you, and when with People in your organization?",
+        "de": "Wann ist ein Agent mit Just you verfügbar, und wann mit People in your organization?"
+      },
+      "back": {
+        "en": "**Just you** = instant, no approval. **People in your organization** = admin approval, then **Built by your org**.",
+        "de": "**Just you** = sofort, ohne Freigabe. **People in your organization** = Admin-Freigabe, dann **Built by your org**."
+      }
+    },
+    {
+      "id": "z-m365-integration-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How do you roll out new agent behavior to users, and when do you actually republish?",
+        "de": "Wie rollst du neues Verhalten des Agents an die Nutzer aus, und wann veröffentlichst du wirklich neu?"
+      },
+      "back": {
+        "en": "Roll out new behavior with the version selector. Republish only to change store metadata (with a new app version).",
+        "de": "Neues Verhalten rollst du über den Version Selector aus. Neu veröffentlichen nur, um Store-Metadaten zu ändern (mit neuer App-Version)."
+      }
+    },
+    {
+      "id": "z-m365-integration-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which consent, connection and roles does Work IQ need before an agent can use it?",
+        "de": "Welchen Consent, welche Verbindung und welche Rollen braucht Work IQ, bevor ein Agent es nutzen kann?"
+      },
+      "back": {
+        "en": "Work IQ = delegated Microsoft 365 work context. It needs admin consent for `WorkIQAgent.Ask`, an OAuth connection created by a **Foundry Project Manager**, and **Foundry User** for the developer, the agent’s runtime identity and OAuth users.",
+        "de": "Work IQ = delegierter Microsoft-365-Arbeitskontext. Es braucht Admin-Consent für `WorkIQAgent.Ask`, eine OAuth-Verbindung, angelegt von einem **Foundry Project Manager**, und **Foundry User** für Entwickler, Laufzeitidentität des Agents und OAuth-Nutzer."
+      }
+    },
+    {
+      "id": "z-m365-integration-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Where and with whom should you test a published agent before a wide rollout?",
+        "de": "Wo und mit wem testest du einen veröffentlichten Agent vor dem breiten Ausrollen?"
+      },
+      "back": {
+        "en": "Test in Teams and Microsoft 365 Copilot with several users and accounts before a wide rollout.",
+        "de": "Teste in Teams und Microsoft 365 Copilot mit mehreren Nutzern und Konten, bevor du breit ausrollst."
+      }
+    }
+  ]
+}

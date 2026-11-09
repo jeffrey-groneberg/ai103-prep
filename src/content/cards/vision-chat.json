@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "vision-chat",
+  "cards": [
+    {
+      "id": "z-vision-chat-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does a vision-enabled model take and return, and which parameters don't you send to GPT-5-series models?",
+        "de": "Was verarbeitet ein vision-fähiges Modell, was liefert es, und welche Parameter lässt du bei der GPT-5-Serie weg?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "How do you build a text-plus-image user message in the Responses API versus Chat Completions?",
+        "de": "Wie baust du eine Nutzernachricht mit Text und Bild in der Responses API, und wie in Chat Completions?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What do the `detail` values `low`, `high` and `auto` do, and which one is the default?",
+        "de": "Was bewirken die `detail`-Werte `low`, `high` und `auto`, und welcher ist der Standard?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which image formats and URLs work, and what does the model ignore or handle poorly?",
+        "de": "Welche Bildformate und URLs funktionieren, und was ignoriert das Modell oder kann es schlecht?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What must instructions demand so that an answer stays grounded in the image, and what do they prevent?",
+        "de": "Was müssen Anweisungen verlangen, damit eine Antwort auf dem Bild beruht, und was verhindern sie?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What makes good alt text, and when does an image need an extended description or no alt text at all?",
+        "de": "Was macht guten Alt-Text aus, und wann braucht ein Bild eine erweiterte Beschreibung oder gar keinen Alt-Text?"
+      }
+    },
+    {
+      "id": "z-vision-chat-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Why can text printed in an image attack your app, and how do you screen it with Prompt Shields?",
+        "de": "Warum kann Text in einem Bild deine App angreifen, und wie prüfst du ihn mit Prompt Shields?"
+      }
+    },
+    {
+      "id": "z-vision-chat-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which API expects `image_url` with a nested `{\"url\": …}`, and how does the other one pass the image?",
+        "de": "Welche API erwartet `image_url` mit verschachteltem `{\"url\": …}`, und wie übergibt die andere das Bild?"
+      },
+      "back": {
+        "en": "`image_url` parts with a nested `{\"url\": …}` belong to Chat Completions; the Responses API uses `input_image` with `image_url` as a plain string (or a `file_id`).",
+        "de": "`image_url`-Teile mit verschachteltem `{\"url\": …}` gehören zu Chat Completions; die Responses API nutzt `input_image` mit `image_url` als einfachem String (oder eine `file_id`)."
+      }
+    },
+    {
+      "id": "z-vision-chat-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Your image sits in firewall-restricted storage — why does its URL fail, and what do you send instead?",
+        "de": "Dein Bild liegt in Speicher hinter einer Firewall – warum scheitert die URL, und was schickst du stattdessen?"
+      },
+      "back": {
+        "en": "Image URLs must be publicly reachable. Private-endpoint, VNet- or firewall-restricted storage URLs fail — even inside the same VNet — so send a base64 data URL or a file ID instead.",
+        "de": "Bild-URLs müssen öffentlich erreichbar sein. URLs auf Speicher hinter Private Endpoint, VNet oder Firewall scheitern – selbst im selben VNet –, also schickst du stattdessen eine Base64-Data-URL oder eine Datei-ID."
+      }
+    },
+    {
+      "id": "z-vision-chat-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "How do you tell the model which image is which, and why don't file names help?",
+        "de": "Wie zeigst du dem Modell, welches Bild welches ist, und warum helfen Dateinamen nicht?"
+      },
+      "back": {
+        "en": "Label images in text instead of relying on names: the model does not read file names or EXIF metadata, and images are resized before analysis.",
+        "de": "Beschrifte Bilder im Text, statt dich auf Namen zu verlassen: Das Modell liest weder Dateinamen noch EXIF-Metadaten, und Bilder werden vor der Analyse skaliert."
+      }
+    },
+    {
+      "id": "z-vision-chat-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "The model misreads small printed text in an image — which setting is likely at fault, and what do you change?",
+        "de": "Das Modell liest kleinen gedruckten Text im Bild falsch – welche Einstellung ist vermutlich schuld, und was änderst du?"
+      },
+      "back": {
+        "en": "`detail: \"low\"` is cheap and fast but can miss small text. If small printed text is misread, switch to `high`.",
+        "de": "`detail: \"low\"` ist günstig und schnell, kann aber kleinen Text übersehen. Wird kleiner gedruckter Text falsch gelesen, wechsle auf `high`."
+      }
+    },
+    {
+      "id": "z-vision-chat-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why don't Prompt Shields catch instructions in an image on their own, and why isn't a system message enough?",
+        "de": "Warum erkennen Prompt Shields Anweisungen im Bild nicht von selbst, und warum reicht eine Systemnachricht nicht?"
+      },
+      "back": {
+        "en": "Prompt Shields analyze text, not pixels: your app must extract image text with OCR and send it to Prompt Shields itself — and a system message alone can be bypassed.",
+        "de": "Prompt Shields analysieren Text, keine Pixel: Deine App muss Bildtext per OCR extrahieren und selbst an Prompt Shields schicken – und eine Systemnachricht allein lässt sich umgehen."
+      }
+    },
+    {
+      "id": "z-vision-chat-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What turns a normal chat call into a vision chat call?",
+        "de": "Was macht aus einem normalen Chat-Aufruf einen Vision-Chat?"
+      },
+      "back": {
+        "en": "Vision chat = normal chat + multi-part user message.",
+        "de": "Vision-Chat = normaler Chat + mehrteilige Nutzernachricht."
+      }
+    },
+    {
+      "id": "z-vision-chat-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How do you send a private image versus a public image to the model?",
+        "de": "Wie schickst du ein privates und wie ein öffentliches Bild an das Modell?"
+      },
+      "back": {
+        "en": "Private image → base64 data URL or file ID; public image → URL.",
+        "de": "Privates Bild → Base64-Data-URL oder Datei-ID; öffentliches Bild → URL."
+      }
+    },
+    {
+      "id": "z-vision-chat-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What decides whether the model's output about an image is concise or detailed?",
+        "de": "Was entscheidet, ob die Ausgabe des Modells zu einem Bild knapp oder ausführlich ausfällt?"
+      },
+      "back": {
+        "en": "Instructions plus `detail` decide between concise and detailed output.",
+        "de": "Anweisungen plus `detail` entscheiden zwischen knapper und ausführlicher Ausgabe."
+      }
+    },
+    {
+      "id": "z-vision-chat-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "How long should alt text be, and what do charts and decorative images get?",
+        "de": "Wie lang sollte Alt-Text sein, und was bekommen Diagramme und dekorative Bilder?"
+      },
+      "back": {
+        "en": "Alt text is short (about 125 characters) and purposeful; charts get an extended description; decorative images get none.",
+        "de": "Alt-Text ist kurz (etwa 125 Zeichen) und zweckorientiert; Diagramme bekommen eine erweiterte Beschreibung; dekorative Bilder keine."
+      }
+    },
+    {
+      "id": "z-vision-chat-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which three defenses protect your app against instructions hidden in image text?",
+        "de": "Welche drei Abwehrmaßnahmen schützen deine App vor Anweisungen, die im Bildtext versteckt sind?"
+      },
+      "back": {
+        "en": "Treat text in images as data: OCR + Prompt Shields, a clear system message, least-privilege tools.",
+        "de": "Behandle Bildtext als Daten: OCR + Prompt Shields, klare Systemnachricht, Tools mit minimalen Rechten."
+      }
+    }
+  ]
+}

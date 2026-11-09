@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "agent-workflows",
+  "cards": [
+    {
+      "id": "z-agent-workflows-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What is a Foundry workflow, which scenarios suit it, and when does it retire?",
+        "de": "Was ist ein Foundry-Workflow, für welche Szenarien eignet er sich, und wann wird er eingestellt?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which three workflow patterns does Foundry offer, and how does each one work?",
+        "de": "Welche drei Workflow-Muster bietet Foundry, und wie funktioniert jedes davon?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which node types does the workflow designer offer, and what does each kind do?",
+        "de": "Welche Knotentypen bietet der Workflow-Designer, und was macht jede Art?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which Invoke agent settings give you structured output that later nodes can branch on?",
+        "de": "Welche Einstellungen in Invoke agent liefern eine Ausgabe, nach der spätere Knoten verzweigen können?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What is Power Fx used for in workflows, and what must you watch out for in comparisons and names?",
+        "de": "Wofür nutzen Workflows Power Fx, und worauf musst du bei Vergleichen und Namen achten?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How do saving and versioning work for a workflow, and what is its YAML file used for?",
+        "de": "Wie funktionieren Speichern und Versionierung bei einem Workflow, und wofür dient seine YAML-Datei?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which Agent Framework classes run declarative and code-first workflows, and how are they deployed?",
+        "de": "Welche Agent-Framework-Klassen führen deklarative und Code-first-Workflows aus, und wie stellst du sie bereit?"
+      }
+    },
+    {
+      "id": "z-agent-workflows-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which answer fits a question about an existing workflow, and which fits one about building a new workflow?",
+        "de": "Welche Antwort passt zu einer Frage über einen bestehenden Workflow, und welche zum Bau eines neuen?"
+      },
+      "back": {
+        "en": "Existing workflow → designer nodes; build a NEW workflow → Microsoft Agent Framework, never the portal designer. Foundry workflows retire on December 1, 2026; afterwards YAML workflows still run only when deployed as a hosted agent.",
+        "de": "Bestehender Workflow → Designer-Knoten; einen NEUEN Workflow bauen → Microsoft Agent Framework, nie der Portal-Designer. Foundry-Workflows werden am 1. Dezember 2026 eingestellt; danach laufen YAML-Workflows nur noch, wenn sie als Hosted Agent bereitgestellt sind."
+      }
+    },
+    {
+      "id": "z-agent-workflows-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Why might your latest workflow edits not run, and what does every Save produce?",
+        "de": "Warum laufen deine letzten Änderungen am Workflow eventuell nicht, und was erzeugt jedes Save?"
+      },
+      "back": {
+        "en": "Foundry doesn't save workflows automatically — unsaved changes don't run. Every Save creates a new immutable version.",
+        "de": "Foundry speichert Workflows nicht automatisch – ungespeicherte Änderungen laufen nicht. Jedes Save erzeugt eine neue, unveränderliche Version."
+      }
+    },
+    {
+      "id": "z-agent-workflows-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What's wrong with a Power Fx condition on `Approval`, and where do built-in values such as the last message live?",
+        "de": "Was ist an einer Power-Fx-Bedingung auf `Approval` falsch, und wo liegen eingebaute Werte wie die letzte Nachricht?"
+      },
+      "back": {
+        "en": "Power Fx needs the scope prefix: `Local.Approval`, not `Approval`. Built-in values such as the last message live under `System.`.",
+        "de": "Power Fx braucht das Scope-Präfix: `Local.Approval`, nicht `Approval`. Eingebaute Werte wie die letzte Nachricht liegen unter `System.`."
+      }
+    },
+    {
+      "id": "z-agent-workflows-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Why can't a Send message node wait for a person's decision, and what do you need instead?",
+        "de": "Warum kann ein Send-message-Knoten nicht auf die Entscheidung einer Person warten, und was brauchst du stattdessen?"
+      },
+      "back": {
+        "en": "A Send message node only outputs text. To wait for a person's decision you need Ask a question plus a saved variable and an if/else.",
+        "de": "Ein Send-message-Knoten gibt nur Text aus. Um auf die Entscheidung einer Person zu warten, brauchst du Ask a question plus gespeicherte Variable und if/else."
+      }
+    },
+    {
+      "id": "z-agent-workflows-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What happens if you try to add a hosted agent to the workflow designer, and what is the alternative?",
+        "de": "Was passiert, wenn du einen Hosted Agent in den Workflow-Designer einfügen willst, und was ist die Alternative?"
+      },
+      "back": {
+        "en": "Hosted agents can't be added to the workflow designer. Orchestrate inside a hosted agent with Agent Framework workflows instead.",
+        "de": "Hosted Agents lassen sich nicht in den Workflow-Designer einfügen. Orchestriere stattdessen innerhalb eines Hosted Agent mit Agent-Framework-Workflows."
+      }
+    },
+    {
+      "id": "z-agent-workflows-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which workflow pattern fits a fixed order, a required human decision, and dynamic expert routing?",
+        "de": "Welches Workflow-Muster passt zu fester Reihenfolge, menschlicher Entscheidung und dynamischem Experten-Routing?"
+      },
+      "back": {
+        "en": "Fixed order → sequential; a person must decide → human in the loop; dynamic expert routing → group chat.",
+        "de": "Feste Reihenfolge → Sequential; eine Person entscheidet → Human in the loop; dynamisches Experten-Routing → Group chat."
+      }
+    },
+    {
+      "id": "z-agent-workflows-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which three building blocks make an agent's output routable in a workflow?",
+        "de": "Welche drei Bausteine machen die Ausgabe eines Agents in einem Workflow routbar?"
+      },
+      "back": {
+        "en": "A JSON schema response format, a saved variable and a Power Fx if/else.",
+        "de": "JSON-Schema-Antwortformat + gespeicherte Variable + Power-Fx-if/else."
+      }
+    },
+    {
+      "id": "z-agent-workflows-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How does an app run a saved workflow from code and continue it after a pause?",
+        "de": "Wie startet eine App einen gespeicherten Workflow per Code, und wie setzt sie ihn nach einer Pause fort?"
+      },
+      "back": {
+        "en": "One conversation per run, `responses.create` with an agent reference, and further messages to answer pauses.",
+        "de": "Eine Conversation pro Lauf, `responses.create` mit Agent-Referenz und weitere Nachrichten, um Pausen zu beantworten."
+      }
+    },
+    {
+      "id": "z-agent-workflows-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do you build new workflows, and what do you keep from a portal workflow for migration?",
+        "de": "Womit baust du neue Workflows, und was behältst du von einem Portal-Workflow für die Migration?"
+      },
+      "back": {
+        "en": "New workflows: Microsoft Agent Framework. Keep the exported YAML as your migration artifact.",
+        "de": "Neue Workflows: Microsoft Agent Framework; das exportierte YAML ist dein Migrationsartefakt."
+      }
+    }
+  ]
+}

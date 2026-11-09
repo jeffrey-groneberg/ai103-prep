@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "speech-mcp-agent",
+  "cards": [
+    {
+      "id": "z-speech-mcp-agent-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which roles do host, client and server play in MCP, and why can tools change without changing the agent?",
+        "de": "Was machen Host, Client und Server bei MCP, und warum können sich Tools ändern, ohne dass du den Agent änderst?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which two tools does the Azure Speech MCP server expose, and whose speech capabilities does it use?",
+        "de": "Welche zwei Tools stellt der Azure Speech MCP Server bereit, und wessen Sprachfunktionen nutzt er?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which SAS permissions do `X-Blob-Container-Url` and the input audio need, and what goes into `Bearer`?",
+        "de": "Welche SAS-Rechte brauchen `X-Blob-Container-Url` und das Eingabeaudio, und was gehört in `Bearer`?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How does your app approve an MCP tool call when `require_approval` keeps its default?",
+        "de": "Wie gibt deine App einen MCP-Tool-Aufruf frei, wenn `require_approval` auf dem Standardwert bleibt?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Which fields does every MCP tool need, what does `allowed_tools` limit, and where do the auth details live?",
+        "de": "Welche Felder braucht jedes MCP-Tool, was begrenzt `allowed_tools`, und wo liegen die Anmeldedaten?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which model capability does a speech agent need, and what happens without it?",
+        "de": "Welche Modellfähigkeit braucht ein Speech-Agent, und was passiert ohne sie?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which roles let you build and test agents, create a project connection, and upload audio and generate SAS URLs?",
+        "de": "Welche Rollen brauchst du zum Erstellen und Testen von Agents, für eine Projektverbindung und für SAS-URLs?"
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "In what form does the agent return synthesized speech to your app?",
+        "de": "In welcher Form gibt der Agent synthetisierte Sprache an deine App zurück?"
+      },
+      "back": {
+        "en": "Not as audio bytes in the chat: the tool writes a WAV file into the container from `X-Blob-Container-Url`, and the agent answers with a link.",
+        "de": "Nicht als Audiobytes im Chat: Das Tool schreibt eine WAV-Datei in den Container aus `X-Blob-Container-Url`, und der Agent antwortet mit einem Link."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What must you give speech to text as audio input when it runs through the Azure Speech MCP server?",
+        "de": "Was musst du Speech to Text als Audioeingabe übergeben, wenn es über den Azure Speech MCP Server läuft?"
+      },
+      "back": {
+        "en": "A URL the service can read — a public URL or a SAS URL with read permission. A local path such as `./call.wav` doesn’t work with the remote server.",
+        "de": "Eine URL, die der Dienst lesen kann – eine öffentliche URL oder eine SAS-URL mit Leserecht. Ein lokaler Pfad wie `./call.wav` funktioniert mit dem Remote-Server nicht."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What do you check first if the agent neither lists nor uses the speech tools although the connection works?",
+        "de": "Was prüfst du zuerst, wenn der Agent die Sprach-Tools trotz funktionierender Verbindung weder nennt noch nutzt?"
+      },
+      "back": {
+        "en": "The model: it must support tool calling (for example `gpt-5-mini`).",
+        "de": "Das Modell: Es muss Tool Calling unterstützen (zum Beispiel `gpt-5-mini`)."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does `allowed_tools: []` do, and what is the default value of `require_approval`?",
+        "de": "Was bewirkt `allowed_tools: []`, und welchen Standardwert hat `require_approval`?"
+      },
+      "back": {
+        "en": "It doesn’t block anything — an empty list allows all tools. And `require_approval` defaults to `always`.",
+        "de": "Es blockiert nichts – eine leere Liste erlaubt alle Tools. Und `require_approval` steht standardmäßig auf `always`."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What does the error `Invalid tool value(s): mcp` tell you, and where is the Speech MCP tool not supported?",
+        "de": "Was sagt dir der Fehler `Invalid tool value(s): mcp`, und wo wird das Speech-MCP-Tool nicht unterstützt?"
+      },
+      "back": {
+        "en": "The resource doesn’t support MCP tools — they need the Agent Service Enterprise tier. The Speech MCP tool also isn’t supported in network-secured Foundry.",
+        "de": "Die Ressource unterstützt keine MCP-Tools – sie brauchen den Enterprise-Tarif des Agent Service. Außerdem wird das Speech-MCP-Tool in netzwerkgesichertem Foundry nicht unterstützt."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What does Speech MCP give an agent, and who decides between recognize and synthesize?",
+        "de": "Was gibt Speech MCP einem Agent, und wer entscheidet zwischen recognize und synthesize?"
+      },
+      "back": {
+        "en": "Speech as on-demand agent tools. The model picks recognize or synthesize from the prompt.",
+        "de": "Sprache als Agent-Tools auf Abruf. Das Modell wählt recognize oder synthesize anhand des Prompts."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which three values make up the Speech MCP tool connection?",
+        "de": "Aus welchen drei Werten besteht die Verbindung des Speech-MCP-Tools?"
+      },
+      "back": {
+        "en": "The resource name, the resource key in `Bearer` and the container SAS URL in `X-Blob-Container-Url`.",
+        "de": "Der Ressourcenname, der Ressourcen-Key in `Bearer` und die Container-SAS-URL in `X-Blob-Container-Url`."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How does audio get into the speech tools, and how does generated speech come out?",
+        "de": "Wie kommt Audio in die Sprach-Tools hinein, und wie kommt erzeugte Sprache heraus?"
+      },
+      "back": {
+        "en": "Audio comes in via URL; speech goes out as a WAV file in Blob Storage plus a link.",
+        "de": "Audio kommt per URL hinein; Sprache kommt als WAV-Datei im Blob Storage plus Link heraus."
+      }
+    },
+    {
+      "id": "z-speech-mcp-agent-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do you send MCP tool approvals, and how do you restrict which tools the agent may call?",
+        "de": "Wo schickst du MCP-Tool-Freigaben hin, und wie schränkst du ein, welche Tools der Agent aufrufen darf?"
+      },
+      "back": {
+        "en": "Approve MCP tool calls in the same conversation, and restrict the tools with `allowed_tools`.",
+        "de": "MCP-Tool-Aufrufe gibst du in derselben Konversation frei; Tools schränkst du mit `allowed_tools` ein."
+      }
+    }
+  ]
+}

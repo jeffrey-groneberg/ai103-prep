@@ -22,7 +22,7 @@ const TONE_LABEL: Record<Tone, { de: string; en: string }> = {
 
 // Official Azure Architecture Icons (unaltered SVG files), referenced as images so their gradient ids never clash.
 const ICON_URLS = import.meta.glob<string>('../assets/azure-icons/*.svg', { eager: true, query: '?url', import: 'default' })
-export const diagramIconUrl = (id: DiagramIconId) => ICON_URLS[`../assets/azure-icons/${id}.svg`]
+const diagramIconUrl = (id: DiagramIconId) => ICON_URLS[`../assets/azure-icons/${id}.svg`]
 
 function NodeShape({ n }: { n: DiagramNode }) {
   const { x, y, w, h } = n

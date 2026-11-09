@@ -1,0 +1,206 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "optimize-models",
+  "cards": [
+    {
+      "id": "z-optimize-models-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What should a good system message state, and why can't you rely on it alone?",
+        "de": "Was sollte eine gute Systemnachricht festlegen, und warum reicht sie allein nicht aus?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which classic prompt patterns are there, and for which models are they not recommended?",
+        "de": "Welche klassischen Prompt-Techniken gibt es, und für welche Modelle empfiehlt die Doku sie nicht?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How should you set `temperature` and `top_p`, and what steers reasoning models such as `gpt-5-mini` instead?",
+        "de": "Wie stellst du `temperature` und `top_p` ein, und womit steuerst du stattdessen Reasoning-Modelle wie `gpt-5-mini`?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does RAG do step by step, and for which kind of data is it the right choice?",
+        "de": "Was macht RAG Schritt für Schritt, und für welche Daten ist es die richtige Wahl?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What do SFT, DPO and RFT learn from, what are LoRA and distillation, and what can't fine-tuning replace?",
+        "de": "Woraus lernen SFT, DPO und RFT, was sind LoRA und Destillation, und was kann Fine-Tuning nicht ersetzen?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How does a reflection loop improve a draft, and what must you always limit?",
+        "de": "Wie verbessert eine Reflexionsschleife einen Entwurf, und was musst du immer begrenzen?"
+      }
+    },
+    {
+      "id": "z-optimize-models-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does model router do for each prompt, which routing modes exist, and how does it work as an agent's model?",
+        "de": "Was macht der Model Router bei jedem Prompt, welche Routing-Modi gibt es, und wie arbeitet er als Agent-Modell?"
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What happens if you fine-tune to keep up with private, daily-changing data, and what's the better fix?",
+        "de": "Was passiert, wenn du für private, täglich wechselnde Daten Fine-Tuning nutzt – und was hilft besser?"
+      },
+      "back": {
+        "en": "Fine-tuning doesn't add fresh knowledge, and retraining for every data change is slow and expensive. For private or daily-changing data, use RAG.",
+        "de": "Fine-Tuning bringt kein aktuelles Wissen, und Neutraining bei jeder Datenänderung ist langsam und teuer. Für private oder täglich wechselnde Daten nutzt du RAG."
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which models is chain-of-thought prompting for, and how do you see a reasoning model's thinking?",
+        "de": "Für welche Modelle ist Chain-of-Thought-Prompting gedacht, und wie siehst du das Denken eines Reasoning-Modells?"
+      },
+      "back": {
+        "en": "Chain-of-thought prompting is for non-reasoning models. Asking a reasoning model to print its raw reasoning isn't supported and may violate the Acceptable Use Policy — use `reasoning.summary` instead.",
+        "de": "Chain-of-Thought-Prompting ist für Nicht-Reasoning-Modelle. Ein Reasoning-Modell aufzufordern, sein rohes Reasoning auszugeben, wird nicht unterstützt und kann gegen die Acceptable Use Policy verstoßen – nutze stattdessen `reasoning.summary`."
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Which parameters must you not send to `gpt-5-mini`, and what happens if its output limit is set too low?",
+        "de": "Welche Parameter darfst du `gpt-5-mini` nicht schicken, und was passiert, wenn sein Ausgabelimit zu niedrig ist?"
+      },
+      "back": {
+        "en": "Don't send `temperature` or `top_p` to `gpt-5-mini` or the other GPT-5 reasoning models, and don't use `max_tokens` (a Chat Completions parameter) — the Responses API limit is `max_output_tokens`. Set it too low and the response ends `incomplete` with no visible text, because reasoning tokens count toward it.",
+        "de": "Schick `temperature` oder `top_p` nicht an `gpt-5-mini` oder die anderen GPT-5-Reasoning-Modelle und nutze kein `max_tokens` (ein Chat-Completions-Parameter) – das Limit der Responses API heißt `max_output_tokens`. Ist es zu niedrig, endet die Antwort als `incomplete` ohne sichtbaren Text, weil Reasoning-Tokens mitzählen."
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Where should a fixed business rule such as a refund limit be enforced, and how are high-risk cases handled?",
+        "de": "Wo setzt du eine feste Geschäftsregel wie eine Erstattungsgrenze durch, und was passiert mit riskanten Fällen?"
+      },
+      "back": {
+        "en": "Not in a prompt — a prompt can't guarantee a fixed business rule such as a refund limit. Enforce it in a deterministic code step of a workflow next to the LLM steps, and route high-risk cases to a human-in-the-loop step where a person approves.",
+        "de": "Nicht im Prompt – ein Prompt kann eine feste Geschäftsregel wie eine Erstattungsgrenze nicht garantieren. Setz sie als deterministischen Codeschritt in einem Workflow neben den LLM-Schritten um und leite riskante Fälle an einen Human-in-the-Loop-Schritt, in dem eine Person freigibt."
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What limits model router's context window, and when does it ignore `temperature` and `top_p`?",
+        "de": "Was begrenzt das Kontextfenster des Model Routers, und wann ignoriert er `temperature` und `top_p`?"
+      },
+      "back": {
+        "en": "Model router's context window is limited by its smallest underlying model — use a model subset for long prompts. `temperature`/`top_p` are ignored when it picks a reasoning model.",
+        "de": "Das Kontextfenster des Model Routers ist durch sein kleinstes zugrunde liegendes Modell begrenzt – nutze für lange Prompts ein Model Subset. `temperature`/`top_p` werden ignoriert, wenn er ein Reasoning-Modell wählt."
+      }
+    },
+    {
+      "id": "z-optimize-models-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Which models must you deploy yourself before model router can use them, and what happens if you don't?",
+        "de": "Welche Modelle musst du selbst bereitstellen, bevor Model Router sie nutzen kann, und was passiert sonst?"
+      },
+      "back": {
+        "en": "Only the Claude models; the other underlying models need no deployment of their own. Deploy each Claude model in the same Foundry resource with a matching SKU (deployment type) before you add it to the model subset, or the router deployment fails with `InvalidResourceProperties`.",
+        "de": "Nur die Claude-Modelle; die anderen zugrunde liegenden Modelle brauchen kein eigenes Deployment. Stelle jedes Claude-Modell zuerst in derselben Foundry-Ressource mit passender SKU (Deployment-Typ) bereit, bevor du es ins Model Subset aufnimmst, sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which strategy fixes which symptom: wrong behavior, missing knowledge, inconsistency or prompt cost?",
+        "de": "Welche Strategie passt zu welchem Symptom: falsches Verhalten, fehlendes Wissen, Inkonsistenz oder teure Prompts?"
+      },
+      "back": {
+        "en": "Diagnose first: behavior → prompts, knowledge → RAG, consistency or prompt cost → fine-tuning.",
+        "de": "Erst diagnostizieren: Verhalten → Prompts, Wissen → RAG, Konsistenz oder Prompt-Kosten → Fine-Tuning."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What should you start with when optimizing a model, and when do you add RAG or fine-tuning?",
+        "de": "Womit startest du beim Optimieren eines Modells, und wann ergänzt du RAG oder Fine-Tuning?"
+      },
+      "back": {
+        "en": "Start with prompt engineering and a measured baseline; add RAG or fine-tuning only when evaluation shows a gap.",
+        "de": "Starte mit Prompt Engineering und einer gemessenen Baseline; ergänze RAG oder Fine-Tuning erst, wenn die Evaluierung eine Lücke zeigt."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which fine-tuning method fits each kind of data: demonstrations, preference pairs or a reliable grader?",
+        "de": "Welche Fine-Tuning-Methode passt jeweils zu Beispielen, Präferenzpaaren oder einem verlässlichen Grader?"
+      },
+      "back": {
+        "en": "Pick the method by your data: demonstrations → SFT, preference pairs → DPO, a reliable grader → RFT.",
+        "de": "Wähle die Methode nach deinen Daten: Beispiele → SFT, Präferenzpaare → DPO, verlässlicher Grader → RFT."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which two rules should every self-critique loop follow?",
+        "de": "Welche zwei Regeln sollte jede Selbstkritik-Schleife einhalten?"
+      },
+      "back": {
+        "en": "Bound every self-critique loop, and judge against explicit criteria.",
+        "de": "Begrenze jede Selbstkritik-Schleife und bewerte gegen klare Kriterien."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "What do you use when downstream code needs reliable JSON?",
+        "de": "Was nutzt du, wenn nachgelagerter Code verlässliches JSON braucht?"
+      },
+      "back": {
+        "en": "Use structured outputs when downstream code needs reliable JSON.",
+        "de": "Nutze Structured Outputs, wenn nachgelagerter Code verlässliches JSON braucht."
+      }
+    },
+    {
+      "id": "z-optimize-models-takeaway-6",
+      "source": { "kind": "takeaway", "index": 5 },
+      "front": {
+        "en": "When do you optimize the context, when the model, and what underpins both directions?",
+        "de": "Wann optimierst du den Kontext, wann das Modell, und was ist die Basis für beide Richtungen?"
+      },
+      "back": {
+        "en": "Optimize the context (RAG) when knowledge is missing; optimize the model (fine-tuning) when format, style or tone must stay consistent. Prompt engineering underpins both, and you can combine them.",
+        "de": "Optimiere den Kontext (RAG), wenn Wissen fehlt; optimiere das Modell (Fine-Tuning), wenn Format, Stil oder Ton konsistent bleiben müssen. Prompt Engineering ist die Basis für beides, und du kannst beides kombinieren."
+      }
+    }
+  ]
+}

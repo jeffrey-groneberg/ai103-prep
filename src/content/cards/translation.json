@@ -1,0 +1,194 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "translation",
+  "cards": [
+    {
+      "id": "z-translation-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Through which resources can you use Azure Translator, and which one also hosts LLM deployments?",
+        "de": "Über welche Ressourcen nutzt du Azure Translator, und welche hostet auch LLM-Deployments?"
+      }
+    },
+    {
+      "id": "z-translation-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which values can `deploymentName` take in API `2026-06-06`, and what does only LLM translation support?",
+        "de": "Welche Werte kann `deploymentName` in API `2026-06-06` haben, und was unterstützt nur die LLM-Übersetzung?"
+      }
+    },
+    {
+      "id": "z-translation-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does transliteration change, and how do you call it in Python for Japanese text?",
+        "de": "Was ändert die Transliteration, und wie rufst du sie in Python für japanischen Text auf?"
+      }
+    },
+    {
+      "id": "z-translation-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does document translation keep, and how do the synchronous and batch APIs differ?",
+        "de": "Was behält die Dokumentübersetzung bei, und wie unterscheiden sich synchrone API und Batch-Übersetzung?"
+      }
+    },
+    {
+      "id": "z-translation-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How does Custom Translator differ from adaptive custom translation, and which limits apply to the latter?",
+        "de": "Was unterscheidet Custom Translator von adaptiver Custom Translation, und welche Grenzen gelten für Letztere?"
+      }
+    },
+    {
+      "id": "z-translation-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What do you set on `SpeechTranslationConfig` for a `TranslationRecognizer`, and where do you read the translations?",
+        "de": "Was setzt du in `SpeechTranslationConfig` für einen `TranslationRecognizer`, und wo liest du die Übersetzungen?"
+      }
+    },
+    {
+      "id": "z-translation-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "How do you make Azure LLM Speech translate a recorded file, and what does GPT Realtime Translate return?",
+        "de": "Wie lässt du Azure LLM Speech eine Aufnahme übersetzen, und was liefert GPT Realtime Translate?"
+      }
+    },
+    {
+      "id": "z-translation-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What changes when you move from v3.0 to `2026-06-06`, and how do you detect languages now?",
+        "de": "Was ändert sich beim Wechsel von v3.0 auf `2026-06-06`, und wie erkennst du jetzt Sprachen?"
+      },
+      "back": {
+        "en": "`2026-06-06` isn't a drop-in upgrade from v3.0: a `targets` array replaces `to`, and the separate Detect, BreakSentence and Dictionary Lookup operations are gone. Detect languages with Azure Language — the translate call itself still auto-detects its source.",
+        "de": "`2026-06-06` ist kein Drop-in-Upgrade: Ein `targets`-Array ersetzt `to`, und die separaten Operationen Detect, BreakSentence und Dictionary Lookup entfallen. Sprachen erkennst du mit Azure Language – der Translate-Aufruf selbst erkennt seine Quellsprache weiterhin."
+      }
+    },
+    {
+      "id": "z-translation-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "When are `tone`, `gender` and adaptive custom translation unavailable, and what do they require?",
+        "de": "Wann sind `tone`, `gender` und adaptive Custom Translation nicht verfügbar, und was setzen sie voraus?"
+      },
+      "back": {
+        "en": "`tone`, `gender` and adaptive custom translation only apply to LLM translation, which needs a Foundry resource and isn't available when the Translator resource uses a private endpoint.",
+        "de": "`tone`, `gender` und adaptive Custom Translation gelten nur für die LLM-Übersetzung, die eine Foundry-Ressource braucht und nicht verfügbar ist, wenn die Translator-Ressource einen Private Endpoint nutzt."
+      }
+    },
+    {
+      "id": "z-translation-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "How many target languages does event-based synthesis support, and what do you do for several targets?",
+        "de": "Wie viele Zielsprachen unterstützt die ereignisbasierte Synthese, und was tust du bei mehreren Zielen?"
+      },
+      "back": {
+        "en": "Event-based synthesis (`voice_name` plus the `synthesizing` event) supports **one** target language. For several targets, synthesize each translation with a `SpeechSynthesizer`.",
+        "de": "Ereignisbasierte Synthese (`voice_name` plus Event `synthesizing`) unterstützt **eine** Zielsprache. Bei mehreren Zielen synthetisierst du jede Übersetzung mit einem `SpeechSynthesizer`."
+      }
+    },
+    {
+      "id": "z-translation-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which format does `speech_recognition_language` expect, and which format do target languages expect?",
+        "de": "Welches Format erwartet `speech_recognition_language`, und welches erwarten die Zielsprachen?"
+      },
+      "back": {
+        "en": "`speech_recognition_language` takes a locale (`en-US`), while target languages take language codes (`de`, `zh-Hans`). Mixing them up is a classic error.",
+        "de": "`speech_recognition_language` erwartet ein Locale (`en-US`), Zielsprachen erwarten Sprachcodes (`de`, `zh-Hans`). Beides zu verwechseln ist ein Klassiker."
+      }
+    },
+    {
+      "id": "z-translation-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which document translation variant needs Blob Storage containers, and which one does the Foundry portal offer?",
+        "de": "Welche Variante der Dokumentübersetzung braucht Blob-Storage-Container, und welche bietet das Foundry-Portal?"
+      },
+      "back": {
+        "en": "Batch document translation needs Azure Blob Storage containers; the synchronous single-file API doesn't. The Foundry portal only offers the synchronous variant.",
+        "de": "Die Batch-Dokumentübersetzung braucht Azure-Blob-Storage-Container, die synchrone Einzeldatei-API nicht. Das Foundry-Portal bietet nur die synchrone Variante."
+      }
+    },
+    {
+      "id": "z-translation-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "Does the region header decide where Translator processes text, and what decides it for NMT?",
+        "de": "Bestimmt der Region-Header, wo Translator Text verarbeitet, und was entscheidet das bei NMT?"
+      },
+      "back": {
+        "en": "No — `region` (`Ocp-Apim-Subscription-Region`) only names your resource's region for authentication. For NMT the endpoint decides: the global endpoint uses the closest datacenter and can fail over outside your geography; `api-eur`, `api-nam` and `api-apc` keep processing in Europe, the Americas or Asia Pacific. LLM translation follows its deployment type.",
+        "de": "Nein – `region` (`Ocp-Apim-Subscription-Region`) nennt nur die Region deiner Ressource für die Authentifizierung. Bei NMT entscheidet der Endpoint: Der globale Endpoint nutzt das nächstgelegene Rechenzentrum und kann bei einem Ausfall außerhalb deiner Geografie verarbeiten; `api-eur`, `api-nam` und `api-apc` halten die Verarbeitung in Europa, Amerika bzw. im asiatisch-pazifischen Raum. LLM-Übersetzung folgt ihrem Deployment-Typ."
+      }
+    },
+    {
+      "id": "z-translation-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "For high-volume text, which Translator option fits — and which for tone, gender or adaptive needs?",
+        "de": "Welche Translator-Option passt zu Text in großen Mengen, und welche zu Ton, Gender oder adaptiven Anforderungen?"
+      },
+      "back": {
+        "en": "High-volume text → Translator NMT; tone, gender or adaptive needs → Translator with an LLM deployment.",
+        "de": "Text in großen Mengen → Translator NMT; Ton, Gender oder adaptive Anforderungen → Translator mit LLM-Deployment."
+      }
+    },
+    {
+      "id": "z-translation-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "When you need to translate files, which option fits, and when do you use which of its two modes?",
+        "de": "Welche Option übersetzt Dateien, und wann nutzt du welchen ihrer zwei Modi?"
+      },
+      "back": {
+        "en": "Files → document translation: sync for one file, async batch with Blob Storage.",
+        "de": "Dateien → Dokumentübersetzung: synchron für eine Datei, asynchroner Batch mit Blob Storage."
+      }
+    },
+    {
+      "id": "z-translation-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What fits live speech translation in an app, and what fits unknown or switching input languages?",
+        "de": "Was passt zu Live-Sprachübersetzung in einer App, und was zu unbekannten oder wechselnden Sprachen?"
+      },
+      "back": {
+        "en": "Live speech in an app → `TranslationRecognizer`; unknown or switching languages → Live Interpreter.",
+        "de": "Live-Sprache in einer App → `TranslationRecognizer`; unbekannte oder wechselnde Sprachen → Live Interpreter."
+      }
+    },
+    {
+      "id": "z-translation-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Recordings versus live streams: which LLM-based speech translation option fits each?",
+        "de": "Aufnahmen oder Live-Streams: Welche LLM-basierte Sprachübersetzung passt jeweils?"
+      },
+      "back": {
+        "en": "LLM speech translation: Azure LLM Speech for recordings, GPT Realtime Translate for live streams.",
+        "de": "LLM-Sprachübersetzung: Azure LLM Speech für Aufnahmen, GPT Realtime Translate für Live-Streams."
+      }
+    },
+    {
+      "id": "z-translation-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "What does a keyless Translator call need, and what does the global endpoint need in addition?",
+        "de": "Was braucht ein schlüsselloser Translator-Aufruf, und was braucht der globale Endpoint zusätzlich?"
+      },
+      "back": {
+        "en": "An Entra token plus Cognitive Services User. A custom-domain endpoint needs only the token; the global endpoint also needs the resource ID (and the region if the resource is regional).",
+        "de": "Ein Entra-Token plus Cognitive Services User. Beim Custom-Domain-Endpoint reicht das Token; der globale Endpoint braucht zusätzlich die Ressourcen-ID (und die Region, wenn die Ressource regional ist)."
+      }
+    }
+  ]
+}

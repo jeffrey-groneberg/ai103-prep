@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "text-analysis",
+  "cards": [
+    {
+      "id": "z-text-analysis-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which SDK client and endpoint do you call Azure Language with, and what does Microsoft Entra ID need?",
+        "de": "Mit welchem SDK-Client und Endpoint rufst du Azure Language auf, und was braucht Microsoft Entra ID?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which Azure Language features are core for new work, and which are legacy and retiring?",
+        "de": "Welche Funktionen von Azure Language sind Kern für neue Lösungen, und welche sind Legacy und laufen aus?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does `detect_language()` return, and what helps it with ambiguous text?",
+        "de": "Was liefert `detect_language()` zurück, und was hilft bei mehrdeutigem Text?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does `recognize_entities()` return for each entity, and which REST options tailor the returned tags?",
+        "de": "Was liefert `recognize_entities()` je Entität, und welche REST-Optionen steuern, welche Entitäts-Tags zurückkommen?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does `recognize_pii_entities()` return, how do you narrow it, and which three PII feature types exist?",
+        "de": "Was liefert `recognize_pii_entities()` zurück, wie grenzt du es ein, und welche drei PII-Feature-Typen gibt es?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How do you make a Foundry model return JSON in your schema, and how does that differ from JSON mode?",
+        "de": "Wie liefert ein Foundry-Modell JSON nach deinem Schema, und was unterscheidet das vom JSON-Modus?"
+      }
+    },
+    {
+      "id": "z-text-analysis-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which per-request settings adapt prebuilt PII to your vocabulary, and what do new entity types need?",
+        "de": "Welche Einstellungen pro Anfrage passen die PII-Erkennung an dein Vokabular an, und was brauchen neue Entitätstypen?"
+      }
+    },
+    {
+      "id": "z-text-analysis-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "A new solution needs sentiment, key phrases and summaries — what should it use, and why?",
+        "de": "Eine neue Lösung braucht Stimmung, Schlüsselwörter und Zusammenfassungen – was nutzt sie, und warum?"
+      },
+      "back": {
+        "en": "For a *new* solution, the expected answer is a Foundry model — not the legacy API. Sentiment analysis, key phrase extraction and summarization still run in Azure Language but are **legacy** (retiring March 31, 2029).",
+        "de": "Für eine *neue* Lösung ist ein Foundry-Modell die erwartete Antwort – nicht die Legacy-API. Stimmungsanalyse, Schlüsselwortextraktion und Zusammenfassung laufen noch in Azure Language, sind aber **Legacy** (Einstellung am 31. März 2029)."
+      }
+    },
+    {
+      "id": "z-text-analysis-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which endpoint does `TextAnalyticsClient` take, and where does Entra ID not work?",
+        "de": "Welchen Endpoint erwartet `TextAnalyticsClient`, und wo funktioniert Entra ID nicht?"
+      },
+      "back": {
+        "en": "`TextAnalyticsClient` takes the **resource** endpoint (`*.cognitiveservices.azure.com`), not the project endpoint — and Entra ID only works on that custom-subdomain endpoint, never on regional endpoints such as `westus.api.cognitive.microsoft.com`.",
+        "de": "`TextAnalyticsClient` erwartet den **Ressourcen**-Endpoint (`*.cognitiveservices.azure.com`), nicht den Project Endpoint – und Entra ID funktioniert nur an diesem Custom-Subdomain-Endpoint, nie an regionalen Endpoints wie `westus.api.cognitive.microsoft.com`."
+      }
+    },
+    {
+      "id": "z-text-analysis-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What happens if you send non-English text to NER or PII without a `language` value, and how do you avoid it?",
+        "de": "Was passiert, wenn du nicht englischen Text ohne `language` an NER oder PII schickst, und wie vermeidest du das?"
+      },
+      "back": {
+        "en": "Without a `language` value, NER and PII assume English. Detect the language first and pass the code for non-English text.",
+        "de": "Ohne `language` nehmen NER und PII Englisch an. Erkenne zuerst die Sprache und übergib den Code bei nicht englischen Texten."
+      }
+    },
+    {
+      "id": "z-text-analysis-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What are the synchronous limits for NER, PII and language detection, and how do you handle larger inputs?",
+        "de": "Welche Grenzen gelten synchron für NER, PII und Sprachenerkennung, und was tust du bei größeren Eingaben?"
+      },
+      "back": {
+        "en": "Synchronous requests allow 5,120 characters per document and only 5 documents per NER or PII request (1,000 for language detection). Larger inputs need chunking or the asynchronous API.",
+        "de": "Synchrone Anfragen erlauben 5.120 Zeichen pro Dokument und nur 5 Dokumente pro NER- oder PII-Anfrage (1.000 bei der Sprachenerkennung). Größere Eingaben brauchen Chunking oder die asynchrone API."
+      }
+    },
+    {
+      "id": "z-text-analysis-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which service detects hate, sexual, violence and self-harm content — PII detection or something else?",
+        "de": "Welcher Dienst erkennt Hass, sexuelle Inhalte, Gewalt und Selbstverletzung – die PII-Erkennung oder ein anderer?"
+      },
+      "back": {
+        "en": "PII detection is not content moderation: hate, sexual, violence and self-harm are detected by Azure AI Content Safety, which powers Foundry guardrails.",
+        "de": "PII-Erkennung ist keine Inhaltsmoderation: Hass, sexuelle Inhalte, Gewalt und Selbstverletzung erkennt Azure AI Content Safety, das die Foundry-Guardrails antreibt."
+      }
+    },
+    {
+      "id": "z-text-analysis-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which text tasks do you hand to the core features of Azure Language?",
+        "de": "Welche Textaufgaben übergibst du den Kernfunktionen von Azure Language?"
+      },
+      "back": {
+        "en": "Language, entities, PII → Azure Language core features.",
+        "de": "Sprache, Entitäten, PII → Kernfunktionen von Azure Language."
+      }
+    },
+    {
+      "id": "z-text-analysis-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What do you use for summaries, key phrases, sentiment, tone and custom fields?",
+        "de": "Womit erzeugst du Zusammenfassungen, Schlüsselwörter, Stimmung, Tonalität und eigene Felder?"
+      },
+      "back": {
+        "en": "Summaries, key phrases, sentiment, tone, custom fields → Foundry model + structured outputs.",
+        "de": "Zusammenfassungen, Schlüsselwörter, Stimmung, Tonalität, eigene Felder → Foundry-Modell + Structured Outputs."
+      }
+    },
+    {
+      "id": "z-text-analysis-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "In PII redaction, what do the categories decide, and what does the redaction policy decide?",
+        "de": "Was bestimmen bei PII die Kategorien, und was bestimmt die Schwärzungsrichtlinie?"
+      },
+      "back": {
+        "en": "PII: categories decide *what* is hidden, the redaction policy decides *how*.",
+        "de": "PII: Kategorien bestimmen, *was* verborgen wird, die Schwärzungsrichtlinie, *wie*."
+      }
+    },
+    {
+      "id": "z-text-analysis-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which three things do you need to call Azure Language keyless?",
+        "de": "Welche drei Dinge brauchst du, um Azure Language schlüssellos aufzurufen?"
+      },
+      "back": {
+        "en": "Keyless: `DefaultAzureCredential` + custom-subdomain endpoint + a role such as Cognitive Services User.",
+        "de": "Schlüssellos: `DefaultAzureCredential` + Custom-Subdomain-Endpoint + eine Rolle wie Cognitive Services User."
+      }
+    }
+  ]
+}

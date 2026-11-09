@@ -14,6 +14,7 @@ import { Review } from './pages/Review.tsx'
 import { ProgressPage } from './pages/ProgressPage.tsx'
 import { Coverage } from './pages/Coverage.tsx'
 import { Resources } from './pages/Resources.tsx'
+import { Zettelkasten, ZettelModule, ZettelSession } from './pages/Zettelkasten.tsx'
 import { NotFound } from './pages/NotFound.tsx'
 
 interface NavItem {
@@ -22,6 +23,10 @@ interface NavItem {
   icon: IconName
   activeIcon: IconName
   mobile?: boolean
+  /** Moves into the Menü below 1100px. */
+  more?: boolean
+  /** Shown in the Menü only on phones (it sits in the top bar above 760px). */
+  phoneMenu?: boolean
 }
 
 const NAV: NavItem[] = [
@@ -30,8 +35,9 @@ const NAV: NavItem[] = [
   { to: '/ueben', label: 'Üben', icon: 'practice', activeIcon: 'practiceFilled', mobile: true },
   { to: '/pruefung', label: 'Prüfung', icon: 'exam', activeIcon: 'examFilled', mobile: true },
   { to: '/wiederholen', label: 'Wiederholen', icon: 'review', activeIcon: 'reviewFilled', mobile: true },
-  { to: '/fortschritt', label: 'Fortschritt', icon: 'progress', activeIcon: 'progressFilled' },
-  { to: '/ressourcen', label: 'Ressourcen', icon: 'resources', activeIcon: 'resourcesFilled' },
+  { to: '/zettel', label: 'Zettelkasten', icon: 'zettel', activeIcon: 'zettelFilled' },
+  { to: '/fortschritt', label: 'Fortschritt', icon: 'progress', activeIcon: 'progressFilled', more: true },
+  { to: '/ressourcen', label: 'Ressourcen', icon: 'resources', activeIcon: 'resourcesFilled', more: true },
 ]
 
 function AppMark() {
@@ -59,12 +65,13 @@ function LangToggle() {
 }
 
 const MORE: NavItem[] = [
+  { to: '/zettel', label: 'Zettelkasten', icon: 'zettel', activeIcon: 'zettelFilled', phoneMenu: true },
   { to: '/fortschritt', label: 'Fortschritt', icon: 'progress', activeIcon: 'progressFilled' },
   { to: '/ressourcen', label: 'Ressourcen', icon: 'resources', activeIcon: 'resourcesFilled' },
   { to: '/abdeckung', label: 'Abdeckung', icon: 'grid', activeIcon: 'grid' },
 ]
 
-/** Phone-only menu for the sections that don't fit the tab bar. */
+/** Menu for the sections that don't fit the top bar (below 1100px) or the phone tab bar. */
 function MoreMenu() {
   const [open, setOpen] = useState(false)
   return (
@@ -84,7 +91,7 @@ function MoreMenu() {
           <div className="more-menu__backdrop" aria-hidden="true" onClick={() => setOpen(false)} />
           <nav id="more-menu" className="more-menu__panel" aria-label="Weitere Bereiche" onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}>
             {MORE.map((n) => (
-              <NavLink key={n.to} to={n.to} className="more-menu__link" onClick={() => setOpen(false)}>
+              <NavLink key={n.to} to={n.to} className={`more-menu__link${n.phoneMenu ? ' more-menu__link--phone' : ''}`} onClick={() => setOpen(false)}>
                 <Icon name={n.icon} size={20} />
                 {n.label}
               </NavLink>
@@ -108,7 +115,7 @@ export function App() {
   const progress = useProgress()
   const due = dueQuestions(questions, progress.cards).length
   const { pathname } = useLocation()
-  const immersive = /^\/(ueben|wiederholen)\/sitzung|^\/pruefung\/laeuft/.test(pathname)
+  const immersive = /^\/(ueben|wiederholen)\/sitzung|^\/pruefung\/laeuft|^\/zettel\/lernen/.test(pathname)
 
   return (
     <div className={`app${immersive ? ' app--immersive' : ''}`}>
@@ -124,7 +131,7 @@ export function App() {
           </NavLink>
           <nav className="topnav" aria-label="Hauptnavigation">
             {NAV.map((n) => (
-              <NavLink key={n.to} to={n.to} end={n.to === '/'} className="topnav__link">
+              <NavLink key={n.to} to={n.to} end={n.to === '/'} className={`topnav__link${n.more ? ' topnav__link--more' : ''}`}>
                 {n.label}
                 {n.to === '/wiederholen' && due > 0 && <span className="count-badge" aria-label={`${due} fällig`}>{due}</span>}
               </NavLink>
@@ -149,6 +156,10 @@ export function App() {
           <Route path="/fortschritt" element={<ProgressPage />} />
           <Route path="/abdeckung" element={<Coverage />} />
           <Route path="/ressourcen" element={<Resources />} />
+          <Route path="/zettel" element={<Zettelkasten />} />
+          <Route path="/zettel/lernen" element={<ZettelSession />} />
+          <Route path="/zettel/eigene" element={<ZettelModule own />} />
+          <Route path="/zettel/modul/:moduleId" element={<ZettelModule />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

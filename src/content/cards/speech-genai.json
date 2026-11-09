@@ -1,0 +1,162 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "speech-genai",
+  "cards": [
+    {
+      "id": "z-speech-genai-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which four kinds of speech-capable models does Foundry offer, and which models belong to each kind?",
+        "de": "Welche vier Arten von Audiomodellen bietet Foundry, und welche Modelle gehören jeweils dazu?"
+      }
+    },
+    {
+      "id": "z-speech-genai-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does `audio.transcriptions.create()` take and return, and which optional hint improves accuracy?",
+        "de": "Was erwartet `audio.transcriptions.create()`, was liefert es, und welcher Hinweis verbessert die Genauigkeit?"
+      }
+    },
+    {
+      "id": "z-speech-genai-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How much text can `audio.speech.create()` turn into audio, and which parameters shape tone, style and speed?",
+        "de": "Wie viel Text macht `audio.speech.create()` zu Audio, und welche Parameter steuern Ton, Stil und Tempo?"
+      }
+    },
+    {
+      "id": "z-speech-genai-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How do you send audio to `gpt-audio` in Chat Completions, how do you get speech back, and what’s the size limit?",
+        "de": "Wie schickst du Audio an `gpt-audio` in Chat Completions, wie bekommst du Sprache zurück, und was ist das Limit?"
+      }
+    },
+    {
+      "id": "z-speech-genai-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Which connection types does the Realtime API use for which clients, and what does a `session.update` event set?",
+        "de": "Über welche Verbindungen läuft die Realtime API für welche Clients, und was setzt ein `session.update`-Event?"
+      }
+    },
+    {
+      "id": "z-speech-genai-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which endpoint, sign-in and `api_version` do the audio calls use, and what goes into `model`?",
+        "de": "Welchen Endpoint, welche Anmeldung und welche `api_version` nutzen die Audioaufrufe, und was steht in `model`?"
+      }
+    },
+    {
+      "id": "z-speech-genai-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "A model must judge a recording and answer questions about it in one call. Which model type do you need?",
+        "de": "Ein Modell soll eine Aufnahme in einem Aufruf bewerten und Fragen dazu beantworten. Welchen Modelltyp brauchst du?"
+      },
+      "back": {
+        "en": "A transcription model only writes down what was said. To *judge* or *answer questions about* the audio in one call, you need an audio chat model such as `gpt-audio`.",
+        "de": "Ein Transkriptionsmodell schreibt nur mit, was gesagt wurde. Soll das Modell das Audio in einem Aufruf *bewerten* oder *Fragen dazu beantworten*, brauchst du ein Audio-Chatmodell wie `gpt-audio`."
+      }
+    },
+    {
+      "id": "z-speech-genai-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "How do the audio request shapes of `audio.transcriptions.create()` and Chat Completions differ?",
+        "de": "Wie unterscheiden sich die Request-Formen für Audio bei `audio.transcriptions.create()` und Chat Completions?"
+      },
+      "back": {
+        "en": "`audio.transcriptions.create()` takes a file upload; Chat Completions takes audio as a base64 `input_audio` part with `data` and `format`. Mixing up the two request shapes is a classic code-completion trap.",
+        "de": "`audio.transcriptions.create()` erwartet einen Datei-Upload; Chat Completions erwartet Audio als Base64-Teil `input_audio` mit `data` und `format`. Diese beiden Request-Formen zu verwechseln ist eine klassische Codefallen-Frage."
+      }
+    },
+    {
+      "id": "z-speech-genai-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What size limits apply to the transcription API and to audio chat, and where do larger recordings go?",
+        "de": "Welche Größenlimits gelten für die Transkriptions-API und für Audio-Chat, und wohin gehen größere Aufnahmen?"
+      },
+      "back": {
+        "en": "25 MB per file for the transcription API, 20 MB of audio for audio chat. Larger recordings go to Azure Speech: fast transcription (synchronous, under 5 hours and 500 MB) or batch transcription (asynchronous, up to 1 GB per file).",
+        "de": "25 MB pro Datei für die Transkriptions-API, 20 MB Audio für Audio-Chat. Größere Aufnahmen gehen an Azure Speech: Fast Transcription (synchron, unter 5 Stunden und 500 MB) oder Batch-Transkription (asynchron, bis 1 GB pro Datei)."
+      }
+    },
+    {
+      "id": "z-speech-genai-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Where do you read the text and the audio of a Chat Completions response with audio output?",
+        "de": "Wo liest du Text und Audio einer Chat-Completions-Antwort mit Audioausgabe aus?"
+      },
+      "back": {
+        "en": "Chat Completions has no `output_text`. Read `choices[0].message.audio.transcript` for the text and `.data` for the audio.",
+        "de": "Chat Completions kennt kein `output_text`. Lies `choices[0].message.audio.transcript` für den Text und `.data` für das Audio."
+      }
+    },
+    {
+      "id": "z-speech-genai-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which audio models are retired or retiring, and what can’t `gpt-4o-mini-tts` and `tts`/`tts-hd` do?",
+        "de": "Welche Audiomodelle sind oder werden eingestellt, und was können `gpt-4o-mini-tts` und `tts`/`tts-hd` nicht?"
+      },
+      "back": {
+        "en": "`gpt-4o-transcribe` from the training module was retired on 2026-10-15; `whisper`, `tts` and `tts-hd` retire on 2026-12-15. `gpt-4o-mini-tts` speaks but can’t transcribe, and `instructions` don’t work with `tts` or `tts-hd` (`tts-1`/`tts-1-hd` in the REST reference).",
+        "de": "`gpt-4o-transcribe` aus dem Trainingsmodul wurde am 2026-10-15 eingestellt; `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt. `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `instructions` funktionieren nicht mit `tts` oder `tts-hd` (`tts-1`/`tts-1-hd` in der REST-Referenz)."
+      }
+    },
+    {
+      "id": "z-speech-genai-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which model fits each job: transcribing, speaking, understanding audio and conversing live?",
+        "de": "Welches Modell passt zu welcher Aufgabe: mitschreiben, sprechen, Audio verstehen und live sprechen?"
+      },
+      "back": {
+        "en": "The job decides the model: transcribe → `gpt-transcribe`/`gpt-4o-mini-transcribe`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.",
+        "de": "Die Aufgabe bestimmt das Modell: mitschreiben → `gpt-transcribe`/`gpt-4o-mini-transcribe`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`."
+      }
+    },
+    {
+      "id": "z-speech-genai-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which API turns a file into text, and which one turns text into audio?",
+        "de": "Welche API macht aus einer Datei Text, und welche macht aus Text Audio?"
+      },
+      "back": {
+        "en": "File in, text out = `audio.transcriptions`; text in, audio out = `audio.speech`.",
+        "de": "Datei rein, Text raus = `audio.transcriptions`; Text rein, Audio raus = `audio.speech`."
+      }
+    },
+    {
+      "id": "z-speech-genai-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which API and request parts do you need when a model must reason over audio?",
+        "de": "Welche API und welche Request-Teile brauchst du für Reasoning über Audio?"
+      },
+      "back": {
+        "en": "Reasoning over audio = Chat Completions with an `input_audio` part plus `modalities`.",
+        "de": "Reasoning über Audio = Chat Completions mit einem `input_audio`-Teil plus `modalities`."
+      }
+    },
+    {
+      "id": "z-speech-genai-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "How do you authenticate the audio calls, and what do you pass as `model`?",
+        "de": "Wie meldest du dich bei den Audioaufrufen an, und was übergibst du als `model`?"
+      },
+      "back": {
+        "en": "Authenticate with Entra ID tokens (`https://ai.azure.com/.default`) and pass deployment names as `model`.",
+        "de": "Melde dich mit Entra-ID-Tokens an (`https://ai.azure.com/.default`) und übergib Deployment-Namen als `model`."
+      }
+    }
+  ]
+}

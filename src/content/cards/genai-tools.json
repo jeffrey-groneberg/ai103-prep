@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "genai-tools",
+  "cards": [
+    {
+      "id": "z-genai-tools-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "How does a function tool definition differ from a hosted one, and how long may a tool description be?",
+        "de": "Was braucht ein Function-Tool in `tools` mehr als ein gehostetes Tool, und wie lang darf die Beschreibung sein?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Where do hosted, `mcp` and `function` tools run, and what does a `function` tool wait for?",
+        "de": "Wo laufen gehostete, `mcp`- und `function`-Tools, und worauf wartet ein `function`-Tool?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What can the model do with `code_interpreter`, how is a session billed, and how long does it stay alive?",
+        "de": "Was kann das Modell mit `code_interpreter` tun, wie wird eine Sitzung abgerechnet, und wie lange bleibt sie aktiv?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does `web_search` return, which options can you set, and what happens to your compliance and geo boundary?",
+        "de": "Was liefert `web_search`, welche Optionen kannst du setzen, und was passiert mit deiner Compliance- und Geo-Grenze?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does a vector store do with your files, what does file_search add, and which setting do you provide?",
+        "de": "Was macht ein Vector Store mit deinen Dateien, was ergänzt file_search, und welche Einstellung setzt du?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How does the function-calling round trip work, and what guarantees arguments that match your schema?",
+        "de": "Wie läuft der Function-Calling-Ablauf, und was garantiert Argumente, die zu deinem Schema passen?"
+      }
+    },
+    {
+      "id": "z-genai-tools-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Which values does `tool_choice` accept, and how do you approve an `mcp` call under the default `require_approval`?",
+        "de": "Welche Werte kennt `tool_choice`, und wie gibst du einen `mcp`-Aufruf beim Standard von `require_approval` frei?"
+      }
+    },
+    {
+      "id": "z-genai-tools-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Why does a `function_call` never lead to a final answer by itself?",
+        "de": "Warum führt ein `function_call` von allein nie zu einer finalen Antwort?"
+      },
+      "back": {
+        "en": "The model never runs your function. If your code doesn't send a `function_call_output` with the matching `call_id`, there is no final answer.",
+        "de": "Das Modell führt deine Funktion nie selbst aus. Schickt dein Code kein `function_call_output` mit passender `call_id`, gibt es keine finale Antwort."
+      }
+    },
+    {
+      "id": "z-genai-tools-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What do domain filters on `web_search` restrict, and at which level can admins block the tool?",
+        "de": "Was begrenzen Domain-Filter bei `web_search`, und auf welcher Ebene können Admins das Tool sperren?"
+      },
+      "back": {
+        "en": "Domain filters restrict the sources, not the data flow: `web_search` uses Grounding with Bing, so data flows outside your compliance and geo boundary. Admins can block the tool per subscription.",
+        "de": "Domain-Filter begrenzen die Quellen, nicht den Datenfluss: `web_search` nutzt Grounding with Bing, Daten fließen also aus deiner Compliance- und Geo-Grenze heraus. Admins können das Tool pro Subscription sperren."
+      }
+    },
+    {
+      "id": "z-genai-tools-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Why can file_search miss a file you just uploaded, and how do you make sure it gets found?",
+        "de": "Warum übersieht file_search eine gerade hochgeladene Datei, und wie stellst du sicher, dass sie gefunden wird?"
+      },
+      "back": {
+        "en": "file_search ignores a fresh upload until ingestion has finished. Use `upload_and_poll` (or wait for the vector store status `completed`) and make sure the store ID is in `vector_store_ids`.",
+        "de": "file_search ignoriert einen frischen Upload, bis die Verarbeitung fertig ist. Nutze `upload_and_poll` (oder warte auf den Vector-Store-Status `completed`) und achte darauf, dass die Store-ID in `vector_store_ids` steht."
+      }
+    },
+    {
+      "id": "z-genai-tools-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What happens when two conversations call `code_interpreter` at the same time, and how is each session billed?",
+        "de": "Was passiert, wenn zwei Gespräche gleichzeitig `code_interpreter` aufrufen, und wie wird jede Sitzung abgerechnet?"
+      },
+      "back": {
+        "en": "Two simultaneous calls in different conversations create two sessions. Each session is billed per minute with a five-minute minimum — `code_interpreter` costs more than tokens.",
+        "de": "Zwei gleichzeitige Aufrufe in verschiedenen Gesprächen erzeugen zwei Sitzungen. Jede Sitzung wird minutengenau mit mindestens fünf Minuten abgerechnet – `code_interpreter` kostet mehr als Tokens."
+      }
+    },
+    {
+      "id": "z-genai-tools-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why does an `mcp` tool do nothing by default, and when is it acceptable to skip the approval step?",
+        "de": "Warum tut ein `mcp`-Tool standardmäßig nichts, und wann ist es vertretbar, auf die Freigabe zu verzichten?"
+      },
+      "back": {
+        "en": "`require_approval` defaults to `\"always\"`, so an `mcp` tool does nothing until you approve — handle each `mcp_approval_request`. Set `\"never\"` only for servers you trust.",
+        "de": "`require_approval` ist standardmäßig `\"always\"`, ein `mcp`-Tool tut also nichts ohne deine Freigabe – beantworte jedes `mcp_approval_request`. Setze `\"never\"` nur bei Servern, denen du vertraust."
+      }
+    },
+    {
+      "id": "z-genai-tools-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Who executes a hosted tool, and who executes a function tool?",
+        "de": "Wer führt ein gehostetes Tool aus, und wer ein Function-Tool?"
+      },
+      "back": {
+        "en": "Hosted tools run in the platform; function tools run in your code.",
+        "de": "Gehostete Tools laufen in der Plattform, Function-Tools in deinem Code."
+      }
+    },
+    {
+      "id": "z-genai-tools-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which tool fits calculations, fresh public facts, your own documents and your own systems?",
+        "de": "Welches Tool passt zu Berechnungen, aktuellen öffentlichen Fakten, eigenen Dokumenten und eigenen Systemen?"
+      },
+      "back": {
+        "en": "Calculations → code_interpreter, fresh public facts → web_search, your documents → file_search, your systems → function.",
+        "de": "Berechnungen → code_interpreter, aktuelle öffentliche Fakten → web_search, eigene Dokumente → file_search, eigene Systeme → function."
+      }
+    },
+    {
+      "id": "z-genai-tools-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "In which order does a function round trip run, and what ties each output to its call?",
+        "de": "In welcher Reihenfolge läuft der Function-Ablauf, und was verknüpft jede Ausgabe mit ihrem Aufruf?"
+      },
+      "back": {
+        "en": "`function_call` → run it → `function_call_output` with the same `call_id` → final answer.",
+        "de": "`function_call` → ausführen → `function_call_output` mit derselben `call_id` → finale Antwort."
+      }
+    },
+    {
+      "id": "z-genai-tools-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which parameter steers tool use, and what must you do with every argument before acting on it?",
+        "de": "Mit welchem Parameter steuerst du die Tool-Nutzung, und was tust du mit jedem Argument, bevor du danach handelst?"
+      },
+      "back": {
+        "en": "Steer tool use with `tool_choice`, and validate every argument before you act on it.",
+        "de": "Steuere die Tool-Nutzung mit `tool_choice` und prüfe jedes Argument, bevor du danach handelst."
+      }
+    },
+    {
+      "id": "z-genai-tools-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "What can instructions do for tool use, and how do you force a tool call in a request?",
+        "de": "Was bewirken Anweisungen bei der Tool-Nutzung, und wie erzwingst du in einer Anfrage einen Tool-Aufruf?"
+      },
+      "back": {
+        "en": "Instructions only steer tool use: describe what each tool is for and when to use it. To force a call in a request, set `tool_choice` to `required` or a named tool.",
+        "de": "Anweisungen lenken die Tool-Nutzung nur: Beschreib, wofür jedes Tool da ist und wann es zum Einsatz kommen soll. Um in einer Anfrage einen Aufruf zu erzwingen, setzt du `tool_choice` auf `required` oder ein benanntes Tool."
+      }
+    }
+  ]
+}

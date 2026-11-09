@@ -1,0 +1,186 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "web-iq",
+  "cards": [
+    {
+      "id": "z-web-iq-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What is web grounding, and how should an agent treat the web results it gets?",
+        "de": "Was ist Web-Grounding, und wie sollte ein Agent die gelieferten Webergebnisse behandeln?"
+      }
+    },
+    {
+      "id": "z-web-iq-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Through which interfaces can you reach Microsoft Web IQ, and what kind of content does it retrieve?",
+        "de": "Über welche Schnittstellen erreichst du Microsoft Web IQ, und welche Inhalte ruft es ab?"
+      }
+    },
+    {
+      "id": "z-web-iq-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which Web IQ methods exist, and which one reads a URL you already know?",
+        "de": "Welche Web-IQ-Methoden gibt es, und welche liest eine URL, die du schon kennst?"
+      }
+    },
+    {
+      "id": "z-web-iq-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does the Web IQ AppID hold, and how do you authenticate for a quick start versus in production?",
+        "de": "Was enthält die Web IQ AppID, und wie authentifizierst du dich für den schnellen Start und in Produktion?"
+      }
+    },
+    {
+      "id": "z-web-iq-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does the `passage` content format return, and what do `text`, `html` and `markdown` require?",
+        "de": "Was liefert das Inhaltsformat `passage`, und was brauchen `text`, `html` und `markdown`?"
+      },
+      "back": {
+        "en": "`passage` (the default content format unless your app has full document access) returns only the query-relevant parts of each result — at most 3,000 characters per result without full document access — so the model reads less noise and fewer tokens. `text`, `html` and `markdown` return whole documents and need **full document access**, which you request through a Web IQ Support request; without it they fail with HTTP 403.",
+        "de": "`passage` (das Standard-Inhaltsformat, sofern deine App keinen Volldokumentzugriff hat) liefert nur die abfragerelevanten Teile jedes Treffers – ohne Volldokumentzugriff höchstens 3.000 Zeichen pro Treffer –, sodass das Modell weniger Rauschen und weniger Tokens liest. `text`, `html` und `markdown` liefern ganze Dokumente und brauchen **Volldokumentzugriff**, den du per Web-IQ-Supportanfrage beantragst; ohne ihn scheitern sie mit HTTP 403."
+      }
+    },
+    {
+      "id": "z-web-iq-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What must you do about citations, caching and personal data when you use Web IQ results?",
+        "de": "Was musst du bei Zitaten, Caching und personenbezogenen Daten beachten, wenn du Web-IQ-Ergebnisse nutzt?"
+      }
+    },
+    {
+      "id": "z-web-iq-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "When do you choose the Grounding with Bing Search tool over the Web Search tool in Foundry?",
+        "de": "Wann wählst du in Foundry das Tool Grounding with Bing Search statt des Web Search Tools?"
+      }
+    },
+    {
+      "id": "z-web-iq-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Who writes the answer when a Foundry agent uses Web IQ for web grounding?",
+        "de": "Wer schreibt die Antwort, wenn ein Foundry-Agent Web IQ für Web-Grounding nutzt?"
+      },
+      "back": {
+        "en": "Your agent’s model writes it from the returned evidence. Web IQ is not an LLM and doesn’t generate the answer.",
+        "de": "Das Modell deines Agents schreibt sie aus den gelieferten Belegen. Web IQ ist kein LLM und erzeugt keine Antwort."
+      }
+    },
+    {
+      "id": "z-web-iq-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "When must you add `APPID` as a query parameter, and what happens if you send it with an API key?",
+        "de": "Wann musst du `APPID` als Query-Parameter anhängen, und was passiert, wenn du es mit einem API-Key schickst?"
+      },
+      "back": {
+        "en": "With a Microsoft Entra token whose client ID is bound to several AppIDs — otherwise you get HTTP 400. An API key already belongs to one AppID, so sending `APPID` with a key returns HTTP 401. Keep them apart: AppID ≠ Entra application (client) ID ≠ API key.",
+        "de": "Bei einem Microsoft-Entra-Token, dessen Client-ID an mehrere AppIDs gebunden ist – sonst kommt HTTP 400. Ein API-Key gehört bereits zu genau einer AppID, daher liefert `APPID` zusammen mit einem Key HTTP 401. Halte sie auseinander: AppID ≠ Entra Application (Client) ID ≠ API-Key."
+      }
+    },
+    {
+      "id": "z-web-iq-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Where is access to the Web IQ API controlled, and what does your Azure Web IQ resource do during a call?",
+        "de": "Wo wird der Zugriff auf die Web-IQ-API gesteuert, und was macht deine Azure-Web-IQ-Ressource bei einem Aufruf?"
+      },
+      "back": {
+        "en": "Per AppID — there’s no Private Link, VNet integration or Azure RBAC on the API. The Azure resource only handles metering and billing; calls go straight to `api.microsoft.ai`.",
+        "de": "Pro AppID – es gibt kein Private Link, keine VNet-Integration und kein Azure RBAC auf der API. Die Azure-Ressource übernimmt nur Messung und Abrechnung; Aufrufe gehen direkt an `api.microsoft.ai`."
+      }
+    },
+    {
+      "id": "z-web-iq-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which kind of Azure subscription does Web IQ need, and which kind isn’t supported?",
+        "de": "Welche Art von Azure-Abonnement braucht Web IQ, und welche wird nicht unterstützt?"
+      },
+      "back": {
+        "en": "A paid Azure subscription. Subscriptions funded by Azure credits aren’t supported.",
+        "de": "Ein kostenpflichtiges Azure-Abonnement. Abonnements mit Azure-Guthaben werden nicht unterstützt."
+      }
+    },
+    {
+      "id": "z-web-iq-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What must an answer based on Web IQ show, and which two uses of the results are off-limits?",
+        "de": "Was muss eine Antwort auf Basis von Web IQ zeigen, und welche zwei Verwendungen der Ergebnisse sind tabu?"
+      },
+      "back": {
+        "en": "A link back to each source used, next to the answer — citations aren’t optional. Don’t build a database of results, and don’t use returned images or videos as grounding input.",
+        "de": "Einen Link zu jeder genutzten Quelle, direkt bei der Antwort – Zitate sind nicht optional. Baue keine Datenbank aus Ergebnissen auf und nutze zurückgelieferte Bilder oder Videos nicht als Grounding-Input."
+      }
+    },
+    {
+      "id": "z-web-iq-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which web grounding option is your starting point, and when do you pick Web IQ instead?",
+        "de": "Mit welcher Web-Grounding-Option startest du, und wann wählst du stattdessen Web IQ?"
+      },
+      "back": {
+        "en": "Start with Foundry’s Web Search tool. Choose Web IQ for News, Images, Videos, Browse and fine-grained retrieval control.",
+        "de": "Starte mit dem Web Search Tool von Foundry; wähle Web IQ für News, Images, Videos, Browse und feine Kontrolle über das Retrieval."
+      }
+    },
+    {
+      "id": "z-web-iq-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which endpoint does the Web IQ MCP server use, and which tools does it offer?",
+        "de": "Welchen Endpoint nutzt der Web-IQ-MCP-Server, und welche Tools bietet er?"
+      },
+      "back": {
+        "en": "`https://api.microsoft.ai/v3/mcp` — with the tools `web`, `news`, `images`, `videos` and `browse`.",
+        "de": "`https://api.microsoft.ai/v3/mcp` – mit den Tools `web`, `news`, `images`, `videos` und `browse`."
+      }
+    },
+    {
+      "id": "z-web-iq-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which two request settings keep the Web IQ context small and relevant?",
+        "de": "Welche zwei Anfrage-Einstellungen halten den Web-IQ-Kontext klein und relevant?"
+      },
+      "back": {
+        "en": "Use `contentFormat=passage` and set `maxLength` to keep the context small and relevant.",
+        "de": "Nutze `contentFormat=passage` und setze `maxLength`, damit der Kontext klein und relevant bleibt."
+      }
+    },
+    {
+      "id": "z-web-iq-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do Web IQ keys belong, and what should you prefer in production?",
+        "de": "Wo gehören Web-IQ-Keys hin, und was bevorzugst du in Produktion?"
+      },
+      "back": {
+        "en": "Keys belong in a connection or secret store; in production, prefer Microsoft Entra ID.",
+        "de": "Keys gehören in eine Verbindung oder einen Secret Store; in Produktion bevorzugst du Microsoft Entra ID."
+      }
+    },
+    {
+      "id": "z-web-iq-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "How do you evaluate a Web IQ-grounded agent, and how do you confirm Web IQ was really called?",
+        "de": "Wie bewertest du einen Agent mit Web-IQ-Grounding, und wie prüfst du, ob Web IQ wirklich aufgerufen wurde?"
+      },
+      "back": {
+        "en": "Evaluate retrieval and generation separately, and check the traces to confirm Web IQ was really called.",
+        "de": "Bewerte Retrieval und Generierung getrennt und prüfe in den Traces, ob Web IQ wirklich aufgerufen wurde."
+      }
+    }
+  ]
+}

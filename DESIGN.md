@@ -547,6 +547,40 @@ components:
   exam-clock-low:
     backgroundColor: "{colors.bad-tint}"
     textColor: "{colors.bad-ink}"
+  zettel-box:
+    backgroundColor: "{colors.surface-alt}"
+    rounded: "{rounded.md}"
+    padding: "10px 12px 12px"
+  zettel-box-goal:
+    backgroundColor: "{colors.brand-tint}"
+    textColor: "{colors.brand-ink}"
+  zettel-divider:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.md}"
+    padding: "8px 12px 8px 14px"
+    height: "56px"
+  zettel-divider-tab:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.brand-ink}"
+    rounded: "{rounded.sm}"
+    padding: "0 10px"
+    height: "20px"
+  zettel-divider-path:
+    backgroundColor: "{colors.surface-alt}"
+    textColor: "{colors.ink}"
+  zettel-card:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.md}"
+  zettel-rate-miss:
+    backgroundColor: "{colors.bad-tint}"
+    textColor: "{colors.bad-ink}"
+    rounded: "{rounded.sm}"
+    height: "52px"
+  zettel-rate-hit:
+    backgroundColor: "{colors.ok-tint}"
+    textColor: "{colors.ok-ink}"
+    rounded: "{rounded.sm}"
+    height: "52px"
 ---
 
 # Design System: AI-103 Prep
@@ -566,8 +600,8 @@ Two rejections are confirmed. The generic card-grid dashboard template: the cont
 - One brand blue (#0f6cbd) for “act here” and “you are here”; status green and red appear only after an answer is revealed (the one exception: the exam clock turns red in its last 10 minutes).
 - Five domain hues for the five exam domains and nine diagram tones for node types, always paired with words.
 - Segoe UI stack, sentence case, no uppercase, tabular numerals for every count.
-- Signatures: the step-through diagram (typed tones, six shapes, measured labels, focus/context/dim) and the guided path of stations.
-- Phones get a five-tab bar plus a Menü; sticky parts stick only while they fit.
+- Signatures: the step-through diagram (typed tones, six shapes, measured labels, focus/context/dim), the guided path of stations and the Zettelkasten box (three compartments, exact counts, the card that flies into its compartment).
+- Phones get a five-tab bar plus a Menü; below 1100px the Menü also holds the secondary sections; sticky parts stick only while they fit.
 
 Names: the north star and the ground, surface, brand, domain, tone and mastery names come from the direction contract, PRODUCT.md and the build's own labels; where those sources name nothing (Brand Wash, Quiet Wash, Sunken Grey, Firm Line, Receded Text Grey and every rule title), the name was derived from the contract.
 
@@ -655,13 +689,14 @@ VS Code Light+ on #f7f7f7: keywords #0000ff, strings #a31515, comments #008000 i
 
 One 1240px column with 24px side padding (32px top, 48px bottom) holds white panels that float on the ground 20px apart. The 56px top bar is full-bleed and sticky; in-page anchors land 72px below the top edge.
 
-- **Home:** a two-column grid. The guided path sits in a 300–400px column on the left; the right column (1fr) stacks “Als Nächstes dran” over a two-up pair, Heute and Prüfungsbereitschaft, stretched to equal height. The right column sticks 76px from the top only while it fits the window (measured: viewport wider than 1100px and column height plus 84px within the window height); otherwise it scrolls with the page. At 1100px and below the grid collapses and the next-step column moves above the path; at 900px the pair stacks.
+- **Home:** a two-column grid. The guided path sits in a 300–400px column on the left; the right column (1fr) stacks “Als Nächstes dran”, then the Zettelkasten panel, then a two-up pair, Heute and Prüfungsbereitschaft, stretched to equal height. The right column sticks 76px from the top only while it fits the window (measured: viewport wider than 1100px and column height plus 84px within the window height); otherwise it scrolls with the page. At 1100px and below the grid collapses and the next-step column moves above the path; at 900px the pair stacks.
 - **Lesson:** a white reading panel (24px top, 32px sides and bottom) beside a 260px sticky rail with “Auf dieser Seite” and the study-guide skills, 32px apart; sections are 40px apart (32px on phones). The glossary flows in two balanced columns of at least 280px. At 1100px the rail disappears; on phones the panel runs edge to edge with no corners, no shadow and 16px padding.
-- **Sessions and exam:** practice and review run in a 900px column over a fixed bottom bar; the exam runner uses a 1040px body between a sticky header (under the top bar) and a fixed bottom bar. On phones these routes hide the tab bar and footer.
+- **Sessions and exam:** practice, review and a Zettelkasten round run in a 900px column over a fixed bottom bar; the exam runner uses a 1040px body between a sticky header (under the top bar) and a fixed bottom bar. On phones these routes hide the tab bar and footer.
+- **Zettelkasten:** the overview puts the box panel (320–420px) beside the register (1fr); at 1100px the register drops below and the box panel and an open editor sit side by side while they fit. A register page holds the compact box with its actions (at most 760px), then the module's cards in an auto-fill grid of at least 340px columns.
 - **Progress and Coverage:** one column of full-width panels with no sidebar. Progress stacks the skills map, the module table, past simulations and data export/import; wide tables sit in a keyboard-focusable region that scrolls sideways on phones.
 - **Grids:** Practice is 1.5fr beside a column of at least 260px; Review, exam setup and Resources are two-up. All stack at 900px.
 - **Rhythm:** a 4px base (4, 8, 12, 16, 20, 24, 32, 40, 48, 64). Components use 8–16 inside, panels and grid cells sit 20 apart, panels pad 24, lesson sections sit 40 apart.
-- **Breakpoints:** 1100px (home single column, lesson rail hidden), 900px (two-up grids stack), 760px (phone shell: tab bar and Menü, tighter padding, scrolling diagram canvas) and the 380px `summary` container query of the thumbnail.
+- **Breakpoints:** 1100px (home and Zettelkasten single column, lesson rail hidden, Fortschritt and Ressourcen move into the Menü), 900px (two-up grids stack), 760px (phone shell: tab bar, tighter padding, scrolling diagram canvas), 560px (register dividers and the home box panel restack) and the 380px `summary` container query of the thumbnail.
 - **Phones:** pages pad 20px 16px with 104px of bottom clearance above the safe-area-aware tab bar. Shell padding never drops below the notch insets (`max(16px, env(safe-area-inset-left/right))` on the top bar, pages, tab bar and the session and exam bars), so nothing slides under the camera housing when an iPhone is held sideways. Phones held sideways (760px wide or less and 500px high or less) get a 48px top bar and a compact tab bar with icon and label side by side.
 - **Installed app:** the same site installs as a PWA (standalone, white status bar, 103 icon) and works offline; nothing in the layout depends on running installed.
 
@@ -713,7 +748,7 @@ Calm and exact: Fluent buttons that change colour on hover (150ms) and never lif
 - **Primary:** brand fill, white text; hover #115ea3, press #0f548c. One per region: the next-card action, “Weiter”, “Lektion starten”.
 - **Secondary:** white with a Control Line border and Fluent Ink text; hover Quiet Wash with a Firm Line border.
 - **Subtle:** transparent with Secondary Ink; hover Sunken Grey and Fluent Ink. Its on state (“Markiert”, “Als gelesen markiert”) turns the text brand.
-- **Danger:** red fill, white text, hover red ink; destructive resets only.
+- **Danger:** red fill, white text, hover red ink; destructive resets only, and always as the second step: the first button only asks (“Lernstand löschen”, “Zurücklegen” after “Alle zurück in Fach 1”), with a subtle Abbrechen beside it.
 - **Disabled:** Sunken Grey fill, Hairline border, Disabled Ink text, not-allowed cursor.
 - **Focus:** a 2px brand outline at 2px offset. Joined controls (segmented controls and the DE/EN toggle) clip anything outside their buttons, so there focus is drawn inside: a 2px Fluent Ink outline at −2px with a 1px white inner line, visible on white and on brand fills.
 - **Icon buttons:** 28px (40px large) transparent squares at 4px in Secondary Ink; hover Sunken Grey.
@@ -740,9 +775,10 @@ Calm and exact: Fluent buttons that change colour on hover (150ms) and never lif
 - **Ordering:** a pool on Quiet Wash and a dashed answer zone; items are 4px white rows with a grip, a 22px Brand Tint position number and up/down icon buttons as the keyboard alternative to dragging.
 
 ### Navigation
-- **Top bar:** 56px, white, hairline below, sticky. The app mark (a 32px brand square at 7px with “103” in white 12.5px/700) sits beside “AI-103 Prep” in 18px/600 display. Links are 14px Secondary Ink with 12px side padding; hover is Quiet Wash with rounded top corners; active is brand at 600 with a 3px brand underline inset 12px. The DE/EN toggle sits at the right.
+- **Top bar:** 56px, white, hairline below, sticky. The app mark (a 32px brand square at 7px with “103” in white 12.5px/700) sits beside “AI-103 Prep” in 18px/600 display. Links (Start, Lernen, Üben, Prüfung, Wiederholen, Zettelkasten, Fortschritt, Ressourcen) are 14px Secondary Ink with 12px side padding; hover is Quiet Wash with rounded top corners; active is brand at 600 with a 3px brand underline inset 12px. The DE/EN toggle sits at the right.
+- **Medium widths (1100px and below):** Fortschritt and Ressourcen leave the top bar so the links never crowd; the Menü button appears at the right and its flyout lists them with Abdeckung.
 - **Wiederholen badge:** a 20px brand pill with the number of due reviews in white 11px/600. On phones it becomes an 8px brand dot with a 2px white ring on the tab icon.
-- **Phones (760px and below):** the links hide. A fixed bottom tab bar holds Start, Lernen, Üben, Prüfung and Wiederholen as 22px Fluent icons (filled when active) over 11px/600 labels, Tertiary Ink, active brand. The header's Menü (a 40px icon button that turns into a close icon) opens a 220px flyout (8px, hairline, shadow-16) with Fortschritt, Ressourcen and Abdeckung as 44px rows; the active row is Brand Tint with brand text.
+- **Phones (760px and below):** the links hide. A fixed bottom tab bar holds Start, Lernen, Üben, Prüfung and Wiederholen as 22px Fluent icons (filled when active) over 11px/600 labels, Tertiary Ink, active brand. The header's Menü (a 40px icon button that turns into a close icon) opens a 220px flyout (8px, hairline, shadow-16) with Zettelkasten, Fortschritt, Ressourcen and Abdeckung as 44px rows; the active row is Brand Tint with brand text. The Zettelkasten is also one tap away in its home panel, right under “Als Nächstes dran”.
 - **Breadcrumb:** 13px Tertiary Ink with 14px chevrons.
 - **“Auf dieser Seite”:** a 1px hairline track with 13px/18px Secondary Ink links; hover draws a brand edge and brand text; the current section gets a 2px brand edge, Fluent Ink at 600 and aria-current="location". The current section is the last one whose heading has passed 56px plus 25% of the window height, or the last section once the page is scrolled to the end.
 
@@ -787,6 +823,21 @@ Sixty hand-built SVG diagrams on a 960-wide canvas, each opening its lesson's bi
 
 **The Real-Edge Rule.** The thumbnail draws an arrow only where the diagram has an edge between those two nodes; everywhere else it leaves a plain gap.
 
+### Zettelkasten (signature)
+A Leitner card box with three compartments. The front of a card asks, the back answers; known moves a card one compartment forward, not known sends it back to Fach 1, and the goal is every card in Fach 3.
+- **The box:** a 1.5px Firm Line tray on Quiet Wash, 8px, cut into three equal compartments by 1.5px walls. An axis line above names the ends (“hinten · Start”, “vorne · Ziel”, 11px/600 Tertiary Ink). Each compartment shows “Fach n” (12px/600 Secondary Ink), its exact count (24px/600 display, tabular; Fach 3 in Brand Ink) and its cards as a stack of 1px card edges: Firm Line on white in Fach 1, Brand Soft on white in Fach 2, brand on Brand Tint in Fach 3. Stack height follows the square root of the count, at least 8%, so a few cards stay visible beside hundreds; an empty compartment shows a dashed “leer” slot. A 20px white circle with a brand forward arrow sits on each wall. The compact box (home panel, register page, round, end screen) uses 20px counts and 36px stacks.
+- **The rule, drawn:** the full box (overview) adds a caption above (“Gewusst – der Zettel wandert ein Fach nach vorn”, the arrow beside it) and a dashed return path below that runs from Fach 3 and Fach 2 back to an arrowhead under Fach 1 (“Nicht gewusst – zurück nach hinten in Fach 1”). Captions are Tertiary Ink with the bold verb in Fluent Ink: they explain, they are not links.
+- **Register:** one index divider per learning path and per module, in course order. A divider is a white 8px row with a hairline (Firm Line and Quiet Wash for a learning path) and a 20px tab on top (11px/600 Brand Ink, “Modul n”; 12px Fluent Ink, “Lernpfad n”); module tabs stagger across four positions like the dividers of a real box. The row holds title and meta (“17 Zettel · 3 vorne”), an 8px split bar in the three Fach colours (2px gaps) and a small secondary “Lernen”. The whole module row opens its register page; a finished divider turns its tab brand with a check and shows “Alle vorne”. A brand “Nächste Runde” tag marks the registers the next mixed round deals from. The register head carries the legend of the three Fach colours.
+- **Cards:** on a register page each card is a white 8px index card on shadow-2: a head with the kind (Begriff, Prüfungsfalle, Merksatz, Eigener Zettel), a Fach pill (Sunken Grey, Brand Tint, brand) and, for starter cards, a 40px “Aus dem Kasten nehmen” icon button, ruled off by a 1px Brand Soft line; then the question (15px/22px/600) and a disclosed “Antwort”. Own cards end with Bearbeiten and Löschen (Löschen asks first).
+- **A round:** the session column shows the scope, the compact box and one card. The front reads “Vorderseite · Frage” over the question in 22px/30px display (18px/26px on phones); the back repeats the question in Tertiary Ink above the term and the answer (16px/25px, 62ch). The bar shows “Antwort zeigen” (primary) until the card is turned, then two 52px rating buttons that name where the card goes: “Nicht gewusst · zurück in Fach 1” (Wrong tint, line and ink, dismiss icon) and “Gewusst · weiter in Fach n” (Correct tint, line and ink, check icon). Keys: Space or Enter turns, 1 or ← misses, 2 or → knows. The progress bar counts the round's cards in Fach 3.
+- **Motion:** the one authored moment of the surface. After a rating the card flies into the compartment it now belongs to (460ms, cubic-bezier(0.55, 0, 0.2, 1): translate to the compartment's centre, scale 0.12, fade to 20%), and only on landing do the counts, the stack and the badge change while the compartment flashes once (640ms brand inset ring and 14% brand wash fading out) and its count settles from 1.22×. Turning a card rotates it in from -70° (320ms, ease-out). Reduced motion skips the flight and the turn; the card lands at once.
+- **Editor:** inline, never a modal: Vorderseite · Frage and Rückseite · Antwort as 16px textareas, a module select grouped by learning path, a hint that code goes in backticks, then “In Fach 1 legen” (primary) and Abbrechen; after saving, the form stays open for the next card and confirms “Liegt in Fach 1.”
+- **Home panel and lesson bridge:** the home panel sits under “Als Nächstes dran” with the compact box (a link to the overview), the tally of cards in Fach 3 (“n von m Zetteln vorne”), the rule in one line and secondary actions only (“Runde mit n Zetteln”, “Neuer Zettel”), so the next-step card keeps the single primary action. After “Merksätze” every lesson shows a Brand Tint bridge: how many of the lesson's cards are in the box and how many already in Fach 3, with “Zettel lernen”.
+
+**The Front-and-Back Rule.** “Vorn” and “hinten” belong to the box: Fach 3 is vorne, Fach 1 hinten. A card has a Vorderseite (the question) and a Rückseite (the answer), and copy never calls them vorn and hinten.
+
+**The Exact-Count Rule.** The box states every compartment's exact number; stacks only show proportion. Counts change when the card lands, never while it is still in the air.
+
 ### Questions
 - **Meta row:** domain chip, type, difficulty and skill in 12px Tertiary Ink.
 - **Stem:** 17px/26px at 54ch.
@@ -823,7 +874,9 @@ Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/
 - **Do** keep the Wiederholen due count in the navigation (a dot on phones): it shows the next step.
 - **Do** make sticky columns conditional on fitting the window, and let “Als Nächstes dran” lead when columns collapse.
 - **Do** keep every question type keyboard-operable: radios behind the letters, up/down buttons for ordering, selects for matching.
-- **Do** honour reduced motion: the build collapses every transition and animation, the flowing arrow and smooth scrolling included.
+- **Do** honour reduced motion: the build collapses every transition and animation, the flowing arrow and smooth scrolling included; a Zettelkasten card lands without its flight.
+- **Do** ask before a reset: “Zurücksetzen” and “Alle zurück in Fach 1” first reveal a question with a Danger action and Abbrechen.
+- **Do** name the destination on every Zettelkasten rating (“zurück in Fach 1”, “weiter in Fach 2”), so the rule is where the learner acts.
 
 ### Don't:
 - **Don't** build the generic card-grid dashboard template; the home is a guided path beside a next-step column.
@@ -835,4 +888,5 @@ Rows at 14px/20px with 10px 12px padding and Soft Hairline dividers; heads 12px/
 - **Don't** draw a thumbnail arrow where the diagram has no edge, hyphenate code tokens, or start a line with “·”.
 - **Don't** route an arrow through a node or a group title, or sit an edge label on an arrow that would show less than 20px on either side.
 - **Don't** dim diagram text below Receded Text Grey (#858585).
+- **Don't** call a card's sides vorn and hinten; they are Vorderseite and Rückseite, and vorn and hinten mean the box.
 - **Don't** use Microsoft logos or imply endorsement; the app's mark is the 103 square, and the footer says it is not an official Microsoft product. Official Azure icons appear only in diagrams, beside the name of the product or block they stand for.

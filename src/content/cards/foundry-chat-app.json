@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "foundry-chat-app",
+  "cards": [
+    {
+      "id": "z-foundry-chat-app-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does a Foundry project endpoint look like, and which client do you pass it to?",
+        "de": "Wie sieht der Project Endpoint eines Foundry-Projekts aus, und an welchen Client übergibst du ihn?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Why use the Azure OpenAI v1 endpoint with `OpenAI()`, and when do you still need `AzureOpenAI()`?",
+        "de": "Warum nutzt du mit `OpenAI()` den Azure-OpenAI-v1-Endpoint, und wann brauchst du noch `AzureOpenAI()`?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How does the Responses API keep conversation state, and which two older APIs does it combine?",
+        "de": "Wie hält die Responses API den Gesprächszustand, und welche zwei älteren APIs vereint sie?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What must your app send on every Chat Completions call, and why?",
+        "de": "Was muss deine App bei jedem Aufruf der Chat Completions API mitschicken, und warum?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How does `DefaultAzureCredential` enable keyless sign-in, and which role does the identity need?",
+        "de": "Wie ermöglicht `DefaultAzureCredential` eine schlüssellose Anmeldung, und welche Rolle braucht die Identität?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What do the generation parameters control, and which of them don't GPT-5-series reasoning models support?",
+        "de": "Was steuern die Generierungsparameter, und welche davon unterstützen Reasoning-Modelle der GPT-5-Serie nicht?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "How many models can you compare side by side in the model playground, and how do you export a runnable sample?",
+        "de": "Wie viele Modelle vergleichst du im Modell-Playground nebeneinander, und wie exportierst du ein lauffähiges Beispiel?"
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which endpoint does `AIProjectClient` expect, and which resource URL is the wrong choice?",
+        "de": "Welchen Endpoint erwartet `AIProjectClient`, und welche URL der Ressource ist die falsche Wahl?"
+      },
+      "back": {
+        "en": "`AIProjectClient` needs the **project endpoint** (`services.ai.azure.com/api/projects/…`), not the `openai.azure.com` URL.",
+        "de": "`AIProjectClient` braucht den **Project Endpoint** (`services.ai.azure.com/api/projects/…`), nicht die `openai.azure.com`-URL."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which name does the `model` argument expect, and why can it differ from the catalog model name?",
+        "de": "Welchen Namen erwartet das Argument `model`, und warum kann er vom Modellnamen im Katalog abweichen?"
+      },
+      "back": {
+        "en": "The `model` argument is the **deployment name** you chose, which may differ from the catalog model name.",
+        "de": "Das Argument `model` ist der **Deployment-Name**, den du vergeben hast – er kann vom Modellnamen im Katalog abweichen."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What happens to the cost of earlier turns when you chain calls with `previous_response_id`?",
+        "de": "Was passiert mit den Kosten früherer Runden, wenn du Aufrufe mit `previous_response_id` verkettest?"
+      },
+      "back": {
+        "en": "`previous_response_id` does not reduce cost: earlier turns are still billed as input tokens.",
+        "de": "`previous_response_id` senkt keine Kosten: Frühere Runden werden weiterhin als Input-Tokens berechnet."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which `openai` client can run agents and Foundry evaluations, and what really decides it?",
+        "de": "Welcher `openai`-Client kann Agents und Foundry-Evaluierungen ausführen, und was entscheidet das wirklich?"
+      },
+      "back": {
+        "en": "Agents and Foundry evaluations depend on the endpoint, not the `openai` library: the client from `get_openai_client()` (project endpoint) can run them; a plain `OpenAI()` client on the `/openai/v1` resource endpoint cannot.",
+        "de": "Agents und Foundry-Evaluierungen hängen vom Endpoint ab, nicht von der `openai`-Bibliothek: Der Client aus `get_openai_client()` (Project Endpoint) kann sie ausführen, ein einfacher `OpenAI()`-Client am `/openai/v1`-Endpoint der Ressource nicht."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which parameter does `previous_response_id` not carry over, and what does that mean for follow-ups?",
+        "de": "Was übernimmt `previous_response_id` nicht, und was bedeutet das für Folgefragen?"
+      },
+      "back": {
+        "en": "`previous_response_id` doesn't carry `instructions` over. Resend them on every call, or the follow-up runs without your system prompt.",
+        "de": "`previous_response_id` übernimmt keine `instructions`. Sende sie bei jedem Aufruf mit, sonst läuft die Folgefrage ohne deinen Systemprompt."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "What is an API key scoped to, and which Foundry features won't accept it?",
+        "de": "Wofür gilt ein API-Key, und welche Foundry-Features akzeptieren ihn nicht?"
+      },
+      "back": {
+        "en": "To the whole Foundry resource, not a project: it's one static secret with all-or-nothing access. It works for model calls, but agents, evaluations and toolboxes accept only Microsoft Entra ID.",
+        "de": "Für die ganze Foundry-Ressource, nicht pro Projekt: Er ist ein statisches Geheimnis mit Zugriff nach dem Alles-oder-nichts-Prinzip. Für Modellaufrufe funktioniert er, Agents, Evaluierungen und Toolboxes akzeptieren aber nur Microsoft Entra ID."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which API should a new chat app start with, and what is Chat Completions still for?",
+        "de": "Mit welcher API startet eine neue Chat-App, und wofür bleibt Chat Completions?"
+      },
+      "back": {
+        "en": "New chat apps start with the Responses API; Chat Completions is for compatibility.",
+        "de": "Neue Chat-Apps nutzen zuerst die Responses API; Chat Completions bleibt für Kompatibilität."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How should a production app authenticate, and what should it avoid?",
+        "de": "Wie meldet sich eine produktive App an, und worauf verzichtet sie?"
+      },
+      "back": {
+        "en": "Production apps authenticate with Microsoft Entra ID, not keys.",
+        "de": "Produktive Apps melden sich mit Microsoft Entra ID an, nicht mit Keys."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What do you gain by combining the project endpoint with the Foundry SDK?",
+        "de": "Was bekommst du, wenn du den Project Endpoint mit dem Foundry SDK kombinierst?"
+      },
+      "back": {
+        "en": "Project endpoint + Foundry SDK = models plus agents, Foundry evaluations and tracing.",
+        "de": "Project Endpoint + Foundry SDK = Modelle plus Agents, Foundry-Evaluierungen und Tracing."
+      }
+    },
+    {
+      "id": "z-foundry-chat-app-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "How do you keep the UI from looking frozen during long answers?",
+        "de": "Wie verhinderst du, dass die Oberfläche bei langen Antworten eingefroren wirkt?"
+      },
+      "back": {
+        "en": "Stream long answers (`stream=True`) so the UI never looks frozen.",
+        "de": "Lange Antworten streamen (`stream=True`), damit die Oberfläche nie einfriert."
+      }
+    }
+  ]
+}

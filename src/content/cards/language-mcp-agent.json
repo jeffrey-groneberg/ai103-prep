@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "language-mcp-agent",
+  "cards": [
+    {
+      "id": "z-language-mcp-agent-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which three roles does MCP define, and why can tools change on the server without changing the agent?",
+        "de": "Welche drei Rollen kennt MCP, und warum können sich Tools auf dem Server ändern, ohne dass du den Agent anpasst?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does the Azure Language MCP server expose, and what does Foundry need to use the local version?",
+        "de": "Was stellt der Azure-Language-MCP-Server bereit, und was braucht Foundry, um die lokale Variante zu nutzen?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How does a prompt agent differ from a hosted agent, and which SDK call creates it or a new version?",
+        "de": "Was unterscheidet einen Prompt-Agent vom Hosted Agent, und welcher SDK-Aufruf legt ihn oder eine neue Version an?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How does your app call a prompt agent, and what does the shortcut `get_openai_client(agent_name=…)` require?",
+        "de": "Wie ruft deine App einen Prompt-Agent auf, und was verlangt die Abkürzung `get_openai_client(agent_name=…)`?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Which settings does `MCPTool` take, and how do `allowed_tools` and `require_approval` behave by default?",
+        "de": "Welche Einstellungen hat `MCPTool`, und wie verhalten sich `allowed_tools` und `require_approval` standardmäßig?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What kind of project connection does Azure Language need, and which two authentication layers are involved?",
+        "de": "Welche Art Projektverbindung braucht Azure Language, und welche zwei Authentifizierungsebenen gibt es?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "How do you answer an agent's MCP approval requests, and what does the Copilot harness not support?",
+        "de": "Wie beantwortest du die MCP-Freigabeanfragen eines Agents, und was unterstützt der Copilot-Harness nicht?"
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Why can't a Foundry agent use a Language MCP server running on your laptop, and what are your options?",
+        "de": "Warum kann ein Foundry-Agent keinen Language-MCP-Server auf deinem Laptop nutzen, und welche Optionen hast du?"
+      },
+      "back": {
+        "en": "Foundry Agent Service only accepts remote MCP endpoints, so a server on your laptop isn't reachable. Use the remote endpoint or host the server, for example on Azure Container Apps.",
+        "de": "Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints – ein Language-MCP-Server auf deinem Laptop ist nicht erreichbar. Nutze den Remote-Endpoint oder hoste den Server, etwa auf Azure Container Apps."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What does `allowed_tools=[]` allow, and how do you limit an agent to specific Language tools?",
+        "de": "Was erlaubt `allowed_tools=[]`, und wie beschränkst du einen Agent auf bestimmte Language-Tools?"
+      },
+      "back": {
+        "en": "An empty list doesn't block anything — it allows all tools. Restrict access with a nonempty list of tool names, for example `[\"extract_named_entities_from_text\"]`.",
+        "de": "Eine leere Liste blockiert nichts – sie erlaubt alle Tools. Schränke den Zugriff mit einer nicht leeren Liste von Tool-Namen ein, etwa `[\"extract_named_entities_from_text\"]`."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Where must your `mcp_approval_response` go, and what happens if it goes anywhere else?",
+        "de": "Wohin muss dein `mcp_approval_response`, und was passiert, wenn es woanders landet?"
+      },
+      "back": {
+        "en": "Into the same conversation as the `mcp_approval_request` it answers. Otherwise the agent never continues.",
+        "de": "In dieselbe Conversation wie das `mcp_approval_request`, das es beantwortet. Sonst setzt der Agent nie fort."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "How is the Language MCP `server_url` built, and which endpoint must it not be based on?",
+        "de": "Wie setzt sich die MCP-`server_url` für Azure Language zusammen, und auf welchem Endpoint basiert sie nicht?"
+      },
+      "back": {
+        "en": "From your resource name on `cognitiveservices.azure.com` plus `/language/mcp?api-version=…` — not from the project endpoint `…/api/projects/<project>`.",
+        "de": "Aus deinem Ressourcennamen auf `cognitiveservices.azure.com` plus `/language/mcp?api-version=…` – nicht aus dem Project Endpoint `…/api/projects/<project>`."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Where does the Language key belong, and how should you treat tool descriptions and results from MCP servers?",
+        "de": "Wohin gehört der Language-Key, und wie behandelst du Tool-Beschreibungen und Tool-Ergebnisse von MCP-Servern?"
+      },
+      "back": {
+        "en": "Into the project connection — never into instructions or code. Treat tool descriptions and tool results from MCP servers as untrusted input.",
+        "de": "In die Projektverbindung – nie in Anweisungen oder Code. Behandle Tool-Beschreibungen und Tool-Ergebnisse von MCP-Servern als nicht vertrauenswürdige Eingaben."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "With MCP, who picks the tool for a request, and when are tools discovered?",
+        "de": "Wer wählt bei MCP das Tool für eine Anfrage, und wann werden Tools entdeckt?"
+      },
+      "back": {
+        "en": "Tools are discovered at runtime: the model chooses, you don't route.",
+        "de": "Tools werden zur Laufzeit entdeckt – das Modell wählt, du routest nicht."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How do you connect the Language MCP server, and how often do you need to do it?",
+        "de": "Wie verbindest du den Language-MCP-Server, und wie oft musst du das tun?"
+      },
+      "back": {
+        "en": "Connect once — through the Tools catalog or `MCPTool` + project connection — then reuse it in prompt agents.",
+        "de": "Einmal verbinden – über den Tool-Katalog oder mit `MCPTool` + Projektverbindung –, dann in Prompt-Agents wiederverwenden."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How should you configure an agent's MCP tool for sensitive data?",
+        "de": "Wie konfigurierst du das MCP-Tool eines Agents für sensible Daten?"
+      },
+      "back": {
+        "en": "Keep `require_approval=\"always\"` (the default) and restrict `allowed_tools`.",
+        "de": "`require_approval=\"always\"` (Standard) beibehalten und `allowed_tools` einschränken."
+      }
+    },
+    {
+      "id": "z-language-mcp-agent-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which Azure Language tools should you prefer, and what happens to the legacy ones?",
+        "de": "Welche Azure-Language-Tools solltest du bevorzugen, und was passiert mit den Legacy-Tools?"
+      },
+      "back": {
+        "en": "Prefer the core Language tools (detection, NER, PII); legacy ones retire in 2029.",
+        "de": "Bevorzuge die Language-Kerntools (Erkennung, NER, PII); Legacy-Tools laufen 2029 aus."
+      }
+    }
+  ]
+}

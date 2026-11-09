@@ -9,6 +9,9 @@ import { lessonByModule, orderedModules, questions } from '../content/index.ts'
 import { learningPaths, moduleById } from '../content/course.ts'
 import { domains } from '../content/domains.ts'
 import { DOMAIN_IDS, EXAM_DEFAULTS } from '../lib/exam.ts'
+import { ZettelBox } from '../components/ZettelBox.tsx'
+import { countByFach } from '../lib/zettel.ts'
+import { nextRound, useZettelBox } from '../lib/zettel-box.ts'
 
 const STEPS: Array<{ id: Exclude<ModuleStep, 'done'>; label: string }> = [
   { id: 'lesson', label: 'Lektion' },
@@ -108,6 +111,53 @@ function NextCard({ status }: { status: ModuleStatus | null }) {
   )
 }
 
+/** The Zettelkasten on the start page: the box at a glance and the next round one tap away. */
+function ZettelPanel() {
+  const { cards, zettel, lessonsRead } = useZettelBox()
+  const counts = countByFach(cards.map((z) => z.id), zettel)
+  const round = nextRound(cards, zettel, lessonsRead)
+  return (
+    <section className="panel zk-home" aria-labelledby="zk-home-h">
+      <div className="panel__head">
+        <h2 id="zk-home-h" className="panel__title">
+          Zettelkasten
+        </h2>
+        <Link to="/zettel" className="link-inline">
+          Register
+          <Icon name="chevronRight" size={16} />
+        </Link>
+      </div>
+      <div className="zk-home__body">
+        <Link to="/zettel" className="zk-home__box" aria-label={`Zettelkasten öffnen: ${counts[0]} Zettel in Fach 1, ${counts[1]} in Fach 2, ${counts[2]} in Fach 3`}>
+          <ZettelBox counts={counts} variant="compact" />
+        </Link>
+        <div className="zk-home__side">
+          <p className="zk-home__tally">
+            <strong>{counts[2]}</strong> von {cards.length} Zetteln vorne
+          </p>
+          <p className="zk-home__rule">Vorderseite: Frage, Rückseite: Antwort. Gewusst: ein Fach nach vorn. Nicht gewusst: zurück in Fach 1.</p>
+          <div className="zk-home__actions">
+            {round.length > 0 ? (
+              <Link to="/zettel/lernen" className="btn btn--secondary btn--large">
+                Runde mit {plural(round.length, 'Zettel', 'Zetteln')}
+                <Icon name="arrowRight" size={18} />
+              </Link>
+            ) : (
+              <Link to="/zettel" className="btn btn--secondary btn--large">
+                Alles vorne – zum Kasten
+              </Link>
+            )}
+            <Link to="/zettel?neu=1" className="btn btn--subtle btn--large">
+              <Icon name="add" size={18} />
+              Neuer Zettel
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function firstSentences(text: string, max = 240): string {
   const plain = text.replace(/\*\*|\*|`/g, '')
   const first = plain.split(/(?<=[.!?])\s+/)[0] ?? plain
@@ -197,6 +247,8 @@ export function Home() {
 
         <div className="home__side" ref={sideRef}>
           <NextCard status={next} />
+
+          <ZettelPanel />
 
           <div className="home__pair">
           <section className="panel today" aria-labelledby="today-h">

@@ -15,6 +15,8 @@ import { lessonByModule, orderedModules, questionsForModule, questions } from '.
 import { NotFound } from './NotFound.tsx'
 import type { Question } from '../lib/types.ts'
 import { moduleDomains } from '../lib/select.ts'
+import { useZettelBox } from '../lib/zettel-box.ts'
+import { countByFach } from '../lib/zettel.ts'
 
 const SECTIONS = [
   { id: 'worum', label: 'Worum geht’s' },
@@ -34,6 +36,7 @@ export function LessonPage() {
   const { hash, search } = useLocation()
   const navigate = useNavigate()
   const progress = useProgress()
+  const { cards: boxCards } = useZettelBox()
   const { lang } = progress
   const mod = moduleById.get(moduleId)
   const lesson = lessonByModule.get(moduleId)
@@ -81,6 +84,9 @@ export function LessonPage() {
   const next = orderedModules[index + 1]
   const path = learningPaths.find((p) => p.id === mod.pathId)
   const sections = SECTIONS.filter((s) => (s.id === 'vergleich' ? lesson?.comparison : s.id === 'quiz' ? quiz.length > 0 : true))
+  const zettel = boxCards.filter((z) => z.module === mod.id)
+  const zettelCounts = countByFach(zettel.map((z) => z.id), progress.zettel)
+  const zettelOpen = zettelCounts[0] + zettelCounts[1]
 
   const finish = () => {
     store.markLessonRead(mod.id)
@@ -122,6 +128,12 @@ export function LessonPage() {
             <Link className="btn btn--secondary" to={`/ueben/sitzung?modul=${mod.id}`}>
               <Icon name="practice" size={16} />
               {moduleQuestions.length} Fragen üben
+            </Link>
+          )}
+          {zettel.length > 0 && (
+            <Link className="btn btn--secondary" to={`/zettel/modul/${mod.id}`}>
+              <Icon name="zettel" size={16} />
+              {zettel.length} Zettel
             </Link>
           )}
           <button type="button" className={`btn btn--subtle${status.lessonRead ? ' is-on' : ''}`} onClick={() => store.markLessonRead(mod.id, !status.lessonRead)} aria-pressed={status.lessonRead}>
@@ -248,6 +260,19 @@ export function LessonPage() {
                     </li>
                   ))}
                 </ul>
+                {zettel.length > 0 && (
+                  <div className="lesson-zettel">
+                    <Icon name="zettel" size={20} className="ink-brand" />
+                    <p>
+                      Begriffe, Prüfungsfallen und Merksätze dieser Lektion liegen als {zettel.length} Zettel in deinem Zettelkasten
+                      {zettelCounts[2] > 0 ? `, ${zettelCounts[2]} davon schon vorne in Fach 3.` : '.'}
+                    </p>
+                    <Link to={zettelOpen > 0 ? `/zettel/lernen?modul=${mod.id}` : `/zettel/modul/${mod.id}`} className="btn btn--secondary">
+                      {zettelOpen > 0 ? 'Zettel lernen' : 'Zum Register'}
+                      <Icon name="arrowRight" size={16} />
+                    </Link>
+                  </div>
+                )}
               </section>
 
               {quiz.length > 0 && (

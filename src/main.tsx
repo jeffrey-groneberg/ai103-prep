@@ -7,6 +7,7 @@ import './styles/base.css'
 import './styles/components.css'
 import './styles/content.css'
 import './styles/pages.css'
+import './styles/zettel.css'
 import { App } from './App.tsx'
 
 // Installed as an app (home screen or desktop), ask the browser to keep the locally stored progress

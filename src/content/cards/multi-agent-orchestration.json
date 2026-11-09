@@ -1,0 +1,178 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "multi-agent-orchestration",
+  "cards": [
+    {
+      "id": "z-multi-agent-orchestration-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What do executors and edges do in a workflow, and which kinds of edges can route messages?",
+        "de": "Was tun Executors und Edges in einem Workflow, und welche Arten von Edges leiten Nachrichten weiter?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "In a `SequentialBuilder` pipeline, what does each agent receive by default, and what is the final output?",
+        "de": "Was erhält in einer `SequentialBuilder`-Pipeline jeder Agent standardmäßig, und was ist die finale Ausgabe?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How do agents get their input in a `ConcurrentBuilder` run, and how do you merge their answers?",
+        "de": "Wie erhalten die Agents bei `ConcurrentBuilder` ihre Eingabe, und wie führst du ihre Antworten zusammen?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Who picks the next speaker in a group chat, and how does it remain one logical conversation?",
+        "de": "Wer wählt im Group chat den nächsten Sprecher, und wie bleibt es ein logisches Gespräch?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How do agents pass ownership in a handoff, and why can't a remote A2A agent take part?",
+        "de": "Wie übergeben Agents beim Handoff die Verantwortung, und warum kann kein entfernter A2A-Agent mitmachen?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What do Magentic's task ledger and progress ledger record, and what does the manager do when progress stalls?",
+        "de": "Was halten Aufgaben-Ledger und Fortschritts-Ledger bei Magentic fest, und was tut der Manager bei Stillstand?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What triggers a `request_info` pause in an orchestration, and how do you resume the workflow?",
+        "de": "Was löst in einer Orchestrierung eine Pause mit `request_info` aus, und wie setzt du den Workflow fort?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-concept-8",
+      "source": { "kind": "concept", "index": 7 },
+      "front": {
+        "en": "When do you use an agent, when a workflow, and when just a plain function?",
+        "de": "Wann nutzt du einen Agent, wann einen Workflow und wann nur eine einfache Funktion?"
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Who stays in charge after a handoff, and who after calling an agent via `as_tool()`?",
+        "de": "Wer führt nach einem Handoff das Gespräch, und wer nach dem Aufruf eines Agents über `as_tool()`?"
+      },
+      "back": {
+        "en": "In a handoff the receiving agent takes over the conversation. With `as_tool()` the calling agent gets the result back and stays in charge.",
+        "de": "Beim Handoff übernimmt der empfangende Agent das Gespräch. Mit `as_tool()` bekommt der aufrufende Agent das Ergebnis zurück und behält die Führung."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Why do concurrent and sequential patterns fall short for iterative critique, and which pattern fits?",
+        "de": "Warum reichen Concurrent und Sequential für iterative Kritik nicht aus, und welches Muster passt?"
+      },
+      "back": {
+        "en": "Concurrent agents never see each other's output, and a sequential pipeline doesn't loop back. For iterative critique, use group chat.",
+        "de": "Concurrent-Agents sehen die Ausgabe der anderen nie, und eine sequenzielle Pipeline springt nicht zurück. Für iterative Kritik nutzt du Group chat."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What happens in a handoff run when an agent replies without handing off?",
+        "de": "Was passiert in einem Handoff-Lauf, wenn ein Agent antwortet, ohne zu übergeben?"
+      },
+      "back": {
+        "en": "Handoff is interactive: the run waits for user input (`request_info`) unless you enable autonomous mode.",
+        "de": "Handoff ist interaktiv: Der Lauf wartet auf Nutzereingabe (`request_info`), außer du aktivierst den autonomen Modus."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which setting lets a person approve the Magentic plan in Python, and what is the default?",
+        "de": "Welche Einstellung lässt in Python eine Person den Plan von Magentic freigeben, und was gilt standardmäßig?"
+      },
+      "back": {
+        "en": "Set `enable_plan_review=True` when a person must approve the plan — Magentic plan review is off by default in Python.",
+        "de": "Setze `enable_plan_review=True`, wenn eine Person den Plan freigeben muss – die Plan-Prüfung von Magentic ist in Python standardmäßig aus."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "How do current orchestration builders differ from older samples in module, settings and run call?",
+        "de": "Worin unterscheiden sich aktuelle Orchestrierungs-Builder von älteren Beispielen bei Modul, Einstellungen und Aufruf?"
+      },
+      "back": {
+        "en": "Current builders live in `agent_framework.orchestrations`, take settings as constructor parameters (`participants=[...]`) and run with `workflow.run(..., stream=True)`. Older samples still show `participants()`, `create_agent` or `run_stream`.",
+        "de": "Aktuelle Builder liegen in `agent_framework.orchestrations`, nehmen Einstellungen als Konstruktorparameter (`participants=[...]`) und laufen mit `workflow.run(..., stream=True)`. Ältere Beispiele zeigen noch `participants()`, `create_agent` oder `run_stream`."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which pattern fits a fixed order, parallel independent views, a specialist takeover, a review loop and open planning?",
+        "de": "Welches Muster wählst du für feste Reihenfolge, parallele Sichten, Spezialisten, Review-Schleifen und offene Planung?"
+      },
+      "back": {
+        "en": "Fixed order → sequential; parallel, independent views → concurrent; specialist takes over → handoff; discussion or review loop → group chat; open-ended planning → Magentic.",
+        "de": "Feste Reihenfolge → Sequential; parallele, unabhängige Sichten → Concurrent; Spezialist übernimmt → Handoff; Diskussion oder Review-Schleife → Group chat; offene Planung → Magentic."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "How do you get deterministic routing in an agent workflow?",
+        "de": "Wie erreichst du deterministisches Routing in einem Agent-Workflow?"
+      },
+      "back": {
+        "en": "Deterministic routing = structured agent output + conditional or switch-case edges.",
+        "de": "Deterministisches Routing = strukturierte Agent-Ausgabe + bedingte oder Switch-Case-Edges."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which settings bound an orchestration loop so it can't run forever?",
+        "de": "Mit welchen Einstellungen begrenzt du eine Orchestrierungsschleife, damit sie nicht endlos läuft?"
+      },
+      "back": {
+        "en": "Bound every loop: `termination_condition`, `max_rounds`, or Magentic's round, stall and reset limits.",
+        "de": "Begrenze jede Schleife: `termination_condition`, `max_rounds` oder Magentics Runden-, Stall- und Reset-Limits."
+      }
+    },
+    {
+      "id": "z-multi-agent-orchestration-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which three mechanisms bring people into a multi-agent orchestration?",
+        "de": "Mit welchen drei Mitteln holst du Menschen in eine Multi-Agent-Orchestrierung?"
+      },
+      "back": {
+        "en": "Bring people in with approval-required tools, `with_request_info()` or Magentic plan review.",
+        "de": "Hol Menschen dazu – mit freigabepflichtigen Tools, `with_request_info()` oder der Plan-Prüfung von Magentic."
+      }
+    }
+  ]
+}

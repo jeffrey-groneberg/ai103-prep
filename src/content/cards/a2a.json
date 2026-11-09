@@ -1,0 +1,174 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "a2a",
+  "cards": [
+    {
+      "id": "z-a2a-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does the A2A protocol enable, and when does an agent reply with a task instead of a message?",
+        "de": "Was ermöglicht das A2A-Protokoll, und wann antwortet ein Agent mit einem Task statt mit einer Nachricht?"
+      }
+    },
+    {
+      "id": "z-a2a-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does an agent card contain, what is a skill for, and where do clients find the card?",
+        "de": "Was enthält eine Agent Card, wozu dient ein Skill, und wo finden Clients die Card?"
+      }
+    },
+    {
+      "id": "z-a2a-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "What does the A2A agent executor do on the server, and which two methods does it provide?",
+        "de": "Was macht der Agent Executor auf einem A2A-Server, und welche zwei Methoden stellt er bereit?"
+      }
+    },
+    {
+      "id": "z-a2a-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What does `DefaultRequestHandler` do, and which task store do you need when replicas restart or scale out?",
+        "de": "Was macht `DefaultRequestHandler`, und welchen Task Store brauchst du, wenn Replikate neu starten oder skalieren?"
+      }
+    },
+    {
+      "id": "z-a2a-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "When does Foundry send credentials to fetch a remote agent card, and how does its incoming endpoint answer?",
+        "de": "Wann sendet Foundry Anmeldedaten für eine entfernte Agent Card, und wie antwortet sein eingehender Endpoint?"
+      }
+    },
+    {
+      "id": "z-a2a-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which Foundry role do the admin, the developer and an external calling agent each need for A2A?",
+        "de": "Welche Foundry-Rolle brauchen Admin, Entwickler und ein externer aufrufender Agent jeweils für A2A?"
+      }
+    },
+    {
+      "id": "z-a2a-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "How does the A2A SDK's `AgentExecutor` differ from Agent Framework's workflow `AgentExecutor`?",
+        "de": "Worin unterscheidet sich der `AgentExecutor` des A2A SDK vom Workflow-`AgentExecutor` aus Agent Framework?"
+      },
+      "back": {
+        "en": "They are two different things: the A2A SDK's `AgentExecutor` works on the server side (`execute`/`cancel`), while Agent Framework's workflow `AgentExecutor` wraps an agent inside a workflow graph.",
+        "de": "Es sind zwei verschiedene Dinge: Der `AgentExecutor` des A2A SDK arbeitet auf der Serverseite (`execute`/`cancel`), der Workflow-`AgentExecutor` aus Agent Framework bettet dagegen einen Agent in einen Workflow-Graphen ein."
+      }
+    },
+    {
+      "id": "z-a2a-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "After fetching an agent card, which URL does a client actually call?",
+        "de": "Welche URL ruft ein Client tatsächlich auf, nachdem er die Agent Card geholt hat?"
+      },
+      "back": {
+        "en": "The URL listed in the card's `supported_interfaces` — the agent card is not the endpoint. Clients fetch the card from `/.well-known/agent-card.json` (Foundry agents: `…/protocols/a2a/agentCard/v1.0`).",
+        "de": "Die URL aus `supported_interfaces` – die Agent Card ist nicht der Endpoint. Clients holen die Card von `/.well-known/agent-card.json` (Foundry-Agents: `…/protocols/a2a/agentCard/v1.0`)."
+      }
+    },
+    {
+      "id": "z-a2a-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Why does even a simple A2A server need a task store, and what is the risk of the default one?",
+        "de": "Warum braucht selbst ein einfacher A2A-Server einen Task Store, und was riskierst du mit dem Standard-Speicher?"
+      },
+      "back": {
+        "en": "The request handler uses it to manage task lifecycles. The default in-memory store loses everything on restart.",
+        "de": "Der Request Handler verwaltet damit den Task-Lebenszyklus. Der Standard-Speicher im Arbeitsspeicher verliert beim Neustart alles."
+      }
+    },
+    {
+      "id": "z-a2a-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What lets a Foundry agent call a remote A2A agent, and what lets other agents call it?",
+        "de": "Womit ruft ein Foundry-Agent einen entfernten A2A-Agent auf, und womit lässt er sich von anderen aufrufen?"
+      },
+      "back": {
+        "en": "Calling out is not the same as exposing: the A2A tool plus a project connection calls a remote agent; incoming A2A (agent card plus `a2a` protocol) lets others call your agent.",
+        "de": "Aufrufen ist nicht dasselbe wie Bereitstellen: Das A2A-Tool plus Projektverbindung ruft einen entfernten Agent auf; eingehendes A2A (Agent Card plus `a2a`-Protokoll) lässt andere deinen Agent aufrufen."
+      }
+    },
+    {
+      "id": "z-a2a-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What auth does Foundry's incoming A2A accept, which version does it serve by default, and how do you get v1.0?",
+        "de": "Welche Anmeldung akzeptiert eingehendes A2A in Foundry, welche Version gilt ohne Angabe, und wie wählst du v1.0?"
+      },
+      "back": {
+        "en": "Only Microsoft Entra ID. When a request names no version, it serves preview v0.3 — select v1.0 through the v1.0 card, the `A2A-Version` header or the query string.",
+        "de": "Nur Microsoft Entra ID. Nennt eine Anfrage keine Version, liefert es die Preview-Version 0.3 – wähle v1.0 über die v1.0-Card, den Header `A2A-Version` oder den Query-String."
+      }
+    },
+    {
+      "id": "z-a2a-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "What does “skill” mean in an A2A agent card, in Agent Skills and in Azure AI Search?",
+        "de": "Was bedeutet „Skill“ in einer A2A-Agent-Card, bei Agent Skills und in Azure AI Search?"
+      },
+      "back": {
+        "en": "Three different things: an A2A `AgentSkill` only advertises a capability in the agent card; an Agent Skill is a `SKILL.md` package that teaches an agent how to do a task (skills in Foundry are preview); an Azure AI Search skill is an enrichment step in a skillset (skills-outline item 5.1.3).",
+        "de": "Drei verschiedene Dinge: Ein A2A-`AgentSkill` bewirbt nur eine Fähigkeit in der Agent Card; ein Agent Skill ist ein `SKILL.md`-Paket, das einem Agent beibringt, wie er eine Aufgabe erledigt (Skills in Foundry sind Preview); ein Azure-AI-Search-Skill ist ein Anreicherungsschritt in einem Skillset (Punkt 5.1.3 des Skills-Katalogs)."
+      }
+    },
+    {
+      "id": "z-a2a-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which A2A building blocks handle discovery, logic, lifecycle and hosting?",
+        "de": "Welche A2A-Bausteine übernehmen Erkennung, Logik, Lebenszyklus und Hosting?"
+      },
+      "back": {
+        "en": "Agent card and skills = discovery; executor = logic; request handler and task store = lifecycle; Starlette and Uvicorn = hosting.",
+        "de": "Agent Card und Skills = Erkennung; Executor = Logik; Request Handler und Task Store = Lebenszyklus; Starlette und Uvicorn = Hosting."
+      }
+    },
+    {
+      "id": "z-a2a-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Where does an A2A client get the agent card from, and which kinds of replies must it handle?",
+        "de": "Worüber holt sich ein A2A-Client die Agent Card, und welche Arten von Antworten muss er verarbeiten?"
+      },
+      "back": {
+        "en": "Clients resolve the card from the base URL, then send messages. They handle either direct messages or tasks.",
+        "de": "Clients lösen die Card über die Basis-URL auf und senden dann Nachrichten. Sie verarbeiten direkte Nachrichten oder Tasks."
+      }
+    },
+    {
+      "id": "z-a2a-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which tool version, auth and role does Foundry need for outbound and for inbound A2A?",
+        "de": "Welche Tool-Version, Anmeldung und Rolle braucht Foundry für ausgehendes und für eingehendes A2A?"
+      },
+      "back": {
+        "en": "To call out: the GA `a2a` tool (v1.0) through a project connection. To be called: incoming A2A with Entra ID and Foundry Agent Consumer.",
+        "de": "Zum Aufrufen: das GA-Tool `a2a` (v1.0) über eine Projektverbindung. Um aufgerufen zu werden: eingehendes A2A mit Entra ID und Foundry Agent Consumer."
+      }
+    },
+    {
+      "id": "z-a2a-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "How should you treat remote agent cards, and where must permissions be enforced?",
+        "de": "Wie behandelst du entfernte Agent Cards, und wo müssen Berechtigungen durchgesetzt werden?"
+      },
+      "back": {
+        "en": "As untrusted input: connect only to trusted providers and enforce permissions outside the model's decisions.",
+        "de": "Als nicht vertrauenswürdige Eingabe: Verbinde dich nur mit vertrauenswürdigen Anbietern und erzwinge Berechtigungen außerhalb der Modellentscheidungen."
+      }
+    }
+  ]
+}

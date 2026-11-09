@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "cu-images",
+  "cards": [
+    {
+      "id": "z-cu-images-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does an analyzer bundle, and which call creates it for reuse?",
+        "de": "Was bündelt ein Analyzer, und mit welchem Aufruf legst du ihn zur Wiederverwendung an?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which analyzers can parent a custom analyzer, and how can you use RAG and domain prebuilts instead?",
+        "de": "Welche Analyzer taugen als Eltern eines eigenen Analyzers, und wie nutzt du RAG- und Fach-Prebuilts?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "How do you define a field in a field schema, and how deep should you nest fields?",
+        "de": "Wie definierst du ein Feld im Feldschema, und wie tief solltest du Felder verschachteln?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "What do the methods `generate`, `classify` and `extract` do, and what happens if you omit `method`?",
+        "de": "Was tun die Methoden `generate`, `classify` und `extract`, und was passiert, wenn du `method` weglässt?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Which model does a custom image analyzer need, and how does a byte upload find your deployment?",
+        "de": "Welches Modell braucht ein eigener Bild-Analyzer, und wie findet ein Byte-Upload dein Deployment?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "What does `estimateFieldSourceAndConfidence` add to each field, and which analyzers get these values?",
+        "de": "Was ergänzt `estimateFieldSourceAndConfidence` an jedem Feld, und welche Analyzer bekommen diese Werte?"
+      }
+    },
+    {
+      "id": "z-cu-images-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "Why can't an image analyzer infer emotions from faces, and what can harmful content do to fields?",
+        "de": "Warum kann ein Bild-Analyzer keine Emotionen aus Gesichtern ableiten, und was bewirken schädliche Inhalte?"
+      }
+    },
+    {
+      "id": "z-cu-images-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What's wrong with `extract` fields in an image analyzer, and what are your alternatives?",
+        "de": "Was ist falsch an `extract`-Feldern in einem Bild-Analyzer, und welche Alternativen hast du?"
+      },
+      "back": {
+        "en": "`extract` is a document-only method, so an image analyzer with `extract` fields is invalid. Use `generate` or `classify`, or switch to a document analyzer if the value is printed text.",
+        "de": "`extract` gibt es nur für Dokumente, ein Bild-Analyzer mit `extract`-Feldern ist also ungültig. Nutze `generate` oder `classify` oder wechsle zu einem Dokument-Analyzer, wenn der Wert gedruckter Text ist."
+      }
+    },
+    {
+      "id": "z-cu-images-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which `baseAnalyzerId` does a custom image analyzer use, and why not `prebuilt-imageSearch`?",
+        "de": "Welche `baseAnalyzerId` nutzt ein eigener Bild-Analyzer, und warum nicht `prebuilt-imageSearch`?"
+      },
+      "back": {
+        "en": "`prebuilt-image`. You can't derive a custom analyzer from `prebuilt-imageSearch` — only the four base analyzers work as `baseAnalyzerId`.",
+        "de": "`prebuilt-image`. Von `prebuilt-imageSearch` kannst du keinen eigenen Analyzer ableiten – als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer."
+      }
+    },
+    {
+      "id": "z-cu-images-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Where do confidence scores and value locations come from, and which setting is listed for image analyzers?",
+        "de": "Woher kommen Konfidenzwerte und Fundstellen, und welche Einstellung nennt die Referenz für Bild-Analyzer?"
+      },
+      "back": {
+        "en": "Confidence scores and value locations are a document-analyzer feature (`estimateFieldSourceAndConfidence`). For image analyzers the analyzer reference lists only the `returnDetails` setting.",
+        "de": "Konfidenzwerte und Fundstellen sind eine Funktion von Dokument-Analyzern (`estimateFieldSourceAndConfidence`). Für Bild-Analyzer nennt die Analyzer-Referenz nur die Einstellung `returnDetails`."
+      }
+    },
+    {
+      "id": "z-cu-images-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Where does the field schema belong, and how do you add fields to a prebuilt's output?",
+        "de": "Wohin gehört das Feldschema, und wie ergänzt du Felder in der Ausgabe eines Prebuilts?"
+      },
+      "back": {
+        "en": "The field schema belongs to the analyzer definition, not to the analyze request. To add fields to a prebuilt's output, create a custom analyzer.",
+        "de": "Das Feldschema gehört zur Analyzer-Definition, nicht zur Analyse-Anfrage. Wenn du der Ausgabe eines Prebuilts Felder hinzufügen willst, legst du einen eigenen Analyzer an."
+      }
+    },
+    {
+      "id": "z-cu-images-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which image services retire on September 25, 2028, and what should new image analysis use instead?",
+        "de": "Welche Bilddienste werden am 25. September 2028 eingestellt, und was nutzt neue Bildanalyse stattdessen?"
+      },
+      "back": {
+        "en": "Custom Vision and the Image Analysis API of Azure Vision in Foundry Tools (v3.2 and v4.0). New image analysis uses Content Understanding (for example a custom analyzer on `prebuilt-image`) or a GPT model in Foundry; OCR goes to Document Intelligence, faces to the Face API, self-trained classifiers or object detectors to Azure Machine Learning AutoML.",
+        "de": "Custom Vision und die Image Analysis API von Azure Vision in Foundry Tools (v3.2 und v4.0). Neue Bildanalyse nutzt Content Understanding (etwa einen eigenen Analyzer auf `prebuilt-image`) oder ein GPT-Modell in Foundry; OCR übernimmt Document Intelligence, Gesichter die Face API, selbst trainierte Klassifikatoren oder Objektdetektoren Azure Machine Learning AutoML."
+      }
+    },
+    {
+      "id": "z-cu-images-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which building blocks add up to an analyzer?",
+        "de": "Aus welchen Bausteinen setzt sich ein Analyzer zusammen?"
+      },
+      "back": {
+        "en": "Analyzer = base analyzer + field schema + models (+ config).",
+        "de": "Analyzer = Basis-Analyzer + Feldschema + Modelle (+ config)."
+      }
+    },
+    {
+      "id": "z-cu-images-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "For images, which method fits descriptions and yes/no observations, and which fits fixed categories?",
+        "de": "Welche Methode passt bei Bildern zu Beschreibungen und Ja/Nein-Beobachtungen, und welche zu festen Kategorien?"
+      },
+      "back": {
+        "en": "Images: `generate` for descriptions and yes/no observations, `classify` with `enum` for fixed categories.",
+        "de": "Bilder: `generate` für Beschreibungen und Ja/Nein-Beobachtungen, `classify` mit `enum` für feste Kategorien."
+      }
+    },
+    {
+      "id": "z-cu-images-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Why does the wording of a field description matter?",
+        "de": "Warum kommt es auf die Formulierung einer Feldbeschreibung an?"
+      },
+      "back": {
+        "en": "Field descriptions are prompts — specific descriptions give better values.",
+        "de": "Feldbeschreibungen sind Prompts – präzise Beschreibungen liefern bessere Werte."
+      }
+    },
+    {
+      "id": "z-cu-images-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where do text-heavy photos belong, and what do you gain there?",
+        "de": "Wohin gehören textlastige Fotos, und was gewinnst du dort?"
+      },
+      "back": {
+        "en": "Text-heavy photos belong in a document analyzer to get OCR, `extract`, confidence and grounding.",
+        "de": "Textlastige Fotos gehören in einen Dokument-Analyzer – für OCR, `extract`, Konfidenz und Grounding."
+      }
+    },
+    {
+      "id": "z-cu-images-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which kind of photo gives an image analyzer the best field values?",
+        "de": "Welche Art von Foto liefert einem Bild-Analyzer die besten Feldwerte?"
+      },
+      "back": {
+        "en": "Better input, better fields: sharp, well-lit, upright photos with one clear subject work best.",
+        "de": "Bessere Eingaben, bessere Felder: Scharfe, gut ausgeleuchtete, aufrechte Fotos mit einem klaren Motiv funktionieren am besten."
+      }
+    }
+  ]
+}

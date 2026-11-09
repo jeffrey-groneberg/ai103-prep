@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "document-intelligence",
+  "cards": [
+    {
+      "id": "z-document-intelligence-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does `prebuilt-read` extract, and what does `prebuilt-layout` add on top?",
+        "de": "Was extrahiert `prebuilt-read`, und was ergänzt `prebuilt-layout`?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which resource types, file formats and size limits apply to Document Intelligence input?",
+        "de": "Welche Ressourcentypen, Dateiformate und Größengrenzen gelten für Eingaben in Document Intelligence?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which document types do prebuilt models cover, and how do they return a value such as `InvoiceDate`?",
+        "de": "Welche Dokumenttypen decken Prebuilt-Modelle ab, und wie liefern sie einen Wert wie `InvoiceDate`?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "When do you choose a custom template versus a custom neural model, and what if you have no labeled samples?",
+        "de": "Wann nimmst du ein Template- und wann ein Neural-Modell, und was tust du ohne gelabelte Beispiele?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does a custom classifier need, when does it split files, and what does a composed model do?",
+        "de": "Was braucht ein Classifier, wann teilt er Dateien, und was macht ein Composed Model?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "How do you enable add-ons, which ones are free or cost extra, and which files can't use them?",
+        "de": "Wie aktivierst du Add-ons, welche sind kostenlos oder kosten extra, und welche Dateien unterstützen sie nicht?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What can you do in Document Intelligence Studio, and what storage do custom projects need?",
+        "de": "Was kannst du in Document Intelligence Studio tun, und welchen Speicher brauchen Custom-Projekte?"
+      }
+    },
+    {
+      "id": "z-document-intelligence-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What does `prebuilt-document` mean in Content Understanding versus Document Intelligence?",
+        "de": "Was bedeutet `prebuilt-document` in Content Understanding, und was in Document Intelligence?"
+      },
+      "back": {
+        "en": "In Content Understanding, `prebuilt-document` is the base analyzer for custom document analyzers; in Document Intelligence it was the general document model, now deprecated — use `prebuilt-layout` with `keyValuePairs`. `prebuilt-read`, `prebuilt-layout` and `prebuilt-document` exist in both services: Content Understanding analyzers under `/contentunderstanding/analyzers/…`, Document Intelligence models under `/documentintelligence/documentModels/…`.",
+        "de": "In Content Understanding ist `prebuilt-document` der Basis-Analyzer für eigene Dokument-Analyzer; in Document Intelligence war es das General-Document-Modell, inzwischen veraltet (deprecated) – nutze `prebuilt-layout` mit `keyValuePairs`. `prebuilt-read`, `prebuilt-layout` und `prebuilt-document` gibt es in beiden Diensten: Content-Understanding-Analyzer unter `/contentunderstanding/analyzers/…`, Document-Intelligence-Modelle unter `/documentintelligence/documentModels/…`."
+      }
+    },
+    {
+      "id": "z-document-intelligence-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What happens to a template model when layouts vary, and which two setups handle different layouts?",
+        "de": "Was passiert mit einem Template-Modell bei wechselnden Layouts, und welche zwei Lösungen gibt es dafür?"
+      },
+      "back": {
+        "en": "Template models break when the layout varies. Different layouts need one template model each (combined in a composed model) or a single neural model.",
+        "de": "Template-Modelle scheitern, wenn das Layout variiert. Unterschiedliche Layouts brauchen je ein eigenes Template-Modell (gebündelt in einem Composed Model) oder ein einzelnes Neural-Modell."
+      }
+    },
+    {
+      "id": "z-document-intelligence-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "A PDF bundles several documents — what does a v4.0 classifier do by default, and what do you set?",
+        "de": "Ein PDF bündelt mehrere Dokumente – was macht ein v4.0-Classifier standardmäßig, und was stellst du ein?"
+      },
+      "back": {
+        "en": "v4.0 classifiers don't split files by default (`splitMode` is `none`). For a PDF that bundles several documents, set `splitMode` to `auto`.",
+        "de": "v4.0-Classifier teilen Dateien standardmäßig nicht (`splitMode` ist `none`). Für ein PDF mit mehreren gebündelten Dokumenten setzt du `splitMode` auf `auto`."
+      }
+    },
+    {
+      "id": "z-document-intelligence-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Which catches come with add-ons like `ocrHighResolution`, and which model produces searchable PDF output?",
+        "de": "Welche Haken haben Add-ons wie `ocrHighResolution`, und welches Modell liefert ein durchsuchbares PDF?"
+      },
+      "back": {
+        "en": "Add-ons such as `ocrHighResolution` and `queryFields` cost extra and don't work on Office files; searchable PDF output works only with `prebuilt-read`.",
+        "de": "Add-ons wie `ocrHighResolution` und `queryFields` kosten extra und funktionieren nicht mit Office-Dateien; durchsuchbares PDF gibt es nur mit `prebuilt-read`."
+      }
+    },
+    {
+      "id": "z-document-intelligence-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Why are fixed-size chunks of OCR text risky for RAG, and how should you chunk instead?",
+        "de": "Warum sind Chunks fester Größe aus OCR-Text für RAG riskant, und wie zerlegst du stattdessen?"
+      },
+      "back": {
+        "en": "Fixed-size chunks of OCR text can cut tables and sentences apart. For RAG, request Markdown from layout and chunk along headings.",
+        "de": "Chunks fester Größe aus OCR-Text können Tabellen und Sätze zerschneiden. Für RAG forderst du Markdown von Layout an und zerlegst entlang der Überschriften."
+      }
+    },
+    {
+      "id": "z-document-intelligence-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What does each model family deliver: Read, Layout, prebuilt and custom?",
+        "de": "Was liefert jede Modellart: Read, Layout, Prebuilt und Custom?"
+      },
+      "back": {
+        "en": "Read = text, Layout = text + structure, prebuilt = fields for known types, custom = your own fields.",
+        "de": "Read = Text, Layout = Text + Struktur, Prebuilt = Felder für bekannte Typen, Custom = deine eigenen Felder."
+      }
+    },
+    {
+      "id": "z-document-intelligence-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What should you always check before you label samples and train a custom model?",
+        "de": "Was prüfst du immer, bevor du Beispiele labelst und ein Custom-Modell trainierst?"
+      },
+      "back": {
+        "en": "Always check the prebuilt catalog before you label and train anything.",
+        "de": "Prüfe immer den Prebuilt-Katalog, bevor du labelst und trainierst."
+      }
+    },
+    {
+      "id": "z-document-intelligence-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which custom setup fits varying layouts, one fixed layout and mixed files?",
+        "de": "Welche Custom-Lösung passt zu wechselnden Layouts, einem festen Layout und gemischten Dateien?"
+      },
+      "back": {
+        "en": "Varying layouts → neural; one fixed layout → template (fast, most languages) or neural (usually more accurate); mixed files → classifier plus composed model.",
+        "de": "Wechselnde Layouts → Neural; ein festes Layout → Template (schnell, die meisten Sprachen) oder Neural (meist genauer); gemischte Dateien → Classifier plus Composed Model."
+      }
+    },
+    {
+      "id": "z-document-intelligence-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which combination of layout output and chunking gives RAG better grounding?",
+        "de": "Welche Kombination aus Layout-Ausgabe und Chunking verbessert das Grounding in RAG?"
+      },
+      "back": {
+        "en": "Layout Markdown plus section-aware chunking gives RAG better grounding.",
+        "de": "Layout-Markdown plus abschnittsbewusstes Chunking verbessert das Grounding in RAG."
+      }
+    }
+  ]
+}

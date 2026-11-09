@@ -1,0 +1,178 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "agent-framework",
+  "cards": [
+    {
+      "id": "z-agent-framework-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which SDKs does Microsoft Agent Framework succeed, and what does it take from each?",
+        "de": "Wessen Nachfolger ist Microsoft Agent Framework, und was übernimmt es von jedem Vorgänger?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What do you pass to `Agent`, and why can you switch the model provider without changing agent logic?",
+        "de": "Was übergibst du an `Agent`, und warum kannst du den Modellanbieter wechseln, ohne die Agent-Logik zu ändern?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "When do you use `FoundryChatClient` and when `FoundryAgent`, and who owns instructions and tools in each?",
+        "de": "Wann nutzt du `FoundryChatClient`, wann `FoundryAgent` – und wem gehören jeweils Instructions und Tools?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How do you create an `AgentSession`, and how can it keep and persist the conversation history?",
+        "de": "Wie erstellst du eine `AgentSession`, und wie hält und speichert sie den Gesprächsverlauf?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "How does a Python function become a tool, what shapes its schema, and where does it run?",
+        "de": "Wie wird eine Python-Funktion zum Tool, was formt ihr Schema, und wo läuft sie?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Who runs hosted tools, and how do you create one such as code interpreter?",
+        "de": "Wer führt gehostete Tools aus, und wie erstellst du eines wie Code Interpreter?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "How do you let one agent delegate a subtask to another, and who keeps responsibility for the conversation?",
+        "de": "Wie lässt du einen Agent eine Teilaufgabe an einen anderen delegieren, und wer behält die Verantwortung?"
+      }
+    },
+    {
+      "id": "z-agent-framework-concept-8",
+      "source": { "kind": "concept", "index": 7 },
+      "front": {
+        "en": "How do context providers give an agent memory, and what happens if `FoundryMemoryProvider` has no `scope`?",
+        "de": "Wie geben Context Provider einem Agent ein Gedächtnis, und was passiert ohne `scope` bei `FoundryMemoryProvider`?"
+      }
+    },
+    {
+      "id": "z-agent-framework-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Which current names replace `ChatAgent`, threads, `run_stream` and `@ai_function`?",
+        "de": "Welche aktuellen Namen ersetzen `ChatAgent`, Threads, `run_stream` und `@ai_function`?"
+      },
+      "back": {
+        "en": "Use `Agent` (not `ChatAgent`), `AgentSession` and `create_session()` (not threads), `run(..., stream=True)` (not `run_stream`) and `@tool` (not `@ai_function`). The early preview names are gone.",
+        "de": "Nutze `Agent` (nicht `ChatAgent`), `AgentSession` und `create_session()` (keine Threads), `run(..., stream=True)` (nicht `run_stream`) und `@tool` (nicht `@ai_function`). Die frühen Preview-Namen sind weg."
+      }
+    },
+    {
+      "id": "z-agent-framework-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "What do you use today instead of `AzureAIAgentClient` and `AzureAIClient`, and for which target?",
+        "de": "Was nutzt du heute statt `AzureAIAgentClient` und `AzureAIClient`, und für welches Ziel?"
+      },
+      "back": {
+        "en": "`AzureAIAgentClient` and `AzureAIClient` were removed from current Agent Framework: use `FoundryChatClient` for project inference and `FoundryAgent` for agents defined in Foundry.",
+        "de": "`AzureAIAgentClient` und `AzureAIClient` wurden aus dem aktuellen Agent Framework entfernt: Nutze `FoundryChatClient` für Projekt-Inferenz und `FoundryAgent` für in Foundry definierte Agents."
+      }
+    },
+    {
+      "id": "z-agent-framework-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What happens to the `model` and `instructions` you pass in code when you use `FoundryAgent`?",
+        "de": "Was passiert mit `model` und `instructions` aus deinem Code, wenn du `FoundryAgent` nutzt?"
+      },
+      "back": {
+        "en": "With `FoundryAgent` the stored Foundry definition wins: `model` and `instructions` passed in code are ignored, you can't add new tools, and local Python functions run only if the Foundry agent already declares them. Use `Agent(client=FoundryChatClient(...))` when code must control them.",
+        "de": "Bei `FoundryAgent` gewinnt die gespeicherte Foundry-Definition: `model` und `instructions` aus dem Code werden ignoriert, neue Tools kannst du nicht hinzufügen, und lokale Python-Funktionen laufen nur, wenn der Foundry-Agent sie bereits deklariert. Nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss."
+      }
+    },
+    {
+      "id": "z-agent-framework-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "When is history from `OpenAIChatCompletionClient` lost, and how do Responses-based clients keep it?",
+        "de": "Wann geht der Verlauf von `OpenAIChatCompletionClient` verloren, und wie halten Responses-basierte Clients ihn?"
+      },
+      "back": {
+        "en": "Chat Completions clients such as `OpenAIChatCompletionClient` keep history only locally in the session, which is lost on restart unless you persist it with `session.to_dict()`. Responses-based clients (`FoundryChatClient`, `OpenAIChatClient`) and `FoundryAgent` can point to service-stored history through `service_session_id`.",
+        "de": "Clients auf der Chat Completions API wie `OpenAIChatCompletionClient` halten den Verlauf nur lokal in der Session; er geht beim Neustart verloren, wenn du ihn nicht mit `session.to_dict()` speicherst. Responses-basierte Clients (`FoundryChatClient`, `OpenAIChatClient`) und `FoundryAgent` können über `service_session_id` auf dienstseitig gespeicherten Verlauf zeigen."
+      }
+    },
+    {
+      "id": "z-agent-framework-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What does the model base its tool choice on, and what do vague docstrings cause?",
+        "de": "Worauf stützt das Modell seine Tool-Wahl, und was bewirken vage Docstrings?"
+      },
+      "back": {
+        "en": "The model chooses tools only from names, descriptions and parameter descriptions. Vague docstrings cause missing or wrong tool calls.",
+        "de": "Das Modell wählt Tools nur anhand von Namen, Beschreibungen und Parameterbeschreibungen. Vage Docstrings führen zu fehlenden oder falschen Tool-Aufrufen."
+      }
+    },
+    {
+      "id": "z-agent-framework-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which class do you pick when your app owns the agent, and which when Foundry owns it?",
+        "de": "Welche Klasse wählst du, wenn deine App den Agent besitzt, und welche, wenn Foundry ihn besitzt?"
+      },
+      "back": {
+        "en": "Your app owns the agent → `Agent(client=FoundryChatClient(...))`; Foundry owns it → `FoundryAgent`.",
+        "de": "Deine App besitzt den Agent → `Agent(client=FoundryChatClient(...))`; Foundry besitzt ihn → `FoundryAgent`."
+      }
+    },
+    {
+      "id": "z-agent-framework-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Where do the agent's role and goal go, and where does context across turns live?",
+        "de": "Wohin gehören Rolle und Ziel des Agents, und wo lebt der Kontext über mehrere Runden?"
+      },
+      "back": {
+        "en": "Role and goal go into `instructions`; context across turns lives in an `AgentSession`.",
+        "de": "Rolle und Ziel gehören in `instructions`; Kontext über Runden lebt in einer `AgentSession`."
+      }
+    },
+    {
+      "id": "z-agent-framework-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "How do function tools and hosted tools each get into an agent's `tools` list?",
+        "de": "Wie kommen Funktionstools und gehostete Tools jeweils in die `tools`-Liste eines Agents?"
+      },
+      "back": {
+        "en": "Function tools are typed, documented Python functions in `tools`; hosted tools come from `FoundryChatClient.get_*_tool()`.",
+        "de": "Funktionstools sind typisierte, dokumentierte Python-Funktionen in `tools`; gehostete Tools kommen aus `FoundryChatClient.get_*_tool()`."
+      }
+    },
+    {
+      "id": "z-agent-framework-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "How do you make a sensitive tool wait for approval, and where does the run continue?",
+        "de": "Wie lässt du ein heikles Tool auf eine Freigabe warten, und wo geht der Lauf weiter?"
+      },
+      "back": {
+        "en": "Declare sensitive tools with `@tool(approval_mode=\"always_require\")`, then resume in the same session.",
+        "de": "Deklariere heikle Tools mit `@tool(approval_mode=\"always_require\")` und setze den Lauf dann in derselben Session fort."
+      }
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "voice-live",
+  "cards": [
+    {
+      "id": "z-voice-live-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "Which API do Voice Live’s real-time events largely match, and what does Voice Live add on top?",
+        "de": "Welcher API entsprechen die Echtzeit-Events von Voice Live weitgehend, und was ergänzt Voice Live?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does the `session.update` event configure, and which event confirms it?",
+        "de": "Was konfiguriert das Event `session.update`, und welches Event bestätigt es?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which turn detection applies by default, and what sets the semantic types apart?",
+        "de": "Welche Turn-Erkennung gilt standardmäßig, und was unterscheidet die semantischen Typen?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "Which settings remove background noise and the agent’s own voice, and what can the client then skip?",
+        "de": "Welche Einstellungen entfernen Hintergrundgeräusche und die eigene Stimme des Agents, und was spart sich der Client?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "Why does Voice Live transcribe input for text models, and how can you improve that transcript?",
+        "de": "Warum transkribiert Voice Live die Eingabe für Textmodelle, und wie verbesserst du dieses Transkript?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which `voice` types does Voice Live offer, and what does a professional custom voice require?",
+        "de": "Welche `voice`-Typen bietet Voice Live, und was setzt eine professionelle Custom Voice voraus?"
+      }
+    },
+    {
+      "id": "z-voice-live-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does a client pass to connect Voice Live to a Foundry agent, and which authentication works?",
+        "de": "Was übergibt der Client, um Voice Live mit einem Foundry-Agent zu verbinden, und welche Anmeldung funktioniert?"
+      }
+    },
+    {
+      "id": "z-voice-live-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What must you deploy for Voice Live in model mode, and whose model runs in agent mode?",
+        "de": "Was musst du für Voice Live im Modellmodus bereitstellen, und wessen Modell läuft im Agent-Modus?"
+      },
+      "back": {
+        "en": "Nothing — in model mode, Voice Live models are fully managed; you just name one (`model=…`). In agent mode, the agent’s model is your own deployment.",
+        "de": "Nichts – im Modellmodus sind Voice-Live-Modelle vollständig verwaltet; du nennst einfach eines (`model=…`). Im Agent-Modus ist das Modell des Agents dein eigenes Deployment."
+      }
+    },
+    {
+      "id": "z-voice-live-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "Which authentication does agent mode require, and which `session.update` setting isn’t supported with an agent?",
+        "de": "Welche Anmeldung verlangt der Agent-Modus, und welche Einstellung in `session.update` geht mit einem Agent nicht?"
+      },
+      "back": {
+        "en": "Agent mode needs Microsoft Entra ID — API keys aren’t supported for agent invocation. `instructions` in `session.update` aren’t supported with an agent either.",
+        "de": "Der Agent-Modus braucht Microsoft Entra ID – API-Keys werden für den Agent-Aufruf nicht unterstützt. Auch `instructions` in `session.update` werden mit einem Agent nicht unterstützt."
+      }
+    },
+    {
+      "id": "z-voice-live-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "Which semantic turn detection fits German, and what limits `semantic_vad` and `azure_semantic_vad`?",
+        "de": "Welche semantische Turn-Erkennung passt für Deutsch, und was begrenzt `semantic_vad` und `azure_semantic_vad`?"
+      },
+      "back": {
+        "en": "Use `azure_semantic_vad_multilingual` for German. `semantic_vad` works only with `gpt-realtime` models; `azure_semantic_vad` works with all models but primarily supports English. Without a setting, `server_vad` applies.",
+        "de": "Für Deutsch nimmst du `azure_semantic_vad_multilingual`. `semantic_vad` funktioniert nur mit `gpt-realtime`-Modellen; `azure_semantic_vad` funktioniert mit allen Modellen, unterstützt aber vor allem Englisch. Ohne Einstellung gilt `server_vad`."
+      }
+    },
+    {
+      "id": "z-voice-live-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does custom speech require in Voice Live, and which ID do you pass in `custom_speech`?",
+        "de": "Was setzt Custom Speech in Voice Live voraus, und welche ID übergibst du in `custom_speech`?"
+      },
+      "back": {
+        "en": "It works only with `azure-speech` transcription and needs a custom speech endpoint deployed on the same Foundry resource. Pass that endpoint ID, not the model ID; a model trained elsewhere is copied there and deployed first.",
+        "de": "Es funktioniert nur mit der Transkription `azure-speech` und braucht einen Custom-Speech-Endpoint, der auf derselben Foundry-Ressource bereitgestellt ist. Du übergibst dessen Endpoint-ID, nicht die Modell-ID; ein woanders trainiertes Modell kopierst du vorher dorthin und stellst es bereit."
+      }
+    },
+    {
+      "id": "z-voice-live-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What should the client do on `input_audio_buffer.speech_started`, and what happens if it doesn’t?",
+        "de": "Was tut der Client bei `input_audio_buffer.speech_started`, und was passiert, wenn er es nicht tut?"
+      },
+      "back": {
+        "en": "On `input_audio_buffer.speech_started`, clear the playback queue; a client that keeps playing makes the agent talk over the user.",
+        "de": "Bei `input_audio_buffer.speech_started` leerst du die Wiedergabe-Warteschlange; ein Client, der weiterspielt, lässt den Agent dem Nutzer ins Wort fallen."
+      }
+    },
+    {
+      "id": "z-voice-live-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "What is Voice Live at its core, and what flows between audio in and audio out?",
+        "de": "Was ist Voice Live im Kern, und was fließt zwischen Audio rein und Audio raus?"
+      },
+      "back": {
+        "en": "Voice Live = one managed speech-to-speech session: audio in, audio out, events in between.",
+        "de": "Voice Live = eine verwaltete Speech-to-Speech-Session: Audio rein, Audio raus, Events dazwischen."
+      }
+    },
+    {
+      "id": "z-voice-live-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which event configures a Voice Live session, and which events should your client react to?",
+        "de": "Mit welchem Event konfigurierst du eine Voice-Live-Session, und auf welche Events reagiert dein Client?"
+      },
+      "back": {
+        "en": "Configure with `session.update`; react to `speech_started`, `response.audio.delta` and `response.done`.",
+        "de": "Mit `session.update` konfigurieren; auf `speech_started`, `response.audio.delta` und `response.done` reagieren."
+      }
+    },
+    {
+      "id": "z-voice-live-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What customizes Voice Live input recognition, and what customizes the output voice?",
+        "de": "Womit passt du in Voice Live die Eingabe an, und womit die Ausgabestimme?"
+      },
+      "back": {
+        "en": "Input: `phrase_list` or `custom_speech` on `azure-speech`. Output: `azure-standard` or `azure-custom` voices.",
+        "de": "Eingabe: `phrase_list` oder `custom_speech` auf `azure-speech`. Ausgabe: `azure-standard`- oder `azure-custom`-Stimmen."
+      }
+    },
+    {
+      "id": "z-voice-live-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which models take audio natively in Voice Live, and which run cascaded?",
+        "de": "Welche Modelle nehmen in Voice Live Audio nativ entgegen, und was läuft kaskadiert?"
+      },
+      "back": {
+        "en": "Native audio: `gpt-realtime` models. Cascaded: text models such as `gpt-5-mini` and agents via `azure-speech`.",
+        "de": "Natives Audio: `gpt-realtime`-Modelle. Kaskadiert: Textmodelle wie `gpt-5-mini` und Agents über `azure-speech`."
+      }
+    }
+  ]
+}

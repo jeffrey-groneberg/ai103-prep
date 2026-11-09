@@ -1,0 +1,198 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "knowledge-mining",
+  "cards": [
+    {
+      "id": "z-knowledge-mining-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does an indexer connect, and when do you push documents with `upload_documents()` instead?",
+        "de": "Was verbindet ein Indexer, und wann lädst du Dokumente stattdessen selbst mit `upload_documents()` hoch?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "What does a skill's `context` control, and when must you attach a billable Foundry resource to a skillset?",
+        "de": "Was steuert der `context` eines Skills, und wann musst du eine kostenpflichtige Foundry-Ressource anhängen?"
+      },
+      "back": {
+        "en": "A skillset is a reusable set of skills attached to an indexer. Each skill reads nodes of the enriched document (such as `/document/content`) and adds new nodes; its `context` sets how often it runs, for example once per image or per chunk. Most skills backed by Foundry Tools are free for about 20 documents per indexer per day; beyond that, and always for the Content Understanding skill, you attach a billable Foundry resource.",
+        "de": "Ein Skillset ist eine wiederverwendbare Sammlung von Skills, die an einen Indexer gehängt wird. Jeder Skill liest Knoten des angereicherten Dokuments (etwa `/document/content`) und ergänzt neue Knoten; sein `context` legt fest, wie oft er läuft, etwa einmal pro Bild oder pro Chunk. Die meisten Skills auf Basis von Foundry Tools sind für etwa 20 Dokumente pro Indexer und Tag kostenlos; darüber hinaus – und beim Content-Understanding-Skill immer – hängst du eine kostenpflichtige Foundry-Ressource an."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Where do index projections and knowledge store projections write their output, and in which form?",
+        "de": "Wohin schreiben Index Projections und Knowledge-Store-Projektionen ihre Ausgabe, und in welcher Form?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How does BM25 rank keyword matches, and which setting enables Lucene operators such as fuzzy or proximity search?",
+        "de": "Wie bewertet BM25 Stichworttreffer, und welche Einstellung aktiviert Lucene-Operatoren wie Fuzzy- oder Nähesuche?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What does a vector profile combine, and how do HNSW and exhaustive KNN differ?",
+        "de": "Was kombiniert ein Vektorprofil, und wie unterscheiden sich HNSW und exhaustive KNN?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which ranking stage does the semantic ranker handle, and which fields does a semantic configuration name?",
+        "de": "Welche Ranking-Stufe übernimmt der Semantic Ranker, und welche Felder nennt eine semantische Konfiguration?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-concept-7",
+      "source": { "kind": "concept", "index": 6 },
+      "front": {
+        "en": "What does a debug session let you inspect, and what must you configure to get Azure Monitor resource logs?",
+        "de": "Was kannst du in einer Debug Session prüfen, und was brauchst du für Ressourcenprotokolle in Azure Monitor?"
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "What happens to a skill's output if your indexer defines only plain field mappings?",
+        "de": "Was passiert mit der Ausgabe eines Skills, wenn dein Indexer nur normale Field Mappings definiert?"
+      },
+      "back": {
+        "en": "It never reaches the index: without an output field mapping (or an index projection for chunks), the enriched node stays in memory. Plain field mappings only copy source fields before enrichment.",
+        "de": "Sie landet nie im Index: Ohne Output Field Mapping (oder eine Index Projection für Chunks) bleibt der angereicherte Knoten im Speicher. Normale Field Mappings kopieren nur Quellfelder vor der Anreicherung."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "How many results does the semantic ranker reorder, and what happens with `search=*` or `orderby`?",
+        "de": "Wie viele Treffer ordnet der Semantic Ranker neu, und was passiert mit `search=*` oder `orderby`?"
+      },
+      "back": {
+        "en": "Only the top 50 of the first ranking pass, and it never writes new text: captions and answers are verbatim. A `search=*` query gets no semantic ranking, and adding `orderby` to a semantic query returns HTTP 400.",
+        "de": "Nur die Top 50 des ersten Rankings, und er erzeugt nie neuen Text: Captions und Answers sind wörtliche Zitate. Eine Abfrage mit `search=*` wird nicht semantisch gerankt, und `orderby` in einer semantischen Abfrage führt zu HTTP 400."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "What must a vector field's `dimensions` and the query vectorizer match, and what happens if they don't?",
+        "de": "Womit müssen die `dimensions` eines Vektorfelds und der Abfrage-Vectorizer übereinstimmen, und was droht sonst?"
+      },
+      "back": {
+        "en": "The `dimensions` must equal the embedding output (including a custom `dimensions` value on the embedding skill), and the query vectorizer must use the same model. Otherwise you get dimension errors or meaningless matches.",
+        "de": "Die `dimensions` müssen zur Embedding-Ausgabe passen (inklusive eines eigenen `dimensions`-Werts im Embedding-Skill), und der Vectorizer für Abfragen muss dasselbe Modell nutzen. Sonst gibt es Dimensionsfehler oder sinnlose Treffer."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "What does the indexer not detect automatically for Azure Storage, and what do you configure before the first run?",
+        "de": "Was erkennt der Indexer bei Azure Storage nicht automatisch, und was konfigurierst du vor dem ersten Lauf?"
+      },
+      "back": {
+        "en": "Deletions: change detection is automatic, deletion detection is not. Configure native blob soft delete or a custom metadata soft-delete policy before the first indexer run, or deleted files stay in the index as orphans.",
+        "de": "Löschungen: Die Änderungserkennung ist automatisch, die Löscherkennung nicht. Konfiguriere natives Blob-Soft-Delete oder eine Soft-Delete-Richtlinie über benutzerdefinierte Metadaten vor dem ersten Indexer-Lauf – sonst bleiben gelöschte Dateien als Waisen im Index."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "Which `vectorFilterMode` can return too few results with a very selective filter, and which one avoids that?",
+        "de": "Welcher `vectorFilterMode` kann bei sehr selektivem Filter zu wenige Ergebnisse liefern, und welcher vermeidet das?"
+      },
+      "back": {
+        "en": "`postFilter` can return too few results when the filter is very selective and `k_nearest_neighbors` is small. `preFilter`, the default for current indexes, filters during the vector search and returns the requested number whenever enough matches exist.",
+        "de": "`postFilter` kann bei sehr selektivem Filter und kleinem `k_nearest_neighbors` zu wenige Ergebnisse liefern. `preFilter`, der Standard für aktuelle Indizes, filtert während der Vektorsuche und liefert die angeforderte Anzahl, sobald genug Treffer existieren."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-trap-6",
+      "source": { "kind": "trap", "index": 5 },
+      "front": {
+        "en": "What does \"semantic search\" mean in Azure AI Search, and what do you call search by meaning over embeddings?",
+        "de": "Was meint „semantische Suche“ in Azure AI Search, und wie heißt die Suche nach Bedeutung über Embeddings?"
+      },
+      "back": {
+        "en": "The semantic ranker: a query-side second pass that reranks the top 50 BM25 or RRF results by their text, with no embeddings and no new matches. Search by meaning over embeddings is vector search; keyword plus vector in one request is hybrid search.",
+        "de": "Den Semantic Ranker: einen zweiten Durchgang zur Abfragezeit, der die Top 50 der BM25- oder RRF-Treffer anhand ihres Texts neu ordnet – ohne Embeddings und ohne neue Treffer. Suche nach Bedeutung über Embeddings ist Vektorsuche; Keyword plus Vektor in einer Anfrage ist Hybridsuche."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "In which order does content flow from the data source into the index, and where do knowledge store projections go?",
+        "de": "In welcher Reihenfolge fließen Inhalte von der Datenquelle in den Index, und wohin gehen Knowledge-Store-Projektionen?"
+      },
+      "back": {
+        "en": "Data source → indexer (cracking, field mappings) → skillset → output field mappings or index projections → index. Knowledge store projections go to Azure Storage.",
+        "de": "Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings oder Index Projections → Index. Knowledge-Store-Projektionen gehen nach Azure Storage."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "Which building blocks add up to integrated vectorization, and does chunking or embedding come first?",
+        "de": "Welche Bausteine ergeben integrierte Vektorisierung, und kommt zuerst das Chunking oder das Embedding?"
+      },
+      "back": {
+        "en": "Chunk, then embed: Text Split or the Content Understanding skill, the Azure OpenAI Embedding skill, index projections and a matching vectorizer add up to integrated vectorization.",
+        "de": "Erst chunken, dann einbetten: Text Split oder der Content-Understanding-Skill, der Azure-OpenAI-Embedding-Skill, Index Projections und ein passender Vectorizer ergeben integrierte Vektorisierung."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "What gives the best default relevance for RAG, and when do you switch to agentic retrieval?",
+        "de": "Womit erreichst du die beste Standardrelevanz für RAG, und wann wechselst du zu Agentic Retrieval?"
+      },
+      "back": {
+        "en": "Hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50. Agentic retrieval is for complex, multi-source questions.",
+        "de": "Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50. Agentic Retrieval ist für komplexe, quellenübergreifende Fragen da."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Which tools watch ingestion, the search service and real users?",
+        "de": "Womit überwachst du die Aufnahme, den Suchdienst und echte Nutzer?"
+      },
+      "back": {
+        "en": "Ingestion: execution history and debug sessions. The service: Azure Monitor metrics and resource logs. Real users: search traffic analytics.",
+        "de": "Die Aufnahme mit Ausführungsverlauf und Debug Sessions, den Dienst mit Azure-Monitor-Metriken und Ressourcenprotokollen und echte Nutzer mit Search Traffic Analytics."
+      }
+    },
+    {
+      "id": "z-knowledge-mining-takeaway-5",
+      "source": { "kind": "takeaway", "index": 4 },
+      "front": {
+        "en": "Which skill should a new layout-aware skillset use, and what happens to the Document Layout skill?",
+        "de": "Welchen Skill nutzt ein neues layoutbewusstes Skillset, und was gilt für den Document-Layout-Skill?"
+      },
+      "back": {
+        "en": "The Azure Content Understanding skill. The Document Layout skill stays supported for existing pipelines.",
+        "de": "Den Azure-Content-Understanding-Skill. Der Document-Layout-Skill bleibt für bestehende Pipelines unterstützt."
+      }
+    }
+  ]
+}

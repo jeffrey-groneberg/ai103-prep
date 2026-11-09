@@ -1,0 +1,162 @@
+{
+  "$schema": "../schema/card-file.schema.json",
+  "module": "cu-multimodal",
+  "cards": [
+    {
+      "id": "z-cu-multimodal-concept-1",
+      "source": { "kind": "concept", "index": 0 },
+      "front": {
+        "en": "What does content extraction deliver for each modality, and how is it billed?",
+        "de": "Was liefert die Inhaltsextraktion je Modalität, und wie wird sie abgerechnet?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-concept-2",
+      "source": { "kind": "concept", "index": 1 },
+      "front": {
+        "en": "Which field methods does field extraction offer, and which one works only for documents?",
+        "de": "Welche Feldmethoden bietet die Feldextraktion, und welche funktioniert nur bei Dokumenten?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-concept-3",
+      "source": { "kind": "concept", "index": 2 },
+      "front": {
+        "en": "Which four prebuilt analyzers return index-ready Markdown for RAG, one per modality?",
+        "de": "Welche vier Prebuilt-Analyzer liefern direkt indexierbares Markdown für RAG – einer je Modalität?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-concept-4",
+      "source": { "kind": "concept", "index": 3 },
+      "front": {
+        "en": "How does `contentCategories` work for documents versus video, and what does `enableSegment: true` add?",
+        "de": "Wie funktioniert `contentCategories` bei Dokumenten im Vergleich zu Video, und was bewirkt `enableSegment: true`?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-concept-5",
+      "source": { "kind": "concept", "index": 4 },
+      "front": {
+        "en": "What is the status of the standard, pro and agentic analysis modes, and which API version belongs to each?",
+        "de": "Welchen Status haben die Analysemodi Standard, Pro und Agentic, und welche API-Version gehört jeweils dazu?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-concept-6",
+      "source": { "kind": "concept", "index": 5 },
+      "front": {
+        "en": "Which workflow does Content Understanding Studio offer, and why can't the Foundry portal playground replace it?",
+        "de": "Welchen Ablauf bietet das Content Understanding Studio, und warum ersetzt der Playground im Foundry-Portal es nicht?"
+      }
+    },
+    {
+      "id": "z-cu-multimodal-trap-1",
+      "source": { "kind": "trap", "index": 0 },
+      "front": {
+        "en": "Where does pro mode still exist today, and which limits apply to its successor?",
+        "de": "Wo gibt es den Pro-Modus heute noch, und welche Grenzen hat sein Nachfolger?"
+      },
+      "back": {
+        "en": "Nowhere in the GA API: it existed only in `2025-05-01-preview`, which is retired. Its successor, agentic mode, is preview, documents only, one input file per request and no `extract` fields.",
+        "de": "In der GA-API nicht: Er existierte nur in `2025-05-01-preview`, und diese Version ist eingestellt. Sein Nachfolger, der agentic mode, ist Preview, nur für Dokumente, eine Eingabedatei pro Anfrage und ohne `extract`-Felder."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-trap-2",
+      "source": { "kind": "trap", "index": 1 },
+      "front": {
+        "en": "For which modality do fields return confidence scores and source grounding?",
+        "de": "Bei welcher Modalität liefern Felder Konfidenzwerte und Quellen-Grounding?"
+      },
+      "back": {
+        "en": "Only for documents — confidence scores and source grounding are document features. Audio, video and image fields return values without them.",
+        "de": "Nur bei Dokumenten – Konfidenzwerte und Quellen-Grounding sind Dokumentfunktionen. Audio-, Video- und Bildfelder liefern Werte ohne sie."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-trap-3",
+      "source": { "kind": "trap", "index": 2 },
+      "front": {
+        "en": "How many `contentCategories` entries does video segmentation support, and what does it consume without fields?",
+        "de": "Wie viele `contentCategories`-Einträge unterstützt die Videosegmentierung, und was verbraucht sie ohne Felder?"
+      },
+      "back": {
+        "en": "Exactly one `contentCategories` entry. Segmentation consumes model tokens even when the analyzer defines no fields.",
+        "de": "Genau einen `contentCategories`-Eintrag. Die Segmentierung verbraucht Modell-Tokens, auch wenn der Analyzer keine Felder definiert."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-trap-4",
+      "source": { "kind": "trap", "index": 3 },
+      "front": {
+        "en": "Why can video analysis miss very short events and small details, and which sounds aren't transcribed?",
+        "de": "Warum kann die Videoanalyse sehr kurze Ereignisse und kleine Details übersehen, und was wird nicht transkribiert?"
+      },
+      "back": {
+        "en": "It samples roughly one frame per second at 512 × 512 pixels, so very short events and small details can be missed. Music and ambient sound aren't transcribed.",
+        "de": "Sie tastet etwa ein Bild pro Sekunde mit 512 × 512 Pixeln ab – sehr kurze Ereignisse und kleine Details können fehlen. Musik und Umgebungsgeräusche werden nicht transkribiert."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-trap-5",
+      "source": { "kind": "trap", "index": 4 },
+      "front": {
+        "en": "What happens in document classification if you define no `other` category?",
+        "de": "Was passiert bei der Dokumentklassifizierung, wenn du keine Kategorie `other` definierst?"
+      },
+      "back": {
+        "en": "Every file or segment is forced into one of your content categories — even when nothing fits.",
+        "de": "Jede Datei und jedes Segment landet zwangsweise in einer deiner Inhaltskategorien – selbst wenn keine passt."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-takeaway-1",
+      "source": { "kind": "takeaway", "index": 0 },
+      "front": {
+        "en": "Which Content Understanding stage runs first, and on which models does field extraction run?",
+        "de": "Welche Stufe läuft in Content Understanding zuerst, und auf welchen Modellen läuft die Feldextraktion?"
+      },
+      "back": {
+        "en": "Content extraction runs first; field extraction runs second, on your own model deployments.",
+        "de": "Erst die Inhaltsextraktion, dann die Feldextraktion auf deinen eigenen Modell-Deployments."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-takeaway-2",
+      "source": { "kind": "takeaway", "index": 1 },
+      "front": {
+        "en": "What does each Content Understanding output feed: the Markdown and the typed fields?",
+        "de": "Wofür nutzt du welche Ausgabe von Content Understanding: das Markdown und die typisierten Felder?"
+      },
+      "back": {
+        "en": "Markdown feeds retrieval and agent context; typed fields feed automation.",
+        "de": "Markdown versorgt Suche und Agent-Kontext; typisierte Felder versorgen die Automatisierung."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-takeaway-3",
+      "source": { "kind": "takeaway", "index": 2 },
+      "front": {
+        "en": "Which analyzers and API version fit production extraction, and when is agentic mode the right choice?",
+        "de": "Welche Analyzer und welche API-Version passen zur produktiven Extraktion, und wann ist der agentic mode richtig?"
+      },
+      "back": {
+        "en": "Standard analyzers on GA `2025-11-01`. Agentic mode only when reasoning is needed and preview is acceptable.",
+        "de": "Standard-Analyzer auf GA `2025-11-01`. Agentic mode nur, wenn Reasoning nötig und Preview akzeptabel ist."
+      }
+    },
+    {
+      "id": "z-cu-multimodal-takeaway-4",
+      "source": { "kind": "takeaway", "index": 3 },
+      "front": {
+        "en": "Where should low-confidence document fields go, and which property shows where each value came from?",
+        "de": "Wohin gehen Dokumentfelder mit niedriger Konfidenz, und welche Eigenschaft zeigt, woher jeder Wert stammt?"
+      },
+      "back": {
+        "en": "Route them to people, using `source` to show where each value came from.",
+        "de": "Sie gehen an Menschen – `source` zeigt, woher jeder Wert stammt."
+      }
+    }
+  ]
+}
