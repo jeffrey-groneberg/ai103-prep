@@ -8,7 +8,57 @@
       "front": {
         "en": "What does a Foundry project endpoint look like, and which client do you pass it to?",
         "de": "Wie sieht der Project Endpoint eines Foundry-Projekts aus, und an welchen Client übergibst du ihn?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`https://<resource>.openai.azure.com/openai/v1/`, passed to `AIProjectClient`",
+            "de": "`https://<resource>.openai.azure.com/openai/v1/`, übergeben an `AIProjectClient`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: that's the Azure OpenAI v1 endpoint for the plain `OpenAI()` client; `AIProjectClient` needs the project endpoint.",
+            "de": "Nein: Das ist der Azure-OpenAI-v1-Endpoint für den einfachen `OpenAI()`-Client; `AIProjectClient` braucht den Project Endpoint."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`https://<resource>.services.ai.azure.com/api/projects/<project>`, passed to `AIProjectClient`",
+            "de": "`https://<resource>.services.ai.azure.com/api/projects/<project>`, übergeben an `AIProjectClient`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the project endpoint ends in `/api/projects/<project>`, and `AIProjectClient` uses it as the entry point for models, agents, evaluations and tracing.",
+            "de": "Richtig: Der Project Endpoint endet auf `/api/projects/<project>`, und `AIProjectClient` nutzt ihn als Einstieg für Modelle, Agents, Evaluierungen und Tracing."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`https://<resource>.openai.azure.com/openai/v1/`, passed to `ContentUnderstandingClient`",
+            "de": "`https://<resource>.openai.azure.com/openai/v1/`, übergeben an `ContentUnderstandingClient`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: that's the Azure OpenAI v1 endpoint, not a project endpoint, and a project endpoint goes to `AIProjectClient`, not `ContentUnderstandingClient`.",
+            "de": "Doppelt falsch: Das ist der Azure-OpenAI-v1-Endpoint, kein Project Endpoint, und ein Project Endpoint gehört zu `AIProjectClient`, nicht zu `ContentUnderstandingClient`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`https://<resource>.services.ai.azure.com/api/projects/<project>`, passed to `ContentUnderstandingClient`",
+            "de": "`https://<resource>.services.ai.azure.com/api/projects/<project>`, übergeben an `ContentUnderstandingClient`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Right URL, wrong client: `ContentUnderstandingClient` takes the resource endpoint without a project path; the project endpoint goes to `AIProjectClient`.",
+            "de": "Richtige URL, falscher Client: `ContentUnderstandingClient` nimmt den Endpoint der Ressource ohne Projektpfad; der Project Endpoint gehört zu `AIProjectClient`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Why use the Azure OpenAI v1 endpoint with `OpenAI()`, and when do you still need `AzureOpenAI()`?",
         "de": "Warum nutzt du mit `OpenAI()` den Azure-OpenAI-v1-Endpoint, und wann brauchst du noch `AzureOpenAI()`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It unlocks agents and Foundry evaluations; `AzureOpenAI()` only to create embeddings",
+            "de": "Er schaltet Agents und Foundry-Evaluierungen frei; `AzureOpenAI()` nur, um Embeddings zu erzeugen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a plain `OpenAI()` client on v1 gets no agents or Foundry evaluations, and embeddings are served by that very v1 endpoint.",
+            "de": "Doppelt falsch: Ein einfacher `OpenAI()`-Client am v1-Endpoint bekommt weder Agents noch Foundry-Evaluierungen, und Embeddings liefert genau dieser v1-Endpoint."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It requires a monthly `api-version` parameter; `AzureOpenAI()` only to avoid that parameter",
+            "de": "Er verlangt einen monatlichen `api-version`-Parameter; `AzureOpenAI()` nur, um diesen Parameter zu vermeiden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: the v1 route exists to drop the monthly `api-version`; `AzureOpenAI()` is the client that takes an explicit version.",
+            "de": "Vertauscht: Die v1-Route gibt es gerade, damit die monatliche `api-version` entfällt; `AzureOpenAI()` ist der Client mit expliziter Version."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It's stable without monthly `api-version` parameters; `AzureOpenAI()` only to pin a specific API version",
+            "de": "Er ist stabil, ohne monatliche `api-version`-Parameter; `AzureOpenAI()` nur, um eine bestimmte API-Version festzunageln"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the `/openai/v1/` route needs no monthly `api-version`, so the plain `OpenAI()` client just works; `AzureOpenAI()` remains for pinning a version.",
+            "de": "Richtig: Die Route `/openai/v1/` braucht keine monatliche `api-version`, daher funktioniert der einfache `OpenAI()`-Client direkt; `AzureOpenAI()` bleibt zum Festnageln einer Version."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It's the only route that accepts Entra ID tokens; `AzureOpenAI()` only when you sign in with an API key",
+            "de": "Er ist die einzige Route, die Entra-ID-Tokens akzeptiert; `AzureOpenAI()` nur noch, wenn du dich per API-Key anmeldest"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the project endpoint uses Entra ID too, and the plain `OpenAI()` client on v1 also accepts an API key, just less securely.",
+            "de": "Nein: Auch der Project Endpoint nutzt Entra ID, und der einfache `OpenAI()`-Client am v1-Endpoint akzeptiert ebenfalls einen API-Key – nur weniger sicher."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How does the Responses API keep conversation state, and which two older APIs does it combine?",
         "de": "Wie hält die Responses API den Gesprächszustand, und welche zwei älteren APIs vereint sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Via a `thread_id` and the runs on that thread; it combines Chat Completions and the retired Assistants API",
+            "de": "Über eine `thread_id` und die Runs auf diesem Thread; sie vereint Chat Completions und die eingestellte Assistants API"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: it does unite Chat Completions with the retired Assistants API, but threads and runs were that API's model; state now flows via `previous_response_id` or a conversation.",
+            "de": "Teilweise richtig: Sie vereint tatsächlich Chat Completions mit der eingestellten Assistants API, aber Threads und Runs waren deren Modell; den Zustand trägt jetzt `previous_response_id` oder eine Conversation."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Via `previous_response_id` or a conversation; it combines Chat Completions and the Realtime API",
+            "de": "Über `previous_response_id` oder eine Conversation; sie vereint Chat Completions und die Realtime API"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the state part fits, but the second API it combines is the retired Assistants API, not the Realtime API for speech sessions.",
+            "de": "Teilweise richtig: Der Zustand stimmt, aber die zweite API, die sie vereint, ist die eingestellte Assistants API, nicht die Realtime API für Sprach-Sessions."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Via a `thread_id` and the runs on that thread; it combines Chat Completions and the Realtime API",
+            "de": "Über eine `thread_id` und die Runs auf diesem Thread; sie vereint Chat Completions und die Realtime API"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: threads and runs belong to the retired Assistants API, and that API, not the Realtime API, is the second one the Responses API absorbs.",
+            "de": "Doppelt falsch: Threads und Runs gehören zur eingestellten Assistants API, und genau diese API, nicht die Realtime API, ist die zweite, die in der Responses API aufgeht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Via `previous_response_id` or a conversation; it combines Chat Completions and the retired Assistants API",
+            "de": "Über `previous_response_id` oder eine Conversation; sie vereint Chat Completions und die eingestellte Assistants API"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: you chain turns with `previous_response_id` or keep them in a durable conversation, and the API unites Chat Completions with the retired Assistants API.",
+            "de": "Richtig: Du verkettest Runden mit `previous_response_id` oder hältst sie in einer dauerhaften Conversation, und die API vereint Chat Completions mit der eingestellten Assistants API."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What must your app send on every Chat Completions call, and why?",
         "de": "Was muss deine App bei jedem Aufruf der Chat Completions API mitschicken, und warum?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The newest `user` message plus `previous_response_id`, because the service stores earlier turns",
+            "de": "Die neueste `user`-Nachricht plus `previous_response_id`, weil der Dienst frühere Runden speichert"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's Responses API chaining; Chat Completions is stateless and needs the full `messages` list on every call.",
+            "de": "Das ist die Verkettung der Responses API; Chat Completions ist zustandslos und braucht bei jedem Aufruf die ganze `messages`-Liste."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The full `messages` list with `system`, `user` and `assistant` roles, because the API is stateless",
+            "de": "Die komplette `messages`-Liste mit den Rollen `system`, `user` und `assistant`, weil die API zustandslos ist"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Chat Completions keeps nothing between calls, so every request carries the whole history as `messages`.",
+            "de": "Richtig: Chat Completions speichert zwischen Aufrufen nichts, daher trägt jede Anfrage den ganzen Verlauf als `messages` mit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `system` message plus the new `user` message, because the service keeps the rest of the chat for 30 days",
+            "de": "Die `system`-Nachricht plus die neue `user`-Nachricht, weil der Dienst den Rest des Chats 30 Tage lang aufbewahrt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The 30-day retention applies to stored responses of the Responses API; Chat Completions keeps nothing between calls.",
+            "de": "Die 30-tägige Aufbewahrung gilt für gespeicherte Antworten der Responses API; Chat Completions behält zwischen Aufrufen nichts."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`instructions` and the new `input`, because `instructions` aren't carried over from one call to the next",
+            "de": "`instructions` und den neuen `input`, weil `instructions` nicht von einem Aufruf zum nächsten übernommen werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "`instructions` and `input` are Responses API parameters; Chat Completions takes a `messages` list with roles instead.",
+            "de": "`instructions` und `input` sind Parameter der Responses API; Chat Completions nimmt stattdessen eine `messages`-Liste mit Rollen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How does `DefaultAzureCredential` enable keyless sign-in, and which role does the identity need?",
         "de": "Wie ermöglicht `DefaultAzureCredential` eine schlüssellose Anmeldung, und welche Rolle braucht die Identität?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Through `az login`, a managed identity or another Entra ID source; the identity needs the Contributor role",
+            "de": "Über `az login`, eine Managed Identity oder eine andere Entra-ID-Quelle; die Identität braucht die Rolle Contributor"
+          },
+          "correct": false,
+          "why": {
+            "en": "Contributor has no data actions: it manages resources but can't build and develop in a project, so you need a data-plane role such as Foundry User.",
+            "de": "Contributor hat keine Data Actions: Die Rolle verwaltet Ressourcen, kann aber nicht im Projekt entwickeln – du brauchst eine Data-Plane-Rolle wie Foundry User."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Through `az login`, a managed identity or another Entra ID source; the identity needs no role, as the token alone suffices",
+            "de": "Über `az login`, eine Managed Identity oder eine andere Entra-ID-Quelle; die Identität braucht keine Rolle, das Token allein genügt"
+          },
+          "correct": false,
+          "why": {
+            "en": "A token only proves who you are; access still needs a data-plane role on the resource, such as Foundry User.",
+            "de": "Ein Token belegt nur, wer du bist; für den Zugriff braucht die Identität trotzdem eine Data-Plane-Rolle auf der Ressource, etwa Foundry User."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "By fetching the API key from Azure Key Vault at runtime; the identity needs the Key Vault Secrets User role",
+            "de": "Indem es den API-Key zur Laufzeit aus Azure Key Vault holt; die Identität braucht die Rolle Key Vault Secrets User"
+          },
+          "correct": false,
+          "why": {
+            "en": "Keyless means no key at all: `DefaultAzureCredential` gets Entra ID tokens, and Key Vault is only where keys go if you must use them.",
+            "de": "Schlüssellos heißt ganz ohne Key: `DefaultAzureCredential` holt Entra-ID-Tokens, und Key Vault ist nur der Ort für Keys, falls du welche brauchst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Through `az login`, a managed identity or another Entra ID source; the identity needs a data-plane role such as Foundry User",
+            "de": "Über `az login`, eine Managed Identity oder eine andere Entra-ID-Quelle; die Identität braucht eine Data-Plane-Rolle wie Foundry User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the credential finds an Entra ID source by itself, and the identity still needs a data-plane role on the resource, for example Foundry User.",
+            "de": "Richtig: Die Anmeldung findet selbst eine Entra-ID-Quelle, und die Identität braucht trotzdem eine Data-Plane-Rolle auf der Ressource, zum Beispiel Foundry User."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What do the generation parameters control, and which of them don't GPT-5-series reasoning models support?",
         "de": "Was steuern die Generierungsparameter, und welche davon unterstützen Reasoning-Modelle der GPT-5-Serie nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "System prompt, output length, streaming and randomness; reasoning models don't support `temperature` or `top_p`",
+            "de": "Systemprompt, Ausgabelänge, Streaming und Zufälligkeit; Reasoning-Modelle unterstützen `temperature` und `top_p` nicht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `temperature` (0–2) and `top_p` only work on non-reasoning models; GPT-5-series reasoning models such as `gpt-5-mini` use `reasoning={\"effort\": …}` instead.",
+            "de": "Richtig: `temperature` (0–2) und `top_p` wirken nur bei Nicht-Reasoning-Modellen; Reasoning-Modelle der GPT-5-Serie wie `gpt-5-mini` nutzen stattdessen `reasoning={\"effort\": …}`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "System prompt, output length, streaming and randomness; reasoning models don't support `max_output_tokens`",
+            "de": "Systemprompt, Ausgabelänge, Streaming und Zufälligkeit; Reasoning-Modelle unterstützen `max_output_tokens` nicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `max_output_tokens` works on reasoning models too, and there the cap even includes the reasoning tokens.",
+            "de": "Nein: `max_output_tokens` funktioniert auch bei Reasoning-Modellen – dort zählen sogar die Reasoning-Tokens zur Grenze."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "System prompt, output length, streaming and randomness; reasoning models don't support `reasoning.effort`",
+            "de": "Systemprompt, Ausgabelänge, Streaming und Zufälligkeit; Reasoning-Modelle unterstützen `reasoning.effort` nicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Backwards: `reasoning={\"effort\": …}` is exactly what these models use in place of `temperature` and `top_p`.",
+            "de": "Umgekehrt: `reasoning={\"effort\": …}` ist genau das, was diese Modelle anstelle von `temperature` und `top_p` nutzen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only randomness and output length; reasoning models don't support `instructions` or `stream=True`",
+            "de": "Nur Zufälligkeit und Ausgabelänge; Reasoning-Modelle unterstützen `instructions` und `stream=True` nicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Too narrow and wrong: `instructions` and `stream=True` work fine with `gpt-5-mini`; only `temperature` and `top_p` are off-limits.",
+            "de": "Zu eng und falsch: `instructions` und `stream=True` funktionieren mit `gpt-5-mini` problemlos; tabu sind nur `temperature` und `top_p`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "How many models can you compare side by side in the model playground, and how do you export a runnable sample?",
         "de": "Wie viele Modelle vergleichst du im Modell-Playground nebeneinander, und wie exportierst du ein lauffähiges Beispiel?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Up to five models at once; export a ready-to-run sample from the **Code** tab",
+            "de": "Bis zu fünf Modelle gleichzeitig; ein lauffähiges Beispiel exportierst du über den Tab **Code**"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong limit: compare mode takes your model plus up to two more, so three side by side at most.",
+            "de": "Falsche Grenze: Der Vergleichsmodus nimmt dein Modell plus bis zu zwei weitere – höchstens drei nebeneinander."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Up to three models; export a ready-to-run sample with **Save as agent**",
+            "de": "Bis zu drei Modelle; ein lauffähiges Beispiel exportierst du über **Save as agent**"
+          },
+          "correct": false,
+          "why": {
+            "en": "**Save as agent** moves your setup into the agents playground for more prototyping; runnable code samples live on the **Code** tab.",
+            "de": "**Save as agent** überführt dein Setup zum weiteren Prototyping in den Agents Playground; lauffähige Codebeispiele findest du im Tab **Code**."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Up to five models at once; export a ready-to-run sample with **Save as agent**",
+            "de": "Bis zu fünf Modelle gleichzeitig; ein lauffähiges Beispiel exportierst du über **Save as agent**"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: compare mode shows up to three models, and **Save as agent** moves your setup into the agents playground; samples come from the **Code** tab.",
+            "de": "Doppelt falsch: Der Vergleichsmodus zeigt bis zu drei Modelle, und **Save as agent** überführt dein Setup in den Agents Playground; Beispiele kommen aus dem Tab **Code**."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Up to three models; export a ready-to-run sample from the **Code** tab",
+            "de": "Bis zu drei Modelle; ein lauffähiges Beispiel exportierst du über den Tab **Code**"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: compare mode runs up to three models with synced prompts, and the **Code** tab hands you ready-to-run samples in several languages.",
+            "de": "Richtig: Der Vergleichsmodus führt bis zu drei Modelle mit synchronen Prompts aus, und der Tab **Code** liefert lauffähige Beispiele in mehreren Sprachen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "`AIProjectClient` needs the **project endpoint** (`services.ai.azure.com/api/projects/…`), not the `openai.azure.com` URL.",
         "de": "`AIProjectClient` braucht den **Project Endpoint** (`services.ai.azure.com/api/projects/…`), nicht die `openai.azure.com`-URL."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The project endpoint (`services.ai.azure.com/api/projects/…`), not the `openai.azure.com` URL",
+            "de": "Den Project Endpoint (`services.ai.azure.com/api/projects/…`), nicht die `openai.azure.com`-URL"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `AIProjectClient` connects to the project endpoint; the `openai.azure.com` URL is the v1 route for the plain `OpenAI()` client.",
+            "de": "Richtig: `AIProjectClient` verbindet sich mit dem Project Endpoint; die `openai.azure.com`-URL ist die v1-Route für den einfachen `OpenAI()`-Client."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The `openai.azure.com` URL, not the project endpoint (`services.ai.azure.com/api/projects/…`)",
+            "de": "Die `openai.azure.com`-URL, nicht den Project Endpoint (`services.ai.azure.com/api/projects/…`)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `openai.azure.com` serves the plain `OpenAI()` client, while `AIProjectClient` needs the project endpoint.",
+            "de": "Vertauscht: `openai.azure.com` bedient den einfachen `OpenAI()`-Client, `AIProjectClient` dagegen braucht den Project Endpoint."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Either URL of the resource works; the client finds the project through the credential",
+            "de": "Jede URL der Ressource geht; der Client findet das Projekt über die Anmeldedaten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a credential only proves who you are; `AIProjectClient` must get the project endpoint, and the `openai.azure.com` URL fails.",
+            "de": "Nein: Anmeldedaten belegen nur, wer du bist; `AIProjectClient` braucht den Project Endpoint, mit der `openai.azure.com`-URL scheitert er."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The resource endpoint (`services.ai.azure.com/`) without a project path, not the `openai.azure.com` URL",
+            "de": "Den Endpoint der Ressource (`services.ai.azure.com/`) ohne Projektpfad, nicht die `openai.azure.com`-URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the `openai.azure.com` URL is wrong, but so is the bare resource endpoint, because the client needs `/api/projects/<project>`.",
+            "de": "Teilweise richtig: Die `openai.azure.com`-URL ist falsch, der bloße Endpoint der Ressource aber auch – der Client braucht `/api/projects/<project>`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "The `model` argument is the **deployment name** you chose, which may differ from the catalog model name.",
         "de": "Das Argument `model` ist der **Deployment-Name**, den du vergeben hast – er kann vom Modellnamen im Katalog abweichen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The catalog model name, which the service maps to your deployment automatically",
+            "de": "Den Modellnamen aus dem Katalog, den der Dienst automatisch deinem Deployment zuordnet"
+          },
+          "correct": false,
+          "why": {
+            "en": "There's no automatic mapping: `model` is the deployment name, and a catalog name only works if you happened to name the deployment that way.",
+            "de": "Es gibt keine automatische Zuordnung: `model` ist der Deployment-Name, und ein Katalogname klappt nur, wenn dein Deployment zufällig so heißt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The model version, which changes whenever the catalog publishes an update",
+            "de": "Die Modellversion, die sich mit jedem Update im Katalog ändert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: the `model` argument names your deployment, not a version of the catalog model.",
+            "de": "Falsch: Das Argument `model` nennt dein Deployment, keine Version des Katalogmodells."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The deployment name, which you chose yourself when you deployed the model",
+            "de": "Den Deployment-Namen, den du beim Bereitstellen des Modells selbst gewählt hast"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `model` takes the name you gave the deployment, and that name can be anything, so it needn't match the catalog model name.",
+            "de": "Richtig: `model` erwartet den Namen, den du dem Deployment gegeben hast – der kann beliebig sein und muss nicht zum Modellnamen im Katalog passen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The project name, which tells the service which project's copy of the model to run",
+            "de": "Den Projektnamen, an dem der Dienst erkennt, welche Modellkopie des Projekts laufen soll"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the project comes from the project endpoint; inside the call, `model` names the deployment that serves the model.",
+            "de": "Nein: Das Projekt ergibt sich aus dem Project Endpoint; im Aufruf nennt `model` das Deployment, das das Modell bereitstellt."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "`previous_response_id` does not reduce cost: earlier turns are still billed as input tokens.",
         "de": "`previous_response_id` senkt keine Kosten: Frühere Runden werden weiterhin als Input-Tokens berechnet."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They become free: the service loads them from the stored response at no charge",
+            "de": "Sie werden kostenlos: Der Dienst lädt sie ohne Gebühr aus der gespeicherten Antwort"
+          },
+          "correct": false,
+          "why": {
+            "en": "Loading from the stored response is convenient, not free: the earlier turns still count as input tokens.",
+            "de": "Das Laden aus der gespeicherten Antwort ist bequem, nicht gratis: Die früheren Runden zählen weiter als Input-Tokens."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They're billed only once, on the call that first produced them",
+            "de": "Sie werden nur einmal berechnet, beim Aufruf, der sie erzeugt hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: every chained call pays for the earlier turns again as input tokens.",
+            "de": "Nein: Jeder verkettete Aufruf bezahlt die früheren Runden erneut als Input-Tokens."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They're billed as output tokens of the new response instead of as input",
+            "de": "Sie werden als Output-Tokens der neuen Antwort berechnet statt als Input"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong token type: earlier turns are context the model reads, so they're billed as input, not output.",
+            "de": "Falsche Token-Art: Frühere Runden sind Kontext, den das Modell liest – sie zählen als Input, nicht als Output."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They're billed again as input tokens on every call, so chaining saves nothing",
+            "de": "Sie zählen bei jedem Aufruf erneut als Input-Tokens – Verketten spart also nichts"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: chaining spares you resending the history, but the service still counts the earlier turns as input tokens each time.",
+            "de": "Richtig: Die Verkettung erspart dir das erneute Senden des Verlaufs, doch der Dienst zählt die früheren Runden jedes Mal als Input-Tokens."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Agents and Foundry evaluations depend on the endpoint, not the `openai` library: the client from `get_openai_client()` (project endpoint) can run them; a plain `OpenAI()` client on the `/openai/v1` resource endpoint cannot.",
         "de": "Agents und Foundry-Evaluierungen hängen vom Endpoint ab, nicht von der `openai`-Bibliothek: Der Client aus `get_openai_client()` (Project Endpoint) kann sie ausführen, ein einfacher `OpenAI()`-Client am `/openai/v1`-Endpoint der Ressource nicht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A plain `OpenAI()` client on `/openai/v1`, because the installed `openai` library version decides",
+            "de": "Ein einfacher `OpenAI()`-Client an `/openai/v1`, weil die installierte Version der `openai`-Bibliothek entscheidet"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the resource's `/openai/v1` endpoint offers the OpenAI API surface only, with no agents or Foundry evaluations, whatever the library version.",
+            "de": "Nein: Der `/openai/v1`-Endpoint der Ressource bietet nur die OpenAI-API – keine Agents und keine Foundry-Evaluierungen, egal welche Bibliotheksversion."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The client from `get_openai_client()`, because the project endpoint decides, not the library",
+            "de": "Der Client aus `get_openai_client()`, weil der Project Endpoint entscheidet, nicht die Bibliothek"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `get_openai_client()` binds the `openai` client to the project endpoint, and that endpoint is what exposes agents and Foundry evaluations.",
+            "de": "Richtig: `get_openai_client()` bindet den `openai`-Client an den Project Endpoint, und genau dieser Endpoint stellt Agents und Foundry-Evaluierungen bereit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`AzureOpenAI()` with a pinned `api_version`, because the API version decides",
+            "de": "`AzureOpenAI()` mit festgelegter `api_version`, weil die API-Version entscheidet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Pinning `api_version` only fixes the API for model calls; `AzureOpenAI()` adds no project features such as agents or evaluations.",
+            "de": "Eine feste `api_version` legt nur die API für Modellaufrufe fest; `AzureOpenAI()` bringt keine Projekt-Features wie Agents oder Evaluierungen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Any `openai` client, because only the credential type (Entra ID or key) decides",
+            "de": "Jeder `openai`-Client, weil nur die Art der Anmeldung (Entra ID oder Key) entscheidet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Entra ID is required but not enough: a plain `OpenAI()` client on `/openai/v1` still can't run agents, because the endpoint decides.",
+            "de": "Entra ID ist nötig, reicht aber nicht: Ein einfacher `OpenAI()`-Client an `/openai/v1` kann trotzdem keine Agents ausführen, denn der Endpoint entscheidet."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "`previous_response_id` doesn't carry `instructions` over. Resend them on every call, or the follow-up runs without your system prompt.",
         "de": "`previous_response_id` übernimmt keine `instructions`. Sende sie bei jedem Aufruf mit, sonst läuft die Folgefrage ohne deinen Systemprompt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The earlier `input`: resend all previous messages, or the follow-up loses turn 1",
+            "de": "Den früheren `input`: Sende alle vorherigen Nachrichten erneut, sonst fehlt der Folgefrage Runde 1"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: with `previous_response_id` the service loads the earlier turns from the stored response, so you don't resend the history.",
+            "de": "Nein: Mit `previous_response_id` lädt der Dienst die früheren Runden aus der gespeicherten Antwort; den Verlauf sendest du nicht erneut."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`instructions`, but that's harmless, because the service reapplies the first call's system prompt",
+            "de": "`instructions`, aber das ist harmlos, weil der Dienst den Systemprompt des ersten Aufrufs erneut anwendet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not harmless: nothing reapplies the old system prompt, so a follow-up without `instructions` runs without it.",
+            "de": "Nicht harmlos: Nichts wendet den alten Systemprompt erneut an – eine Folgefrage ohne `instructions` läuft ohne ihn."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`instructions`: resend them on every call, or the follow-up runs without your system prompt",
+            "de": "`instructions`: Sende sie bei jedem Aufruf mit, sonst läuft die Folgefrage ohne deinen Systemprompt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the earlier turns come along with `previous_response_id`, but the system prompt doesn't, so send `instructions` with each call.",
+            "de": "Richtig: Die früheren Runden kommen über `previous_response_id` mit, der Systemprompt aber nicht – schick `instructions` deshalb bei jedem Aufruf mit."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The earlier `output`: paste the model's last answer into `input`, or the follow-up can't use it",
+            "de": "Den früheren `output`: Kopiere die letzte Modellantwort in `input`, sonst kann die Folgefrage sie nicht nutzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not needed: the chained response already knows turn 1, including the model's earlier answer.",
+            "de": "Unnötig: Die verkettete Antwort kennt Runde 1 bereits, samt der früheren Antwort des Modells."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-trap-6",
@@ -128,7 +728,57 @@
       "back": {
         "en": "To the whole Foundry resource, not a project: it's one static secret with all-or-nothing access. It works for model calls, but agents, evaluations and toolboxes accept only Microsoft Entra ID.",
         "de": "Für die ganze Foundry-Ressource, nicht pro Projekt: Er ist ein statisches Geheimnis mit Zugriff nach dem Alles-oder-nichts-Prinzip. Für Modellaufrufe funktioniert er, Agents, Evaluierungen und Toolboxes akzeptieren aber nur Microsoft Entra ID."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A single Foundry project within the resource; agents, evaluations and toolboxes accept only Microsoft Entra ID",
+            "de": "Für ein einzelnes Foundry-Projekt innerhalb der Ressource; Agents, Evaluierungen und Toolboxes akzeptieren nur Microsoft Entra ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong scope: a key isn't per project; it opens the whole Foundry resource with all-or-nothing access.",
+            "de": "Falscher Geltungsbereich: Ein Key gilt nicht pro Projekt, sondern öffnet die ganze Foundry-Ressource nach dem Alles-oder-nichts-Prinzip."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The whole Foundry resource; model calls accept only Microsoft Entra ID, while agents take the key",
+            "de": "Für die ganze Foundry-Ressource; Modellaufrufe akzeptieren nur Microsoft Entra ID, Agents dagegen den Key"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: model calls do work with a key, while agents, evaluations and toolboxes accept only Microsoft Entra ID.",
+            "de": "Vertauscht: Modellaufrufe klappen mit Key, während Agents, Evaluierungen und Toolboxes nur Microsoft Entra ID akzeptieren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A single Foundry project within the resource; model calls accept only Microsoft Entra ID, while agents take the key",
+            "de": "Für ein einzelnes Foundry-Projekt innerhalb der Ressource; Modellaufrufe akzeptieren nur Microsoft Entra ID, Agents dagegen den Key"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a key covers the whole Foundry resource, not one project, and it works for model calls while agents, evaluations and toolboxes need Entra ID.",
+            "de": "Doppelt falsch: Ein Key gilt für die ganze Foundry-Ressource, nicht für ein Projekt, und er klappt für Modellaufrufe, während Agents, Evaluierungen und Toolboxes Entra ID brauchen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The whole Foundry resource; agents, evaluations and toolboxes accept only Microsoft Entra ID",
+            "de": "Für die ganze Foundry-Ressource; Agents, Evaluierungen und Toolboxes akzeptieren nur Microsoft Entra ID"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: it's one static secret with all-or-nothing access to the resource, fine for model calls, but agents, evaluations and toolboxes need Entra ID.",
+            "de": "Richtig: Er ist ein statisches Geheimnis mit Alles-oder-nichts-Zugriff auf die Ressource – gut für Modellaufrufe, aber Agents, Evaluierungen und Toolboxes brauchen Entra ID."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-takeaway-1",
@@ -140,7 +790,57 @@
       "back": {
         "en": "New chat apps start with the Responses API; Chat Completions is for compatibility.",
         "de": "Neue Chat-Apps nutzen zuerst die Responses API; Chat Completions bleibt für Kompatibilität."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Chat Completions; the Responses API is reserved for agent scenarios",
+            "de": "Mit Chat Completions; die Responses API ist Agent-Szenarien vorbehalten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: the Responses API is the recommended choice for new chat apps, not an agents-only API.",
+            "de": "Vertauscht: Die Responses API ist die empfohlene Wahl für neue Chat-Apps, keine reine Agent-API."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The Responses API; Chat Completions remains for compatibility",
+            "de": "Mit der Responses API; Chat Completions bleibt für Kompatibilität"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the Responses API is the recommended start for new apps; Chat Completions stays because so many models and tools support it.",
+            "de": "Richtig: Die Responses API ist der empfohlene Start für neue Apps; Chat Completions bleibt, weil so viele Modelle und Tools es unterstützen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The Responses API; Chat Completions remains for streaming answers",
+            "de": "Mit der Responses API; Chat Completions bleibt fürs Streamen von Antworten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the Responses API streams too (`stream=True`); Chat Completions stays for compatibility, not for streaming.",
+            "de": "Nein: Die Responses API streamt ebenfalls (`stream=True`); Chat Completions bleibt wegen der Kompatibilität, nicht fürs Streaming."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The Responses API; Chat Completions remains for server-side chat state",
+            "de": "Mit der Responses API; Chat Completions bleibt für serverseitigen Gesprächszustand"
+          },
+          "correct": false,
+          "why": {
+            "en": "Backwards: Chat Completions is stateless; server-side state via `previous_response_id` is a Responses API feature.",
+            "de": "Umgekehrt: Chat Completions ist zustandslos; serverseitiger Zustand über `previous_response_id` ist ein Feature der Responses API."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-takeaway-2",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Production apps authenticate with Microsoft Entra ID, not keys.",
         "de": "Produktive Apps melden sich mit Microsoft Entra ID an, nicht mit Keys."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "With an API key kept in Azure Key Vault, and without Entra ID tokens",
+            "de": "Mit einem API-Key, den du in Azure Key Vault ablegst, und ohne Entra-ID-Tokens"
+          },
+          "correct": false,
+          "why": {
+            "en": "Key Vault is only the fallback if you must use keys; production apps authenticate with Entra ID instead.",
+            "de": "Key Vault ist nur die Notlösung, falls du Keys brauchst; produktive Apps melden sich stattdessen mit Entra ID an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "With Microsoft Entra ID, but without managed identities",
+            "de": "Mit Microsoft Entra ID, aber ohne Managed Identities"
+          },
+          "correct": false,
+          "why": {
+            "en": "A managed identity is one of the Entra ID sources `DefaultAzureCredential` picks up, so it's recommended, not something to avoid.",
+            "de": "Eine Managed Identity ist eine der Entra-ID-Quellen, die `DefaultAzureCredential` nutzt – sie ist empfohlen, nicht zu vermeiden."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "With an API key in an environment variable, and never a key in code",
+            "de": "Mit einem API-Key in einer Umgebungsvariablen und ganz ohne Keys im Code"
+          },
+          "correct": false,
+          "why": {
+            "en": "Moving the key out of code still leaves a static secret; production apps use Entra ID, not keys.",
+            "de": "Ein Key außerhalb des Codes bleibt ein statisches Geheimnis; produktive Apps nutzen Entra ID statt Keys."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "With Microsoft Entra ID, e.g. a managed identity, and no API keys",
+            "de": "Mit Microsoft Entra ID, etwa einer Managed Identity, und ohne API-Keys"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Entra ID gives keyless, role-based access, while a key is a static secret with all-or-nothing access to the resource.",
+            "de": "Richtig: Entra ID ermöglicht schlüssellosen, rollenbasierten Zugriff, ein Key dagegen ist ein statisches Geheimnis mit Alles-oder-nichts-Zugriff auf die Ressource."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-takeaway-3",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Project endpoint + Foundry SDK = models plus agents, Foundry evaluations and tracing.",
         "de": "Project Endpoint + Foundry SDK = Modelle plus Agents, Foundry-Evaluierungen und Tracing."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Models plus agents, Foundry evaluations and tracing",
+            "de": "Modelle plus Agents, Foundry-Evaluierungen und Tracing"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the project route adds project features (agents, Foundry evaluations, tracing) on top of the same model deployments.",
+            "de": "Richtig: Der Projektweg ergänzt Projekt-Features (Agents, Foundry-Evaluierungen, Tracing) zu denselben Modell-Deployments."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Models plus embeddings, which only the project endpoint serves",
+            "de": "Modelle plus Embeddings, die nur der Project Endpoint bedient"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: embeddings are the one thing only the v1 endpoint serves today, not the project endpoint.",
+            "de": "Vertauscht: Embeddings bedient derzeit nur der v1-Endpoint, nicht der Project Endpoint."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Models only; agents and tracing need the `openai.azure.com` endpoint",
+            "de": "Nur Modelle; Agents und Tracing brauchen den `openai.azure.com`-Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Backwards: the plain v1 endpoint offers the OpenAI API surface only; agents and tracing come through the project endpoint.",
+            "de": "Umgekehrt: Der einfache v1-Endpoint bietet nur die OpenAI-API; Agents und Tracing laufen über den Project Endpoint."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Models plus API-key access to agents and Foundry evaluations",
+            "de": "Modelle plus API-Key-Zugriff auf Agents und Foundry-Evaluierungen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: agents and Foundry evaluations accept only Microsoft Entra ID; an API key works for model calls only.",
+            "de": "Nein: Agents und Foundry-Evaluierungen akzeptieren nur Microsoft Entra ID; ein API-Key funktioniert nur für Modellaufrufe."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-chat-app-takeaway-4",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Stream long answers (`stream=True`) so the UI never looks frozen.",
         "de": "Lange Antworten streamen (`stream=True`), damit die Oberfläche nie einfriert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Chain calls with `previous_response_id` so each call returns less text",
+            "de": "Aufrufe mit `previous_response_id` verketten, damit jeder Aufruf weniger Text liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Chaining carries earlier turns forward; it doesn't shorten or speed up the answer the user is waiting for.",
+            "de": "Verkettung trägt frühere Runden weiter; die Antwort, auf die der Nutzer wartet, wird dadurch weder kürzer noch schneller."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Set `store=false` so the service skips saving and returns its answer sooner",
+            "de": "`store=false` setzen, damit der Dienst nichts speichert und seine Antwort schneller liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "`store` only decides whether the response is kept server-side; the UI still waits for the complete answer.",
+            "de": "`store` entscheidet nur, ob die Antwort serverseitig gespeichert wird; die Oberfläche wartet trotzdem auf die komplette Antwort."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Stream it with `stream=True` and show each text delta as it arrives",
+            "de": "Mit `stream=True` streamen und jedes Textstück anzeigen, sobald es ankommt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: with `stream=True` you loop over events, and each `response.output_text.delta` adds the next piece of text to the UI.",
+            "de": "Richtig: Mit `stream=True` durchläufst du Events, und jedes `response.output_text.delta` bringt das nächste Textstück in die Oberfläche."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Lower `temperature` so the model settles on its final answer much faster",
+            "de": "`temperature` senken, damit sich das Modell viel schneller auf seine endgültige Antwort festlegt"
+          },
+          "correct": false,
+          "why": {
+            "en": "`temperature` controls randomness on non-reasoning models, not speed; the UI still waits for the complete answer.",
+            "de": "`temperature` steuert die Zufälligkeit bei Nicht-Reasoning-Modellen, nicht das Tempo; die Oberfläche wartet trotzdem auf die komplette Antwort."
+          }
+        }
+      ]
     }
   ]
 }

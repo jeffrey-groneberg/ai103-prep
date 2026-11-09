@@ -62,6 +62,8 @@ export interface ValidationReport {
   difficultyCounts: Record<string, number>
   /** Zettelkasten starter cards in the bundle. */
   cardCount: number
+  /** How far the form of the card options points at the answer; measured on full runs only. */
+  cues?: AnswerCues
 }
 
 export interface ContentBundle {
@@ -500,6 +502,141 @@ export const PAGE_REFERENCE =
 
 const CARD_KINDS = ['concept', 'trap', 'takeaway'] as const
 
+/** A status tag on an option (preview, GA, retired …); if only the correct option carries one, it gives the answer away. */
+const STATUS_TAG = /\((?:preview|public preview|GA|generally available|legacy|classic|deprecated|retired|veraltet|eingestellt|abgekündigt)\)/i
+
+/** Absolute words; when every distractor carries one and the key doesn't, a test-wise learner picks the key without knowing the topic. */
+const ABSOLUTE = { en: /\b(?:only|always|never)\b/i, de: /\b(?:nur|immer|nie|niemals)\b/i } as const
+
+const CATCH_ALL = /\b(?:all|none|both) of the (?:above|options)\b|\balle (?:genannten|oben)\b|\bkeine der (?:genannten|obigen)\b/i
+
+/** Four exam-style options, exactly one correct, each with a short reason why it is right or wrong. */
+function checkCardChoices(issues: Issue[], w: string, choices: CardFile['cards'][number]['choices'] | undefined) {
+  if (!Array.isArray(choices) || choices.length === 0) {
+    issues.push({ level: 'error', where: w, message: 'needs four multiple-choice options (choices)' })
+    return
+  }
+  if (choices.length !== 4) issues.push({ level: 'error', where: w, message: `needs exactly four options (has ${choices.length})` })
+  uniqueIds(issues, w, 'option', choices.map((o) => o.id))
+  const correct = choices.filter((o) => o.correct === true)
+  if (correct.length !== 1) issues.push({ level: 'error', where: w, message: `needs exactly one correct option (has ${correct.length})` })
+  for (const o of choices) {
+    checkL10n(issues, w, `option ${o.id} text`, o.text, { minLen: 1 })
+    checkL10n(issues, w, `option ${o.id} why`, o.why, { minLen: 15 })
+    for (const t of [...textOf(o.text), ...textOf(o.why)]) {
+      if (CATCH_ALL.test(t)) issues.push({ level: 'error', where: w, message: `option ${o.id}: no "all/none of the above" options` })
+      if (PAGE_REFERENCE.test(t)) issues.push({ level: 'error', where: w, message: `option ${o.id} points at the lesson page ("${t.match(PAGE_REFERENCE)![0]}")` })
+    }
+    for (const lang of ['en', 'de'] as const) {
+      const text = o.text?.[lang] ?? ''
+      const why = o.why?.[lang] ?? ''
+      if (text.length > 220) issues.push({ level: 'warning', where: w, message: `option ${o.id} text.${lang} is ${text.length} characters; keep options under 220` })
+      if (why.length > 320) issues.push({ level: 'warning', where: w, message: `option ${o.id} why.${lang} is ${why.length} characters; keep the reason under 320` })
+    }
+  }
+  const tagged = choices.filter((o) => textOf(o.text).some((t) => STATUS_TAG.test(t)))
+  if (tagged.length > 0 && tagged.every((o) => o.correct)) {
+    issues.push({ level: 'error', where: w, message: 'only the correct option carries a status tag like "(preview)" — tag distractors accurately too, or move the status into the reason' })
+  }
+  if (correct.length === 1 && choices.length > 2) {
+    for (const lang of ['en', 'de'] as const) {
+      const hasAbsolute = (o: (typeof choices)[number]) => ABSOLUTE[lang].test(o.text?.[lang] ?? '')
+      if (!hasAbsolute(correct[0]) && choices.filter((o) => !o.correct).every(hasAbsolute)) {
+        issues.push({ level: 'error', where: w, message: `the correct option is the only one (${lang}) without "only", "always" or "never" — reword a distractor so the absolute word gives nothing away` })
+      }
+    }
+  }
+  for (const lang of ['en', 'de'] as const) {
+    const texts = choices.map((o) => (o.text?.[lang] ?? '').trim().toLowerCase())
+    if (new Set(texts).size !== texts.length) issues.push({ level: 'error', where: w, message: `two options have the same ${lang} text` })
+    const right = correct.length === 1 ? (correct[0].text?.[lang] ?? '').length : 0
+    const longestWrong = Math.max(0, ...choices.filter((o) => !o.correct).map((o) => (o.text?.[lang] ?? '').length))
+    if (right > longestWrong * 1.15 && right - longestWrong > 12) {
+      issues.push({ level: 'warning', where: w, message: `correct option (${lang}) is much longer than every distractor (${right} vs ${longestWrong} characters) — it gives the answer away` })
+    }
+  }
+}
+
+/** Deck-wide answer cues, as shares of cards. Picking at random scores 25 % on both. */
+export interface AnswerCues {
+  cards: number
+  /** Where the key ranks by length — longest, second, third, shortest — as shares of cards (English and German averaged). */
+  lengthRanks: [number, number, number, number]
+  /** Cards with one option that clearly shares the most words with the other three. */
+  centralCards: number
+  /** Share of those central options that are the correct one (the "majority vote" cue). */
+  centralKey: number
+}
+
+/** Deck limits: above these, length or word overlap lets a test-wise learner guess the answer. */
+export const MAX_LONGEST_KEY = 1 / 3
+export const MAX_TOP_TWO_KEY = 0.6
+export const MAX_CENTRAL_KEY = 0.5
+const CENTRAL_MARGIN = 0.04
+const CUE_STOPWORDS = new Set('the and for with from that this you your can not only into than then when which who what use uses using via per its are'.split(' '))
+
+function cueWords(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}_.-]+/gu, ' ')
+      .split(' ')
+      .map((w) => w.replace(/^[.-]+|[.-]+$/g, ''))
+      .filter((w) => w.length > 2 && !CUE_STOPWORDS.has(w)),
+  )
+}
+
+function wordOverlap(a: Set<string>, b: Set<string>): number {
+  let shared = 0
+  for (const w of a) if (b.has(w)) shared++
+  const union = a.size + b.size - shared
+  return union === 0 ? 0 : shared / union
+}
+
+/** Measures how often the key is the longest option or the "central" one that shares the most words with the others. */
+export function answerCues(decks: Array<CardFile['cards'][number]['choices'] | undefined>): AnswerCues {
+  let cards = 0
+  const ranks: [number, number, number, number] = [0, 0, 0, 0]
+  let central = 0
+  let centralKey = 0
+  for (const choices of decks) {
+    if (!Array.isArray(choices) || choices.length < 3) continue
+    const key = choices.findIndex((o) => o.correct === true)
+    if (key < 0) continue
+    cards++
+    for (const lang of ['en', 'de'] as const) {
+      const len = choices.map((o) => (o.text?.[lang] ?? '').length)
+      const longer = len.filter((l, i) => i !== key && l > len[key]).length
+      ranks[Math.min(longer, 3)] += 0.5
+    }
+    const words = choices.map((o) => cueWords(o.text?.en ?? ''))
+    const score = words.map((w, i) => words.reduce((sum, other, j) => (j === i ? sum : sum + wordOverlap(w, other)), 0) / (words.length - 1))
+    const top = score.indexOf(Math.max(...score))
+    const runnerUp = Math.max(...score.filter((_, i) => i !== top))
+    if (score[top] - runnerUp > CENTRAL_MARGIN) {
+      central++
+      if (top === key) centralKey++
+    }
+  }
+  const lengthRanks = ranks.map((r) => (cards ? r / cards : 0)) as AnswerCues['lengthRanks']
+  return { cards, lengthRanks, centralCards: central, centralKey: central ? centralKey / central : 0 }
+}
+
+const percent = (share: number) => `${Math.round(share * 100)} %`
+
+export function checkAnswerCues(issues: Issue[], cues: AnswerCues) {
+  const [longest, second] = cues.lengthRanks
+  if (longest > MAX_LONGEST_KEY) {
+    issues.push({ level: 'error', where: 'cards', message: `the correct option is the longest in ${percent(longest)} of cards; keep it at or under ${percent(MAX_LONGEST_KEY)} so length gives nothing away` })
+  }
+  if (longest + second > MAX_TOP_TWO_KEY) {
+    issues.push({ level: 'error', where: 'cards', message: `the correct option is one of the two longest in ${percent(longest + second)} of cards; keep it at or under ${percent(MAX_TOP_TWO_KEY)} — make the key the third or shortest option more often` })
+  }
+  if (cues.centralKey > MAX_CENTRAL_KEY) {
+    issues.push({ level: 'error', where: 'cards', message: `in ${percent(cues.centralKey)} of the ${cues.centralCards} cards with one central option, that option is the correct one; build distractors with the 2×2 pattern so the majority vote gives nothing away` })
+  }
+}
+
 function lessonItems(lesson: Lesson, kind: (typeof CARD_KINDS)[number]): L10n[] {
   if (kind === 'concept') return lesson.concepts.map((c) => c.text)
   return kind === 'trap' ? lesson.traps : lesson.takeaways
@@ -541,7 +678,8 @@ export function validateCardFile(data: CardFile, lesson: Lesson | undefined, iss
         issues.push({ level: 'error', where: w, message: `${what} points at the lesson page ("${s.match(PAGE_REFERENCE)![0]}") — give the card a back without it` })
       }
     }
-    checkLegacy(issues, w, [...textOf(c.front), ...textOf(c.back)])
+    checkCardChoices(issues, w, c.choices)
+    checkLegacy(issues, w, [...textOf(c.front), ...textOf(c.back), ...(c.choices ?? []).flatMap((o) => [...textOf(o.text), ...textOf(o.why)])])
   }
   if (!lesson) return
   for (const kind of CARD_KINDS) {
@@ -598,6 +736,7 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
   }
 
   let cardCount = 0
+  let cues: AnswerCues | undefined
   if (bundle.cards) {
     const lessonOf = new Map(bundle.lessons.map(({ lesson }) => [lesson.module, lesson]))
     const cardModules = new Set<string>()
@@ -612,6 +751,10 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
       checkModels(issues, `${file} › cards`, data, options.modelLifecycle, today)
     }
     uniqueIds(issues, 'cards', 'card', bundle.cards.flatMap(({ data }) => (data.cards ?? []).map((c) => c.id)))
+    if (!only) {
+      cues = answerCues(bundle.cards.flatMap(({ data }) => (data.cards ?? []).map((c) => c.choices)))
+      checkAnswerCues(issues, cues)
+    }
     for (const { file, lesson } of bundle.lessons) {
       if (inScope(lesson.module) && !cardModules.has(lesson.module)) issues.push({ level: 'error', where: file, message: `lesson has no Zettelkasten cards (src/content/cards/${lesson.module}.json)` })
     }
@@ -678,5 +821,6 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions 
     typeCounts,
     difficultyCounts,
     cardCount,
+    cues,
   }
 }

@@ -579,6 +579,19 @@ a.zk-divider__title::after {
   font-weight: 600;
 }
 
+.zk-card__right {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: var(--s2);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.zk-card__right .icon {
+  margin-top: 2px;
+}
+
 .zk-card__hide {
   margin-right: -2px;
   color: var(--ink-3);
@@ -698,6 +711,45 @@ select.zk-input {
   line-height: 16px;
 }
 
+.zk-editor__choices {
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface-alt);
+}
+
+.zk-editor__choices summary {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zk-editor__choices[open] summary {
+  margin-bottom: var(--s1);
+}
+
+.zk-editor__choices > * + * {
+  margin-top: var(--s3);
+}
+
+.zk-editor__wrong {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s3);
+}
+
+input.zk-input {
+  height: 40px;
+  padding: 0 10px;
+}
+
+.zk-editor__missing {
+  color: var(--warn);
+  font-size: 13px;
+  line-height: 18px;
+}
+
 .zk-editor__actions {
   display: flex;
   flex-wrap: wrap;
@@ -795,6 +847,58 @@ select.zk-input {
   animation: zk-turn 320ms var(--ease-out);
 }
 
+/* A card with answer options reveals in place, like a question: no turn. */
+.zk-flip--choice.is-back {
+  animation: none;
+}
+
+.zk-flip--choice .zk-flip__body {
+  gap: var(--s4);
+}
+
+.zk-flip--choice .zk-flip__question {
+  max-width: 40ch;
+}
+
+.zk-lesson {
+  border-top: 1px solid var(--line-soft);
+  padding-top: var(--s3);
+  color: var(--ink-2);
+}
+
+.zk-lesson summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.zk-lesson__text {
+  max-width: 62ch;
+  margin-top: var(--s1);
+  font-size: 15px;
+  line-height: 23px;
+}
+
+.zk-flip__backtext {
+  border-top: 1px solid var(--line-soft);
+  padding-top: var(--s3);
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 23px;
+}
+
+.zk-flip__label {
+  margin-bottom: var(--s1);
+  color: var(--ink-3);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
 .zk-flip.is-moving {
   position: relative;
   z-index: 4;
@@ -821,6 +925,8 @@ select.zk-input {
 }
 
 .zk-flip__side {
+  flex-shrink: 0;
+  white-space: nowrap;
   color: var(--brand-ink);
   font-size: 12px;
   line-height: 16px;
@@ -957,6 +1063,34 @@ kbd.zk-keys {
 }
 
 @media (max-width: 760px) {
+  /* In a round the box becomes a slim counter strip, so the question and its options keep the screen. */
+  .zk-session__box {
+    margin-bottom: var(--s3);
+  }
+
+  .zk-session .zbox__axis,
+  .zk-session .zbox__stack {
+    display: none;
+  }
+
+  .zk-session .zbox__fach {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s2);
+    padding: 6px 18px;
+  }
+
+  .zk-session .zbox__count {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .zk-session .zbox__next {
+    top: calc(50% - 10px);
+    bottom: auto;
+  }
+
   .zk-flip__body {
     min-height: 150px;
     padding: var(--s4) var(--s4) var(--s5);
@@ -973,6 +1107,11 @@ kbd.zk-keys {
 }
 
 @media (max-width: 560px) {
+  .zk-editor__wrong {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s2);
+  }
+
   .zk-home__body {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--s4);

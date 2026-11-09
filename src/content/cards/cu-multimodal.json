@@ -6,9 +6,59 @@
       "id": "z-cu-multimodal-concept-1",
       "source": { "kind": "concept", "index": 0 },
       "front": {
-        "en": "What does content extraction deliver for each modality, and how is it billed?",
-        "de": "Was liefert die Inhaltsextraktion je Modalität, und wie wird sie abgerechnet?"
-      }
+        "en": "What does content extraction deliver for documents, audio and video, and how is it billed?",
+        "de": "Was liefert die Inhaltsextraktion für Dokumente, Audio und Video, und wie wird sie abgerechnet?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Documents: OCR and layout; audio: transcripts with speakers; video: key frames, shots, transcripts — billed per page or minute, no model needed.",
+            "de": "Dokumente: OCR und Layout; Audio: Transkripte mit Sprechern; Video: Keyframes, Shots, Transkripte – abgerechnet pro Seite oder Minute, ohne Modell."
+          },
+          "correct": true,
+          "why": {
+            "en": "This first stage normalizes documents, audio and video and can run without generative models; tokens come from generative features: fields, figure analysis, segmentation, categorization, training.",
+            "de": "Diese erste Stufe normalisiert Dokumente, Audio und Video und kann ohne generative Modelle laufen; Tokens entstehen durch generative Funktionen: Felder, Abbildungsanalyse, Segmentierung, Kategorisierung, Training."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Documents: OCR and layout; audio: transcripts with speakers; video: key frames, shots, transcripts — billed as tokens on your deployment.",
+            "de": "Dokumente: OCR und Layout; Audio: Transkripte mit Sprechern; Video: Keyframes, Shots, Transkripte – abgerechnet als Tokens auf deinem Deployment."
+          },
+          "correct": false,
+          "why": {
+            "en": "Content extraction is billed per page or per minute and needs no model; tokens on your deployment belong to the model stage.",
+            "de": "Die Inhaltsextraktion wird pro Seite oder Minute abgerechnet und braucht kein Modell; Tokens auf deinem Deployment gehören zur Modellstufe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Documents: OCR and layout; audio and video: just a one-paragraph summary — billed as tokens on your deployment.",
+            "de": "Dokumente: OCR und Layout; Audio und Video: nur eine Zusammenfassung in einem Absatz – abgerechnet als Tokens auf deinem Deployment."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: audio and video get transcripts (video also key frames and shots), and content extraction is billed per page or minute, not as tokens.",
+            "de": "Beides daneben: Audio und Video bekommen Transkripte (Video auch Keyframes und Shots), und die Inhaltsextraktion wird pro Seite oder Minute abgerechnet, nicht als Tokens."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Documents: OCR and layout; audio and video: just a one-paragraph summary — billed per page or minute, no model needed.",
+            "de": "Dokumente: OCR und Layout; Audio und Video: nur eine Zusammenfassung in einem Absatz – abgerechnet pro Seite oder Minute, ohne Modell."
+          },
+          "correct": false,
+          "why": {
+            "en": "Audio gets transcripts with diarization and video key frames, shots and transcripts; a summary needs a model and comes from field extraction.",
+            "de": "Audio bekommt Transkripte mit Sprechertrennung, Video Keyframes, Shots und Transkripte; eine Zusammenfassung braucht ein Modell und stammt aus der Feldextraktion."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which field methods does field extraction offer, and which one works only for documents?",
         "de": "Welche Feldmethoden bietet die Feldextraktion, und welche funktioniert nur bei Dokumenten?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`generate`, `classify` and `extract`; only `classify` is limited to documents.",
+            "de": "`generate`, `classify` und `extract`; nur `classify` ist auf Dokumente beschränkt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`classify` works in every modality; the document-only method is `extract`, which copies values as they appear.",
+            "de": "`classify` funktioniert in jeder Modalität; die reine Dokumentmethode ist `extract` – sie übernimmt Werte so, wie sie im Inhalt stehen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only `generate` and `classify`; `extract` no longer exists in the GA API.",
+            "de": "Nur `generate` und `classify`; `extract` gibt es in der GA-API nicht mehr."
+          },
+          "correct": false,
+          "why": {
+            "en": "`extract` is still a supported method — but only for documents; images, audio and video use `generate` and `classify`.",
+            "de": "`extract` ist weiterhin eine unterstützte Methode – aber nur für Dokumente; Bilder, Audio und Video nutzen `generate` und `classify`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`generate`, `classify` and `extract`; only `extract` is limited to documents.",
+            "de": "`generate`, `classify` und `extract`; nur `extract` ist auf Dokumente beschränkt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `extract` copies values as they appear in a document; every modality supports `generate` and `classify`.",
+            "de": "Stimmt: `extract` übernimmt Werte so, wie sie im Dokument stehen; jede Modalität unterstützt `generate` und `classify`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`generate`, `classify` and `extract`; none is limited, so every modality supports all three.",
+            "de": "`generate`, `classify` und `extract`; keine ist beschränkt, jede Modalität unterstützt alle drei."
+          },
+          "correct": false,
+          "why": {
+            "en": "Images, audio and video support only `generate` and `classify`; `extract` works for documents only.",
+            "de": "Bilder, Audio und Video unterstützen nur `generate` und `classify`; `extract` funktioniert nur bei Dokumenten."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which four prebuilt analyzers return index-ready Markdown for RAG, one per modality?",
         "de": "Welche vier Prebuilt-Analyzer liefern direkt indexierbares Markdown für RAG – einer je Modalität?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`prebuilt-document`, `prebuilt-image`, `prebuilt-audio` and `prebuilt-video`",
+            "de": "`prebuilt-document`, `prebuilt-image`, `prebuilt-audio` und `prebuilt-video`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are the base analyzers you derive custom analyzers from; the RAG analyzers end in `Search`, such as `prebuilt-documentSearch`.",
+            "de": "Das sind die Basis-Analyzer, von denen du eigene Analyzer ableitest; die RAG-Analyzer enden auf `Search`, etwa `prebuilt-documentSearch`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch` and `prebuilt-videoSearch`",
+            "de": "`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch` und `prebuilt-videoSearch`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: they return Markdown ready for indexing — layout with figure descriptions, an image description, speaker transcripts and video segments.",
+            "de": "Richtig: Sie liefern direkt indexierbares Markdown – Layout mit Abbildungsbeschreibungen, eine Bildbeschreibung, Transkripte mit Sprechern und Videosegmente."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`prebuilt-documentSearch`, `prebuilt-digitalParse`, `prebuilt-audioSearch` and `prebuilt-videoSearch`",
+            "de": "`prebuilt-documentSearch`, `prebuilt-digitalParse`, `prebuilt-audioSearch` und `prebuilt-videoSearch`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-digitalParse` is a document content-extraction analyzer without a language model, so this set has two document analyzers and no image one.",
+            "de": "`prebuilt-digitalParse` ist ein Analyzer für die Inhaltsextraktion aus Dokumenten ohne Sprachmodell – die Liste hat also zwei Dokument-Analyzer und keinen für Bilder."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`prebuilt-invoice`, `prebuilt-idDocument`, `prebuilt-callCenter` and `prebuilt-videoSearch`",
+            "de": "`prebuilt-invoice`, `prebuilt-idDocument`, `prebuilt-callCenter` und `prebuilt-videoSearch`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-invoice` and `prebuilt-idDocument` are domain prebuilts with tuned field schemas for one document type, not RAG analyzers.",
+            "de": "`prebuilt-invoice` und `prebuilt-idDocument` sind Fach-Prebuilts mit abgestimmten Feldschemas für einen Dokumenttyp, keine RAG-Analyzer."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How does `contentCategories` work for documents versus video, and what does `enableSegment: true` add?",
         "de": "Wie funktioniert `contentCategories` bei Dokumenten im Vergleich zu Video, und was bewirkt `enableSegment: true`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Documents: exactly one entry as the split rule; video: up to 200 categories, each routed to an `analyzerId`; `enableSegment` merges all segments into one.",
+            "de": "Dokumente: genau ein Eintrag als Teilungsregel; Video: bis zu 200 Kategorien, je an eine `analyzerId` geleitet; `enableSegment` fügt alle Segmente zu einem zusammen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: documents take up to 200 categories with optional routing, video exactly one cut-rule entry, and `enableSegment: true` splits the input.",
+            "de": "Umgekehrt: Dokumente nehmen bis zu 200 Kategorien mit optionaler Weiterleitung, Video genau einen Eintrag als Schnittregel, und `enableSegment: true` teilt die Eingabe."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Documents: up to 200 categories, each optionally routed to an `analyzerId`; video: exactly one entry as the cut rule; `enableSegment` merges all segments into one.",
+            "de": "Dokumente: bis zu 200 Kategorien, je optional an eine `analyzerId` geleitet; Video: genau ein Eintrag als Schnittregel; `enableSegment` fügt alle Segmente zu einem zusammen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The category rules fit, but `enableSegment: true` does the opposite: it splits the input into segments first.",
+            "de": "Die Kategorieregeln stimmen, aber `enableSegment: true` macht das Gegenteil: Es teilt die Eingabe vorher in Segmente."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Documents: exactly one entry as the split rule; video: up to 200 categories, each routed to an `analyzerId`; `enableSegment` splits the input first.",
+            "de": "Dokumente: genau ein Eintrag als Teilungsregel; Video: bis zu 200 Kategorien, je an eine `analyzerId` geleitet; `enableSegment` teilt die Eingabe vorher."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: documents take up to 200 categories with optional routing, while video takes exactly one entry whose `description` is the cut rule.",
+            "de": "Vertauscht: Dokumente nehmen bis zu 200 Kategorien mit optionaler Weiterleitung, Video genau einen Eintrag, dessen `description` die Schnittregel ist."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Documents: up to 200 categories, each optionally routed to an `analyzerId`; video: exactly one entry as the cut rule; `enableSegment` splits the input first.",
+            "de": "Dokumente: bis zu 200 Kategorien, je optional an eine `analyzerId` geleitet; Video: genau ein Eintrag als Schnittregel; `enableSegment` teilt die Eingabe vorher."
+          },
+          "correct": true,
+          "why": {
+            "en": "No training data is needed — add an `other` category for documents, and the single video entry's `description` says where to cut.",
+            "de": "Trainingsdaten brauchst du nicht – ergänze bei Dokumenten eine Kategorie `other`, und die `description` des einzigen Video-Eintrags sagt, wo geschnitten wird."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What is the status of the standard, pro and agentic analysis modes, and which API version belongs to each?",
         "de": "Welchen Status haben die Analysemodi Standard, Pro und Agentic, und welche API-Version gehört jeweils dazu?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Standard: GA in `2025-11-01`; pro: GA in `2025-11-01` for reasoning across several files; agentic: preview in `2026-06-01-preview`.",
+            "de": "Standard: GA in `2025-11-01`; Pro: GA in `2025-11-01` für Reasoning über mehrere Dateien; Agentic: Preview in `2026-06-01-preview`."
+          },
+          "correct": false,
+          "why": {
+            "en": "There is no pro mode in the GA API: it existed only in `2025-05-01-preview`, which is retired.",
+            "de": "In der GA-API gibt es keinen Pro-Modus: Er existierte nur in `2025-05-01-preview`, und diese Version ist eingestellt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Standard: GA in `2025-11-01`; pro: GA in `2025-11-01` for reasoning across several files; agentic: GA in `2025-11-01` as well.",
+            "de": "Standard: GA in `2025-11-01`; Pro: GA in `2025-11-01` für Reasoning über mehrere Dateien; Agentic: ebenfalls GA in `2025-11-01`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only standard is GA in `2025-11-01`: pro existed only in the retired `2025-05-01-preview`, and agentic is preview in `2026-06-01-preview`.",
+            "de": "Nur Standard ist GA in `2025-11-01`: Pro gab es nur in der eingestellten `2025-05-01-preview`, und Agentic ist Preview in `2026-06-01-preview`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Standard: GA in `2025-11-01`; pro: retired, existed only in `2025-05-01-preview`; agentic: GA in `2025-11-01` as well.",
+            "de": "Standard: GA in `2025-11-01`; Pro: eingestellt, nur in `2025-05-01-preview`; Agentic: ebenfalls GA in `2025-11-01`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Agentic mode is still preview: it needs API `2026-06-01-preview` with `config.workflow: \"agentic\"`.",
+            "de": "Agentic mode ist noch Preview: Er braucht die API `2026-06-01-preview` mit `config.workflow: \"agentic\"`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Standard: GA in `2025-11-01`; pro: retired, existed only in `2025-05-01-preview`; agentic: preview in `2026-06-01-preview`.",
+            "de": "Standard: GA in `2025-11-01`; Pro: eingestellt, nur in `2025-05-01-preview`; Agentic: Preview in `2026-06-01-preview`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: use standard for production extraction; agentic adds reasoning within one input file via `config.workflow: \"agentic\"`.",
+            "de": "Stimmt: Standard ist für produktive Extraktion; Agentic ergänzt Reasoning innerhalb einer Eingabedatei über `config.workflow: \"agentic\"`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which workflow does Content Understanding Studio offer, and why can't the Foundry portal playground replace it?",
         "de": "Welchen Ablauf bietet das Content Understanding Studio, und warum ersetzt der Playground im Foundry-Portal es nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Project → sample → suggested template or AI fields → test → build; labeling happens in Studio, and the playground can't create custom analyzers.",
+            "de": "Projekt → Beispieldatei → vorgeschlagene Vorlage oder KI-Felder → testen → bauen; Labeling erfolgt im Studio, und der Playground kann keine eigenen Analyzer anlegen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: after building you call the analyzer from code; the REST API and SDKs can create the same analyzers without a UI.",
+            "de": "Richtig: Nach dem Bauen rufst du den Analyzer aus Code auf; REST API und SDKs legen dieselben Analyzer auch ohne Oberfläche an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Project → sample → suggested template or AI fields → test → build; the Foundry portal playground can do all of that too, Studio only adds a nicer UI.",
+            "de": "Projekt → Beispieldatei → vorgeschlagene Vorlage oder KI-Felder → testen → bauen; der Playground im Foundry-Portal kann das alles auch, das Studio bietet nur eine schönere Oberfläche."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Foundry portal playground can't create custom analyzers, and labeling to raise accuracy happens in Studio.",
+            "de": "Der Playground im Foundry-Portal kann keine eigenen Analyzer anlegen, und Labeling zur Steigerung der Genauigkeit erfolgt im Studio."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Labeled training set → train → deploy the analyzer as a model deployment; labeling happens in Studio, and the playground can't create custom analyzers.",
+            "de": "Gelabeltes Trainingsset → trainieren → Analyzer als Modell-Deployment bereitstellen; Labeling erfolgt im Studio, und der Playground kann keine eigenen Analyzer anlegen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The playground part fits, but Studio starts from a sample with a suggested template or AI-suggested fields, and you call the built analyzer from code — it isn't a model deployment.",
+            "de": "Der Playground-Teil stimmt, aber das Studio startet mit einer Beispieldatei und einer vorgeschlagenen Vorlage oder KI-Feldern, und den gebauten Analyzer rufst du aus Code auf – er ist kein Modell-Deployment."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Labeled training set → train → deploy the analyzer as a model deployment; the Foundry portal playground can do all of that too.",
+            "de": "Gelabeltes Trainingsset → trainieren → Analyzer als Modell-Deployment bereitstellen; der Playground im Foundry-Portal kann das alles auch."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: Studio builds analyzers from a sample and suggested fields that you call from code, and the Foundry portal playground can't create custom analyzers.",
+            "de": "Beides daneben: Das Studio baut aus einer Beispieldatei und vorgeschlagenen Feldern Analyzer, die du aus Code aufrufst, und der Playground im Foundry-Portal kann keine eigenen Analyzer anlegen."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-trap-1",
@@ -60,7 +360,57 @@
       "back": {
         "en": "Nowhere in the GA API: it existed only in `2025-05-01-preview`, which is retired. Its successor, agentic mode, is preview, documents only, one input file per request and no `extract` fields.",
         "de": "In der GA-API nicht: Er existierte nur in `2025-05-01-preview`, und diese Version ist eingestellt. Sein Nachfolger, der agentic mode, ist Preview, nur für Dokumente, eine Eingabedatei pro Anfrage und ohne `extract`-Felder."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Still in the GA API `2025-11-01` as a `config` option; its successor agentic mode is preview, documents only, one file per request, no `extract` fields.",
+            "de": "Noch in der GA-API `2025-11-01` als `config`-Option; sein Nachfolger, der agentic mode, ist Preview, nur Dokumente, eine Datei pro Anfrage, keine `extract`-Felder."
+          },
+          "correct": false,
+          "why": {
+            "en": "The limits fit, but there's no pro mode in the GA API — it existed only in `2025-05-01-preview`, which is retired.",
+            "de": "Die Grenzen stimmen, aber in der GA-API gibt es keinen Pro-Modus – er existierte nur in `2025-05-01-preview`, und diese Version ist eingestellt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Nowhere: it existed only in the retired `2025-05-01-preview`; agentic mode is preview, documents only, one file per request, no `extract` fields.",
+            "de": "Nirgends: Er existierte nur in der eingestellten `2025-05-01-preview`; agentic mode ist Preview, nur Dokumente, eine Datei pro Anfrage, keine `extract`-Felder."
+          },
+          "correct": true,
+          "why": {
+            "en": "Agentic mode reasons within one input file per request, while pro reasoned across several files in a preview that is now retired.",
+            "de": "Agentic mode argumentiert innerhalb einer Eingabedatei pro Anfrage, Pro argumentierte über mehrere Dateien – in einer inzwischen eingestellten Preview."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Nowhere: it existed only in the retired `2025-05-01-preview`; agentic mode is GA and reasons across several input files.",
+            "de": "Nirgends: Er existierte nur in der eingestellten `2025-05-01-preview`; agentic mode ist GA und argumentiert über mehrere Eingabedateien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Agentic mode is preview and handles one input file per request; reasoning across several files was pro mode's trait.",
+            "de": "Agentic mode ist Preview und verarbeitet eine Eingabedatei pro Anfrage; das Argumentieren über mehrere Dateien war die Eigenschaft des Pro-Modus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Still in the GA API `2025-11-01` as a `config` option; its successor agentic mode is GA and reasons across several input files.",
+            "de": "Noch in der GA-API `2025-11-01` als `config`-Option; sein Nachfolger, der agentic mode, ist GA und argumentiert über mehrere Eingabedateien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: pro mode existed only in the retired `2025-05-01-preview`, and agentic mode is preview with one input file per request.",
+            "de": "Beides daneben: Den Pro-Modus gab es nur in der eingestellten `2025-05-01-preview`, und agentic mode ist Preview mit einer Eingabedatei pro Anfrage."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-trap-2",
@@ -72,7 +422,57 @@
       "back": {
         "en": "Only for documents — confidence scores and source grounding are document features. Audio, video and image fields return values without them.",
         "de": "Nur bei Dokumenten – Konfidenzwerte und Quellen-Grounding sind Dokumentfunktionen. Audio-, Video- und Bildfelder liefern Werte ohne sie."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only documents; audio, video and image fields return values without them.",
+            "de": "Nur bei Dokumenten; Audio-, Video- und Bildfelder liefern Werte ohne sie."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: confidence and source grounding are document features, so reviewers can check each document value at its page region.",
+            "de": "Stimmt: Konfidenz und Quellen-Grounding sind Dokumentfunktionen – Prüfende können jeden Dokumentwert an seiner Seitenregion nachvollziehen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Documents and images; only audio and video fields return their values without them.",
+            "de": "Bei Dokumenten und Bildern; nur Audio- und Videofelder liefern ihre Werte ohne sie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Image fields don't get them either: confidence scores and source grounding exist only for documents.",
+            "de": "Auch Bildfelder bekommen sie nicht: Konfidenzwerte und Quellen-Grounding gibt es nur bei Dokumenten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Audio and video, where each value points to its timestamp.",
+            "de": "Bei Audio und Video, wo jeder Wert auf seinen Zeitstempel zeigt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Audio and video fields return values without confidence or grounding; these are document features.",
+            "de": "Audio- und Videofelder liefern Werte ohne Konfidenz und Grounding; das sind Dokumentfunktionen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Every modality, once `estimateFieldSourceAndConfidence` is `true`.",
+            "de": "Bei jeder Modalität, sobald `estimateFieldSourceAndConfidence` auf `true` steht."
+          },
+          "correct": false,
+          "why": {
+            "en": "The setting applies to document analyzers; audio, video and image fields still come without confidence and source.",
+            "de": "Die Einstellung gilt für Dokument-Analyzer; Audio-, Video- und Bildfelder kommen weiterhin ohne Konfidenz und Quelle."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-trap-3",
@@ -84,7 +484,57 @@
       "back": {
         "en": "Exactly one `contentCategories` entry. Segmentation consumes model tokens even when the analyzer defines no fields.",
         "de": "Genau einen `contentCategories`-Eintrag. Die Segmentierung verbraucht Modell-Tokens, auch wenn der Analyzer keine Felder definiert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Up to 200 entries; without fields it consumes nothing beyond per-minute content extraction.",
+            "de": "Bis zu 200 Einträge; ohne Felder verbraucht sie nichts außer der minutenweisen Inhaltsextraktion."
+          },
+          "correct": false,
+          "why": {
+            "en": "Video takes exactly one entry, and segmentation calls the model, so it uses tokens even without fields.",
+            "de": "Video nimmt genau einen Eintrag, und die Segmentierung ruft das Modell auf – sie verbraucht also auch ohne Felder Tokens."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Exactly one entry; without fields it uses no model tokens, only per-minute content extraction.",
+            "de": "Genau einen Eintrag; ohne Felder verbraucht sie keine Modell-Tokens, nur die minutenweise Inhaltsextraktion."
+          },
+          "correct": false,
+          "why": {
+            "en": "One entry is right, but segmentation calls your model deployment, so it consumes tokens even when the analyzer defines no fields.",
+            "de": "Ein Eintrag stimmt, aber die Segmentierung ruft dein Modell-Deployment auf und verbraucht daher Tokens, auch wenn der Analyzer keine Felder definiert."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Exactly one entry; segmentation still consumes model tokens when the analyzer defines no fields.",
+            "de": "Genau einen Eintrag; die Segmentierung verbraucht Modell-Tokens, auch wenn der Analyzer keine Felder definiert."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the single entry's `description` is the cut rule, and cutting the timeline is a model call that uses tokens.",
+            "de": "Richtig: Die `description` des einzigen Eintrags ist die Schnittregel, und das Schneiden der Zeitleiste ist ein Modellaufruf, der Tokens verbraucht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Up to 200 entries, each routed to an `analyzerId`; it consumes model tokens even without fields.",
+            "de": "Bis zu 200 Einträge, je an eine `analyzerId` geleitet; sie verbraucht auch ohne Felder Modell-Tokens."
+          },
+          "correct": false,
+          "why": {
+            "en": "Up to 200 routed categories is document classification; video segmentation takes exactly one `contentCategories` entry.",
+            "de": "Bis zu 200 weitergeleitete Kategorien gelten für die Dokumentklassifizierung; die Videosegmentierung nimmt genau einen `contentCategories`-Eintrag."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-trap-4",
@@ -96,7 +546,57 @@
       "back": {
         "en": "It samples roughly one frame per second at 512 × 512 pixels, so very short events and small details can be missed. Music and ambient sound aren't transcribed.",
         "de": "Sie tastet etwa ein Bild pro Sekunde mit 512 × 512 Pixeln ab – sehr kurze Ereignisse und kleine Details können fehlen. Musik und Umgebungsgeräusche werden nicht transkribiert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It samples one full-resolution frame every 30 seconds; speech isn't transcribed, only music and ambient sound.",
+            "de": "Sie tastet alle 30 Sekunden ein Bild in voller Auflösung ab; Sprache wird nicht transkribiert, nur Musik und Umgebungsgeräusche."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both reversed: sampling is about one frame per second at 512 × 512 pixels, and speech is what gets transcribed — not music or ambient sound.",
+            "de": "Beides verdreht: Abgetastet wird etwa ein Bild pro Sekunde mit 512 × 512 Pixeln, und transkribiert wird Sprache – nicht Musik oder Umgebungsgeräusche."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It samples about one frame per second at 512 × 512 pixels; speech isn't transcribed, only music and ambient sound.",
+            "de": "Sie tastet etwa ein Bild pro Sekunde mit 512 × 512 Pixeln ab; Sprache wird nicht transkribiert, nur Musik und Umgebungsgeräusche."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: speech is transcribed — into a WebVTT transcript with speakers — while music and ambient sound aren't.",
+            "de": "Umgekehrt: Sprache wird transkribiert – in ein WebVTT-Transkript mit Sprechern –, Musik und Umgebungsgeräusche dagegen nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It samples one full-resolution frame every 30 seconds; music and ambient sound aren't transcribed.",
+            "de": "Sie tastet alle 30 Sekunden ein Bild in voller Auflösung ab; Musik und Umgebungsgeräusche werden nicht transkribiert."
+          },
+          "correct": false,
+          "why": {
+            "en": "Sampling is about one frame per second at 512 × 512 pixels — not full resolution every 30 seconds.",
+            "de": "Abgetastet wird etwa ein Bild pro Sekunde mit 512 × 512 Pixeln – nicht in voller Auflösung alle 30 Sekunden."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It samples about one frame per second at 512 × 512 pixels; music and ambient sound aren't transcribed.",
+            "de": "Sie tastet etwa ein Bild pro Sekunde mit 512 × 512 Pixeln ab; Musik und Umgebungsgeräusche werden nicht transkribiert."
+          },
+          "correct": true,
+          "why": {
+            "en": "Events between two sampled frames and details too small for 512 × 512 pixels can slip through, and only speech is transcribed.",
+            "de": "Ereignisse zwischen zwei abgetasteten Bildern und Details, die für 512 × 512 Pixel zu klein sind, können durchrutschen, und transkribiert wird nur Sprache."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-trap-5",
@@ -108,7 +608,57 @@
       "back": {
         "en": "Every file or segment is forced into one of your content categories — even when nothing fits.",
         "de": "Jede Datei und jedes Segment landet zwangsweise in einer deiner Inhaltskategorien – selbst wenn keine passt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Files that fit no category are skipped and left out of the result.",
+            "de": "Dateien, die in keine Kategorie passen, werden übersprungen und fehlen im Ergebnis."
+          },
+          "correct": false,
+          "why": {
+            "en": "Nothing is skipped: without `other`, every file or segment is forced into one of your categories, even when none fits.",
+            "de": "Übersprungen wird nichts: Ohne `other` landet jede Datei und jedes Segment zwangsweise in einer deiner Kategorien, auch wenn keine passt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Every file or segment is forced into one of your categories, even when none fits.",
+            "de": "Jede Datei und jedes Segment landet zwangsweise in einer deiner Kategorien, auch wenn keine passt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: add an `other` category so content that matches none of your descriptions has somewhere to go.",
+            "de": "Stimmt: Ergänze eine Kategorie `other`, damit Inhalte, die zu keiner deiner Beschreibungen passen, einen Platz haben."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The service adds an `other` category automatically for anything that fits none of your categories.",
+            "de": "Der Dienst ergänzt automatisch eine Kategorie `other` für alles, was in keine deiner Kategorien passt."
+          },
+          "correct": false,
+          "why": {
+            "en": "There's no automatic fallback: you have to define `other` yourself, or every file lands in one of your categories.",
+            "de": "Einen automatischen Auffang gibt es nicht: `other` musst du selbst definieren, sonst landet jede Datei in einer deiner Kategorien."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Creating the analyzer fails, because `other` is a required category.",
+            "de": "Das Anlegen des Analyzers schlägt fehl, weil `other` eine Pflichtkategorie ist."
+          },
+          "correct": false,
+          "why": {
+            "en": "`other` is optional — leaving it out is allowed, but then every file is forced into one of your categories.",
+            "de": "`other` ist optional – du darfst es weglassen, dann landet aber jede Datei zwangsweise in einer deiner Kategorien."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-takeaway-1",
@@ -120,7 +670,57 @@
       "back": {
         "en": "Content extraction runs first; field extraction runs second, on your own model deployments.",
         "de": "Erst die Inhaltsextraktion, dann die Feldextraktion auf deinen eigenen Modell-Deployments."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Field extraction runs first, on your own Foundry model deployments; content extraction follows afterwards.",
+            "de": "Zuerst läuft die Feldextraktion, auf deinen eigenen Foundry-Modell-Deployments; die Inhaltsextraktion folgt danach."
+          },
+          "correct": false,
+          "why": {
+            "en": "The model part fits, but content extraction runs first; field extraction follows on your Foundry model deployments.",
+            "de": "Der Modell-Teil stimmt, aber zuerst läuft die Inhaltsextraktion; die Feldextraktion folgt danach auf deinen Foundry-Modell-Deployments."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Content extraction runs first; field extraction then follows on hosted models that Content Understanding bills itself.",
+            "de": "Zuerst läuft die Inhaltsextraktion; die Feldextraktion folgt dann auf gehosteten Modellen, die Content Understanding selbst abrechnet."
+          },
+          "correct": false,
+          "why": {
+            "en": "Field extraction calls your own Foundry deployments, and its model tokens appear on those deployments, not on a hosted model.",
+            "de": "Die Feldextraktion ruft deine eigenen Foundry-Deployments auf, und ihre Modell-Tokens erscheinen auf diesen Deployments, nicht auf einem gehosteten Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Content extraction runs first; field extraction then follows on your own Foundry model deployments.",
+            "de": "Zuerst läuft die Inhaltsextraktion; die Feldextraktion folgt dann auf deinen eigenen Foundry-Modell-Deployments."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: extraction produces the Markdown, then your deployments fill the schema — and a deployment can have any name.",
+            "de": "Richtig: Die Extraktion erzeugt das Markdown, danach füllen deine Deployments das Schema – und ein Deployment darf beliebig heißen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Field extraction runs first, on hosted models that Content Understanding bills itself; content extraction follows afterwards.",
+            "de": "Zuerst läuft die Feldextraktion, auf gehosteten Modellen, die Content Understanding selbst abrechnet; die Inhaltsextraktion folgt danach."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: content extraction runs first, and field extraction calls your own Foundry deployments, where its model tokens appear.",
+            "de": "Beides daneben: Zuerst läuft die Inhaltsextraktion, und die Feldextraktion ruft deine eigenen Foundry-Deployments auf, wo ihre Modell-Tokens erscheinen."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-takeaway-2",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Markdown feeds retrieval and agent context; typed fields feed automation.",
         "de": "Markdown versorgt Suche und Agent-Kontext; typisierte Felder versorgen die Automatisierung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Markdown feeds retrieval and agent context; typed fields feed automation.",
+            "de": "Das Markdown versorgt Suche und Agent-Kontext; typisierte Felder versorgen die Automatisierung."
+          },
+          "correct": true,
+          "why": {
+            "en": "Markdown chunks go into a search index for RAG or into an agent's context, and typed fields drive workflows and agent tools.",
+            "de": "Markdown-Chunks gehen in einen Suchindex für RAG oder in den Kontext eines Agents, typisierte Felder steuern Workflows und Agent-Tools."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Typed fields feed retrieval and agent context; the Markdown feeds automation.",
+            "de": "Typisierte Felder versorgen Suche und Agent-Kontext; das Markdown versorgt die Automatisierung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: you chunk the Markdown into a search index or an agent's context, and hand typed fields to workflows and agent tools.",
+            "de": "Vertauscht: Das Markdown zerlegst du in Chunks für einen Suchindex oder den Agent-Kontext, typisierte Felder gibst du an Workflows und Agent-Tools."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Markdown is only for people; typed fields feed retrieval and automation.",
+            "de": "Markdown ist nur für Menschen; typisierte Felder versorgen Suche und Automatisierung."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Markdown is the retrieval output: you chunk and embed it into Azure AI Search for RAG or add it to an agent's context.",
+            "de": "Das Markdown ist die Ausgabe für die Suche: Du zerlegst es in Chunks und bettest es für RAG in Azure AI Search ein oder gibst es einem Agent als Kontext."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Both feed only the search index; agents need the original file.",
+            "de": "Beide versorgen nur den Suchindex; Agents brauchen die Originaldatei."
+          },
+          "correct": false,
+          "why": {
+            "en": "Agents can take the Markdown as context, and typed fields go to workflows or agent tools.",
+            "de": "Agents können das Markdown als Kontext nehmen, und typisierte Felder gehen an Workflows oder Agent-Tools."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-takeaway-3",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Standard analyzers on GA `2025-11-01`. Agentic mode only when reasoning is needed and preview is acceptable.",
         "de": "Standard-Analyzer auf GA `2025-11-01`. Agentic mode nur, wenn Reasoning nötig und Preview akzeptabel ist."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Agentic analyzers in the preview API `2026-06-01-preview`; standard mode only for quick prototypes.",
+            "de": "Agentic-Analyzer in der Preview-API `2026-06-01-preview`; Standard-Modus nur für schnelle Prototypen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Production extraction runs on standard analyzers in GA `2025-11-01`; agentic mode is a preview for cases that need reasoning.",
+            "de": "Produktive Extraktion läuft auf Standard-Analyzern in GA `2025-11-01`; agentic mode ist eine Preview für Fälle, die Reasoning brauchen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Standard analyzers on GA `2025-11-01`; agentic mode only when you need reasoning and can accept preview.",
+            "de": "Standard-Analyzer auf GA `2025-11-01`; agentic mode nur, wenn du Reasoning brauchst und Preview akzeptierst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: agentic mode adds reasoning, calculations and validation within one input file, but it's preview and uses more tokens.",
+            "de": "Stimmt: Agentic mode ergänzt Reasoning, Berechnungen und Prüfungen innerhalb einer Eingabedatei, ist aber Preview und verbraucht mehr Tokens."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Pro mode analyzers on `2025-05-01-preview`; agentic mode for audio and video.",
+            "de": "Pro-Modus-Analyzer auf `2025-05-01-preview`; agentic mode für Audio und Video."
+          },
+          "correct": false,
+          "why": {
+            "en": "`2025-05-01-preview` with pro mode is retired, and agentic mode handles documents only.",
+            "de": "`2025-05-01-preview` mit Pro-Modus ist eingestellt, und agentic mode verarbeitet nur Dokumente."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Standard analyzers on GA `2025-11-01`; agentic mode for `extract` fields across many files.",
+            "de": "Standard-Analyzer auf GA `2025-11-01`; agentic mode für `extract`-Felder über viele Dateien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Agentic mode supports no `extract` fields and takes one input file per request.",
+            "de": "Agentic mode unterstützt keine `extract`-Felder und nimmt eine Eingabedatei pro Anfrage."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-multimodal-takeaway-4",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Route them to people, using `source` to show where each value came from.",
         "de": "Sie gehen an Menschen – `source` zeigt, woher jeder Wert stammt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Into the search index for RAG; `source` shows where each value came from.",
+            "de": "In den Suchindex für RAG; `source` zeigt, woher jeder Wert stammt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Low-confidence values belong in human review, where `source` lets people check each value against the document.",
+            "de": "Werte mit niedriger Konfidenz gehören in die manuelle Prüfung, wo Menschen jeden Wert über `source` am Dokument prüfen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "To human review; `confidence` shows where each value came from.",
+            "de": "In die manuelle Prüfung; `confidence` zeigt, woher jeder Wert stammt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`confidence` is a score between 0 and 1; the location, such as `D(page,…)`, comes from `source`.",
+            "de": "`confidence` ist ein Wert zwischen 0 und 1; die Fundstelle, etwa `D(page,…)`, liefert `source`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "To human review; `source` shows where each value came from.",
+            "de": "In die manuelle Prüfung; `source` zeigt, woher jeder Wert stammt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: people check uncertain values at the page region that `source` points to, for example `D(page,x1,y1,…)`.",
+            "de": "Richtig: Menschen prüfen unsichere Werte an der Seitenregion, auf die `source` zeigt, etwa `D(page,x1,y1,…)`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Into the search index for RAG; `confidence` shows where each value came from.",
+            "de": "In den Suchindex für RAG; `confidence` zeigt, woher jeder Wert stammt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: uncertain values go to human review, and the location comes from `source` — `confidence` is just a score between 0 and 1.",
+            "de": "Beides daneben: Unsichere Werte gehen in die manuelle Prüfung, und die Fundstelle liefert `source` – `confidence` ist nur ein Wert zwischen 0 und 1."
+          }
+        }
+      ]
     }
   ]
 }

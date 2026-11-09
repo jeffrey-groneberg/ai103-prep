@@ -8,7 +8,57 @@
       "front": {
         "en": "What do executors and edges do in a workflow, and which kinds of edges can route messages?",
         "de": "Was tun Executors und Edges in einem Workflow, und welche Arten von Edges leiten Nachrichten weiter?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Executors (agents only) process messages; edges route them: direct, conditional, switch-case, fan-out and fan-in",
+            "de": "Executors (nur Agents) verarbeiten Nachrichten; Edges leiten sie weiter: direkt, bedingt, Switch-Case, Fan-out und Fan-in"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the edge kinds fit, but an executor can also be a plain function or other custom logic, not only an agent.",
+            "de": "Teilweise richtig: Die Edge-Arten stimmen, aber ein Executor kann auch eine einfache Funktion oder andere eigene Logik sein, nicht nur ein Agent."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Executors (agents or custom logic) process messages; edges route them: direct, conditional, switch-case, fan-out and fan-in",
+            "de": "Executors (Agents oder eigene Logik) verarbeiten Nachrichten; Edges leiten sie weiter: direkt, bedingt, Switch-Case, Fan-out und Fan-in"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: executors do the work, as an agent or plain code, and edges decide where each message goes — directly, by condition, by switch-case, fan-out or fan-in.",
+            "de": "Richtig: Executors erledigen die Arbeit, als Agent oder einfacher Code, und Edges bestimmen, wohin jede Nachricht geht – direkt, per Bedingung, per Switch-Case, Fan-out oder Fan-in."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Executors (agents only) process messages; edges save checkpoints and emit `output` and `request_info` events rather than routing",
+            "de": "Executors (nur Agents) verarbeiten Nachrichten; Edges sichern Checkpoints und senden `output`- und `request_info`-Events, statt Nachrichten weiterzuleiten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both halves wrong: executors can also be custom logic, and edges route messages — events report progress, and checkpoints save state.",
+            "de": "Beide Hälften falsch: Executors können auch eigene Logik sein, und Edges leiten Nachrichten weiter – Events melden den Fortschritt, Checkpoints sichern den Zustand."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Executors (agents or custom logic) process messages; edges save checkpoints and emit `output` and `request_info` events rather than routing",
+            "de": "Executors (Agents oder eigene Logik) verarbeiten Nachrichten; Edges sichern Checkpoints und senden `output`- und `request_info`-Events, statt Nachrichten weiterzuleiten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong half: edges route messages between executors; events such as `output` and `request_info` report progress, and checkpoints save state.",
+            "de": "Falsche Hälfte: Edges leiten Nachrichten zwischen Executors weiter; Events wie `output` und `request_info` melden den Fortschritt, Checkpoints sichern den Zustand."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "In a `SequentialBuilder` pipeline, what does each agent receive by default, and what is the final output?",
         "de": "Was erhält in einer `SequentialBuilder`-Pipeline jeder Agent standardmäßig, und was ist die finale Ausgabe?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The previous agent's full conversation; the last participant's response is the final output",
+            "de": "Das komplette Gespräch des vorherigen Agents; die Antwort des letzten Teilnehmers ist die finale Ausgabe"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: by default the whole conversation is passed on, and the response of the last participant is what the workflow returns.",
+            "de": "Richtig: Standardmäßig wird das ganze Gespräch weitergereicht, und die Antwort des letzten Teilnehmers ist das, was der Workflow liefert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only the previous agent's own responses; the responses of all participants are merged into the final output",
+            "de": "Nur die eigenen Antworten des vorherigen Agents; die Antworten aller Teilnehmer werden zur finalen Ausgabe zusammengeführt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two mix-ups: passing only responses is opt-in (`chain_only_agent_responses=True`), and nothing is merged — the last participant's response is the output.",
+            "de": "Zwei Verwechslungen: Nur Antworten weiterzugeben ist optional (`chain_only_agent_responses=True`), und nichts wird zusammengeführt – die Antwort des letzten Teilnehmers ist die Ausgabe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the previous agent's own responses; the last participant's response is the final output",
+            "de": "Nur die eigenen Antworten des vorherigen Agents; die Antwort des letzten Teilnehmers ist die finale Ausgabe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the final output fits, but by default each agent gets the full conversation — passing only responses is the opt-in `chain_only_agent_responses=True`.",
+            "de": "Teilweise richtig: Die finale Ausgabe stimmt, aber standardmäßig bekommt jeder Agent das ganze Gespräch – nur Antworten gibt es optional mit `chain_only_agent_responses=True`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The previous agent's full conversation; the responses of all participants are merged into the final output",
+            "de": "Das komplette Gespräch des vorherigen Agents; die Antworten aller Teilnehmer werden zur finalen Ausgabe zusammengeführt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the input fits, but nothing is merged — the last participant's response is the final output; merging is what a concurrent aggregator does.",
+            "de": "Teilweise richtig: Die Eingabe stimmt, aber nichts wird zusammengeführt – die Antwort des letzten Teilnehmers ist die finale Ausgabe; Zusammenführen ist Sache eines Concurrent-Aggregators."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How do agents get their input in a `ConcurrentBuilder` run, and how do you merge their answers?",
         "de": "Wie erhalten die Agents bei `ConcurrentBuilder` ihre Eingabe, und wie führst du ihre Antworten zusammen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "All get the same input in parallel and read each other's drafts; `.with_aggregator(...)` merges the answers, for example via a summarizer agent",
+            "de": "Alle erhalten parallel dieselbe Eingabe und lesen die Entwürfe der anderen; `.with_aggregator(...)` vereint die Antworten, etwa per Zusammenfassungs-Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `.with_aggregator(...)` does merge the answers, but concurrent agents never see each other's work.",
+            "de": "Teilweise richtig: `.with_aggregator(...)` führt die Antworten zusammen, aber Concurrent-Agents sehen die Arbeit der anderen nie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "All get the same input in parallel and read each other's drafts; `termination_condition` merges the answers once every agent has finished its work",
+            "de": "Alle erhalten parallel dieselbe Eingabe und lesen die Entwürfe der anderen; `termination_condition` führt die Antworten zusammen, wenn alle Agents fertig sind"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both halves wrong: concurrent agents never see each other's work, and `termination_condition` ends loops — merging is the aggregator's job.",
+            "de": "Beide Hälften falsch: Concurrent-Agents sehen die Arbeit der anderen nie, und `termination_condition` beendet Schleifen – das Zusammenführen übernimmt der Aggregator."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "All get the same input in parallel and don't see each other's work; `termination_condition` merges the answers once every agent has finished its work",
+            "de": "Alle erhalten parallel dieselbe Eingabe und sehen die Arbeit der anderen nicht; `termination_condition` führt die Antworten zusammen, wenn alle Agents fertig sind"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the input fits, but `termination_condition` ends loops — the default aggregator returns one message per agent, and `.with_aggregator(...)` merges them.",
+            "de": "Teilweise richtig: Die Eingabe stimmt, aber `termination_condition` beendet Schleifen – der Standard-Aggregator liefert eine Nachricht pro Agent, und `.with_aggregator(...)` führt sie zusammen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "All get the same input in parallel and don't see each other's work; `.with_aggregator(...)` merges the answers, for example via a summarizer agent",
+            "de": "Alle erhalten parallel dieselbe Eingabe und sehen die Arbeit der anderen nicht; `.with_aggregator(...)` vereint die Antworten, etwa per Zusammenfassungs-Agent"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: concurrent agents work on identical input independently; by default you get one message per agent, and a custom aggregator combines them.",
+            "de": "Richtig: Concurrent-Agents bearbeiten dieselbe Eingabe unabhängig voneinander; standardmäßig gibt es eine Nachricht pro Agent, und ein eigener Aggregator fasst sie zusammen."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "Who picks the next speaker in a group chat, and how does it remain one logical conversation?",
         "de": "Wer wählt im Group chat den nächsten Sprecher, und wie bleibt es ein logisches Gespräch?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The current speaker, via a handoff tool call; all agents share one session object, so nothing needs syncing",
+            "de": "Der aktuelle Sprecher per Handoff-Tool-Aufruf; alle Agents teilen ein Session-Objekt, daher muss nichts synchronisiert werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's handoff; in group chat a central orchestrator picks the speaker, and agents keep their own sessions, which it syncs.",
+            "de": "Das ist Handoff; im Group chat wählt ein zentraler Orchestrator den Sprecher, und die Agents behalten eigene Sessions, die er synchronisiert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A planning manager that keeps a task and a progress ledger; agents read the ledgers instead of the conversation",
+            "de": "Ein planender Manager mit Aufgaben- und Fortschritts-Ledger; die Agents lesen die Ledger statt des Gesprächs"
+          },
+          "correct": false,
+          "why": {
+            "en": "Task and progress ledgers belong to Magentic's manager; a group chat orchestrator picks speakers and keeps the agents' sessions in sync.",
+            "de": "Aufgaben- und Fortschritts-Ledger gehören zum Manager von Magentic; ein Group-chat-Orchestrator wählt Sprecher und hält die Sessions der Agents synchron."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "An orchestrator (selection function or agent); it syncs each agent's own session before its turn and broadcasts every reply",
+            "de": "Ein Orchestrator (Auswahlfunktion oder Agent); er synchronisiert die eigene Session jedes Agents vor dessen Runde und verteilt jede Antwort an alle"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a `selection_func` or an `orchestrator_agent` picks each round, and syncing plus broadcasting keeps one logical conversation.",
+            "de": "Richtig: Eine `selection_func` oder ein `orchestrator_agent` wählt jede Runde, und Synchronisieren plus Verteilen hält ein logisches Gespräch zusammen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "An orchestrator (selection function or agent); all participants write into one shared session, which every agent then reads",
+            "de": "Ein Orchestrator (Auswahlfunktion oder Agent); alle Teilnehmer schreiben in eine einzige gemeinsame Session, die nachher jeder einzelne Agent liest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: agents don't share a session — the orchestrator syncs each agent's own session before its turn and broadcasts every reply.",
+            "de": "Teilweise richtig: Die Agents teilen keine Session – der Orchestrator synchronisiert die eigene Session jedes Agents vor dessen Runde und verteilt jede Antwort."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How do agents pass ownership in a handoff, and why can't a remote A2A agent take part?",
         "de": "Wie übergeben Agents beim Handoff die Verantwortung, und warum kann kein entfernter A2A-Agent mitmachen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Via a central orchestrator that reassigns ownership each round; a remote A2A agent can't join its shared session",
+            "de": "Über einen zentralen Orchestrator, der die Verantwortung jede Runde neu vergibt; ein entfernter A2A-Agent kann seiner gemeinsamen Session nicht beitreten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: handoff is a mesh without a central orchestrator — agents pass ownership themselves with a handoff tool call that your process runs.",
+            "de": "Nein: Handoff ist ein Mesh ohne zentralen Orchestrator – die Agents übergeben selbst per Handoff-Tool-Aufruf, den dein Prozess ausführt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Via a handoff tool the builder adds and your process executes; a remote A2A agent can't run that tool locally",
+            "de": "Über ein Handoff-Tool, das der Builder ergänzt und dein Prozess ausführt; ein entfernter A2A-Agent kann dieses Tool nicht lokal ausführen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: each agent gets a handoff tool that runs in your process, so only `Agent` participants that execute tools locally can take part.",
+            "de": "Richtig: Jeder Agent erhält ein Handoff-Tool, das in deinem Prozess läuft, daher können nur `Agent`-Teilnehmer mitmachen, die Tools lokal ausführen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Via a handoff tool call that returns control to the caller afterwards; a remote A2A agent can't hand control back",
+            "de": "Über einen Handoff-Tool-Aufruf, der die Kontrolle danach an den Aufrufer zurückgibt; ein entfernter A2A-Agent kann die Kontrolle nicht zurückgeben"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: after a handoff the receiver keeps ownership (control coming back is `as_tool()`), and A2A agents are out because your process must run the handoff tool.",
+            "de": "Falsch: Nach einem Handoff behält der Empfänger die Verantwortung (Kontrolle zurück gibt es bei `as_tool()`), und A2A-Agents fallen weg, weil dein Prozess das Handoff-Tool ausführen muss."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Via a `request_info` event in which the user picks the next owner; a remote A2A agent can't emit that event",
+            "de": "Über ein `request_info`-Event, in dem der Nutzer den nächsten Besitzer wählt; ein entfernter A2A-Agent kann dieses Event nicht senden"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `request_info` asks the user for input when an agent replies without handing off; ownership moves via a handoff tool that your process executes.",
+            "de": "Nein: `request_info` fragt den Nutzer nach Eingabe, wenn ein Agent ohne Handoff antwortet; die Verantwortung wandert per Handoff-Tool, das dein Prozess ausführt."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What do Magentic's task ledger and progress ledger record, and what does the manager do when progress stalls?",
         "de": "Was halten Aufgaben-Ledger und Fortschritts-Ledger bei Magentic fest, und was tut der Manager bei Stillstand?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Task ledger: gathered facts and the plan; progress ledger: each round's status and next speaker. On a stall, the manager re-plans",
+            "de": "Aufgaben-Ledger: gesammelte Fakten und Plan; Fortschritts-Ledger: Status jeder Runde und nächster Sprecher. Bei Stillstand plant der Manager neu"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the progress ledger asks each round whether the request is met, looping or progressing, and who speaks next — a stall triggers a new plan.",
+            "de": "Richtig: Das Fortschritts-Ledger prüft jede Runde, ob die Anfrage erfüllt ist, eine Schleife droht oder es vorangeht und wer als Nächstes spricht – Stillstand löst einen neuen Plan aus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Task ledger: each round's status and next speaker; progress ledger: gathered facts and the plan. On a stall, the manager re-plans",
+            "de": "Aufgaben-Ledger: Status jeder Runde und nächster Sprecher; Fortschritts-Ledger: gesammelte Fakten und Plan. Bei Stillstand plant der Manager neu"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: facts and the plan go into the task ledger; the progress ledger tracks each round's status, the next speaker and the instruction.",
+            "de": "Vertauscht: Fakten und Plan stehen im Aufgaben-Ledger; das Fortschritts-Ledger verfolgt den Status jeder Runde, den nächsten Sprecher und die Anweisung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Task ledger: gathered facts and the plan; progress ledger: each round's status and next speaker. On a stall, it raises `max_round_count`",
+            "de": "Aufgaben-Ledger: gesammelte Fakten und Plan; Fortschritts-Ledger: Status jeder Runde und nächster Sprecher. Bei Stillstand erhöht er `max_round_count`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong ending: `max_round_count` is a fixed cap you set; when progress stalls, the manager detects it and re-plans.",
+            "de": "Falsches Ende: `max_round_count` ist eine feste Obergrenze, die du setzt; stockt der Fortschritt, erkennt der Manager das und plant neu."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Task ledger: each round's status and next speaker; progress ledger: gathered facts and the plan. On a stall, it raises `max_round_count`",
+            "de": "Aufgaben-Ledger: Status jeder Runde und nächster Sprecher; Fortschritts-Ledger: gesammelte Fakten und Plan. Bei Stillstand erhöht er `max_round_count`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: facts and the plan belong in the task ledger, the progress ledger tracks each round, and on a stall the manager re-plans — `max_round_count` is a fixed cap.",
+            "de": "Beides falsch: Fakten und Plan gehören ins Aufgaben-Ledger, das Fortschritts-Ledger verfolgt jede Runde, und bei Stillstand plant der Manager neu – `max_round_count` ist eine feste Obergrenze."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What triggers a `request_info` pause in an orchestration, and how do you resume the workflow?",
         "de": "Was löst in einer Orchestrierung eine Pause mit `request_info` aus, und wie setzt du den Workflow fort?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Reaching `max_rounds` or a `termination_condition`; resume via `workflow.run(responses={request_id: answer}, stream=True)`",
+            "de": "Erreichen von `max_rounds` oder einer `termination_condition`; fortsetzen mit `workflow.run(responses={request_id: antwort}, stream=True)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the resume call fits, but `max_rounds` and `termination_condition` end a run — pauses come from approval-required tools or `with_request_info()`.",
+            "de": "Teilweise richtig: Der Aufruf zum Fortsetzen stimmt, aber `max_rounds` und `termination_condition` beenden einen Lauf – Pausen entstehen durch freigabepflichtige Tools oder `with_request_info()`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`approval_mode=\"always_require\"` tools or `with_request_info()`; resume by starting a new `workflow.run()` with the answer as the prompt",
+            "de": "Tools mit `approval_mode=\"always_require\"` oder `with_request_info()`; fortsetzen, indem du ein neues `workflow.run()` mit der Antwort als Prompt startest"
+          },
+          "correct": false,
+          "why": {
+            "en": "The trigger is right, but a new prompt doesn't answer the pending request — pass `responses={request_id: answer}` to `workflow.run()`.",
+            "de": "Der Auslöser stimmt, aber ein neuer Prompt beantwortet die offene Anfrage nicht – übergib `responses={request_id: antwort}` an `workflow.run()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Reaching `max_rounds` or a `termination_condition`; resume by starting a new `workflow.run()` with the answer as the prompt",
+            "de": "Erreichen von `max_rounds` oder einer `termination_condition`; fortsetzen, indem du ein neues `workflow.run()` mit der Antwort als Prompt startest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: `max_rounds` and `termination_condition` end a run instead of pausing it, and a new prompt doesn't answer a pending request — pass `responses={request_id: answer}`.",
+            "de": "Beides falsch: `max_rounds` und `termination_condition` beenden einen Lauf, statt ihn zu pausieren, und ein neuer Prompt beantwortet keine offene Anfrage – übergib `responses={request_id: antwort}`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`approval_mode=\"always_require\"` tools or `with_request_info()`; resume via `workflow.run(responses={request_id: answer}, stream=True)`",
+            "de": "Tools mit `approval_mode=\"always_require\"` oder `with_request_info()`; fortsetzen mit `workflow.run(responses={request_id: antwort}, stream=True)`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: both raise a `request_info` event with a `request_id`; mapping that id to your answer in `responses` resumes the workflow.",
+            "de": "Richtig: Beide lösen ein `request_info`-Event mit einer `request_id` aus; ordnest du dieser ID in `responses` deine Antwort zu, läuft der Workflow weiter."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-concept-8",
@@ -64,7 +414,57 @@
       "front": {
         "en": "When do you use an agent, when a workflow, and when just a plain function?",
         "de": "Wann nutzt du einen Agent, wann einen Workflow und wann nur eine einfache Funktion?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Agent: defined steps with explicit order or several agents; workflow: open-ended, conversational tasks; function: never — wrap it in an agent instead",
+            "de": "Agent: definierte Schritte, explizite Reihenfolge oder mehrere Agents; Workflow: offene, dialogorientierte Aufgaben; Funktion: nie – pack sie lieber in einen Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "All mixed up: agents fit open-ended tasks, workflows fit defined steps, and Learn advises a plain function whenever one can do the job.",
+            "de": "Alles verdreht: Agents passen zu offenen Aufgaben, Workflows zu definierten Schritten, und Learn rät zur einfachen Funktion, wann immer sie die Aufgabe erledigt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Agent: defined steps with explicit order or several agents; workflow: open-ended, conversational tasks; function: whenever plain code does the job",
+            "de": "Agent: definierte Schritte, explizite Reihenfolge oder mehrere Agents; Workflow: offene, dialogorientierte Aufgaben; Funktion: wenn einfacher Code reicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: agents suit open-ended, conversational tasks where the model plans, and workflows suit defined steps with an explicit order.",
+            "de": "Vertauscht: Agents passen zu offenen, dialogorientierten Aufgaben, bei denen das Modell plant, Workflows zu definierten Schritten mit expliziter Reihenfolge."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Agent: open-ended, conversational tasks; workflow: defined steps with explicit order or several agents; function: whenever plain code does the job",
+            "de": "Agent: offene, dialogorientierte Aufgaben; Workflow: definierte Schritte, explizite Reihenfolge oder mehrere Agents; Funktion: wenn einfacher Code reicht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: an agent fits work where the model plans and picks tools, a workflow fits explicit step order, and Learn advises a plain function when one does the job.",
+            "de": "Richtig: Ein Agent passt, wenn das Modell plant und Tools wählt, ein Workflow bei expliziter Schrittfolge, und Learn rät zur einfachen Funktion, wenn sie die Aufgabe erledigt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Agent: open-ended, conversational tasks; workflow: defined steps with explicit order or several agents; function: never — wrap it in an agent instead",
+            "de": "Agent: offene, dialogorientierte Aufgaben; Workflow: definierte Schritte, explizite Reihenfolge oder mehrere Agents; Funktion: nie – pack sie lieber in einen Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: agent and workflow fit, but Learn's advice is the opposite — if a plain function can do the job, write the function instead of an agent.",
+            "de": "Teilweise richtig: Agent und Workflow stimmen, aber Learn rät das Gegenteil – kann eine einfache Funktion die Aufgabe erledigen, schreib die Funktion statt eines Agents."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-trap-1",
@@ -76,7 +476,57 @@
       "back": {
         "en": "In a handoff the receiving agent takes over the conversation. With `as_tool()` the calling agent gets the result back and stays in charge.",
         "de": "Beim Handoff übernimmt der empfangende Agent das Gespräch. Mit `as_tool()` bekommt der aufrufende Agent das Ergebnis zurück und behält die Führung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Handoff: the calling agent gets the result back and stays in charge; `as_tool()`: the called agent takes over the conversation",
+            "de": "Handoff: Der aufrufende Agent bekommt das Ergebnis zurück und behält die Führung; `as_tool()`: Der aufgerufene Agent übernimmt das Gespräch"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: with `as_tool()` the caller keeps control and gets the result, while in a handoff the receiver owns the conversation.",
+            "de": "Vertauscht: Mit `as_tool()` behält der Aufrufer die Kontrolle und bekommt das Ergebnis, beim Handoff gehört das Gespräch dem Empfänger."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Handoff: the receiving agent takes over; `as_tool()`: the calling agent gets the result back and stays in charge",
+            "de": "Handoff: Der empfangende Agent übernimmt; `as_tool()`: Der aufrufende Agent bekommt das Ergebnis zurück und behält die Führung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a handoff transfers ownership of the conversation, while an agent used as a tool just returns its result to the caller.",
+            "de": "Richtig: Ein Handoff überträgt die Verantwortung für das Gespräch, ein Agent als Tool liefert nur sein Ergebnis an den Aufrufer zurück."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In both cases a central orchestrator stays in charge and picks which agent speaks next",
+            "de": "In beiden Fällen behält ein zentraler Orchestrator die Führung und wählt, welcher Agent als Nächstes spricht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: handoff works without a central orchestrator, and with `as_tool()` the calling agent itself stays in charge.",
+            "de": "Nein: Handoff kommt ohne zentralen Orchestrator aus, und mit `as_tool()` behält der aufrufende Agent selbst die Führung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In both cases the receiving agent takes over; the caller regains control only through `request_info`",
+            "de": "In beiden Fällen übernimmt der empfangende Agent; der Aufrufer bekommt die Kontrolle nur über `request_info` zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only partly right: with `as_tool()` the result returns to the caller, which never gives up control; `request_info` asks the user for input.",
+            "de": "Nur teilweise richtig: Mit `as_tool()` geht das Ergebnis an den Aufrufer zurück, der die Kontrolle nie abgibt; `request_info` fragt den Nutzer nach Eingabe."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-trap-2",
@@ -88,7 +538,57 @@
       "back": {
         "en": "Concurrent agents never see each other's output, and a sequential pipeline doesn't loop back. For iterative critique, use group chat.",
         "de": "Concurrent-Agents sehen die Ausgabe der anderen nie, und eine sequenzielle Pipeline springt nicht zurück. Für iterative Kritik nutzt du Group chat."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Concurrent agents never see each other's output, and a sequential pipeline never loops back; group chat fits",
+            "de": "Concurrent-Agents sehen die Ausgabe der anderen nie, und eine sequenzielle Pipeline springt nie zurück; Group chat passt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the critic must see the draft and the writer needs another turn — group chat's orchestrator loops until a termination condition or round limit.",
+            "de": "Richtig: Der Kritiker muss den Entwurf sehen und der Writer eine weitere Runde bekommen – der Orchestrator im Group chat wiederholt, bis Abbruchbedingung oder Rundenlimit greifen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Agents in those patterns can't call tools, which critique needs; handoff fits, since the reviewer takes over",
+            "de": "Agents in diesen Mustern können keine Tools aufrufen, die eine Kritik braucht; Handoff passt, da der Reviewer übernimmt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: agents in any orchestration can call tools; the real gaps are visibility and looping, and a handoff transfers ownership instead of looping.",
+            "de": "Nein: Agents können in jeder Orchestrierung Tools aufrufen; die echten Lücken sind Sichtbarkeit und Schleifen, und ein Handoff überträgt Verantwortung, statt zu wiederholen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Both loop endlessly without a limit; a sequential pipeline with `max_rounds=3` fits a bounded critique",
+            "de": "Beide laufen ohne Limit endlos weiter; eine sequenzielle Pipeline mit `max_rounds=3` passt für eine begrenzte Kritik"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: neither pattern loops at all — a sequential pipeline ends when the last agent has answered, so there is no loop to bound.",
+            "de": "Falsch: Keines der Muster wiederholt sich – eine sequenzielle Pipeline endet, wenn der letzte Agent geantwortet hat, es gibt also keine Schleife zu begrenzen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Neither lets a person sign off the draft; Magentic with `enable_plan_review=True` fits the critique loop",
+            "de": "Keines lässt eine Person den Entwurf freigeben; Magentic mit `enable_plan_review=True` passt für die Kritikschleife"
+          },
+          "correct": false,
+          "why": {
+            "en": "Plan review lets a person approve Magentic's plan, not one agent critique another's draft — the real gaps are visibility and looping, which group chat closes.",
+            "de": "Die Plan-Prüfung lässt eine Person den Plan von Magentic freigeben, keinen Agent den Entwurf eines anderen kritisieren – die echten Lücken sind Sichtbarkeit und Schleifen, und die schließt Group chat."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-trap-3",
@@ -100,7 +600,57 @@
       "back": {
         "en": "Handoff is interactive: the run waits for user input (`request_info`) unless you enable autonomous mode.",
         "de": "Handoff ist interaktiv: Der Lauf wartet auf Nutzereingabe (`request_info`), außer du aktivierst den autonomen Modus."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The workflow hands the conversation back to the start agent, which then picks another specialist",
+            "de": "Der Workflow gibt das Gespräch an den Start-Agent zurück, der dann einen anderen Spezialisten wählt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: nothing is rerouted on its own; the run waits for the user, and by default the user's reply goes back to the agent that asked.",
+            "de": "Nein: Nichts wird von selbst umgeleitet; der Lauf wartet auf den Nutzer, und dessen Antwort geht standardmäßig an den Agent zurück, der gefragt hat."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A central orchestrator picks the next speaker, as in group chat, and the run simply continues",
+            "de": "Ein zentraler Orchestrator wählt wie im Group chat den nächsten Sprecher, und der Lauf geht einfach weiter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Handoff has no central orchestrator; when an agent stops without handing off, the run waits for user input via `request_info`.",
+            "de": "Handoff hat keinen zentralen Orchestrator; hört ein Agent ohne Handoff auf, wartet der Lauf per `request_info` auf Nutzereingabe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The run keeps going on its own for up to 50 turns per agent, because autonomous mode is on by default",
+            "de": "Der Lauf geht von selbst bis zu 50 Runden pro Agent weiter, da der autonome Modus standardmäßig eingeschaltet ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half true: the 50-turn default belongs to `with_autonomous_mode()`, which is experimental and off until you enable it.",
+            "de": "Halb wahr: Die 50 Runden sind der Standard von `with_autonomous_mode()`, das experimentell ist und erst greift, wenn du es einschaltest."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The workflow emits a `request_info` event and waits for user input, unless autonomous mode is enabled",
+            "de": "Der Workflow sendet ein `request_info`-Event und wartet auf Nutzereingabe, außer der autonome Modus ist aktiviert"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: handoff is interactive — without a handoff the run pauses for the user, and only `with_autonomous_mode()` answers automatically.",
+            "de": "Richtig: Handoff ist interaktiv – ohne Handoff pausiert der Lauf für den Nutzer, und nur `with_autonomous_mode()` antwortet automatisch."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-trap-4",
@@ -112,7 +662,57 @@
       "back": {
         "en": "Set `enable_plan_review=True` when a person must approve the plan — Magentic plan review is off by default in Python.",
         "de": "Setze `enable_plan_review=True`, wenn eine Person den Plan freigeben muss – die Plan-Prüfung von Magentic ist in Python standardmäßig aus."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`enable_plan_review=False`; plan review is switched on by default in Python",
+            "de": "`enable_plan_review=False`; die Plan-Prüfung ist in Python standardmäßig eingeschaltet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Inverted: `False` turns review off, and it's already off by default — set `enable_plan_review=True` to require approval.",
+            "de": "Umgekehrt: `False` schaltet die Prüfung aus, und sie ist standardmäßig schon aus – setze `enable_plan_review=True`, um eine Freigabe zu verlangen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`max_stall_count=0`; the manager then waits for a person before every new plan",
+            "de": "`max_stall_count=0`; der Manager wartet dann vor jedem neuen Plan auf eine Person"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `max_stall_count` limits stalled rounds before the manager re-plans; human approval of the plan needs `enable_plan_review=True`.",
+            "de": "Nein: `max_stall_count` begrenzt Runden ohne Fortschritt, bevor der Manager neu plant; eine menschliche Planfreigabe braucht `enable_plan_review=True`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`enable_plan_review=True`; plan review is off by default in Python",
+            "de": "`enable_plan_review=True`; die Plan-Prüfung ist in Python standardmäßig aus"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: plan review is opt-in in Python, so you set `enable_plan_review=True` when someone must approve the plan.",
+            "de": "Richtig: Die Plan-Prüfung ist in Python optional, daher setzt du `enable_plan_review=True`, wenn jemand den Plan freigeben muss."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`approval_mode=\"always_require\"` on the manager agent; plan review is on by default",
+            "de": "`approval_mode=\"always_require\"` am Manager-Agent; die Plan-Prüfung ist standardmäßig an"
+          },
+          "correct": false,
+          "why": {
+            "en": "`approval_mode=\"always_require\"` makes a tool wait for approval, not the plan — and Magentic plan review is off by default in Python.",
+            "de": "`approval_mode=\"always_require\"` lässt ein Tool auf Freigabe warten, nicht den Plan – und die Plan-Prüfung von Magentic ist in Python standardmäßig aus."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-trap-5",
@@ -124,7 +724,57 @@
       "back": {
         "en": "Current builders live in `agent_framework.orchestrations`, take settings as constructor parameters (`participants=[...]`) and run with `workflow.run(..., stream=True)`. Older samples still show `participants()`, `create_agent` or `run_stream`.",
         "de": "Aktuelle Builder liegen in `agent_framework.orchestrations`, nehmen Einstellungen als Konstruktorparameter (`participants=[...]`) und laufen mit `workflow.run(..., stream=True)`. Ältere Beispiele zeigen noch `participants()`, `create_agent` oder `run_stream`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Now: `agent_framework.orchestrations`, fluent `participants()` calls, `workflow.run_stream(...)`; older: constructor parameters and `run(..., stream=True)`",
+            "de": "Heute: `agent_framework.orchestrations`, verkettete `participants()`-Aufrufe, `workflow.run_stream(...)`; älter: Konstruktorparameter und `run(..., stream=True)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `participants()` and `run_stream` are the older style; current builders take `participants=[...]` and run with `workflow.run(..., stream=True)`.",
+            "de": "Umgekehrt: `participants()` und `run_stream` sind der ältere Stil; aktuelle Builder nehmen `participants=[...]` und laufen mit `workflow.run(..., stream=True)`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Now: `agent_framework.orchestrations`, constructor parameters, `workflow.run(..., stream=True)`; older: `participants()` and `run_stream`",
+            "de": "Heute: `agent_framework.orchestrations`, Konstruktorparameter, `workflow.run(..., stream=True)`; älter: `participants()` und `run_stream`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: today's builders take settings such as `participants=[...]` in the constructor and stream with `stream=True`; `participants()`, `create_agent` and `run_stream` mark older samples.",
+            "de": "Richtig: Heutige Builder nehmen Einstellungen wie `participants=[...]` im Konstruktor und streamen mit `stream=True`; `participants()`, `create_agent` und `run_stream` kennzeichnen ältere Beispiele."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Now: `agent_framework.foundry`, constructor parameters, `workflow.run(..., stream=True)`; older: `participants()` and `run_stream`",
+            "de": "Heute: `agent_framework.foundry`, Konstruktorparameter, `workflow.run(..., stream=True)`; älter: `participants()` und `run_stream`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong module: `agent_framework.foundry` provides the Foundry chat client, while the orchestration builders live in `agent_framework.orchestrations`.",
+            "de": "Falsches Modul: `agent_framework.foundry` liefert den Foundry-Chat-Client, die Orchestrierungs-Builder liegen in `agent_framework.orchestrations`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Now: `agent_framework.foundry`, fluent `participants()` calls, `workflow.run_stream(...)`; older: constructor parameters and `run(..., stream=True)`",
+            "de": "Heute: `agent_framework.foundry`, verkettete `participants()`-Aufrufe, `workflow.run_stream(...)`; älter: Konstruktorparameter und `run(..., stream=True)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: the builders live in `agent_framework.orchestrations`, and `participants()` with `run_stream` is the older style — today you pass constructor parameters and call `workflow.run(..., stream=True)`.",
+            "de": "Beides falsch: Die Builder liegen in `agent_framework.orchestrations`, und `participants()` mit `run_stream` ist der ältere Stil – heute übergibst du Konstruktorparameter und rufst `workflow.run(..., stream=True)` auf."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-takeaway-1",
@@ -136,7 +786,57 @@
       "back": {
         "en": "Fixed order → sequential; parallel, independent views → concurrent; specialist takes over → handoff; discussion or review loop → group chat; open-ended planning → Magentic.",
         "de": "Feste Reihenfolge → Sequential; parallele, unabhängige Sichten → Concurrent; Spezialist übernimmt → Handoff; Diskussion oder Review-Schleife → Group chat; offene Planung → Magentic."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Fixed order → sequential; parallel → concurrent; takeover → handoff; review loop → group chat; open planning → Magentic",
+            "de": "Feste Reihenfolge → Sequential; parallel → Concurrent; Übernahme → Handoff; Review-Schleife → Group chat; offene Planung → Magentic"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: each scenario maps to who decides next — your fixed order, nobody (all run at once), the current agent, an orchestrator, a planning manager.",
+            "de": "Richtig: Jedes Szenario passt dazu, wer als Nächstes entscheidet – deine feste Reihenfolge, niemand (alle laufen gleichzeitig), der aktuelle Agent, ein Orchestrator, ein planender Manager."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Fixed order → concurrent; parallel → sequential; takeover → handoff; review loop → Magentic; open planning → group chat",
+            "de": "Feste Reihenfolge → Concurrent; parallel → Sequential; Übernahme → Handoff; Review-Schleife → Magentic; offene Planung → Group chat"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two swaps: sequential is the fixed order and concurrent runs in parallel, and review loops are group chat while open-ended planning is Magentic.",
+            "de": "Zwei Vertauschungen: Sequential ist die feste Reihenfolge und Concurrent läuft parallel, und Review-Schleifen sind Group chat, offene Planung ist Magentic."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Fixed order → sequential; parallel → concurrent; takeover → handoff; review loop → Magentic; open planning → group chat",
+            "de": "Feste Reihenfolge → Sequential; parallel → Concurrent; Übernahme → Handoff; Review-Schleife → Magentic; offene Planung → Group chat"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a group chat orchestrator only picks speakers — open-ended planning with ledgers is Magentic, and review loops are group chat.",
+            "de": "Nein: Ein Group-chat-Orchestrator wählt nur Sprecher – offene Planung mit Ledgern ist Magentic, und Review-Schleifen sind Group chat."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Fixed order → concurrent; parallel → sequential; takeover → handoff; review loop → group chat; open planning → Magentic",
+            "de": "Feste Reihenfolge → Concurrent; parallel → Sequential; Übernahme → Handoff; Review-Schleife → Group chat; offene Planung → Magentic"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixed up: sequential runs agents in a fixed order, while concurrent runs them in parallel for independent views.",
+            "de": "Verwechselt: Sequential führt Agents in fester Reihenfolge aus, Concurrent parallel für unabhängige Sichten."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-takeaway-2",
@@ -148,7 +848,57 @@
       "back": {
         "en": "Deterministic routing = structured agent output + conditional or switch-case edges.",
         "de": "Deterministisches Routing = strukturierte Agent-Ausgabe + bedingte oder Switch-Case-Edges."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An orchestrator agent that reads each reply and picks the next executor",
+            "de": "Ein Orchestrator-Agent, der jede Antwort liest und den nächsten Executor wählt"
+          },
+          "correct": false,
+          "why": {
+            "en": "An orchestrator agent is another LLM call, so the route stays probabilistic — code conditions on edges make it deterministic.",
+            "de": "Ein Orchestrator-Agent ist ein weiterer LLM-Aufruf, der Weg bleibt also probabilistisch – Code-Bedingungen an Edges machen ihn deterministisch."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Prompt instructions that tell each agent which executor it should call next",
+            "de": "Prompt-Anweisungen, die jedem Agent sagen, welchen Executor er als Nächstes aufrufen soll"
+          },
+          "correct": false,
+          "why": {
+            "en": "Prompt instructions are probabilistic and can be ignored; deterministic routing needs code conditions on the edges.",
+            "de": "Prompt-Anweisungen sind probabilistisch und können ignoriert werden; deterministisches Routing braucht Code-Bedingungen an den Edges."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A `ConcurrentBuilder` that sends every message to all executors at once",
+            "de": "Ein `ConcurrentBuilder`, der jede Nachricht gleichzeitig an alle Executors schickt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Concurrent broadcasts the same input to every participant, so nothing is routed at all.",
+            "de": "Concurrent verteilt dieselbe Eingabe an alle Teilnehmer, geroutet wird also gar nichts."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Structured agent output, evaluated by conditional or switch-case edges",
+            "de": "Strukturierte Agent-Ausgabe, ausgewertet von bedingten oder Switch-Case-Edges"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the agent returns structured output, for example a Pydantic model, and plain code conditions on the edges choose the path.",
+            "de": "Richtig: Der Agent liefert strukturierte Ausgabe, etwa ein Pydantic-Modell, und einfache Code-Bedingungen an den Edges wählen den Weg."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-takeaway-3",
@@ -160,7 +910,57 @@
       "back": {
         "en": "Bound every loop: `termination_condition`, `max_rounds`, or Magentic's round, stall and reset limits.",
         "de": "Begrenze jede Schleife: `termination_condition`, `max_rounds` oder Magentics Runden-, Stall- und Reset-Limits."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`chain_only_agent_responses=True`, which keeps the agents from answering each other endlessly",
+            "de": "`chain_only_agent_responses=True`, damit die Agents nicht endlos aufeinander antworten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: this sequential setting only passes agents' responses on to the next agent; it doesn't bound any loop.",
+            "de": "Nein: Diese Sequential-Einstellung gibt nur die Antworten der Agents an den nächsten weiter; sie begrenzt keine Schleife."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`enable_plan_review=True`, since a person must then approve every round before it runs",
+            "de": "`enable_plan_review=True`, weil dann eine Person jede Runde vor dem Start freigeben muss"
+          },
+          "correct": false,
+          "why": {
+            "en": "Plan review lets a person approve Magentic's plan; it doesn't cap rounds or stop a loop.",
+            "de": "Die Plan-Prüfung lässt eine Person den Plan von Magentic freigeben; sie begrenzt weder Runden noch stoppt sie eine Schleife."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`termination_condition`, `max_rounds`, or Magentic's round, stall and reset limits",
+            "de": "`termination_condition`, `max_rounds` oder Magentics Runden-, Stall- und Reset-Limits"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a termination condition ends the loop once its goal is met, and `max_rounds` or `max_round_count`, `max_stall_count` and `max_reset_count` cap it otherwise.",
+            "de": "Richtig: Eine Abbruchbedingung beendet die Schleife, sobald ihr Ziel erreicht ist, und `max_rounds` oder `max_round_count`, `max_stall_count` und `max_reset_count` begrenzen sie sonst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`with_request_info()`, which ends the loop as soon as the chosen agent has answered once",
+            "de": "`with_request_info()`, das die Schleife beendet, sobald der ausgewählte Agent einmal geantwortet hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `with_request_info()` pauses the run for human input after chosen agents; it doesn't end a loop.",
+            "de": "Nein: `with_request_info()` pausiert den Lauf nach ausgewählten Agents für menschliche Eingabe; eine Schleife beendet es nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-multi-agent-orchestration-takeaway-4",
@@ -172,7 +972,57 @@
       "back": {
         "en": "Bring people in with approval-required tools, `with_request_info()` or Magentic plan review.",
         "de": "Hol Menschen dazu – mit freigabepflichtigen Tools, `with_request_info()` oder der Plan-Prüfung von Magentic."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`termination_condition`, `max_rounds` and Magentic's stall limit",
+            "de": "`termination_condition`, `max_rounds` und das Stall-Limit von Magentic"
+          },
+          "correct": false,
+          "why": {
+            "en": "These bound loops so that a run ends; none of them asks a person for input.",
+            "de": "Diese begrenzen Schleifen, damit ein Lauf endet; keine davon fragt eine Person nach Eingabe."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Approval-required tools, `with_request_info()` and Magentic plan review",
+            "de": "Freigabepflichtige Tools, `with_request_info()` und die Plan-Prüfung von Magentic"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: tools with `approval_mode=\"always_require\"`, `with_request_info()` and `enable_plan_review=True` each pause the run for a person.",
+            "de": "Richtig: Tools mit `approval_mode=\"always_require\"`, `with_request_info()` und `enable_plan_review=True` pausieren den Lauf jeweils für eine Person."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A `selection_func`, an `orchestrator_agent` and a summarizer aggregator",
+            "de": "Eine `selection_func`, ein `orchestrator_agent` und ein Zusammenfassungs-Aggregator"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those pick speakers in group chat or merge concurrent answers automatically; no person is involved.",
+            "de": "Diese wählen im Group chat Sprecher oder führen Concurrent-Antworten automatisch zusammen; kein Mensch ist beteiligt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Conditional edges, switch-case edges and fan-in edges in the workflow graph",
+            "de": "Bedingte Edges, Switch-Case-Edges und Fan-in-Edges im Workflow-Graphen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Edges route messages between executors by rules in code; they don't bring a person in.",
+            "de": "Edges leiten Nachrichten per Code-Regeln zwischen Executors weiter; sie holen keinen Menschen dazu."
+          }
+        }
+      ]
     }
   ]
 }

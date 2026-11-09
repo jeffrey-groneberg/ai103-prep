@@ -8,7 +8,57 @@
       "front": {
         "en": "What does a guardrail consist of, and how do prompt agents and hosted agents get one?",
         "de": "Woraus besteht ein Guardrail, und wie erhalten Prompt-Agents und Hosted Agents einen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Named controls (risk, intervention points, action); a prompt agent's own guardrail merges with its deployment's, and a hosted agent gets one automatically",
+            "de": "Benannte Controls (Risiko, Intervention Points, Aktion); der eigene Guardrail eines Prompt-Agents wird mit dem des Deployments zusammengeführt, und ein Hosted Agent erhält automatisch einen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a prompt agent's own guardrail fully overrides its deployment's — they never merge — and a hosted agent gets an agent-level guardrail only through `rai_config`.",
+            "de": "Nein: Der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments vollständig – sie werden nie zusammengeführt –, und ein Hosted Agent erhält einen Guardrail auf Agent-Ebene nur über `rai_config`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A single blocklist of forbidden terms; prompt agents and hosted agents can only use the guardrail of their model deployment",
+            "de": "Eine einzige Blockliste verbotener Begriffe; Prompt-Agents und Hosted Agents können nur den Guardrail ihres Modell-Deployments nutzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a blocklist is just one kind of control, and agents can get their own guardrail — prompt agents by assignment (preview), hosted agents via `rai_config`.",
+            "de": "Gleich doppelt falsch: Eine Blockliste ist nur eine Art von Control, und Agents können einen eigenen Guardrail erhalten – Prompt-Agents per Zuweisung (Preview), Hosted Agents über `rai_config`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Named controls (risk, intervention points, action); a prompt agent inherits its deployment's guardrail unless given its own, a hosted agent needs `rai_config`",
+            "de": "Benannte Controls (Risiko, Intervention Points, Aktion); ein Prompt-Agent erbt den Guardrail seines Deployments, außer er bekommt einen eigenen, ein Hosted Agent braucht `rai_config`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: each control sets a risk, the points to scan and the action Annotate or Annotate and block; a prompt agent's own guardrail fully overrides the deployment's.",
+            "de": "Richtig: Jedes Control legt Risiko, Prüfpunkte und die Aktion Annotate oder Annotate and block fest; der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments vollständig."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Named controls (risk, intervention points, action); a prompt agent can only ever use its model deployment's guardrail, a hosted agent gets its own via `rai_config`",
+            "de": "Benannte Controls (Risiko, Intervention Points, Aktion); ein Prompt-Agent kann immer nur den Guardrail seines Modell-Deployments nutzen, ein Hosted Agent erhält über `rai_config` einen eigenen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: hosted agents do use `rai_config`, but a prompt agent can also be assigned its own guardrail (preview), which then fully overrides the deployment's.",
+            "de": "Nur teilweise richtig: Hosted Agents nutzen tatsächlich `rai_config`, aber auch ein Prompt-Agent kann einen eigenen Guardrail erhalten (Preview), der den des Deployments dann vollständig ersetzt."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What does each blocking level block, and on which scales do evaluators and Content Safety APIs rate severity?",
         "de": "Was blockiert jeder Blocking Level, und auf welchen Skalen bewerten Evaluatoren und Content-Safety-APIs Schweregrade?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Low blocks high, Medium (default) medium + high, High low to high; evaluators score 0–7, the APIs 0/2/4/6 (text 0–7 with `EightSeverityLevels`)",
+            "de": "Low blockiert high, Medium (Standard) medium + high, High low bis high; Evaluatoren bewerten 0–7, die APIs 0/2/4/6 (Text 0–7 mit `EightSeverityLevels`)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the level sets strictness, content rated safe is never filtered, and evaluators and APIs use the same 0–7 severity scale.",
+            "de": "Richtig: Der Level legt die Strenge fest, als safe eingestufte Inhalte werden nie gefiltert, und Evaluatoren und APIs nutzen dieselbe Schweregradskala 0–7."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Low blocks high, Medium (default) medium + high, High all levels incl. safe; evaluators score 0–7, the APIs 0/2/4/6 (text 0–7 with `EightSeverityLevels`)",
+            "de": "Low blockiert high, Medium (Standard) medium + high, High jede Stufe inkl. safe; Evaluatoren bewerten 0–7, die APIs 0/2/4/6 (Text 0–7 mit `EightSeverityLevels`)"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: content rated safe is never filtered — even **High**, the strictest level, blocks only low, medium and high severity.",
+            "de": "Nein: Als safe eingestufte Inhalte werden nie gefiltert – selbst **High**, der strengste Level, blockiert nur niedrige, mittlere und hohe Schweregrade."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Low blocks high, Medium (default) medium + high, High all levels incl. safe; safety evaluators score 1–5 and the Content Safety APIs return a 0–100 risk score",
+            "de": "Low blockiert high, Medium (Standard) medium + high, High jede Stufe inkl. safe; Safety-Evaluatoren bewerten 1–5, die Content-Safety-APIs liefern einen Risikowert von 0–100"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: content rated safe is never filtered, and risk and safety evaluators rate severity 0–7 — the same scale the Content Safety APIs use.",
+            "de": "Gleich doppelt falsch: Als safe eingestufte Inhalte werden nie gefiltert, und Risk-and-Safety-Evaluatoren bewerten den Schweregrad mit 0–7 – derselben Skala wie die Content-Safety-APIs."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Low blocks high, Medium (default) medium + high, High low to high; safety evaluators score 1–5 and the Content Safety APIs return a 0–100 risk score",
+            "de": "Low blockiert high, Medium (Standard) medium + high, High low bis high; Safety-Evaluatoren bewerten 1–5, die Content-Safety-APIs liefern einen Risikowert von 0–100"
+          },
+          "correct": false,
+          "why": {
+            "en": "The levels are right, the scales aren't: risk and safety evaluators rate severity 0–7, and the Content Safety APIs return numbers on that same scale.",
+            "de": "Die Levels stimmen, die Skalen nicht: Risk-and-Safety-Evaluatoren bewerten den Schweregrad mit 0–7, und die Content-Safety-APIs liefern Zahlen auf derselben Skala."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which two attack types do Prompt Shields detect, where do they look, and which detection is on by default?",
         "de": "Welche zwei Angriffsarten erkennen Prompt Shields, wo suchen sie, und welche Erkennung ist standardmäßig an?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "User prompt attacks in the user input and document attacks in marked documents or tool responses; only document attack detection is on by default",
+            "de": "User Prompt Attacks in der Nutzereingabe und Document Attacks in markierten Dokumenten oder Tool-Antworten; nur die Erkennung von Document Attacks ist standardmäßig an"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: user prompt attack detection is on by default, while document attack detection stays off until you enable it.",
+            "de": "Umgekehrt: Die Erkennung von User Prompt Attacks ist standardmäßig an, die von Document Attacks bleibt aus, bis du sie aktivierst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Jailbreaks in the user input and protected material in the model output; only jailbreak detection is on by default",
+            "de": "Jailbreaks in der Nutzereingabe und Protected Material in der Modellausgabe; nur die Jailbreak-Erkennung ist standardmäßig an"
+          },
+          "correct": false,
+          "why": {
+            "en": "Protected material is a separate output control for copyrighted text and code; the second Prompt Shields type is document attacks (indirect prompt injection).",
+            "de": "Protected Material ist ein eigenes Ausgabe-Control für urheberrechtlich geschützten Text und Code; die zweite Angriffsart der Prompt Shields sind Document Attacks (indirekte Prompt Injection)."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Jailbreaks in the user input and protected material in the model output; only protected material detection is on by default",
+            "de": "Jailbreaks in der Nutzereingabe und Protected Material in der Modellausgabe; nur die Protected-Material-Erkennung ist standardmäßig an"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: protected material is a separate output control, not a Prompt Shields attack type, and jailbreak (user prompt attack) detection is on by default.",
+            "de": "Gleich doppelt falsch: Protected Material ist ein eigenes Ausgabe-Control, keine Angriffsart der Prompt Shields, und die Jailbreak-Erkennung (User Prompt Attacks) ist standardmäßig an."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "User prompt attacks in the user input and document attacks in marked documents or tool responses; only user prompt attack detection is on by default",
+            "de": "User Prompt Attacks in der Nutzereingabe und Document Attacks in markierten Dokumenten oder Tool-Antworten; nur die Erkennung von User Prompt Attacks ist standardmäßig an"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: jailbreaks in the prompt are caught by default, indirect injections in documents or agent tool responses only once you enable document attack detection.",
+            "de": "Genau: Jailbreaks im Prompt werden standardmäßig erkannt, indirekte Injections in Dokumenten oder Tool-Antworten von Agents erst, wenn du die Document-Attack-Erkennung aktivierst."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "On which four layers do you mitigate harms, and what belongs in each layer?",
         "de": "Auf welchen vier Ebenen minderst du Schäden, und was gehört jeweils dazu?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Map, measure, mitigate and manage — red teaming belongs to the mitigate layer, guardrails and evaluators to the measure layer",
+            "de": "Map, Measure, Mitigate und Manage – Red Teaming gehört zur Ebene Mitigate, Guardrails und Evaluatoren zur Ebene Measure"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are the four process stages, not mitigation layers — and red teaming maps harms, while guardrails mitigate them.",
+            "de": "Das sind die vier Prozessphasen, keine Mitigationsebenen – und Red Teaming dient dem Mappen von Schäden, Guardrails dienen ihrer Minderung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Model (choose, fine-tune), safety system (guardrails), system message and grounding (rules, RAG), UX (constrained input, output checks, transparency)",
+            "de": "Modell (auswählen, fine-tunen), Safety-System (Guardrails), Systemnachricht und Grounding (Regeln, RAG), UX (eingeschränkte Eingaben, Ausgabeprüfung, Transparenz)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: no single control is enough, so you combine the model, guardrails, instructions with trusted grounding data and a UX that constrains and explains.",
+            "de": "Richtig: Kein einzelnes Control reicht, also kombinierst du Modell, Guardrails, Anweisungen mit vertrauenswürdigen Grounding-Daten und eine UX, die eingrenzt und erklärt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Model (choose, fine-tune), safety system (RAG with trusted data), system message (guardrails, rules), UX (constrained input, output checks, transparency)",
+            "de": "Modell (auswählen, fine-tunen), Safety-System (RAG mit vertrauenswürdigen Daten), Systemnachricht (Guardrails, Regeln), UX (eingeschränkte Eingaben, Ausgabeprüfung, Transparenz)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixed up: guardrails form the safety system layer, while RAG with trusted data belongs to the system message and grounding layer.",
+            "de": "Durcheinander: Guardrails bilden die Safety-System-Ebene, RAG mit vertrauenswürdigen Daten gehört zur Ebene Systemnachricht und Grounding."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "User input, tool call, tool response and output — each of these layers gets its own guardrail with its own blocking level",
+            "de": "User input, Tool call, Tool response und Output – jede dieser Ebenen bekommt einen eigenen Guardrail mit eigenem Blocking Level"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are the intervention points that one guardrail scans inside the safety system layer; the four mitigation layers are model, safety system, system message and grounding, and UX.",
+            "de": "Das sind die Intervention Points, die ein Guardrail innerhalb der Safety-System-Ebene prüft; die vier Mitigationsebenen sind Modell, Safety-System, Systemnachricht und Grounding sowie UX."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How do quality evaluators and risk and safety evaluators differ in how they run and what they return?",
         "de": "Wie unterscheiden sich Qualitäts- und Risk-and-Safety-Evaluatoren darin, wie sie laufen und was sie liefern?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Quality: Microsoft-hosted models scoring severity 0–7; risk and safety: LLM judges on your judge deployment, scoring 1–5 (higher is safer)",
+            "de": "Qualität: von Microsoft gehostete Modelle mit Schweregrad 0–7; Risk and Safety: LLM-Judges auf deinem Judge-Deployment mit Scores 1–5 (höher ist sicherer)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: quality evaluators are LLM judges that need your judge deployment and score 1–5, while risk and safety evaluators run on Microsoft-hosted models.",
+            "de": "Vertauscht: Qualitäts-Evaluatoren sind LLM-Judges, die dein Judge-Deployment brauchen und 1–5 vergeben; Risk-and-Safety-Evaluatoren laufen auf von Microsoft gehosteten Modellen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Both run as LLM judges on your judge deployment and score 1–5 with a reason; for safety, a higher score means more harmful content",
+            "de": "Beide laufen als LLM-Judges auf deinem Judge-Deployment und vergeben 1–5 mit Begründung; bei Safety bedeutet ein höherer Score schädlichere Inhalte"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: risk and safety evaluators need no judge deployment — they run on Microsoft-hosted models and rate content harms on a 0–7 severity scale.",
+            "de": "Nein: Risk-and-Safety-Evaluatoren brauchen kein Judge-Deployment – sie laufen auf von Microsoft gehosteten Modellen und bewerten Schadensinhalte auf der Schweregradskala 0–7."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Quality: LLM judges on your judge deployment, scoring 1–5; risk and safety: Microsoft-hosted models, severity 0–7 or pass/fail",
+            "de": "Qualität: LLM-Judges auf deinem Judge-Deployment mit Scores 1–5; Risk and Safety: von Microsoft gehostete Modelle, Schweregrad 0–7 oder pass/fail"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: content-harm evaluators score severity 0–7, others such as protected material return pass or fail, and every result carries a label and a reason.",
+            "de": "Richtig: Evaluatoren für Schadensinhalte bewerten den Schweregrad 0–7, andere wie Protected Material liefern pass oder fail, und jedes Ergebnis trägt Label und Begründung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Quality: LLM judges on your judge deployment, scoring 1–5; risk and safety: Microsoft-hosted models that block harmful answers at runtime",
+            "de": "Qualität: LLM-Judges auf deinem Judge-Deployment mit Scores 1–5; Risk and Safety: von Microsoft gehostete Modelle, die schädliche Antworten zur Laufzeit blockieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Evaluators only score outputs — blocking at runtime is the job of guardrail controls; risk and safety evaluators return severity 0–7 or pass/fail.",
+            "de": "Evaluatoren bewerten Ausgaben nur – das Blockieren zur Laufzeit übernehmen Guardrail-Controls; Risk-and-Safety-Evaluatoren liefern Schweregrad 0–7 oder pass/fail."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What does the AI Red Teaming Agent automate, how does it score attacks, and when should you run it?",
         "de": "Was automatisiert der AI Red Teaming Agent, wie bewertet er Angriffe, und wann führst du ihn aus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Adversarial probing with PyRIT strategies; risk and safety evaluators score each attack-response pair for an ASR; before deployment and on a schedule",
+            "de": "Adversariale Tests mit PyRIT-Strategien; Risk-and-Safety-Evaluatoren bewerten jedes Angriff-Antwort-Paar für die ASR; vor dem Deployment und nach Zeitplan"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: it uses strategies such as Base64 or flipped characters, reports successful attacks ÷ all attacks and runs in the cloud for agents, before and after release.",
+            "de": "Richtig: Er nutzt Strategien wie Base64 oder umgedrehte Zeichen, meldet erfolgreiche Angriffe ÷ alle Angriffe und läuft für Agents in der Cloud – vor und nach dem Release."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Adversarial probing with PyRIT strategies; quality evaluators such as groundedness score each attack-response pair for an ASR; once, after an incident",
+            "de": "Adversariale Tests mit PyRIT-Strategien; Qualitäts-Evaluatoren wie Groundedness bewerten jedes Angriff-Antwort-Paar für die ASR; einmalig nach einem Vorfall"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: risk and safety evaluators score the attack-response pairs, and you run it before deployment and then on a schedule, not only after incidents.",
+            "de": "Nein: Die Angriff-Antwort-Paare bewerten Risk-and-Safety-Evaluatoren, und du führst ihn vor dem Deployment und danach nach Zeitplan aus, nicht erst nach Vorfällen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Runtime blocking of jailbreaks and indirect attacks, like Prompt Shields; it reports a blocked volume per risk category; continuously on all live traffic",
+            "de": "Blockieren von Jailbreaks und indirekten Angriffen zur Laufzeit, wie Prompt Shields; er meldet ein Blocked Volume pro Risikokategorie; laufend auf dem gesamten Live-Traffic"
+          },
+          "correct": false,
+          "why": {
+            "en": "That mixes up guardrails and Azure Monitor: the AI Red Teaming Agent generates attacks to find weaknesses and reports the Attack Success Rate — it blocks nothing.",
+            "de": "Das verwechselt Guardrails und Azure Monitor: Der AI Red Teaming Agent erzeugt Angriffe, um Schwachstellen zu finden, und meldet die Attack Success Rate – er blockiert nichts."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Manual jailbreak attempts by your security team; human reviewers rate each response 1–5; only in production, on sampled live traffic",
+            "de": "Manuelle Jailbreak-Versuche deines Security-Teams; menschliche Prüfer bewerten jede Antwort mit 1–5; nur im Betrieb, auf Stichproben aus dem Live-Traffic"
+          },
+          "correct": false,
+          "why": {
+            "en": "The agent automates the attacks with PyRIT and scores them with risk and safety evaluators; sampling live traffic is continuous evaluation, and red teaming starts before deployment.",
+            "de": "Der Agent automatisiert die Angriffe mit PyRIT und bewertet sie mit Risk-and-Safety-Evaluatoren; Stichproben aus dem Live-Traffic sind Continuous Evaluation, und Red Teaming beginnt vor dem Deployment."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-concept-7",
@@ -60,7 +360,57 @@
       "back": {
         "en": "With an Application Insights resource connected to the project, an agent's **Monitor** tab shows token usage, latency, run success rate, evaluation scores and red-teaming results. Its settings add recurring evaluations, red team scans and alerts (preview).",
         "de": "Ist eine Application-Insights-Ressource mit dem Projekt verbunden, zeigt der Tab **Monitor** eines Agents Token-Verbrauch, Latenz, Run-Erfolgsquote, Evaluierungsscores und Red-Teaming-Ergebnisse. In den Einstellungen ergänzt du wiederkehrende Evaluierungen, Red-Team-Scans und Alerts (Preview)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Nothing extra, it works for every agent; shows only the requests a guardrail blocked; settings change its blocking level",
+            "de": "Nichts Zusätzliches, klappt für jeden Agent; zeigt nur die von einem Guardrail blockierten Anfragen; Einstellungen ändern dessen Blocking Level"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the tab reads telemetry from an Application Insights resource connected to the project, and guardrails are configured outside its settings.",
+            "de": "Nein: Der Tab liest Telemetrie aus einer mit dem Projekt verbundenen Application-Insights-Ressource, und Guardrails konfigurierst du außerhalb seiner Einstellungen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Connected Application Insights; shows token usage and latency but no evaluation or red-teaming results; settings add guardrail controls and custom blocklists",
+            "de": "Verbundenes Application Insights; zeigt Token-Verbrauch und Latenz, aber keine Evaluierungs- oder Red-Teaming-Ergebnisse; Einstellungen ergänzen Guardrail-Controls und eigene Blocklisten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: it also shows run success rate, evaluation scores and red-teaming results, and its settings add recurring evaluations, red team scans and alerts.",
+            "de": "Teilweise richtig: Er zeigt auch Run-Erfolgsquote, Evaluierungsscores und Red-Teaming-Ergebnisse, und seine Einstellungen ergänzen wiederkehrende Evaluierungen, Red-Team-Scans und Alerts."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A connected Azure AI Search index; shows retrieval quality and citations; settings add new knowledge sources",
+            "de": "Ein verbundener Azure-AI-Search-Index; zeigt Abrufqualität und Zitate; Einstellungen ergänzen neue Wissensquellen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The Monitor tab needs Application Insights, not a search index, and shows operational, evaluation and red-teaming data for the agent.",
+            "de": "Der Tab Monitor braucht Application Insights, keinen Suchindex, und zeigt Betriebs-, Evaluierungs- und Red-Teaming-Daten des Agents."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Connected Application Insights; shows tokens, latency, run success rate, evaluation and red-teaming results; settings add evaluations, scans, alerts",
+            "de": "Verbundenes Application Insights; zeigt Tokens, Latenz, Run-Erfolg, Evaluierungs- und Red-Teaming-Ergebnisse; Einstellungen ergänzen Evaluierungen, Scans, Alerts"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: with Application Insights connected, the tab shows these metrics, and its settings add recurring evaluations, red team scans and alerts (preview).",
+            "de": "Richtig: Mit verbundenem Application Insights zeigt der Tab diese Metriken, und seine Einstellungen ergänzen wiederkehrende Evaluierungen, Red-Team-Scans und Alerts (Preview)."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-1",
@@ -72,7 +422,57 @@
       "back": {
         "en": "**Low** blocks only high-severity content; **High** blocks low, medium and high severity. Blocking levels describe strictness, not a threshold.",
         "de": "**Low** blockiert nur hohe Schweregrade; **High** blockiert niedrige, mittlere und hohe. Blocking Levels beschreiben die Strenge, keinen Schwellenwert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "**High** blocks only high severity; **Low** blocks low, medium and high",
+            "de": "**High** blockiert nur hohe Schweregrade; **Low** blockiert niedrige, mittlere und hohe"
+          },
+          "correct": false,
+          "why": {
+            "en": "That reads the level as a threshold; it describes strictness, so the strict **High** level blocks the most and **Low** only high severity.",
+            "de": "Das liest den Level als Schwellenwert; er beschreibt aber die Strenge – der strenge Level **High** blockiert am meisten, **Low** nur hohe Schweregrade."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "**Low** blocks only high severity; **High** blocks low, medium and high",
+            "de": "**Low** blockiert nur hohe Schweregrade; **High** blockiert niedrige, mittlere und hohe"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: blocking levels describe strictness, not a threshold — the stricter the level, the more severities it blocks.",
+            "de": "Richtig: Blocking Levels beschreiben die Strenge, keinen Schwellenwert – je strenger der Level, desto mehr Schweregrade blockiert er."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "**Low** blocks only high severity; **High** blocks medium and high",
+            "de": "**Low** blockiert nur hohe Schweregrade; **High** blockiert mittlere und hohe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Medium and high is what the default level **Medium** blocks; **High** also blocks low severity.",
+            "de": "Mittlere und hohe Schweregrade blockiert der Standard-Level **Medium**; **High** blockiert zusätzlich niedrige."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "**High** blocks only high severity; **Low** blocks medium and high",
+            "de": "**High** blockiert nur hohe Schweregrade; **Low** blockiert mittlere und hohe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both halves are off: **Low** is the level that blocks only high severity, and medium plus high is what the default **Medium** blocks.",
+            "de": "Beide Hälften stimmen nicht: Nur hohe Schweregrade blockiert **Low**, und mittlere plus hohe blockiert der Standard-Level **Medium**."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-2",
@@ -84,7 +484,57 @@
       "back": {
         "en": "Document attack detection is **off by default**. Learn documents the `<documents>` delimiter only for Chat Completions messages (the Responses API page shows no separate format); for agents, add an indirect attack control at the **Tool response** intervention point.",
         "de": "Die Erkennung von Document Attacks ist **standardmäßig aus**. Learn dokumentiert den Trenner `<documents>` nur für Chat-Completions-Nachrichten (die Seite zur Responses API zeigt kein eigenes Format); bei Agents fügst du ein Indirect-Attack-Control am Intervention Point **Tool response** hinzu."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "On by default; Chat Completions mark documents with the `<documents>` delimiter, agents add an indirect attack control at **Tool response**",
+            "de": "Standardmäßig an; Chat Completions markieren Dokumente mit dem Trenner `<documents>`, Agents ergänzen ein Indirect-Attack-Control an **Tool response**"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not the default: document attack detection is off until you enable it — of the two Prompt Shields, only user prompt attack detection is on by default.",
+            "de": "Nicht der Standard: Die Erkennung von Document Attacks ist aus, bis du sie aktivierst – von den beiden Prompt Shields ist standardmäßig nur die Erkennung von User Prompt Attacks an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "On by default; Chat Completions add an indirect attack control at **Tool response**, agents mark tool results with the `<documents>` delimiter",
+            "de": "Standardmäßig an; Chat Completions ergänzen ein Indirect-Attack-Control an **Tool response**, Agents markieren Tool-Ergebnisse mit dem Trenner `<documents>`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: document attack detection is off until you enable it, and the `<documents>` delimiter is for Chat Completions, while agents use **Tool response**.",
+            "de": "Gleich doppelt falsch: Die Erkennung von Document Attacks ist aus, bis du sie aktivierst, und der Trenner `<documents>` gilt für Chat Completions, Agents nutzen **Tool response**."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Off by default; Chat Completions mark documents with the `<documents>` delimiter, agents add an indirect attack control at **Tool response**",
+            "de": "Standardmäßig aus; Chat Completions markieren Dokumente mit dem Trenner `<documents>`, Agents ergänzen ein Indirect-Attack-Control an **Tool response**"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: you must enable it; Learn documents the `<documents>` delimiter for Chat Completions messages, and agents scan tool responses for indirect attacks.",
+            "de": "Richtig: Du musst sie aktivieren; Learn dokumentiert den Trenner `<documents>` für Chat-Completions-Nachrichten, und Agents prüfen Tool-Antworten auf Indirect Attacks."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Off by default; Chat Completions add an indirect attack control at **Tool response**, agents mark tool results with the `<documents>` delimiter",
+            "de": "Standardmäßig aus; Chat Completions ergänzen ein Indirect-Attack-Control an **Tool response**, Agents markieren Tool-Ergebnisse mit dem Trenner `<documents>`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: Learn documents the `<documents>` delimiter for Chat Completions messages, and **Tool response** is where agents catch indirect attacks.",
+            "de": "Vertauscht: Den Trenner `<documents>` dokumentiert Learn für Chat-Completions-Nachrichten, und an **Tool response** erkennen Agents Indirect Attacks."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-3",
@@ -96,7 +546,57 @@
       "back": {
         "en": "A prompt agent's own guardrail **fully overrides** its deployment's — the two never merge — and without one it inherits the deployment's. A hosted agent gets no agent-level guardrail unless `rai_config` is set. Agents support only **Annotate and block**, and Spotlighting and Groundedness controls do not apply to agents.",
         "de": "Der eigene Guardrail eines Prompt-Agents **ersetzt** den des Deployments vollständig – sie werden nie zusammengeführt –, und ohne eigenen erbt er den des Deployments. Ein Hosted Agent hat ohne `rai_config` keinen Guardrail auf Agent-Ebene. Agents unterstützen nur **Annotate and block**, und die Controls Spotlighting und Groundedness gelten nicht für Agents."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "No merge: a prompt agent's own guardrail fully replaces its deployment's; agents allow only Annotate and block, without Spotlighting or Groundedness",
+            "de": "Kein Zusammenführen: Der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments; Agents erlauben nur Annotate and block, ohne Spotlighting oder Groundedness"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: without its own guardrail a prompt agent inherits the deployment's, and a hosted agent gets an agent-level one only through `rai_config`.",
+            "de": "Richtig: Ohne eigenen Guardrail erbt ein Prompt-Agent den des Deployments, und ein Hosted Agent erhält einen auf Agent-Ebene nur über `rai_config`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They merge into one policy, and the stricter setting wins for each control; agents allow only Annotate and block, without Spotlighting or Groundedness",
+            "de": "Sie werden zu einer Policy zusammengeführt, pro Control gewinnt jeweils die strengere Einstellung; Agents erlauben nur Annotate and block, ohne Spotlighting oder Groundedness"
+          },
+          "correct": false,
+          "why": {
+            "en": "The two never merge: a prompt agent's own guardrail fully overrides the deployment's, so nothing is combined per control.",
+            "de": "Die beiden werden nie zusammengeführt: Der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments vollständig, pro Control wird nichts kombiniert."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They merge into one policy, and the stricter setting wins for each control; agents can't use Prompt Shields or Task Adherence",
+            "de": "Sie werden zu einer Policy zusammengeführt, pro Control gewinnt jeweils die strengere Einstellung; Agents können weder Prompt Shields noch Task Adherence nutzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a prompt agent's own guardrail fully overrides the deployment's without merging, and agents do use Prompt Shields (at **Tool response**) and Task Adherence.",
+            "de": "Gleich doppelt falsch: Der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments vollständig, ohne Zusammenführen, und Agents nutzen sehr wohl Prompt Shields (an **Tool response**) und Task Adherence."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "No merge: a prompt agent's own guardrail fully replaces its deployment's; agents can't use Prompt Shields or Task Adherence",
+            "de": "Kein Zusammenführen: Der eigene Guardrail eines Prompt-Agents ersetzt den des Deployments; Agents können weder Prompt Shields noch Task Adherence nutzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The first half is right, the second isn't: agents do use Prompt Shields (at **Tool response**) and Task Adherence — what they lack is the plain Annotate action, Spotlighting and Groundedness.",
+            "de": "Die erste Hälfte stimmt, die zweite nicht: Agents nutzen sehr wohl Prompt Shields (an **Tool response**) und Task Adherence – es fehlen ihnen die reine Aktion Annotate, Spotlighting und Groundedness."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-4",
@@ -108,7 +608,57 @@
       "back": {
         "en": "Evaluator scales point in opposite directions: quality evaluators score 1–5 and pass at or above the threshold (default 3); content-harm safety evaluators score severity 0–7 and pass at or below it (default 3).",
         "de": "Die Skalen der Evaluatoren laufen in entgegengesetzte Richtungen: Qualitäts-Evaluatoren vergeben 1–5 und bestehen ab dem Schwellenwert (Standard 3); Safety-Evaluatoren für Schadensinhalte bewerten den Schweregrad 0–7 und bestehen bis zum Schwellenwert (Standard 3)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Quality scores 1–5 and passes at or below the threshold; content-harm safety scores severity 0–7 and passes at or above it (default 3 each)",
+            "de": "Qualität vergibt 1–5 und besteht bis zum Schwellenwert; Safety für Schadensinhalte bewertet den Schweregrad 0–7 und besteht ab dem Schwellenwert (Standard jeweils 3)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Directions swapped: a higher quality score is better, so it passes at or above 3; a higher severity is worse, so safety passes at or below 3.",
+            "de": "Richtungen vertauscht: Bei Qualität ist ein höherer Score besser, sie besteht also ab 3; beim Schweregrad ist höher schlechter, Safety besteht also bis 3."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Quality scores 0–7 and passes at or above the threshold; content-harm safety scores severity 1–5 and passes at or below it (default 3 each)",
+            "de": "Qualität vergibt 0–7 und besteht ab dem Schwellenwert; Safety für Schadensinhalte bewertet den Schweregrad 1–5 und besteht bis zum Schwellenwert (Standard jeweils 3)"
+          },
+          "correct": false,
+          "why": {
+            "en": "The directions are right, the scales are swapped: quality evaluators score 1–5, while content-harm severity runs 0–7.",
+            "de": "Die Richtungen stimmen, die Skalen sind vertauscht: Qualitäts-Evaluatoren vergeben 1–5, der Schweregrad für Schadensinhalte reicht von 0 bis 7."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Quality scores 0–7 and passes at or below the threshold; content-harm safety scores severity 1–5 and passes at or above it (default 3 each)",
+            "de": "Qualität vergibt 0–7 und besteht bis zum Schwellenwert; Safety für Schadensinhalte bewertet den Schweregrad 1–5 und besteht ab dem Schwellenwert (Standard jeweils 3)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both are swapped: quality scores 1–5 and passes at or above 3, while content-harm severity runs 0–7 and passes at or below 3.",
+            "de": "Beides ist vertauscht: Qualität vergibt 1–5 und besteht ab 3, der Schweregrad für Schadensinhalte reicht von 0 bis 7 und besteht bis 3."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Quality scores 1–5 and passes at or above the threshold; content-harm safety scores severity 0–7 and passes at or below it (default 3 each)",
+            "de": "Qualität vergibt 1–5 und besteht ab dem Schwellenwert; Safety für Schadensinhalte bewertet den Schweregrad 0–7 und besteht bis zum Schwellenwert (Standard jeweils 3)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the scales point in opposite directions — higher quality is better, higher severity is worse — so the pass rules mirror each other.",
+            "de": "Richtig: Die Skalen laufen in entgegengesetzte Richtungen – höhere Qualität ist besser, höherer Schweregrad schlechter –, daher spiegeln sich die Bestehensregeln."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-5",
@@ -120,7 +670,57 @@
       "back": {
         "en": "The Groundedness guardrail control (preview) is scheduled to retire on April 30, 2027. Measure grounding quality with the Groundedness evaluator in evaluations and continuous evaluation instead.",
         "de": "Das Guardrail-Control Groundedness (Preview) wird am 30. April 2027 eingestellt. Miss die Grounding-Qualität stattdessen mit dem Groundedness-Evaluator in Evaluierungen und in der Continuous Evaluation."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It becomes generally available in Microsoft.DefaultV2 and keeps checking grounding at runtime for both models and agents",
+            "de": "Es wird allgemein verfügbar, kommt in Microsoft.DefaultV2 und prüft das Grounding weiterhin zur Laufzeit, für Modelle wie auch für Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the preview control is scheduled to retire on April 30, 2027, and Groundedness controls don't apply to agents at all.",
+            "de": "Nein: Das Preview-Control wird am 30. April 2027 eingestellt, und Groundedness-Controls gelten für Agents ohnehin nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It retires on April 30, 2027; the Groundedness evaluator measures grounding in evaluations and continuous evaluation",
+            "de": "Es wird am 30. April 2027 eingestellt; der Groundedness-Evaluator misst das Grounding in Evaluierungen und der Continuous Evaluation"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the evaluator checks claims against the provided context, both in test runs and on sampled production traffic.",
+            "de": "Richtig: Der Evaluator prüft Aussagen gegen den bereitgestellten Kontext, sowohl in Testläufen als auch auf Stichproben aus dem Betrieb."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It retires on April 30, 2027; Prompt Shields document attack detection takes over the grounding checks",
+            "de": "Es wird am 30. April 2027 eingestellt; die Document-Attack-Erkennung der Prompt Shields übernimmt die Grounding-Prüfung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Prompt Shields detect injected instructions, not whether an answer is grounded in its sources — that's the Groundedness evaluator's job.",
+            "de": "Prompt Shields erkennen eingeschleuste Anweisungen, nicht ob eine Antwort in ihren Quellen verankert ist – das ist Aufgabe des Groundedness-Evaluators."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It retires on April 30, 2027; the Relevance evaluator replaces it in evaluations, since it checks each claim against the retrieved context",
+            "de": "Es wird am 30. April 2027 eingestellt; der Relevance-Evaluator ersetzt es in Evaluierungen, weil er jede Aussage gegen den abgerufenen Kontext prüft"
+          },
+          "correct": false,
+          "why": {
+            "en": "Relevance needs only `query` and `response` and rates how well the answer addresses the question; checking claims against the context is Groundedness.",
+            "de": "Relevance braucht nur `query` und `response` und bewertet, wie gut die Antwort auf die Frage eingeht; Aussagen gegen den Kontext prüft Groundedness."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-6",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Prompt Shields catch attacks, not an agent that turns a harmless request into the wrong action: the **Task Adherence** control (preview, not in Microsoft.DefaultV2) flags planned tool calls that don't match the user's intent, such as a delete when the user only asked to read, so they can be blocked or escalated to a human. The Task Adherence evaluator only scores responses afterwards.",
         "de": "Prompt Shields erkennen Angriffe, aber keinen Agent, der aus einer harmlosen Anfrage die falsche Aktion macht: Das Control **Task Adherence** (Preview, nicht in Microsoft.DefaultV2) meldet geplante Tool-Aufrufe, die nicht zur Absicht des Nutzers passen – etwa Löschen, obwohl er nur lesen wollte –, damit sie blockiert oder an einen Menschen eskaliert werden. Der Evaluator Task Adherence bewertet Antworten nur im Nachhinein."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Prompt Shields scan only the model output; the **Task Adherence** control (preview) flags planned tool calls that miss the user's intent",
+            "de": "Prompt Shields prüfen nur die Modellausgabe; das Control **Task Adherence** (Preview) meldet geplante Tool-Aufrufe abseits der Nutzerabsicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "The control is right, the reason isn't: Prompt Shields scan user input, documents and tool responses, not the output — and they miss this call because it isn't an attack.",
+            "de": "Das Control stimmt, die Begründung nicht: Prompt Shields prüfen Nutzereingaben, Dokumente und Tool-Antworten, nicht die Ausgabe – und sie übersehen den Aufruf, weil er kein Angriff ist."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Prompt Shields scan only the model output; the **Groundedness** control (preview) flags all planned tool calls that miss the user's intent",
+            "de": "Prompt Shields prüfen nur die Modellausgabe; das Control **Groundedness** (Preview) meldet alle geplanten Tool-Aufrufe abseits der Nutzerabsicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Prompt Shields scan inputs and tool responses (not the output) for attacks only, and Groundedness checks answers against sources, not intent.",
+            "de": "Gleich doppelt falsch: Prompt Shields prüfen Eingaben und Tool-Antworten (nicht die Ausgabe) nur auf Angriffe, und Groundedness prüft Antworten gegen Quellen, keine Absicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Prompt Shields only detect attacks; the **Task Adherence** control (preview) flags planned tool calls that miss the user's intent",
+            "de": "Prompt Shields erkennen nur Angriffe; das Control **Task Adherence** (Preview) meldet geplante Tool-Aufrufe abseits der Nutzerabsicht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the control (not in Microsoft.DefaultV2) checks planned calls against the request — say, a delete when only a read was asked — so they can be blocked or escalated.",
+            "de": "Richtig: Das Control (nicht in Microsoft.DefaultV2) prüft geplante Aufrufe gegen die Anfrage – etwa ein Löschen, obwohl nur Lesen gewünscht war –, damit sie blockiert oder eskaliert werden können."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Prompt Shields only detect attacks; the **Groundedness** control (preview) flags all planned tool calls that miss the user's intent",
+            "de": "Prompt Shields erkennen nur Angriffe; das Control **Groundedness** (Preview) meldet alle geplanten Tool-Aufrufe abseits der Nutzerabsicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Groundedness checks answers against provided sources and doesn't apply to agents; misaligned tool calls are what **Task Adherence** catches.",
+            "de": "Groundedness prüft Antworten gegen bereitgestellte Quellen und gilt nicht für Agents; unpassende Tool-Aufrufe erkennt **Task Adherence**."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-trap-7",
@@ -144,7 +794,57 @@
       "back": {
         "en": "A deployment's guardrail is only the default for its calls: a request can name another custom guardrail in the `x-policy-id` header, which then overrides the deployment's guardrail for that call. This isn't available for image input (chat with images), and an unknown name returns `InvalidContentFilterPolicy`.",
         "de": "Der Guardrail eines Deployments ist nur der Standard für seine Aufrufe: Eine Anfrage kann im Header `x-policy-id` einen anderen eigenen Guardrail nennen, der dann für diesen Aufruf den des Deployments ersetzt. Bei Bildeingaben (Chat mit Bildern) geht das nicht, und ein unbekannter Name liefert `InvalidContentFilterPolicy`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It can't: every call uses its deployment's guardrail, so you create a second deployment with the other guardrail",
+            "de": "Gar nicht: Jeder Aufruf nutzt den Guardrail seines Deployments, also legst du ein zweites Deployment mit dem anderen Guardrail an"
+          },
+          "correct": false,
+          "why": {
+            "en": "It can: the `x-policy-id` header names another custom guardrail, which overrides the deployment's guardrail for that one call.",
+            "de": "Doch: Der Header `x-policy-id` nennt einen anderen eigenen Guardrail, der für diesen einen Aufruf den des Deployments ersetzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Set `rai_config` with `rai_policy_name` in the request body; it works for every input type, and an unknown name falls back to Microsoft.DefaultV2",
+            "de": "Setze `rai_config` mit `rai_policy_name` im Request-Body; das klappt für jede Eingabeart, und ein unbekannter Name fällt auf Microsoft.DefaultV2 zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "`rai_config` gives a hosted agent its guardrail; a single call uses the `x-policy-id` header, which isn't available for image input, and an unknown name returns `InvalidContentFilterPolicy`.",
+            "de": "`rai_config` gibt einem Hosted Agent seinen Guardrail; ein einzelner Aufruf nutzt den Header `x-policy-id`, der bei Bildeingaben nicht verfügbar ist, und ein unbekannter Name liefert `InvalidContentFilterPolicy`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Name another custom guardrail in the `x-policy-id` header; it merges with the deployment's and also works for image input",
+            "de": "Nenne im Header `x-policy-id` einen anderen eigenen Guardrail; er wird mit dem des Deployments kombiniert und funktioniert auch bei Bildeingaben"
+          },
+          "correct": false,
+          "why": {
+            "en": "The header is right, the rest isn't: the named guardrail overrides the deployment's for that call, and it isn't available for image input.",
+            "de": "Der Header stimmt, der Rest nicht: Der genannte Guardrail ersetzt für diesen Aufruf den des Deployments, und bei Bildeingaben geht das nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Name another custom guardrail in the `x-policy-id` header; not for image input, and an unknown name returns `InvalidContentFilterPolicy`",
+            "de": "Nenne im Header `x-policy-id` einen anderen eigenen Guardrail; nicht bei Bildeingaben, und ein unbekannter Name liefert `InvalidContentFilterPolicy`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the deployment's guardrail is only the default; the header overrides it for that call, except for chat with images.",
+            "de": "Richtig: Der Guardrail des Deployments ist nur der Standard; der Header ersetzt ihn für diesen Aufruf – außer beim Chat mit Bildern."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-takeaway-1",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Map → Measure → Mitigate → Manage — and measure again after every mitigation.",
         "de": "Map → Measure → Mitigate → Manage – und nach jeder Gegenmaßnahme misst du erneut."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Map → Measure → Mitigate → Manage; after every mitigation you measure again",
+            "de": "Map → Measure → Mitigate → Manage; nach jeder Gegenmaßnahme misst du erneut"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: measuring again against the baseline shows whether a mitigation works, and new harms found in production restart the cycle.",
+            "de": "Richtig: Erneutes Messen gegen die Baseline zeigt, ob eine Gegenmaßnahme wirkt, und neue Schäden aus dem Betrieb starten den Zyklus neu."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Govern → Map → Measure → Manage; after every mitigation you release straight away",
+            "de": "Govern → Map → Measure → Manage; nach jeder Gegenmaßnahme gibst du sofort frei"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are the functions of the NIST AI Risk Management Framework; Microsoft's stages are Map, Measure, Mitigate and Manage, and you measure again before you release.",
+            "de": "Das sind die Funktionen des NIST AI Risk Management Framework; die Phasen von Microsoft heißen Map, Measure, Mitigate und Manage, und vor dem Release misst du erneut."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Map → Mitigate → Measure → Manage; after every mitigation you map the harms again",
+            "de": "Map → Mitigate → Measure → Manage; nach jeder Gegenmaßnahme mappst du die Schäden neu"
+          },
+          "correct": false,
+          "why": {
+            "en": "Measure comes before Mitigate — you need a baseline first — and after a mitigation you measure again against that baseline.",
+            "de": "Measure kommt vor Mitigate – du brauchst zuerst eine Baseline –, und nach einer Gegenmaßnahme misst du erneut gegen diese Baseline."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Map → Measure → Manage → Mitigate; after every mitigation you wait for user reports",
+            "de": "Map → Measure → Manage → Mitigate; nach jeder Gegenmaßnahme wartest du auf Meldungen von Nutzern"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mitigate comes before Manage, and instead of waiting for reports you measure again right after each mitigation.",
+            "de": "Mitigate kommt vor Manage, und statt auf Meldungen zu warten, misst du nach jeder Gegenmaßnahme sofort erneut."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-takeaway-2",
@@ -168,7 +918,57 @@
       "back": {
         "en": "Choose the control by risk: harms → blocking level, attacks → Prompt Shields, copyright → protected material, personal data → PII, your own terms → blocklist, agent actions that miss the user's intent → Task Adherence (preview).",
         "de": "Wähle das Control nach Risiko: Schäden → Blocking Level, Angriffe → Prompt Shields, Urheberrecht → Protected Material, personenbezogene Daten → PII, eigene Begriffe → Blockliste, Agent-Aktionen abseits der Nutzerabsicht → Task Adherence (Preview)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Harms → blocking level, attacks → Task Adherence, copyright → PII, personal data → protected material, own terms → blocklist, agent actions → Prompt Shields",
+            "de": "Schäden → Blocking Level, Angriffe → Task Adherence, Urheberrecht → PII, Personendaten → Protected Material, eigene Begriffe → Blockliste, Agent-Aktionen → Prompt Shields"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two pairs are swapped: protected material covers copyright and PII (preview) personal data, and Prompt Shields catch attacks while Task Adherence checks agent actions.",
+            "de": "Zwei Paare sind vertauscht: Protected Material deckt Urheberrecht ab und PII (Preview) Personendaten, und Prompt Shields erkennen Angriffe, Task Adherence prüft Agent-Aktionen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Harms → blocking level, attacks → Prompt Shields, copyright → protected material, personal data → PII, own terms → blocklist, agent actions → Task Adherence",
+            "de": "Schäden → Blocking Level, Angriffe → Prompt Shields, Urheberrecht → Protected Material, Personendaten → PII, eigene Begriffe → Blockliste, Agent-Aktionen → Task Adherence"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: each risk has its own control, and Task Adherence (preview) is the one that checks agent actions against the user's intent.",
+            "de": "Richtig: Jedes Risiko hat sein eigenes Control, und Task Adherence (Preview) prüft Agent-Aktionen gegen die Absicht des Nutzers."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Harms → blocklist, attacks → Prompt Shields, copyright → PII, personal data → protected material, own terms → blocking level, agent actions → Task Adherence",
+            "de": "Schäden → Blockliste, Angriffe → Prompt Shields, Urheberrecht → PII, Personendaten → Protected Material, eigene Begriffe → Blocking Level, Agent-Aktionen → Task Adherence"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two pairs are swapped: harm categories use a blocking level and your own terms a custom blocklist, and protected material covers copyright while PII covers personal data.",
+            "de": "Zwei Paare sind vertauscht: Schadenskategorien steuerst du über einen Blocking Level, eigene Begriffe über eine Blockliste, und Protected Material deckt Urheberrecht ab, PII Personendaten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Harms → blocklist, attacks → Task Adherence, copyright → protected material, personal data → PII, own terms → blocking level, agent actions → Prompt Shields",
+            "de": "Schäden → Blockliste, Angriffe → Task Adherence, Urheberrecht → Protected Material, Personendaten → PII, eigene Begriffe → Blocking Level, Agent-Aktionen → Prompt Shields"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two pairs are swapped: harm categories use a blocking level and your own terms a custom blocklist, and Prompt Shields catch attacks while Task Adherence checks agent actions.",
+            "de": "Zwei Paare sind vertauscht: Schadenskategorien steuerst du über einen Blocking Level, eigene Begriffe über eine Blockliste, und Prompt Shields erkennen Angriffe, Task Adherence prüft Agent-Aktionen."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-takeaway-3",
@@ -180,7 +980,57 @@
       "back": {
         "en": "Before release, measure with evaluators and the AI Red Teaming Agent; after release, monitor with continuous and scheduled evaluation.",
         "de": "Vor dem Release misst du mit Evaluatoren und dem AI Red Teaming Agent, danach überwachst du mit Continuous und Scheduled Evaluation."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only after release, on live traffic; before release, guardrails alone are enough",
+            "de": "Erst nach dem Release, auf Live-Traffic; vor dem Release reichen Guardrails allein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Harms must be measured before release — guardrails are only one mitigation layer, and their effect needs measuring too.",
+            "de": "Schäden misst du schon vor dem Release – Guardrails sind nur eine Mitigationsebene, und auch ihre Wirkung musst du messen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Before release, to measure; after release, Prompt Shields score the quality of all live answers",
+            "de": "Vor dem Release, um zu messen; danach bewerten Prompt Shields die Qualität aller Live-Antworten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Prompt Shields detect attacks in inputs and documents and don't score answer quality; continuous and scheduled evaluation do that.",
+            "de": "Prompt Shields erkennen Angriffe in Eingaben und Dokumenten und bewerten keine Antwortqualität; das übernehmen Continuous und Scheduled Evaluation."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Before release, to measure; after release, Azure Monitor's Blocked Volume metric replaces any evaluation",
+            "de": "Vor dem Release, um zu messen; danach ersetzt die Azure-Monitor-Metrik Blocked Volume jede Evaluierung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Blocked Volume alerts on safety events but scores nothing; continuous and scheduled evaluation keep measuring quality and safety.",
+            "de": "Blocked Volume alarmiert bei Sicherheitsereignissen, bewertet aber nichts; Continuous und Scheduled Evaluation messen Qualität und Sicherheit weiter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Before release, to measure; after release, continuous and scheduled evaluation keep monitoring",
+            "de": "Vor dem Release, um zu messen; danach überwachen Continuous und Scheduled Evaluation weiter"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: you measure before you ship; afterwards continuous evaluation scores sampled live traffic, scheduled evaluation reruns test datasets, and red team scans can run on a schedule too.",
+            "de": "Richtig: Du misst vor der Auslieferung; danach bewertet Continuous Evaluation Stichproben des Live-Traffics, Scheduled Evaluation wiederholt Test-Datasets, und auch Red-Team-Scans können nach Zeitplan laufen."
+          }
+        }
+      ]
     },
     {
       "id": "z-responsible-ai-takeaway-4",
@@ -192,7 +1042,57 @@
       "back": {
         "en": "Text inside an image is untrusted input: extract it with OCR and screen it with Prompt Shields; classify visual harm with Analyze Image.",
         "de": "Text in einem Bild ist nicht vertrauenswürdige Eingabe: Extrahiere ihn per OCR und prüfe ihn mit Prompt Shields; visuelle Schäden klassifizierst du mit Analyze Image."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Send the whole image to the Prompt Shields API, which reads its text; classify visual harm with **Analyze Image**",
+            "de": "Schick das ganze Bild an die Prompt-Shields-API, die seinen Text liest; visuelle Schäden klassifizierst du mit **Analyze Image**"
+          },
+          "correct": false,
+          "why": {
+            "en": "Prompt Shields analyze text, not pixels: extract the text with OCR first and send it to the API as a document.",
+            "de": "Prompt Shields analysieren Text, keine Pixel: Extrahiere den Text zuerst per OCR und schick ihn als Dokument an die API."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Extract the text with OCR and screen it with Prompt Shields; classify visual harm with **Analyze Image**",
+            "de": "Extrahiere den Text per OCR und prüfe ihn mit Prompt Shields; visuelle Schäden klassifizierst du mit **Analyze Image**"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: text in an image is untrusted input that may hide instructions, while Analyze Image rates the four harm categories of the picture itself.",
+            "de": "Richtig: Text im Bild ist nicht vertrauenswürdige Eingabe, die Anweisungen verstecken kann; Analyze Image bewertet die vier Schadenskategorien des Bildes selbst."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Extract the text with OCR and screen it with Prompt Shields; classify visual harm with Prompt Shields as well",
+            "de": "Extrahiere den Text per OCR und prüfe ihn mit Prompt Shields; visuelle Schäden klassifizierst du ebenfalls mit Prompt Shields"
+          },
+          "correct": false,
+          "why": {
+            "en": "The text part is right, but Prompt Shields only look for attacks in text — visual harm in the picture needs **Analyze Image**.",
+            "de": "Der Teil zum Text stimmt, aber Prompt Shields suchen nur in Text nach Angriffen – visuelle Schäden im Bild brauchen **Analyze Image**."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Send the whole image to the Prompt Shields API, which reads its text; classify visual harm with Prompt Shields as well",
+            "de": "Schick das ganze Bild an die Prompt-Shields-API, die seinen Text liest; visuelle Schäden klassifizierst du ebenfalls mit Prompt Shields"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Prompt Shields need the text extracted by OCR first, and visual harm in the picture is classified by **Analyze Image**.",
+            "de": "Gleich doppelt falsch: Prompt Shields brauchen den zuvor per OCR extrahierten Text, und visuelle Schäden im Bild klassifiziert **Analyze Image**."
+          }
+        }
+      ]
     }
   ]
 }

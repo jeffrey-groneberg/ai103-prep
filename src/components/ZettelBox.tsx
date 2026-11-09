@@ -25,7 +25,7 @@ export function ZettelBox({ counts, variant = 'full', receiving = null, pulseKey
     <figure className={`zbox zbox--${variant}${className ? ` ${className}` : ''}`}>
       {variant === 'full' && (
         <figcaption className="zbox__rule zbox__rule--forward">
-          <strong>Gewusst</strong> – der Zettel wandert ein Fach nach vorn
+          <strong>Richtig</strong> – der Zettel wandert ein Fach nach vorn
           <Icon name="arrowRight" size={16} />
         </figcaption>
       )}
@@ -60,7 +60,7 @@ export function ZettelBox({ counts, variant = 'full', receiving = null, pulseKey
         <div className="zbox__return">
           <span className="zbox__return-line" aria-hidden="true" />
           <p className="zbox__rule zbox__rule--back">
-            <strong>Nicht gewusst</strong> – zurück nach hinten in Fach 1
+            <strong>Falsch</strong> – zurück nach hinten in Fach 1
           </p>
         </div>
       )}

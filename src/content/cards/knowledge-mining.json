@@ -8,7 +8,57 @@
       "front": {
         "en": "What does an indexer connect, and when do you push documents with `upload_documents()` instead?",
         "de": "Was verbindet ein Indexer, und wann lädst du Dokumente stattdessen selbst mit `upload_documents()` hoch?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Several data sources, skillsets and indexes at once; push for unsupported sources or near-real-time updates",
+            "de": "Mehrere Datenquellen, Skillsets und Indizes zugleich; Push für nicht unterstützte Quellen oder echtzeitnahe Updates"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the push rule fits, but an indexer connects exactly one data source, an optional skillset and one target index.",
+            "de": "Teilweise richtig: Die Push-Regel stimmt, aber ein Indexer verbindet genau eine Datenquelle, ein optionales Skillset und einen Zielindex."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "One supported data source, an optional skillset and one target index; push for unsupported sources or near-real-time updates",
+            "de": "Eine unterstützte Datenquelle, ein optionales Skillset und einen Zielindex; Push für nicht unterstützte Quellen oder echtzeitnahe Updates"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: an indexer crawls one source into one index, optionally through a skillset; `upload_documents()` covers other sources and near-real-time updates.",
+            "de": "Richtig: Ein Indexer holt Inhalte aus einer Quelle in einen Index, optional über ein Skillset; `upload_documents()` deckt andere Quellen und Updates nahezu in Echtzeit ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Several data sources, skillsets and indexes at once; push because vector fields for embeddings need the push model",
+            "de": "Mehrere Datenquellen, Skillsets und Indizes zugleich; Push, weil Vektorfelder für Embeddings das Push-Modell brauchen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: an indexer links exactly one source and one target index, and with integrated vectorization its skillset embeds the content, so vectors don't need push.",
+            "de": "Beides falsch: Ein Indexer verbindet genau eine Quelle und einen Zielindex, und bei integrierter Vektorisierung bettet sein Skillset die Inhalte ein, Vektoren brauchen also kein Push."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "One supported data source, an optional skillset and one target index; push because vector fields for embeddings need the push model",
+            "de": "Eine unterstützte Datenquelle, ein optionales Skillset und einen Zielindex; Push, weil Vektorfelder für Embeddings das Push-Modell brauchen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: with integrated vectorization an indexer's skillset chunks and embeds the content, so vector fields don't require the push model.",
+            "de": "Halb falsch: Bei integrierter Vektorisierung chunkt und embeddet das Skillset eines Indexers die Inhalte, Vektorfelder erfordern also kein Push-Modell."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-2",
@@ -20,7 +70,57 @@
       "back": {
         "en": "A skillset is a reusable set of skills attached to an indexer. Each skill reads nodes of the enriched document (such as `/document/content`) and adds new nodes; its `context` sets how often it runs, for example once per image or per chunk. Most skills backed by Foundry Tools are free for about 20 documents per indexer per day; beyond that, and always for the Content Understanding skill, you attach a billable Foundry resource.",
         "de": "Ein Skillset ist eine wiederverwendbare Sammlung von Skills, die an einen Indexer gehängt wird. Jeder Skill liest Knoten des angereicherten Dokuments (etwa `/document/content`) und ergänzt neue Knoten; sein `context` legt fest, wie oft er läuft, etwa einmal pro Bild oder pro Chunk. Die meisten Skills auf Basis von Foundry Tools sind für etwa 20 Dokumente pro Indexer und Tag kostenlos; darüber hinaus – und beim Content-Understanding-Skill immer – hängst du eine kostenpflichtige Foundry-Ressource an."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "How often the skill runs, such as once per image or chunk; beyond about 20 free documents per indexer per day, and always for Content Understanding",
+            "de": "Wie oft der Skill läuft, etwa einmal pro Bild oder Chunk; jenseits von etwa 20 Gratis-Dokumenten pro Indexer und Tag und für Content Understanding immer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `context` sets the node the skill runs for, and most Foundry Tools skills are free only for about 20 documents per indexer per day — Content Understanding always needs the resource.",
+            "de": "Richtig: `context` legt den Knoten fest, für den der Skill läuft, und die meisten Skills auf Basis von Foundry Tools sind nur für etwa 20 Dokumente pro Indexer und Tag kostenlos – Content Understanding braucht die Ressource immer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Which index field receives the skill's output, for example `chunk_vector`; beyond about 20 free documents per indexer per day, and always for Content Understanding",
+            "de": "Welches Indexfeld die Ausgabe des Skills erhält, zum Beispiel `chunk_vector`; jenseits von etwa 20 Gratis-Dokumenten pro Indexer und Tag und für Content Understanding immer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the billing rule fits, but `context` sets how often a skill runs — output field mappings or index projections move outputs into the index.",
+            "de": "Teilweise richtig: Die Abrechnungsregel stimmt, aber `context` legt fest, wie oft ein Skill läuft – Output Field Mappings oder Index Projections bringen Ausgaben in den Index."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "How often the skill runs, such as once per image or chunk; only for custom skills that call your own Azure Function, never for any of the built-in skills",
+            "de": "Wie oft der Skill läuft, etwa einmal pro Bild oder Chunk; nur für eigene Skills, die deine eigene Azure Function aufrufen, nie für einen der integrierten Skills"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: a Custom Web API skill calls your own endpoint; the billable Foundry resource is for skills backed by Foundry Tools beyond the free limit.",
+            "de": "Halb falsch: Ein Custom-Web-API-Skill ruft deinen eigenen Endpoint auf; die kostenpflichtige Foundry-Ressource brauchen Skills auf Basis von Foundry Tools jenseits des Gratis-Limits."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Which index field receives the skill's output, for example `chunk_vector`; only for custom skills that call your own Azure Function, never for any of the built-in skills",
+            "de": "Welches Indexfeld die Ausgabe des Skills erhält, zum Beispiel `chunk_vector`; nur für eigene Skills, die deine eigene Azure Function aufrufen, nie für einen der integrierten Skills"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: `context` sets how often a skill runs, and the billable Foundry resource covers skills backed by Foundry Tools beyond the free limit, not custom skills.",
+            "de": "Beides falsch: `context` legt fest, wie oft ein Skill läuft, und die kostenpflichtige Foundry-Ressource brauchen Skills auf Basis von Foundry Tools jenseits des Gratis-Limits, keine eigenen Skills."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-3",
@@ -28,7 +128,57 @@
       "front": {
         "en": "Where do index projections and knowledge store projections write their output, and in which form?",
         "de": "Wohin schreiben Index Projections und Knowledge-Store-Projektionen ihre Ausgabe, und in welcher Form?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Index projections: tables in Azure Storage for Power BI; knowledge store: tables, objects or files in Azure Storage",
+            "de": "Index Projections: Tabellen in Azure Storage für Power BI; Knowledge Store: Tabellen, Objekte oder Dateien in Azure Storage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the knowledge store fits, but index projections write each chunk as its own search document, with a parent key, into an index.",
+            "de": "Teilweise richtig: Der Knowledge Store stimmt, aber Index Projections schreiben jeden Chunk als eigenes Suchdokument mit Elternschlüssel in einen Index."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Index projections: one search document per chunk, with a parent key, in an index; knowledge store: a knowledge base for agentic retrieval inside the search service",
+            "de": "Index Projections: ein Suchdokument pro Chunk mit Elternschlüssel in einem Index; Knowledge Store: eine Knowledge Base für Agentic Retrieval innerhalb des Suchdiensts"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: a knowledge store lives in Azure Storage as tables, objects or files, and it isn't an agentic retrieval knowledge base.",
+            "de": "Halb falsch: Ein Knowledge Store liegt als Tabellen, Objekte oder Dateien in Azure Storage und ist keine Knowledge Base für Agentic Retrieval."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Index projections: tables in Azure Storage for Power BI; knowledge store: a knowledge base for agentic retrieval inside the search service",
+            "de": "Index Projections: Tabellen in Azure Storage für Power BI; Knowledge Store: eine Knowledge Base für Agentic Retrieval innerhalb des Suchdiensts"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: index projections write chunk documents into an index, and the knowledge store writes tables, objects or files to Azure Storage — it isn't an agentic retrieval knowledge base.",
+            "de": "Beides falsch: Index Projections schreiben Chunk-Dokumente in einen Index, und der Knowledge Store schreibt Tabellen, Objekte oder Dateien nach Azure Storage – er ist keine Knowledge Base für Agentic Retrieval."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Index projections: one search document per chunk, with a parent key, in an index; knowledge store: tables, objects or files in Azure Storage",
+            "de": "Index Projections: ein Suchdokument pro Chunk mit Elternschlüssel in einem Index; Knowledge Store: Tabellen, Objekte oder Dateien in Azure Storage"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: both are defined in the skillset — index projections fan chunks out into an index, knowledge store projections save enrichments to Azure Storage.",
+            "de": "Richtig: Beide werden im Skillset definiert – Index Projections verteilen Chunks in einen Index, Knowledge-Store-Projektionen speichern Anreicherungen in Azure Storage."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-4",
@@ -36,7 +186,57 @@
       "front": {
         "en": "How does BM25 rank keyword matches, and which setting enables Lucene operators such as fuzzy or proximity search?",
         "de": "Wie bewertet BM25 Stichworttreffer, und welche Einstellung aktiviert Lucene-Operatoren wie Fuzzy- oder Nähesuche?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Higher when the term is frequent across the whole index; `queryType` set to `simple`, which is the default",
+            "de": "Höher, wenn der Begriff im ganzen Index häufig ist; `queryType` auf `simple`, die Standardeinstellung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: BM25 favors terms that are rare across the index, and the default `simple` syntax has no fuzzy or proximity operators — that takes `queryType=full`.",
+            "de": "Beides falsch: BM25 bevorzugt Begriffe, die im Index selten sind, und die Standardsyntax `simple` hat keine Fuzzy- oder Nähe-Operatoren – dafür brauchst du `queryType=full`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Higher when the term is frequent across the whole index; `queryType` set to `full`",
+            "de": "Höher, wenn der Begriff im ganzen Index häufig ist; `queryType` auf `full`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `queryType=full` enables the Lucene operators, but BM25 ranks a match higher when the term is rare in the index, not frequent.",
+            "de": "Teilweise richtig: `queryType=full` aktiviert die Lucene-Operatoren, aber BM25 bewertet einen Treffer höher, wenn der Begriff im Index selten ist, nicht häufig."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Higher when the term is frequent in the document but rare in the index; `queryType` set to `full`",
+            "de": "Höher, wenn der Begriff im Dokument häufig, im Index aber selten ist; `queryType` auf `full`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: BM25 rewards term frequency in the document and rarity across the index, and `queryType=full` switches on the Lucene query parser.",
+            "de": "Richtig: BM25 belohnt Häufigkeit im Dokument und Seltenheit im Index, und `queryType=full` schaltet den Lucene-Abfrageparser ein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Higher when the term is frequent in the document but rare in the index; `queryType` set to `simple`, which is the default",
+            "de": "Höher, wenn der Begriff im Dokument häufig, im Index aber selten ist; `queryType` auf `simple`, die Standardeinstellung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `simple` is the default syntax without these operators — fuzzy and proximity search need the full Lucene syntax, `queryType=full`.",
+            "de": "Teilweise richtig: `simple` ist die Standardsyntax ohne diese Operatoren – Fuzzy- und Nähesuche brauchen die volle Lucene-Syntax, `queryType=full`."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-5",
@@ -44,7 +244,57 @@
       "front": {
         "en": "What does a vector profile combine, and how do HNSW and exhaustive KNN differ?",
         "de": "Was kombiniert ein Vektorprofil, und wie unterscheiden sich HNSW und exhaustive KNN?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An algorithm plus an optional vectorizer and compression; HNSW compares every vector exactly, exhaustive KNN searches fast and approximately",
+            "de": "Einen Algorithmus plus optional Vectorizer und Komprimierung; HNSW vergleicht jeden Vektor exakt, exhaustive KNN sucht schnell und approximativ"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: HNSW is the fast, approximate graph search, while exhaustive KNN is the exact brute-force comparison.",
+            "de": "Vertauscht: HNSW ist die schnelle, approximative Graphsuche, exhaustive KNN der exakte Brute-Force-Vergleich."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "An algorithm plus an optional vectorizer and compression; HNSW searches fast and approximately, exhaustive KNN compares every vector exactly",
+            "de": "Einen Algorithmus plus optional Vectorizer und Komprimierung; HNSW sucht schnell und approximativ, exhaustive KNN vergleicht jeden Vektor exakt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the profile ties a vector field to an algorithm and, optionally, a vectorizer for query text and compression; HNSW trades exactness for speed, KNN is brute force.",
+            "de": "Richtig: Das Profil verbindet ein Vektorfeld mit einem Algorithmus und optional einem Vectorizer für Abfragetext und einer Komprimierung; HNSW tauscht Exaktheit gegen Tempo, KNN ist Brute Force."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A semantic configuration plus a scoring profile; HNSW searches fast and approximately, exhaustive KNN compares every vector exactly",
+            "de": "Eine semantische Konfiguration plus ein Scoring-Profil; HNSW sucht schnell und approximativ, exhaustive KNN vergleicht jeden Vektor exakt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the algorithms fit, but a vector profile combines an algorithm with an optional vectorizer and compression — semantic configurations and scoring profiles tune relevance.",
+            "de": "Teilweise richtig: Die Algorithmen stimmen, aber ein Vektorprofil verbindet einen Algorithmus mit optionalem Vectorizer und optionaler Komprimierung – semantische Konfigurationen und Scoring-Profile stimmen die Relevanz ab."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A semantic configuration plus a scoring profile; HNSW compares every vector exactly, exhaustive KNN searches fast and approximately",
+            "de": "Eine semantische Konfiguration plus ein Scoring-Profil; HNSW vergleicht jeden Vektor exakt, exhaustive KNN sucht schnell und approximativ"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: a vector profile is an algorithm plus an optional vectorizer and compression, and HNSW is the fast approximate search while exhaustive KNN is the exact one.",
+            "de": "Beides falsch: Ein Vektorprofil ist ein Algorithmus plus optional Vectorizer und Komprimierung, und HNSW ist die schnelle, approximative Suche, exhaustive KNN die exakte."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-6",
@@ -52,7 +302,57 @@
       "front": {
         "en": "Which ranking stage does the semantic ranker handle, and which fields does a semantic configuration name?",
         "de": "Welche Ranking-Stufe übernimmt der Semantic Ranker, und welche Felder nennt eine semantische Konfiguration?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The second stage (L2): it reranks the top 50 BM25 or RRF results; the configuration names a title field, content fields and keyword fields",
+            "de": "Die zweite Stufe (L2): Er rankt die Top 50 der BM25- oder RRF-Treffer neu; die Konfiguration nennt ein Titelfeld, Inhaltsfelder und Schlüsselwortfelder"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the semantic ranker rescores the first-stage top 50, using the title, content and keyword fields you list in priority order.",
+            "de": "Richtig: Der Semantic Ranker bewertet die Top 50 der ersten Stufe neu und nutzt dabei Titel-, Inhalts- und Schlüsselwortfelder, die du nach Priorität angibst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The first stage (L1): it finds all matches by meaning over embeddings; the configuration names the vector fields and their `dimensions`",
+            "de": "Die erste Stufe (L1): Er findet alle Treffer nach Bedeutung über Embeddings; die Konfiguration nennt die Vektorfelder und ihre `dimensions`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: it's a second-stage reranker that can't find new matches, and a semantic configuration names text fields, not vector fields.",
+            "de": "Nein: Er ist ein Reranker der zweiten Stufe, der keine neuen Treffer findet, und eine semantische Konfiguration nennt Textfelder, keine Vektorfelder."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The second stage (L2): it reranks the top 50 BM25 or RRF results; the configuration names the vector fields and their `dimensions`",
+            "de": "Die zweite Stufe (L2): Er rankt die Top 50 der BM25- oder RRF-Treffer neu; die Konfiguration nennt die Vektorfelder und ihre `dimensions`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the stage fits, but a semantic configuration names a title field, content fields and keyword fields — searchable, retrievable strings, not vectors.",
+            "de": "Teilweise richtig: Die Stufe stimmt, aber eine semantische Konfiguration nennt ein Titelfeld, Inhaltsfelder und Schlüsselwortfelder – durchsuchbare, abrufbare Strings, keine Vektoren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The first stage (L1): it finds all matches by meaning over embeddings; the configuration names a title field, content fields and keyword fields",
+            "de": "Die erste Stufe (L1): Er findet alle Treffer nach Bedeutung über Embeddings; die Konfiguration nennt ein Titelfeld, Inhaltsfelder und Schlüsselwortfelder"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the fields fit, but the semantic ranker is a second-stage reranker of the top 50 — it uses no embeddings and finds no new matches.",
+            "de": "Teilweise richtig: Die Felder stimmen, aber der Semantic Ranker ordnet als zweite Stufe die Top 50 neu – ohne Embeddings und ohne neue Treffer."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-concept-7",
@@ -60,7 +360,57 @@
       "front": {
         "en": "What does a debug session let you inspect, and what must you configure to get Azure Monitor resource logs?",
         "de": "Was kannst du in einer Debug Session prüfen, und was brauchst du für Ressourcenprotokolle in Azure Monitor?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The last 50 indexer runs with their errors and warnings per document; resource logs are collected automatically without any setup",
+            "de": "Die letzten 50 Indexer-Läufe mit Fehlern und Warnungen pro Dokument; Ressourcenprotokolle werden ohne Einrichtung automatisch erfasst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: that's execution history, and while metrics are collected automatically, resource logs need a diagnostic setting.",
+            "de": "Beides falsch: Das ist der Ausführungsverlauf, und Metriken werden zwar automatisch erfasst, Ressourcenprotokolle brauchen aber eine Diagnoseeinstellung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The last 50 indexer runs with their errors and warnings per document; resource logs need a diagnostic setting",
+            "de": "Die letzten 50 Indexer-Läufe mit Fehlern und Warnungen pro Dokument; Ressourcenprotokolle brauchen eine Diagnoseeinstellung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: resource logs do need a diagnostic setting, but the last 50 runs with their errors are the execution history — a debug session inspects skills.",
+            "de": "Teilweise richtig: Ressourcenprotokolle brauchen eine Diagnoseeinstellung, aber die letzten 50 Läufe mit Fehlern sind der Ausführungsverlauf – eine Debug Session prüft Skills."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Skill inputs and outputs for one document run through a copy of the skillset; resource logs are collected automatically without any setup",
+            "de": "Skill-Ein- und -Ausgaben für ein Dokument in einer Kopie des Skillsets; Ressourcenprotokolle werden ohne Einrichtung automatisch erfasst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the debug session fits, but resource logs need a diagnostic setting — Azure Monitor collects metrics automatically, not resource logs.",
+            "de": "Teilweise richtig: Die Debug Session stimmt, aber Ressourcenprotokolle brauchen eine Diagnoseeinstellung – Azure Monitor erfasst Metriken automatisch, Ressourcenprotokolle nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Skill inputs and outputs for one document run through a copy of the skillset; resource logs need a diagnostic setting",
+            "de": "Skill-Ein- und -Ausgaben für ein Dokument in einer Kopie des Skillsets; Ressourcenprotokolle brauchen eine Diagnoseeinstellung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a debug session lets you test fixes on one document in a copy of the skillset, and resource logs only flow once a diagnostic setting exists.",
+            "de": "Richtig: In einer Debug Session testest du Korrekturen an einem Dokument in einer Kopie des Skillsets, und Ressourcenprotokolle fließen erst mit einer Diagnoseeinstellung."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-1",
@@ -72,7 +422,57 @@
       "back": {
         "en": "It never reaches the index: without an output field mapping (or an index projection for chunks), the enriched node stays in memory. Plain field mappings only copy source fields before enrichment.",
         "de": "Sie landet nie im Index: Ohne Output Field Mapping (oder eine Index Projection für Chunks) bleibt der angereicherte Knoten im Speicher. Normale Field Mappings kopieren nur Quellfelder vor der Anreicherung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It lands automatically in the index field that has the same name as the skill's output, just as source fields do",
+            "de": "Sie landet automatisch in dem Indexfeld, das genauso heißt wie die Ausgabe des Skills – wie bei Quellfeldern"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: implicit mapping by name only applies to source fields; enriched nodes never reach the index on their own.",
+            "de": "Nein: Implizite Zuordnung per Name gilt nur für Quellfelder; angereicherte Knoten landen nie von selbst im Index."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The plain field mappings carry it into the index as well, because they run after the whole skillset has finished",
+            "de": "Die normalen Field Mappings bringen sie ebenfalls in den Index, weil sie erst nach dem ganzen Skillset laufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong order: field mappings run before enrichment and copy source fields only; skill outputs need output field mappings or index projections.",
+            "de": "Falsche Reihenfolge: Field Mappings laufen vor der Anreicherung und kopieren nur Quellfelder; Skill-Ausgaben brauchen Output Field Mappings oder Index Projections."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It stays in memory and never reaches the index, unless an output field mapping or an index projection moves it",
+            "de": "Sie bleibt im Speicher und erreicht den Index nie, außer per Output Field Mapping oder Index Projection"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: plain field mappings copy source fields before enrichment, so skill outputs need output field mappings or index projections to reach the index.",
+            "de": "Richtig: Normale Field Mappings kopieren Quellfelder vor der Anreicherung, Skill-Ausgaben brauchen also Output Field Mappings oder Index Projections, um in den Index zu kommen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It goes to the knowledge store instead, which receives every enrichment by default when no mapping exists",
+            "de": "Sie geht stattdessen in den Knowledge Store, der ohne Mapping standardmäßig jede Anreicherung erhält"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a knowledge store is optional and only gets what its projections define; without a mapping, the node simply stays in memory.",
+            "de": "Nein: Ein Knowledge Store ist optional und erhält nur, was seine Projektionen festlegen; ohne Mapping bleibt der Knoten einfach im Speicher."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-2",
@@ -84,7 +484,57 @@
       "back": {
         "en": "Only the top 50 of the first ranking pass, and it never writes new text: captions and answers are verbatim. A `search=*` query gets no semantic ranking, and adding `orderby` to a semantic query returns HTTP 400.",
         "de": "Nur die Top 50 des ersten Rankings, und er erzeugt nie neuen Text: Captions und Answers sind wörtliche Zitate. Eine Abfrage mit `search=*` wird nicht semantisch gerankt, und `orderby` in einer semantischen Abfrage führt zu HTTP 400."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "All results; `search=*` gets no semantic ranking, and `orderby` sorts the results after the semantic reranking",
+            "de": "Alle Treffer; `search=*` wird nicht semantisch gerankt, und `orderby` sortiert die Treffer erst nach dem semantischen Reranking"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `search=*` indeed gets no semantic ranking, but only the top 50 are reranked, and `orderby` in a semantic query returns HTTP 400.",
+            "de": "Teilweise richtig: `search=*` wird tatsächlich nicht semantisch gerankt, aber nur die Top 50 werden neu gerankt, und `orderby` in einer semantischen Abfrage führt zu HTTP 400."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only the top 50; `search=*` gets no semantic ranking, and `orderby` in a semantic query returns HTTP 400",
+            "de": "Nur die Top 50; `search=*` wird nicht semantisch gerankt, und `orderby` in einer semantischen Abfrage führt zu HTTP 400"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the ranker reorders just the first pass's top 50, needs real query text, and can't be combined with `orderby`.",
+            "de": "Richtig: Der Ranker ordnet nur die Top 50 des ersten Durchgangs neu, braucht echten Abfragetext und lässt sich nicht mit `orderby` kombinieren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "All results; `search=*` ranks every single document semantically, and `orderby` in a semantic query returns HTTP 400",
+            "de": "Alle Treffer; `search=*` rankt jedes einzelne Dokument semantisch, und `orderby` in einer semantischen Abfrage führt zu HTTP 400"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the `orderby` part is right: the ranker reorders just the top 50, and a `search=*` query gets no semantic ranking at all.",
+            "de": "Nur der Teil zu `orderby` stimmt: Der Ranker ordnet nur die Top 50 neu, und eine Abfrage mit `search=*` wird gar nicht semantisch gerankt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the top 50; `search=*` ranks every single document semantically, and `orderby` sorts the results after the semantic reranking",
+            "de": "Nur die Top 50; `search=*` rankt jedes einzelne Dokument semantisch, und `orderby` sortiert die Treffer erst nach dem semantischen Reranking"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the top 50 is right: a `search=*` query gets no semantic ranking, and `orderby` in a semantic query returns HTTP 400 instead of sorting.",
+            "de": "Nur die Top 50 stimmen: Eine Abfrage mit `search=*` wird nicht semantisch gerankt, und `orderby` in einer semantischen Abfrage führt zu HTTP 400, statt zu sortieren."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-3",
@@ -96,7 +546,57 @@
       "back": {
         "en": "The `dimensions` must equal the embedding output (including a custom `dimensions` value on the embedding skill), and the query vectorizer must use the same model. Otherwise you get dimension errors or meaningless matches.",
         "de": "Die `dimensions` müssen zur Embedding-Ausgabe passen (inklusive eines eigenen `dimensions`-Werts im Embedding-Skill), und der Vectorizer für Abfragen muss dasselbe Modell nutzen. Sonst gibt es Dimensionsfehler oder sinnlose Treffer."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`dimensions` must equal the embedding output and the vectorizer must use the same model; otherwise dimension errors or meaningless matches",
+            "de": "`dimensions` muss zur Embedding-Ausgabe passen und der Vectorizer dasselbe Modell nutzen; sonst Dimensionsfehler oder sinnlose Treffer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: index vectors and query vectors must come from the same model with the same length, or they can't be compared.",
+            "de": "Richtig: Index- und Abfragevektoren müssen vom selben Modell mit derselben Länge stammen, sonst lassen sie sich nicht vergleichen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`dimensions` must equal the chunk size in characters, and the vectorizer may use any model; otherwise long chunks get cut off before they are embedded",
+            "de": "`dimensions` muss der Chunkgröße in Zeichen entsprechen, und der Vectorizer darf jedes Modell nutzen; sonst werden lange Chunks vor dem Einbetten abgeschnitten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `dimensions` is the vector length the embedding model outputs, not a chunk size, and the vectorizer must use the indexing model.",
+            "de": "Nein: `dimensions` ist die Vektorlänge, die das Embedding-Modell ausgibt, keine Chunkgröße, und der Vectorizer muss das Modell der Indexierung nutzen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`dimensions` must equal the embedding output, but the vectorizer may use any model, because the service converts the query vectors for you automatically",
+            "de": "`dimensions` muss zur Embedding-Ausgabe passen, aber der Vectorizer darf jedes Modell nutzen, weil der Dienst die Abfragevektoren automatisch für dich umrechnet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: vectors from different models aren't comparable and nothing converts them — the query vectorizer must use the same model.",
+            "de": "Halb falsch: Vektoren verschiedener Modelle sind nicht vergleichbar, und nichts rechnet sie um – der Abfrage-Vectorizer muss dasselbe Modell nutzen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`dimensions` must equal the `k_nearest_neighbors` value of the query; otherwise the query returns fewer results",
+            "de": "`dimensions` muss dem Wert von `k_nearest_neighbors` der Abfrage entsprechen; sonst liefert die Abfrage weniger Treffer"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `k_nearest_neighbors` sets how many neighbors come back, while `dimensions` must equal the embedding model's output length.",
+            "de": "Nein: `k_nearest_neighbors` legt fest, wie viele Nachbarn zurückkommen, `dimensions` muss dagegen der Ausgabelänge des Embedding-Modells entsprechen."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-4",
@@ -108,7 +608,57 @@
       "back": {
         "en": "Deletions: change detection is automatic, deletion detection is not. Configure native blob soft delete or a custom metadata soft-delete policy before the first indexer run, or deleted files stay in the index as orphans.",
         "de": "Löschungen: Die Änderungserkennung ist automatisch, die Löscherkennung nicht. Konfiguriere natives Blob-Soft-Delete oder eine Soft-Delete-Richtlinie über benutzerdefinierte Metadaten vor dem ersten Indexer-Lauf – sonst bleiben gelöschte Dateien als Waisen im Index."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Changes to existing files; configure a high-water-mark change detection policy on `metadata_storage_last_modified`",
+            "de": "Änderungen an bestehenden Dateien; konfiguriere eine High-Water-Mark-Richtlinie zur Änderungserkennung auf `metadata_storage_last_modified`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: change detection for Azure Storage is automatic, and what it misses — deletions — needs a soft-delete policy, not a high-water mark.",
+            "de": "Beides falsch: Die Änderungserkennung ist für Azure Storage automatisch, und was sie nicht erkennt – Löschungen –, braucht eine Soft-Delete-Richtlinie, keine High-Water-Mark."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Deletions; configure a high-water-mark change detection policy on `metadata_storage_last_modified`",
+            "de": "Löschungen; konfiguriere eine High-Water-Mark-Richtlinie zur Änderungserkennung auf `metadata_storage_last_modified`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: deletions are the gap, but a high-water-mark policy detects changes, not deletions — deleted files need a soft-delete policy.",
+            "de": "Teilweise richtig: Löschungen sind die Lücke, aber eine High-Water-Mark-Richtlinie erkennt Änderungen, keine Löschungen – gelöschte Dateien brauchen eine Soft-Delete-Richtlinie."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Changes to existing files; configure native blob soft delete or a custom metadata soft-delete policy",
+            "de": "Änderungen an bestehenden Dateien; konfiguriere natives Blob-Soft-Delete oder eine Soft-Delete-Richtlinie per Metadaten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: a soft-delete policy is the right setting, but it's for deletions — changes to existing blobs are detected automatically.",
+            "de": "Teilweise richtig: Eine Soft-Delete-Richtlinie ist die richtige Einstellung, aber für Löschungen – Änderungen an bestehenden Blobs werden automatisch erkannt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Deletions; configure native blob soft delete or a custom metadata soft-delete policy",
+            "de": "Löschungen; konfiguriere natives Blob-Soft-Delete oder eine Soft-Delete-Richtlinie per Metadaten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: change detection is automatic for Azure Storage, deletion detection is not — without a soft-delete policy from the start, deleted files stay in the index as orphans.",
+            "de": "Richtig: Die Änderungserkennung ist für Azure Storage automatisch, die Löscherkennung nicht – ohne Soft-Delete-Richtlinie von Anfang an bleiben gelöschte Dateien als Waisen im Index."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-5",
@@ -120,7 +670,57 @@
       "back": {
         "en": "`postFilter` can return too few results when the filter is very selective and `k_nearest_neighbors` is small. `preFilter`, the default for current indexes, filters during the vector search and returns the requested number whenever enough matches exist.",
         "de": "`postFilter` kann bei sehr selektivem Filter und kleinem `k_nearest_neighbors` zu wenige Ergebnisse liefern. `preFilter`, der Standard für aktuelle Indizes, filtert während der Vektorsuche und liefert die angeforderte Anzahl, sobald genug Treffer existieren."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`preFilter` can return too few; `postFilter`, the default for current indexes, filters after the search and avoids it",
+            "de": "`preFilter` kann zu wenige liefern; `postFilter`, der Standard für aktuelle Indizes, filtert nach der Suche und vermeidet das"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `postFilter` is the one that can come up short, and `preFilter` is the default for indexes created since October 2023.",
+            "de": "Vertauscht: `postFilter` kann zu wenige liefern, und `preFilter` ist der Standard für Indizes, die seit Oktober 2023 erstellt wurden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`postFilter` can return too few; `strictPostFilter` avoids that and is the generally available default for new indexes",
+            "de": "`postFilter` kann zu wenige liefern; `strictPostFilter` vermeidet das und ist der allgemein verfügbare Standard für neue Indizes"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `strictPostFilter` is a preview mode with the highest risk of too few results for selective filters; `preFilter`, the default, avoids that.",
+            "de": "Teilweise richtig: `strictPostFilter` ist ein Vorschaumodus mit dem höchsten Risiko, bei selektiven Filtern zu wenige Treffer zu liefern; `preFilter`, der Standard, vermeidet das."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`postFilter` can return too few; `preFilter`, the default for current indexes, filters during the search and avoids it",
+            "de": "`postFilter` kann zu wenige liefern; `preFilter`, der Standard für aktuelle Indizes, filtert während der Vektorsuche und vermeidet das"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: post-filtering trims each shard's top results afterwards, while pre-filtering applies the filter during the search and fills the requested count.",
+            "de": "Richtig: Post-Filtering kürzt die Top-Treffer jedes Shards nachträglich, Pre-Filtering wendet den Filter während der Suche an und füllt die angeforderte Anzahl."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`postFilter` can return too few; `searchMode` set to `any` avoids that by widening the vector search to more neighbors",
+            "de": "`postFilter` kann zu wenige liefern; `searchMode` auf `any` vermeidet das, weil es die Vektorsuche auf mehr Nachbarn erweitert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `searchMode` decides how keyword terms combine (`any` or `all`); the filter mode that avoids short vector results is `preFilter`.",
+            "de": "Teilweise richtig: `searchMode` bestimmt, wie Stichwortbegriffe kombiniert werden (`any` oder `all`); der Filtermodus gegen zu wenige Vektortreffer ist `preFilter`."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-trap-6",
@@ -132,7 +732,57 @@
       "back": {
         "en": "The semantic ranker: a query-side second pass that reranks the top 50 BM25 or RRF results by their text, with no embeddings and no new matches. Search by meaning over embeddings is vector search; keyword plus vector in one request is hybrid search.",
         "de": "Den Semantic Ranker: einen zweiten Durchgang zur Abfragezeit, der die Top 50 der BM25- oder RRF-Treffer anhand ihres Texts neu ordnet – ohne Embeddings und ohne neue Treffer. Suche nach Bedeutung über Embeddings ist Vektorsuche; Keyword plus Vektor in einer Anfrage ist Hybridsuche."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A search over embeddings that finds documents by meaning; reranking the top 50 by text is called vector search",
+            "de": "Eine Suche über Embeddings, die Dokumente nach Bedeutung findet; das Neuordnen der Top 50 anhand des Texts heißt Vektorsuche"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: in Azure AI Search, semantic means the semantic ranker that reranks by text; search over embeddings is vector search.",
+            "de": "Vertauscht: In Azure AI Search meint semantisch den Semantic Ranker, der anhand des Texts neu ordnet; Suche über Embeddings ist Vektorsuche."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The semantic ranker, a second pass that reranks the top 50 by text without embeddings; search by meaning over embeddings is vector search",
+            "de": "Den Semantic Ranker, einen zweiten Durchgang, der die Top 50 anhand des Texts ohne Embeddings neu ordnet; Suche nach Bedeutung über Embeddings ist Vektorsuche"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: semantic ranking reorders first-pass results and finds nothing new; meaning-based search over embeddings is vector search, and both legs together are hybrid search.",
+            "de": "Richtig: Semantisches Ranking ordnet Treffer des ersten Durchgangs neu und findet nichts Neues; Suche nach Bedeutung über Embeddings ist Vektorsuche, beide Wege zusammen Hybridsuche."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The semantic ranker, a second pass that reranks the top 50 by text without embeddings; search by meaning over embeddings is hybrid search",
+            "de": "Den Semantic Ranker, einen zweiten Durchgang, der die Top 50 anhand des Texts ohne Embeddings neu ordnet; Suche nach Bedeutung über Embeddings ist Hybridsuche"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: hybrid search means keyword plus vector in one request; search by meaning over embeddings alone is vector search.",
+            "de": "Teilweise richtig: Hybridsuche heißt Stichwort plus Vektor in einer Anfrage; Suche nach Bedeutung allein über Embeddings ist Vektorsuche."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Keyword search with BM25 and synonym maps; search by meaning over embeddings is called semantic ranking",
+            "de": "Stichwortsuche mit BM25 und Synonymzuordnungen; Suche nach Bedeutung über Embeddings heißt semantisches Ranking"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: semantic refers to the semantic ranker's second pass over BM25 or RRF results, and search over embeddings is vector search.",
+            "de": "Nein: Semantisch bezieht sich auf den zweiten Durchgang des Semantic Rankers über BM25- oder RRF-Treffer, und Suche über Embeddings ist Vektorsuche."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-takeaway-1",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Data source → indexer (cracking, field mappings) → skillset → output field mappings or index projections → index. Knowledge store projections go to Azure Storage.",
         "de": "Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings oder Index Projections → Index. Knowledge-Store-Projektionen gehen nach Azure Storage."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Data source → indexer (cracking, field mappings) → skillset → output field mappings or index projections → index; knowledge store → Azure Storage",
+            "de": "Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings oder Index Projections → Index; Knowledge Store → Azure Storage"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: field mappings act before enrichment, skill outputs reach the index only through output field mappings or index projections, and the knowledge store lives in Azure Storage.",
+            "de": "Richtig: Field Mappings wirken vor der Anreicherung, Skill-Ausgaben kommen nur über Output Field Mappings oder Index Projections in den Index, und der Knowledge Store liegt in Azure Storage."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Data source → indexer (cracking) → output field mappings → skillset → field mappings → index; knowledge store → the same index",
+            "de": "Datenquelle → Indexer (Cracking) → Output Field Mappings → Skillset → Field Mappings → Index; Knowledge Store → derselbe Index"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: plain field mappings run before enrichment and output field mappings after it, and knowledge store projections write to Azure Storage, not to the index.",
+            "de": "Beides falsch: Normale Field Mappings laufen vor der Anreicherung, Output Field Mappings danach, und Knowledge-Store-Projektionen schreiben nach Azure Storage, nicht in den Index."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Data source → indexer (cracking) → output field mappings → skillset → field mappings → index; knowledge store → Azure Storage",
+            "de": "Datenquelle → Indexer (Cracking) → Output Field Mappings → Skillset → Field Mappings → Index; Knowledge Store → Azure Storage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mappings swapped: plain field mappings copy source fields before enrichment, and output field mappings carry skill outputs after the skillset.",
+            "de": "Mappings vertauscht: Normale Field Mappings kopieren Quellfelder vor der Anreicherung, Output Field Mappings bringen Skill-Ausgaben nach dem Skillset weiter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Data source → indexer (cracking, field mappings) → skillset → output field mappings or index projections → index; knowledge store → the same index",
+            "de": "Datenquelle → Indexer (Cracking, Field Mappings) → Skillset → Output Field Mappings oder Index Projections → Index; Knowledge Store → derselbe Index"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the flow is correct, but knowledge store projections write tables, objects or files to Azure Storage, not to the index.",
+            "de": "Teilweise richtig: Der Ablauf stimmt, aber Knowledge-Store-Projektionen schreiben Tabellen, Objekte oder Dateien nach Azure Storage, nicht in den Index."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-takeaway-2",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Chunk, then embed: Text Split or the Content Understanding skill, the Azure OpenAI Embedding skill, index projections and a matching vectorizer add up to integrated vectorization.",
         "de": "Erst chunken, dann einbetten: Text Split oder der Content-Understanding-Skill, der Azure-OpenAI-Embedding-Skill, Index Projections und ein passender Vectorizer ergeben integrierte Vektorisierung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Embedding first: the Azure OpenAI Embedding skill, then Text Split on the vectors, output field mappings and a scoring profile",
+            "de": "Zuerst Embedding: der Azure-OpenAI-Embedding-Skill, danach Text Split auf den Vektoren, Output Field Mappings und ein Scoring-Profil"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: you can't split a vector; chunks are cut first so each fits the embedding input, and a vectorizer, not a scoring profile, embeds queries.",
+            "de": "Nein: Einen Vektor kann man nicht zerlegen; Chunks entstehen zuerst, damit jeder zur Embedding-Eingabe passt, und ein Vectorizer, kein Scoring-Profil, bettet Abfragen ein."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Chunking first: Text Split, the Azure OpenAI Embedding skill and a knowledge store; queries are sent as plain keywords",
+            "de": "Zuerst Chunking: Text Split, der Azure-OpenAI-Embedding-Skill und ein Knowledge Store; Abfragen gehen als einfache Stichwörter raus"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: chunks reach the index through index projections, not a knowledge store, and a vectorizer must embed the query text.",
+            "de": "Teilweise richtig: Chunks kommen über Index Projections in den Index, nicht über einen Knowledge Store, und ein Vectorizer muss den Abfragetext einbetten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Embedding first: the semantic ranker embeds the documents, then Text Split creates chunks for the semantic configuration to use",
+            "de": "Zuerst Embedding: Der Semantic Ranker bettet die Dokumente ein, danach erzeugt Text Split Chunks für die semantische Konfiguration"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the semantic ranker uses no embeddings at all; integrated vectorization chunks first, then embeds with the Azure OpenAI Embedding skill.",
+            "de": "Nein: Der Semantic Ranker nutzt gar keine Embeddings; integrierte Vektorisierung chunkt zuerst und bettet dann mit dem Azure-OpenAI-Embedding-Skill ein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Chunking first: Text Split or Content Understanding, the Azure OpenAI Embedding skill, index projections and a matching vectorizer",
+            "de": "Zuerst Chunking: Text Split oder Content Understanding, der Azure-OpenAI-Embedding-Skill, Index Projections und ein passender Vectorizer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: you split the text into chunks that fit the embedding model, embed each chunk, project the chunks into the index and embed queries with the same model.",
+            "de": "Richtig: Du zerlegst den Text in Chunks, die zum Embedding-Modell passen, bettest jeden Chunk ein, projizierst die Chunks in den Index und bettest Abfragen mit demselben Modell ein."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-takeaway-3",
@@ -168,7 +918,57 @@
       "back": {
         "en": "Hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50. Agentic retrieval is for complex, multi-source questions.",
         "de": "Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50. Agentic Retrieval ist für komplexe, quellenübergreifende Fragen da."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Pure vector search with `k_nearest_neighbors` = 5; agentic retrieval for complex, multi-source questions",
+            "de": "Reine Vektorsuche mit `k_nearest_neighbors` = 5; Agentic Retrieval für komplexe, quellenübergreifende Fragen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: agentic retrieval fits, but the best default relevance comes from hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50.",
+            "de": "Teilweise richtig: Agentic Retrieval stimmt, aber die beste Standardrelevanz liefert Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Pure vector search with `k_nearest_neighbors` = 5; agentic retrieval to rerank the top 50 without embeddings",
+            "de": "Reine Vektorsuche mit `k_nearest_neighbors` = 5; Agentic Retrieval, um die Top 50 ohne Embeddings neu zu ordnen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: hybrid search plus the semantic ranker is the best default, and reranking the top 50 by text is the semantic ranker's job, not agentic retrieval's.",
+            "de": "Beides falsch: Hybridsuche plus Semantic Ranker ist der beste Standard, und die Top 50 anhand des Texts neu zu ordnen ist Aufgabe des Semantic Rankers, nicht von Agentic Retrieval."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50; agentic retrieval for complex, multi-source questions",
+            "de": "Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50; Agentic Retrieval für komplexe, quellenübergreifende Fragen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: hybrid search with semantic reranking gives the best default relevance, and agentic retrieval, where an LLM splits a question into subqueries, pays off for complex, multi-source questions.",
+            "de": "Richtig: Hybridsuche mit semantischem Reranking liefert die beste Standardrelevanz, und Agentic Retrieval, bei dem ein LLM die Frage in Teilabfragen zerlegt, lohnt sich bei komplexen, quellenübergreifenden Fragen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Hybrid search plus the semantic ranker with `k_nearest_neighbors` = 50; agentic retrieval to rerank the top 50 without embeddings",
+            "de": "Hybridsuche plus Semantic Ranker mit `k_nearest_neighbors` = 50; Agentic Retrieval, um die Top 50 ohne Embeddings neu zu ordnen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: reranking the top 50 by text is the semantic ranker's job; agentic retrieval splits complex, multi-source questions into subqueries.",
+            "de": "Teilweise richtig: Die Top 50 anhand des Texts neu zu ordnen ist Aufgabe des Semantic Rankers; Agentic Retrieval zerlegt komplexe, quellenübergreifende Fragen in Teilabfragen."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-takeaway-4",
@@ -180,7 +980,57 @@
       "back": {
         "en": "Ingestion: execution history and debug sessions. The service: Azure Monitor metrics and resource logs. Real users: search traffic analytics.",
         "de": "Die Aufnahme mit Ausführungsverlauf und Debug Sessions, den Dienst mit Azure-Monitor-Metriken und Ressourcenprotokollen und echte Nutzer mit Search Traffic Analytics."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Ingestion: search traffic analytics; service: execution history and debug sessions; users: Azure Monitor metrics and resource logs",
+            "de": "Aufnahme: Search Traffic Analytics; Dienst: Ausführungsverlauf und Debug Sessions; Nutzer: Azure-Monitor-Metriken und Ressourcenprotokolle"
+          },
+          "correct": false,
+          "why": {
+            "en": "Rotated: execution history and debug sessions cover ingestion, Azure Monitor covers the service, and search traffic analytics covers real users.",
+            "de": "Verschoben: Ausführungsverlauf und Debug Sessions decken die Aufnahme ab, Azure Monitor den Dienst und Search Traffic Analytics echte Nutzer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Ingestion: execution history and debug sessions; service: Azure Monitor metrics and resource logs; users: search traffic analytics",
+            "de": "Aufnahme: Ausführungsverlauf und Debug Sessions; Dienst: Azure-Monitor-Metriken und Ressourcenprotokolle; Nutzer: Search Traffic Analytics"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: execution history and debug sessions show indexer runs and skill problems, Azure Monitor watches the service, and search traffic analytics tracks real queries and clicks.",
+            "de": "Richtig: Ausführungsverlauf und Debug Sessions zeigen Indexer-Läufe und Skill-Probleme, Azure Monitor überwacht den Dienst, und Search Traffic Analytics verfolgt echte Abfragen und Klicks."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Ingestion: execution history and debug sessions; service: search traffic analytics; users: Azure Monitor metrics and resource logs",
+            "de": "Aufnahme: Ausführungsverlauf und Debug Sessions; Dienst: Search Traffic Analytics; Nutzer: Azure-Monitor-Metriken und Ressourcenprotokolle"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half swapped: Azure Monitor watches the service itself, while search traffic analytics sends your app's search and click events to Application Insights.",
+            "de": "Halb vertauscht: Azure Monitor überwacht den Dienst selbst, Search Traffic Analytics schickt Such- und Klickereignisse deiner App an Application Insights."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Ingestion: Azure Monitor metrics only; service: debug sessions; users: the semantic ranker's reranker scores",
+            "de": "Aufnahme: nur Azure-Monitor-Metriken; Dienst: Debug Sessions; Nutzer: die Reranker-Scores des Semantic Rankers"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: reranker scores rate relevance per query rather than user behavior, debug sessions troubleshoot skillsets, and ingestion is watched with execution history.",
+            "de": "Nein: Reranker-Scores bewerten die Relevanz pro Abfrage, nicht das Nutzerverhalten, Debug Sessions untersuchen Skillsets, und die Aufnahme überwachst du mit dem Ausführungsverlauf."
+          }
+        }
+      ]
     },
     {
       "id": "z-knowledge-mining-takeaway-5",
@@ -192,7 +1042,57 @@
       "back": {
         "en": "The Azure Content Understanding skill. The Document Layout skill stays supported for existing pipelines.",
         "de": "Den Azure-Content-Understanding-Skill. Der Document-Layout-Skill bleibt für bestehende Pipelines unterstützt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Azure Content Understanding skill; the Document Layout skill stays supported for existing pipelines",
+            "de": "Den Azure-Content-Understanding-Skill; der Document-Layout-Skill bleibt für bestehende Pipelines unterstützt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: new layout-aware skillsets use Content Understanding, which returns Markdown chunks; existing pipelines can keep the Document Layout skill.",
+            "de": "Richtig: Neue layoutbewusste Skillsets nutzen Content Understanding, das Markdown-Chunks liefert; bestehende Pipelines können den Document-Layout-Skill behalten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The Document Layout skill; the Azure Content Understanding skill only works in existing pipelines so far",
+            "de": "Den Document-Layout-Skill; der Azure-Content-Understanding-Skill funktioniert bisher nur in bestehenden Pipelines"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: Content Understanding is the choice for new layout-aware skillsets, and Document Layout stays supported for existing pipelines.",
+            "de": "Vertauscht: Content Understanding ist die Wahl für neue layoutbewusste Skillsets, Document Layout bleibt für bestehende Pipelines unterstützt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The OCR skill plus the Text Merge skill; the Document Layout skill has been removed from all skillsets for good",
+            "de": "Den OCR-Skill plus den Text-Merge-Skill; der Document-Layout-Skill wurde endgültig aus allen Skillsets entfernt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: OCR and Text Merge extract text without layout-aware chunking, and the Document Layout skill stays supported for existing pipelines.",
+            "de": "Nein: OCR und Text Merge extrahieren Text ohne layoutbewusstes Chunking, und der Document-Layout-Skill bleibt für bestehende Pipelines unterstützt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The GenAI Prompt skill; the Document Layout skill now needs a Custom Web API wrapper so that it keeps running",
+            "de": "Den GenAI-Prompt-Skill; der Document-Layout-Skill braucht jetzt einen Custom-Web-API-Wrapper, damit er weiterläuft"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: GenAI Prompt runs your chat model for descriptions or extraction; layout-aware skillsets use Content Understanding, and Document Layout stays supported for existing pipelines.",
+            "de": "Nein: GenAI Prompt nutzt dein Chatmodell für Beschreibungen oder Extraktion; layoutbewusste Skillsets nutzen Content Understanding, und Document Layout bleibt für bestehende Pipelines unterstützt."
+          }
+        }
+      ]
     }
   ]
 }

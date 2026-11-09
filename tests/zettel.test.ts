@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { advance, applyZettel, boxCards, buildDeck, countByFach, fachOf, GOAL, newOwnId, type ZettelStates } from '../src/lib/zettel.ts'
+import { advance, applyZettel, boxCards, buildDeck, countByFach, fachOf, GOAL, newOwnId, ownChoices, ownToZettel, type ZettelStates } from '../src/lib/zettel.ts'
 import { initialState, normalizeState, store } from '../src/lib/store.ts'
 import type { Zettel } from '../src/lib/types.ts'
 
@@ -79,6 +79,25 @@ describe('Zettelkasten — a round', () => {
       ['d', 'trap'],
       ['z-own-1', 'own'],
     ])
+  })
+
+  it('turns own cards with one right and at least two wrong options into multiple-choice cards', () => {
+    const base = { id: 'z-own-2', module: null, front: 'Which API?', back: 'The Responses API, because …', createdAt: NOW.toISOString() }
+    const choices = [
+      { text: 'Responses API', correct: true },
+      { text: 'Assistants API', correct: false, why: 'Retired.' },
+      { text: 'Completions API', correct: false },
+    ]
+    const z = ownToZettel({ ...base, choices })
+    expect(z.choices?.map((o) => [o.id, o.text.de, o.correct, o.why.de])).toEqual([
+      ['a', 'Responses API', true, ''],
+      ['b', 'Assistants API', false, 'Retired.'],
+      ['c', 'Completions API', false, ''],
+    ])
+    expect(ownToZettel(base).choices).toBeUndefined()
+    expect(ownChoices(choices.slice(0, 2))).toBeUndefined()
+    expect(ownChoices([{ text: 'x', correct: true }, { text: 'y', correct: true }, { text: 'z', correct: false }])).toBeUndefined()
+    expect(ownChoices('nonsense')).toBeUndefined()
   })
 
   it('gives own cards unique, stable-looking ids', () => {

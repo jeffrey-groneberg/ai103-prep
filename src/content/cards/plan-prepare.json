@@ -8,7 +8,57 @@
       "front": {
         "en": "Which Azure resource type is a Foundry resource, and which settings do you set there once for all projects?",
         "de": "Welcher Azure-Ressourcentyp ist eine Foundry-Ressource, und was legst du dort einmal für alle Projekte fest?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`Microsoft.CognitiveServices/accounts/projects`; networking, encryption, RBAC and policy set there apply to all projects",
+            "de": "`Microsoft.CognitiveServices/accounts/projects`; Netzwerk, Verschlüsselung, RBAC und Policies von dort gelten für alle Projekte"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `accounts/projects` is the project subresource — the development boundary; the Foundry resource is `accounts` of kind `AIServices`.",
+            "de": "Nein: `accounts/projects` ist die Projekt-Subressource – die Entwicklungsgrenze; die Foundry-Ressource ist `accounts` mit Kind `AIServices`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`Microsoft.CognitiveServices/accounts`, kind `AIServices`; networking, encryption, RBAC and policy set there apply to all its projects",
+            "de": "`Microsoft.CognitiveServices/accounts`, Kind `AIServices`; Netzwerk, Verschlüsselung, RBAC und Policies von dort gelten für alle ihre Projekte"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the Foundry resource is this top-level resource and the governance boundary — its networking, encryption, RBAC and policy cover every project inside it.",
+            "de": "Richtig: Die Foundry-Ressource ist diese oberste Ressource und die Governance-Grenze – Netzwerk, Verschlüsselung, RBAC und Policies gelten für jedes Projekt darin."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`Microsoft.CognitiveServices/accounts`, kind `AIServices`; only deployments there — networking and encryption are set per project",
+            "de": "`Microsoft.CognitiveServices/accounts`, Kind `AIServices`; dort nur Deployments – Netzwerk und Verschlüsselung legst du pro Projekt fest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the type fits, but networking and encryption sit at resource scope and are set once for all projects, not per project.",
+            "de": "Teilweise richtig: Der Typ stimmt, aber Netzwerk und Verschlüsselung liegen auf Ressourcenebene und gelten einmal für alle Projekte, nicht pro Projekt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`Microsoft.CognitiveServices/accounts/projects`; only deployments there — networking and encryption are set per project",
+            "de": "`Microsoft.CognitiveServices/accounts/projects`; dort nur Deployments – Netzwerk und Verschlüsselung legst du pro Projekt fest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `accounts/projects` is the project subresource, and networking and encryption are set once on the Foundry resource, not per project.",
+            "de": "Zweimal falsch: `accounts/projects` ist die Projekt-Subressource, und Netzwerk und Verschlüsselung legst du einmal an der Foundry-Ressource fest, nicht pro Projekt."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "How do you reach a Foundry project, and what does it reuse from its resource versus get on its own?",
         "de": "Worüber erreichst du ein Foundry-Projekt, was nutzt es von der Ressource mit und was bekommt es selbst?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Through its project endpoint; it reuses the resource's managed identity and gets its own model deployments",
+            "de": "Über seinen Project Endpoint; es nutzt die Managed Identity der Ressource mit und hat eigene Modell-Deployments"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: model deployments live on the resource and every project reuses them — the managed identity is what each project gets for itself.",
+            "de": "Vertauscht: Modell-Deployments liegen an der Ressource, und jedes Projekt nutzt sie mit – die Managed Identity bekommt jedes Projekt selbst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Through the resource's `cognitiveservices.azure.com` endpoint; it reuses the resource's deployments and connections and gets its own managed identity",
+            "de": "Über den Endpoint `cognitiveservices.azure.com` der Ressource; es nutzt Deployments und Verbindungen der Ressource mit und hat eine eigene Managed Identity"
+          },
+          "correct": false,
+          "why": {
+            "en": "The split fits, the address doesn't: `cognitiveservices.azure.com` is the Foundry Tools endpoint; code reaches a project at `…/api/projects/<name>`.",
+            "de": "Die Aufteilung stimmt, die Adresse nicht: `cognitiveservices.azure.com` ist der Endpoint der Foundry Tools; Code erreicht ein Projekt über `…/api/projects/<name>`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Through the resource's `cognitiveservices.azure.com` endpoint; it reuses the resource's managed identity and gets its own model deployments",
+            "de": "Über den Endpoint `cognitiveservices.azure.com` der Ressource; es nutzt die Managed Identity der Ressource mit und hat eigene Modell-Deployments"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `cognitiveservices.azure.com` is the Foundry Tools endpoint, and deployments come from the resource while each project has its own managed identity.",
+            "de": "Zweimal falsch: `cognitiveservices.azure.com` ist der Endpoint der Foundry Tools, und Deployments kommen von der Ressource, während jedes Projekt eine eigene Managed Identity hat."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Through its project endpoint; it reuses the resource's deployments and connections and gets its own managed identity",
+            "de": "Über seinen Project Endpoint; es nutzt Deployments und Verbindungen der Ressource mit und hat eine eigene Managed Identity"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: code reaches the project at `…/api/projects/<name>`; deployments and resource-level connections are shared, while each project gets its own managed identity.",
+            "de": "Korrekt: Code erreicht das Projekt über `…/api/projects/<name>`; Deployments und Verbindungen auf Ressourcenebene sind geteilt, eine eigene Managed Identity hat jedes Projekt selbst."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What lives at resource scope versus project scope, and when does a workload get its own Foundry resource?",
         "de": "Was liegt auf Ressourcen-, was auf Projektebene, und wann bekommt ein Workload eine eigene Foundry-Ressource?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Deployments, Foundry Tools, network rules and keys on the resource; agents, evaluations and files in the project — production gets its own resource",
+            "de": "Deployments, Foundry Tools, Netzwerkregeln und Keys an der Ressource; Agents, Evaluierungen und Dateien im Projekt – Produktion bekommt eine eigene Ressource"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: shared building blocks and governance sit on the resource, the work in projects; a workload that needs its own network, keys, access, quota or cost boundary gets its own resource — the production default.",
+            "de": "Richtig: Geteilte Bausteine und Governance liegen an der Ressource, die Arbeit im Projekt; braucht ein Workload eigenes Netzwerk, eigene Keys, Zugriffe, Kontingente oder Kosten, bekommt er eine eigene Ressource – Standard für Produktion."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Deployments, Foundry Tools, network rules and keys on the resource; agents, evaluations and files in the project — production gets its own project",
+            "de": "Deployments, Foundry Tools, Netzwerkregeln und Keys an der Ressource; Agents, Evaluierungen und Dateien im Projekt – Produktion bekommt ein eigenes Projekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The scopes fit, the rule doesn't: a workload that needs its own network rules, keys, quota or cost boundary — the production default — gets its own Foundry resource, not just a project.",
+            "de": "Die Ebenen stimmen, die Regel nicht: Ein Workload mit eigenen Netzwerkregeln, Keys, Kontingenten oder Kostengrenzen – der Standard in Produktion – bekommt eine eigene Foundry-Ressource, nicht nur ein Projekt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Agents, evaluations and files on the resource; deployments, Foundry Tools, network rules and keys in the project — production gets its own resource",
+            "de": "Agents, Evaluierungen und Dateien an der Ressource; Deployments, Foundry Tools, Netzwerkregeln und Keys im Projekt – Produktion bekommt eine eigene Ressource"
+          },
+          "correct": false,
+          "why": {
+            "en": "The rule fits, the scopes are swapped: agents, evaluations and files belong to a project, while deployments, Foundry Tools, network rules and keys sit on the resource.",
+            "de": "Die Regel stimmt, die Ebenen sind vertauscht: Agents, Evaluierungen und Dateien gehören ins Projekt, Deployments, Foundry Tools, Netzwerkregeln und Keys an die Ressource."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Agents, evaluations and files on the resource; deployments, Foundry Tools, network rules and keys in the project — production gets its own project",
+            "de": "Agents, Evaluierungen und Dateien an der Ressource; Deployments, Foundry Tools, Netzwerkregeln und Keys im Projekt – Produktion bekommt ein eigenes Projekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the scopes are swapped, and a workload that needs its own network rules, keys, quota or cost boundary gets its own Foundry resource, not a project.",
+            "de": "Zweimal falsch: Die Ebenen sind vertauscht, und ein Workload mit eigenen Netzwerkregeln, Keys, Kontingenten oder Kostengrenzen bekommt eine eigene Foundry-Ressource, kein Projekt."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What are Foundry Tools, why use them for common tasks, and which kind of endpoint do they call?",
         "de": "Was sind Foundry Tools, warum nutzt du sie für Standardaufgaben, und welche Endpoints verwenden sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Catalog models for open-ended output, steered by prompt engineering; tool endpoints such as `<resource>.cognitiveservices.azure.com`",
+            "de": "Katalogmodelle für offene Ausgaben, per Prompt Engineering gesteuert; Tool-Endpoints wie `<resource>.cognitiveservices.azure.com`"
+          },
+          "correct": false,
+          "why": {
+            "en": "That describes models: open-ended generation runs on catalog models; Foundry Tools are prebuilt APIs with predictable output that need no prompt engineering.",
+            "de": "Das beschreibt Modelle: Offene Generierung läuft auf Katalogmodellen; Foundry Tools sind vorgefertigte APIs mit vorhersehbarer Ausgabe, ganz ohne Prompt Engineering."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Prebuilt, task-specific APIs on your Foundry resource with predictable output and cost; the project endpoint `<resource>.services.ai.azure.com/api/projects/<name>`",
+            "de": "Vorgefertigte, aufgabenspezifische APIs deiner Foundry-Ressource, vorhersehbar in Ausgabe und Kosten; der Project Endpoint `<resource>.services.ai.azure.com/api/projects/<name>`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: they're prebuilt and predictable, but they're called on tool-specific endpoints of the resource, not on the project endpoint.",
+            "de": "Teilweise richtig: Sie sind vorgefertigt und vorhersehbar, laufen aber über eigene Tool-Endpoints der Ressource, nicht über den Project Endpoint."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Prebuilt, task-specific APIs on your Foundry resource with predictable output and cost; tool endpoints such as `<resource>.cognitiveservices.azure.com`",
+            "de": "Vorgefertigte, aufgabenspezifische APIs deiner Foundry-Ressource, vorhersehbar in Ausgabe und Kosten; Tool-Endpoints wie `<resource>.cognitiveservices.azure.com`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: tools such as Azure Language, Speech or Translator give predictable output and cost for standard tasks and are called on tool-specific endpoints of the resource.",
+            "de": "Richtig: Tools wie Azure Language, Speech oder Translator liefern für Standardaufgaben vorhersehbare Ausgaben und Kosten und werden über eigene Endpoints der Ressource aufgerufen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Catalog models for open-ended output, steered by prompt engineering; the project endpoint `<resource>.services.ai.azure.com/api/projects/<name>`",
+            "de": "Katalogmodelle für offene Ausgaben, per Prompt Engineering gesteuert; der Project Endpoint `<resource>.services.ai.azure.com/api/projects/<name>`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Foundry Tools are prebuilt APIs, not catalog models, and they're called on tool-specific endpoints, not on the project endpoint.",
+            "de": "Zweimal falsch: Foundry Tools sind vorgefertigte APIs, keine Katalogmodelle, und sie laufen über eigene Tool-Endpoints, nicht über den Project Endpoint."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Where do basic and standard agent setup keep agent state, and which resources does the standard setup use?",
         "de": "Wo speichern Basic- und Standard-Setup den Agent-Zustand, und welche Ressourcen nutzt das Standard-Setup?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Basic: Microsoft-managed storage. Standard: your own Storage (files), Cosmos DB (vector stores) and Key Vault (conversations)",
+            "de": "Basic: von Microsoft verwalteter Speicher. Standard: eigenes Storage (Dateien), Cosmos DB (Vector Stores) und Key Vault (Konversationen)"
+          },
+          "correct": false,
+          "why": {
+            "en": "The mapping is off: vector stores go into your Azure AI Search and conversations into Cosmos DB for NoSQL; Key Vault keeps connection secrets, not agent state.",
+            "de": "Die Zuordnung stimmt nicht: Vector Stores landen in deinem Azure AI Search, Konversationen in Cosmos DB for NoSQL; Key Vault hält Verbindungsgeheimnisse, keinen Agent-Zustand."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Basic: Microsoft-managed storage. Standard: your own Storage (files), AI Search (vector stores) and Cosmos DB (conversations)",
+            "de": "Basic: von Microsoft verwalteter Speicher. Standard: eigenes Storage (Dateien), AI Search (Vector Stores) und Cosmos DB (Konversationen)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the basic setup keeps agent state in Microsoft-managed storage; the standard setup brings your own Storage, AI Search and Cosmos DB for NoSQL, so data stays in your tenant.",
+            "de": "Korrekt: Das Basic-Setup hält den Agent-Zustand in von Microsoft verwaltetem Speicher; das Standard-Setup bringt eigenes Storage, AI Search und Cosmos DB for NoSQL mit – die Daten bleiben in deinem Tenant."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Basic: your own Cosmos DB account in your subscription. Standard: your own Storage (files), AI Search (vector stores) and Cosmos DB (conversations)",
+            "de": "Basic: ein eigenes Cosmos-DB-Konto in deinem Abonnement. Standard: eigenes Storage (Dateien), AI Search (Vector Stores) und Cosmos DB (Konversationen)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the standard trio fits, but the basic setup keeps agent state in Microsoft-managed storage, not in your own Cosmos DB.",
+            "de": "Teilweise richtig: Das Standard-Trio stimmt, aber das Basic-Setup hält den Agent-Zustand in von Microsoft verwaltetem Speicher, nicht in deinem eigenen Cosmos DB."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Basic: your own Cosmos DB account in your subscription. Standard: your own Storage (files), Cosmos DB (vector stores) and Key Vault (conversations)",
+            "de": "Basic: ein eigenes Cosmos-DB-Konto in deinem Abonnement. Standard: eigenes Storage (Dateien), Cosmos DB (Vector Stores) und Key Vault (Konversationen)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the basic setup uses Microsoft-managed storage, and in the standard setup vector stores go into AI Search and conversations into Cosmos DB — Key Vault keeps connection secrets.",
+            "de": "Zweimal falsch: Das Basic-Setup nutzt von Microsoft verwalteten Speicher, und im Standard-Setup landen Vector Stores in AI Search und Konversationen in Cosmos DB – Key Vault hält Verbindungsgeheimnisse."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What counts as control-plane `actions` versus data-plane `dataActions`, and which roles allow data actions?",
         "de": "Was zählt zu Control-Plane-`actions`, was zu Data-Plane-`dataActions`, und welche Rollen erlauben Data Actions?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`actions`: create projects, deployments, connections; `dataActions`: build agents, call models — Owner, Contributor and Foundry Account Owner hold them",
+            "de": "`actions`: Projekte, Deployments, Verbindungen anlegen; `dataActions`: Agents bauen, Modelle aufrufen – die haben Owner, Contributor und Foundry Account Owner"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's the trap: Owner, Contributor and Foundry Account Owner manage resources and deploy models but have no data actions — builders still need Foundry User.",
+            "de": "Genau die Falle: Owner, Contributor und Foundry Account Owner verwalten Ressourcen und stellen Modelle bereit, haben aber keine Data Actions – wer baut, braucht Foundry User."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`actions`: build agents, call models; `dataActions`: create projects, deployments, connections — Foundry User builds, Foundry Agent Consumer calls agents",
+            "de": "`actions`: Agents bauen, Modelle aufrufen; `dataActions`: Projekte, Deployments, Verbindungen anlegen – Foundry User baut, Foundry Agent Consumer nutzt Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "The roles fit, the split doesn't: creating projects, deployments and connections is the control plane, building agents and calling models the data plane.",
+            "de": "Die Rollen stimmen, die Aufteilung nicht: Projekte, Deployments und Verbindungen anlegen ist Control Plane, Agents bauen und Modelle aufrufen Data Plane."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`actions`: build agents, call models; `dataActions`: create projects, deployments, connections — Owner, Contributor and Foundry Account Owner hold them",
+            "de": "`actions`: Agents bauen, Modelle aufrufen; `dataActions`: Projekte, Deployments, Verbindungen anlegen – die haben Owner, Contributor und Foundry Account Owner"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the split is swapped — building agents and calling models are data actions — and Owner, Contributor and Foundry Account Owner have none.",
+            "de": "Zweimal falsch: Die Aufteilung ist vertauscht – Agents bauen und Modelle aufrufen sind Data Actions –, und Owner, Contributor und Foundry Account Owner haben keine."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`actions`: create projects, deployments, connections; `dataActions`: build agents, call models — Foundry User builds, Foundry Agent Consumer calls agents",
+            "de": "`actions`: Projekte, Deployments, Verbindungen anlegen; `dataActions`: Agents bauen, Modelle aufrufen – Foundry User baut, Foundry Agent Consumer nutzt Agents"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: setting things up is control plane, working with agents and models is data plane — Foundry User grants data actions to build, Foundry Agent Consumer to call agent endpoints.",
+            "de": "Richtig: Einrichten ist Control Plane, mit Agents und Modellen arbeiten ist Data Plane – Foundry User gibt Data Actions zum Bauen, Foundry Agent Consumer zum Aufrufen von Agent-Endpoints."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Which responsible AI principles belong in your plan, and which parts of your solution do they shape?",
         "de": "Welche Prinzipien verantwortungsvoller KI gehören in deinen Plan, und was prägen sie an deiner Lösung?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Fairness, reliability and safety, privacy and security, inclusiveness, transparency, accountability — shaping data, testing, user information and ownership",
+            "de": "Fairness, Zuverlässigkeit und Sicherheit, Datenschutz und Security, Inklusion, Transparenz, Verantwortlichkeit – prägen Daten, Tests, Nutzerinformation und Verantwortung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: plan these six principles from day one — they shape your data choices, testing, what you tell users about the system and who owns its decisions.",
+            "de": "Richtig: Plane diese sechs Prinzipien vom ersten Tag an ein – sie prägen Datenauswahl, Tests, was du Nutzer:innen über das System sagst und wer für seine Entscheidungen geradesteht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Fairness, reliability and safety, privacy and security, inclusiveness, transparency, accountability — reviewed once after launch, they shape only content filters",
+            "de": "Fairness, Zuverlässigkeit und Sicherheit, Datenschutz und Security, Inklusion, Transparenz, Verantwortlichkeit – einmal nach dem Launch geprüft, prägen sie nur Inhaltsfilter"
+          },
+          "correct": false,
+          "why": {
+            "en": "The list fits, the timing doesn't: plan the principles from day one — they shape data, testing, what users are told and who owns decisions, not just filters.",
+            "de": "Die Liste stimmt, der Zeitpunkt nicht: Plane die Prinzipien vom ersten Tag an ein – sie prägen Daten, Tests, Nutzerinformation und Verantwortung, nicht nur Filter."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Map, measure, mitigate and manage — shaping data, testing, user information and ownership",
+            "de": "Mappen, messen, mindern und managen – prägen Daten, Tests, Nutzerinformation und Verantwortung"
+          },
+          "correct": false,
+          "why": {
+            "en": "These are the four stages of the responsible generative AI process, not the principles — those are fairness, reliability and safety, privacy and security, inclusiveness, transparency and accountability.",
+            "de": "Das sind die vier Phasen des Prozesses für verantwortungsvolle generative KI, nicht die Prinzipien – die heißen Fairness, Zuverlässigkeit und Sicherheit, Datenschutz und Security, Inklusion, Transparenz und Verantwortlichkeit."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Map, measure, mitigate and manage — reviewed once after launch, they shape only content filters",
+            "de": "Mappen, messen, mindern und managen – einmal nach dem Launch geprüft, prägen sie nur Inhaltsfilter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: map, measure, mitigate and manage are process stages, not principles — and the principles belong in the plan from day one, shaping far more than filters.",
+            "de": "Zweimal falsch: Mappen, messen, mindern und managen sind Prozessphasen, keine Prinzipien – und die Prinzipien gehören vom ersten Tag an in den Plan und prägen weit mehr als Filter."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Owner, Contributor and **Foundry Account Owner** can manage the resource and deploy models, but they have no data actions — they still get authorization errors when building agents until they also get **Foundry User**.",
         "de": "Owner, Contributor und **Foundry Account Owner** können die Ressource verwalten und Modelle bereitstellen, haben aber keine Data Actions – beim Bauen von Agents scheitern sie, bis sie zusätzlich **Foundry User** bekommen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Their roles sit at resource scope instead of project scope — they also need Foundry User",
+            "de": "Ihre Rollen liegen auf Ressourcen- statt auf Projektebene – sie brauchen zusätzlich Foundry User"
+          },
+          "correct": false,
+          "why": {
+            "en": "Right role, wrong reason: scope isn't the problem — Owner, Contributor and Foundry Account Owner have no data actions at any scope.",
+            "de": "Richtige Rolle, falscher Grund: Der Scope ist nicht das Problem – Owner, Contributor und Foundry Account Owner haben auf keiner Ebene Data Actions."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They have control-plane rights but no data actions — they also need Foundry Agent Consumer",
+            "de": "Sie haben Control-Plane-Rechte, aber keine Data Actions – sie brauchen zusätzlich Foundry Agent Consumer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Right reason, wrong role: Foundry Agent Consumer only lets a principal call agent endpoints; building agents takes Foundry User.",
+            "de": "Richtiger Grund, falsche Rolle: Foundry Agent Consumer erlaubt nur, Agent-Endpoints aufzurufen; zum Bauen von Agents braucht es Foundry User."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They have control-plane rights but no data actions — they also need Foundry User",
+            "de": "Sie haben Control-Plane-Rechte, aber keine Data Actions – sie brauchen zusätzlich Foundry User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: managing the resource and deploying models are control-plane actions; building agents is a data action, which Foundry User grants.",
+            "de": "Korrekt: Ressource verwalten und Modelle bereitstellen sind Control-Plane-Aktionen; Agents bauen ist eine Data Action, und die gibt Foundry User."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Their roles sit at resource scope instead of project scope — they also need Foundry Agent Consumer",
+            "de": "Ihre Rollen liegen auf Ressourcen- statt auf Projektebene – sie brauchen zusätzlich Foundry Agent Consumer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: these roles lack data actions at any scope, and Foundry Agent Consumer only calls agent endpoints — building agents takes Foundry User.",
+            "de": "Zweimal falsch: Diesen Rollen fehlen Data Actions auf jeder Ebene, und Foundry Agent Consumer ruft nur Agent-Endpoints auf – zum Bauen braucht es Foundry User."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "API keys don't work for Foundry Agent Service, evaluations or `AIProjectClient`, and where they do work they grant full, unscoped access. Use Microsoft Entra ID and disable local auth once every caller uses tokens.",
         "de": "API-Keys funktionieren nicht für Foundry Agent Service, Evaluierungen oder `AIProjectClient` – und wo sie funktionieren, gewähren sie vollen, unbeschränkten Zugriff. Nutze Microsoft Entra ID und schalte Local Auth ab, sobald alle Aufrufer Tokens verwenden."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Not for Foundry Agent Service, evaluations or `AIProjectClient`; elsewhere they grant full, unscoped access — use Entra ID, then disable local auth",
+            "de": "Nicht für Foundry Agent Service, Evaluierungen oder `AIProjectClient`; sonst voller, unbeschränkter Zugriff – Entra ID nutzen, dann Local Auth abschalten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: those three need Microsoft Entra ID, and a key works resource-wide with full access — move every caller to tokens, then turn local auth off.",
+            "de": "Richtig: Diese drei brauchen Microsoft Entra ID, und ein Key wirkt ressourcenweit mit vollem Zugriff – stelle alle Aufrufer auf Tokens um und schalte dann Local Auth ab."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Not for Foundry Agent Service, evaluations or `AIProjectClient`; elsewhere each key is scoped to one project — each team uses its project's key",
+            "de": "Nicht für Foundry Agent Service, Evaluierungen oder `AIProjectClient`; sonst gilt jeder Key nur für ein Projekt – jedes Team nutzt seinen Projekt-Key"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: those three do reject keys, but a key is never project-scoped — it grants full access to the whole resource, without role restrictions.",
+            "de": "Teilweise richtig: Diese drei lehnen Keys ab, aber ein Key gilt nie nur für ein Projekt – er gewährt vollen Zugriff auf die ganze Ressource, ohne Rollenbeschränkung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Not for regional endpoints of Foundry Tools; elsewhere they grant full, unscoped access — disable local auth first, then move callers to Entra ID",
+            "de": "Nicht für regionale Endpoints der Foundry Tools; sonst voller, unbeschränkter Zugriff – erst Local Auth abschalten, dann Aufrufer auf Entra ID umstellen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed twice: regional endpoints accept keys (they reject tokens), and disabling local auth first breaks every caller that still uses a key.",
+            "de": "Doppelt verdreht: Regionale Endpoints akzeptieren Keys (sie lehnen Tokens ab), und wer Local Auth zuerst abschaltet, legt alle Aufrufer lahm, die noch einen Key nutzen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Not for regional endpoints of Foundry Tools; elsewhere each key is scoped to one project — each team uses its project's key",
+            "de": "Nicht für regionale Endpoints der Foundry Tools; sonst gilt jeder Key nur für ein Projekt – jedes Team nutzt seinen Projekt-Key"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: regional endpoints accept keys (they reject tokens), and a key is never project-scoped — it grants full access to the whole resource.",
+            "de": "Nein: Regionale Endpoints akzeptieren Keys (sie lehnen Tokens ab), und ein Key gilt nie nur für ein Projekt – er gewährt vollen Zugriff auf die ganze Ressource."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Not the Foundry resource's private endpoint or RBAC: connected resources (Azure AI Search, Storage, Key Vault, Cosmos DB) don't inherit them. Secure each one separately.",
         "de": "Nicht Private Endpoint und RBAC der Foundry-Ressource: Verbundene Ressourcen (Azure AI Search, Storage, Key Vault, Cosmos DB) erben beides nicht. Sichere jede einzeln ab."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Foundry resource's settings: connections pass its private endpoint and RBAC on to them",
+            "de": "Die Einstellungen der Foundry-Ressource: Verbindungen geben Private Endpoint und RBAC an sie weiter"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's the trap: a connection only references the resource — it passes on neither the private endpoint nor the role assignments.",
+            "de": "Genau die Falle: Eine Verbindung verweist nur auf die Ressource – sie gibt weder den Private Endpoint noch die Rollenzuweisungen weiter."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Partly the Foundry resource: they inherit its RBAC through the connection, so each one only needs its own private endpoint",
+            "de": "Teils die Foundry-Ressource: Sie erben deren RBAC über die Verbindung, also braucht jede nur noch einen eigenen Private Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: RBAC isn't inherited either — role assignments and private endpoints are configured on each connected resource.",
+            "de": "Nein: Auch RBAC wird nicht vererbt – Rollenzuweisungen und Private Endpoints konfigurierst du an jeder verbundenen Ressource."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The connection itself: its stored endpoint and credential keep them private automatically, without further setup",
+            "de": "Die Verbindung selbst: Ihr gespeicherter Endpoint samt Anmeldedaten hält sie automatisch privat, ganz ohne weiteres Setup"
+          },
+          "correct": false,
+          "why": {
+            "en": "A connection just stores an endpoint plus credential for tools to reference; it doesn't change the connected resource's network access.",
+            "de": "Eine Verbindung speichert nur Endpoint plus Anmeldedaten, auf die Tools verweisen; am Netzwerkzugriff der verbundenen Ressource ändert sie nichts."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Their own settings: they inherit neither, so each one needs its own private endpoint and RBAC",
+            "de": "Ihre eigenen Einstellungen: Sie erben beides nicht, also braucht jede einen eigenen Private Endpoint und eigenes RBAC"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Azure AI Search, Storage, Key Vault and Cosmos DB are independent resources with their own networking and access rules — secure each one separately.",
+            "de": "Korrekt: Azure AI Search, Storage, Key Vault und Cosmos DB sind eigenständige Ressourcen mit eigenen Netzwerk- und Zugriffsregeln – sichere jede einzeln ab."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "A separate Foundry resource. Translator and other APIs that work only at Foundry resource scope aren't isolated by creating another project.",
         "de": "Eine separate Foundry-Ressource. Translator und andere APIs, die nur auf Ebene der Foundry-Ressource funktionieren, werden durch ein weiteres Projekt nicht isoliert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A separate project, because each project gets its own Translator endpoint and its own keys",
+            "de": "Ein separates Projekt, weil jedes Projekt einen eigenen Translator-Endpoint und eigene Keys bekommt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: projects get no Translator endpoint or keys of their own — Translator works only at resource scope, so another project isolates nothing.",
+            "de": "Nein: Projekte bekommen weder eigenen Translator-Endpoint noch eigene Keys – Translator arbeitet nur auf Ressourcenebene, ein weiteres Projekt isoliert nichts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A separate Foundry resource, because Translator works only at resource scope and another project can't isolate it",
+            "de": "Eine separate Foundry-Ressource, weil Translator nur auf Ressourcenebene arbeitet und ein weiteres Projekt ihn nicht isoliert"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the Translator API is served from the Foundry resource itself, so only a separate Foundry resource keeps other teams away from it.",
+            "de": "Richtig: Die Translator-API kommt von der Foundry-Ressource selbst, also hält nur eine separate Foundry-Ressource andere Teams davon fern."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A Translator model deployment in the workload's project, because deployments belong to one project",
+            "de": "Ein Translator-Modell-Deployment im Projekt des Workloads, weil Deployments zu einem Projekt gehören"
+          },
+          "correct": false,
+          "why": {
+            "en": "Translator is a Foundry Tool API on the resource, not a model you deploy — and deployments are shared at resource scope anyway.",
+            "de": "Translator ist eine Foundry-Tool-API an der Ressource, kein Modell, das du bereitstellst – und Deployments sind ohnehin auf Ressourcenebene geteilt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A Foundry User assignment at project scope for the workload's team, because project-scope roles restrict the Translator API",
+            "de": "Eine Zuweisung von Foundry User auf Projektebene für das Team des Workloads, weil Rollen auf Projektebene die Translator-API einschränken"
+          },
+          "correct": false,
+          "why": {
+            "en": "Project-scope roles don't fence off Translator: its API is served by the parent Foundry resource, not by the project.",
+            "de": "Rollen auf Projektebene grenzen Translator nicht ab: Seine API kommt von der übergeordneten Foundry-Ressource, nicht vom Projekt."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "The visual workflow designer in the Foundry portal retires on December 1, 2026. Build new multi-agent workflows in code with Microsoft Agent Framework (the SDK) and run them in Foundry as hosted agents (the runtime) — the two work together, they aren't alternatives.",
         "de": "Der visuelle Workflow-Designer im Foundry-Portal wird am 1. Dezember 2026 eingestellt. Baue neue Multi-Agent-Workflows im Code mit Microsoft Agent Framework (dem SDK) und betreibe sie in Foundry als Hosted Agents (der Laufzeit) – beides arbeitet zusammen, es sind keine Alternativen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It retires on December 1, 2026; pick either Microsoft Agent Framework or hosted agents — both are alternative replacements for the designer",
+            "de": "Er wird am 1. Dezember 2026 eingestellt; wähle entweder Microsoft Agent Framework oder Hosted Agents – beide sind alternative Nachfolger des Designers"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not alternatives: Agent Framework is the SDK you code with, a hosted agent is the runtime in Foundry — you use both together.",
+            "de": "Keine Alternativen: Agent Framework ist das SDK, mit dem du programmierst, ein Hosted Agent die Laufzeit in Foundry – du nutzt beides zusammen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It becomes generally available on December 1, 2026; keep building new multi-agent workflows on its visual canvas",
+            "de": "Er wird am 1. Dezember 2026 allgemein verfügbar; baue neue Multi-Agent-Workflows weiter auf seinem visuellen Canvas"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: December 1, 2026 is the date the visual designer retires — new multi-agent workflows belong in Microsoft Agent Framework.",
+            "de": "Nein: Am 1. Dezember 2026 wird der visuelle Designer eingestellt – neue Multi-Agent-Workflows gehören in Microsoft Agent Framework."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It retires on December 1, 2026; code new workflows with Microsoft Agent Framework and run them in Foundry as hosted agents",
+            "de": "Er wird am 1. Dezember 2026 eingestellt; neue Workflows schreibst du mit Microsoft Agent Framework und betreibst sie in Foundry als Hosted Agents"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: SDK and runtime work together — Agent Framework is how you write the workflow, a hosted agent is where Foundry runs it.",
+            "de": "Korrekt: SDK und Laufzeit arbeiten zusammen – mit Agent Framework schreibst du den Workflow, als Hosted Agent betreibt Foundry ihn."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It retires on December 1, 2026; deploy model router so that it hands each workflow step to the right agent",
+            "de": "Er wird am 1. Dezember 2026 eingestellt; stelle Model Router bereit, damit er jeden Workflow-Schritt an den passenden Agent gibt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Model router picks the most suitable underlying model for each prompt; it doesn't orchestrate agents or run multi-agent workflows.",
+            "de": "Model Router wählt für jeden Prompt das passendste zugrunde liegende Modell; Agents orchestriert er nicht, und Multi-Agent-Workflows betreibt er nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-6",
@@ -126,9 +726,59 @@
         "de": "Welche OpenAI-Features gibt es nur im Default-Projekt einer Ressource, und was bekommen die anderen Projekte?"
       },
       "back": {
-        "en": "Only the **default project** (normally the resource's first project; tag `default`, property `is_default`) can use the OpenAI Batch, fine-tuning and stored completions APIs and Speech fine-tuning. Other projects get only Responses, Files and Conversations from the OpenAI API — a team that needs its own fine-tuning gets a separate Foundry resource.",
-        "de": "Nur das **Default-Projekt** (meist das erste Projekt der Ressource; Tag `default`, Eigenschaft `is_default`) kann die OpenAI-APIs für Batch, Fine-Tuning und Stored Completions sowie Speech-Fine-Tuning nutzen. Andere Projekte bekommen aus der OpenAI-API nur Responses, Files und Conversations – braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource."
-      }
+        "en": "Only the **default project** (normally the resource's first project; tag `default`, property `is_default`) can use the OpenAI Batch and fine-tuning APIs and Speech fine-tuning. Other projects get only Responses, Files and Conversations from the OpenAI API — a team that needs its own fine-tuning gets a separate Foundry resource.",
+        "de": "Nur das **Default-Projekt** (meist das erste Projekt der Ressource; Tag `default`, Eigenschaft `is_default`) kann die OpenAI-APIs für Batch und Fine-Tuning sowie Speech-Fine-Tuning nutzen. Andere Projekte bekommen aus der OpenAI-API nur Responses, Files und Conversations – braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource."
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The OpenAI Batch and fine-tuning APIs plus Speech fine-tuning; the others get only Responses, Files and Conversations",
+            "de": "Die OpenAI-APIs für Batch und Fine-Tuning plus Speech-Fine-Tuning; die anderen bekommen nur Responses, Files und Conversations"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: only the default project (tag `default`, property `is_default`) reaches these; a team that needs its own fine-tuning gets a separate Foundry resource.",
+            "de": "Richtig: Nur das Default-Projekt (Tag `default`, Eigenschaft `is_default`) erreicht sie; braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The OpenAI Batch and fine-tuning APIs plus Speech fine-tuning; the others get them too once their team has Foundry User",
+            "de": "Die OpenAI-APIs für Batch und Fine-Tuning plus Speech-Fine-Tuning; die anderen bekommen sie auch, sobald ihr Team Foundry User hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "A role doesn't unlock them: Batch, fine-tuning and Speech fine-tuning work only in the default project — a team that needs its own fine-tuning gets a separate Foundry resource.",
+            "de": "Eine Rolle schaltet sie nicht frei: Batch, Fine-Tuning und Speech-Fine-Tuning gibt es nur im Default-Projekt – braucht ein Team eigenes Fine-Tuning, bekommt es eine separate Foundry-Ressource."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Model deployments and resource-level connections; the others get only Responses, Files and Conversations",
+            "de": "Modell-Deployments und Verbindungen auf Ressourcenebene; die anderen bekommen nur Responses, Files und Conversations"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the others do get Responses, Files and Conversations, but deployments and resource-level connections are shared by every project — only Batch, fine-tuning and Speech fine-tuning are default-only.",
+            "de": "Teilweise richtig: Die anderen bekommen Responses, Files und Conversations, aber Deployments und Verbindungen auf Ressourcenebene teilen sich alle Projekte – nur Batch, Fine-Tuning und Speech-Fine-Tuning gibt es allein im Default-Projekt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Model deployments and resource-level connections; the others get them too once their team has Foundry User",
+            "de": "Modell-Deployments und Verbindungen auf Ressourcenebene; die anderen bekommen sie auch, sobald ihr Team Foundry User hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: deployments and resource-level connections are shared by every project anyway, and no role brings Batch, fine-tuning or Speech fine-tuning to the other projects.",
+            "de": "Zweimal falsch: Deployments und Verbindungen auf Ressourcenebene teilen sich ohnehin alle Projekte, und keine Rolle bringt Batch, Fine-Tuning oder Speech-Fine-Tuning in die anderen Projekte."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-trap-7",
@@ -140,7 +790,57 @@
       "back": {
         "en": "The resource's custom subdomain endpoint (`https://<resource>.cognitiveservices.azure.com/`). Regional endpoints such as `https://westus.api.cognitive.microsoft.com/` accept keys but not Microsoft Entra ID tokens; Translator's global endpoint accepts a token together with the resource ID header (`Ocp-Apim-ResourceId`), plus `Ocp-Apim-Subscription-Region` for a regional or multi-service resource.",
         "de": "Den Custom-Subdomain-Endpoint der Ressource (`https://<resource>.cognitiveservices.azure.com/`). Regionale Endpoints wie `https://westus.api.cognitive.microsoft.com/` akzeptieren Keys, aber keine Microsoft-Entra-ID-Tokens; der globale Endpoint von Translator nimmt ein Token zusammen mit dem Header für die Ressourcen-ID (`Ocp-Apim-ResourceId`) an, bei einer regionalen oder Multi-Service-Ressource zusätzlich mit `Ocp-Apim-Subscription-Region`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The project endpoint `<resource>.services.ai.azure.com/api/projects/<name>`; regional endpoints such as `westus.api.cognitive.microsoft.com` reject Entra tokens",
+            "de": "Der Project Endpoint `<resource>.services.ai.azure.com/api/projects/<name>`; regionale Endpoints wie `westus.api.cognitive.microsoft.com` lehnen Entra-Tokens ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: regional endpoints do reject tokens, but Foundry Tools aren't called on the project endpoint — keyless calls need the custom subdomain.",
+            "de": "Teilweise richtig: Regionale Endpoints lehnen Tokens ab, aber Foundry Tools laufen nicht über den Project Endpoint – schlüssellose Aufrufe brauchen die Custom Subdomain."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The project endpoint `<resource>.services.ai.azure.com/api/projects/<name>`; Translator's global endpoint rejects tokens, even with a resource ID header",
+            "de": "Der Project Endpoint `<resource>.services.ai.azure.com/api/projects/<name>`; der globale Translator-Endpoint lehnt Tokens ab, selbst mit Ressourcen-ID-Header"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Foundry Tools aren't called on the project endpoint, and Translator's global endpoint accepts a token together with the `Ocp-Apim-ResourceId` header.",
+            "de": "Zweimal falsch: Foundry Tools laufen nicht über den Project Endpoint, und der globale Endpoint von Translator nimmt ein Token zusammen mit dem Header `Ocp-Apim-ResourceId` an."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The custom subdomain `<resource>.cognitiveservices.azure.com`; Translator's global endpoint rejects tokens, even with a resource ID header",
+            "de": "Die Custom Subdomain `<resource>.cognitiveservices.azure.com`; der globale Translator-Endpoint lehnt Tokens ab, selbst mit Ressourcen-ID-Header"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: Translator's global endpoint is the exception — it accepts a token together with the `Ocp-Apim-ResourceId` header.",
+            "de": "Teilweise richtig: Der globale Endpoint von Translator ist die Ausnahme – er nimmt ein Token zusammen mit dem Header `Ocp-Apim-ResourceId` an."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The custom subdomain `<resource>.cognitiveservices.azure.com`; regional endpoints such as `westus.api.cognitive.microsoft.com` reject Entra tokens",
+            "de": "Die Custom Subdomain `<resource>.cognitiveservices.azure.com`; regionale Endpoints wie `westus.api.cognitive.microsoft.com` lehnen Entra-Tokens ab"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Microsoft Entra ID tokens need the resource's custom subdomain endpoint; regional endpoints accept keys but not tokens.",
+            "de": "Korrekt: Microsoft-Entra-ID-Tokens brauchen den Custom-Subdomain-Endpoint der Ressource; regionale Endpoints akzeptieren Keys, aber keine Tokens."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-takeaway-1",
@@ -152,7 +852,57 @@
       "back": {
         "en": "The Foundry resource is the governance boundary; the project is the development boundary.",
         "de": "Die Foundry-Ressource ist die Governance-Grenze; das Projekt ist die Entwicklungsgrenze."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The resource is the development boundary; the project is the governance boundary",
+            "de": "Die Ressource ist die Entwicklungsgrenze; das Projekt ist die Governance-Grenze"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the resource governs networking, encryption, RBAC and policy, and the project is where teams build agents and run evaluations.",
+            "de": "Vertauscht: Die Ressource regelt Netzwerk, Verschlüsselung, RBAC und Policies – im Projekt bauen Teams Agents und führen Evaluierungen aus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The resource is the governance boundary; the project is the development boundary",
+            "de": "Die Ressource ist die Governance-Grenze; das Projekt ist die Entwicklungsgrenze"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: networking, keys, RBAC and policy are governed on the resource; agents, evaluations and files are developed in the project.",
+            "de": "Richtig: Netzwerk, Keys, RBAC und Policies steuerst du an der Ressource; Agents, Evaluierungen und Dateien entstehen im Projekt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The resource is only a billing boundary; each project is a separate network boundary",
+            "de": "Die Ressource ist nur eine Abrechnungsgrenze; jedes Projekt ist eine eigene Netzwerkgrenze"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: network rules are set on the resource, not per project, and the resource does far more than billing — it's the governance boundary.",
+            "de": "Nein: Netzwerkregeln legst du an der Ressource fest, nicht pro Projekt, und die Ressource regelt weit mehr als die Abrechnung – sie ist die Governance-Grenze."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The resource is the boundary for agents and files; the project is the boundary for network rules and keys",
+            "de": "Die Ressource ist die Grenze für Agents und Dateien; das Projekt ist die Grenze für Netzwerkregeln und Keys"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: agents and files are project assets, while network rules and keys sit at resource scope.",
+            "de": "Umgekehrt: Agents und Dateien sind Projekt-Assets, Netzwerkregeln und Keys liegen dagegen auf Ressourcenebene."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-takeaway-2",
@@ -164,7 +914,57 @@
       "back": {
         "en": "A prebuilt, repeatable task → Foundry Tool; open-ended generation or reasoning → model.",
         "de": "Eine standardisierte, wiederholbare Aufgabe → Foundry Tool; offene Generierung oder Reasoning → Modell."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Open-ended generation or reasoning → Foundry Tool; a prebuilt, repeatable task → model",
+            "de": "Offene Generierung oder Reasoning → Foundry Tool; eine standardisierte, wiederholbare Aufgabe → Modell"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: repeatable standard tasks such as transcription, translation or PII detection go to Foundry Tools; open-ended work goes to a model.",
+            "de": "Vertauscht: Wiederholbare Standardaufgaben wie Transkription, Übersetzung oder PII-Erkennung gehen an Foundry Tools; offene Aufgaben an ein Modell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The app must call tools or APIs → Foundry Tool; the app needs no tool calls → model",
+            "de": "Die App muss Tools oder APIs aufrufen → Foundry Tool; die App braucht keine Tool-Aufrufe → Modell"
+          },
+          "correct": false,
+          "why": {
+            "en": "The name misleads: tool calling is the case for an agent, while Foundry Tools are prebuilt APIs such as Azure Language, Speech or Translator.",
+            "de": "Der Name täuscht: Tool-Aufrufe sind ein Fall für einen Agent, Foundry Tools dagegen vorgefertigte APIs wie Azure Language, Speech oder Translator."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A prebuilt, repeatable task → Foundry Tool; open-ended generation or reasoning → model",
+            "de": "Eine standardisierte, wiederholbare Aufgabe → Foundry Tool; offene Generierung oder Reasoning → Modell"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Foundry Tools are purpose-built APIs with predictable output and cost; models handle open-ended generation and reasoning.",
+            "de": "Korrekt: Foundry Tools sind spezialisierte APIs mit vorhersehbarer Ausgabe und Kosten; Modelle übernehmen offene Generierung und Reasoning."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A task needing prompt engineering → Foundry Tool; a task with predictable cost → model",
+            "de": "Eine Aufgabe mit Prompt Engineering → Foundry Tool; eine Aufgabe mit vorhersehbaren Kosten → Modell"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: Foundry Tools need no prompt engineering and give predictable output and cost — that's why standard tasks go to them.",
+            "de": "Umgekehrt: Foundry Tools brauchen kein Prompt Engineering und liefern vorhersehbare Ausgaben und Kosten – deshalb gehen Standardaufgaben an sie."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-takeaway-3",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Agent data in your tenant, CMK or private networking → standard agent setup (Storage, AI Search, Cosmos DB).",
         "de": "Agent-Daten im eigenen Tenant, CMK oder private Netzwerke → Standard-Agent-Setup (Storage, AI Search, Cosmos DB)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Standard agent setup with your own Azure Storage, Azure AI Search and Azure Cosmos DB",
+            "de": "Standard-Agent-Setup mit eigenem Azure Storage, Azure AI Search und Azure Cosmos DB"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: files land in your Storage, vector stores in your AI Search and conversations in your Cosmos DB — in your tenant, with CMK and private networking.",
+            "de": "Richtig: Dateien landen in deinem Storage, Vector Stores in deinem AI Search, Konversationen in deinem Cosmos DB – im eigenen Tenant, mit CMK und privaten Netzwerken."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Basic agent setup with Microsoft-managed storage, encrypted with your customer-managed key",
+            "de": "Basic-Agent-Setup mit von Microsoft verwaltetem Speicher, verschlüsselt mit deinem kundenseitig verwalteten Schlüssel"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the basic setup keeps agent state in Microsoft-managed storage, so the data doesn't stay in your tenant — that takes the standard setup.",
+            "de": "Nein: Das Basic-Setup hält den Agent-Zustand in von Microsoft verwaltetem Speicher, die Daten bleiben also nicht in deinem Tenant – dafür brauchst du das Standard-Setup."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Standard agent setup with your own Azure Storage, Azure Key Vault and Application Insights",
+            "de": "Standard-Agent-Setup mit eigenem Azure Storage, Azure Key Vault und Application Insights"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong resources: the standard setup's own trio is Storage (files), AI Search (vector stores) and Cosmos DB (conversations).",
+            "de": "Falsche Ressourcen: Das eigene Trio im Standard-Setup ist Storage (Dateien), AI Search (Vector Stores) und Cosmos DB (Konversationen)."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Standard agent setup with your own Azure Cosmos DB; files and vector stores stay Microsoft-managed",
+            "de": "Standard-Agent-Setup mit eigenem Azure Cosmos DB; Dateien und Vector Stores bleiben von Microsoft verwaltet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only a third of it: the standard setup also brings your own Storage for files and your own AI Search for vector stores.",
+            "de": "Nur ein Drittel: Das Standard-Setup bringt auch eigenes Storage für Dateien und eigenes AI Search für Vector Stores mit."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-takeaway-4",
@@ -188,7 +1038,57 @@
       "back": {
         "en": "Production access = managed identity + least-privilege Foundry role + private endpoint, keys disabled.",
         "de": "Produktiver Zugriff = Managed Identity + Foundry-Rolle mit minimalen Rechten + Private Endpoint, Keys deaktiviert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A managed identity, Owner on the resource, a private endpoint and keys that stay on as a fallback",
+            "de": "Eine Managed Identity, Owner auf der Ressource, ein Private Endpoint und Keys, die als Fallback aktiv bleiben"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Owner is neither least privilege nor a data-plane role, and keys left on remain a full, unscoped way in.",
+            "de": "Nein: Owner ist weder minimal noch eine Data-Plane-Rolle, und aktive Keys bleiben ein voller, unbeschränkter Zugang."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A service principal with a stored client secret, Foundry User, a public endpoint and rotated keys",
+            "de": "Ein Service Principal mit gespeichertem Client Secret, Foundry User, ein öffentlicher Endpoint und rotierte Keys"
+          },
+          "correct": false,
+          "why": {
+            "en": "A stored secret, a public endpoint and live keys are what production avoids: use a managed identity and a private endpoint, with keys disabled.",
+            "de": "Gespeichertes Secret, öffentlicher Endpoint und aktive Keys vermeidest du in Produktion: Nutze Managed Identity und Private Endpoint, Keys deaktiviert."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A managed identity, Foundry User, a private endpoint and keys kept safely in Key Vault for emergencies",
+            "de": "Eine Managed Identity, Foundry User, ein Private Endpoint und Keys, die für Notfälle sicher im Key Vault liegen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Almost: keys aren't parked in Key Vault — they're switched off with `disableLocalAuth` once every caller uses tokens.",
+            "de": "Fast: Keys parkst du nicht im Key Vault – du schaltest sie mit `disableLocalAuth` ab, sobald alle Aufrufer Tokens nutzen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A managed identity, a least-privilege Foundry role, a private endpoint and keys disabled",
+            "de": "Eine Managed Identity, eine Foundry-Rolle mit minimalen Rechten, ein Private Endpoint und deaktivierte Keys"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the app signs in with a managed identity, holds only the Foundry role it needs, comes in over a private endpoint, and `disableLocalAuth` turns keys off.",
+            "de": "Korrekt: Die App meldet sich mit Managed Identity an, hat nur die nötige Foundry-Rolle, kommt über einen Private Endpoint, und `disableLocalAuth` schaltet Keys ab."
+          }
+        }
+      ]
     },
     {
       "id": "z-plan-prepare-takeaway-5",
@@ -200,7 +1100,57 @@
       "back": {
         "en": "Automate with Bicep or Terraform and `azd`, sign pipelines in with OIDC and gate releases with evaluations.",
         "de": "Automatisiere mit Bicep oder Terraform und `azd`, melde Pipelines per OIDC an und sichere Releases mit Evaluierungen ab."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Bicep or Terraform with `azd`; pipelines sign in with the resource's API key; evaluations gate releases",
+            "de": "Bicep oder Terraform mit `azd`; Pipelines melden sich mit dem API-Key der Ressource an; Evaluierungen sichern Releases ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a key grants full, unscoped access and Foundry Agent Service rejects it; pipelines sign in with OIDC, so no secret is stored.",
+            "de": "Nein: Ein Key gewährt vollen, unbeschränkten Zugriff, und Foundry Agent Service lehnt ihn ab; Pipelines melden sich per OIDC an – ohne gespeichertes Secret."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Bicep or Terraform with `azd`; pipelines sign in with OIDC; evaluations gate releases",
+            "de": "Bicep oder Terraform mit `azd`; Pipelines melden sich per OIDC an; Evaluierungen sichern Releases ab"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: infrastructure as code plus `azd` provisions and deploys, OIDC federated credentials avoid stored secrets, and evaluations stop weak versions.",
+            "de": "Richtig: Infrastructure as Code plus `azd` provisioniert und stellt bereit, OIDC-Federated-Credentials vermeiden gespeicherte Secrets, und Evaluierungen stoppen schwache Versionen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Bicep or Terraform with `azd`; pipelines sign in with OIDC; a successful `azd provision` gates releases",
+            "de": "Bicep oder Terraform mit `azd`; Pipelines melden sich per OIDC an; ein erfolgreiches `azd provision` sichert Releases ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "A successful provision only proves the infrastructure exists; releases are gated by evaluations such as `azd ai eval run start --fail-on pass-rate=0.8`.",
+            "de": "Ein erfolgreiches Provisioning beweist nur, dass die Infrastruktur steht; Releases sichern Evaluierungen wie `azd ai eval run start --fail-on pass-rate=0.8` ab."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Bicep or Terraform with `azd`; pipelines sign in with the resource's API key; a successful `azd provision` gates releases",
+            "de": "Bicep oder Terraform mit `azd`; Pipelines melden sich mit dem API-Key der Ressource an; ein erfolgreiches `azd provision` sichert Releases ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: pipelines sign in with OIDC instead of a key, and a successful provision only proves the infrastructure exists — evaluations gate releases.",
+            "de": "Zweimal falsch: Pipelines melden sich per OIDC an statt mit einem Key, und ein erfolgreiches Provisioning beweist nur, dass die Infrastruktur steht – Releases sichern Evaluierungen ab."
+          }
+        }
+      ]
     }
   ]
 }

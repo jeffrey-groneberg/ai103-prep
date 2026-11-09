@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { validateCardFile, validateContent, type ContentBundle, type Issue } from '../src/content/validate.ts'
+import { answerCues, checkAnswerCues, validateCardFile, validateContent, type ContentBundle, type Issue } from '../src/content/validate.ts'
 import type { CardFile, Lesson, Question } from '../src/lib/types.ts'
 import { code, multi, single } from './fixtures.ts'
 import { findOutdatedModels, modelStatus, type ModelLifecycle } from '../src/content/model-currency.ts'
@@ -200,13 +200,20 @@ describe('validator — Zettelkasten cards', () => {
     sources: [],
   })
   const q = (s: string) => ({ en: `${s}?`, de: `${s} (de)?` })
+  const mc = (topic: string) =>
+    ['a', 'b', 'c', 'd'].map((id, i) => ({
+      id,
+      text: t(`${topic} option ${id}`),
+      correct: i === 0,
+      why: t(i === 0 ? `This is what the lesson says about ${topic}.` : `Not what the lesson says about ${topic}.`),
+    }))
   const goodCards = (): CardFile => ({
     module: 'a2a',
     cards: [
-      { id: 'z-a2a-concept-1', source: { kind: 'concept', index: 0 }, front: q('What is term one') },
-      { id: 'z-a2a-concept-2', source: { kind: 'concept', index: 1 }, front: q('What is term two') },
-      { id: 'z-a2a-trap-1', source: { kind: 'trap', index: 0 }, front: q('Which trap matters'), back: t('The trap that is worth knowing.') },
-      { id: 'z-a2a-takeaway-1', source: { kind: 'takeaway', index: 0 }, front: q('What do you keep'), back: t('The takeaway worth keeping.') },
+      { id: 'z-a2a-concept-1', source: { kind: 'concept', index: 0 }, front: q('What is term one'), choices: mc('term one') },
+      { id: 'z-a2a-concept-2', source: { kind: 'concept', index: 1 }, front: q('What is term two'), choices: mc('term two') },
+      { id: 'z-a2a-trap-1', source: { kind: 'trap', index: 0 }, front: q('Which trap matters'), back: t('The trap that is worth knowing.'), choices: mc('the trap') },
+      { id: 'z-a2a-takeaway-1', source: { kind: 'takeaway', index: 0 }, front: q('What do you keep'), back: t('The takeaway worth keeping.'), choices: mc('the takeaway') },
     ],
   })
   const cardErrors = (data: CardFile, lesson = cardLesson()) => {
@@ -222,7 +229,7 @@ describe('validator — Zettelkasten cards', () => {
   it('reports lesson items without a card and cards without a lesson item', () => {
     const data = goodCards()
     data.cards = data.cards.filter((c) => c.id !== 'z-a2a-trap-1')
-    data.cards.push({ id: 'z-a2a-takeaway-9', source: { kind: 'takeaway', index: 8 }, front: q('Where is this from'), back: t('Nowhere at all, really.') })
+    data.cards.push({ id: 'z-a2a-takeaway-9', source: { kind: 'takeaway', index: 8 }, front: q('Where is this from'), back: t('Nowhere at all, really.'), choices: mc('nowhere') })
     const text = cardErrors(data)
     expect(text).toMatch(/trap 1 \("A trap that is worth knowing\.…"\) has no card/)
     expect(text).toMatch(/source takeaway 8 does not exist/)
@@ -245,6 +252,74 @@ describe('validator — Zettelkasten cards', () => {
     const fixed = goodCards()
     fixed.cards[1] = { ...fixed.cards[1], back: t('Levels differ per model and per API version.') }
     expect(cardErrors(fixed, lesson)).toBe('')
+  })
+
+  it('requires four exam-style options with exactly one correct and a reason for each', () => {
+    const data = goodCards()
+    data.cards[0] = { ...data.cards[0], choices: undefined as never }
+    data.cards[1] = { ...data.cards[1], choices: data.cards[1].choices.map((o) => ({ ...o, correct: true })) }
+    data.cards[2] = { ...data.cards[2], choices: data.cards[2].choices.slice(0, 3) }
+    const c3 = data.cards[3].choices
+    data.cards[3] = { ...data.cards[3], choices: [c3[0], { ...c3[1], text: c3[2].text }, c3[2], { ...c3[3], text: t('All of the above'), why: t('x') }] }
+    const text = cardErrors(data)
+    expect(text).toMatch(/z-a2a-concept-1|needs four multiple-choice options/)
+    expect(text).toMatch(/needs exactly one correct option \(has 4\)/)
+    expect(text).toMatch(/needs exactly four options \(has 3\)/)
+    expect(text).toMatch(/two options have the same en text/)
+    expect(text).toMatch(/no "all\/none of the above" options/)
+    expect(text).toMatch(/option d why\.en: missing or too short/)
+  })
+
+  it('rejects a status tag that only the correct option carries', () => {
+    const data = goodCards()
+    data.cards[0].choices[0] = { ...data.cards[0].choices[0], text: t('term one option a (preview)') }
+    expect(cardErrors(data)).toMatch(/only the correct option carries a status tag/)
+    data.cards[0].choices[1] = { ...data.cards[0].choices[1], text: t('term one option b (preview)') }
+    expect(cardErrors(data)).toBe('')
+  })
+
+  it('rejects a key that is the only option without an absolute word', () => {
+    const data = goodCards()
+    data.cards[0].choices = data.cards[0].choices.map((o) => (o.correct ? o : { ...o, text: { en: `${o.text.en} only`, de: `${o.text.de} nur` } }))
+    expect(cardErrors(data)).toMatch(/only one \(en\) without "only", "always" or "never"[\s\S]*only one \(de\)/)
+    data.cards[0].choices[1] = { ...data.cards[0].choices[1], text: t('term one option b') }
+    expect(cardErrors(data)).toBe('')
+  })
+
+  it('warns when the correct option gives itself away by length', () => {
+    const data = goodCards()
+    data.cards[0].choices[0] = { ...data.cards[0].choices[0], text: t('A very long and detailed correct answer that explains everything the question asks about at length') }
+    const issues: Issue[] = []
+    validateCardFile(data, cardLesson(), issues, 'src/content/cards/a2a.json')
+    expect(issues.filter((i) => i.level === 'warning').map((i) => i.message).join('\n')).toMatch(/gives the answer away/)
+  })
+
+  it('measures deck-wide answer cues and fails when length or the majority vote gives keys away', () => {
+    const option = (id: string, en: string, correct = false) => ({ id, text: t(en), correct, why: t('A reason that is long enough.') })
+    const longKey = [option('a', 'The right answer with a few extra words', true), option('b', 'A wrong answer'), option('c', 'Another one'), option('d', 'A third one')]
+    const centralKey = [
+      option('a', 'Use managed identity with the reader role', true),
+      option('b', 'Use managed identity with the owner role only'),
+      option('c', 'Use an API key with the reader role'),
+      option('d', 'Rotate the certificate every quarter'),
+    ]
+    const balanced = [
+      option('a', 'Use managed identity with the reader role', true),
+      option('b', 'Use an API key with the owner role and rotate it'),
+      option('c', 'Use managed identity with the owner role at subscription scope'),
+      option('d', 'Use an API key with the reader role on every index'),
+    ]
+    const cues = answerCues([longKey, longKey, centralKey, balanced])
+    expect(cues.cards).toBe(4)
+    expect(cues.lengthRanks).toEqual([0.5, 0.25, 0, 0.25])
+    expect(cues.centralCards).toBe(1)
+    expect(cues.centralKey).toBe(1)
+    const issues: Issue[] = []
+    checkAnswerCues(issues, cues)
+    expect(issues.map((i) => i.message).join('\n')).toMatch(/longest in 50 % of cards[\s\S]*two longest in 75 %[\s\S]*one central option/)
+    const fine: Issue[] = []
+    checkAnswerCues(fine, answerCues([balanced, balanced, balanced, longKey]))
+    expect(fine).toEqual([])
   })
 
   it('flags outdated product names on cards', () => {

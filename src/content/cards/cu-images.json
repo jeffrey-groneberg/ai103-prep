@@ -8,7 +8,57 @@
       "front": {
         "en": "What does an analyzer bundle, and which call creates it for reuse?",
         "de": "Was bündelt ein Analyzer, und mit welchem Aufruf legst du ihn zur Wiederverwendung an?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A `baseAnalyzerId`, optional `config`, a `fieldSchema` and `models`; you create it once with `PATCH /contentunderstanding/defaults`.",
+            "de": "Eine `baseAnalyzerId`, optionale `config`, ein `fieldSchema` und `models`; du legst ihn einmal mit `PATCH /contentunderstanding/defaults` an."
+          },
+          "correct": false,
+          "why": {
+            "en": "The contents fit, but that call sets the resource defaults that map model names to deployments; analyzers are created with `PUT /contentunderstanding/analyzers/{id}`.",
+            "de": "Der Inhalt stimmt, aber dieser Aufruf setzt die Defaults der Ressource, die Modellnamen Deployments zuordnen; Analyzer legst du mit `PUT /contentunderstanding/analyzers/{id}` an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A `baseAnalyzerId`, optional `config`, a `fieldSchema` and `models`; you create it once with `PUT /contentunderstanding/analyzers/{id}`.",
+            "de": "Eine `baseAnalyzerId`, optionale `config`, ein `fieldSchema` und `models`; du legst ihn einmal mit `PUT /contentunderstanding/analyzers/{id}` an."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the analyzer is the reusable unit of Content Understanding — create it once under its ID, then send it files as often as you like.",
+            "de": "Stimmt: Der Analyzer ist die wiederverwendbare Einheit von Content Understanding – einmal unter seiner ID anlegen und ihm dann beliebig oft Dateien schicken."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A `baseAnalyzerId`, a `fieldSchema` and the deployment names of your models; you create it once with `PATCH /contentunderstanding/defaults`.",
+            "de": "Eine `baseAnalyzerId`, ein `fieldSchema` und die Deployment-Namen deiner Modelle; du legst ihn einmal mit `PATCH /contentunderstanding/defaults` an."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts miss: `models` holds model names, and `PATCH /contentunderstanding/defaults` only maps them to deployments — an analyzer is created with `PUT`.",
+            "de": "Beides daneben: `models` enthält Modellnamen, und `PATCH /contentunderstanding/defaults` ordnet sie nur Deployments zu – einen Analyzer legst du mit `PUT` an."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A `baseAnalyzerId`, a `fieldSchema` and the deployment names of your models; you create it once with `PUT /contentunderstanding/analyzers/{id}`.",
+            "de": "Eine `baseAnalyzerId`, ein `fieldSchema` und die Deployment-Namen deiner Modelle; du legst ihn einmal mit `PUT /contentunderstanding/analyzers/{id}` an."
+          },
+          "correct": false,
+          "why": {
+            "en": "The call fits, but `models` lists model names, not deployment names — the service maps them to your deployments at analyze time.",
+            "de": "Der Aufruf stimmt, aber `models` nennt Modellnamen, keine Deployment-Namen – der Dienst ordnet sie beim Analysieren deinen Deployments zu."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which analyzers can parent a custom analyzer, and how can you use RAG and domain prebuilts instead?",
         "de": "Welche Analyzer taugen als Eltern eines eigenen Analyzers, und wie nutzt du RAG- und Fach-Prebuilts?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Any prebuilt, including `prebuilt-imageSearch`; RAG and domain prebuilts work as `baseAnalyzerId` just like the others.",
+            "de": "Jeder Prebuilt, auch `prebuilt-imageSearch`; RAG- und Fach-Prebuilts funktionieren genau wie die anderen als `baseAnalyzerId`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the four base analyzers work as `baseAnalyzerId`; RAG and domain prebuilts such as `prebuilt-imageSearch` can only be called directly.",
+            "de": "Als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer; RAG- und Fach-Prebuilts wie `prebuilt-imageSearch` kannst du nur direkt aufrufen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only `prebuilt-document` and `prebuilt-image`; RAG and domain prebuilts such as `prebuilt-imageSearch` are called directly.",
+            "de": "Nur `prebuilt-document` und `prebuilt-image`; RAG- und Fach-Prebuilts wie `prebuilt-imageSearch` rufst du direkt auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "There are four base analyzers: `prebuilt-audio` and `prebuilt-video` can parent custom analyzers too.",
+            "de": "Es gibt vier Basis-Analyzer: Auch `prebuilt-audio` und `prebuilt-video` können Eltern eigener Analyzer sein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch`; base analyzers are called directly.",
+            "de": "`prebuilt-documentSearch`, `prebuilt-imageSearch`, `prebuilt-audioSearch`, `prebuilt-videoSearch`; Basis-Analyzer rufst du direkt auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the `…Search` analyzers are RAG prebuilts you call directly, while base analyzers such as `prebuilt-image` parent custom ones.",
+            "de": "Vertauscht: Die `…Search`-Analyzer sind RAG-Prebuilts zum direkten Aufruf, Basis-Analyzer wie `prebuilt-image` sind die Eltern eigener Analyzer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`prebuilt-document`, `prebuilt-image`, `prebuilt-audio` and `prebuilt-video`; RAG and domain prebuilts are called directly.",
+            "de": "`prebuilt-document`, `prebuilt-image`, `prebuilt-audio` und `prebuilt-video`; RAG- und Fach-Prebuilts rufst du direkt auf."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: these four are the only valid `baseAnalyzerId` values; prebuilts such as `prebuilt-imageSearch` work only as direct calls.",
+            "de": "Richtig: Diese vier sind die einzigen gültigen Werte für `baseAnalyzerId`; Prebuilts wie `prebuilt-imageSearch` funktionieren nur als direkter Aufruf."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How do you define a field in a field schema, and how deep should you nest fields?",
         "de": "Wie definierst du ein Feld im Feldschema, und wie tief solltest du Felder verschachteln?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Give it a name, a `type`, a `description` the model reads as guidance and optionally an `enum`; nest no deeper than two or three levels.",
+            "de": "Gib ihm einen Namen, einen `type`, eine `description`, die das Modell als Anleitung liest, und optional eine `enum`; höchstens zwei bis drei Ebenen tief verschachteln."
+          },
+          "correct": true,
+          "why": {
+            "en": "The `description` works as a mini-prompt, an `enum` fixes the allowed values, and nesting should stop at two or three levels.",
+            "de": "Die `description` wirkt als Mini-Prompt, eine `enum` legt die erlaubten Werte fest, und die Verschachtelung endet bei zwei bis drei Ebenen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Give it a name, a `type`, a `description` the model reads as guidance and optionally an `enum`; nest as deep as your data goes for the best accuracy.",
+            "de": "Gib ihm einen Namen, einen `type`, eine `description`, die das Modell als Anleitung liest, und optional eine `enum`; verschachtle so tief wie deine Daten, für die beste Genauigkeit."
+          },
+          "correct": false,
+          "why": {
+            "en": "The field parts fit, but avoid nesting deeper than two or three levels — deep nesting can reduce performance and extraction accuracy.",
+            "de": "Die Feldbestandteile stimmen, aber verschachtle nicht tiefer als zwei bis drei Ebenen – tiefe Verschachtelung kann Leistung und Genauigkeit der Extraktion senken."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Give it a name and a `type` only, because the model ignores the `description`; nest no deeper than two or three levels.",
+            "de": "Gib ihm nur einen Namen und einen `type`, weil das Modell die `description` ignoriert; höchstens zwei bis drei Ebenen tief verschachteln."
+          },
+          "correct": false,
+          "why": {
+            "en": "The model reads the `description` as guidance — it works like a mini-prompt, so specific descriptions give better values.",
+            "de": "Das Modell liest die `description` als Anleitung – sie wirkt wie ein Mini-Prompt, präzise Beschreibungen liefern also bessere Werte."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Give it a name and a `type` only, because the model ignores the `description`; nest as deep as your data goes for the best accuracy.",
+            "de": "Gib ihm nur einen Namen und einen `type`, weil das Modell die `description` ignoriert; verschachtle so tief wie deine Daten, für die beste Genauigkeit."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts miss: the model reads the `description` as a mini-prompt, and nesting should stop at two or three levels.",
+            "de": "Beides daneben: Das Modell liest die `description` als Mini-Prompt, und die Verschachtelung sollte bei zwei bis drei Ebenen enden."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What do the methods `generate`, `classify` and `extract` do, and what happens if you omit `method`?",
         "de": "Was tun die Methoden `generate`, `classify` und `extract`, und was passiert, wenn du `method` weglässt?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`generate` copies values as printed, `extract` creates values freely, `classify` picks a category; omitted → the service picks one.",
+            "de": "`generate` übernimmt Werte wie gedruckt, `extract` erzeugt Werte frei, `classify` wählt eine Kategorie; ohne `method` wählt der Dienst selbst."
+          },
+          "correct": false,
+          "why": {
+            "en": "`generate` and `extract` are swapped: `generate` creates values freely, while `extract` copies values as they appear — documents only.",
+            "de": "`generate` und `extract` sind vertauscht: `generate` erzeugt Werte frei, `extract` übernimmt Werte so, wie sie im Inhalt stehen – nur bei Dokumenten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`generate` creates values freely, `classify` picks a category, `extract` copies values as printed; omitted → the request is rejected.",
+            "de": "`generate` erzeugt Werte frei, `classify` wählt eine Kategorie, `extract` übernimmt Werte wie gedruckt; ohne `method` wird die Anfrage abgelehnt."
+          },
+          "correct": false,
+          "why": {
+            "en": "The methods fit, but `method` is optional: if you leave it out, the service chooses one for the field.",
+            "de": "Die Methoden stimmen, aber `method` ist optional: Lässt du es weg, wählt der Dienst selbst eine für das Feld."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`generate` creates values freely, `classify` picks a category, `extract` copies values as printed (documents only); omitted → the service picks one.",
+            "de": "`generate` erzeugt Werte frei, `classify` wählt eine Kategorie, `extract` übernimmt Werte wie gedruckt (nur Dokumente); ohne `method` wählt der Dienst selbst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: images, audio and video support only `generate` and `classify`, and a missing `method` lets the service choose.",
+            "de": "Stimmt: Bilder, Audio und Video unterstützen nur `generate` und `classify`, und fehlt `method`, wählt der Dienst selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`generate` creates values freely, `classify` picks a category, `extract` copies values as printed in any modality; omitted → the service picks one.",
+            "de": "`generate` erzeugt Werte frei, `classify` wählt eine Kategorie, `extract` übernimmt Werte wie gedruckt, in jeder Modalität; ohne `method` wählt der Dienst."
+          },
+          "correct": false,
+          "why": {
+            "en": "`extract` is document-only; images, audio and video support just `generate` and `classify`.",
+            "de": "`extract` gibt es nur für Dokumente; Bilder, Audio und Video unterstützen nur `generate` und `classify`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Which model does a custom image analyzer need, and how does a byte upload find your deployment?",
         "de": "Welches Modell braucht ein eigener Bild-Analyzer, und wie findet ein Byte-Upload dein Deployment?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only a chat completion model in `models`; byte uploads rely on the resource defaults you set once with `update_defaults`.",
+            "de": "Nur ein Chat-Completion-Modell in `models`; Byte-Uploads nutzen die einmal per `update_defaults` gesetzten Ressourcen-Defaults."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `begin_analyze_binary` has no `model_deployments` parameter, so the defaults must map the model name to your deployment.",
+            "de": "Richtig: `begin_analyze_binary` hat keinen Parameter `model_deployments`, also müssen die Defaults den Modellnamen deinem Deployment zuordnen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A chat completion model plus an embedding model; byte uploads rely on the resource defaults you set once with `update_defaults`.",
+            "de": "Ein Chat-Completion-Modell plus ein Embedding-Modell; Byte-Uploads nutzen die einmal per `update_defaults` gesetzten Ressourcen-Defaults."
+          },
+          "correct": false,
+          "why": {
+            "en": "The upload part fits, but a custom image analyzer needs only a chat completion model; embedding models serve labeled samples, a document feature.",
+            "de": "Der Upload-Teil stimmt, aber ein eigener Bild-Analyzer braucht nur ein Chat-Completion-Modell; Embedding-Modelle dienen gelabelten Beispielen, einer Dokumentfunktion."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only a chat completion model in `models`; byte uploads pass `model_deployments` directly to `begin_analyze_binary`.",
+            "de": "Nur ein Chat-Completion-Modell in `models`; Byte-Uploads übergeben `model_deployments` direkt an `begin_analyze_binary`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Per-request mapping exists only for `begin_analyze` / `:analyze`; `begin_analyze_binary` has no `model_deployments`, so it needs the defaults.",
+            "de": "Eine Zuordnung pro Anfrage gibt es nur bei `begin_analyze` / `:analyze`; `begin_analyze_binary` hat kein `model_deployments` und braucht daher die Defaults."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A chat completion model plus an embedding model; byte uploads pass `model_deployments` to `begin_analyze_binary`.",
+            "de": "Ein Chat-Completion-Modell plus ein Embedding-Modell; Byte-Uploads übergeben `model_deployments` an `begin_analyze_binary`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Embedding models serve labeled samples, a document feature, and `begin_analyze_binary` has no `model_deployments` — byte uploads use the defaults.",
+            "de": "Embedding-Modelle dienen gelabelten Beispielen, einer Dokumentfunktion, und `begin_analyze_binary` hat kein `model_deployments` – Byte-Uploads nutzen die Defaults."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What does `estimateFieldSourceAndConfidence` add to each field, and which analyzers get these values?",
         "de": "Was ergänzt `estimateFieldSourceAndConfidence` an jedem Feld, und welche Analyzer bekommen diese Werte?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A 0–1 `confidence` and a `source` per field; every analyzer gets them, including image, audio and video ones.",
+            "de": "Eine `confidence` zwischen 0 und 1 und eine `source` pro Feld; jeder Analyzer bekommt sie, auch Bild-, Audio- und Video-Analyzer."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only document analyzers return these values — image, audio and video fields come without `confidence` and `source`.",
+            "de": "Nur Dokument-Analyzer liefern diese Werte – Bild-, Audio- und Videofelder kommen ohne `confidence` und `source`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A 0–1 `confidence` and a `source` such as `D(page,x1,y1,…)`; only document analyzers return them.",
+            "de": "Eine `confidence` zwischen 0 und 1 und eine `source` wie `D(page,x1,y1,…)`; nur Dokument-Analyzer liefern sie."
+          },
+          "correct": true,
+          "why": {
+            "en": "Reviewers can verify each document value at its page location; image, audio and video fields don't get these values.",
+            "de": "Prüfende können jeden Dokumentwert an seiner Seitenposition nachvollziehen; Bild-, Audio- und Videofelder bekommen diese Werte nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The model deployment and the number of tokens used for each field; every analyzer gets them, including image, audio and video ones.",
+            "de": "Das genutzte Modell-Deployment und die Zahl der verbrauchten Tokens je Feld; jeder Analyzer bekommt sie, auch Bild-, Audio- und Video-Analyzer."
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither part fits: token usage sits in the result's `usage` block, and confidence and source come only from document analyzers.",
+            "de": "Beides passt nicht: Der Token-Verbrauch steht im `usage`-Block des Ergebnisses, und Konfidenz und Quelle liefern nur Dokument-Analyzer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model deployment and the number of tokens used for each field; only document analyzers return them.",
+            "de": "Das genutzte Modell-Deployment und die Zahl der verbrauchten Tokens je Feld; nur Dokument-Analyzer liefern sie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Token usage sits in the result's `usage` block; this setting adds a 0–1 `confidence` and a `source` per document field.",
+            "de": "Der Token-Verbrauch steht im `usage`-Block des Ergebnisses; diese Einstellung ergänzt pro Dokumentfeld eine `confidence` zwischen 0 und 1 und eine `source`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Why can't an image analyzer infer emotions from faces, and what can harmful content do to fields?",
         "de": "Warum kann ein Bild-Analyzer keine Emotionen aus Gesichtern ableiten, und was bewirken schädliche Inhalte?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Emotion is returned once you set `returnDetails: true`; your deployment's guardrails can add warnings or suppress field values.",
+            "de": "Emotionen kommen zurück, sobald du `returnDetails: true` setzt; die Guardrails deines Deployments können warnen oder Feldwerte unterdrücken."
+          },
+          "correct": false,
+          "why": {
+            "en": "The guardrail part fits, but `returnDetails` only adds detailed metadata — emotion can't be inferred because faces are blurred by default.",
+            "de": "Der Guardrail-Teil stimmt, aber `returnDetails` ergänzt nur ausführliche Metadaten – Emotionen lassen sich nicht ableiten, weil Gesichter standardmäßig unkenntlich sind."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Faces are blurred by default; harmful content only adds a warning, and every field value is still returned.",
+            "de": "Gesichter werden standardmäßig unkenntlich gemacht; schädliche Inhalte erzeugen nur eine Warnung, jeder Feldwert kommt trotzdem zurück."
+          },
+          "correct": false,
+          "why": {
+            "en": "Blurring is right, but the inherited guardrails can also suppress field values, not just add warnings.",
+            "de": "Die Unkenntlichmachung stimmt, aber die übernommenen Guardrails können Feldwerte auch unterdrücken, nicht nur warnen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Faces are blurred by default; your deployment's guardrails can add warnings or suppress field values.",
+            "de": "Gesichter werden standardmäßig unkenntlich gemacht; die Guardrails deines Deployments können warnen oder Feldwerte unterdrücken."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: face-based inference such as emotion doesn't work on blurred faces, and analyzers inherit the guardrails of your Foundry model deployment.",
+            "de": "Stimmt: Gesichtsbasierte Schlüsse wie Emotionen funktionieren bei unkenntlichen Gesichtern nicht, und Analyzer übernehmen die Guardrails deines Foundry-Modell-Deployments."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Emotion is returned once you set `returnDetails: true`; harmful content only adds a warning, and every field value is still returned.",
+            "de": "Emotionen kommen zurück, sobald du `returnDetails: true` setzt; schädliche Inhalte erzeugen nur eine Warnung, jeder Feldwert kommt trotzdem zurück."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: faces are blurred by default, so emotion can't be inferred, and the inherited guardrails can also suppress field values.",
+            "de": "Beides daneben: Gesichter sind standardmäßig unkenntlich, Emotionen lassen sich also nicht ableiten, und die übernommenen Guardrails können auch Feldwerte unterdrücken."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "`extract` is a document-only method, so an image analyzer with `extract` fields is invalid. Use `generate` or `classify`, or switch to a document analyzer if the value is printed text.",
         "de": "`extract` gibt es nur für Dokumente, ein Bild-Analyzer mit `extract`-Feldern ist also ungültig. Nutze `generate` oder `classify` oder wechsle zu einem Dokument-Analyzer, wenn der Wert gedruckter Text ist."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only the missing `estimateFieldSourceAndConfidence: true`; without that setting, use `generate` or `classify`, or a document analyzer for printed text.",
+            "de": "Nur das fehlende `estimateFieldSourceAndConfidence: true`; ohne diese Einstellung nutze `generate` oder `classify` oder für gedruckten Text einen Dokument-Analyzer."
+          },
+          "correct": false,
+          "why": {
+            "en": "The setting won't help: `extract` is document-only, so image analyzers can't use it at all — the alternatives themselves are right.",
+            "de": "Die Einstellung hilft nicht: `extract` gibt es nur für Dokumente, Bild-Analyzer können es gar nicht nutzen – die Alternativen selbst stimmen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`extract` is document-only, so the analyzer is invalid; use `generate` or `classify`, or a document analyzer for printed text.",
+            "de": "`extract` gibt es nur für Dokumente, der Analyzer ist also ungültig; nutze `generate` oder `classify` oder für gedruckten Text einen Dokument-Analyzer."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: image analyzers support only `generate` and `classify`; when the value is printed text, a document analyzer adds OCR and `extract`.",
+            "de": "Richtig: Bild-Analyzer unterstützen nur `generate` und `classify`; ist der Wert gedruckter Text, liefert ein Dokument-Analyzer OCR und `extract`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`extract` is document-only, so the analyzer is invalid; switch `baseAnalyzerId` to `prebuilt-imageSearch` to keep the fields.",
+            "de": "`extract` gibt es nur für Dokumente, der Analyzer ist also ungültig; stelle `baseAnalyzerId` auf `prebuilt-imageSearch` um, damit die Felder bleiben."
+          },
+          "correct": false,
+          "why": {
+            "en": "The diagnosis fits, but `prebuilt-imageSearch` can't be a base at all — use `generate` or `classify`, or a document analyzer for printed text.",
+            "de": "Die Diagnose stimmt, aber `prebuilt-imageSearch` kann gar keine Basis sein – nutze `generate` oder `classify` oder für gedruckten Text einen Dokument-Analyzer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the missing `estimateFieldSourceAndConfidence: true`; without that setting, switch `baseAnalyzerId` to `prebuilt-imageSearch`.",
+            "de": "Nur das fehlende `estimateFieldSourceAndConfidence: true`; ohne diese Einstellung stelle `baseAnalyzerId` auf `prebuilt-imageSearch` um."
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither works: `extract` is document-only whatever you set, and `prebuilt-imageSearch` can't serve as a base analyzer.",
+            "de": "Beides funktioniert nicht: `extract` gibt es nur für Dokumente, egal was du einstellst, und `prebuilt-imageSearch` taugt nicht als Basis-Analyzer."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "`prebuilt-image`. You can't derive a custom analyzer from `prebuilt-imageSearch` — only the four base analyzers work as `baseAnalyzerId`.",
         "de": "`prebuilt-image`. Von `prebuilt-imageSearch` kannst du keinen eigenen Analyzer ableiten – als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`prebuilt-image`; `prebuilt-imageSearch` works as `baseAnalyzerId` only for analyzers without their own fields.",
+            "de": "`prebuilt-image`; `prebuilt-imageSearch` funktioniert als `baseAnalyzerId` nur bei Analyzern ohne eigene Felder."
+          },
+          "correct": false,
+          "why": {
+            "en": "You can never derive from `prebuilt-imageSearch`, not even without fields; only the four base analyzers work as `baseAnalyzerId`.",
+            "de": "Von `prebuilt-imageSearch` kannst du nie ableiten, auch ohne eigene Felder nicht; als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`prebuilt-image`, though `prebuilt-imageSearch` would work too; it just costs more because it adds a summary.",
+            "de": "`prebuilt-image`, wobei auch `prebuilt-imageSearch` ginge; er kostet nur mehr, weil er zusätzlich eine Zusammenfassung liefert."
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-imageSearch` doesn't work as a base at all — it's a RAG prebuilt you call directly, not a parent for custom analyzers.",
+            "de": "`prebuilt-imageSearch` funktioniert gar nicht als Basis – er ist ein RAG-Prebuilt zum direkten Aufruf, kein Eltern-Analyzer für eigene Analyzer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`prebuilt-image`; only the four base analyzers work as `baseAnalyzerId` — `prebuilt-imageSearch` isn't one.",
+            "de": "`prebuilt-image`; als `baseAnalyzerId` funktionieren nur die vier Basis-Analyzer – `prebuilt-imageSearch` gehört nicht dazu."
+          },
+          "correct": true,
+          "why": {
+            "en": "`prebuilt-imageSearch` is a RAG prebuilt you call directly; custom image analyzers derive from `prebuilt-image`.",
+            "de": "`prebuilt-imageSearch` ist ein RAG-Prebuilt zum direkten Aufruf; eigene Bild-Analyzer leiten sich von `prebuilt-image` ab."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`prebuilt-layout`, because `prebuilt-imageSearch` can't read the printed text in a photo.",
+            "de": "`prebuilt-layout`, weil `prebuilt-imageSearch` den gedruckten Text in einem Foto nicht lesen kann."
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-layout` is a document content-extraction analyzer, not a base; custom image analyzers use `prebuilt-image`.",
+            "de": "`prebuilt-layout` ist ein Analyzer für die Inhaltsextraktion aus Dokumenten, keine Basis; eigene Bild-Analyzer nutzen `prebuilt-image`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Confidence scores and value locations are a document-analyzer feature (`estimateFieldSourceAndConfidence`). For image analyzers the analyzer reference lists only the `returnDetails` setting.",
         "de": "Konfidenzwerte und Fundstellen sind eine Funktion von Dokument-Analyzern (`estimateFieldSourceAndConfidence`). Für Bild-Analyzer nennt die Analyzer-Referenz nur die Einstellung `returnDetails`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "From any analyzer via `estimateFieldSourceAndConfidence`; for image analyzers `enableOcr` and `enableLayout` are listed too.",
+            "de": "Von jedem Analyzer über `estimateFieldSourceAndConfidence`; für Bild-Analyzer sind zusätzlich `enableOcr` und `enableLayout` aufgeführt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Confidence and value locations are document-analyzer features, and `enableOcr` and `enableLayout` are document options — images list only `returnDetails`.",
+            "de": "Konfidenz und Fundstellen sind Funktionen von Dokument-Analyzern, und `enableOcr` und `enableLayout` sind Dokumentoptionen – für Bilder steht nur `returnDetails`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "From image analyzers via `estimateFieldSourceAndConfidence`; for document analyzers only `returnDetails` is listed.",
+            "de": "Von Bild-Analyzern über `estimateFieldSourceAndConfidence`; für Dokument-Analyzer ist nur `returnDetails` aufgeführt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `estimateFieldSourceAndConfidence` is a document-analyzer setting, and for image analyzers the reference lists only `returnDetails`.",
+            "de": "Umgekehrt: `estimateFieldSourceAndConfidence` ist eine Einstellung für Dokument-Analyzer, und für Bild-Analyzer nennt die Referenz nur `returnDetails`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "From document analyzers via `estimateFieldSourceAndConfidence`; for image analyzers `disableFaceBlurring` is listed.",
+            "de": "Von Dokument-Analyzern über `estimateFieldSourceAndConfidence`; für Bild-Analyzer ist `disableFaceBlurring` aufgeführt."
+          },
+          "correct": false,
+          "why": {
+            "en": "The first half fits, but `disableFaceBlurring` isn't documented for images — the analyzer reference lists only `returnDetails` there.",
+            "de": "Die erste Hälfte stimmt, aber `disableFaceBlurring` ist für Bilder nicht dokumentiert – die Analyzer-Referenz nennt dort nur `returnDetails`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "From document analyzers via `estimateFieldSourceAndConfidence`; for image analyzers only `returnDetails` is listed.",
+            "de": "Von Dokument-Analyzern über `estimateFieldSourceAndConfidence`; für Bild-Analyzer ist nur `returnDetails` aufgeführt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: confidence and source grounding are document features; the analyzer reference lists just `returnDetails` as the image option.",
+            "de": "Stimmt: Konfidenz und Quellen-Grounding sind Dokumentfunktionen; als Bildoption nennt die Analyzer-Referenz nur `returnDetails`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "The field schema belongs to the analyzer definition, not to the analyze request. To add fields to a prebuilt's output, create a custom analyzer.",
         "de": "Das Feldschema gehört zur Analyzer-Definition, nicht zur Analyse-Anfrage. Wenn du der Ausgabe eines Prebuilts Felder hinzufügen willst, legst du einen eigenen Analyzer an."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In the analyzer definition; to add fields to a prebuilt's output, you create a custom analyzer.",
+            "de": "In die Analyzer-Definition; um der Ausgabe eines Prebuilts Felder hinzuzufügen, legst du einen eigenen Analyzer an."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the schema is stored with the analyzer, not sent per request, so extra fields mean a custom analyzer on the matching base.",
+            "de": "Richtig: Das Schema wird mit dem Analyzer gespeichert, nicht pro Anfrage gesendet – zusätzliche Felder heißen also: eigener Analyzer auf der passenden Basis."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In each analyze request; to add fields to a prebuilt's output, you create a custom analyzer.",
+            "de": "In jede Analyse-Anfrage; um der Ausgabe eines Prebuilts Felder hinzuzufügen, legst du einen eigenen Analyzer an."
+          },
+          "correct": false,
+          "why": {
+            "en": "The fix fits, but the field schema belongs to the analyzer definition — an analyze request doesn't carry one.",
+            "de": "Die Lösung stimmt, aber das Feldschema gehört zur Analyzer-Definition – eine Analyse-Anfrage enthält keins."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In each analyze request; you extend a prebuilt by setting `returnDetails: true`.",
+            "de": "In jede Analyse-Anfrage; einen Prebuilt erweiterst du, indem du `returnDetails: true` setzt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: the schema belongs to the analyzer definition, and `returnDetails` only adds detailed information — new fields need a custom analyzer.",
+            "de": "Beides daneben: Das Schema gehört zur Analyzer-Definition, und `returnDetails` ergänzt nur ausführliche Informationen – neue Felder brauchen einen eigenen Analyzer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In the analyzer definition; you extend a prebuilt by setting `returnDetails: true`.",
+            "de": "In die Analyzer-Definition; einen Prebuilt erweiterst du, indem du `returnDetails: true` setzt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`returnDetails` only adds detailed information to the result, not new fields; extra fields come from a field schema in your own analyzer.",
+            "de": "`returnDetails` ergänzt nur ausführliche Informationen im Ergebnis, keine neuen Felder; zusätzliche Felder kommen aus einem Feldschema in deinem eigenen Analyzer."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Custom Vision and the Image Analysis API of Azure Vision in Foundry Tools (v3.2 and v4.0). New image analysis uses Content Understanding (for example a custom analyzer on `prebuilt-image`) or a GPT model in Foundry; OCR goes to Document Intelligence, faces to the Face API, self-trained classifiers or object detectors to Azure Machine Learning AutoML.",
         "de": "Custom Vision und die Image Analysis API von Azure Vision in Foundry Tools (v3.2 und v4.0). Neue Bildanalyse nutzt Content Understanding (etwa einen eigenen Analyzer auf `prebuilt-image`) oder ein GPT-Modell in Foundry; OCR übernimmt Document Intelligence, Gesichter die Face API, selbst trainierte Klassifikatoren oder Objektdetektoren Azure Machine Learning AutoML."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only the Image Analysis API v3.2, while v4.0 and Custom Vision stay; new image analysis uses Content Understanding or a GPT model in Foundry.",
+            "de": "Nur die Image Analysis API v3.2, während v4.0 und Custom Vision bleiben; neue Bildanalyse nutzt Content Understanding oder ein GPT-Modell in Foundry."
+          },
+          "correct": false,
+          "why": {
+            "en": "The alternatives fit, but Custom Vision and both Image Analysis versions (v3.2 and v4.0) retire on September 25, 2028.",
+            "de": "Die Alternativen stimmen, aber Custom Vision und beide Image-Analysis-Versionen (v3.2 und v4.0) werden am 25. September 2028 eingestellt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only the Image Analysis API v3.2, while v4.0 and Custom Vision stay; all new image analysis moves to the Face API instead.",
+            "de": "Nur die Image Analysis API v3.2, während v4.0 und Custom Vision bleiben; die gesamte neue Bildanalyse wandert stattdessen zur Face API."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: Custom Vision and both Image Analysis versions retire, and the Face API only takes over face features.",
+            "de": "Beides daneben: Custom Vision und beide Image-Analysis-Versionen werden eingestellt, und die Face API übernimmt nur Gesichtsfunktionen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Custom Vision and the Image Analysis API (v3.2 and v4.0); new image analysis uses Content Understanding or a GPT model in Foundry.",
+            "de": "Custom Vision und die Image Analysis API (v3.2 und v4.0); neue Bildanalyse nutzt Content Understanding oder ein GPT-Modell in Foundry."
+          },
+          "correct": true,
+          "why": {
+            "en": "New image analysis means, for example, a custom analyzer on `prebuilt-image`; OCR moves to Document Intelligence, faces to the Face API, self-trained detectors to Azure Machine Learning AutoML.",
+            "de": "Neue Bildanalyse heißt etwa ein eigener Analyzer auf `prebuilt-image`; OCR wandert zu Document Intelligence, Gesichter zur Face API, selbst trainierte Detektoren zu Azure Machine Learning AutoML."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Custom Vision and the Image Analysis API (v3.2 and v4.0); all new image analysis moves to the Face API instead.",
+            "de": "Custom Vision und die Image Analysis API (v3.2 und v4.0); die gesamte neue Bildanalyse wandert stattdessen zur Face API."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Face API is the target only for face features; general image analysis moves to Content Understanding or a GPT model in Foundry.",
+            "de": "Die Face API ist nur das Ziel für Gesichtsfunktionen; allgemeine Bildanalyse wandert zu Content Understanding oder einem GPT-Modell in Foundry."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Analyzer = base analyzer + field schema + models (+ config).",
         "de": "Analyzer = Basis-Analyzer + Feldschema + Modelle (+ config)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Base analyzer + chat prompt + API key, plus an optional config.",
+            "de": "Basis-Analyzer + Chat-Prompt + API-Schlüssel, plus eine optionale config."
+          },
+          "correct": false,
+          "why": {
+            "en": "No chat prompt or key: an analyzer combines a base analyzer, a field schema whose descriptions guide the model, and model names.",
+            "de": "Weder Chat-Prompt noch Schlüssel: Ein Analyzer kombiniert Basis-Analyzer, ein Feldschema, dessen Beschreibungen das Modell leiten, und Modellnamen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Base analyzer + field schema + models, plus optional config.",
+            "de": "Basis-Analyzer + Feldschema + Modelle, plus optionale config."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the base sets the content type, the schema defines the fields you get back, and `models` names the models to use.",
+            "de": "Stimmt: Die Basis legt den Inhaltstyp fest, das Schema die Felder, die du zurückbekommst, und `models` nennt die zu nutzenden Modelle."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Field schema + deployment names + input files, plus optional config.",
+            "de": "Feldschema + Deployment-Namen + Eingabedateien, plus optionale config."
+          },
+          "correct": false,
+          "why": {
+            "en": "An analyzer names a base analyzer and model names; deployments are mapped at analyze time, and files are sent later.",
+            "de": "Ein Analyzer nennt einen Basis-Analyzer und Modellnamen; Deployments werden beim Analysieren zugeordnet, Dateien kommen erst später."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Base analyzer + field schema + Markdown template, plus optional config.",
+            "de": "Basis-Analyzer + Feldschema + Markdown-Vorlage, plus optionale config."
+          },
+          "correct": false,
+          "why": {
+            "en": "Markdown is part of the result, not of the definition; the third building block is the `models` list.",
+            "de": "Markdown ist Teil des Ergebnisses, nicht der Definition; der dritte Baustein ist die Liste `models`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Images: `generate` for descriptions and yes/no observations, `classify` with `enum` for fixed categories.",
         "de": "Bilder: `generate` für Beschreibungen und Ja/Nein-Beobachtungen, `classify` mit `enum` für feste Kategorien."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`classify` for descriptions and yes/no observations; `generate` with an `enum` for fixed categories.",
+            "de": "`classify` für Beschreibungen und Ja/Nein-Beobachtungen; `generate` mit `enum` für feste Kategorien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `generate` produces descriptions or a `boolean`, while `classify` picks one value from an `enum`.",
+            "de": "Vertauscht: `generate` erzeugt Beschreibungen oder ein `boolean`, `classify` wählt einen Wert aus einer `enum`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`extract` for descriptions and yes/no observations; `classify` with an `enum` for fixed categories.",
+            "de": "`extract` für Beschreibungen und Ja/Nein-Beobachtungen; `classify` mit `enum` für feste Kategorien."
+          },
+          "correct": false,
+          "why": {
+            "en": "`extract` is document-only and copies printed values; image descriptions and yes/no observations use `generate`.",
+            "de": "`extract` gibt es nur für Dokumente, es übernimmt gedruckte Werte; Bildbeschreibungen und Ja/Nein-Beobachtungen nutzen `generate`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`generate` for descriptions; `extract` with an `enum` for fixed categories and yes/no observations.",
+            "de": "`generate` für Beschreibungen; `extract` mit `enum` für feste Kategorien und Ja/Nein-Beobachtungen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Images don't support `extract`; fixed categories use `classify` with an `enum`, and yes/no observations a `generate` field.",
+            "de": "Bilder unterstützen kein `extract`; feste Kategorien nutzen `classify` mit `enum`, Ja/Nein-Beobachtungen ein `generate`-Feld."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`generate` for descriptions and yes/no observations; `classify` with an `enum` for fixed categories.",
+            "de": "`generate` für Beschreibungen und Ja/Nein-Beobachtungen; `classify` mit `enum` für feste Kategorien."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `generate` lets the model produce a sentence or a `boolean`; `classify` returns exactly one value from the `enum` list.",
+            "de": "Richtig: `generate` lässt das Modell einen Satz oder ein `boolean` erzeugen; `classify` liefert genau einen Wert aus der `enum`-Liste."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Field descriptions are prompts — specific descriptions give better values.",
         "de": "Feldbeschreibungen sind Prompts – präzise Beschreibungen liefern bessere Werte."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It's only documentation for developers; the model never reads it.",
+            "de": "Sie ist nur Dokumentation für Entwickler; das Modell liest sie nie."
+          },
+          "correct": false,
+          "why": {
+            "en": "The model reads each `description` as guidance — field descriptions work like prompts.",
+            "de": "Das Modell liest jede `description` als Anleitung – Feldbeschreibungen wirken wie Prompts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It becomes the field's key in the result JSON, so any typo in it breaks your parsing code.",
+            "de": "Sie wird zum Schlüssel des Felds im Ergebnis-JSON, jeder Tippfehler darin bricht also deinen Parsing-Code."
+          },
+          "correct": false,
+          "why": {
+            "en": "The key is the field name in the schema, such as `Description`; the description text guides the model instead.",
+            "de": "Der Schlüssel ist der Feldname im Schema, etwa `Description`; der Beschreibungstext leitet dagegen das Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only `classify` fields use it; `generate` fields ignore the description.",
+            "de": "Nur `classify`-Felder nutzen sie; `generate`-Felder ignorieren die Beschreibung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Descriptions guide `generate` fields too — the model reads them as instructions for every field it fills.",
+            "de": "Beschreibungen leiten auch `generate`-Felder – das Modell liest sie als Anweisung für jedes Feld, das es füllt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model reads it like a prompt, so specific descriptions give better values.",
+            "de": "Das Modell liest sie wie einen Prompt, präzise Beschreibungen liefern also bessere Werte."
+          },
+          "correct": true,
+          "why": {
+            "en": "The description is a mini-prompt for its field — the more precise it is, the better the values.",
+            "de": "Die Beschreibung ist ein Mini-Prompt für ihr Feld – je präziser, desto besser die Werte."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Text-heavy photos belong in a document analyzer to get OCR, `extract`, confidence and grounding.",
         "de": "Textlastige Fotos gehören in einen Dokument-Analyzer – für OCR, `extract`, Konfidenz und Grounding."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In a custom image analyzer on `prebuilt-image`, which is optimized for text.",
+            "de": "In einen eigenen Bild-Analyzer auf `prebuilt-image`, der auf Text optimiert ist."
+          },
+          "correct": false,
+          "why": {
+            "en": "Image analyzers aren't optimized for text; a document analyzer adds OCR, `extract` fields, confidence and grounding.",
+            "de": "Bild-Analyzer sind nicht auf Text optimiert; ein Dokument-Analyzer ergänzt OCR, `extract`-Felder, Konfidenz und Grounding."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In `prebuilt-imageSearch`, which turns the printed text into `extract` fields.",
+            "de": "In `prebuilt-imageSearch`, der den gedruckten Text in `extract`-Felder verwandelt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-imageSearch` returns a one-paragraph description; OCR and `extract` fields come from a document analyzer.",
+            "de": "`prebuilt-imageSearch` liefert eine Beschreibung in einem Absatz; OCR und `extract`-Felder kommen von einem Dokument-Analyzer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In a document analyzer, which adds OCR, `extract` fields, confidence and grounding.",
+            "de": "In einen Dokument-Analyzer, der OCR, `extract`-Felder, Konfidenz und Grounding ergänzt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a `prebuilt-document` base or a domain prebuilt runs OCR and layout and can return `confidence` plus `source` per value.",
+            "de": "Stimmt: Eine Basis `prebuilt-document` oder ein Fach-Prebuilt führt OCR und Layout aus und kann pro Wert `confidence` plus `source` liefern."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In a custom image analyzer, where `classify` fields copy the printed text exactly.",
+            "de": "In einen eigenen Bild-Analyzer, wo `classify`-Felder gedruckten Text exakt kopieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "`classify` picks a value from an `enum`; copying printed text is `extract`, which only document analyzers support.",
+            "de": "`classify` wählt einen Wert aus einer `enum`; gedruckten Text übernehmen ist `extract`, und das unterstützen nur Dokument-Analyzer."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-images-takeaway-5",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Better input, better fields: sharp, well-lit, upright photos with one clear subject work best.",
         "de": "Bessere Eingaben, bessere Felder: Scharfe, gut ausgeleuchtete, aufrechte Fotos mit einem klaren Motiv funktionieren am besten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Sharp, well-lit, upright photos with one clear subject.",
+            "de": "Scharfe, gut ausgeleuchtete, aufrechte Fotos mit einem klaren Motiv."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: better input gives better fields — focus, light, orientation and a single clear subject help most.",
+            "de": "Richtig: Bessere Eingaben liefern bessere Felder – Schärfe, Licht, Ausrichtung und ein einzelnes klares Motiv helfen am meisten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Wide shots that show many subjects at once, so the fields get more context.",
+            "de": "Weitwinkelaufnahmen mit vielen Motiven auf einmal, damit die Felder mehr Kontext bekommen."
+          },
+          "correct": false,
+          "why": {
+            "en": "It's the other way round: photos with one clear subject work best, not busy shots with many subjects.",
+            "de": "Umgekehrt: Am besten funktionieren Fotos mit einem klaren Motiv, nicht volle Aufnahmen mit vielen Motiven."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Photos scaled down below 50 × 50 pixels to save some tokens.",
+            "de": "Fotos, die auf unter 50 × 50 Pixel verkleinert sind, um Tokens zu sparen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Images need at least 50 × 50 pixels, and sharp, well-lit photos give better fields.",
+            "de": "Bilder brauchen mindestens 50 × 50 Pixel, und scharfe, gut ausgeleuchtete Fotos liefern bessere Felder."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Photos with lots of printed text, since image analyzers are optimized for text.",
+            "de": "Fotos mit viel gedrucktem Text, weil Bild-Analyzer auf Text optimiert sind."
+          },
+          "correct": false,
+          "why": {
+            "en": "Image analyzers aren't optimized for text — text-heavy photos belong in a document analyzer.",
+            "de": "Bild-Analyzer sind nicht auf Text optimiert – textlastige Fotos gehören in einen Dokument-Analyzer."
+          }
+        }
+      ]
     }
   ]
 }

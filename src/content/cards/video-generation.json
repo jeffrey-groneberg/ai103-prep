@@ -8,7 +8,57 @@
       "front": {
         "en": "From which inputs can Sora 2 create video, which API does it use, and how is it billed?",
         "de": "Aus welchen Eingaben macht Sora 2 Videos, welche API nutzt es, und wie wird es abgerechnet?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text, an image or a completed Sora video (remix); the Chat Completions API; billed per token.",
+            "de": "Text, ein Bild oder ein fertiges Sora-Video (Remix); die Chat Completions API; Abrechnung pro Token."
+          },
+          "correct": false,
+          "why": {
+            "en": "Sora 2 has its own video calls in the Azure OpenAI v1 API (`videos.create()` and more) and is billed per second of video.",
+            "de": "Sora 2 hat eigene Videoaufrufe in der Azure-OpenAI-v1-API (`videos.create()` und mehr) und wird pro Videosekunde abgerechnet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text only, as images need an image model; the Azure OpenAI v1 API; billed per token.",
+            "de": "Nur Text, da Bilder ein Bildmodell brauchen; die Azure-OpenAI-v1-API; Abrechnung pro Token."
+          },
+          "correct": false,
+          "why": {
+            "en": "Sora 2 also turns an image into video (`input_reference`) and remixes completed videos, and it's billed per second of video, not per token.",
+            "de": "Sora 2 macht auch aus einem Bild ein Video (`input_reference`) und remixt fertige Videos, und es wird pro Videosekunde abgerechnet, nicht pro Token."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Text, an image or a completed Sora video (remix); the Azure OpenAI v1 API; billed per second of video.",
+            "de": "Text, ein Bild oder ein fertiges Sora-Video (Remix); die Azure-OpenAI-v1-API; Abrechnung pro Videosekunde."
+          },
+          "correct": true,
+          "why": {
+            "en": "Sora 2 covers text → video, image → video and generated video → video, runs on the Azure OpenAI v1 API and is billed per second.",
+            "de": "Sora 2 deckt Text → Video, Bild → Video und generiertes Video → Video ab, läuft über die Azure-OpenAI-v1-API und wird pro Sekunde abgerechnet."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text only, as images need an image model; the Chat Completions API; billed per second of video.",
+            "de": "Nur Text, da Bilder ein Bildmodell brauchen; die Chat Completions API; Abrechnung pro Videosekunde."
+          },
+          "correct": false,
+          "why": {
+            "en": "Images work too (`input_reference` anchors the first frame), and Sora 2 uses its own video calls in the Azure OpenAI v1 API, not Chat Completions.",
+            "de": "Bilder gehen auch (`input_reference` verankert den ersten Frame), und Sora 2 nutzt eigene Videoaufrufe in der Azure-OpenAI-v1-API, nicht Chat Completions."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which statuses does a Sora 2 job pass through, how long does it render, and how many jobs can run at once?",
         "de": "Welche Status durchläuft ein Sora-2-Job, wie lange rendert er, und wie viele Jobs laufen gleichzeitig?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`queued` → `in_progress` → `completed` (or `failed`); about 1–5 minutes; at most two creation jobs at once.",
+            "de": "`queued` → `in_progress` → `completed` (oder `failed`); etwa 1–5 Minuten; höchstens zwei Erstellungsjobs gleichzeitig."
+          },
+          "correct": true,
+          "why": {
+            "en": "You poll through `in_progress` to a final status; rendering takes about 1–5 minutes, and a third job must wait until one of the two finishes.",
+            "de": "Du fragst über `in_progress` bis zu einem Endstatus ab; das Rendern dauert etwa 1–5 Minuten, und ein dritter Job muss warten, bis einer der zwei fertig ist."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`queued` → `in_progress` → `completed` (or `failed`); about 1–5 seconds; as many jobs as your quota allows.",
+            "de": "`queued` → `in_progress` → `completed` (oder `failed`); etwa 1–5 Sekunden; so viele Jobs, wie dein Kontingent erlaubt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Rendering takes minutes, not seconds, and only two creation jobs can run at the same time.",
+            "de": "Das Rendern dauert Minuten, nicht Sekunden, und nur zwei Erstellungsjobs laufen gleichzeitig."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`completed` right away, because `videos.create()` waits for the render; about 1–5 minutes; as many jobs as your quota allows.",
+            "de": "Sofort `completed`, weil `videos.create()` direkt auf das Rendern wartet; etwa 1–5 Minuten; so viele Jobs, wie dein Kontingent erlaubt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`videos.create()` returns at once with status `queued` for you to poll, and only two creation jobs can run at the same time.",
+            "de": "`videos.create()` kommt sofort mit Status `queued` zurück, den du abfragst, und nur zwei Erstellungsjobs laufen gleichzeitig."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`completed` right away, because `videos.create()` waits for the render; about 1–5 seconds; at most two creation jobs at once.",
+            "de": "Sofort `completed`, weil `videos.create()` direkt auf das Rendern wartet; etwa 1–5 Sekunden; höchstens zwei Erstellungsjobs gleichzeitig."
+          },
+          "correct": false,
+          "why": {
+            "en": "The call returns a `queued` job that you poll, and rendering takes about 1–5 minutes, not seconds.",
+            "de": "Der Aufruf liefert einen Job mit Status `queued`, den du abfragst, und das Rendern dauert etwa 1–5 Minuten, nicht Sekunden."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which values do `size` and `seconds` accept, what are the defaults, and why can shorter clips be better?",
         "de": "Welche Werte nehmen `size` und `seconds`, was ist Standard, und warum können kürzere Clips besser sein?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`size`: `1280x720` (default) or `720x1280`; `seconds`: `\"4\"`, `\"8\"` or `\"12\"` (`\"12\"` default); short clips follow the prompt more reliably.",
+            "de": "`size`: `1280x720` (Standard) oder `720x1280`; `seconds`: `\"4\"`, `\"8\"` oder `\"12\"` (`\"12\"` Standard); kurze Clips folgen dem Prompt zuverlässiger."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both defaults are off: without settings you get `720x1280` (portrait) and `\"4\"` seconds.",
+            "de": "Beide Standardwerte stimmen nicht: Ohne Angaben bekommst du `720x1280` (Hochformat) und `\"4\"` Sekunden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`size`: `720x1280` (default) or `1280x720`; `seconds`: `\"4\"` (default), `\"8\"` or `\"12\"`; short clips return at once, without any polling.",
+            "de": "`size`: `720x1280` (Standard) oder `1280x720`; `seconds`: `\"4\"` (Standard), `\"8\"` oder `\"12\"`; kurze Clips kommen sofort zurück, ganz ohne Abfragen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Every clip is an asynchronous job you poll, however short; the real gain is that short clips follow instructions more reliably.",
+            "de": "Jeder Clip ist ein asynchroner Job, den du abfragst, egal wie kurz; der echte Vorteil: Kurze Clips folgen Anweisungen zuverlässiger."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`size`: `1280x720` (default) or `720x1280`; `seconds`: `\"4\"`, `\"8\"` or `\"12\"` (`\"12\"` default); short clips return at once, without any polling.",
+            "de": "`size`: `1280x720` (Standard) oder `720x1280`; `seconds`: `\"4\"`, `\"8\"` oder `\"12\"` (`\"12\"` Standard); kurze Clips kommen sofort zurück, ganz ohne Abfragen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts are off: the defaults are `720x1280` and `\"4\"`, and every clip is an asynchronous job that you poll.",
+            "de": "Beides stimmt nicht: Standard sind `720x1280` und `\"4\"`, und jeder Clip ist ein asynchroner Job, den du abfragst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`size`: `720x1280` (default) or `1280x720`; `seconds`: `\"4\"` (default), `\"8\"` or `\"12\"`; short clips follow the prompt more reliably.",
+            "de": "`size`: `720x1280` (Standard) oder `1280x720`; `seconds`: `\"4\"` (Standard), `\"8\"` oder `\"12\"`; kurze Clips folgen dem Prompt zuverlässiger."
+          },
+          "correct": true,
+          "why": {
+            "en": "Portrait and 4 seconds are the defaults, `seconds` is a string, and shorter clips stick to instructions better — two 4-second clips can beat one 8-second clip.",
+            "de": "Hochformat und 4 Sekunden sind Standard, `seconds` ist ein String, und kürzere Clips halten sich besser an Anweisungen – zwei 4-Sekunden-Clips können einen 8-Sekunden-Clip schlagen."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does `input_reference` anchor in a Sora 2 video, which formats does it take, and what must it match?",
         "de": "Was verankert `input_reference` in einem Sora-2-Video, welche Formate nimmt es, und was muss passen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The last frame; one JPEG, PNG or WebP image; only its aspect ratio must match the requested `size`.",
+            "de": "Den letzten Frame; ein JPEG-, PNG- oder WebP-Bild; nur das Seitenverhältnis muss zu `size` passen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The reference image anchors the first frame, and its exact resolution — not just the aspect ratio — must match `size`.",
+            "de": "Das Referenzbild verankert den ersten Frame, und seine exakte Auflösung – nicht nur das Seitenverhältnis – muss zu `size` passen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The first frame; one JPEG, PNG or WebP image; its resolution must match the requested `size` exactly.",
+            "de": "Den ersten Frame; ein JPEG-, PNG- oder WebP-Bild; seine Auflösung muss exakt zur angeforderten `size` passen."
+          },
+          "correct": true,
+          "why": {
+            "en": "A single reference image anchors the opening frame while the prompt drives the action, and its resolution must equal the requested `size`.",
+            "de": "Ein einzelnes Referenzbild verankert den ersten Frame, während der Prompt die Handlung steuert, und seine Auflösung muss der angeforderten `size` entsprechen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The first frame; one image in any format, GIF or HEIC included; only its aspect ratio must match the requested `size`.",
+            "de": "Den ersten Frame; ein Bild in beliebigem Format, auch GIF oder HEIC; nur das Seitenverhältnis muss zu `size` passen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only JPEG, PNG or WebP are accepted, and the resolution itself must match — resize a 2560×1440 photo to 1280×720 first.",
+            "de": "Akzeptiert werden nur JPEG, PNG oder WebP, und die Auflösung selbst muss passen – skaliere ein 2560×1440-Foto vorher auf 1280×720."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The last frame; one image in any format, GIF or HEIC included; its resolution must match the requested `size` exactly.",
+            "de": "Den letzten Frame; ein Bild in beliebigem Format, auch GIF oder HEIC; seine Auflösung muss exakt zur angeforderten `size` passen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The image anchors the first frame, not the last, and `input_reference` accepts only JPEG, PNG or WebP.",
+            "de": "Das Bild verankert den ersten Frame, nicht den letzten, und `input_reference` akzeptiert nur JPEG, PNG oder WebP."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What does `videos.remix()` reuse, which parameters does it take, and which changes keep fidelity highest?",
         "de": "Was übernimmt `videos.remix()`, welche Parameter nimmt es, und welche Änderungen erhalten die höchste Treue?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Structure, motion and framing of a completed Sora video; only `video_id` and `prompt`; one narrow change per remix.",
+            "de": "Struktur, Bewegung und Bildausschnitt eines fertigen Sora-Videos; nur `video_id` und `prompt`; eine enge Änderung pro Remix."
+          },
+          "correct": true,
+          "why": {
+            "en": "Remix keeps the original's structure, motion, framing and transitions; the documented call takes no `size` or `seconds`, and narrow edits keep fidelity.",
+            "de": "Remix behält Struktur, Bewegung, Bildausschnitt und Übergänge des Originals; der dokumentierte Aufruf nimmt kein `size` oder `seconds`, und enge Änderungen erhalten die Treue."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Structure, motion and framing of a completed Sora video; `video_id`, `prompt`, `size` and `seconds`; several changes at once.",
+            "de": "Struktur, Bewegung und Bildausschnitt eines fertigen Sora-Videos; `video_id`, `prompt` sowie `size` und `seconds`; mehrere Änderungen auf einmal."
+          },
+          "correct": false,
+          "why": {
+            "en": "The documented remix call takes only `video_id` and `prompt`, and one clear change per remix keeps fidelity highest.",
+            "de": "Der dokumentierte Remix-Aufruf nimmt nur `video_id` und `prompt`, und eine klare Änderung pro Remix erhält die höchste Treue."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the first frame of a completed Sora video; only `video_id` and `prompt`; several changes at once.",
+            "de": "Nur den ersten Frame eines fertigen Sora-Videos; nur `video_id` und `prompt`; mehrere Änderungen auf einmal."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix reuses the whole video's structure, motion and framing — anchoring a first frame is `input_reference` — and one change per remix keeps fidelity.",
+            "de": "Remix übernimmt Struktur, Bewegung und Bildausschnitt des ganzen Videos – einen ersten Frame verankert `input_reference` –, und eine Änderung pro Remix erhält die Treue."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the first frame of a completed Sora video; `video_id`, `prompt`, `size` and `seconds`; one narrow change per remix.",
+            "de": "Nur den ersten Frame eines fertigen Sora-Videos; `video_id`, `prompt` sowie `size` und `seconds`; eine enge Änderung pro Remix."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix reuses the whole video, not just its first frame, and the documented call takes only `video_id` and `prompt`.",
+            "de": "Remix übernimmt das ganze Video, nicht nur den ersten Frame, und der dokumentierte Aufruf nimmt nur `video_id` und `prompt`."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which content does Sora 2 reject on top of input and output moderation?",
         "de": "Welche Inhalte lehnt Sora 2 zusätzlich zur Moderation von Ein- und Ausgaben ab?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Content unsuitable for under-18s and copyrighted characters; real people and public figures are fine once they give written consent.",
+            "de": "Inhalte, die nicht für Personen unter 18 geeignet sind, und geschützte Figuren; reale Personen und Prominente gehen mit ihrer schriftlichen Zustimmung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Sora 2 can't generate real people at all — public figures included — and it also rejects copyrighted music and faces in input images.",
+            "de": "Sora 2 erzeugt überhaupt keine realen Personen – auch keine Prominenten – und lehnt auch geschützte Musik und Gesichter in Eingabebildern ab."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Content unfit for under-18s, copyrighted characters and music, real people (public figures too) and any prompt not written in English.",
+            "de": "Nicht jugendfreie Inhalte, geschützte Figuren und Musik, reale Personen (auch Prominente) und jeden Prompt, der nicht auf Englisch geschrieben ist."
+          },
+          "correct": false,
+          "why": {
+            "en": "Prompts in other languages aren't rejected — English or another Latin-script language just gives the best results; what Sora 2 does reject is input images with human faces.",
+            "de": "Prompts in anderen Sprachen werden nicht abgelehnt – Englisch oder eine andere Sprache mit lateinischer Schrift liefert nur die besten Ergebnisse; abgelehnt werden dagegen Eingabebilder mit menschlichen Gesichtern."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Content unfit for under-18s, copyrighted characters and music, real people (public figures too) and faces in input images.",
+            "de": "Nicht jugendfreie Inhalte, geschützte Figuren und Musik, reale Personen (auch Prominente) und Gesichter in Eingabebildern."
+          },
+          "correct": true,
+          "why": {
+            "en": "Besides input and output moderation, the Sora 2 API enforces exactly these restrictions, and requests that break them fail.",
+            "de": "Zusätzlich zur Moderation von Ein- und Ausgaben setzt die Sora-2-API genau diese Einschränkungen durch; Anfragen, die dagegen verstoßen, scheitern."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only what the configurable content filters flag; if you relax those filters, real people, even public figures, can then be generated.",
+            "de": "Nur was die konfigurierbaren Inhaltsfilter melden; lockerst du diese Filter, lassen sich auch reale Personen, sogar Prominente, erzeugen."
+          },
+          "correct": false,
+          "why": {
+            "en": "These are built-in Sora 2 rules on top of the filters; no filter setting lets real people — public figures included — through.",
+            "de": "Das sind eingebaute Sora-2-Regeln zusätzlich zu den Filtern; keine Filtereinstellung lässt reale Personen – auch Prominente – durch."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Which elements does a shot-style prompt describe, and which languages should you write it in?",
         "de": "Welche Elemente gehören in einen Prompt als Shot-Beschreibung, und in welchen Sprachen schreibst du ihn?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Framing, subject, action in beats, setting, lighting, palette, camera motion and style — in any script; Latin script makes no difference.",
+            "de": "Bildausschnitt, Motiv, Aktion in Schritten, Umgebung, Licht, Farbpalette, Kamerabewegung und Stil – in jeder Sprache und Schrift; lateinische Schrift spielt keine Rolle."
+          },
+          "correct": false,
+          "why": {
+            "en": "For the best results, write Sora 2 prompts in English or another Latin-script language.",
+            "de": "Die besten Ergebnisse liefern Sora-2-Prompts auf Englisch oder in einer anderen Sprache mit lateinischer Schrift."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Just the subject plus quality tags such as “4K, epic, cinematic” — in English or another Latin-script language.",
+            "de": "Nur das Motiv plus Qualitäts-Tags wie „4K, episch, filmisch“ – auf Englisch oder einer anderen Sprache in lateinischer Schrift."
+          },
+          "correct": false,
+          "why": {
+            "en": "A shot-style prompt spells out framing, action in beats, setting, lighting, camera motion and style; quality tags leave all of that open.",
+            "de": "Ein Prompt als Shot-Beschreibung nennt Bildausschnitt, Aktion in Schritten, Umgebung, Licht, Kamerabewegung und Stil; Qualitäts-Tags lassen all das offen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Just the subject plus quality tags such as “4K, epic, cinematic” — in any script; Latin script makes no difference.",
+            "de": "Nur das Motiv plus Qualitäts-Tags wie „4K, episch, filmisch“ – in jeder Sprache und Schrift; lateinische Schrift spielt keine Rolle."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts are off: a shot-style prompt spells out framing, action, lighting and camera motion, and English or another Latin-script language works best.",
+            "de": "Beides stimmt nicht: Ein Prompt als Shot-Beschreibung nennt Bildausschnitt, Aktion, Licht und Kamerabewegung, und Englisch oder eine andere Sprache in lateinischer Schrift funktioniert am besten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Framing, subject, action in beats, setting, lighting, palette, camera motion and style — in English or another Latin-script language.",
+            "de": "Bildausschnitt, Motiv, Aktion in Schritten, Umgebung, Licht, Farbpalette, Kamerabewegung und Stil – auf Englisch oder einer anderen Sprache in lateinischer Schrift."
+          },
+          "correct": true,
+          "why": {
+            "en": "Describe the shot like a storyboard, keep each prompt single-purpose, and write it in English or another Latin-script language.",
+            "de": "Beschreibe den Shot wie ein Storyboard, halte jeden Prompt auf ein Ziel fokussiert und schreibe ihn auf Englisch oder in einer anderen Sprache mit lateinischer Schrift."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Not the video — a job. Poll `videos.retrieve()` and call `download_content()` once the status is `completed`.",
         "de": "Nicht das Video, sondern einen Job. Frage `videos.retrieve()` ab und rufe `download_content()` auf, sobald der Status `completed` ist."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The finished MP4 as bytes; save it right away with `write_to_file()`, no polling needed.",
+            "de": "Das fertige MP4 als Bytes; speichere es sofort mit `write_to_file()`, ganz ohne Abfragen."
+          },
+          "correct": false,
+          "why": {
+            "en": "`videos.create()` only starts the job; the MP4 comes later from `download_content()`.",
+            "de": "`videos.create()` startet nur den Job; das MP4 kommt später über `download_content()`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A job with an `id` and status `queued`; poll `videos.retrieve()` until `completed`, then call `download_content()`.",
+            "de": "Einen Job mit `id` und Status `queued`; frage `videos.retrieve()` bis `completed` ab, dann rufe `download_content()` auf."
+          },
+          "correct": true,
+          "why": {
+            "en": "Rendering runs in the background, so you poll the job and download only once its status is `completed`.",
+            "de": "Das Rendern läuft im Hintergrund, also fragst du den Job ab und lädst erst herunter, wenn sein Status `completed` ist."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A job with an `id` and status `queued`; poll `videos.remix()` until `in_progress`, then call `download_content()`.",
+            "de": "Einen Job mit `id` und Status `queued`; frage `videos.remix()` bis `in_progress` ab, dann rufe `download_content()` auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "`videos.remix()` starts a new edit job — polling uses `videos.retrieve()` — and `in_progress` means it's still rendering; download only once it's `completed`.",
+            "de": "`videos.remix()` startet einen neuen Bearbeitungsjob – abgefragt wird mit `videos.retrieve()` –, und `in_progress` heißt, es rendert noch; herunterladen erst bei `completed`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A job with an `id` and status `queued`; poll `videos.retrieve()` until `in_progress`, then call `download_content()`.",
+            "de": "Einen Job mit `id` und Status `queued`; frage `videos.retrieve()` bis `in_progress` ab, dann rufe `download_content()` auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "`in_progress` means it is still rendering; download only after the status is `completed`.",
+            "de": "`in_progress` heißt, es rendert noch; herunterladen kannst du erst bei Status `completed`."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Resize the photo to 1280×720 before you pass it: `input_reference` must match the requested `size` exactly.",
         "de": "Skaliere das Foto auf 1280×720, bevor du es übergibst: `input_reference` muss exakt zur angeforderten `size` passen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Nothing: Sora 2 rescales a reference image to the requested `size` itself.",
+            "de": "Nichts: Sora 2 skaliert ein Referenzbild selbst auf die angeforderte `size`."
+          },
+          "correct": false,
+          "why": {
+            "en": "There's no automatic rescaling — `input_reference` must already match the requested `size` exactly.",
+            "de": "Es gibt keine automatische Skalierung – `input_reference` muss schon exakt zur angeforderten `size` passen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Request `size=\"2560x1440\"` so the video matches the photo.",
+            "de": "Fordere `size=\"2560x1440\"` an, damit das Video zum Foto passt."
+          },
+          "correct": false,
+          "why": {
+            "en": "2560x1440 isn't a supported `size` — for Sora 2 it's `720x1280` or `1280x720` — so you resize the photo, not the video.",
+            "de": "2560x1440 ist keine unterstützte `size` – bei Sora 2 gibt es `720x1280` oder `1280x720` –, also skalierst du das Foto, nicht das Video."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Resize it to exactly 1280×720: `input_reference` must match the requested `size`.",
+            "de": "Skaliere es auf exakt 1280×720: `input_reference` muss zur angeforderten `size` passen."
+          },
+          "correct": true,
+          "why": {
+            "en": "The reference image's resolution must equal `size` exactly, so a 2560×1440 photo is resized to 1280×720 first.",
+            "de": "Die Auflösung des Referenzbilds muss exakt `size` entsprechen, also skalierst du ein 2560×1440-Foto zuerst auf 1280×720."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Crop it to a square 1024×1024 image, as reference images require.",
+            "de": "Beschneide es auf ein quadratisches 1024×1024-Bild, wie es Referenzbilder brauchen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reference images needn't be square; they must match the requested `size` — here 1280×720.",
+            "de": "Referenzbilder müssen nicht quadratisch sein; sie müssen zur angeforderten `size` passen – hier 1280×720."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Leaving out `size` and `seconds` gives you a 4-second portrait clip (720x1280).",
         "de": "Ohne `size` und `seconds` bekommst du einen 4-Sekunden-Clip im Hochformat (720x1280)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A 4-second portrait clip (720x1280).",
+            "de": "Einen 4-Sekunden-Clip im Hochformat (720x1280)."
+          },
+          "correct": true,
+          "why": {
+            "en": "The defaults are `seconds` `\"4\"` and `size` `720x1280` — set both when you need landscape or a longer clip.",
+            "de": "Standard sind `seconds` `\"4\"` und `size` `720x1280` – setze beides, wenn du Querformat oder einen längeren Clip brauchst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A 4-second landscape clip (1280x720).",
+            "de": "Einen 4-Sekunden-Clip im Querformat (1280x720)."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default orientation is portrait: `720x1280`, not `1280x720`.",
+            "de": "Die Standardausrichtung ist Hochformat: `720x1280`, nicht `1280x720`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A 12-second portrait clip (720x1280).",
+            "de": "Einen 12-Sekunden-Clip im Hochformat (720x1280)."
+          },
+          "correct": false,
+          "why": {
+            "en": "12 seconds is the longest option, not the default; without `seconds` you get `\"4\"`.",
+            "de": "12 Sekunden ist die längste Option, nicht der Standard; ohne `seconds` bekommst du `\"4\"`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A 12-second landscape clip (1280x720).",
+            "de": "Einen 12-Sekunden-Clip im Querformat (1280x720)."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both defaults are the other way round: without settings you get `\"4\"` seconds in portrait (`720x1280`).",
+            "de": "Beide Standardwerte sind andersherum: Ohne Angaben bekommst du `\"4\"` Sekunden im Hochformat (`720x1280`)."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Remix needs the `id` of a completed video and works best with one change. Calling `videos.create()` again starts from scratch and loses the original structure.",
         "de": "Remix braucht die `id` eines fertigen Videos und funktioniert am besten mit einer Änderung. Ein neuer `videos.create()`-Aufruf beginnt bei null und verliert die Struktur des Originals."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The downloaded MP4 and one change; `videos.create()` with the same prompt keeps the structure.",
+            "de": "Das heruntergeladene MP4 und eine Änderung; `videos.create()` mit demselben Prompt behält die Struktur."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix takes the video's `id`, not the file, and a fresh `videos.create()` starts from scratch even with the same prompt.",
+            "de": "Remix nimmt die `id` des Videos, nicht die Datei, und ein neuer `videos.create()`-Aufruf beginnt selbst mit demselben Prompt bei null."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The `id` of a completed video and all changes at once; `videos.create()` keeps the original structure too.",
+            "de": "Die `id` eines fertigen Videos und alle Änderungen auf einmal; `videos.create()` behält die Struktur ebenfalls."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix works best with one change per call, and `videos.create()` loses the original structure.",
+            "de": "Remix funktioniert am besten mit einer Änderung pro Aufruf, und `videos.create()` verliert die Struktur des Originals."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `id` of a video that is still `in_progress` and one change; `videos.create()` extends the original clip.",
+            "de": "Die `id` eines Videos, das noch `in_progress` ist, und eine Änderung; `videos.create()` verlängert den Original-Clip."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only a completed video can be remixed, and `videos.create()` extends nothing — it starts a brand-new video.",
+            "de": "Nur ein fertiges Video lässt sich remixen, und `videos.create()` verlängert nichts – es beginnt ein ganz neues Video."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The `id` of a completed video and one change; `videos.create()` starts from scratch, losing the structure.",
+            "de": "Die `id` eines fertigen Videos und eine Änderung; `videos.create()` beginnt bei null und verliert die Struktur."
+          },
+          "correct": true,
+          "why": {
+            "en": "Remix reuses the original's structure, motion and framing; a new job from `videos.create()` has none of that to build on.",
+            "de": "Remix übernimmt Struktur, Bewegung und Bildausschnitt des Originals; ein neuer Job über `videos.create()` hat nichts davon als Basis."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Real people (including public figures), human faces in reference images, copyrighted characters and copyrighted music are rejected — such jobs fail by design.",
         "de": "Reale Personen (auch Prominente), menschliche Gesichter in Referenzbildern, geschützte Figuren und geschützte Musik werden abgelehnt – solche Jobs scheitern absichtlich."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The reference image doesn't match the requested `size` — resize it; copyrighted music, however, is allowed.",
+            "de": "Das Referenzbild passt nicht zur angeforderten `size` – skaliere es; geschützte Musik ist dagegen erlaubt."
+          },
+          "correct": false,
+          "why": {
+            "en": "A size mismatch is a different error; faces and real people hit built-in rules, and copyrighted music is rejected as well.",
+            "de": "Eine falsche Größe ist ein anderer Fehler; Gesichter und reale Personen scheitern an eingebauten Regeln, und geschützte Musik wird ebenfalls abgelehnt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Built-in rules reject real people and faces in reference images by design; copyrighted characters and music too.",
+            "de": "Eingebaute Regeln lehnen reale Personen und Gesichter in Referenzbildern absichtlich ab; geschützte Figuren und Musik ebenso."
+          },
+          "correct": true,
+          "why": {
+            "en": "These Sora 2 restrictions apply on top of moderation, so such jobs fail by design — change the prompt or the input.",
+            "de": "Diese Sora-2-Einschränkungen gelten zusätzlich zur Moderation, solche Jobs scheitern also absichtlich – ändere Prompt oder Eingabe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A temporary capacity limit — retry later and it runs; besides that, only copyrighted characters are rejected.",
+            "de": "Ein vorübergehendes Kapazitätslimit – versuch es später erneut; abgesehen davon werden nur geschützte Figuren abgelehnt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Retrying won't help: the content rules reject real people and faces every time, along with copyrighted characters and music.",
+            "de": "Ein neuer Versuch hilft nicht: Die Inhaltsregeln lehnen reale Personen und Gesichter jedes Mal ab, dazu geschützte Figuren und Musik."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The content filter is too strict — relax it for public figures; copyrighted music is rejected, though.",
+            "de": "Der Inhaltsfilter ist zu streng – lockere ihn für Prominente; geschützte Musik wird aber abgelehnt."
+          },
+          "correct": false,
+          "why": {
+            "en": "No filter setting allows real people: the restriction is built into Sora 2, on top of the configurable content filters.",
+            "de": "Keine Filtereinstellung erlaubt reale Personen: Die Einschränkung ist in Sora 2 eingebaut, zusätzlich zu den konfigurierbaren Inhaltsfiltern."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "create → retrieve (poll) → download_content, within 24 hours of job creation.",
         "de": "create → retrieve (abfragen) → download_content, innerhalb von 24 Stunden ab Job-Erstellung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`create` → `remix` → `download_content`, any time later — videos don't expire.",
+            "de": "`create` → `remix` → `download_content`, jederzeit später – fertige Videos laufen nicht ab."
+          },
+          "correct": false,
+          "why": {
+            "en": "Polling uses `retrieve`, not `remix`, and jobs expire 24 hours after creation — afterwards you must generate the video again.",
+            "de": "Abgefragt wird mit `retrieve`, nicht mit `remix`, und Jobs laufen 24 Stunden nach dem Anlegen ab – danach musst du das Video neu erzeugen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`create` → `remix` → `download_content`, within 24 hours of job creation.",
+            "de": "`create` → `remix` → `download_content`, innerhalb von 24 Stunden ab Job-Erstellung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix is an optional edit of a completed video; the status check in between is `retrieve`.",
+            "de": "Remix ist eine optionale Änderung eines fertigen Videos; die Statusabfrage dazwischen ist `retrieve`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`create` → `retrieve` (poll) → `download_content`, within 24 hours of job creation.",
+            "de": "`create` → `retrieve` (abfragen) → `download_content`, innerhalb von 24 Stunden ab Job-Erstellung."
+          },
+          "correct": true,
+          "why": {
+            "en": "Start the job, poll until `completed`, then download — a job and its video stay available for 24 hours after creation.",
+            "de": "Job starten, bis `completed` abfragen, dann herunterladen – Job und Video bleiben 24 Stunden nach dem Anlegen abrufbar."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`create` → `retrieve` (poll) → `download_content`, any time later — videos don't expire.",
+            "de": "`create` → `retrieve` (abfragen) → `download_content`, jederzeit später – fertige Videos laufen nicht ab."
+          },
+          "correct": false,
+          "why": {
+            "en": "Jobs expire 24 hours after creation; after that you must generate the video again.",
+            "de": "Jobs laufen 24 Stunden nach dem Anlegen ab; danach musst du das Video neu erzeugen."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Set `size` and `seconds` explicitly instead of relying on the defaults.",
         "de": "Setze `size` und `seconds` explizit, statt dich auf die Standardwerte zu verlassen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Set both explicitly; relying on the defaults gives a 4-second portrait clip.",
+            "de": "Setze beide explizit; ohne sie bekommst du einen 4-Sekunden-Clip im Hochformat."
+          },
+          "correct": true,
+          "why": {
+            "en": "Explicit values make orientation and length a deliberate choice instead of the default `720x1280` and `\"4\"`.",
+            "de": "Explizite Werte machen Format und Länge zur bewussten Wahl statt zum Standard `720x1280` und `\"4\"`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Leave both out; the defaults already give a 12-second landscape clip.",
+            "de": "Lass beide weg; Standard ist schon ein 12-Sekunden-Clip im Querformat."
+          },
+          "correct": false,
+          "why": {
+            "en": "The defaults are a 4-second portrait clip (`720x1280`), so leaving them out often gives the wrong format.",
+            "de": "Standard ist ein 4-Sekunden-Clip im Hochformat (`720x1280`), daher liefert das Weglassen oft das falsche Format."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Set them only on `videos.remix()`, because `videos.create()` ignores both.",
+            "de": "Setze sie nur bei `videos.remix()`, weil `videos.create()` beide ignoriert."
+          },
+          "correct": false,
+          "why": {
+            "en": "It's the other way round: `videos.create()` takes `size` and `seconds`, and the documented remix call takes only `video_id` and `prompt`.",
+            "de": "Umgekehrt: `videos.create()` nimmt `size` und `seconds`, und der dokumentierte Remix-Aufruf nur `video_id` und `prompt`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Write them into the prompt, e.g. “8 seconds, landscape”, not as parameters.",
+            "de": "Schreib sie in den Prompt, etwa „8 Sekunden, Querformat“, nicht als Parameter."
+          },
+          "correct": false,
+          "why": {
+            "en": "`size` and `seconds` are API parameters; the prompt describes the shot, not the output format.",
+            "de": "`size` und `seconds` sind API-Parameter; der Prompt beschreibt den Shot, nicht das Ausgabeformat."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Image to video = `input_reference` with an image of exactly the target size.",
         "de": "Bild zu Video = `input_reference` mit einem Bild in exakt der Zielgröße."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Pass the image file to `videos.remix()` as the source; any resolution works there.",
+            "de": "Übergib die Bilddatei als Quelle an `videos.remix()`; dort geht jede Auflösung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Remix edits a completed Sora video by its `id`; image to video goes through `input_reference`.",
+            "de": "Remix ändert ein fertiges Sora-Video über dessen `id`; Bild zu Video läuft über `input_reference`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Pass it as `input_reference`; Sora 2 rescales it, so any resolution works.",
+            "de": "Übergib es als `input_reference`; Sora 2 skaliert es, also geht jede Auflösung."
+          },
+          "correct": false,
+          "why": {
+            "en": "There's no rescaling: the image must already have exactly the target `size`.",
+            "de": "Es wird nicht skaliert: Das Bild muss schon exakt die Zielgröße `size` haben."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Attach it as an `input_image` part next to the prompt; it must be a PNG file.",
+            "de": "Häng es als `input_image`-Teil an den Prompt an; es muss eine PNG-Datei sein."
+          },
+          "correct": false,
+          "why": {
+            "en": "`input_image` is a Responses API content part; Sora 2 takes the image as `input_reference` — JPEG, PNG or WebP.",
+            "de": "`input_image` ist ein Inhaltsteil der Responses API; Sora 2 nimmt das Bild als `input_reference` – JPEG, PNG oder WebP."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Pass it as `input_reference`; it must have exactly the target `size`.",
+            "de": "Übergib es als `input_reference`; es muss exakt die Zielgröße `size` haben."
+          },
+          "correct": true,
+          "why": {
+            "en": "`input_reference` anchors the first frame with your image, whose resolution must match the requested `size` exactly.",
+            "de": "`input_reference` verankert den ersten Frame mit deinem Bild, dessen Auflösung exakt zur angeforderten `size` passen muss."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Edit generated videos with `videos.remix()`, one change at a time.",
         "de": "Bearbeite generierte Videos mit `videos.remix()`, eine Änderung nach der anderen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`videos.remix()`, with all planned changes bundled into one call.",
+            "de": "`videos.remix()`, mit allen geplanten Änderungen in einem Aufruf."
+          },
+          "correct": false,
+          "why": {
+            "en": "Bundled edits lose fidelity; one clear change per remix keeps the result closest to the original.",
+            "de": "Gebündelte Änderungen kosten Treue; eine klare Änderung pro Remix hält das Ergebnis am nächsten am Original."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`videos.remix()`, with one focused change per call.",
+            "de": "`videos.remix()`, mit einer gezielten Änderung pro Aufruf."
+          },
+          "correct": true,
+          "why": {
+            "en": "Narrow, single changes keep the highest fidelity to the original video.",
+            "de": "Enge, einzelne Änderungen erhalten die höchste Treue zum Originalvideo."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`videos.create()` again, with the old prompt plus every change.",
+            "de": "Erneut `videos.create()`, mit dem alten Prompt plus jeder Änderung."
+          },
+          "correct": false,
+          "why": {
+            "en": "A new `videos.create()` starts from scratch and loses the original structure.",
+            "de": "Ein neuer `videos.create()`-Aufruf beginnt bei null und verliert die Struktur des Originals."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`images.edit()` on the downloaded frames, one change per frame.",
+            "de": "`images.edit()` auf den heruntergeladenen Frames, eine Änderung pro Frame."
+          },
+          "correct": false,
+          "why": {
+            "en": "`images.edit()` edits single images; generated videos are edited with `videos.remix()`.",
+            "de": "`images.edit()` bearbeitet einzelne Bilder; generierte Videos bearbeitest du mit `videos.remix()`."
+          }
+        }
+      ]
     },
     {
       "id": "z-video-generation-takeaway-5",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Prompt like a cinematographer and respect Sora 2's content rules.",
         "de": "Formuliere Prompts wie für ein Kamerateam und beachte die Inhaltsregeln von Sora 2."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As short keyword lists such as “epic, 4K, cinematic”; public figures are allowed because they are already publicly known.",
+            "de": "Als kurze Stichwortlisten wie „episch, 4K, filmisch“; Prominente sind erlaubt, weil sie ohnehin überall öffentlich bekannt sind."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts are off: a shot-style prompt describes framing, action, lighting and camera motion, and Sora 2 can't generate real people, public figures included.",
+            "de": "Beides stimmt nicht: Ein Prompt als Shot-Beschreibung nennt Bildausschnitt, Aktion, Licht und Kamerabewegung, und Sora 2 erzeugt keine realen Personen, auch keine Prominenten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Like a cinematographer's shot description; public figures are allowed because they are already publicly known.",
+            "de": "Wie eine Shot-Beschreibung für ein Kamerateam; Prominente sind erlaubt, weil sie ohnehin überall öffentlich bekannt sind."
+          },
+          "correct": false,
+          "why": {
+            "en": "Sora 2 can't generate real people, public figures included.",
+            "de": "Sora 2 erzeugt keine realen Personen, auch keine Prominenten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Like a cinematographer's shot description, within Sora 2's content rules — no real people or copyrighted material.",
+            "de": "Wie eine Shot-Beschreibung für ein Kamerateam, innerhalb der Sora-2-Regeln – keine realen Personen, keine geschützten Inhalte."
+          },
+          "correct": true,
+          "why": {
+            "en": "Describe framing, action, lighting and camera motion, and stay within the content rules so that the job doesn't fail.",
+            "de": "Beschreibe Bildausschnitt, Aktion, Licht und Kamerabewegung und bleib innerhalb der Inhaltsregeln, damit der Job nicht scheitert."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "As short keyword lists such as “epic, 4K, cinematic”, within Sora 2's content rules — no real people or copyrighted material.",
+            "de": "Als kurze Stichwortlisten wie „episch, 4K, filmisch“, innerhalb der Sora-2-Regeln – keine realen Personen, keine geschützten Inhalte."
+          },
+          "correct": false,
+          "why": {
+            "en": "The rules part is right, but keyword lists leave the shot open — describe framing, action, lighting and camera motion like a cinematographer.",
+            "de": "Der Regelteil stimmt, aber Stichwortlisten lassen den Shot offen – beschreibe Bildausschnitt, Aktion, Licht und Kamerabewegung wie für ein Kamerateam."
+          }
+        }
+      ]
     }
   ]
 }

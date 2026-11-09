@@ -8,7 +8,57 @@
       "front": {
         "en": "Which four kinds of speech-capable models does Foundry offer, and which models belong to each kind?",
         "de": "Welche vier Arten von Audiomodellen bietet Foundry, und welche Modelle gehören jeweils dazu?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Transcription (`gpt-4o-mini-tts`), text to speech (`gpt-transcribe`), audio chat (`gpt-audio`) and realtime (`gpt-realtime`).",
+            "de": "Transkription (`gpt-4o-mini-tts`), Text to Speech (`gpt-transcribe`), Audio-Chat (`gpt-audio`) und Realtime (`gpt-realtime`)."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `gpt-4o-mini-tts` speaks but can't transcribe, and `gpt-transcribe` writes speech down but doesn't speak.",
+            "de": "Vertauscht: `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `gpt-transcribe` schreibt mit, spricht aber nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Transcription (`gpt-transcribe`), text to speech (`gpt-4o-mini-tts`), audio chat (`gpt-audio`) and realtime (`gpt-realtime`).",
+            "de": "Transkription (`gpt-transcribe`), Text to Speech (`gpt-4o-mini-tts`), Audio-Chat (`gpt-audio`) und Realtime (`gpt-realtime`)."
+          },
+          "correct": true,
+          "why": {
+            "en": "Each family does one job: write speech down, speak text, reason over audio, or hold a live spoken conversation.",
+            "de": "Jede Familie hat eine Aufgabe: Sprache mitschreiben, Text sprechen, über Audio nachdenken oder ein Live-Gespräch führen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Transcription (`gpt-transcribe`), text to speech (`gpt-4o-mini-tts`), audio chat (`gpt-4o-transcribe-diarize`) and realtime (`gpt-audio`).",
+            "de": "Transkription (`gpt-transcribe`), Text to Speech (`gpt-4o-mini-tts`), Audio-Chat (`gpt-4o-transcribe-diarize`) und Realtime (`gpt-audio`)."
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-4o-transcribe-diarize` is a transcription model that labels speakers; audio chat is `gpt-audio`, realtime is `gpt-realtime`.",
+            "de": "`gpt-4o-transcribe-diarize` ist ein Transkriptionsmodell, das Sprecher zuordnet; Audio-Chat ist `gpt-audio`, Realtime ist `gpt-realtime`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Transcription (`gpt-4o-mini-tts`), text to speech (`gpt-transcribe`), audio chat (`gpt-4o-transcribe-diarize`) and realtime (`gpt-audio`).",
+            "de": "Transkription (`gpt-4o-mini-tts`), Text to Speech (`gpt-transcribe`), Audio-Chat (`gpt-4o-transcribe-diarize`) und Realtime (`gpt-audio`)."
+          },
+          "correct": false,
+          "why": {
+            "en": "Every pairing is off: `gpt-4o-mini-tts` only speaks, `gpt-transcribe` only writes down, diarization is still transcription, and `gpt-audio` is the audio chat model.",
+            "de": "Jede Zuordnung ist falsch: `gpt-4o-mini-tts` spricht nur, `gpt-transcribe` schreibt nur mit, Diarisierung bleibt Transkription, und `gpt-audio` ist das Audio-Chatmodell."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What does `audio.transcriptions.create()` take and return, and which optional hint improves accuracy?",
         "de": "Was erwartet `audio.transcriptions.create()`, was liefert es, und welcher Hinweis verbessert die Genauigkeit?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Base64 `input_audio` in, `message.audio` out; a `voice` such as `alloy` improves accuracy.",
+            "de": "Base64-`input_audio` rein, `message.audio` raus; eine `voice` wie `alloy` verbessert die Genauigkeit."
+          },
+          "correct": false,
+          "why": {
+            "en": "That's the Chat Completions shape for audio chat; transcription takes a file upload, and `voice` only picks a speaking voice.",
+            "de": "Das ist die Chat-Completions-Form für Audio-Chat; Transkription erwartet einen Datei-Upload, und `voice` wählt nur eine Sprechstimme."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Base64 `input_audio` in, `message.audio` out; a `language` hint such as `en` improves accuracy.",
+            "de": "Base64-`input_audio` rein, `message.audio` raus; ein `language`-Hinweis wie `en` verbessert die Genauigkeit."
+          },
+          "correct": false,
+          "why": {
+            "en": "That's the Chat Completions request shape; `audio.transcriptions.create()` uploads one recorded file and returns its `text`.",
+            "de": "Das ist die Request-Form von Chat Completions; `audio.transcriptions.create()` lädt eine aufgenommene Datei hoch und liefert deren `text`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "One recorded file (up to 25 MB) in, its `text` out; a `voice` such as `alloy` improves accuracy.",
+            "de": "Eine aufgenommene Datei (bis 25 MB) rein, ihr `text` raus; eine `voice` wie `alloy` verbessert die Genauigkeit."
+          },
+          "correct": false,
+          "why": {
+            "en": "`voice` picks a speaking voice for speech output; the hint that improves transcription accuracy is `language`.",
+            "de": "`voice` wählt eine Sprechstimme für die Sprachausgabe; der Hinweis, der die Transkription verbessert, ist `language`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "One recorded file (up to 25 MB) in, its `text` out; a `language` hint such as `en` improves accuracy.",
+            "de": "Eine aufgenommene Datei (bis 25 MB) rein, ihr `text` raus; ein `language`-Hinweis wie `en` verbessert die Genauigkeit."
+          },
+          "correct": true,
+          "why": {
+            "en": "The call uploads one file (mp3, mp4, mpeg, mpga, m4a, wav or webm; max 25 MB) and returns its `text`; an ISO-639-1 `language` code improves accuracy.",
+            "de": "Der Aufruf lädt eine Datei hoch (mp3, mp4, mpeg, mpga, m4a, wav oder webm; max. 25 MB) und liefert deren `text`; ein ISO-639-1-Code in `language` verbessert die Genauigkeit."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How much text can `audio.speech.create()` turn into audio, and which parameters shape tone, style and speed?",
         "de": "Wie viel Text macht `audio.speech.create()` zu Audio, und welche Parameter steuern Ton, Stil und Tempo?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Up to 4,096 characters; `voice` picks the voice, `instructions` set tone and style, `speed` ranges from 0.25 to 4.0.",
+            "de": "Bis zu 4.096 Zeichen; `voice` wählt die Stimme, `instructions` setzen Ton und Stil, `speed` reicht von 0,25 bis 4,0."
+          },
+          "correct": true,
+          "why": {
+            "en": "Input is capped at 4,096 characters; `instructions` (with `gpt-4o-mini-tts`) describe the delivery, and `speed` sets the pace.",
+            "de": "Die Eingabe ist auf 4.096 Zeichen begrenzt; `instructions` (mit `gpt-4o-mini-tts`) beschreiben die Sprechweise, `speed` das Tempo."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Up to 4,096 characters; `voice` picks the voice, `language` sets tone, `speed` ranges from 0.5 to 10.0.",
+            "de": "Bis zu 4.096 Zeichen; `voice` wählt die Stimme, `language` setzt den Ton, `speed` reicht von 0,5 bis 10,0."
+          },
+          "correct": false,
+          "why": {
+            "en": "The limit is right, but tone and style come from `instructions` (`language` is a transcription hint), and `speed` runs from 0.25 to 4.0.",
+            "de": "Das Limit stimmt, aber Ton und Stil kommen aus `instructions` (`language` ist ein Transkriptionshinweis), und `speed` reicht von 0,25 bis 4,0."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Any length via streamed output; `voice` picks the voice, `instructions` set tone and style, `speed` ranges from 0.5 to 10.0.",
+            "de": "Beliebig lang per Streaming; `voice` wählt die Stimme, `instructions` setzen Ton und Stil, `speed` reicht von 0,5 bis 10,0."
+          },
+          "correct": false,
+          "why": {
+            "en": "Streaming with `with_streaming_response` only writes the bytes to a file, so the 4,096-character limit still applies, and `speed` runs from 0.25 to 4.0.",
+            "de": "Streaming mit `with_streaming_response` schreibt nur die Bytes in eine Datei, das Limit von 4.096 Zeichen gilt also weiter, und `speed` reicht von 0,25 bis 4,0."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Any length via streamed output; `voice` picks the voice, `language` sets tone, `speed` ranges from 0.25 to 4.0.",
+            "de": "Beliebig lang per Streaming; `voice` wählt die Stimme, `language` setzt den Ton, `speed` reicht von 0,25 bis 4,0."
+          },
+          "correct": false,
+          "why": {
+            "en": "Streaming doesn't lift the 4,096-character limit, and tone and style come from `instructions` — `language` belongs to transcription.",
+            "de": "Streaming hebt das Limit von 4.096 Zeichen nicht auf, und Ton und Stil kommen aus `instructions` – `language` gehört zur Transkription."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How do you send audio to `gpt-audio` in Chat Completions, how do you get speech back, and what’s the size limit?",
         "de": "Wie schickst du Audio an `gpt-audio` in Chat Completions, wie bekommst du Sprache zurück, und was ist das Limit?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As a file upload in the `file` parameter; `response_format=\"mp3\"` returns speech; max 25 MB per file.",
+            "de": "Als Datei-Upload im Parameter `file`; `response_format=\"mp3\"` liefert Sprache; max. 25 MB pro Datei."
+          },
+          "correct": false,
+          "why": {
+            "en": "A `file` upload with a 25 MB cap is the transcription API; Chat Completions takes base64 `input_audio` up to 20 MB.",
+            "de": "Ein `file`-Upload mit 25-MB-Grenze ist die Transkriptions-API; Chat Completions nimmt Base64-`input_audio` bis 20 MB."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "As a base64 `input_audio` part (`data`, `format`); `instructions` on the user message return speech; max 25 MB.",
+            "de": "Als Base64-Teil `input_audio` (`data`, `format`); `instructions` an der Nutzernachricht liefern Sprache zurück; max. 25 MB."
+          },
+          "correct": false,
+          "why": {
+            "en": "Speech comes back when you set `modalities` plus an `audio` voice and format, and audio input is limited to 20 MB.",
+            "de": "Sprache kommt zurück, wenn du `modalities` sowie Stimme und Format in `audio` setzt, und Audioeingaben sind auf 20 MB begrenzt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "As base64 `input_audio` (`data`, `format`); `modalities` plus an `audio` voice and format return speech; max 20 MB.",
+            "de": "Als Base64-`input_audio` (`data`, `format`); `modalities` plus Stimme und Format in `audio` liefern Sprache; max. 20 MB."
+          },
+          "correct": true,
+          "why": {
+            "en": "Chat Completions has no file upload for audio: send base64 `input_audio`, request speech with `modalities` and `audio`, and stay within 20 MB.",
+            "de": "Chat Completions kennt keinen Datei-Upload für Audio: Sende Base64-`input_audio`, fordere Sprache mit `modalities` und `audio` an und bleib unter 20 MB."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "As a link to the audio file in a `text` part; `voice` and `speed` on the request return speech; max 4,096 characters.",
+            "de": "Als Link zur Audiodatei in einem `text`-Teil; `voice` und `speed` am Request liefern Sprache; max. 4.096 Zeichen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Audio travels inside the request as base64 `input_audio` — no link, no upload; 4,096 characters is the text-to-speech input limit.",
+            "de": "Audio reist als Base64-`input_audio` im Request mit – kein Link, kein Upload; 4.096 Zeichen sind das Eingabelimit von Text to Speech."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Which connection types does the Realtime API use for which clients, and what does a `session.update` event set?",
         "de": "Über welche Verbindungen läuft die Realtime API für welche Clients, und was setzt ein `session.update`-Event?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "WebSocket for browsers, WebRTC server to server, SIP for telephony; `session.update` sets voice, instructions and turn detection.",
+            "de": "WebSocket für Browser, WebRTC von Server zu Server, SIP für Telefonie; `session.update` setzt Stimme, Anweisungen und Turn-Erkennung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: WebRTC serves browser and mobile clients, while WebSocket connects servers to each other.",
+            "de": "Vertauscht: WebRTC bedient Browser- und Mobil-Clients, WebSocket verbindet Server untereinander."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "WebRTC for browser and mobile, WebSocket server to server, SIP for telephony; `session.update` uploads a recorded file to transcribe.",
+            "de": "WebRTC für Browser und Mobilgeräte, WebSocket von Server zu Server, SIP für Telefonie; `session.update` lädt eine Aufnahme zum Transkribieren hoch."
+          },
+          "correct": false,
+          "why": {
+            "en": "`session.update` configures the live session; recorded files go to `audio.transcriptions.create()`.",
+            "de": "`session.update` konfiguriert die Live-Session; Aufnahmen gehen an `audio.transcriptions.create()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "WebSocket for browsers, WebRTC server to server, SIP for telephony; `session.update` uploads a recorded file to transcribe.",
+            "de": "WebSocket für Browser, WebRTC von Server zu Server, SIP für Telefonie; `session.update` lädt eine Aufnahme zum Transkribieren hoch."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: WebRTC serves browser and mobile clients while WebSocket links servers, and `session.update` configures the session instead of uploading files.",
+            "de": "Zwei Fehler: WebRTC bedient Browser- und Mobil-Clients, WebSocket verbindet Server, und `session.update` konfiguriert die Session, statt Dateien hochzuladen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "WebRTC for browser and mobile, WebSocket server to server, SIP for telephony; `session.update` sets voice, instructions and turn detection.",
+            "de": "WebRTC für Browser und Mobilgeräte, WebSocket von Server zu Server, SIP für Telefonie; `session.update` setzt Stimme, Anweisungen und Turn-Erkennung."
+          },
+          "correct": true,
+          "why": {
+            "en": "Each transport fits a client type, and `session.update` configures voice, instructions and turn detection (`server_vad` or `semantic_vad`).",
+            "de": "Jeder Transport passt zu einem Client-Typ, und `session.update` setzt Stimme, Anweisungen und Turn-Erkennung (`server_vad` oder `semantic_vad`)."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which endpoint, sign-in and `api_version` do the audio calls use, and what goes into `model`?",
         "de": "Welchen Endpoint, welche Anmeldung und welche `api_version` nutzen die Audioaufrufe, und was steht in `model`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Realtime path `/openai/v1/realtime` for every audio call, so no `api_version` is needed; `model` is the catalog model version.",
+            "de": "Der Realtime-Pfad `/openai/v1/realtime` für jeden Audioaufruf, also keine `api_version` nötig; `model` ist die Modellversion aus dem Katalog."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Realtime path serves live sessions only — transcription, speech and audio chat have their own calls, which the samples make with a dated `api_version` — and `model` takes your deployment name.",
+            "de": "Der Realtime-Pfad dient nur Live-Sessions – Transkription, Sprachausgabe und Audio-Chat haben eigene Aufrufe, die die Beispiele mit einer datierten `api_version` machen –, und `model` erwartet deinen Deployment-Namen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`https://<resource>.openai.azure.com/`, an Entra token for `https://ai.azure.com/.default`, a dated `api_version`; `model` is the catalog model version.",
+            "de": "`https://<resource>.openai.azure.com/`, ein Entra-Token für `https://ai.azure.com/.default`, eine datierte `api_version`; `model` ist die Modellversion aus dem Katalog."
+          },
+          "correct": false,
+          "why": {
+            "en": "`model` takes your deployment name, which can be any name you chose when deploying — not a catalog version.",
+            "de": "`model` erwartet deinen Deployment-Namen, den du beim Bereitstellen frei wählst – keine Katalogversion."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`https://<resource>.openai.azure.com/`, an Entra token for `https://ai.azure.com/.default`, a dated `api_version`; `model` is the deployment name.",
+            "de": "`https://<resource>.openai.azure.com/`, ein Entra-Token für `https://ai.azure.com/.default`, eine datierte `api_version`; `model` ist der Deployment-Name."
+          },
+          "correct": true,
+          "why": {
+            "en": "The samples call the Azure OpenAI endpoint keyless, pin a dated `api_version` (audio chat: `2025-01-01-preview` or later) and pass the deployment name as `model`.",
+            "de": "Die Beispiele rufen den Azure-OpenAI-Endpoint schlüssellos auf, fixieren eine datierte `api_version` (Audio-Chat: `2025-01-01-preview` oder neuer) und übergeben den Deployment-Namen als `model`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The Realtime path `/openai/v1/realtime` for every audio call, so no `api_version` is needed; `model` is the deployment name.",
+            "de": "Der Realtime-Pfad `/openai/v1/realtime` für jeden Audioaufruf, also keine `api_version` nötig; `model` ist der Deployment-Name."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Realtime path serves live sessions only; transcription, speech and audio chat have their own calls, which the samples make on `AzureOpenAI` with a dated `api_version`.",
+            "de": "Der Realtime-Pfad dient nur Live-Sessions; Transkription, Sprachausgabe und Audio-Chat haben eigene Aufrufe, die die Beispiele auf `AzureOpenAI` mit einer datierten `api_version` machen."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-trap-1",
@@ -60,7 +360,57 @@
       "back": {
         "en": "A transcription model only writes down what was said. To *judge* or *answer questions about* the audio in one call, you need an audio chat model such as `gpt-audio`.",
         "de": "Ein Transkriptionsmodell schreibt nur mit, was gesagt wurde. Soll das Modell das Audio in einem Aufruf *bewerten* oder *Fragen dazu beantworten*, brauchst du ein Audio-Chatmodell wie `gpt-audio`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An audio chat model such as `gpt-audio`, which takes the audio as input and reasons over it.",
+            "de": "Ein Audio-Chatmodell wie `gpt-audio`, das das Audio als Eingabe nimmt und darüber nachdenkt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Judging or answering questions about audio in one call needs a model that reasons over the audio itself — an audio chat model.",
+            "de": "Audio in einem Aufruf zu bewerten oder Fragen dazu zu beantworten, braucht ein Modell, das über das Audio selbst nachdenkt – ein Audio-Chatmodell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A transcription model such as `gpt-transcribe`, which writes the audio down and answers questions about it.",
+            "de": "Ein Transkriptionsmodell wie `gpt-transcribe`, das das Audio mitschreibt und Fragen dazu beantwortet."
+          },
+          "correct": false,
+          "why": {
+            "en": "A transcription model only writes down what was said; it doesn't judge or answer questions.",
+            "de": "Ein Transkriptionsmodell schreibt nur mit, was gesagt wurde; es bewertet nichts und beantwortet keine Fragen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A diarization model such as `gpt-4o-transcribe-diarize`, which labels each speaker and judges what they said.",
+            "de": "Ein Diarisierungsmodell wie `gpt-4o-transcribe-diarize`, das jeden Sprecher zuordnet und das Gesagte bewertet."
+          },
+          "correct": false,
+          "why": {
+            "en": "Diarization labels who said what, but it's still transcription — no judging, no answers.",
+            "de": "Diarisierung ordnet zu, wer was gesagt hat, bleibt aber Transkription – kein Bewerten, keine Antworten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A text-to-speech model such as `gpt-4o-mini-tts`, which listens to the clip and replies in speech.",
+            "de": "Ein Text-to-Speech-Modell wie `gpt-4o-mini-tts`, das den Clip anhört und mit Sprache antwortet."
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-4o-mini-tts` turns text into speech; it doesn't take audio as input at all.",
+            "de": "`gpt-4o-mini-tts` macht aus Text Sprache; Audio als Eingabe nimmt es gar nicht an."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-trap-2",
@@ -72,7 +422,57 @@
       "back": {
         "en": "`audio.transcriptions.create()` takes a file upload; Chat Completions takes audio as a base64 `input_audio` part with `data` and `format`. Mixing up the two request shapes is a classic code-completion trap.",
         "de": "`audio.transcriptions.create()` erwartet einen Datei-Upload; Chat Completions erwartet Audio als Base64-Teil `input_audio` mit `data` und `format`. Diese beiden Request-Formen zu verwechseln ist eine klassische Codefallen-Frage."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Transcriptions take a base64 `input_audio` part; Chat Completions take a file upload.",
+            "de": "Transkriptionen erwarten einen Base64-Teil `input_audio`; Chat Completions einen Datei-Upload."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: the file upload belongs to transcriptions, the base64 `input_audio` part to Chat Completions.",
+            "de": "Umgekehrt: Der Datei-Upload gehört zu den Transkriptionen, der Base64-Teil `input_audio` zu Chat Completions."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Transcriptions take a file upload; Chat Completions take a base64 `input_audio` part with `data` and `format`.",
+            "de": "Transkriptionen erwarten einen Datei-Upload; Chat Completions einen Base64-Teil `input_audio` mit `data` und `format`."
+          },
+          "correct": true,
+          "why": {
+            "en": "`audio.transcriptions.create()` uploads the file itself, while Chat Completions carries the audio inside the message as base64.",
+            "de": "`audio.transcriptions.create()` lädt die Datei selbst hoch, während Chat Completions das Audio als Base64 in der Nachricht mitträgt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Both take a file upload; only the limits differ — 25 MB for transcriptions, 20 MB for chat.",
+            "de": "Beide erwarten einen Datei-Upload; nur die Limits unterscheiden sich – 25 MB für Transkription, 20 MB für Chat."
+          },
+          "correct": false,
+          "why": {
+            "en": "The limits are right, but Chat Completions has no file upload for audio — it takes base64 `input_audio`.",
+            "de": "Die Limits stimmen, aber Chat Completions kennt keinen Datei-Upload für Audio – es nimmt Base64-`input_audio`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Transcriptions take a blob storage URL to the recording; Chat Completions take a file upload in `file`.",
+            "de": "Transkriptionen erwarten eine Blob-Storage-URL zur Aufnahme; Chat Completions einen Datei-Upload in `file`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither call takes a URL here: transcriptions upload the file, and Chat Completions carries base64 `input_audio`.",
+            "de": "Keiner der beiden Aufrufe nimmt hier eine URL: Transkriptionen laden die Datei hoch, Chat Completions trägt Base64-`input_audio`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-trap-3",
@@ -84,7 +484,57 @@
       "back": {
         "en": "25 MB per file for the transcription API, 20 MB of audio for audio chat. Larger recordings go to Azure Speech: fast transcription (synchronous, under 5 hours and 500 MB) or batch transcription (asynchronous, up to 1 GB per file).",
         "de": "25 MB pro Datei für die Transkriptions-API, 20 MB Audio für Audio-Chat. Größere Aufnahmen gehen an Azure Speech: Fast Transcription (synchron, unter 5 Stunden und 500 MB) oder Batch-Transkription (asynchron, bis 1 GB pro Datei)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "20 MB per file for transcription, 25 MB for audio chat; larger recordings go to Azure Speech fast or batch transcription.",
+            "de": "20 MB pro Datei für Transkription, 25 MB für Audio-Chat; größere Aufnahmen gehen an Fast oder Batch Transcription von Azure Speech."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the transcription API allows 25 MB per file, audio chat 20 MB of audio.",
+            "de": "Vertauscht: Die Transkriptions-API erlaubt 25 MB pro Datei, Audio-Chat 20 MB Audio."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "20 MB per file for transcription, 25 MB for audio chat; the transcription API accepts larger files and splits them up by itself.",
+            "de": "20 MB pro Datei für Transkription, 25 MB für Audio-Chat; die Transkriptions-API nimmt auch größere Dateien an und teilt sie selbst auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts are off: transcription allows 25 MB per file and audio chat 20 MB, and the API won't take a bigger file to split it — use Azure Speech fast or batch transcription.",
+            "de": "Beides stimmt nicht: Transkription erlaubt 25 MB pro Datei, Audio-Chat 20 MB, und die API nimmt keine größere Datei an, um sie aufzuteilen – nutze Fast oder Batch Transcription von Azure Speech."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "25 MB per file for transcription, 20 MB for audio chat; larger recordings go to Azure Speech fast or batch transcription.",
+            "de": "25 MB pro Datei für Transkription, 20 MB für Audio-Chat; größere Aufnahmen gehen an Fast oder Batch Transcription von Azure Speech."
+          },
+          "correct": true,
+          "why": {
+            "en": "Fast transcription handles files under 5 hours and 500 MB synchronously; batch transcription takes up to 1 GB per file asynchronously.",
+            "de": "Fast Transcription verarbeitet Dateien unter 5 Stunden und 500 MB synchron; Batch-Transkription nimmt asynchron bis 1 GB pro Datei."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "25 MB per file for transcription, 20 MB for audio chat; the transcription API accepts larger files and splits them up by itself.",
+            "de": "25 MB pro Datei für Transkription, 20 MB für Audio-Chat; die Transkriptions-API nimmt auch größere Dateien an und teilt sie selbst auf."
+          },
+          "correct": false,
+          "why": {
+            "en": "The 25 MB limit applies to the uploaded file — the API doesn't take bigger recordings and split them for you; split them yourself or use Azure Speech fast or batch transcription.",
+            "de": "Das Limit von 25 MB gilt für die hochgeladene Datei – größere Aufnahmen nimmt die API nicht an und teilt sie nicht für dich auf; teile sie selbst oder nutze Fast oder Batch Transcription von Azure Speech."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-trap-4",
@@ -96,7 +546,57 @@
       "back": {
         "en": "Chat Completions has no `output_text`. Read `choices[0].message.audio.transcript` for the text and `.data` for the audio.",
         "de": "Chat Completions kennt kein `output_text`. Lies `choices[0].message.audio.transcript` für den Text und `.data` für das Audio."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`response.output_text` for the text and `response.output[0].audio` for the audio.",
+            "de": "`response.output_text` für den Text und `response.output[0].audio` für das Audio."
+          },
+          "correct": false,
+          "why": {
+            "en": "`output_text` is a Responses API shortcut; Chat Completions returns `choices[0].message`.",
+            "de": "`output_text` ist eine Abkürzung der Responses API; Chat Completions liefert `choices[0].message`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`choices[0].message.audio.data` for the text and `.transcript` for the spoken audio.",
+            "de": "`choices[0].message.audio.data` für den Text und `.transcript` für das gesprochene Audio."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `transcript` holds the text of the spoken answer, `data` the base64 audio.",
+            "de": "Vertauscht: `transcript` enthält den Text der gesprochenen Antwort, `data` das Base64-Audio."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`choices[0].message.audio.transcript` for the text and `.id` for the audio itself.",
+            "de": "`choices[0].message.audio.transcript` für den Text und `.id` für das Audio selbst."
+          },
+          "correct": false,
+          "why": {
+            "en": "`audio.id` is only a handle to reference the answer in later turns; the audio itself is in `.data`.",
+            "de": "`audio.id` ist nur ein Verweis für spätere Runden; das Audio selbst steckt in `.data`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`choices[0].message.audio.transcript` for the text and `.data` for the audio.",
+            "de": "`choices[0].message.audio.transcript` für den Text und `.data` für das Audio."
+          },
+          "correct": true,
+          "why": {
+            "en": "With audio output, both the transcript and the base64 audio sit in `message.audio`; Chat Completions has no `output_text`.",
+            "de": "Bei Audioausgabe liegen Transkript und Base64-Audio beide in `message.audio`; Chat Completions kennt kein `output_text`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-trap-5",
@@ -108,7 +608,57 @@
       "back": {
         "en": "`gpt-4o-transcribe` from the training module was retired on 2026-10-15; `whisper`, `tts` and `tts-hd` retire on 2026-12-15. `gpt-4o-mini-tts` speaks but can’t transcribe, and `instructions` don’t work with `tts` or `tts-hd` (`tts-1`/`tts-1-hd` in the REST reference).",
         "de": "`gpt-4o-transcribe` aus dem Trainingsmodul wurde am 2026-10-15 eingestellt; `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt. `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `instructions` funktionieren nicht mit `tts` oder `tts-hd` (`tts-1`/`tts-1-hd` in der REST-Referenz)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`gpt-transcribe` was retired; `gpt-audio` and `gpt-realtime` both retire on 2026-12-15; `gpt-4o-mini-tts` can't transcribe; `instructions` need `tts-hd`.",
+            "de": "`gpt-transcribe` ist eingestellt; `gpt-audio` und `gpt-realtime` werden beide am 2026-12-15 eingestellt; `gpt-4o-mini-tts` transkribiert nicht; `instructions` brauchen `tts-hd`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-transcribe`, `gpt-audio` and `gpt-realtime` are current — `whisper`, `tts` and `tts-hd` retire on 2026-12-15 — and `instructions` work with `gpt-4o-mini-tts`, not with `tts-hd`.",
+            "de": "`gpt-transcribe`, `gpt-audio` und `gpt-realtime` sind aktuell – `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt –, und `instructions` funktionieren mit `gpt-4o-mini-tts`, nicht mit `tts-hd`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`gpt-4o-transcribe` was retired; `whisper`, `tts` and `tts-hd` retire on 2026-12-15; `gpt-4o-mini-tts` can't transcribe; `tts`/`tts-hd` take no `instructions`.",
+            "de": "`gpt-4o-transcribe` ist eingestellt; `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt; `gpt-4o-mini-tts` transkribiert nicht; `tts`/`tts-hd` nehmen keine `instructions`."
+          },
+          "correct": true,
+          "why": {
+            "en": "`gpt-4o-transcribe` was retired on 2026-10-15; `gpt-4o-mini-tts` only speaks, and `instructions` work with it but not with `tts` or `tts-hd`.",
+            "de": "`gpt-4o-transcribe` wurde am 2026-10-15 eingestellt; `gpt-4o-mini-tts` spricht nur, und `instructions` funktionieren damit, aber nicht mit `tts` oder `tts-hd`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`gpt-4o-transcribe` was retired; `whisper`, `tts` and `tts-hd` retire on 2026-12-15; `gpt-4o-mini-tts` also transcribes; `instructions` need `tts-hd`.",
+            "de": "`gpt-4o-transcribe` ist eingestellt; `whisper`, `tts` und `tts-hd` werden am 2026-12-15 eingestellt; `gpt-4o-mini-tts` transkribiert auch; `instructions` brauchen `tts-hd`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The dates are right, but `gpt-4o-mini-tts` only speaks, and `instructions` work with it — not with `tts` or `tts-hd`.",
+            "de": "Die Daten stimmen, aber `gpt-4o-mini-tts` spricht nur, und `instructions` funktionieren damit – nicht mit `tts` oder `tts-hd`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`gpt-transcribe` was retired; `gpt-audio` and `gpt-realtime` both retire on 2026-12-15; `gpt-4o-mini-tts` also transcribes; `tts`/`tts-hd` take no `instructions`.",
+            "de": "`gpt-transcribe` ist eingestellt; `gpt-audio` und `gpt-realtime` werden beide am 2026-12-15 eingestellt; `gpt-4o-mini-tts` transkribiert auch; `tts`/`tts-hd` nehmen keine `instructions`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-transcribe`, `gpt-audio` and `gpt-realtime` are current models — the retiring ones are `whisper`, `tts` and `tts-hd` — and `gpt-4o-mini-tts` can't transcribe.",
+            "de": "`gpt-transcribe`, `gpt-audio` und `gpt-realtime` sind aktuelle Modelle – eingestellt werden `whisper`, `tts` und `tts-hd` –, und `gpt-4o-mini-tts` kann nicht transkribieren."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-takeaway-1",
@@ -120,7 +670,57 @@
       "back": {
         "en": "The job decides the model: transcribe → `gpt-transcribe`/`gpt-4o-mini-transcribe`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.",
         "de": "Die Aufgabe bestimmt das Modell: mitschreiben → `gpt-transcribe`/`gpt-4o-mini-transcribe`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Transcribe → `gpt-transcribe`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.",
+            "de": "Mitschreiben → `gpt-transcribe`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Pick by the job: a transcription model writes down, a TTS model speaks, an audio chat model reasons over audio, a realtime model talks live.",
+            "de": "Wähle nach Aufgabe: Ein Transkriptionsmodell schreibt mit, ein TTS-Modell spricht, ein Audio-Chatmodell denkt über Audio nach, ein Realtime-Modell spricht live."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Transcribe → `gpt-transcribe`, speak → `gpt-4o-mini-tts`, understand audio → `gpt-4o-mini-transcribe`, converse live → `gpt-realtime`.",
+            "de": "Mitschreiben → `gpt-transcribe`, sprechen → `gpt-4o-mini-tts`, Audio verstehen → `gpt-4o-mini-transcribe`, live sprechen → `gpt-realtime`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-4o-mini-transcribe` only writes down what was said; understanding audio needs an audio chat model such as `gpt-audio`.",
+            "de": "`gpt-4o-mini-transcribe` schreibt nur mit, was gesagt wurde; Audio verstehen braucht ein Audio-Chatmodell wie `gpt-audio`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Transcribe → `gpt-4o-mini-tts`, speak → `gpt-transcribe`, understand audio → `gpt-audio`, converse live → `gpt-realtime`.",
+            "de": "Mitschreiben → `gpt-4o-mini-tts`, sprechen → `gpt-transcribe`, Audio verstehen → `gpt-audio`, live sprechen → `gpt-realtime`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `gpt-4o-mini-tts` speaks but can't transcribe, and `gpt-transcribe` writes speech down but doesn't speak.",
+            "de": "Vertauscht: `gpt-4o-mini-tts` spricht, kann aber nicht transkribieren, und `gpt-transcribe` schreibt mit, spricht aber nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Transcribe → `gpt-4o-mini-tts`, speak → `gpt-transcribe`, understand audio → `gpt-4o-mini-transcribe`, converse live → `gpt-realtime`.",
+            "de": "Mitschreiben → `gpt-4o-mini-tts`, sprechen → `gpt-transcribe`, Audio verstehen → `gpt-4o-mini-transcribe`, live sprechen → `gpt-realtime`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: transcribing and speaking are swapped, and `gpt-4o-mini-transcribe` only writes down — understanding audio needs `gpt-audio`.",
+            "de": "Doppelt falsch: Mitschreiben und Sprechen sind vertauscht, und `gpt-4o-mini-transcribe` schreibt nur mit – Audio verstehen braucht `gpt-audio`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-takeaway-2",
@@ -132,7 +732,57 @@
       "back": {
         "en": "File in, text out = `audio.transcriptions`; text in, audio out = `audio.speech`.",
         "de": "Datei rein, Text raus = `audio.transcriptions`; Text rein, Audio raus = `audio.speech`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "File in, text out: `audio.speech`; text in, audio out: `audio.transcriptions`.",
+            "de": "Datei rein, Text raus: `audio.speech`; Text rein, Audio raus: `audio.transcriptions`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `audio.transcriptions` turns audio into text, and `audio.speech` turns text into audio.",
+            "de": "Umgekehrt: `audio.transcriptions` macht aus Audio Text, und `audio.speech` macht aus Text Audio."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "File in, text out: `audio.transcriptions`; text in, audio out: `audio.transcriptions` with `response_format=\"mp3\"`.",
+            "de": "Datei rein, Text raus: `audio.transcriptions`; Text rein, Audio raus: `audio.transcriptions` mit `response_format=\"mp3\"`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Transcriptions only ever return text; mp3 or wav output comes from `audio.speech` and its `response_format`.",
+            "de": "Transcriptions liefern immer nur Text; mp3- oder wav-Ausgabe kommt von `audio.speech` und dessen `response_format`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "File in, text out: `audio.speech` with `response_format=\"text\"`; text in, audio out: `audio.speech`.",
+            "de": "Datei rein, Text raus: `audio.speech` mit `response_format=\"text\"`; Text rein, Audio raus: `audio.speech`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`audio.speech` only takes text (`input`) and returns audio such as mp3 or wav — it has no text output; a recording goes to `audio.transcriptions`.",
+            "de": "`audio.speech` nimmt nur Text (`input`) an und liefert Audio wie mp3 oder wav – eine Textausgabe gibt es nicht; eine Aufnahme geht an `audio.transcriptions`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "File in, text out: `audio.transcriptions`; text in, audio out: `audio.speech`.",
+            "de": "Datei rein, Text raus: `audio.transcriptions`; Text rein, Audio raus: `audio.speech`."
+          },
+          "correct": true,
+          "why": {
+            "en": "`audio.transcriptions` uploads a recording and returns its text; `audio.speech` turns up to 4,096 characters into audio.",
+            "de": "`audio.transcriptions` lädt eine Aufnahme hoch und liefert ihren Text; `audio.speech` macht aus bis zu 4.096 Zeichen Audio."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-takeaway-3",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Reasoning over audio = Chat Completions with an `input_audio` part plus `modalities`.",
         "de": "Reasoning über Audio = Chat Completions mit einem `input_audio`-Teil plus `modalities`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`audio.transcriptions` with a file upload plus a `language` hint.",
+            "de": "`audio.transcriptions` mit einem Datei-Upload plus `language`-Hinweis."
+          },
+          "correct": false,
+          "why": {
+            "en": "Transcription only writes the audio down; reasoning over it needs an audio chat model in Chat Completions.",
+            "de": "Transkription schreibt das Audio nur mit; Reasoning darüber braucht ein Audio-Chatmodell in Chat Completions."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Chat Completions with an `input_audio` part plus `modalities`.",
+            "de": "Chat Completions mit einem `input_audio`-Teil plus `modalities`."
+          },
+          "correct": true,
+          "why": {
+            "en": "An audio chat model gets the recording as base64 `input_audio` next to your question; `modalities` choose text and/or speech output.",
+            "de": "Ein Audio-Chatmodell bekommt die Aufnahme als Base64-`input_audio` neben deiner Frage; `modalities` wählen Text- und/oder Sprachausgabe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`audio.transcriptions` with an `input_audio` part plus `modalities`.",
+            "de": "`audio.transcriptions` mit einem `input_audio`-Teil plus `modalities`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`audio.transcriptions` takes a file upload and only writes speech down; `input_audio` and `modalities` belong to Chat Completions.",
+            "de": "`audio.transcriptions` erwartet einen Datei-Upload und schreibt Sprache nur mit; `input_audio` und `modalities` gehören zu Chat Completions."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Chat Completions with the recording as a file upload plus a `language` hint.",
+            "de": "Chat Completions mit der Aufnahme als Datei-Upload plus `language`-Hinweis."
+          },
+          "correct": false,
+          "why": {
+            "en": "Chat Completions takes audio only as a base64 `input_audio` part — no file upload — and `language` is a transcription hint.",
+            "de": "Chat Completions nimmt Audio nur als Base64-Teil `input_audio` – keinen Datei-Upload –, und `language` ist ein Transkriptionshinweis."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-genai-takeaway-4",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Authenticate with Entra ID tokens (`https://ai.azure.com/.default`) and pass deployment names as `model`.",
         "de": "Melde dich mit Entra-ID-Tokens an (`https://ai.azure.com/.default`) und übergib Deployment-Namen als `model`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "With Entra ID tokens for `https://ai.azure.com/.default`; `model` takes the voice `alloy`.",
+            "de": "Mit Entra-ID-Tokens für `https://ai.azure.com/.default`; `model` nimmt die Stimme `alloy`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The voice goes into `voice`; `model` names the deployment that should answer.",
+            "de": "Die Stimme gehört in `voice`; `model` nennt das Deployment, das antworten soll."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "With a key and region in `SpeechConfig`; `model` takes the voice `alloy`.",
+            "de": "Mit Key und Region in `SpeechConfig`; `model` nimmt die Stimme `alloy`."
+          },
+          "correct": false,
+          "why": {
+            "en": "`SpeechConfig` belongs to the Speech SDK, and the voice goes into `voice`; these calls use Entra tokens and name your deployment in `model`.",
+            "de": "`SpeechConfig` gehört zum Speech SDK, und die Stimme gehört in `voice`; diese Aufrufe nutzen Entra-Tokens und nennen dein Deployment in `model`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "With Entra ID tokens for `https://ai.azure.com/.default`; `model` takes your deployment name.",
+            "de": "Mit Entra-ID-Tokens für `https://ai.azure.com/.default`; `model` nimmt deinen Deployment-Namen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Keyless sign-in uses a token provider for that scope, and `model` names your deployment, whatever you called it.",
+            "de": "Die schlüssellose Anmeldung nutzt einen Token-Provider für diesen Scope, und `model` nennt dein Deployment, egal wie du es benannt hast."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "With a key and region in `SpeechConfig`; `model` takes your deployment name.",
+            "de": "Mit Key und Region in `SpeechConfig`; `model` nimmt deinen Deployment-Namen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The `model` part is right, but `SpeechConfig` belongs to the Speech SDK; these OpenAI-compatible calls sign in with Entra tokens for `https://ai.azure.com/.default`.",
+            "de": "Der `model`-Teil stimmt, aber `SpeechConfig` gehört zum Speech SDK; diese OpenAI-kompatiblen Aufrufe melden sich mit Entra-Tokens für `https://ai.azure.com/.default` an."
+          }
+        }
+      ]
     }
   ]
 }

@@ -2,9 +2,12 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEven
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Icon } from '../components/Icon.tsx'
 import { RichText } from '../components/RichText.tsx'
+import { ChoiceList } from '../components/QuestionView.tsx'
+import { orderChoices, type ChoiceSet } from '../lib/choices.ts'
+import { renderInline } from '../components/inline.tsx'
 import { ZettelBox } from '../components/ZettelBox.tsx'
 import { store } from '../lib/store.ts'
-import { advance, buildDeck, countByFach, fachOf, GOAL, type Fach, type OwnZettel, type ZettelStates } from '../lib/zettel.ts'
+import { advance, buildDeck, countByFach, fachOf, GOAL, type Fach, type OwnChoice, type OwnZettel, type ZettelStates } from '../lib/zettel.ts'
 import { nextRound, ROUND_SIZE, useZettelBox } from '../lib/zettel-box.ts'
 import { plural, tx } from '../lib/i18n.ts'
 import type { Lang, Zettel } from '../lib/types.ts'
@@ -115,19 +118,35 @@ interface EditorProps {
   onDone: () => void
 }
 
+const EMPTY_WRONG = [
+  { text: '', why: '' },
+  { text: '', why: '' },
+  { text: '', why: '' },
+]
+
 export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorProps) {
+  const initialRight = initial?.choices?.find((c) => c.correct)?.text ?? ''
+  const initialWrong = initial?.choices?.filter((c) => !c.correct).map((c) => ({ text: c.text, why: c.why ?? '' })) ?? []
   const [front, setFront] = useState(initial?.front ?? '')
   const [back, setBack] = useState(initial?.back ?? '')
   const [module, setModule] = useState(initial?.module ?? defaultModule ?? '')
+  const [right, setRight] = useState(initialRight)
+  const [wrong, setWrong] = useState(() => EMPTY_WRONG.map((e, i) => initialWrong[i] ?? e))
   const [saved, setSaved] = useState(0)
   const frontRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => frontRef.current?.focus(), [])
-  const ready = front.trim().length > 0 && back.trim().length > 0
+  const wrongFilled = wrong.filter((w) => w.text.trim())
+  const usesChoices = right.trim() !== '' || wrongFilled.length > 0
+  const choicesComplete = right.trim() !== '' && wrongFilled.length >= 2
+  const ready = front.trim().length > 0 && back.trim().length > 0 && (!usesChoices || choicesComplete)
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
     if (!ready) return
-    const card = { front: front.trim(), back: back.trim(), module: module || null }
+    const choices: OwnChoice[] | undefined = usesChoices
+      ? [{ text: right.trim(), correct: true }, ...wrongFilled.map((w) => ({ text: w.text.trim(), correct: false, why: w.why.trim() || undefined }))]
+      : undefined
+    const card = { front: front.trim(), back: back.trim(), module: module || null, choices }
     if (initial) {
       store.updateOwnZettel(initial.id, card)
       onDone()
@@ -136,6 +155,8 @@ export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorPr
     store.addOwnZettel(card)
     setFront('')
     setBack('')
+    setRight('')
+    setWrong(EMPTY_WRONG)
     setSaved((n) => n + 1)
     frontRef.current?.focus()
   }
@@ -148,9 +169,36 @@ export function ZettelEditor({ initial, defaultModule = null, onDone }: EditorPr
         <textarea ref={frontRef} className="zk-input" rows={3} value={front} onChange={(e) => setFront(e.target.value)} placeholder="Was willst du dich fragen?" required />
       </label>
       <label className="zk-field">
-        <span className="zk-field__label">Rückseite · Antwort</span>
-        <textarea className="zk-input" rows={4} value={back} onChange={(e) => setBack(e.target.value)} placeholder="Die Antwort, die du wissen willst." required />
+        <span className="zk-field__label">Rückseite · Antwort und warum</span>
+        <textarea className="zk-input" rows={4} value={back} onChange={(e) => setBack(e.target.value)} placeholder="Die Antwort und kurz, warum sie stimmt." required />
       </label>
+      <details className="zk-editor__choices" open={initialRight !== ''}>
+        <summary>Antwortoptionen wie in der Prüfung</summary>
+        <p className="zk-editor__hint">Mit einer richtigen und mindestens zwei falschen Optionen fragt die Runde diesen Zettel als Multiple Choice ab. Ohne Optionen drehst du ihn um und schätzt dich selbst ein.</p>
+        <label className="zk-field">
+          <span className="zk-field__label">Richtige Option</span>
+          <input className="zk-input" value={right} onChange={(e) => setRight(e.target.value)} />
+        </label>
+        {wrong.map((w, i) => (
+          <div key={i} className="zk-editor__wrong">
+            <label className="zk-field">
+              <span className="zk-field__label">Falsche Option {i + 1}</span>
+              <input className="zk-input" value={w.text} onChange={(e) => setWrong(wrong.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))} />
+            </label>
+            <label className="zk-field">
+              <span className="zk-field__label">Warum falsch?</span>
+              <input className="zk-input" value={w.why} onChange={(e) => setWrong(wrong.map((x, j) => (j === i ? { ...x, why: e.target.value } : x)))} />
+            </label>
+          </div>
+        ))}
+        {usesChoices && !choicesComplete && (
+          <p className="zk-editor__missing" role="status">
+            Für Multiple Choice fehlen noch {right.trim() ? '' : 'die richtige Option'}
+            {!right.trim() && wrongFilled.length < 2 ? ' und ' : ''}
+            {wrongFilled.length < 2 ? `${2 - wrongFilled.length} falsche Option${2 - wrongFilled.length === 1 ? '' : 'en'}` : ''}.
+          </p>
+        )}
+      </details>
       <label className="zk-field">
         <span className="zk-field__label">Modul</span>
         <select className="select zk-input" value={module} onChange={(e) => setModule(e.target.value)}>
@@ -292,8 +340,9 @@ export function Zettelkasten() {
       <header className="page-head">
         <h1 className="page-title">Zettelkasten</h1>
         <p className="page-sub">
-          Vorderseite: Frage, Rückseite: Antwort. Weißt du die Antwort, wandert der Zettel ein Fach nach vorn; weißt du sie nicht, kommt er zurück nach hinten in Fach 1.
-          Geschafft ist ein Zettel, wenn er zwei Fächer vorgerückt ist und in Fach 3 steht.
+          Vorderseite: eine Frage mit vier Antwortoptionen wie in der Prüfung. Rückseite: die richtige Antwort und kurz, warum jede Option stimmt oder nicht. Richtig
+          beantwortet, wandert der Zettel ein Fach nach vorn; falsch, kommt er zurück nach hinten in Fach 1. Geschafft ist ein Zettel, wenn er zwei Fächer vorgerückt ist
+          und in Fach 3 steht.
         </p>
       </header>
 
@@ -390,6 +439,7 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
     )
   }
   const contentLang = langOf(z, lang)
+  const right = z.choices?.find((o) => o.correct)
   return (
     <li className="zk-card">
       <div className="zk-card__head">
@@ -404,6 +454,15 @@ function CardItem({ z, fach, lang }: { z: Zettel; fach: Fach; lang: Lang }) {
       <RichText text={tx(z.front, lang)} className="zk-card__front" lang={contentLang} />
       <details className="zk-card__answer">
         <summary>Antwort</summary>
+        {right && (
+          <p className="zk-card__right" lang={contentLang}>
+            <Icon name="checkCircle" size={16} className="ink-ok" />
+            <span>
+              <span className="sr-only">Richtige Option: </span>
+              {renderInline(tx(right.text, lang))}
+            </span>
+          </p>
+        )}
         {z.term && <p className="zk-card__term">{z.term}</p>}
         <RichText text={tx(z.back, lang)} lang={contentLang} />
       </details>
@@ -544,6 +603,24 @@ function useReducedMotion() {
   return typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false)
 }
 
+type RoundResult = { knew: boolean; from: Fach; after: Fach; counts: [number, number, number] }
+
+/** After checking, bring the picked option and its reason into view when they sit under the fixed bar. */
+function revealExplanation() {
+  const el = document.querySelector('.zk-flip .choice.is-wrong, .zk-flip .choice.is-correct')
+  if (!el) return
+  const { top, bottom } = el.getBoundingClientRect()
+  const visibleBottom = window.innerHeight - 110
+  if (bottom <= visibleBottom && top >= 0) return
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+  window.scrollBy({ top: top - window.innerHeight * 0.3, behavior: reduce ? 'auto' : 'smooth' })
+}
+
+function destination(r: RoundResult): string {
+  if (!r.knew) return 'Der Zettel kommt zurück nach hinten in Fach 1.'
+  return r.after === GOAL ? 'Der Zettel wandert nach vorne in Fach 3.' : `Der Zettel wandert in Fach ${r.after}.`
+}
+
 function RoundSession({ search }: { search: string }) {
   const navigate = useNavigate()
   const { cards, zettel, lang } = useZettelBox()
@@ -573,11 +650,16 @@ function RoundSession({ search }: { search: string }) {
     return scopeModule || ownOnly ? buildDeck(pool, s.zettel) : nextRound(pool, s.zettel, s.lessonsRead)
   })
   const [queue, setQueue] = useState(deck)
+  /** Cards without answer options: the learner turns the card and rates it. */
   const [flipped, setFlipped] = useState(false)
-  /** While a card flies into its compartment: where it came from, and the round as it stood before the answer. */
-  const [moving, setMoving] = useState<{ from: Fach; counts: [number, number, number] } | null>(null)
+  /** Cards with answer options: the option the learner picked. */
+  const [picked, setPicked] = useState<string | null>(null)
+  /** The recorded answer, with the round as it stood before it: the box changes only when the card lands. */
+  const [result, setResult] = useState<RoundResult | null>(null)
+  const [flying, setFlying] = useState(false)
   /** Counts dealt cards, so each card on the table is a fresh element (and its flight is never cut short). */
   const [dealt, setDealt] = useState(0)
+  const [seed] = useState(() => Math.floor(Math.random() * 1e9))
   const [tally, setTally] = useState({ right: 0, wrong: 0 })
   const [arrival, setArrival] = useState<{ fach: Fach; key: number } | null>(null)
   const [announce, setAnnounce] = useState('')
@@ -587,28 +669,37 @@ function RoundSession({ search }: { search: string }) {
   const reduceMotion = useReducedMotion()
   const byId = useMemo(() => new Map(cards.map((z) => [z.id, z])), [cards])
   const current = queue.length ? byId.get(queue[0]) : undefined
-  // The box, the progress bar and the card's badge change when the card lands, together with the flash.
-  const roundCounts = moving ? moving.counts : countByFach(deck, zettel)
-  const fach = moving ? moving.from : current ? fachOf(zettel, current.id) : 1
+  const choiceSet = useMemo<ChoiceSet | null>(() => (current?.choices?.length ? { id: current.id, type: 'single', options: current.choices } : null), [current])
+  // A card that comes back later in the round shows its options in a new order.
+  const choiceSeed = seed + dealt * 7919
+  const ordered = useMemo(() => (choiceSet ? orderChoices(choiceSet, choiceSeed) : []), [choiceSet, choiceSeed])
+  const roundCounts = result ? result.counts : countByFach(deck, zettel)
+  const fach = result ? result.from : current ? fachOf(zettel, current.id) : 1
+  const revealed = choiceSet ? result !== null : flipped
 
-  const rate = (knew: boolean) => {
-    if (!current || moving) return
-    const before = fachOf(store.get().zettel, current.id)
-    const countsBefore = countByFach(deck, store.get().zettel)
-    store.answerZettel(current.id, knew)
-    const after = fachOf(store.get().zettel, current.id)
+  const record = (knew: boolean, words: [string, string]): Fach => {
+    const s = store.get()
+    const from = fachOf(s.zettel, current!.id)
+    const counts = countByFach(deck, s.zettel)
+    store.answerZettel(current!.id, knew)
+    const after = fachOf(store.get().zettel, current!.id)
+    const r = { knew, from, after, counts }
+    setResult(r)
     setTally((t) => (knew ? { ...t, right: t.right + 1 } : { ...t, wrong: t.wrong + 1 }))
-    setAnnounce(
-      knew
-        ? after === GOAL
-          ? 'Gewusst. Der Zettel steht jetzt vorne in Fach 3.'
-          : `Gewusst. Der Zettel wandert in Fach ${after}.`
-        : 'Nicht gewusst. Der Zettel kommt zurück nach hinten in Fach 1.',
-    )
+    const right = choiceSet?.options.find((o) => o.correct)
+    const hint = !knew && right ? ` Richtig ist: ${tx(right.text, lang).replace(/[`*]/g, '')}.` : ''
+    setAnnounce(`${knew ? words[0] : words[1]}.${hint} ${destination(r)}`)
+    return after
+  }
+
+  // The one authored motion: the card flies into the compartment it now belongs to; the box changes on landing.
+  const fly = (after: Fach) => {
     const land = () => {
       setQueue((q) => advance(q, after))
       setFlipped(false)
-      setMoving(null)
+      setPicked(null)
+      setResult(null)
+      setFlying(false)
       setDealt((d) => d + 1)
       setArrival({ fach: after, key: Date.now() })
     }
@@ -618,8 +709,7 @@ function RoundSession({ search }: { search: string }) {
       land()
       return
     }
-    // The one authored motion: the card flies into the compartment it now belongs to.
-    setMoving({ from: before, counts: countsBefore })
+    setFlying(true)
     const a = card.getBoundingClientRect()
     const b = target.getBoundingClientRect()
     const dx = b.left + b.width / 2 - (a.left + a.width / 2)
@@ -635,6 +725,20 @@ function RoundSession({ search }: { search: string }) {
     motion.oncancel = land
   }
 
+  const check = () => {
+    if (!current || !choiceSet || !picked || result) return
+    record(choiceSet.options.find((o) => o.id === picked)?.correct === true, ['Richtig', 'Falsch'])
+    requestAnimationFrame(revealExplanation)
+  }
+  const next = () => {
+    if (!result || flying) return
+    fly(result.after)
+  }
+  const rate = (knew: boolean) => {
+    if (!current || result) return
+    fly(record(knew, ['Gewusst', 'Nicht gewusst']))
+  }
+
   useEffect(() => {
     cardRef.current?.focus({ preventScroll: true })
   }, [queue, flipped])
@@ -645,9 +749,27 @@ function RoundSession({ search }: { search: string }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.metaKey || e.ctrlKey || e.altKey || !current) return
       const t = e.target as HTMLElement | null
-      if (t && (t.closest('button, a, input, textarea, select') || t.isContentEditable) && (e.key === 'Enter' || e.key === ' ')) return
+      const onControl = !!t && (!!t.closest('button, a, textarea, select, input:not([type="radio"])') || t.isContentEditable)
+      if (choiceSet) {
+        if (!result) {
+          const k = e.key.length === 1 ? e.key.toLowerCase() : ''
+          const index = k ? Math.max('1234'.indexOf(k), 'abcd'.indexOf(k)) : -1
+          if (index >= 0 && ordered[index] && !onControl) {
+            e.preventDefault()
+            setPicked(ordered[index].id)
+          } else if (e.key === 'Enter' && !onControl && picked) {
+            e.preventDefault()
+            check()
+          }
+        } else if (e.key === 'Enter' && !onControl) {
+          e.preventDefault()
+          next()
+        }
+        return
+      }
+      if (onControl && (e.key === 'Enter' || e.key === ' ')) return
       if (!flipped && (e.key === ' ' || e.key === 'Enter')) {
         e.preventDefault()
         setFlipped(true)
@@ -675,7 +797,7 @@ function RoundSession({ search }: { search: string }) {
           <p className="session-done__score">
             {deck.length ? (
               <>
-                Alle <strong>{deck.length}</strong> Zettel dieser Runde stehen in Fach 3. Gewusst: {tally.right}, nicht gewusst: {tally.wrong}.
+                Alle <strong>{deck.length}</strong> Zettel dieser Runde stehen in Fach 3. Richtig: {tally.right}, falsch: {tally.wrong}.
               </>
             ) : (
               'In dieser Auswahl steht schon jeder Zettel in Fach 3.'
@@ -703,6 +825,7 @@ function RoundSession({ search }: { search: string }) {
 
   const contentLang = langOf(current, lang)
   const nextFach = Math.min(GOAL, fach + 1) as Fach
+  const own = current.kind === 'own'
   return (
     <div className="session zk-session">
       <div className="session__top">
@@ -730,23 +853,50 @@ function RoundSession({ search }: { search: string }) {
 
       <article
         ref={cardRef}
-        key={`${current.id}-${flipped ? 'back' : 'front'}-${dealt}`}
-        className={`zk-flip ${flipped ? 'is-back' : 'is-front'}${moving ? ' is-moving' : ''}`}
+        key={choiceSet ? `${current.id}-${dealt}` : `${current.id}-${flipped ? 'back' : 'front'}-${dealt}`}
+        className={`zk-flip${choiceSet ? ' zk-flip--choice' : ''} ${revealed ? 'is-back' : 'is-front'}${flying ? ' is-moving' : ''}`}
         tabIndex={-1}
         aria-labelledby="zk-side"
         aria-describedby="zk-content"
-        onClick={() => !flipped && !moving && setFlipped(true)}
+        onClick={() => !choiceSet && !flipped && !flying && setFlipped(true)}
       >
         <header className="zk-flip__head">
           <span id="zk-side" className="zk-flip__side">
-            {flipped ? 'Rückseite · Antwort' : 'Vorderseite · Frage'}
+            {revealed ? 'Rückseite · Antwort' : 'Vorderseite · Frage'}
           </span>
           <span className="zk-flip__module">
-            {current.module ? `Modul ${moduleNumber.get(current.module)}` : 'Eigener Zettel'} · {KIND_LABEL[current.kind]}
+            {[current.module ? `Modul ${moduleNumber.get(current.module)}` : null, KIND_LABEL[current.kind]].filter(Boolean).join(' · ')}
           </span>
           <FachBadge fach={fach} />
         </header>
-        {flipped ? (
+        {choiceSet ? (
+          <div className="zk-flip__body">
+            <div id="zk-content">
+              <RichText text={tx(current.front, lang)} className="zk-flip__question" lang={contentLang} />
+            </div>
+            <ChoiceList
+              q={choiceSet}
+              lang={lang}
+              answer={{ type: 'single', choice: picked }}
+              onChange={(a) => a.type === 'single' && !result && setPicked(a.choice)}
+              revealed={revealed}
+              seed={choiceSeed}
+              ownText={own}
+            />
+            {revealed &&
+              (own ? (
+                <div className="zk-flip__backtext">
+                  <p className="zk-flip__label">Deine Rückseite</p>
+                  <RichText text={tx(current.back, lang)} />
+                </div>
+              ) : (
+                <details className="zk-lesson">
+                  <summary>Aus der Lektion{current.term ? `: ${current.term}` : ''}</summary>
+                  <RichText text={tx(current.back, lang)} className="zk-lesson__text" lang={contentLang} />
+                </details>
+              ))}
+          </div>
+        ) : flipped ? (
           <div className="zk-flip__body">
             <RichText text={tx(current.front, lang)} className="zk-flip__asked" lang={contentLang} />
             <div id="zk-content">
@@ -767,9 +917,34 @@ function RoundSession({ search }: { search: string }) {
         {announce}
       </p>
 
-      <div className={`session__bar zk-bar${moving ? ' is-moving' : ''}`}>
+      <div className={`session__bar zk-bar${flying ? ' is-moving' : ''}${choiceSet && result ? (result.knew ? ' is-correct' : ' is-wrong') : ''}`}>
         <div className="session__bar-inner">
-          {!flipped ? (
+          {choiceSet ? (
+            result ? (
+              <>
+                <p className="session__verdict">
+                  <Icon name={result.knew ? 'checkCircle' : 'dismissCircle'} size={28} />
+                  <span>
+                    <strong>{result.knew ? 'Richtig!' : 'Falsch'}</strong>
+                    <span className="session__verdict-sub">{destination(result)}</span>
+                  </span>
+                </p>
+                <button type="button" className="btn btn--primary btn--large" onClick={next} autoFocus>
+                  Weiter
+                  <Icon name="arrowRight" size={18} />
+                </button>
+              </>
+            ) : (
+              <>
+                <p className="session__hint">
+                  {picked ? 'Bereit zum Prüfen.' : 'Wähle eine Antwort.'} <span className="zk-keys">· 1–4 wählt, Enter prüft</span>
+                </p>
+                <button type="button" className="btn btn--primary btn--large" onClick={check} disabled={!picked}>
+                  Prüfen
+                </button>
+              </>
+            )
+          ) : !flipped ? (
             <>
               <p className="session__hint">
                 Noch {plural(queue.length, 'Zettel', 'Zettel')} in dieser Runde <span className="zk-keys">· Leertaste dreht um</span>

@@ -40,10 +40,10 @@ function resolveCard(c: StarterCard, lesson: Lesson): Zettel | null {
   const { kind, index } = c.source
   if (kind === 'concept') {
     const concept = lesson.concepts[index]
-    return concept ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? concept.text, term: concept.term } : null
+    return concept ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? concept.text, term: concept.term, choices: c.choices } : null
   }
   const text = (kind === 'trap' ? lesson.traps : lesson.takeaways)[index]
-  return text ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? text } : null
+  return text ? { id: c.id, module: lesson.module, kind, front: c.front, back: c.back ?? text, choices: c.choices } : null
 }
 
 const cardsByModule = new Map(Object.values(cardFiles).map((f) => [f.module, f.cards]))

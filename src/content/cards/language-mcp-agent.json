@@ -8,7 +8,57 @@
       "front": {
         "en": "Which three roles does MCP define, and why can tools change on the server without changing the agent?",
         "de": "Welche drei Rollen kennt MCP, und warum können sich Tools auf dem Server ändern, ohne dass du den Agent anpasst?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Host, client and server — the tool list is compiled into the agent version when you create it",
+            "de": "Host, Client und Server – die Tool-Liste wird beim Anlegen fest in die Agent-Version einkompiliert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the roles fit, but tools aren't baked into the agent version — the agent fetches the server's tool list at run time.",
+            "de": "Teilweise richtig: Die Rollen stimmen, aber Tools werden nicht in die Agent-Version eingebaut – der Agent holt die Tool-Liste des Servers zur Laufzeit."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Host, client and server — the agent fetches the server's tool list with descriptions at run time",
+            "de": "Host, Client und Server – der Agent holt die Tool-Liste des Servers samt Beschreibungen zur Laufzeit"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the host (for example Foundry Agent Service) runs an MCP client that fetches the tool list at run time — dynamic tool discovery.",
+            "de": "Richtig: Der Host (etwa Foundry Agent Service) betreibt einen MCP-Client, der die Tool-Liste zur Laufzeit holt – dynamische Tool-Erkennung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Client, server and registry — the agent fetches the server's tool list with descriptions at run time",
+            "de": "Client, Server und Registry – der Agent holt die Tool-Liste des Servers samt Beschreibungen zur Laufzeit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the agent does fetch the list at run time, but MCP's roles are host, client and server — a registry only helps you find servers.",
+            "de": "Teilweise richtig: Der Agent holt die Liste zwar zur Laufzeit, aber die Rollen bei MCP sind Host, Client und Server – eine Registry hilft nur, Server zu finden."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Client, server and registry — the tool list is compiled into the agent version when you create it",
+            "de": "Client, Server und Registry – die Tool-Liste wird beim Anlegen fest in die Agent-Version einkompiliert"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: MCP's roles are host, client and server — a registry only helps you find servers — and the tool list is fetched at run time, not baked in.",
+            "de": "Nein: Die Rollen bei MCP sind Host, Client und Server – eine Registry hilft nur, Server zu finden –, und die Tool-Liste wird zur Laufzeit geholt, nicht eingebaut."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What does the Azure Language MCP server expose, and what does Foundry need to use the local version?",
         "de": "Was stellt der Azure-Language-MCP-Server bereit, und was braucht Foundry, um die lokale Variante zu nutzen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Language detection, NER, PII redaction and Text Analytics for health, plus legacy features — the local server just needs a key in a connection",
+            "de": "Sprachenerkennung, NER, PII-Schwärzung und Text Analytics for health, dazu Legacy-Funktionen – der lokale Server braucht nur den Key in einer Verbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the features fit, but a stored key doesn't make a local server reachable — Foundry Agent Service needs a remote endpoint.",
+            "de": "Teilweise richtig: Die Funktionen stimmen, aber ein gespeicherter Key macht einen lokalen Server nicht erreichbar – Foundry Agent Service braucht einen Remote-Endpoint."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Speech to text, image OCR and video indexing — the local server must be hosted at a reachable URL",
+            "de": "Speech to Text, Bild-OCR und Video-Indexierung – der lokale Server muss unter einer erreichbaren URL laufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: hosting at a reachable URL is right, but those features belong to other services — the server exposes Azure Language features.",
+            "de": "Teilweise richtig: Das Hosten unter einer erreichbaren URL stimmt, aber diese Funktionen gehören zu anderen Diensten – der Server stellt Azure-Language-Funktionen bereit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Language detection, NER, PII redaction and Text Analytics for health, plus legacy features — the local server must be hosted at a reachable URL",
+            "de": "Sprachenerkennung, NER, PII-Schwärzung und Text Analytics for health, dazu Legacy-Funktionen – der lokale Server muss unter einer erreichbaren URL laufen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: core and legacy Language features are exposed as tools, and since Foundry Agent Service only accepts remote MCP endpoints, a local server must first run at a reachable URL.",
+            "de": "Korrekt: Kern- und Legacy-Funktionen von Language sind Tools, und weil Foundry Agent Service nur Remote-MCP-Endpoints akzeptiert, muss ein lokaler Server erst unter einer erreichbaren URL laufen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Speech to text, image OCR and video indexing — the local server just needs a key in a connection",
+            "de": "Speech to Text, Bild-OCR und Video-Indexierung – der lokale Server braucht nur den Key in einer Verbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: those features belong to other services, and a key doesn't make a local server reachable — host it at a remote URL first.",
+            "de": "Falsch: Diese Funktionen gehören zu anderen Diensten, und ein Key macht einen lokalen Server nicht erreichbar – hoste ihn zuerst unter einer Remote-URL."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How does a prompt agent differ from a hosted agent, and which SDK call creates it or a new version?",
         "de": "Was unterscheidet einen Prompt-Agent vom Hosted Agent, und welcher SDK-Aufruf legt ihn oder eine neue Version an?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It's declarative — model, instructions and tools, no container code of your own; `openai.responses.create()` with an `agent_reference` in `extra_body`",
+            "de": "Er ist deklarativ – Modell, Anweisungen und Tools, kein eigener Container-Code; `openai.responses.create()` mit einer `agent_reference` in `extra_body`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: it is declarative, but `responses.create()` with `agent_reference` calls an existing agent — `project.agents.create_version()` creates it.",
+            "de": "Teilweise richtig: Er ist deklarativ, aber `responses.create()` mit `agent_reference` ruft einen bestehenden Agent auf – `project.agents.create_version()` legt ihn an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It's your own agent code in a container that Foundry runs; `project.agents.create_version()` with a `PromptAgentDefinition`",
+            "de": "Er ist dein eigener Agent-Code in einem Container, den Foundry ausführt; `project.agents.create_version()` mit einer `PromptAgentDefinition`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `create_version()` with a `PromptAgentDefinition` is the right call, but your own code in a container is a hosted agent — a prompt agent is declarative.",
+            "de": "Teilweise richtig: `create_version()` mit einer `PromptAgentDefinition` ist der richtige Aufruf, aber eigener Code in einem Container ist ein Hosted Agent – ein Prompt-Agent ist deklarativ."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It's your own agent code in a container that Foundry runs; `openai.responses.create()` with an `agent_reference` in `extra_body`",
+            "de": "Er ist dein eigener Agent-Code in einem Container, den Foundry ausführt; `openai.responses.create()` mit einer `agent_reference` in `extra_body`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: container code describes a hosted agent, and `responses.create()` only calls an agent — `create_version()` creates a prompt agent.",
+            "de": "Nein: Container-Code beschreibt einen Hosted Agent, und `responses.create()` ruft einen Agent nur auf – `create_version()` legt einen Prompt-Agent an."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It's declarative — model, instructions and tools, no container code of your own; `project.agents.create_version()` with a `PromptAgentDefinition`",
+            "de": "Er ist deklarativ – Modell, Anweisungen und Tools, kein eigener Container-Code; `project.agents.create_version()` mit einer `PromptAgentDefinition`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: a prompt agent is a versioned definition (model + instructions + tools), and `create_version()` creates the agent or a new version of it.",
+            "de": "Ja: Ein Prompt-Agent ist eine versionierte Definition (Modell + Anweisungen + Tools), und `create_version()` legt den Agent oder eine neue Version davon an."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How does your app call a prompt agent, and what does the shortcut `get_openai_client(agent_name=…)` require?",
         "de": "Wie ruft deine App einen Prompt-Agent auf, und was verlangt die Abkürzung `get_openai_client(agent_name=…)`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Through the Responses API with an `agent_reference` in `extra_body` — the shortcut works on any `AIProjectClient` without extra settings",
+            "de": "Über die Responses API mit `agent_reference` in `extra_body` – die Abkürzung funktioniert mit jedem `AIProjectClient` ohne Zusatzeinstellung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: that's how your app calls the agent, but without `allow_preview=True` the shortcut raises `ValueError`.",
+            "de": "Teilweise richtig: So ruft deine App den Agent auf, aber ohne `allow_preview=True` wirft die Abkürzung einen `ValueError`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Through `project.agents.create_version()` with the user's prompt as input — the shortcut needs `AIProjectClient(..., allow_preview=True)`",
+            "de": "Über `project.agents.create_version()` mit dem Prompt des Nutzers als Eingabe – die Abkürzung braucht `AIProjectClient(..., allow_preview=True)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the shortcut does need `allow_preview=True`, but `create_version()` creates the agent — your app calls it through the Responses API.",
+            "de": "Teilweise richtig: Die Abkürzung braucht zwar `allow_preview=True`, aber `create_version()` legt den Agent an – deine App ruft ihn über die Responses API auf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Through the Responses API with an `agent_reference` in `extra_body` — the shortcut needs `AIProjectClient(..., allow_preview=True)`",
+            "de": "Über die Responses API mit `agent_reference` in `extra_body` – die Abkürzung braucht `AIProjectClient(..., allow_preview=True)`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: `get_openai_client()` plus `extra_body={\"agent_reference\": …}` calls the agent; `get_openai_client(agent_name=…)` raises `ValueError` without `allow_preview=True`.",
+            "de": "Genau: `get_openai_client()` plus `extra_body={\"agent_reference\": …}` ruft den Agent auf; `get_openai_client(agent_name=…)` wirft ohne `allow_preview=True` einen `ValueError`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Through `project.agents.create_version()` with the user's prompt as input — the shortcut works on any `AIProjectClient` without extra settings",
+            "de": "Über `project.agents.create_version()` mit dem Prompt des Nutzers als Eingabe – die Abkürzung funktioniert mit jedem `AIProjectClient` ohne Zusatzeinstellung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: `create_version()` creates the agent rather than calling it, and the shortcut raises `ValueError` without `allow_preview=True`.",
+            "de": "Falsch: `create_version()` legt den Agent an, statt ihn aufzurufen, und die Abkürzung wirft ohne `allow_preview=True` einen `ValueError`."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Which settings does `MCPTool` take, and how do `allowed_tools` and `require_approval` behave by default?",
         "de": "Welche Einstellungen hat `MCPTool`, und wie verhalten sich `allowed_tools` und `require_approval` standardmäßig?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` and `require_approval` — by default all tools are allowed and no call ever waits for approval",
+            "de": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` und `require_approval` – standardmäßig sind alle Tools erlaubt, und kein Aufruf wartet je auf eine Freigabe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: all tools are allowed by default, but `require_approval` defaults to `\"always\"` — every call waits for approval.",
+            "de": "Teilweise richtig: Standardmäßig sind alle Tools erlaubt, aber `require_approval` steht auf `\"always\"` – jeder Aufruf wartet auf eine Freigabe."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` and `require_approval` — by default all tools are allowed and every call needs approval",
+            "de": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` und `require_approval` – standardmäßig sind alle Tools erlaubt, und jeder Aufruf braucht eine Freigabe"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: an empty or omitted `allowed_tools` allows every tool, and `require_approval` defaults to `\"always\"`.",
+            "de": "Richtig: Ein leeres oder fehlendes `allowed_tools` erlaubt jedes Tool, und `require_approval` steht standardmäßig auf `\"always\"`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` and `require_approval` — by default not a single tool is allowed and every call needs approval",
+            "de": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` und `require_approval` – standardmäßig ist kein einziges Tool erlaubt, und jeder Aufruf braucht eine Freigabe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: every call does need approval by default, but an empty or omitted `allowed_tools` allows all tools — only a nonempty list restricts.",
+            "de": "Teilweise richtig: Jeder Aufruf braucht standardmäßig eine Freigabe, aber ein leeres oder fehlendes `allowed_tools` erlaubt alle Tools – nur eine nicht leere Liste schränkt ein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` and `require_approval` — by default not a single tool is allowed and no call ever waits for approval",
+            "de": "`server_label`, `server_url`, `project_connection_id`, `allowed_tools` und `require_approval` – standardmäßig ist kein einziges Tool erlaubt, und kein Aufruf wartet je auf eine Freigabe"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: an empty or omitted `allowed_tools` allows every tool, and `require_approval` defaults to `\"always\"`, not `\"never\"`.",
+            "de": "Nein: Ein leeres oder fehlendes `allowed_tools` erlaubt jedes Tool, und `require_approval` steht standardmäßig auf `\"always\"`, nicht auf `\"never\"`."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What kind of project connection does Azure Language need, and which two authentication layers are involved?",
         "de": "Welche Art Projektverbindung braucht Azure Language, und welche zwei Authentifizierungsebenen gibt es?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "*Custom keys* with `Ocp-Apim-Subscription-Key` — your app signs in to the project with Entra ID, Agent Service uses the stored key for Language",
+            "de": "*Custom keys* mit `Ocp-Apim-Subscription-Key` – deine App meldet sich per Entra ID am Projekt an, Agent Service nutzt den gespeicherten Key für Language"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: your app uses `DefaultAzureCredential` with the Foundry User role, while Agent Service sends the stored key — which stays out of code and source control.",
+            "de": "Korrekt: Deine App nutzt `DefaultAzureCredential` mit der Rolle Foundry User, Agent Service schickt den gespeicherten Key – der bleibt aus Code und Quellcodeverwaltung heraus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "*Custom keys* with `Ocp-Apim-Subscription-Key` — your app signs in to the project with the stored key, and Agent Service uses Entra ID for Language",
+            "de": "*Custom keys* mit `Ocp-Apim-Subscription-Key` – deine App meldet sich mit dem gespeicherten Key am Projekt an, und Agent Service nutzt Entra ID für Language"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the connection fits, but the layers are swapped — Entra ID from your app to the project, the stored key from Agent Service to Azure Language.",
+            "de": "Teilweise richtig: Die Verbindung stimmt, aber die Ebenen sind vertauscht – Entra ID von deiner App zum Projekt, der gespeicherte Key von Agent Service zu Azure Language."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "*Custom keys* with `x-apikey` — your app signs in to the project with Entra ID, Agent Service uses the stored key for Language",
+            "de": "*Custom keys* mit `x-apikey` – deine App meldet sich per Entra ID am Projekt an, Agent Service nutzt den gespeicherten Key für Language"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the two layers fit, but `x-apikey` is Web IQ's header — the Azure Language connection uses the key name `Ocp-Apim-Subscription-Key`.",
+            "de": "Teilweise richtig: Die beiden Ebenen stimmen, aber `x-apikey` ist der Header von Web IQ – die Azure-Language-Verbindung nutzt den Schlüsselnamen `Ocp-Apim-Subscription-Key`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "*Custom keys* with `x-apikey` — your app signs in to the project with the stored key, and Agent Service uses Entra ID for Language",
+            "de": "*Custom keys* mit `x-apikey` – deine App meldet sich mit dem gespeicherten Key am Projekt an, und Agent Service nutzt Entra ID für Language"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: Azure Language expects `Ocp-Apim-Subscription-Key`, not Web IQ's `x-apikey`, and the layers are swapped — Entra ID for your app, the key for Agent Service.",
+            "de": "Falsch: Azure Language erwartet `Ocp-Apim-Subscription-Key`, nicht das `x-apikey` von Web IQ, und die Ebenen sind vertauscht – Entra ID für deine App, der Key für Agent Service."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "How do you answer an agent's MCP approval requests, and what does the Copilot harness not support?",
         "de": "Wie beantwortest du die MCP-Freigabeanfragen eines Agents, und was unterstützt der Copilot-Harness nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "With one `mcp_approval_response` per request in the same conversation until none is left — the Copilot harness doesn't support `previous_response_id`",
+            "de": "Mit einem `mcp_approval_response` pro Anfrage in derselben Conversation, bis keine mehr offen ist – der Copilot-Harness unterstützt `previous_response_id` nicht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: each `mcp_approval_response` carries `approve` and `approval_request_id`; with the Copilot harness every call needs a conversation.",
+            "de": "Ja: Jedes `mcp_approval_response` trägt `approve` und `approval_request_id`; mit dem Copilot-Harness braucht jeder Aufruf eine Conversation."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "With one `mcp_approval_response` per request in the same conversation until none is left — the Copilot harness doesn't support conversations",
+            "de": "Mit einem `mcp_approval_response` pro Anfrage in derselben Conversation, bis keine mehr offen ist – der Copilot-Harness unterstützt keine Conversations"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the approval loop fits, but conversations are the documented flow — with the Copilot harness every call needs one; it doesn't support `previous_response_id`.",
+            "de": "Teilweise richtig: Die Freigabeschleife stimmt, aber Conversations sind der dokumentierte Ablauf – mit dem Copilot-Harness braucht jeder Aufruf eine; `previous_response_id` unterstützt er nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "With one `mcp_approval_response` per request, each sent in a brand-new conversation of its own — the Copilot harness doesn't support `previous_response_id`",
+            "de": "Mit einem `mcp_approval_response` pro Anfrage, jedes einzeln in einer brandneuen, eigenen Conversation – der Copilot-Harness unterstützt `previous_response_id` nicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the harness detail fits, but each response must go into the same conversation as its request — otherwise the agent never continues.",
+            "de": "Teilweise richtig: Das Harness-Detail stimmt, aber jede Antwort gehört in dieselbe Conversation wie ihre Anfrage – sonst setzt der Agent nie fort."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "With one `mcp_approval_response` per request, each sent in a brand-new conversation of its own — the Copilot harness doesn't support conversations",
+            "de": "Mit einem `mcp_approval_response` pro Anfrage, jedes einzeln in einer brandneuen, eigenen Conversation – der Copilot-Harness unterstützt keine Conversations"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: responses belong in the same conversation as their requests, and the Copilot harness requires conversations — it doesn't support `previous_response_id`.",
+            "de": "Nein: Antworten gehören in dieselbe Conversation wie ihre Anfragen, und der Copilot-Harness verlangt Conversations – `previous_response_id` unterstützt er nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Foundry Agent Service only accepts remote MCP endpoints, so a server on your laptop isn't reachable. Use the remote endpoint or host the server, for example on Azure Container Apps.",
         "de": "Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints – ein Language-MCP-Server auf deinem Laptop ist nicht erreichbar. Nutze den Remote-Endpoint oder hoste den Server, etwa auf Azure Container Apps."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Agent Service only accepts remote MCP endpoints — register the laptop server in the Tools catalog so Foundry can reach it",
+            "de": "Agent Service akzeptiert nur Remote-MCP-Endpoints – registriere den Laptop-Server im Tool-Katalog, damit Foundry ihn erreicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the cause fits, but a catalog entry doesn't make your laptop reachable — use the remote endpoint or host the server.",
+            "de": "Teilweise richtig: Die Ursache stimmt, aber ein Katalogeintrag macht deinen Laptop nicht erreichbar – nutze den Remote-Endpoint oder hoste den Server."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The laptop server lacks a project connection with the Language key — use the remote Language endpoint or host the server, for example on Azure Container Apps",
+            "de": "Dem Laptop-Server fehlt noch eine Projektverbindung mit dem Language-Key – nutze den Remote-Endpoint von Language oder hoste den Server, etwa auf Azure Container Apps"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: those options fit, but a missing connection isn't the cause — Foundry Agent Service only accepts remote MCP endpoints.",
+            "de": "Teilweise richtig: Die Optionen stimmen, aber eine fehlende Verbindung ist nicht die Ursache – Foundry Agent Service akzeptiert nur Remote-MCP-Endpoints."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Agent Service only accepts remote MCP endpoints — use the remote Language endpoint or host the server, for example on Azure Container Apps",
+            "de": "Agent Service akzeptiert nur Remote-MCP-Endpoints – nutze den Remote-Endpoint von Language oder hoste den Server, etwa auf Azure Container Apps"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: the Agent Service runtime can't reach your laptop, so point `server_url` at the remote endpoint or at a server you host at a reachable URL.",
+            "de": "Genau: Die Agent-Service-Runtime erreicht deinen Laptop nicht – richte `server_url` auf den Remote-Endpoint oder auf einen Server, den du unter einer erreichbaren URL hostest."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The laptop server lacks a project connection with the Language key — register the laptop server in the Tools catalog so Foundry can reach it",
+            "de": "Dem Laptop-Server fehlt noch eine Projektverbindung mit dem Language-Key – registriere den Laptop-Server im Tool-Katalog, damit Foundry ihn erreicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: the cause is that Agent Service only accepts remote endpoints, and a catalog entry doesn't make a laptop reachable.",
+            "de": "Falsch: Die Ursache ist, dass Agent Service nur Remote-Endpoints akzeptiert, und ein Katalogeintrag macht einen Laptop nicht erreichbar."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "An empty list doesn't block anything — it allows all tools. Restrict access with a nonempty list of tool names, for example `[\"extract_named_entities_from_text\"]`.",
         "de": "Eine leere Liste blockiert nichts – sie erlaubt alle Tools. Schränke den Zugriff mit einer nicht leeren Liste von Tool-Namen ein, etwa `[\"extract_named_entities_from_text\"]`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "All tools — limit the agent with `require_approval={\"never\": {\"tool_names\": [...]}}` for the tools it may use",
+            "de": "Alle Tools – beschränke den Agent mit `require_approval={\"never\": {\"tool_names\": [...]}}` für die Tools, die er nutzen darf"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `[]` does allow all tools, but that filter only skips approval for the listed tools — restrict access with a nonempty `allowed_tools` list.",
+            "de": "Teilweise richtig: `[]` erlaubt zwar alle Tools, aber dieser Filter überspringt nur die Freigabe für die gelisteten Tools – schränke mit einer nicht leeren `allowed_tools`-Liste ein."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "All tools — limit the agent with a nonempty list of tool names, for example `[\"extract_named_entities_from_text\"]`",
+            "de": "Alle Tools – beschränke den Agent mit einer nicht leeren Liste von Tool-Namen, etwa `[\"extract_named_entities_from_text\"]`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: an empty or omitted `allowed_tools` allows every tool; only a nonempty list of exact tool names restricts the agent.",
+            "de": "Richtig: Ein leeres oder fehlendes `allowed_tools` erlaubt jedes Tool; nur eine nicht leere Liste exakter Tool-Namen schränkt den Agent ein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "No tools at all — limit the agent with a nonempty list of tool names, for example `[\"extract_named_entities_from_text\"]`",
+            "de": "Gar keine Tools – beschränke den Agent mit einer nicht leeren Liste von Tool-Namen, etwa `[\"extract_named_entities_from_text\"]`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: a nonempty list is the way to restrict, but an empty list doesn't block anything — it allows all tools.",
+            "de": "Teilweise richtig: Eine nicht leere Liste ist der Weg zum Einschränken, aber eine leere Liste blockiert nichts – sie erlaubt alle Tools."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "No tools at all — limit the agent with `require_approval={\"never\": {\"tool_names\": [...]}}` for the tools it may use",
+            "de": "Gar keine Tools – beschränke den Agent mit `require_approval={\"never\": {\"tool_names\": [...]}}` für die Tools, die er nutzen darf"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: an empty list allows all tools, and that filter only skips approval — use a nonempty `allowed_tools` list to restrict.",
+            "de": "Nein: Eine leere Liste erlaubt alle Tools, und dieser Filter überspringt nur die Freigabe – schränke mit einer nicht leeren `allowed_tools`-Liste ein."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Into the same conversation as the `mcp_approval_request` it answers. Otherwise the agent never continues.",
         "de": "In dieselbe Conversation wie das `mcp_approval_request`, das es beantwortet. Sonst setzt der Agent nie fort."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Into the same conversation as the `mcp_approval_request` it answers — otherwise the agent never continues",
+            "de": "In dieselbe Conversation wie das `mcp_approval_request`, das es beantwortet – sonst setzt der Agent nie fort"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the response must reach the conversation that holds the pending request; anywhere else, the agent keeps waiting.",
+            "de": "Korrekt: Die Antwort muss die Conversation erreichen, in der die offene Anfrage liegt; überall sonst wartet der Agent weiter."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Into the same conversation as the `mcp_approval_request` it answers — otherwise the tool runs unapproved",
+            "de": "In dieselbe Conversation wie das `mcp_approval_request`, das es beantwortet – sonst läuft das Tool ungeprüft"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the same conversation is right, but nothing runs without approval — a misplaced response leaves the agent waiting.",
+            "de": "Teilweise richtig: Dieselbe Conversation stimmt, aber ohne Freigabe läuft nichts – eine falsch platzierte Antwort lässt den Agent warten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Into a new conversation for each approval — otherwise the agent never continues",
+            "de": "In eine neue Conversation pro Freigabe – sonst setzt der Agent nie fort"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: a misplaced response does stall the agent, but a new conversation doesn't hold the pending request — use the same one.",
+            "de": "Teilweise richtig: Eine falsch platzierte Antwort blockiert den Agent zwar, aber eine neue Conversation enthält die offene Anfrage nicht – nutze dieselbe."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Into a new conversation for each approval — otherwise the tool runs unapproved",
+            "de": "In eine neue Conversation pro Freigabe – sonst läuft das Tool ungeprüft"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: a new conversation doesn't hold the pending request, and nothing runs without approval — the agent just never continues.",
+            "de": "Falsch: Eine neue Conversation enthält die offene Anfrage nicht, und ohne Freigabe läuft nichts – der Agent setzt einfach nie fort."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "From your resource name on `cognitiveservices.azure.com` plus `/language/mcp?api-version=…` — not from the project endpoint `…/api/projects/<project>`.",
         "de": "Aus deinem Ressourcennamen auf `cognitiveservices.azure.com` plus `/language/mcp?api-version=…` – nicht aus dem Project Endpoint `…/api/projects/<project>`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=…` — not the project endpoint `…/api/projects/<project>`",
+            "de": "`https://<resource>.cognitiveservices.azure.com/language/mcp?api-version=…` – nicht der Project Endpoint `…/api/projects/<project>`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the MCP endpoint hangs off your resource on `cognitiveservices.azure.com`; the project endpoint is what `AIProjectClient` uses.",
+            "de": "Ja: Der MCP-Endpoint hängt an deiner Ressource auf `cognitiveservices.azure.com`; den Project Endpoint nutzt `AIProjectClient`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`https://<resource>.services.ai.azure.com/api/projects/<project>/language/mcp` — not the `cognitiveservices.azure.com` endpoint",
+            "de": "`https://<resource>.services.ai.azure.com/api/projects/<project>/language/mcp` – nicht `cognitiveservices.azure.com`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No — reversed: the URL isn't built on the project endpoint `…/api/projects/<project>`; it uses `cognitiveservices.azure.com` plus `/language/mcp`.",
+            "de": "Nein – vertauscht: Die URL baut nicht auf dem Project Endpoint `…/api/projects/<project>` auf; sie nutzt `cognitiveservices.azure.com` plus `/language/mcp`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`https://api.microsoft.ai/v3/mcp` with the Language key — not the `cognitiveservices.azure.com` endpoint",
+            "de": "`https://api.microsoft.ai/v3/mcp` mit dem Language-Key – nicht `cognitiveservices.azure.com`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `https://api.microsoft.ai/v3/mcp` is Web IQ's MCP server; the Language MCP server lives on your resource at `/language/mcp`.",
+            "de": "Nein: `https://api.microsoft.ai/v3/mcp` ist der MCP-Server von Web IQ; der Language-MCP-Server liegt auf deiner Ressource unter `/language/mcp`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`https://<resource>.cognitiveservices.azure.com/language/:analyze-text?api-version=…` — not the project endpoint `…/api/projects/<project>`",
+            "de": "`https://<resource>.cognitiveservices.azure.com/language/:analyze-text?api-version=…` – nicht der Project Endpoint `…/api/projects/<project>`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the second part fits, but `:analyze-text` is the Language REST API, not an MCP server — the MCP path is `/language/mcp?api-version=…`.",
+            "de": "Teilweise richtig: Der zweite Teil stimmt, aber `:analyze-text` ist die REST-API von Language, kein MCP-Server – der MCP-Pfad ist `/language/mcp?api-version=…`."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Into the project connection — never into instructions or code. Treat tool descriptions and tool results from MCP servers as untrusted input.",
         "de": "In die Projektverbindung – nie in Anweisungen oder Code. Behandle Tool-Beschreibungen und Tool-Ergebnisse von MCP-Servern als nicht vertrauenswürdige Eingaben."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In the project connection, never in instructions or code — and trust tool results that come from Azure Language",
+            "de": "In die Projektverbindung, nie in Anweisungen oder Code – und Tool-Ergebnissen vertrauen, die von Azure Language kommen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the key placement fits, but tool results from MCP servers are untrusted input too — even from Azure Language.",
+            "de": "Teilweise richtig: Der Ort für den Key stimmt, aber Tool-Ergebnisse von MCP-Servern sind ebenfalls nicht vertrauenswürdige Eingaben – auch von Azure Language."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In `server_url` as a query parameter — and treat MCP tool descriptions and results as untrusted input",
+            "de": "In die `server_url` als Query-Parameter – und Tool-Beschreibungen und -Ergebnisse von MCP-Servern als nicht vertrauenswürdig behandeln"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the trust rule fits, but a key in `server_url` sits in your code — store it in the project connection.",
+            "de": "Teilweise richtig: Die Vertrauensregel stimmt, aber ein Key in der `server_url` steht in deinem Code – speichere ihn in der Projektverbindung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In `server_url` as a query parameter — and trust tool results that come from Azure Language",
+            "de": "In die `server_url` als Query-Parameter – und Tool-Ergebnissen vertrauen, die von Azure Language kommen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: a key in `server_url` sits in your code, and tool results from MCP servers are untrusted input — whatever service sends them.",
+            "de": "Falsch: Ein Key in der `server_url` steht in deinem Code, und Tool-Ergebnisse von MCP-Servern sind nicht vertrauenswürdige Eingaben – egal, welcher Dienst sie schickt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In the project connection, never in instructions or code — and treat MCP tool descriptions and results as untrusted input",
+            "de": "In die Projektverbindung, nie in Anweisungen oder Code – und Tool-Beschreibungen und -Ergebnisse von MCP-Servern als nicht vertrauenswürdig behandeln"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: the connection keeps the key out of code and instructions, and whatever an MCP server describes or returns is untrusted input.",
+            "de": "Genau: Die Verbindung hält den Key aus Code und Anweisungen heraus, und was ein MCP-Server beschreibt oder zurückgibt, ist nicht vertrauenswürdige Eingabe."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Tools are discovered at runtime: the model chooses, you don't route.",
         "de": "Tools werden zur Laufzeit entdeckt – das Modell wählt, du routest nicht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The agent's model picks the tools from a list fixed when the agent version is created",
+            "de": "Das Modell des Agents wählt die Tools aus einer Liste, die beim Anlegen der Agent-Version feststeht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the model does choose, but tools are discovered at run time — they can change on the server without a new agent version.",
+            "de": "Teilweise richtig: Das Modell wählt zwar, aber Tools werden zur Laufzeit entdeckt – sie können sich auf dem Server ändern, ohne dass du eine neue Agent-Version brauchst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The agent's model picks the tools from a list the agent fetches at run time",
+            "de": "Das Modell des Agents wählt die Tools aus einer Liste, die der Agent zur Laufzeit holt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the agent fetches the tool list with descriptions at run time, and the model chooses — no routing code.",
+            "de": "Richtig: Der Agent holt die Tool-Liste samt Beschreibungen zur Laufzeit, und das Modell wählt – ohne Routing-Code."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Your own routing code picks the tools from a list the agent fetches at run time",
+            "de": "Dein eigener Routing-Code wählt die Tools aus einer Liste, die der Agent zur Laufzeit holt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the list is fetched at run time, but with MCP you write no routing logic — the model chooses.",
+            "de": "Teilweise richtig: Die Liste wird zur Laufzeit geholt, aber mit MCP schreibst du keine Routing-Logik – das Modell wählt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Your own routing code picks the tools from a list fixed when the agent version is created",
+            "de": "Dein eigener Routing-Code wählt die Tools aus einer Liste, die beim Anlegen der Agent-Version feststeht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the model chooses, not your routing code, and the tool list is fetched at run time rather than fixed in the version.",
+            "de": "Nein: Das Modell wählt, nicht dein Routing-Code, und die Tool-Liste wird zur Laufzeit geholt, statt in der Version festzustehen."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Connect once — through the Tools catalog or `MCPTool` + project connection — then reuse it in prompt agents.",
         "de": "Einmal verbinden – über den Tool-Katalog oder mit `MCPTool` + Projektverbindung –, dann in Prompt-Agents wiederverwenden."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Once per conversation, by sending the Language key along with each `responses.create()` call",
+            "de": "Einmal pro Conversation, indem du den Language-Key bei jedem Aufruf von `responses.create()` mitschickst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: the key stays in the project connection — your app never sends it with `responses.create()`.",
+            "de": "Falsch: Der Key bleibt in der Projektverbindung – deine App schickt ihn nie mit `responses.create()` mit."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Once per agent version, by pasting the Language key into the agent's instructions",
+            "de": "Einmal pro Agent-Version, indem du den Language-Key in die Anweisungen des Agents einfügst"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the key never goes into instructions, and one connection serves every agent version.",
+            "de": "Nein: Der Key gehört nie in die Anweisungen, und eine Verbindung dient jeder Agent-Version."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Once per user, through an OAuth sign-in that grants `WorkIQAgent.Ask`",
+            "de": "Einmal pro Nutzer, über eine OAuth-Anmeldung, die `WorkIQAgent.Ask` gewährt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: `WorkIQAgent.Ask` belongs to Work IQ — Azure Language uses a key stored once in a project connection.",
+            "de": "Falsch: `WorkIQAgent.Ask` gehört zu Work IQ – Azure Language nutzt einen Key, der einmal in einer Projektverbindung gespeichert ist."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Once per project, through the Tools catalog or `MCPTool` plus a project connection",
+            "de": "Einmal pro Projekt, über den Tool-Katalog oder `MCPTool` plus Projektverbindung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the project connection stores the key once, and every prompt agent in the project reuses it through `MCPTool` with `project_connection_id`.",
+            "de": "Korrekt: Die Projektverbindung speichert den Key einmal, und jeder Prompt-Agent im Projekt nutzt sie über `MCPTool` mit `project_connection_id` wieder."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Keep `require_approval=\"always\"` (the default) and restrict `allowed_tools`.",
         "de": "`require_approval=\"always\"` (Standard) beibehalten und `allowed_tools` einschränken."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Keep `require_approval=\"always\"` and pass `allowed_tools=[]` to block every tool",
+            "de": "`require_approval=\"always\"` beibehalten und mit `allowed_tools=[]` jedes Tool sperren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: keeping approval is right, but `allowed_tools=[]` blocks nothing — an empty list allows all tools.",
+            "de": "Teilweise richtig: Die Freigabe beizubehalten stimmt, aber `allowed_tools=[]` sperrt nichts – eine leere Liste erlaubt alle Tools."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Keep `require_approval=\"always\"` and restrict `allowed_tools`",
+            "de": "`require_approval=\"always\"` beibehalten und `allowed_tools` einschränken"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: `\"always\"` is the default and keeps a human check before every call, and a nonempty `allowed_tools` list limits what the agent can reach.",
+            "de": "Ja: `\"always\"` ist der Standard und hält eine menschliche Prüfung vor jedem Aufruf, und eine nicht leere `allowed_tools`-Liste begrenzt, was der Agent erreicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Set `require_approval=\"never\"` and restrict `allowed_tools`",
+            "de": "`require_approval=\"never\"` setzen und `allowed_tools` einschränken"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: restricting tools is right, but `\"never\"` drops the approval that sensitive data calls for — keep `\"always\"`.",
+            "de": "Teilweise richtig: Tools einzuschränken stimmt, aber `\"never\"` streicht die Freigabe, die sensible Daten verlangen – behalte `\"always\"`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Set `require_approval=\"never\"` and pass `allowed_tools=[]` to block every tool",
+            "de": "`require_approval=\"never\"` setzen und mit `allowed_tools=[]` jedes Tool sperren"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `\"never\"` removes the human review, and `allowed_tools=[]` allows every tool instead of blocking them.",
+            "de": "Nein: `\"never\"` entfernt die menschliche Prüfung, und `allowed_tools=[]` erlaubt jedes Tool, statt sie zu sperren."
+          }
+        }
+      ]
     },
     {
       "id": "z-language-mcp-agent-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Prefer the core Language tools (detection, NER, PII); legacy ones retire in 2029.",
         "de": "Bevorzuge die Language-Kerntools (Erkennung, NER, PII); Legacy-Tools laufen 2029 aus."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Language detection, NER and PII redaction — the legacy ones stay supported without an end date",
+            "de": "Sprachenerkennung, NER und PII-Schwärzung – die Legacy-Tools bleiben ohne Enddatum unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: those are the core tools, but the legacy ones do have an end date — they retire in 2029.",
+            "de": "Teilweise richtig: Das sind die Kerntools, aber die Legacy-Tools haben sehr wohl ein Enddatum – sie laufen 2029 aus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Sentiment analysis, summarization and key phrase extraction — the legacy ones retire in 2029",
+            "de": "Stimmungsanalyse, Zusammenfassung und Schlüsselwortextraktion – die Legacy-Tools laufen 2029 aus"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the 2029 date fits, but sentiment analysis, summarization and key phrase extraction are themselves legacy — prefer detection, NER and PII redaction.",
+            "de": "Teilweise richtig: Das Datum 2029 stimmt, aber Stimmungsanalyse, Zusammenfassung und Schlüsselwortextraktion sind selbst Legacy – bevorzuge Erkennung, NER und PII-Schwärzung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Language detection, NER and PII redaction — the legacy ones retire in 2029",
+            "de": "Sprachenerkennung, NER und PII-Schwärzung – die Legacy-Tools laufen 2029 aus"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: detection, NER and PII redaction are the core tools; legacy features such as sentiment analysis and summarization retire in 2029.",
+            "de": "Genau: Erkennung, NER und PII-Schwärzung sind die Kerntools; Legacy-Funktionen wie Stimmungsanalyse und Zusammenfassung laufen 2029 aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Sentiment analysis, summarization and key phrase extraction — the legacy ones stay supported without an end date",
+            "de": "Stimmungsanalyse, Zusammenfassung und Schlüsselwortextraktion – die Legacy-Tools bleiben ohne Enddatum unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: sentiment analysis, summarization and key phrase extraction are legacy features, and they retire in 2029 — prefer the core tools.",
+            "de": "Falsch: Stimmungsanalyse, Zusammenfassung und Schlüsselwortextraktion sind Legacy-Funktionen, und sie laufen 2029 aus – bevorzuge die Kerntools."
+          }
+        }
+      ]
     }
   ]
 }

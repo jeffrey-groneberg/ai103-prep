@@ -8,7 +8,57 @@
       "front": {
         "en": "What is a Foundry workflow, which scenarios suit it, and when does it retire?",
         "de": "Was ist ein Foundry-Workflow, für welche Szenarien eignet er sich, und wann wird er eingestellt?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A code-first Python graph of executors and edges that you build with `WorkflowBuilder` for multi-agent processes; retires December 1, 2026",
+            "de": "Ein Code-first-Graph aus Executors und Edges in Python, den du mit `WorkflowBuilder` für Multi-Agent-Abläufe baust; endet am 1. Dezember 2026"
+          },
+          "correct": false,
+          "why": {
+            "en": "That describes code-first Agent Framework workflows; a Foundry workflow is a declarative, visual sequence you build in the portal.",
+            "de": "Das beschreibt Code-first-Workflows in Agent Framework; ein Foundry-Workflow ist eine deklarative, visuelle Abfolge, die du im Portal baust."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A UI-based, declarative sequence of actions for repeatable multi-agent processes, no-code logic and human steps; retires December 1, 2026",
+            "de": "Eine UI-basierte, deklarative Abfolge von Aktionen für wiederholbare Multi-Agent-Abläufe, Logik ohne Code und menschliche Schritte; endet am 1. Dezember 2026"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: workflows orchestrate agents and business logic declaratively in the portal and retire on December 1, 2026, so new ones belong in Microsoft Agent Framework.",
+            "de": "Richtig: Workflows orchestrieren Agents und Geschäftslogik deklarativ im Portal und werden am 1. Dezember 2026 eingestellt – neue gehören in Microsoft Agent Framework."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A UI-based, declarative sequence of actions for repeatable multi-agent processes, no-code logic and human steps; retires August 26, 2026",
+            "de": "Eine UI-basierte, deklarative Abfolge von Aktionen für wiederholbare Multi-Agent-Abläufe, Logik ohne Code und menschliche Schritte; endet bereits am 26. August 2026"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong date: Foundry workflows retire on December 1, 2026; August 26, 2026 is when the Assistants API was retired.",
+            "de": "Falsches Datum: Foundry-Workflows enden am 1. Dezember 2026; am 26. August 2026 wurde die Assistants API eingestellt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A code-first Python graph of executors and edges that you build with `WorkflowBuilder` for multi-agent processes; retires August 26, 2026",
+            "de": "Ein Code-first-Graph aus Executors und Edges in Python, den du mit `WorkflowBuilder` für Multi-Agent-Abläufe baust; endet bereits am 26. August 2026"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: that's a code-first Agent Framework workflow, and Foundry workflows retire on December 1, 2026; August 26, 2026 is when the Assistants API was retired.",
+            "de": "Doppelt falsch: Das ist ein Code-first-Workflow in Agent Framework, und Foundry-Workflows enden am 1. Dezember 2026; am 26. August 2026 wurde die Assistants API eingestellt."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which three workflow patterns does Foundry offer, and how does each one work?",
         "de": "Welche drei Workflow-Muster bietet Foundry, und wie funktioniert jedes davon?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Sequential: all agents in parallel on the same input; human in the loop: asks and waits for an answer; group chat: control passes dynamically",
+            "de": "Sequential: alle Agents laufen parallel mit derselben Eingabe; Human in the loop: fragt und wartet auf Antwort; Group chat: Kontrolle wechselt dynamisch"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: sequential passes each agent's result to the next in a fixed order, and running agents in parallel isn't one of the three templates.",
+            "de": "Nein: Sequential gibt das Ergebnis jedes Agents in fester Reihenfolge weiter, und parallele Agents gehören nicht zu den drei Vorlagen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Sequential: all agents in parallel on the same input; human in the loop: asks and waits for an answer; group chat: all reply at once, then merged",
+            "de": "Sequential: alle Agents laufen parallel mit derselben Eingabe; Human in the loop: fragt und wartet auf Antwort; Group chat: alle antworten zugleich, dann gebündelt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: sequential passes results along in a fixed order, and group chat hands control between agents dynamically instead of merging parallel replies.",
+            "de": "Doppelt falsch: Sequential reicht Ergebnisse in fester Reihenfolge weiter, und Group chat übergibt die Kontrolle dynamisch zwischen Agents, statt parallele Antworten zu bündeln."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Sequential: fixed order, result to the next agent; human in the loop: asks and waits for an answer; group chat: all reply at once, then merged",
+            "de": "Sequential: feste Reihenfolge, Ergebnis zum nächsten Agent; Human in the loop: fragt und wartet auf Antwort; Group chat: alle antworten zugleich, dann gebündelt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: group chat passes control between agents dynamically, based on context or rules; it doesn't merge parallel replies.",
+            "de": "Nein: Group chat übergibt die Kontrolle dynamisch nach Kontext oder Regeln zwischen Agents; parallele Antworten führt es nicht zusammen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Sequential: fixed order, result to the next agent; human in the loop: asks and waits for an answer; group chat: control passes dynamically",
+            "de": "Sequential: feste Reihenfolge, Ergebnis zum nächsten Agent; Human in the loop: fragt und wartet auf Antwort; Group chat: Kontrolle wechselt dynamisch"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: sequential chains agents in a fixed order, human in the loop pauses for a person's answer, and group chat passes control by context or rules.",
+            "de": "Richtig: Sequential verkettet Agents in fester Reihenfolge, Human in the loop pausiert für die Antwort einer Person, und Group chat übergibt die Kontrolle nach Kontext oder Regeln."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which node types does the workflow designer offer, and what does each kind do?",
         "de": "Welche Knotentypen bietet der Workflow-Designer, und was macht jede Art?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Invoke agent runs an agent; logic: if/else, go to, for each; data: set a variable or parse a value; chat: send a message or ask a question",
+            "de": "Invoke agent führt einen Agent aus; Logik: if/else, go to, for each; Daten: Variable setzen oder Wert parsen; Chat: Nachricht senden oder Frage stellen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: agent nodes reason, logic nodes branch or loop, data transformation nodes set or parse values, and basic chat nodes talk to the user.",
+            "de": "Richtig: Agent-Knoten denken, Logik-Knoten verzweigen oder wiederholen, Data-Transformation-Knoten setzen oder parsen Werte, und Basic-Chat-Knoten sprechen mit dem Nutzer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Invoke agent runs an agent; logic: send a message or ask a question; data: if/else and for each; chat: set a variable or parse a value",
+            "de": "Invoke agent führt einen Agent aus; Logik: Nachricht senden oder Frage stellen; Daten: if/else und for each; Chat: Variable setzen oder Wert parsen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Scrambled: if/else and for each are logic nodes, setting a variable is data transformation, and messages and questions are basic chat nodes.",
+            "de": "Durcheinander: if/else und for each sind Logik-Knoten, eine Variable setzen ist Data Transformation, Nachrichten und Fragen sind Basic-Chat-Knoten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Invoke agent runs any agent, hosted ones too; logic: if/else, go to, for each; data: set a variable or parse a value; chat: send a message or ask a question",
+            "de": "Invoke agent führt jeden Agent aus, auch Hosted Agents; Logik: if/else, go to, for each; Daten: Variable setzen oder Wert parsen; Chat: Nachricht senden oder Frage stellen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the node map fits, but hosted agents can't be added to the workflow designer.",
+            "de": "Teilweise richtig: Die Knotenzuordnung stimmt, aber Hosted Agents lassen sich nicht in den Workflow-Designer einfügen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Invoke agent runs any agent, hosted ones too; logic: send a message or ask a question; data: if/else and for each; chat: set a variable or parse a value",
+            "de": "Invoke agent führt jeden Agent aus, auch Hosted Agents; Logik: Nachricht senden oder Frage stellen; Daten: if/else und for each; Chat: Variable setzen oder Wert parsen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: hosted agents can't be added to the designer, and the roles of the logic, data and chat nodes are mixed up.",
+            "de": "Doppelt falsch: Hosted Agents lassen sich nicht in den Designer einfügen, und die Rollen der Logik-, Daten- und Chat-Knoten sind vertauscht."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "Which Invoke agent settings give you structured output that later nodes can branch on?",
         "de": "Welche Einstellungen in Invoke agent liefern eine Ausgabe, nach der spätere Knoten verzweigen können?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "**Text format** set to **JSON Schema** with your schema, plus a **Send message** node that passes the output on to later nodes",
+            "de": "**Text format** auf **JSON Schema** mit deinem Schema, plus ein **Send message**-Knoten, der die Ausgabe an spätere Knoten weiterreicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "A **Send message** node only outputs text; later nodes branch on a variable that you save under **Action settings**.",
+            "de": "Ein **Send message**-Knoten gibt nur Text aus; spätere Knoten verzweigen nach einer Variablen, die du unter **Action settings** speicherst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "**Action settings** that save the raw text reply as a variable, plus an if/else that compares it with `==`",
+            "de": "**Action settings**, die die rohe Textantwort als Variable speichern, plus ein if/else, das sie mit `==` vergleicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Raw text has no fields to branch on, and Power Fx compares with `=`, not `==`; set **Text format** to **JSON Schema** first.",
+            "de": "Roher Text hat keine Felder zum Verzweigen, und Power Fx vergleicht mit `=`, nicht mit `==`; stell zuerst **Text format** auf **JSON Schema**."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "**Text format** set to **JSON Schema** with your schema, plus **Action settings** that save the output as a variable",
+            "de": "**Text format** auf **JSON Schema** mit deinem Schema, plus **Action settings**, die die Ausgabe als Variable speichern"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the JSON schema makes the agent return predictable fields, and the saved variable lets later nodes branch on values such as `Local.Triage.category`.",
+            "de": "Richtig: Das JSON-Schema sorgt für vorhersehbare Felder, und die gespeicherte Variable lässt spätere Knoten nach Werten wie `Local.Triage.category` verzweigen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A **Send message** node that passes the raw text reply on, plus an if/else that compares it with `==`",
+            "de": "Ein **Send message**-Knoten, der die rohe Textantwort weiterreicht, plus ein if/else, das sie mit `==` vergleicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: raw text has no fields to branch on and a **Send message** node only outputs text; besides, Power Fx compares with `=`, not `==`.",
+            "de": "Doppelt falsch: Roher Text hat keine Felder zum Verzweigen, und ein **Send message**-Knoten gibt nur Text aus; außerdem vergleicht Power Fx mit `=`, nicht mit `==`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What is Power Fx used for in workflows, and what must you watch out for in comparisons and names?",
         "de": "Wofür nutzen Workflows Power Fx, und worauf musst du bei Vergleichen und Namen achten?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Conditions, variable values and loops; compare with `==` or `!=`, and prefix names with `Local.` or `System.`",
+            "de": "Bedingungen, Variablenwerte und Schleifen; vergleiche mit `==` oder `!=` und setze `Local.` oder `System.` vor Namen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the `Local.`/`System.` prefixes fit, but Power Fx compares with `=` and `<>`; `==` and `!=` aren't Power Fx operators.",
+            "de": "Teilweise richtig: Die Präfixe `Local.`/`System.` stimmen, aber Power Fx vergleicht mit `=` und `<>`; `==` und `!=` sind keine Power-Fx-Operatoren."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Conditions, variable values and loops; compare with `=` or `<>` (no `==`), and prefix names with `Local.` or `System.`",
+            "de": "Bedingungen, Variablenwerte und Schleifen; vergleiche mit `=` oder `<>` (kein `==`) und setze `Local.` oder `System.` vor Namen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Power Fx drives conditions, values and loops; it compares with `=`, `<>`, `>`, `>=`, and a missing `Local.`/`System.` prefix raises \"Name isn't valid\".",
+            "de": "Richtig: Power Fx steuert Bedingungen, Werte und Schleifen; es vergleicht mit `=`, `<>`, `>`, `>=`, und ein fehlendes Präfix `Local.`/`System.` löst „Name isn't valid“ aus."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Conditions, variable values and loops; compare with `=` or `<>` (no `==`), and prefix every name with `Global.`",
+            "de": "Bedingungen, Variablenwerte und Schleifen; vergleiche mit `=` oder `<>` (kein `==`) und setze `Global.` vor jeden Namen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong prefix: workflows know two scopes, `Local.` for your own variables and `System.` for built-in values.",
+            "de": "Falsches Präfix: Workflows kennen zwei Scopes, `Local.` für eigene Variablen und `System.` für eingebaute Werte."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Conditions, variable values and loops; compare with `==` or `!=`, and prefix every name with `Global.`",
+            "de": "Bedingungen, Variablenwerte und Schleifen; vergleiche mit `==` oder `!=` und setze `Global.` vor jeden Namen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Power Fx has no `==` or `!=` (use `=` and `<>`), and workflows know only the `Local.` and `System.` scopes.",
+            "de": "Doppelt falsch: Power Fx kennt kein `==` oder `!=` (nutze `=` und `<>`), und Workflows kennen nur die Scopes `Local.` und `System.`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How do saving and versioning work for a workflow, and what is its YAML file used for?",
         "de": "Wie funktionieren Speichern und Versionierung bei einem Workflow, und wofür dient seine YAML-Datei?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Changes autosave into the current version, which you can edit later; the YAML is the portable artifact for migration",
+            "de": "Änderungen landen automatisch in der aktuellen Version, die du später bearbeiten kannst; das YAML ist das Migrationsartefakt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Foundry never saves automatically, and a saved version can be viewed or deleted but not changed.",
+            "de": "Nein: Foundry speichert nie automatisch, und eine gespeicherte Version kannst du ansehen oder löschen, aber nicht ändern."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "No autosave; each Save freezes a new version you can view or delete but not change; the YAML is just a read-only log of the past runs",
+            "de": "Kein Autosave; jedes Save friert eine neue Version ein, die du ansehen oder löschen, aber nicht ändern kannst; das YAML protokolliert nur frühere Läufe"
+          },
+          "correct": false,
+          "why": {
+            "en": "The YAML holds the workflow definition, synced with the canvas, and it's the portable artifact you export for migration, not a run log.",
+            "de": "Das YAML enthält die Workflow-Definition, synchron zum Canvas, und ist das portable Artefakt für die Migration, kein Laufprotokoll."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "No autosave; each Save freezes a new version you can view or delete but not change; the YAML is the portable artifact for migration",
+            "de": "Kein Autosave; jedes Save friert eine neue Version ein, die du ansehen oder löschen, aber nicht ändern kannst; das YAML ist das Migrationsartefakt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: nothing is saved until you select Save, versions are immutable, and the exported YAML carries the workflow over to Microsoft Agent Framework.",
+            "de": "Richtig: Gespeichert wird erst mit Save, Versionen sind unveränderlich, und das exportierte YAML bringt den Workflow zu Microsoft Agent Framework."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Changes autosave into the current version, which you can edit later; the YAML is just a read-only log of the past runs",
+            "de": "Änderungen landen automatisch in der aktuellen Version, die du später bearbeiten kannst; das YAML protokolliert nur frühere Läufe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Foundry never saves automatically and versions can't be changed, and the YAML is the definition you export for migration, not a run log.",
+            "de": "Doppelt falsch: Foundry speichert nie automatisch, und Versionen lassen sich nicht ändern; das YAML ist die Definition, die du für die Migration exportierst, kein Laufprotokoll."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Which Agent Framework classes run declarative and code-first workflows, and how are they deployed?",
         "de": "Welche Agent-Framework-Klassen führen deklarative und Code-first-Workflows aus, und wie stellst du sie bereit?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`WorkflowBuilder` runs declarative YAML; `WorkflowFactory` builds code-first graphs; deploy them by importing into the portal designer",
+            "de": "`WorkflowBuilder` führt deklaratives YAML aus; `WorkflowFactory` baut Code-first-Graphen; Bereitstellung per Import in den Workflow-Designer des Portals"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `WorkflowFactory` loads YAML while `WorkflowBuilder` wires code, and hosted agents can't be added to the retiring designer.",
+            "de": "Doppelt falsch: `WorkflowFactory` lädt YAML, `WorkflowBuilder` verbindet Code, und Hosted Agents lassen sich nicht in den auslaufenden Designer einfügen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`WorkflowFactory` runs declarative YAML; `WorkflowBuilder` builds code-first graphs; deploy them by importing into the portal designer",
+            "de": "`WorkflowFactory` führt deklaratives YAML aus; `WorkflowBuilder` baut Code-first-Graphen; Bereitstellung per Import in den Workflow-Designer des Portals"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: hosted agents can't be added to the workflow designer, which retires anyway; you deploy the workflow as a hosted agent.",
+            "de": "Nein: Hosted Agents lassen sich nicht in den Workflow-Designer einfügen, der ohnehin eingestellt wird; du stellst den Workflow als Hosted Agent bereit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`WorkflowBuilder` runs declarative YAML; `WorkflowFactory` builds code-first graphs; deploy them as a hosted agent",
+            "de": "`WorkflowBuilder` führt deklaratives YAML aus; `WorkflowFactory` baut Code-first-Graphen; Bereitstellung als Hosted Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `WorkflowFactory` creates workflows from YAML, while `WorkflowBuilder` builds them from edges in code.",
+            "de": "Vertauscht: `WorkflowFactory` erzeugt Workflows aus YAML, `WorkflowBuilder` baut sie aus Edges im Code."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`WorkflowFactory` runs declarative YAML; `WorkflowBuilder` builds code-first graphs; deploy them as a hosted agent",
+            "de": "`WorkflowFactory` führt deklaratives YAML aus; `WorkflowBuilder` baut Code-first-Graphen; Bereitstellung als Hosted Agent"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `WorkflowFactory` loads YAML with actions like `InvokeAzureAgent`, `WorkflowBuilder` wires edges in code, and the result runs as a hosted agent.",
+            "de": "Richtig: `WorkflowFactory` lädt YAML mit Aktionen wie `InvokeAzureAgent`, `WorkflowBuilder` verbindet Edges im Code, und das Ergebnis läuft als Hosted Agent."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Existing workflow → designer nodes; build a NEW workflow → Microsoft Agent Framework, never the portal designer. Foundry workflows retire on December 1, 2026; afterwards YAML workflows still run only when deployed as a hosted agent.",
         "de": "Bestehender Workflow → Designer-Knoten; einen NEUEN Workflow bauen → Microsoft Agent Framework, nie der Portal-Designer. Foundry-Workflows werden am 1. Dezember 2026 eingestellt; danach laufen YAML-Workflows nur noch, wenn sie als Hosted Agent bereitgestellt sind."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Existing: Agent Framework; new: the portal designer, because it only retires on December 1, 2026",
+            "de": "Bestehend: Agent Framework; neu: der Portal-Designer, weil er erst am 1. Dezember 2026 endet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: never build a new workflow in the designer, which retires on December 1, 2026; existing ones are described with designer nodes.",
+            "de": "Vertauscht: Einen neuen Workflow baust du nie im Designer, der am 1. Dezember 2026 eingestellt wird; bestehende beschreibst du mit Designer-Knoten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Existing: designer nodes; new: Microsoft Agent Framework, because portal workflows retire on December 1, 2026",
+            "de": "Bestehend: Designer-Knoten; neu: Microsoft Agent Framework, weil Portal-Workflows am 1. Dezember 2026 enden"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: questions about an existing workflow are answered with designer nodes; new workflows go to Agent Framework because the portal workflows retire.",
+            "de": "Richtig: Fragen zu einem bestehenden Workflow beantwortest du mit Designer-Knoten; neue Workflows gehören in Agent Framework, weil Portal-Workflows eingestellt werden."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Both: the portal designer, because saved workflows keep running after December 1, 2026",
+            "de": "Beides: der Portal-Designer, weil gespeicherte Workflows nach dem 1. Dezember 2026 weiterlaufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: after December 1, 2026, YAML workflows run only when deployed as a hosted agent.",
+            "de": "Nein: Nach dem 1. Dezember 2026 laufen YAML-Workflows nur noch, wenn sie als Hosted Agent bereitgestellt sind."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Existing: designer nodes; new: Azure Logic Apps, because Agent Framework can't run declarative YAML files",
+            "de": "Bestehend: Designer-Knoten; neu: Azure Logic Apps, da Agent Framework kein deklaratives YAML ausführt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Agent Framework does run declarative YAML, with `WorkflowFactory`, and it's the answer for new workflows.",
+            "de": "Agent Framework führt deklaratives YAML sehr wohl aus, mit `WorkflowFactory`, und ist die Antwort für neue Workflows."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Foundry doesn't save workflows automatically — unsaved changes don't run. Every Save creates a new immutable version.",
         "de": "Foundry speichert Workflows nicht automatisch – ungespeicherte Änderungen laufen nicht. Jedes Save erzeugt eine neue, unveränderliche Version."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Foundry autosaves, but edits only run after a redeploy; every Save creates a new immutable version",
+            "de": "Foundry speichert automatisch, Änderungen laufen aber erst nach einem erneuten Deployment; jedes Save erzeugt eine neue, unveränderliche Version"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: each Save does create a new immutable version, but Foundry never autosaves, so unsaved edits simply don't run.",
+            "de": "Teilweise richtig: Jedes Save erzeugt tatsächlich eine neue, unveränderliche Version, aber Foundry speichert nie automatisch – ungespeicherte Änderungen laufen einfach nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Foundry autosaves, but edits only run after a redeploy; every Save updates the current version in place",
+            "de": "Foundry speichert automatisch, Änderungen laufen aber erst nach einem erneuten Deployment; jedes Save ändert die aktuelle Version direkt an Ort und Stelle"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Foundry doesn't autosave, and a Save never changes an existing version; it creates a new, immutable one.",
+            "de": "Doppelt falsch: Foundry speichert nicht automatisch, und ein Save ändert keine bestehende Version, sondern erzeugt eine neue, unveränderliche."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Foundry doesn't autosave, so unsaved edits don't run; every Save updates the current version in place",
+            "de": "Foundry speichert nicht automatisch, ungespeicherte Änderungen laufen also nicht; jedes Save ändert die aktuelle Version direkt an Ort und Stelle"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: unsaved edits don't run, but a Save never changes an existing version; it creates a new one.",
+            "de": "Teilweise richtig: Ungespeicherte Änderungen laufen nicht, aber ein Save ändert keine bestehende Version, sondern erzeugt eine neue."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Foundry doesn't autosave, so unsaved edits don't run; every Save creates a new immutable version",
+            "de": "Foundry speichert nicht automatisch, ungespeicherte Änderungen laufen also nicht; jedes Save erzeugt eine neue, unveränderliche Version"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: only saved changes run, and each Save freezes a new version that you can view or delete but not change.",
+            "de": "Richtig: Nur gespeicherte Änderungen laufen, und jedes Save friert eine neue Version ein, die du ansehen oder löschen, aber nicht ändern kannst."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Power Fx needs the scope prefix: `Local.Approval`, not `Approval`. Built-in values such as the last message live under `System.`.",
         "de": "Power Fx braucht das Scope-Präfix: `Local.Approval`, nicht `Approval`. Eingebaute Werte wie die letzte Nachricht liegen unter `System.`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The name must be quoted as `\"Approval\"`; built-in values such as the last message live under `Local.`",
+            "de": "Der Name gehört in Anführungszeichen (`\"Approval\"`); eingebaute Werte wie die letzte Nachricht liegen unter `Local.`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Quotes turn it into a text literal; the variable needs the `Local.` prefix, and built-in values live under `System.`.",
+            "de": "Anführungszeichen machen daraus einen Textwert; die Variable braucht das Präfix `Local.`, und eingebaute Werte liegen unter `System.`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Nothing, as long as you compare with `==`; built-in values such as the last message live under `System.`",
+            "de": "Nichts, solange du mit `==` vergleichst; eingebaute Werte wie die letzte Nachricht liegen unter `System.`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`==` isn't a Power Fx operator (use `=`), and the name still needs the `Local.` prefix.",
+            "de": "`==` ist kein Power-Fx-Operator (nutze `=`), und der Name braucht trotzdem das Präfix `Local.`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `Local.` prefix is missing (`Local.Approval`); built-in values such as the last message live under `System.`",
+            "de": "Das Präfix `Local.` fehlt, richtig ist `Local.Approval`; eingebaute Werte wie die letzte Nachricht liegen unter `System.`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: your own variables need `Local.`, or Power Fx reports \"Name isn't valid\"; built-in values such as `System.LastMessage.Text` sit under `System.`.",
+            "de": "Richtig: Eigene Variablen brauchen `Local.`, sonst meldet Power Fx „Name isn't valid“; eingebaute Werte wie `System.LastMessage.Text` liegen unter `System.`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The `System.` prefix is missing; built-in values such as the last message live under `Local.`",
+            "de": "Das Präfix `System.` fehlt; eingebaute Werte wie die letzte Nachricht liegen unter `Local.`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: your own variables use `Local.`, while built-in values such as the last message use `System.`.",
+            "de": "Vertauscht: Eigene Variablen nutzen `Local.`, eingebaute Werte wie die letzte Nachricht `System.`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "A Send message node only outputs text. To wait for a person's decision you need Ask a question plus a saved variable and an if/else.",
         "de": "Ein Send-message-Knoten gibt nur Text aus. Um auf die Entscheidung einer Person zu warten, brauchst du Ask a question plus gespeicherte Variable und if/else."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It only outputs text; you need Ask a question, a saved variable and an if/else",
+            "de": "Er gibt nur Text aus; du brauchst Ask a question, eine gespeicherte Variable und ein if/else"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Ask a question posts into the conversation and waits, the reply is saved as a variable, and an if/else routes on it.",
+            "de": "Richtig: Ask a question stellt die Frage in die Conversation und wartet, die Antwort landet in einer Variablen, und ein if/else verzweigt danach."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It times out after 20 minutes; you need a for each loop that keeps checking for the reply",
+            "de": "Er läuft nach 20 Minuten ab; du brauchst eine for-each-Schleife, die immer wieder nach der Antwort sieht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Send message never waits at all, and a loop doesn't collect a person's reply; Ask a question does the waiting.",
+            "de": "Nein: Send message wartet überhaupt nicht, und eine Schleife sammelt keine Antwort einer Person ein; das Warten übernimmt Ask a question."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It only outputs text; you need a second Send message node with a JSON schema",
+            "de": "Er gibt nur Text aus; du brauchst einen zweiten Send-message-Knoten mit JSON-Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "A second Send message only outputs more text; waiting for a decision takes Ask a question plus a saved variable and an if/else.",
+            "de": "Ein zweites Send message gibt nur weiteren Text aus; auf eine Entscheidung wartest du mit Ask a question plus gespeicherter Variable und if/else."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It needs a hosted agent to wait; you add a hosted agent to the designer for that step",
+            "de": "Er braucht zum Warten einen Hosted Agent; du fügst für diesen Schritt einen Hosted Agent in den Designer ein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Hosted agents can't be added to the workflow designer; the waiting step is an Ask a question node.",
+            "de": "Hosted Agents lassen sich nicht in den Workflow-Designer einfügen; der wartende Schritt ist ein Ask-a-question-Knoten."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Hosted agents can't be added to the workflow designer. Orchestrate inside a hosted agent with Agent Framework workflows instead.",
         "de": "Hosted Agents lassen sich nicht in den Workflow-Designer einfügen. Orchestriere stattdessen innerhalb eines Hosted Agent mit Agent-Framework-Workflows."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It works through an Invoke agent node like any other agent, so no alternative is needed at all",
+            "de": "Das klappt über einen Invoke-agent-Knoten wie bei jedem anderen Agent, eine Alternative ist also gar nicht nötig"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Invoke agent runs existing or new agents, but hosted agents can't be added to the designer at all.",
+            "de": "Nein: Invoke agent führt bestehende oder neue Agents aus, aber Hosted Agents lassen sich gar nicht in den Designer einfügen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It isn't possible; wrap the hosted agent in a Send message node and call it from there instead",
+            "de": "Das geht nicht; verpacke den Hosted Agent stattdessen in einen Send-message-Knoten und ruf ihn dort auf"
+          },
+          "correct": false,
+          "why": {
+            "en": "A Send message node only outputs text; it can't run any agent, hosted or not.",
+            "de": "Ein Send-message-Knoten gibt nur Text aus; einen Agent – ob gehostet oder nicht – kann er nicht ausführen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It isn't possible; orchestrate inside the hosted agent with Agent Framework workflows instead",
+            "de": "Das geht nicht; orchestriere stattdessen im Hosted Agent mit Agent-Framework-Workflows"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the designer doesn't support hosted agents, so the orchestration moves into the hosted agent itself, built with Agent Framework workflows.",
+            "de": "Richtig: Der Designer unterstützt keine Hosted Agents, also wandert die Orchestrierung in den Hosted Agent selbst – gebaut mit Agent-Framework-Workflows."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It isn't possible; call the hosted agent from a for each node that loops over its tasks instead",
+            "de": "Das geht nicht; ruf den Hosted Agent stattdessen aus einem for-each-Knoten auf, der über seine Aufgaben iteriert"
+          },
+          "correct": false,
+          "why": {
+            "en": "A for each node only loops over a list; the alternative is orchestrating inside the hosted agent with Agent Framework workflows.",
+            "de": "Ein for-each-Knoten iteriert nur über eine Liste; die Alternative ist die Orchestrierung im Hosted Agent mit Agent-Framework-Workflows."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Fixed order → sequential; a person must decide → human in the loop; dynamic expert routing → group chat.",
         "de": "Feste Reihenfolge → Sequential; eine Person entscheidet → Human in the loop; dynamisches Experten-Routing → Group chat."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Fixed order: group chat; human decision: human in the loop; expert routing: sequential",
+            "de": "Feste Reihenfolge: Group chat; menschliche Entscheidung: Human in the loop; Experten-Routing: Sequential"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: group chat routes dynamically and sequential keeps the fixed order, not the other way round.",
+            "de": "Vertauscht: Group chat leitet dynamisch weiter, Sequential hält die feste Reihenfolge – nicht umgekehrt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Fixed order: sequential; human decision: human in the loop; expert routing: group chat",
+            "de": "Feste Reihenfolge: Sequential; menschliche Entscheidung: Human in the loop; Experten-Routing: Group chat"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: sequential keeps a fixed order, human in the loop waits for a person, and group chat passes control dynamically between agents.",
+            "de": "Richtig: Sequential hält eine feste Reihenfolge, Human in the loop wartet auf eine Person, und Group chat übergibt die Kontrolle dynamisch zwischen Agents."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Fixed order: sequential; human decision: group chat; expert routing: human in the loop",
+            "de": "Feste Reihenfolge: Sequential; menschliche Entscheidung: Group chat; Experten-Routing: Human in the loop"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: a person's decision needs human in the loop, while dynamic expert routing is group chat.",
+            "de": "Vertauscht: Eine menschliche Entscheidung braucht Human in the loop, dynamisches Experten-Routing ist Group chat."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Fixed order: sequential; human decision: human in the loop; expert routing: concurrent",
+            "de": "Feste Reihenfolge: Sequential; menschliche Entscheidung: Human in the loop; Experten-Routing: Concurrent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Concurrent runs agents in parallel and isn't one of the three Foundry templates; dynamic expert routing is group chat.",
+            "de": "Concurrent lässt Agents parallel laufen und gehört nicht zu den drei Foundry-Vorlagen; dynamisches Experten-Routing ist Group chat."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "A JSON schema response format, a saved variable and a Power Fx if/else.",
         "de": "JSON-Schema-Antwortformat + gespeicherte Variable + Power-Fx-if/else."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A Send message node, a for each loop and a Power Fx if/else",
+            "de": "Send-message-Knoten, for-each-Schleife und Power-Fx-if/else"
+          },
+          "correct": false,
+          "why": {
+            "en": "Send message only outputs text, and a loop doesn't make output routable; you need a JSON schema and a saved variable.",
+            "de": "Send message gibt nur Text aus, und eine Schleife macht nichts routbar; du brauchst ein JSON-Schema und eine gespeicherte Variable."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A JSON schema response format, a saved variable and a Python `==` check",
+            "de": "JSON-Schema-Antwortformat, gespeicherte Variable und ein `==`-Vergleich in Python"
+          },
+          "correct": false,
+          "why": {
+            "en": "Conditions in the designer are Power Fx, which compares with `=`, not with Python's `==`.",
+            "de": "Bedingungen im Designer sind Power Fx, und das vergleicht mit `=`, nicht mit `==` wie in Python."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A Send message node, a for each loop and a Python `==` check",
+            "de": "Send-message-Knoten, for-each-Schleife und `==`-Vergleich in Python"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong on all three: Send message only outputs text, a loop doesn't make output routable, and designer conditions are Power Fx, which compares with `=`.",
+            "de": "In allen drei Punkten falsch: Send message gibt nur Text aus, eine Schleife macht nichts routbar, und Bedingungen im Designer sind Power Fx, das mit `=` vergleicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A JSON schema response format, a saved variable and a Power Fx if/else",
+            "de": "JSON-Schema-Antwortformat, gespeicherte Variable und Power-Fx-if/else"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the schema makes fields predictable, the variable stores them, and a Power Fx if/else branches on values such as `Local.Triage.category`.",
+            "de": "Richtig: Das Schema macht Felder vorhersehbar, die Variable speichert sie, und ein Power-Fx-if/else verzweigt nach Werten wie `Local.Triage.category`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "One conversation per run, `responses.create` with an agent reference, and further messages to answer pauses.",
         "de": "Eine Conversation pro Lauf, `responses.create` mit Agent-Referenz und weitere Nachrichten, um Pausen zu beantworten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "One conversation per run, `responses.create` with an agent reference, and further messages that answer pauses",
+            "de": "Eine Conversation pro Lauf, `responses.create` mit Agent-Referenz und weitere Nachrichten, die Pausen beantworten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: create a conversation, call `responses.create` with the workflow's `agent_reference`, and send the approver's answer as `input` in the same conversation.",
+            "de": "Richtig: Leg eine Conversation an, ruf `responses.create` mit der `agent_reference` des Workflows auf und schick die Antwort des Freigebenden als `input` in dieselbe Conversation."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`workflow.run()` with the workflow's name, resumed later with `workflow.run(responses={request_id: answer})`",
+            "de": "`workflow.run()` mit dem Workflow-Namen, später fortgesetzt mit `workflow.run(responses={request_id: answer})`"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's how Agent Framework resumes a `request_info` pause; a saved Foundry workflow runs via `responses.create` with an agent reference.",
+            "de": "So setzt Agent Framework eine `request_info`-Pause fort; ein gespeicherter Foundry-Workflow läuft über `responses.create` mit Agent-Referenz."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A new conversation per message, `responses.create` with an agent reference, and the answer sent in a fresh conversation",
+            "de": "Eine neue Conversation pro Nachricht, `responses.create` mit Agent-Referenz und die Antwort in einer frischen Conversation"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a run lives in one conversation, and the answer to a pause goes into that same conversation with the same `agent_reference`.",
+            "de": "Nein: Ein Lauf lebt in einer Conversation, und die Antwort auf eine Pause geht in genau diese Conversation mit derselben `agent_reference`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`chat.completions.create` with the workflow name as `model`, resending the full `messages` list after each pause",
+            "de": "`chat.completions.create` mit dem Workflow-Namen als `model`, nach jeder Pause die ganze `messages`-Liste erneut senden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Workflows don't run through Chat Completions; the app references the workflow by name in `responses.create` within a conversation.",
+            "de": "Workflows laufen nicht über Chat Completions; die App referenziert den Workflow per Name in `responses.create` innerhalb einer Conversation."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-workflows-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "New workflows: Microsoft Agent Framework. Keep the exported YAML as your migration artifact.",
         "de": "Neue Workflows: Microsoft Agent Framework; das exportierte YAML ist dein Migrationsartefakt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In the Foundry portal's workflow designer; keep the exported YAML as your migration artifact",
+            "de": "Mit dem Workflow-Designer des Foundry-Portals; das exportierte YAML ist dein Migrationsartefakt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the portal designer retires on December 1, 2026, so new workflows belong in Microsoft Agent Framework.",
+            "de": "Nein: Der Portal-Designer wird am 1. Dezember 2026 eingestellt, neue Workflows gehören also in Microsoft Agent Framework."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In Microsoft Agent Framework; keep the exported YAML as your migration artifact",
+            "de": "Mit Microsoft Agent Framework; das exportierte YAML ist dein Migrationsartefakt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: new workflows belong in Agent Framework, where the exported YAML runs as a declarative workflow or is converted to code.",
+            "de": "Richtig: Neue Workflows gehören in Agent Framework, wo das exportierte YAML als deklarativer Workflow läuft oder in Code umgewandelt wird."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In the Foundry portal's workflow designer; keep the conversation history of past runs as your migration artifact",
+            "de": "Mit dem Workflow-Designer des Foundry-Portals; der Conversation-Verlauf früherer Läufe ist dein Migrationsartefakt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the designer retires on December 1, 2026, and the workflow is defined by its exported YAML, not by run history.",
+            "de": "Doppelt falsch: Der Designer wird am 1. Dezember 2026 eingestellt, und den Workflow definiert sein exportiertes YAML, nicht der Laufverlauf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In Microsoft Agent Framework; keep the conversation history of past runs as your migration artifact",
+            "de": "Mit Microsoft Agent Framework; der Conversation-Verlauf früherer Läufe ist dein Migrationsartefakt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Run history doesn't define the workflow; the exported YAML does, and that's what you migrate.",
+            "de": "Der Verlauf früherer Läufe definiert den Workflow nicht; das tut das exportierte YAML, und das migrierst du."
+          }
+        }
+      ]
     }
   ]
 }

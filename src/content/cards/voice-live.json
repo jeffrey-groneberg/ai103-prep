@@ -8,7 +8,57 @@
       "front": {
         "en": "Which API do Voice Live’s real-time events largely match, and what does Voice Live add on top?",
         "de": "Welcher API entsprechen die Echtzeit-Events von Voice Live weitgehend, und was ergänzt Voice Live?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Azure OpenAI Responses API; Voice Live adds noise suppression, echo cancellation, semantic end-of-turn detection and avatars",
+            "de": "Der Azure OpenAI Responses API; Voice Live ergänzt Rauschunterdrückung, Echounterdrückung, semantische Erkennung des Turn-Endes und Avatare"
+          },
+          "correct": false,
+          "why": {
+            "en": "The additions fit, the API doesn’t: Voice Live’s real-time events largely match the Azure OpenAI Realtime API, not the Responses API.",
+            "de": "Die Ergänzungen stimmen, die API nicht: Die Echtzeit-Events von Voice Live entsprechen weitgehend der Azure OpenAI Realtime API, nicht der Responses API."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The Azure OpenAI Responses API; Voice Live adds no features of its own — only Azure billing and quota",
+            "de": "Der Azure OpenAI Responses API; Voice Live ergänzt keine eigenen Funktionen – nur Azure-Abrechnung und Kontingent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the events largely match the Azure OpenAI Realtime API, and Voice Live adds noise suppression, echo cancellation, semantic end-of-turn detection and avatars.",
+            "de": "Zweimal falsch: Die Events entsprechen weitgehend der Azure OpenAI Realtime API, und Voice Live ergänzt Rausch- und Echounterdrückung, semantische Erkennung des Turn-Endes und Avatare."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The Azure OpenAI Realtime API; Voice Live adds noise suppression, echo cancellation, semantic end-of-turn detection and avatars",
+            "de": "Der Azure OpenAI Realtime API; Voice Live ergänzt Rauschunterdrückung, Echounterdrückung, semantische Erkennung des Turn-Endes und Avatare"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the events largely mirror the Azure OpenAI Realtime API, and Voice Live layers Azure audio features and avatars on top.",
+            "de": "Korrekt: Die Events folgen weitgehend der Azure OpenAI Realtime API, und Voice Live legt Azure-Audiofunktionen und Avatare obendrauf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The Azure OpenAI Realtime API; Voice Live adds no features of its own — only Azure billing and quota",
+            "de": "Der Azure OpenAI Realtime API; Voice Live ergänzt keine eigenen Funktionen – nur Azure-Abrechnung und Kontingent"
+          },
+          "correct": false,
+          "why": {
+            "en": "The API is right, but Voice Live does add features: noise suppression, echo cancellation, semantic end-of-turn detection and avatars.",
+            "de": "Die API stimmt, aber Voice Live ergänzt sehr wohl Funktionen: Rausch- und Echounterdrückung, semantische Erkennung des Turn-Endes und Avatare."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What does the `session.update` event configure, and which event confirms it?",
         "de": "Was konfiguriert das Event `session.update`, und welches Event bestätigt es?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Instructions, voice, turn detection, audio formats, audio processing and transcription — confirmed by `session.updated`",
+            "de": "Anweisungen, Stimme, Turn-Erkennung, Audioformate, Audioverarbeitung und Transkription – bestätigt durch `session.updated`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `session.update` is usually the first client event and sets up the session; the service answers with `session.updated`.",
+            "de": "Richtig: `session.update` ist meist das erste Client-Event und richtet die Session ein; der Dienst antwortet mit `session.updated`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Instructions, voice, turn detection, audio formats, audio processing and transcription — confirmed by `input_audio_buffer.speech_started`",
+            "de": "Anweisungen, Stimme, Turn-Erkennung, Audioformate, Audioverarbeitung und Transkription – bestätigt durch `input_audio_buffer.speech_started`"
+          },
+          "correct": false,
+          "why": {
+            "en": "The settings fit, the event doesn’t: `speech_started` signals that the user started talking; `session.updated` confirms the configuration.",
+            "de": "Die Einstellungen stimmen, das Event nicht: `speech_started` meldet, dass der Nutzer zu sprechen beginnt; die Konfiguration bestätigt `session.updated`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The model name, endpoint and credential of the connection — confirmed by `session.updated`",
+            "de": "Modellname, Endpoint und Anmeldedaten der Verbindung – bestätigt durch `session.updated`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: model, endpoint and credential go into `connect()` when the connection opens; `session.update` configures the session itself.",
+            "de": "Nein: Modell, Endpoint und Anmeldedaten gibst du beim Öffnen der Verbindung an `connect()`; `session.update` konfiguriert die Session selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model name, endpoint and credential of the connection — confirmed by `input_audio_buffer.speech_started`",
+            "de": "Modellname, Endpoint und Anmeldedaten der Verbindung – bestätigt durch `input_audio_buffer.speech_started`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: model, endpoint and credential go into `connect()`, and `speech_started` signals that the user started talking — `session.updated` confirms a configuration.",
+            "de": "Zweimal falsch: Modell, Endpoint und Anmeldedaten gehören in `connect()`, und `speech_started` meldet, dass der Nutzer zu sprechen beginnt – eine Konfiguration bestätigt `session.updated`."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which turn detection applies by default, and what sets the semantic types apart?",
         "de": "Welche Turn-Erkennung gilt standardmäßig, und was unterscheidet die semantischen Typen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`azure_semantic_vad`, based on meaning; `semantic_vad` works only with `gpt-realtime`, `azure_semantic_vad` with all models and can drop filler words",
+            "de": "`azure_semantic_vad`, anhand der Bedeutung; `semantic_vad` geht nur mit `gpt-realtime`, `azure_semantic_vad` mit allen Modellen und kann Füllwörter entfernen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The semantic types fit, the default doesn’t: without a setting, `server_vad` applies and detects speech by volume.",
+            "de": "Die semantischen Typen stimmen, der Standard nicht: Ohne Einstellung gilt `server_vad` und erkennt Sprache an der Lautstärke."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`server_vad`, based on volume; `semantic_vad` works with all models and can drop filler words, `azure_semantic_vad` only with `gpt-realtime`",
+            "de": "`server_vad`, anhand der Lautstärke; `semantic_vad` geht mit allen Modellen und kann Füllwörter entfernen, `azure_semantic_vad` nur mit `gpt-realtime`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `semantic_vad` is the one limited to `gpt-realtime` models, while `azure_semantic_vad` works with all models and can remove filler words.",
+            "de": "Vertauscht: `semantic_vad` ist auf `gpt-realtime`-Modelle beschränkt, `azure_semantic_vad` funktioniert mit allen Modellen und kann Füllwörter entfernen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`azure_semantic_vad`, based on meaning; `semantic_vad` works with all models and can drop filler words, `azure_semantic_vad` only with `gpt-realtime`",
+            "de": "`azure_semantic_vad`, anhand der Bedeutung; `semantic_vad` geht mit allen Modellen und kann Füllwörter entfernen, `azure_semantic_vad` nur mit `gpt-realtime`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `server_vad` is the default, and it’s `semantic_vad` that is limited to `gpt-realtime` models — `azure_semantic_vad` works with all of them.",
+            "de": "Zweimal falsch: `server_vad` ist der Standard, und gerade `semantic_vad` ist auf `gpt-realtime`-Modelle beschränkt – `azure_semantic_vad` geht mit allen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`server_vad`, based on volume; `semantic_vad` works only with `gpt-realtime`, `azure_semantic_vad` with all models and can drop filler words",
+            "de": "`server_vad`, anhand der Lautstärke; `semantic_vad` geht nur mit `gpt-realtime`, `azure_semantic_vad` mit allen Modellen und kann Füllwörter entfernen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: without a setting, `server_vad` reacts to volume; `semantic_vad` needs a `gpt-realtime` model, while `azure_semantic_vad` works with every model and can remove filler words.",
+            "de": "Korrekt: Ohne Einstellung reagiert `server_vad` auf Lautstärke; `semantic_vad` braucht ein `gpt-realtime`-Modell, `azure_semantic_vad` funktioniert dagegen mit jedem Modell und kann Füllwörter entfernen."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "Which settings remove background noise and the agent’s own voice, and what can the client then skip?",
         "de": "Welche Einstellungen entfernen Hintergrundgeräusche und die eigene Stimme des Agents, und was spart sich der Client?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Noise: `server_echo_cancellation`; own voice: `azure_deep_noise_suppression` — the client needs no echo cancellation of its own",
+            "de": "Rauschen: `server_echo_cancellation`; eigene Stimme: `azure_deep_noise_suppression` – der Client braucht keine eigene Echounterdrückung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `azure_deep_noise_suppression` removes background noise, `server_echo_cancellation` removes the agent’s voice picked up from the speaker.",
+            "de": "Vertauscht: `azure_deep_noise_suppression` entfernt Hintergrundgeräusche, `server_echo_cancellation` die Stimme des Agents aus dem Lautsprecher."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Noise: `azure_deep_noise_suppression`; own voice: `server_echo_cancellation` — the client needs no echo cancellation of its own",
+            "de": "Rauschen: `azure_deep_noise_suppression`; eigene Stimme: `server_echo_cancellation` – der Client braucht keine eigene Echounterdrückung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: with these types in `input_audio_noise_reduction` and `input_audio_echo_cancellation`, Voice Live cleans the audio on the server side.",
+            "de": "Richtig: Mit diesen Typen in `input_audio_noise_reduction` und `input_audio_echo_cancellation` säubert Voice Live das Audio serverseitig."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Noise: `azure_deep_noise_suppression`; own voice: `server_echo_cancellation` — the client needs no barge-in handling of its own",
+            "de": "Rauschen: `azure_deep_noise_suppression`; eigene Stimme: `server_echo_cancellation` – der Client muss Barge-ins nicht selbst behandeln"
+          },
+          "correct": false,
+          "why": {
+            "en": "The settings fit, the last part doesn’t: on `input_audio_buffer.speech_started` the client must still clear its playback queue.",
+            "de": "Die Einstellungen stimmen, der Schluss nicht: Bei `input_audio_buffer.speech_started` muss der Client weiterhin seine Wiedergabe-Warteschlange leeren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Noise: `server_echo_cancellation`; own voice: `azure_deep_noise_suppression` — the client needs no barge-in handling of its own",
+            "de": "Rauschen: `server_echo_cancellation`; eigene Stimme: `azure_deep_noise_suppression` – der Client muss Barge-ins nicht selbst behandeln"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the types are swapped, and the client must still clear its playback queue on `input_audio_buffer.speech_started`.",
+            "de": "Zweimal falsch: Die Typen sind vertauscht, und der Client muss bei `input_audio_buffer.speech_started` weiterhin seine Wiedergabe-Warteschlange leeren."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Why does Voice Live transcribe input for text models, and how can you improve that transcript?",
         "de": "Warum transkribiert Voice Live die Eingabe für Textmodelle, und wie verbesserst du dieses Transkript?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text models and agents can’t hear; tune the `azure-speech` transcript with a `phrase_list` or a `custom_speech` endpoint",
+            "de": "Textmodelle und Agents können nicht hören; das `azure-speech`-Transkript verbesserst du mit `phrase_list` oder einem `custom_speech`-Endpoint"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the transcript is all a text model or agent gets, and a per-session phrase list or a custom speech endpoint makes it more accurate.",
+            "de": "Korrekt: Das Transkript ist alles, was ein Textmodell oder Agent bekommt, und eine Phrasenliste pro Session oder ein Custom-Speech-Endpoint macht es genauer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text models and agents can’t hear; tune the transcript with `custom_speech` pointing at your custom speech model’s model ID",
+            "de": "Textmodelle und Agents können nicht hören; das Transkript verbesserst du mit `custom_speech`, das auf die Modell-ID deines Custom-Speech-Modells zeigt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Close, but `custom_speech` maps a locale to the endpoint ID of a custom speech endpoint on the same Foundry resource — not to the model ID.",
+            "de": "Fast: `custom_speech` ordnet einem Gebietsschema die Endpoint-ID eines Custom-Speech-Endpoints auf derselben Foundry-Ressource zu – nicht die Modell-ID."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Native audio models such as `gpt-realtime` need it to understand speech; tune it with a longer `silence_duration_ms`",
+            "de": "Native Audiomodelle wie `gpt-realtime` brauchen es, um Sprache zu verstehen; du verbesserst es mit längerer `silence_duration_ms`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: native audio models hear the audio themselves, and `silence_duration_ms` is a turn-detection setting, not a recognition tweak.",
+            "de": "Nein: Native Audiomodelle hören das Audio selbst, und `silence_duration_ms` gehört zur Turn-Erkennung, nicht zur Spracherkennung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text models and agents can’t hear; tune the transcript by fine-tuning the text model on recorded calls",
+            "de": "Textmodelle und Agents können nicht hören; das Transkript verbesserst du, indem du das Textmodell auf Anrufaufnahmen feinabstimmst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Fine-tuning the text model doesn’t change what speech recognition writes down; the transcript is tuned with a phrase list or custom speech.",
+            "de": "Fine-Tuning des Textmodells ändert nichts daran, was die Spracherkennung aufschreibt; das Transkript verbesserst du mit Phrasenliste oder Custom Speech."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which `voice` types does Voice Live offer, and what does a professional custom voice require?",
         "de": "Welche `voice`-Typen bietet Voice Live, und was setzt eine professionelle Custom Voice voraus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`azure-standard` for neural and HD voices, `azure-custom` plus `phrase_list` — a professional custom voice needs its own custom speech endpoint",
+            "de": "`azure-standard` für neuronale und HD-Stimmen, `azure-custom` plus `phrase_list` – eine professionelle Custom Voice braucht einen eigenen Custom-Speech-Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixes up input and output: `phrase_list` and custom speech tune recognition of the user’s words; a custom voice takes an `endpoint_id`.",
+            "de": "Vermischt Ein- und Ausgabe: `phrase_list` und Custom Speech verbessern die Erkennung der Nutzerworte; eine Custom Voice nimmt eine `endpoint_id`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`azure-standard` for neural and HD voices, `azure-custom` plus `endpoint_id` — a professional custom voice is open to every subscription without approval",
+            "de": "`azure-standard` für neuronale und HD-Stimmen, `azure-custom` plus `endpoint_id` – eine professionelle Custom Voice steht jedem Abonnement ohne Genehmigung offen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The types fit, the access doesn’t: a professional custom voice requires approved limited access.",
+            "de": "Die Typen stimmen, der Zugang nicht: Eine professionelle Custom Voice erfordert einen genehmigten eingeschränkten Zugang."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`azure-standard` for neural and HD voices, `azure-custom` plus `endpoint_id` — a professional custom voice needs approved limited access",
+            "de": "`azure-standard` für neuronale und HD-Stimmen, `azure-custom` plus `endpoint_id` – eine professionelle Custom Voice braucht genehmigten eingeschränkten Zugang"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: standard and HD voices use `azure-standard`; a professional custom voice runs as `azure-custom` with its `endpoint_id` and requires approved limited access.",
+            "de": "Richtig: Standard- und HD-Stimmen laufen über `azure-standard`; eine professionelle Custom Voice läuft als `azure-custom` mit ihrer `endpoint_id` und erfordert genehmigten eingeschränkten Zugang."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the built-in voices of `gpt-realtime` — a professional custom voice needs a fine-tuned realtime model deployment",
+            "de": "Nur die eingebauten Stimmen von `gpt-realtime` – eine professionelle Custom Voice braucht ein feinabgestimmtes Realtime-Modell-Deployment"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `voice` also takes Azure voices (`azure-standard`, `azure-custom`), and a professional custom voice is an `azure-custom` voice with an `endpoint_id`.",
+            "de": "Nein: `voice` nimmt auch Azure-Stimmen (`azure-standard`, `azure-custom`), und eine professionelle Custom Voice ist eine `azure-custom`-Stimme mit `endpoint_id`."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What does a client pass to connect Voice Live to a Foundry agent, and which authentication works?",
         "de": "Was übergibt der Client, um Voice Live mit einem Foundry-Agent zu verbinden, und welche Anmeldung funktioniert?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`agent_name` and `project_name`, with an API key or a Microsoft Entra ID credential — both are supported",
+            "de": "`agent_name` und `project_name`, mit einem API-Key oder einer Microsoft-Entra-ID-Anmeldung – beides wird unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the names fit, but agent invocation doesn’t support API keys — only Microsoft Entra ID.",
+            "de": "Teilweise richtig: Die Namen stimmen, aber der Agent-Aufruf unterstützt keine API-Keys – nur Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`model` set to the deployment name of the agent’s model, with an API key or a Microsoft Entra ID credential — both are supported",
+            "de": "`model` mit dem Deployment-Namen des Agent-Modells, mit einem API-Key oder einer Microsoft-Entra-ID-Anmeldung – beides wird unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: connecting with `model` bypasses the agent, and agent mode doesn’t accept API keys — only Microsoft Entra ID.",
+            "de": "Zweimal falsch: Wer mit `model` verbindet, umgeht den Agent, und der Agent-Modus nimmt keine API-Keys – nur Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`model` set to the deployment name of the agent’s model, with a Microsoft Entra ID credential — API keys aren’t supported",
+            "de": "`model` mit dem Deployment-Namen des Agent-Modells, mit einer Microsoft-Entra-ID-Anmeldung – API-Keys werden nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Right sign-in, wrong target: connecting with `model` bypasses the agent — the client passes `agent_name` and `project_name` instead.",
+            "de": "Richtige Anmeldung, falsches Ziel: Wer mit `model` verbindet, umgeht den Agent – der Client übergibt stattdessen `agent_name` und `project_name`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`agent_name` and `project_name`, with a Microsoft Entra ID credential — API keys aren’t supported",
+            "de": "`agent_name` und `project_name`, mit einer Microsoft-Entra-ID-Anmeldung – API-Keys werden nicht unterstützt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the client names the agent and its project in `connect()`, and agent mode accepts only Microsoft Entra ID.",
+            "de": "Korrekt: Der Client nennt in `connect()` den Agent und sein Projekt, und der Agent-Modus akzeptiert nur Microsoft Entra ID."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Nothing — in model mode, Voice Live models are fully managed; you just name one (`model=…`). In agent mode, the agent’s model is your own deployment.",
         "de": "Nichts – im Modellmodus sind Voice-Live-Modelle vollständig verwaltet; du nennst einfach eines (`model=…`). Im Agent-Modus ist das Modell des Agents dein eigenes Deployment."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A `gpt-realtime` deployment in model mode; in agent mode Voice Live supplies a managed model for the agent",
+            "de": "Ein `gpt-realtime`-Deployment im Modellmodus; im Agent-Modus stellt Voice Live ein verwaltetes Modell für den Agent bereit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: model mode needs no deployment at all, while the agent’s model is a deployment in your project.",
+            "de": "Zweimal falsch: Der Modellmodus braucht gar kein Deployment, das Modell des Agents ist dagegen ein Deployment in deinem Projekt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Nothing in model mode — you just name a managed model; in agent mode the agent’s model is your own deployment",
+            "de": "Nichts im Modellmodus – du nennst nur ein verwaltetes Modell; im Agent-Modus ist das Modell des Agents dein eigenes Deployment"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: model-mode models are fully managed, so `model=…` is enough; an agent brings its own model deployment from your project.",
+            "de": "Richtig: Modelle im Modellmodus sind vollständig verwaltet, `model=…` genügt; ein Agent bringt sein eigenes Modell-Deployment aus deinem Projekt mit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A `gpt-realtime` deployment in model mode; in agent mode the agent’s model is your own deployment",
+            "de": "Ein `gpt-realtime`-Deployment im Modellmodus; im Agent-Modus ist das Modell des Agents dein eigenes Deployment"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the agent part fits, but in model mode there is nothing to deploy — you just name a fully managed model.",
+            "de": "Teilweise richtig: Der Agent-Teil stimmt, aber im Modellmodus stellst du nichts bereit – du nennst einfach ein vollständig verwaltetes Modell."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Nothing in model mode — you just name a managed model; in agent mode Voice Live supplies a managed model for the agent",
+            "de": "Nichts im Modellmodus – du nennst nur ein verwaltetes Modell; im Agent-Modus stellt Voice Live ein verwaltetes Modell für den Agent bereit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the first half holds: model mode needs no deployment, but an agent runs on its own model deployment in your project.",
+            "de": "Nur die erste Hälfte stimmt: Der Modellmodus braucht kein Deployment, aber ein Agent läuft auf seinem eigenen Modell-Deployment in deinem Projekt."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Agent mode needs Microsoft Entra ID — API keys aren’t supported for agent invocation. `instructions` in `session.update` aren’t supported with an agent either.",
         "de": "Der Agent-Modus braucht Microsoft Entra ID – API-Keys werden für den Agent-Aufruf nicht unterstützt. Auch `instructions` in `session.update` werden mit einem Agent nicht unterstützt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Microsoft Entra ID only; `instructions` aren’t supported — the agent owns them",
+            "de": "Nur Microsoft Entra ID; `instructions` werden nicht unterstützt – die gehören dem Agent"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: agent invocation needs a Microsoft Entra ID credential, and the instructions stay in the agent rather than in `session.update`.",
+            "de": "Korrekt: Der Agent-Aufruf braucht eine Microsoft-Entra-ID-Anmeldung, und die Anweisungen bleiben im Agent statt in `session.update`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "An API key or Microsoft Entra ID; `turn_detection` isn’t supported — the agent decides when a turn ends",
+            "de": "API-Key oder Microsoft Entra ID; `turn_detection` wird nicht unterstützt – der Agent entscheidet, wann ein Turn endet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: agent invocation doesn’t support API keys, and turn detection works with an agent — only `instructions` aren’t supported.",
+            "de": "Zweimal falsch: Der Agent-Aufruf unterstützt keine API-Keys, und die Turn-Erkennung geht auch mit Agent – nur `instructions` werden nicht unterstützt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Microsoft Entra ID only; `turn_detection` isn’t supported — the agent decides when a turn ends",
+            "de": "Nur Microsoft Entra ID; `turn_detection` wird nicht unterstützt – der Agent entscheidet, wann ein Turn endet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Turn detection stays a Voice Live setting with an agent — it can even live in the agent’s metadata; only `instructions` aren’t supported.",
+            "de": "Die Turn-Erkennung bleibt auch mit Agent eine Voice-Live-Einstellung – sie kann sogar in den Agent-Metadaten stehen; nur `instructions` gehen nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "An API key or Microsoft Entra ID; `instructions` aren’t supported — the agent owns them",
+            "de": "API-Key oder Microsoft Entra ID; `instructions` werden nicht unterstützt – die gehören dem Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "The setting is right, the sign-in isn’t: agent mode needs Microsoft Entra ID, and API keys don’t work for agent invocation.",
+            "de": "Die Einstellung stimmt, die Anmeldung nicht: Der Agent-Modus braucht Microsoft Entra ID, API-Keys funktionieren für den Agent-Aufruf nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Use `azure_semantic_vad_multilingual` for German. `semantic_vad` works only with `gpt-realtime` models; `azure_semantic_vad` works with all models but primarily supports English. Without a setting, `server_vad` applies.",
         "de": "Für Deutsch nimmst du `azure_semantic_vad_multilingual`. `semantic_vad` funktioniert nur mit `gpt-realtime`-Modellen; `azure_semantic_vad` funktioniert mit allen Modellen, unterstützt aber vor allem Englisch. Ohne Einstellung gilt `server_vad`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`azure_semantic_vad`; `semantic_vad` needs `gpt-realtime` models, `azure_semantic_vad_multilingual` is mainly English",
+            "de": "`azure_semantic_vad`; `semantic_vad` braucht `gpt-realtime`-Modelle, `azure_semantic_vad_multilingual` unterstützt vor allem Englisch"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `azure_semantic_vad` is the mainly-English type; `azure_semantic_vad_multilingual` adds languages such as German.",
+            "de": "Vertauscht: `azure_semantic_vad` ist der vor allem englische Typ; `azure_semantic_vad_multilingual` ergänzt Sprachen wie Deutsch."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`semantic_vad`; it works with all models, while `azure_semantic_vad` needs `gpt-realtime` models",
+            "de": "`semantic_vad`; es geht mit allen Modellen, während `azure_semantic_vad` `gpt-realtime`-Modelle braucht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `semantic_vad` works only with `gpt-realtime` models, `azure_semantic_vad` with all models — German needs the multilingual variant.",
+            "de": "Umgekehrt: `semantic_vad` geht nur mit `gpt-realtime`-Modellen, `azure_semantic_vad` mit allen – für Deutsch brauchst du die mehrsprachige Variante."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`azure_semantic_vad_multilingual`; `semantic_vad` needs `gpt-realtime` models, `azure_semantic_vad` is mainly English",
+            "de": "`azure_semantic_vad_multilingual`; `semantic_vad` braucht `gpt-realtime`-Modelle, `azure_semantic_vad` unterstützt vor allem Englisch"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the multilingual variant adds languages such as German; `semantic_vad` is tied to `gpt-realtime`, and `azure_semantic_vad`’s filler-word list is English.",
+            "de": "Richtig: Die mehrsprachige Variante ergänzt Sprachen wie Deutsch; `semantic_vad` ist an `gpt-realtime` gebunden, und die Füllwortliste von `azure_semantic_vad` ist englisch."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`server_vad`; both semantic types work only with `gpt-realtime` models",
+            "de": "`server_vad`; beide semantischen Typen gehen nur mit `gpt-realtime`-Modellen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `server_vad` is the volume-based default, not a semantic type — and `azure_semantic_vad` works with all models.",
+            "de": "Nein: `server_vad` ist der lautstärkebasierte Standard, kein semantischer Typ – und `azure_semantic_vad` funktioniert mit allen Modellen."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "It works only with `azure-speech` transcription and needs a custom speech endpoint deployed on the same Foundry resource. Pass that endpoint ID, not the model ID; a model trained elsewhere is copied there and deployed first.",
         "de": "Es funktioniert nur mit der Transkription `azure-speech` und braucht einen Custom-Speech-Endpoint, der auf derselben Foundry-Ressource bereitgestellt ist. Du übergibst dessen Endpoint-ID, nicht die Modell-ID; ein woanders trainiertes Modell kopierst du vorher dorthin und stellst es bereit."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`azure-speech` transcription and a custom speech endpoint on the same Foundry resource; pass the model ID",
+            "de": "Transkription mit `azure-speech` und ein Custom-Speech-Endpoint auf derselben Foundry-Ressource; du übergibst die Modell-ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "That’s the trap: `custom_speech` takes the endpoint ID of the deployed custom speech endpoint, not the model ID.",
+            "de": "Genau die Falle: `custom_speech` erwartet die Endpoint-ID des bereitgestellten Custom-Speech-Endpoints, nicht die Modell-ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Any transcription model, `mai-transcribe` included, and an endpoint on any Speech resource; pass its endpoint ID",
+            "de": "Ein beliebiges Transkriptionsmodell, auch `mai-transcribe`, und ein Endpoint auf irgendeiner Speech-Ressource; du übergibst dessen Endpoint-ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: custom speech works only with `azure-speech` (a phrase list works with both), and the endpoint must be on the same Foundry resource.",
+            "de": "Nein: Custom Speech geht nur mit `azure-speech` (eine Phrasenliste geht mit beiden), und der Endpoint muss auf derselben Foundry-Ressource liegen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Any transcription model, `mai-transcribe` included, and an endpoint on any Speech resource; pass the model ID",
+            "de": "Ein beliebiges Transkriptionsmodell, auch `mai-transcribe`, und ein Endpoint auf irgendeiner Speech-Ressource; du übergibst die Modell-ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: custom speech works only with `azure-speech` and an endpoint on the same Foundry resource, and `custom_speech` takes that endpoint’s ID, not the model ID.",
+            "de": "Zweimal falsch: Custom Speech geht nur mit `azure-speech` und einem Endpoint auf derselben Foundry-Ressource, und `custom_speech` nimmt dessen Endpoint-ID, nicht die Modell-ID."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`azure-speech` transcription and a custom speech endpoint on the same Foundry resource; pass its endpoint ID",
+            "de": "Transkription mit `azure-speech` und ein Custom-Speech-Endpoint auf derselben Foundry-Ressource; du übergibst dessen Endpoint-ID"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: custom speech works only with `azure-speech` and an endpoint deployed on the same Foundry resource; a model trained elsewhere is copied there and deployed first.",
+            "de": "Korrekt: Custom Speech geht nur mit `azure-speech` und einem Endpoint auf derselben Foundry-Ressource; ein woanders trainiertes Modell kopierst du vorher dorthin und stellst es bereit."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "On `input_audio_buffer.speech_started`, clear the playback queue; a client that keeps playing makes the agent talk over the user.",
         "de": "Bei `input_audio_buffer.speech_started` leerst du die Wiedergabe-Warteschlange; ein Client, der weiterspielt, lässt den Agent dem Nutzer ins Wort fallen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Start streaming microphone audio right away; otherwise the user’s first words are lost",
+            "de": "Mikrofonaudio sofort streamen; sonst gehen die ersten Worte des Nutzers verloren"
+          },
+          "correct": false,
+          "why": {
+            "en": "That’s the reaction to `session.updated`; `speech_started` means the user is already talking, so playback must stop.",
+            "de": "Das ist die Reaktion auf `session.updated`; `speech_started` heißt, der Nutzer spricht bereits – die Wiedergabe muss stoppen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Clear its playback queue; otherwise the agent keeps talking over the user",
+            "de": "Die Wiedergabe-Warteschlange leeren; sonst fällt der Agent dem Nutzer ins Wort"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `speech_started` signals a barge-in, so the client drops queued audio; a client that keeps playing lets the agent talk over the user.",
+            "de": "Richtig: `speech_started` meldet einen Barge-in, also verwirft der Client gepuffertes Audio; spielt er weiter, fällt der Agent dem Nutzer ins Wort."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Send `session.update` again; otherwise turn detection stops working",
+            "de": "`session.update` erneut senden; sonst hört die Turn-Erkennung auf zu arbeiten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the session stays configured; `speech_started` is the barge-in signal, and the client’s job is to clear its playback queue.",
+            "de": "Nein: Die Session bleibt konfiguriert; `speech_started` ist das Barge-in-Signal, und der Client muss seine Wiedergabe-Warteschlange leeren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Mute the microphone; otherwise the agent hears its own voice from the speaker",
+            "de": "Das Mikrofon stummschalten; sonst hört der Agent seine eigene Stimme aus dem Lautsprecher"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `speech_started` means the user is talking — muting would cut them off; the agent’s own voice is removed by `server_echo_cancellation`.",
+            "de": "Nein: `speech_started` heißt, der Nutzer spricht – Stummschalten würde ihn abschneiden; die eigene Stimme des Agents entfernt `server_echo_cancellation`."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Voice Live = one managed speech-to-speech session: audio in, audio out, events in between.",
         "de": "Voice Live = eine verwaltete Speech-to-Speech-Session: Audio rein, Audio raus, Events dazwischen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "One managed speech-to-speech session: audio in, audio out, and events in between",
+            "de": "Eine verwaltete Speech-to-Speech-Session: Audio rein, Audio raus und dazwischen Events"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Voice Live runs the whole speech pipeline in one managed session, and client and service exchange events such as `session.update` and `response.audio.delta`.",
+            "de": "Korrekt: Voice Live betreibt die ganze Sprach-Pipeline in einer verwalteten Session, und Client und Dienst tauschen Events wie `session.update` und `response.audio.delta` aus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Separate services you chain yourself: audio in, audio out, and your own code passing text in between",
+            "de": "Getrennte Dienste, die du selbst verkettest: Audio rein, Audio raus und dazwischen dein eigener Code, der Text weiterreicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: that’s the hand-built chain Voice Live replaces — it runs the whole speech pipeline in one managed session, driven by events.",
+            "de": "Nein: Das ist die selbst gebaute Kette, die Voice Live ersetzt – Voice Live betreibt die ganze Sprach-Pipeline in einer verwalteten Session, gesteuert von Events."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "One Responses API call per turn: audio in, audio out, and a `previous_response_id` in between",
+            "de": "Ein Responses-API-Aufruf pro Turn: Audio rein, Audio raus und dazwischen eine `previous_response_id`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Voice Live doesn’t run on the Responses API — one session stays open over WebSocket or WebRTC and exchanges real-time events such as `session.update`.",
+            "de": "Nein: Voice Live läuft nicht über die Responses API – eine Session bleibt per WebSocket oder WebRTC offen und tauscht Echtzeit-Events wie `session.update` aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "One managed speech-to-speech session: audio in, audio out, and HTTP polling requests in between",
+            "de": "Eine verwaltete Speech-to-Speech-Session: Audio rein, Audio raus und dazwischen HTTP-Polling-Anfragen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: it is one managed session, but it runs over one real-time connection with events — no polling.",
+            "de": "Teilweise richtig: Es ist eine verwaltete Session, aber sie läuft über eine Echtzeitverbindung mit Events – ohne Polling."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Configure with `session.update`; react to `speech_started`, `response.audio.delta` and `response.done`.",
         "de": "Mit `session.update` konfigurieren; auf `speech_started`, `response.audio.delta` und `response.done` reagieren."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Configure with `session.updated`; react to `speech_started`, `response.audio.delta` and `response.done`",
+            "de": "Mit `session.updated` konfigurieren; auf `speech_started`, `response.audio.delta` und `response.done` reagieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "The reactions fit, the event doesn’t: `session.updated` is the service’s confirmation — the client configures with `session.update`.",
+            "de": "Die Reaktionen stimmen, das Event nicht: `session.updated` ist die Bestätigung des Dienstes – konfigurieren tut der Client mit `session.update`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Configure with `session.updated`; react only to `response.done`, then play the complete reply all at once",
+            "de": "Mit `session.updated` konfigurieren; nur auf `response.done` reagieren und dann die ganze Antwort auf einmal abspielen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `session.updated` is only the service’s confirmation, and waiting for `response.done` delays playback and ignores barge-in.",
+            "de": "Zweimal falsch: `session.updated` ist nur die Bestätigung des Dienstes, und wer auf `response.done` wartet, verzögert die Wiedergabe und ignoriert Barge-in."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Configure with `session.update`; react only to `response.done`, then play the complete reply all at once",
+            "de": "Mit `session.update` konfigurieren; nur auf `response.done` reagieren und dann die ganze Antwort auf einmal abspielen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Waiting for `response.done` delays playback and ignores barge-in: play each `response.audio.delta` as it arrives and stop on `speech_started`.",
+            "de": "Wer auf `response.done` wartet, verzögert die Wiedergabe und ignoriert Barge-in: Spiele jedes `response.audio.delta` sofort ab und stoppe bei `speech_started`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Configure with `session.update`; react to `speech_started`, `response.audio.delta` and `response.done`",
+            "de": "Mit `session.update` konfigurieren; auf `speech_started`, `response.audio.delta` und `response.done` reagieren"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: one client event configures the session; the client stops playback on `speech_started`, plays each `response.audio.delta` and sees the end in `response.done`.",
+            "de": "Richtig: Ein Client-Event konfiguriert die Session; der Client stoppt die Wiedergabe bei `speech_started`, spielt jedes `response.audio.delta` ab und erkennt das Ende an `response.done`."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Input: `phrase_list` or `custom_speech` on `azure-speech`. Output: `azure-standard` or `azure-custom` voices.",
         "de": "Eingabe: `phrase_list` oder `custom_speech` auf `azure-speech`. Ausgabe: `azure-standard`- oder `azure-custom`-Stimmen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Input: `azure-standard` or `azure-custom` voices; output: `phrase_list` or `custom_speech` on `azure-speech`",
+            "de": "Eingabe: `azure-standard`- oder `azure-custom`-Stimmen; Ausgabe: `phrase_list` oder `custom_speech` auf `azure-speech`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: phrase lists and custom speech shape recognition of the user’s words, while voices shape the spoken reply.",
+            "de": "Vertauscht: Phrasenlisten und Custom Speech formen die Erkennung der Nutzerworte, Stimmen dagegen die gesprochene Antwort."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Input: `phrase_list` or `custom_speech` on `gpt-realtime`; output: `azure-standard` or `azure-custom` voices",
+            "de": "Eingabe: `phrase_list` oder `custom_speech` auf `gpt-realtime`; Ausgabe: `azure-standard`- oder `azure-custom`-Stimmen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: phrase lists and custom speech shape the `azure-speech` transcript; they don’t change what a native `gpt-realtime` model hears.",
+            "de": "Nein: Phrasenlisten und Custom Speech formen das `azure-speech`-Transkript; was ein natives `gpt-realtime`-Modell hört, ändern sie nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Input: `phrase_list` or `custom_speech` on `azure-speech`; output: `azure-standard` or `azure-custom` voices",
+            "de": "Eingabe: `phrase_list` oder `custom_speech` auf `azure-speech`; Ausgabe: `azure-standard`- oder `azure-custom`-Stimmen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: phrase lists and custom speech tune the `azure-speech` transcript; the `voice` types `azure-standard` and `azure-custom` set how replies sound.",
+            "de": "Korrekt: Phrasenlisten und Custom Speech verbessern das `azure-speech`-Transkript; die `voice`-Typen `azure-standard` und `azure-custom` bestimmen, wie Antworten klingen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Input: `custom_speech` with the custom model ID; output: an `azure-custom` voice tuned with a `phrase_list`",
+            "de": "Eingabe: `custom_speech` mit der Custom-Modell-ID; Ausgabe: eine `azure-custom`-Stimme, abgestimmt per `phrase_list`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong details: `custom_speech` takes an endpoint ID, not a model ID, and a `phrase_list` boosts recognized words — it doesn’t tune a voice.",
+            "de": "Falsche Details: `custom_speech` nimmt eine Endpoint-ID, keine Modell-ID, und eine `phrase_list` verstärkt erkannte Wörter – eine Stimme stimmt sie nicht ab."
+          }
+        }
+      ]
     },
     {
       "id": "z-voice-live-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Native audio: `gpt-realtime` models. Cascaded: text models such as `gpt-5-mini` and agents via `azure-speech`.",
         "de": "Natives Audio: `gpt-realtime`-Modelle. Kaskadiert: Textmodelle wie `gpt-5-mini` und Agents über `azure-speech`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Native: text models such as `gpt-5-mini`; cascaded via `azure-speech`: `gpt-realtime` models and Foundry text agents",
+            "de": "Nativ: Textmodelle wie `gpt-5-mini`; kaskadiert über `azure-speech`: `gpt-realtime`-Modelle und Foundry-Textagents"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `gpt-5-mini` is a text model that gets an `azure-speech` transcript, while `gpt-realtime` takes the audio natively.",
+            "de": "Vertauscht: `gpt-5-mini` ist ein Textmodell und bekommt ein `azure-speech`-Transkript, `gpt-realtime` nimmt das Audio nativ."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Native: `gpt-realtime` models; cascaded via `azure-speech`: text models such as `gpt-5-mini` and Foundry text agents",
+            "de": "Nativ: `gpt-realtime`-Modelle; kaskadiert über `azure-speech`: Textmodelle wie `gpt-5-mini` und Foundry-Textagents"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: realtime models hear and speak audio themselves; text models and agents get an `azure-speech` transcript and answer through an Azure voice.",
+            "de": "Richtig: Realtime-Modelle hören und sprechen Audio selbst; Textmodelle und Agents bekommen ein `azure-speech`-Transkript und antworten über eine Azure-Stimme."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Native: `gpt-realtime` models and Foundry text agents; cascaded via `azure-speech`: only text models",
+            "de": "Nativ: `gpt-realtime`-Modelle und Foundry-Textagents; kaskadiert über `azure-speech`: nur Textmodelle"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a Foundry text agent runs cascaded — Voice Live turns speech into text for it and its text answer back into speech.",
+            "de": "Nein: Ein Foundry-Textagent läuft kaskadiert – Voice Live macht für ihn aus Sprache Text und aus seiner Textantwort wieder Sprache."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Native: `gpt-4o-mini-transcribe`; cascaded via `azure-speech`: `gpt-realtime` and `gpt-5-mini`",
+            "de": "Nativ: `gpt-4o-mini-transcribe`; kaskadiert über `azure-speech`: `gpt-realtime` und `gpt-5-mini`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`gpt-4o-mini-transcribe` only transcribes the input for native audio models; `gpt-realtime` hears audio natively, `gpt-5-mini` runs cascaded.",
+            "de": "`gpt-4o-mini-transcribe` transkribiert nur die Eingabe für native Audiomodelle; `gpt-realtime` hört Audio nativ, `gpt-5-mini` läuft kaskadiert."
+          }
+        }
+      ]
     }
   ]
 }

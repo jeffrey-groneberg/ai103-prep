@@ -135,12 +135,12 @@ export const store = {
     for (const id of ids) delete zettel[id]
     set({ ...state, zettel })
   },
-  addOwnZettel(input: Pick<OwnZettel, 'front' | 'back' | 'module'>, now: Date = new Date()): string {
+  addOwnZettel(input: Pick<OwnZettel, 'front' | 'back' | 'module' | 'choices'>, now: Date = new Date()): string {
     const id = newOwnId(now)
     set({ ...state, ownZettel: [...state.ownZettel, { id, ...input, createdAt: now.toISOString() }] })
     return id
   },
-  updateOwnZettel(id: string, patch: Partial<Pick<OwnZettel, 'front' | 'back' | 'module'>>) {
+  updateOwnZettel(id: string, patch: Partial<Pick<OwnZettel, 'front' | 'back' | 'module' | 'choices'>>) {
     set({ ...state, ownZettel: state.ownZettel.map((z) => (z.id === id ? { ...z, ...patch } : z)) })
   },
   deleteOwnZettel(id: string) {

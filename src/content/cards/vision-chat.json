@@ -8,7 +8,57 @@
       "front": {
         "en": "What does a vision-enabled model take and return, and which parameters don't you send to GPT-5-series models?",
         "de": "Was verarbeitet ein vision-fähiges Modell, was liefert es, und welche Parameter lässt du bei der GPT-5-Serie weg?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text and images in, images out; don't send `max_output_tokens`, because GPT-5-series models ignore that limit anyway",
+            "de": "Text und Bilder rein, Bilder raus; kein `max_output_tokens`, weil Modelle der GPT-5-Serie dieses Limit ohnehin ignorieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the model answers in text, and reasoning models do use `max_output_tokens` — it's `temperature` and `top_p` you leave out.",
+            "de": "Nein: Das Modell antwortet in Text, und Reasoning-Modelle nutzen `max_output_tokens` sehr wohl – weglassen musst du `temperature` und `top_p`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text and images in, text out; don't send `reasoning.effort`, because GPT-5-series models aren't reasoning models at all",
+            "de": "Text und Bilder rein, Text raus; kein `reasoning.effort`, weil Modelle der GPT-5-Serie überhaupt keine Reasoning-Modelle sind"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: GPT-5-series models are reasoning models — you steer them with `reasoning.effort`, while they reject `temperature` and `top_p`.",
+            "de": "Umgekehrt: Modelle der GPT-5-Serie sind Reasoning-Modelle – du steuerst sie mit `reasoning.effort`, `temperature` und `top_p` lehnen sie ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Images only in, text out; don't send `detail`, because GPT-5-series models always pick the detail level for each image themselves",
+            "de": "Nur Bilder rein, Text raus; kein `detail`, weil Modelle der GPT-5-Serie die Detailstufe für jedes Bild immer selbst wählen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the message combines text and images, and you can set `detail` per image — `auto`, the model's own choice, is just the default.",
+            "de": "Nein: Die Nachricht kombiniert Text und Bilder, und `detail` setzt du pro Bild – `auto`, die Wahl des Modells, ist nur der Standard."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text and images in, text out; don't send `temperature` or `top_p`, because GPT-5-series models are reasoning models",
+            "de": "Text und Bilder rein, Text raus; kein `temperature` oder `top_p`, weil Modelle der GPT-5-Serie Reasoning-Modelle sind"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a vision-enabled model answers text-plus-image input in text, and GPT-5-series models are reasoning models that reject `temperature` and `top_p`.",
+            "de": "Korrekt: Ein vision-fähiges Modell beantwortet Eingaben aus Text und Bild in Text, und Modelle der GPT-5-Serie sind Reasoning-Modelle, die `temperature` und `top_p` ablehnen."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "How do you build a text-plus-image user message in the Responses API versus Chat Completions?",
         "de": "Wie baust du eine Nutzernachricht mit Text und Bild in der Responses API, und wie in Chat Completions?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Responses: `text` + `image_url` with `{\"url\": …}`; Chat Completions: `input_text` + `input_image` with `image_url` as a string or a `file_id`",
+            "de": "Responses: `text` + `image_url` mit `{\"url\": …}`; Chat Completions: `input_text` + `input_image` mit `image_url` als String oder `file_id`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `input_text` and `input_image` (string URL or `file_id`) belong to the Responses API, `text` and `image_url` with `{\"url\": …}` to Chat Completions.",
+            "de": "Vertauscht: `input_text` und `input_image` (URL als String oder `file_id`) gehören zur Responses API, `text` und `image_url` mit `{\"url\": …}` zu Chat Completions."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Responses: `input_text` + `input_image` with `image_url` as a string or a `file_id`; Chat Completions: `text` + `image_url` with `{\"url\": …}`",
+            "de": "Responses: `input_text` + `input_image` mit `image_url` als String oder `file_id`; Chat Completions: `text` + `image_url` mit `{\"url\": …}`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: each API has its own part types — Responses uses `input_text` and `input_image`, Chat Completions `text` and `image_url` with a nested object.",
+            "de": "Korrekt: Jede API hat eigene Teiltypen – Responses nutzt `input_text` und `input_image`, Chat Completions `text` und `image_url` mit verschachteltem Objekt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Responses: `input_text` + `input_image` with a nested `{\"url\": …}`; Chat Completions: `text` + `image_url` with a `file_id`",
+            "de": "Responses: `input_text` + `input_image` mit verschachteltem `{\"url\": …}`; Chat Completions: `text` + `image_url` mit einer `file_id`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixed up: the nested `{\"url\": …}` is the Chat Completions shape, and `file_id` image sources exist only in the Responses API.",
+            "de": "Durcheinander: Das verschachtelte `{\"url\": …}` ist die Form von Chat Completions, und `file_id` als Bildquelle gibt es nur in der Responses API."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Both APIs: a single `input_text` item that links the image in Markdown, for example `![photo](https://…)`",
+            "de": "Beide APIs: ein einzelnes `input_text`-Element, das das Bild per Markdown verlinkt, etwa `![photo](https://…)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the image travels as its own image part in a multi-part message; a text item carries only text.",
+            "de": "Nein: Das Bild reist als eigener Bildteil in einer mehrteiligen Nachricht; ein Textelement trägt nur Text."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What do the `detail` values `low`, `high` and `auto` do, and which one is the default?",
         "de": "Was bewirken die `detail`-Werte `low`, `high` und `auto`, und welcher ist der Standard?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`low`: one 512×512 view, fewest tokens; `high`: adds detailed views for small text; `auto` is the default and lets the model choose",
+            "de": "`low`: eine 512×512-Ansicht, wenigste Tokens; `high`: ergänzt Detailansichten für kleinen Text; `auto` ist Standard und lässt das Modell wählen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `low` trades detail for speed and cost, `high` spends more tokens on detail views, and `auto` — the default — lets the model decide.",
+            "de": "Richtig: `low` tauscht Details gegen Tempo und Kosten, `high` investiert mehr Tokens in Detailansichten, und `auto` – der Standard – lässt das Modell entscheiden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`low`: one 512×512 view, fewest tokens; `high`: adds detailed views for small text; `low` is the default to save tokens",
+            "de": "`low`: eine 512×512-Ansicht, wenigste Tokens; `high`: ergänzt Detailansichten für kleinen Text; `low` ist Standard, um Tokens zu sparen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the levels fit, but `auto` is the default — `low` applies only when you set it.",
+            "de": "Teilweise richtig: Die Stufen stimmen, aber `auto` ist der Standard – `low` gilt nur, wenn du es setzt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`low`: adds detailed views for small text; `high`: one 512×512 view, fewest tokens; `auto` is the default and lets the model choose",
+            "de": "`low`: ergänzt Detailansichten für kleinen Text; `high`: eine 512×512-Ansicht, wenigste Tokens; `auto` ist Standard und lässt das Modell wählen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `low` is the cheap 512×512 view, and `high` adds the detailed views that help with small text.",
+            "de": "Vertauscht: `low` ist die günstige 512×512-Ansicht, `high` ergänzt die Detailansichten, die bei kleinem Text helfen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`low`: adds detailed views for small text; `high`: one 512×512 view, fewest tokens; `low` is the default to save tokens",
+            "de": "`low`: ergänzt Detailansichten für kleinen Text; `high`: eine 512×512-Ansicht, wenigste Tokens; `low` ist Standard, um Tokens zu sparen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `low` is the cheap 512×512 view and `high` adds the detail views — and the default is `auto`, which lets the model choose.",
+            "de": "Zweimal falsch: `low` ist die günstige 512×512-Ansicht und `high` ergänzt die Detailansichten – und Standard ist `auto`, das das Modell wählen lässt."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "Which image formats and URLs work, and what does the model ignore or handle poorly?",
         "de": "Welche Bildformate und URLs funktionieren, und was ignoriert das Modell oder kann es schlecht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "PNG, JPEG, WebP and non-animated GIF from private-endpoint storage in your VNet; reads file names and EXIF metadata, precise at exact counts",
+            "de": "PNG, JPEG, WebP und nicht animiertes GIF aus Speicher hinter Private Endpoint in deinem VNet; liest Dateinamen und EXIF-Metadaten, präzise beim Zählen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: image URLs must be publicly reachable, even inside the same VNet, and the model ignores file names and metadata and is weak at exact counts.",
+            "de": "Zweimal falsch: Bild-URLs müssen öffentlich erreichbar sein, selbst im selben VNet, und das Modell ignoriert Dateinamen und Metadaten und ist schwach beim genauen Zählen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "PNG, JPEG, WebP and non-animated GIF from public URLs; reads file names and EXIF metadata, precise at exact counts",
+            "de": "PNG, JPEG, WebP und nicht animiertes GIF von öffentlichen URLs; liest Dateinamen und EXIF-Metadaten, präzise beim Zählen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: formats and URLs fit, but the model ignores file names and metadata and is weak at exact counts.",
+            "de": "Teilweise richtig: Formate und URLs stimmen, aber das Modell ignoriert Dateinamen und Metadaten und ist schwach beim genauen Zählen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "PNG, JPEG, WebP and non-animated GIF from public URLs; ignores file names and metadata, weak at exact counts and tiny text",
+            "de": "PNG, JPEG, WebP und nicht animiertes GIF von öffentlichen URLs; ignoriert Dateinamen und Metadaten, schwach bei genauem Zählen und winzigem Text"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: those formats work, URLs must be publicly reachable, and the model ignores file names and metadata and struggles with counts, precise locations and rotated or tiny text.",
+            "de": "Korrekt: Diese Formate gehen, URLs müssen öffentlich erreichbar sein, und das Modell ignoriert Dateinamen und Metadaten und tut sich schwer mit Zählen, exakter Lokalisierung und gedrehtem oder winzigem Text."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "PNG, JPEG, WebP and non-animated GIF from private-endpoint storage in your VNet; ignores file names and metadata, weak at exact counts and tiny text",
+            "de": "PNG, JPEG, WebP und nicht animiertes GIF aus Speicher hinter Private Endpoint in deinem VNet; ignoriert Dateinamen und Metadaten, schwach bei genauem Zählen und winzigem Text"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the model's limits fit, but image URLs must be publicly reachable — private-endpoint storage fails even inside the same VNet.",
+            "de": "Teilweise richtig: Die Schwächen des Modells stimmen, aber Bild-URLs müssen öffentlich erreichbar sein – Speicher hinter Private Endpoint scheitert selbst im selben VNet."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What must instructions demand so that an answer stays grounded in the image, and what do they prevent?",
         "de": "Was müssen Anweisungen verlangen, damit eine Antwort auf dem Bild beruht, und was verhindern sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Combine the image with general knowledge and always give a complete answer — no \"not visible\" replies that frustrate users",
+            "de": "Bild mit Allgemeinwissen kombinieren und immer vollständig antworten – keine „nicht sichtbar“-Antworten, die Nutzer:innen frustrieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "This invites exactly the gap-filling from general knowledge that grounding is meant to prevent.",
+            "de": "Das lädt genau zu dem Lückenfüllen aus Allgemeinwissen ein, das Grounding verhindern soll."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Describe every detail but send the image with `detail: \"low\"` — no over-interpretation of small details",
+            "de": "Jedes Detail beschreiben, das Bild aber mit `detail: \"low\"` senden – keine Überinterpretation kleiner Details"
+          },
+          "correct": false,
+          "why": {
+            "en": "Low detail can make the model miss real evidence; it lowers accuracy instead of grounding the answer in what is visible.",
+            "de": "Eine niedrige Detailstufe kann echte Belege übersehen lassen; sie senkt die Genauigkeit, statt die Antwort an das Sichtbare zu binden."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Answer only from what is visible and name the visual evidence, but never admit missing information — no uncertain answers that confuse users",
+            "de": "Nur aus dem Sichtbaren antworten und die visuellen Belege nennen, aber nie fehlende Informationen zugeben – keine unsicheren Antworten, die Nutzer:innen verwirren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only half of it: grounding also needs the model to say when the image doesn't show the answer — otherwise it fills the gap with a guess.",
+            "de": "Nur die Hälfte: Grounding verlangt auch, dass das Modell sagt, wenn das Bild die Antwort nicht zeigt – sonst füllt es die Lücke mit einer Vermutung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Answer only from what is visible, name the visual evidence and say when the image doesn't show it — no gap-filling from general knowledge",
+            "de": "Nur aus dem Sichtbaren antworten, die visuellen Belege nennen und sagen, wenn das Bild es nicht zeigt – keine Lücken aus Allgemeinwissen füllen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: tying each statement to visible evidence and saying \"not visible\" when the image lacks the answer keeps the model from filling gaps with general knowledge.",
+            "de": "Richtig: Wer jede Aussage an sichtbare Belege bindet und „nicht sichtbar“ sagt, wenn das Bild die Antwort nicht zeigt, verhindert, dass das Modell Lücken mit Allgemeinwissen füllt."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What makes good alt text, and when does an image need an extended description or no alt text at all?",
         "de": "Was macht guten Alt-Text aus, und wann braucht ein Bild eine erweiterte Beschreibung oder gar keinen Alt-Text?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Short, neutral text on content and purpose (about 125 characters); charts also get an extended description, decorative images none",
+            "de": "Kurzer, neutraler Text zu Inhalt und Zweck (etwa 125 Zeichen); Diagramme bekommen zusätzlich eine erweiterte Beschreibung, dekorative Bilder nichts"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: alt text states content and purpose in context, a chart's details go into an extended description, and purely decorative images get no alt text.",
+            "de": "Korrekt: Alt-Text nennt Inhalt und Zweck im Kontext, die Details eines Diagramms gehören in eine erweiterte Beschreibung, und rein dekorative Bilder bekommen keinen Alt-Text."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Every visible detail in 300 words or more; charts need nothing else, and decorative images get their file name as alt text",
+            "de": "Jedes sichtbare Detail in 300 Wörtern oder mehr; Diagramme brauchen nichts weiter, dekorative Bilder bekommen ihren Dateinamen als Alt-Text"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: alt text stays concise — long content belongs in an extended description — and decorative images get no alt text at all.",
+            "de": "Nein: Alt-Text bleibt knapp – lange Inhalte gehören in eine erweiterte Beschreibung –, und dekorative Bilder bekommen gar keinen Alt-Text."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Short, neutral text on content and purpose (about 125 characters); charts need nothing else, decorative images get an extended description",
+            "de": "Kurzer, neutraler Text zu Inhalt und Zweck (etwa 125 Zeichen); Diagramme brauchen nichts weiter, dekorative Bilder bekommen eine erweiterte Beschreibung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: complex images such as charts need the extended description, while purely decorative images get no alt text.",
+            "de": "Vertauscht: Komplexe Bilder wie Diagramme brauchen die erweiterte Beschreibung, rein dekorative Bilder dagegen keinen Alt-Text."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Short text with the file name and pixel size; charts also get an extended description, and decorative images get alt text too",
+            "de": "Kurzer Text mit Dateiname und Pixelgröße; Diagramme bekommen zusätzlich eine erweiterte Beschreibung, dekorative Bilder ebenfalls Alt-Text"
+          },
+          "correct": false,
+          "why": {
+            "en": "File name and pixel size tell users nothing about content or purpose — and purely decorative images get no alt text.",
+            "de": "Dateiname und Pixelgröße sagen Nutzer:innen nichts über Inhalt oder Zweck – und rein dekorative Bilder bekommen keinen Alt-Text."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Why can text printed in an image attack your app, and how do you screen it with Prompt Shields?",
         "de": "Warum kann Text in einem Bild deine App angreifen, und wie prüfst du ihn mit Prompt Shields?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The model reads printed instructions and may follow them; send the image itself to Prompt Shields, which scans the pixels",
+            "de": "Das Modell liest gedruckte Anweisungen und befolgt sie womöglich; schicke das Bild selbst an Prompt Shields, das die Pixel prüft"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Prompt Shields analyze text, not pixels — your app has to extract the image text with OCR first.",
+            "de": "Nein: Prompt Shields analysieren Text, keine Pixel – deine App muss den Bildtext zuerst per OCR extrahieren."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The model reads printed instructions and may follow them; OCR the image and send the text to Prompt Shields as a document",
+            "de": "Das Modell liest gedruckte Anweisungen und befolgt sie womöglich; extrahiere den Text per OCR und schicke ihn als Dokument an Prompt Shields"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: image text is indirect prompt injection; Prompt Shields analyze text only, so your app extracts it with OCR and checks it as a document — third-party content.",
+            "de": "Korrekt: Bildtext ist indirekte Prompt Injection; Prompt Shields analysieren nur Text, also extrahiert deine App ihn per OCR und prüft ihn als Dokument – als Fremdinhalt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "EXIF metadata can carry hidden commands the model obeys; strip the metadata and let Prompt Shields scan the rest",
+            "de": "EXIF-Metadaten können versteckte Befehle tragen, denen das Modell folgt; entferne die Metadaten und lass Prompt Shields den Rest prüfen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model ignores file names and metadata; the risk is text printed in the image itself, which only OCR turns into text Prompt Shields can check.",
+            "de": "Das Modell ignoriert Dateinamen und Metadaten; das Risiko ist der Text im Bild selbst, den erst OCR zu prüfbarem Text für Prompt Shields macht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model reads printed instructions and may follow them; Prompt Shields scan the model's answer afterwards and strip them out of it",
+            "de": "Das Modell liest gedruckte Anweisungen und befolgt sie womöglich; Prompt Shields prüfen danach die Antwort des Modells und entfernen sie daraus"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Prompt Shields check inputs — user prompts and documents — before the model processes them, and they detect attacks rather than edit text.",
+            "de": "Nein: Prompt Shields prüfen Eingaben – Nutzerprompts und Dokumente –, bevor das Modell sie verarbeitet, und sie erkennen Angriffe, statt Text zu bearbeiten."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "`image_url` parts with a nested `{\"url\": …}` belong to Chat Completions; the Responses API uses `input_image` with `image_url` as a plain string (or a `file_id`).",
         "de": "`image_url`-Teile mit verschachteltem `{\"url\": …}` gehören zu Chat Completions; die Responses API nutzt `input_image` mit `image_url` als einfachem String (oder eine `file_id`)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Responses API; Chat Completions uses `input_image` with `image_url` as a plain string",
+            "de": "Die Responses API; Chat Completions nutzt `input_image` mit `image_url` als einfachem String"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `input_image` with a plain-string `image_url` is the Responses API shape; the nested `{\"url\": …}` belongs to Chat Completions.",
+            "de": "Vertauscht: `input_image` mit `image_url` als String ist die Form der Responses API; das verschachtelte `{\"url\": …}` gehört zu Chat Completions."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Chat Completions; the Responses API puts the image as a base64 string into an `input_text` item",
+            "de": "Chat Completions; die Responses API legt das Bild als Base64-String in ein `input_text`-Element"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a base64 data URL goes into the `image_url` string of an `input_image` item, not into a text item.",
+            "de": "Nein: Eine Base64-Data-URL gehört in den `image_url`-String eines `input_image`-Elements, nicht in ein Textelement."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Chat Completions; the Responses API uses `input_image` with `image_url` as a plain string or a `file_id`",
+            "de": "Chat Completions; die Responses API nutzt `input_image` mit `image_url` als einfachem String oder eine `file_id`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the nested object is the Chat Completions shape; the Responses API takes `input_image` with a URL or data URL as a string, or a `file_id`.",
+            "de": "Richtig: Das verschachtelte Objekt ist die Form von Chat Completions; die Responses API nimmt `input_image` mit URL oder Data-URL als String oder eine `file_id`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Both APIs; they differ only in reading the answer: `output_text` versus `choices[0].message.content`",
+            "de": "Beide APIs; sie unterscheiden sich nur beim Lesen der Antwort: `output_text` bzw. `choices[0].message.content`"
+          },
+          "correct": false,
+          "why": {
+            "en": "The reading path differs, but so do the parts: only Chat Completions nests `{\"url\": …}`; the Responses API uses `input_image` with a string.",
+            "de": "Der Lesepfad unterscheidet sich, die Teile aber auch: Nur Chat Completions verschachtelt `{\"url\": …}`; die Responses API nutzt `input_image` mit String."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Image URLs must be publicly reachable. Private-endpoint, VNet- or firewall-restricted storage URLs fail — even inside the same VNet — so send a base64 data URL or a file ID instead.",
         "de": "Bild-URLs müssen öffentlich erreichbar sein. URLs auf Speicher hinter Private Endpoint, VNet oder Firewall scheitern – selbst im selben VNet –, also schickst du stattdessen eine Base64-Data-URL oder eine Datei-ID."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Image URLs must be publicly reachable; send the image as a base64 data URL or a file ID instead",
+            "de": "Bild-URLs müssen öffentlich erreichbar sein; schicke das Bild stattdessen als Base64-Data-URL oder Datei-ID"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the service fetches image URLs itself, so they must be public; a data URL or file ID carries the bytes without that fetch.",
+            "de": "Korrekt: Der Dienst holt Bild-URLs selbst ab, also müssen sie öffentlich sein; eine Data-URL oder Datei-ID bringt die Bytes ohne diesen Abruf mit."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The URL lacks a SAS token; append one to the blob URL and send that URL instead",
+            "de": "Der URL fehlt ein SAS-Token; hänge eines an die Blob-URL und schicke diese URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "A SAS only grants authorization; it doesn't make firewall-restricted storage publicly reachable, so the fetch still fails.",
+            "de": "Ein SAS erteilt nur eine Berechtigung; Speicher hinter einer Firewall wird dadurch nicht öffentlich erreichbar, der Abruf scheitert weiter."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The resource's managed identity lacks a role; grant it Storage Blob Data Reader and resend the URL",
+            "de": "Der Managed Identity der Ressource fehlt eine Rolle; gib ihr Storage Blob Data Reader und schicke die URL erneut"
+          },
+          "correct": false,
+          "why": {
+            "en": "Roles don't help: image URLs must be publicly reachable, and private or firewalled storage fails regardless of permissions.",
+            "de": "Rollen helfen nicht: Bild-URLs müssen öffentlich erreichbar sein, und privater oder abgeschotteter Speicher scheitert unabhängig von Berechtigungen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The app and the storage sit in different VNets; move the app into the storage VNet and resend the URL",
+            "de": "App und Speicher liegen in verschiedenen VNets; verschiebe die App ins VNet des Speichers und schicke die URL erneut"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: such URLs fail even inside the same VNet — send the image inline as a base64 data URL or as a file ID.",
+            "de": "Nein: Solche URLs scheitern selbst im selben VNet – schicke das Bild direkt als Base64-Data-URL oder als Datei-ID."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Label images in text instead of relying on names: the model does not read file names or EXIF metadata, and images are resized before analysis.",
         "de": "Beschrifte Bilder im Text, statt dich auf Namen zu verlassen: Das Modell liest weder Dateinamen noch EXIF-Metadaten, und Bilder werden vor der Analyse skaliert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Name each file after its product and SKU; the model reads the file name from the image URL",
+            "de": "Benenne jede Datei nach ihrem Produkt und der SKU; das Modell liest den Dateinamen aus der Bild-URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the model doesn't read file names — label each image in an `input_text` part instead.",
+            "de": "Nein: Das Modell liest keine Dateinamen – beschrifte jedes Bild stattdessen in einem `input_text`-Teil."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Write the product ID into every image's EXIF metadata; the model reads it during analysis",
+            "de": "Schreibe die Produkt-ID in die EXIF-Metadaten jedes Bildes; das Modell liest sie bei der Analyse"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model ignores EXIF and other metadata, so an ID stored there never reaches it.",
+            "de": "Das Modell ignoriert EXIF- und andere Metadaten – eine dort abgelegte ID erreicht es nie."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Merge the images into one collage and refer to positions like \"top left\"; the model locates regions precisely",
+            "de": "Fasse die Bilder zu einer Collage zusammen und verweise auf Positionen wie „oben links“; das Modell lokalisiert Bereiche präzise"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model is weak at precise localization, and images are resized before analysis — label each image in text instead.",
+            "de": "Das Modell ist schwach bei exakter Lokalisierung, und Bilder werden vor der Analyse skaliert – beschrifte jedes Bild stattdessen im Text."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Put a text label before each image; the model reads neither file names nor EXIF metadata",
+            "de": "Setze vor jedes Bild ein Text-Label; das Modell liest weder Dateinamen noch EXIF-Metadaten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: an `input_text` label before each `input_image` is the only name the model sees — it ignores file names and metadata, and images get resized.",
+            "de": "Richtig: Ein `input_text`-Label vor jedem `input_image` ist der einzige Name, den das Modell sieht – Dateinamen und Metadaten ignoriert es, und Bilder werden skaliert."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "`detail: \"low\"` is cheap and fast but can miss small text. If small printed text is misread, switch to `high`.",
         "de": "`detail: \"low\"` ist günstig und schnell, kann aber kleinen Text übersehen. Wird kleiner gedruckter Text falsch gelesen, wechsle auf `high`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`detail: \"high\"` — switch that image to `detail: \"low\"`",
+            "de": "`detail: \"high\"` – stelle das Bild auf `detail: \"low\"` um"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: `high` is the setting for small text; `low` analyzes only a 512×512 version and makes misreadings more likely.",
+            "de": "Umgekehrt: `high` ist die Einstellung für kleinen Text; `low` analysiert nur eine 512×512-Version und macht Lesefehler wahrscheinlicher."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`detail: \"low\"` — switch that image to `detail: \"high\"`",
+            "de": "`detail: \"low\"` – stelle das Bild auf `detail: \"high\"` um"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `low` analyzes a 512×512 version that can lose small text; `high` adds detailed views at the cost of more tokens.",
+            "de": "Richtig: `low` analysiert eine 512×512-Version, in der kleiner Text verloren gehen kann; `high` ergänzt Detailansichten und kostet mehr Tokens."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`temperature` — lower it to 0 so the model reads text exactly",
+            "de": "`temperature` – senke sie auf 0, damit das Modell Text exakt liest"
+          },
+          "correct": false,
+          "why": {
+            "en": "`temperature` only controls randomness — and GPT-5-series reasoning models reject it anyway; small text needs `detail: \"high\"`.",
+            "de": "`temperature` steuert nur die Zufälligkeit – und Reasoning-Modelle der GPT-5-Serie lehnen sie ohnehin ab; kleiner Text braucht `detail: \"high\"`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`max_output_tokens` — raise it so the model can read more of the text",
+            "de": "`max_output_tokens` – erhöhe es, damit das Modell mehr vom Text lesen kann"
+          },
+          "correct": false,
+          "why": {
+            "en": "The output limit caps the length of the answer; it doesn't change how much detail the model sees in the image.",
+            "de": "Das Ausgabelimit begrenzt die Länge der Antwort; wie viele Details das Modell im Bild sieht, ändert es nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Prompt Shields analyze text, not pixels: your app must extract image text with OCR and send it to Prompt Shields itself — and a system message alone can be bypassed.",
         "de": "Prompt Shields analysieren Text, keine Pixel: Deine App muss Bildtext per OCR extrahieren und selbst an Prompt Shields schicken – und eine Systemnachricht allein lässt sich umgehen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They analyze the image only at `detail: \"high\"`, so raise the detail; a system message alone blocks the rest",
+            "de": "Sie analysieren das Bild nur bei `detail: \"high\"`, also erhöhe die Detailstufe; eine Systemnachricht allein blockt den Rest"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `detail` controls how closely the model looks, not what Prompt Shields analyze — they need text that your app extracts with OCR.",
+            "de": "Nein: `detail` steuert, wie genau das Modell hinschaut, nicht, was Prompt Shields analysieren – die brauchen Text, den deine App per OCR extrahiert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They analyze text, not pixels, so your app must OCR the image first; after that, a system message can't be bypassed",
+            "de": "Sie analysieren Text, keine Pixel, also muss deine App das Bild zuerst per OCR auslesen; danach lässt sich eine Systemnachricht nicht umgehen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: OCR plus Prompt Shields is the first layer, but a system message can still be bypassed — keep tool permissions minimal too.",
+            "de": "Teilweise richtig: OCR plus Prompt Shields ist die erste Schicht, aber eine Systemnachricht lässt sich weiterhin umgehen – halte auch die Tool-Rechte minimal."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They analyze text, not pixels, so your app must OCR the image first; and a system message alone can be bypassed",
+            "de": "Sie analysieren Text, keine Pixel, also muss deine App das Bild zuerst per OCR auslesen; und eine Systemnachricht allein lässt sich umgehen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: OCR turns image text into something Prompt Shields can analyze, and the system message is just one layer — instructions can still slip past it.",
+            "de": "Korrekt: OCR macht aus Bildtext etwas, das Prompt Shields analysieren können, und die Systemnachricht ist nur eine Schicht – Anweisungen können trotzdem durchrutschen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They check only the user's own prompt, never documents, so image text can't be screened; a system message alone must do it",
+            "de": "Sie prüfen nur den eigenen Prompt des Nutzers, nie Dokumente, also lässt sich Bildtext nicht prüfen; das muss allein eine Systemnachricht leisten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Prompt Shields also check documents — that's how OCR'd image text is screened — and a system message alone can be bypassed.",
+            "de": "Nein: Prompt Shields prüfen auch Dokumente – so wird per OCR gewonnener Bildtext geprüft –, und eine Systemnachricht allein lässt sich umgehen."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Vision chat = normal chat + multi-part user message.",
         "de": "Vision-Chat = normaler Chat + mehrteilige Nutzernachricht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A separate vision endpoint and SDK, instead of the normal chat call",
+            "de": "Ein separater Vision-Endpoint samt SDK anstelle des herkömmlichen Chat-Aufrufs"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: it's the same chat call — Responses API or Chat Completions — to a vision-enabled deployment.",
+            "de": "Nein: Es ist derselbe Chat-Aufruf – Responses API oder Chat Completions – an ein vision-fähiges Deployment."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A system message that tells the model to look at images",
+            "de": "Eine Systemnachricht, die das Modell anweist, Bilder anzusehen"
+          },
+          "correct": false,
+          "why": {
+            "en": "A system message can't carry the image; the image travels as its own part in the user message.",
+            "de": "Eine Systemnachricht transportiert kein Bild; das Bild reist als eigener Teil in der Nutzernachricht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `detail` parameter, set once for the whole call",
+            "de": "Der Parameter `detail`, einmal für den ganzen Aufruf gesetzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "`detail` is an option on each image part, not what makes a call multimodal — the image parts do that.",
+            "de": "`detail` ist eine Option am einzelnen Bildteil und macht keinen Aufruf multimodal – das tun die Bildteile."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A multi-part user message: a text item plus one or more image items",
+            "de": "Eine mehrteilige Nutzernachricht: ein Textteil plus ein oder mehrere Bildteile"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the call stays a normal chat call to a vision-enabled deployment; only the user message gains image parts.",
+            "de": "Richtig: Der Aufruf bleibt ein normaler Chat-Aufruf an ein vision-fähiges Deployment; nur die Nutzernachricht bekommt Bildteile dazu."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Private image → base64 data URL or file ID; public image → URL.",
         "de": "Privates Bild → Base64-Data-URL oder Datei-ID; öffentliches Bild → URL."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Private: a base64 data URL or a file ID; public: its URL",
+            "de": "Privat: eine Base64-Data-URL oder eine Datei-ID; öffentlich: seine URL"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a data URL or file ID carries the image itself, so no fetch is needed; a publicly reachable URL is fetched by the service.",
+            "de": "Korrekt: Eine Data-URL oder Datei-ID trägt das Bild selbst, kein Abruf nötig; eine öffentlich erreichbare URL holt der Dienst selbst ab."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Private: its private-endpoint URL; public: a file ID only",
+            "de": "Privat: seine URL hinter dem Private Endpoint; öffentlich: nur eine Datei-ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: private-endpoint URLs fail even inside the same VNet, and a public image can simply go by URL.",
+            "de": "Nein: URLs hinter Private Endpoints scheitern selbst im selben VNet, und ein öffentliches Bild geht einfach per URL."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Private: its local file path directly as `image_url`; public: its URL",
+            "de": "Privat: sein lokaler Dateipfad direkt als `image_url`; öffentlich: seine URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "A local path isn't a URL the service can fetch — read the file and send it as a base64 data URL, or upload it for a file ID.",
+            "de": "Ein lokaler Pfad ist keine URL, die der Dienst abrufen kann – lies die Datei und schicke sie als Base64-Data-URL oder lade sie für eine Datei-ID hoch."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Private: only the text read by OCR, never the image; public: its URL",
+            "de": "Privat: nur der per OCR gelesene Text, nie das Bild; öffentlich: seine URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model can analyze private images too: send the bytes inline as a data URL or upload them for a file ID.",
+            "de": "Das Modell kann auch private Bilder analysieren: Schicke die Bytes direkt als Data-URL oder lade sie für eine Datei-ID hoch."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Instructions plus `detail` decide between concise and detailed output.",
         "de": "Anweisungen plus `detail` entscheiden zwischen knapper und ausführlicher Ausgabe."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The image's resolution and file size alone",
+            "de": "Allein Auflösung und Dateigröße des Bildes"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: images are resized before analysis anyway; your instructions and the `detail` level shape the output.",
+            "de": "Nein: Bilder werden vor der Analyse ohnehin skaliert; Anweisungen und `detail`-Stufe formen die Ausgabe."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Your instructions plus the `detail` level",
+            "de": "Deine Anweisungen plus die `detail`-Stufe"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: instructions set format and length, and `detail` sets how closely the model looks — together they give concise or detailed output.",
+            "de": "Richtig: Anweisungen legen Format und Länge fest, `detail` bestimmt, wie genau das Modell hinschaut – zusammen ergibt das knappe oder ausführliche Ausgaben."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `max_output_tokens` value alone",
+            "de": "Allein der Wert von `max_output_tokens`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`max_output_tokens` only caps length — set too low, a reasoning model can end `incomplete` without visible text; instructions plus `detail` steer the output.",
+            "de": "`max_output_tokens` begrenzt nur die Länge – zu niedrig gesetzt, endet ein Reasoning-Modell `incomplete` ohne sichtbaren Text; Anweisungen plus `detail` steuern die Ausgabe."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The deployment type, such as Global Standard or Provisioned",
+            "de": "Der Deployment-Typ, etwa Global Standard oder Provisioned"
+          },
+          "correct": false,
+          "why": {
+            "en": "Deployment types change throughput, data residency and cost, not how concise a caption turns out.",
+            "de": "Deployment-Typen ändern Durchsatz, Datenresidenz und Kosten, nicht, wie knapp eine Bildunterschrift ausfällt."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Alt text is short (about 125 characters) and purposeful; charts get an extended description; decorative images get none.",
         "de": "Alt-Text ist kurz (etwa 125 Zeichen) und zweckorientiert; Diagramme bekommen eine erweiterte Beschreibung; dekorative Bilder keine."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As long as needed to list every detail; charts get only alt text, decorative images a short description",
+            "de": "So lang wie nötig, um jedes Detail aufzuzählen; Diagramme bekommen nur Alt-Text, dekorative Bilder eine kurze Beschreibung"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: alt text stays concise — a chart's details belong in its extended description, and decorative images get no alt text.",
+            "de": "Nein: Alt-Text bleibt knapp – die Details eines Diagramms gehören in seine erweiterte Beschreibung, und dekorative Bilder bekommen keinen Alt-Text."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "About 125 characters; charts get no alt text at all, decorative images get an extended description instead",
+            "de": "Etwa 125 Zeichen; Diagramme bekommen überhaupt keinen Alt-Text, dekorative Bilder dafür eine erweiterte Beschreibung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: charts keep their alt text and add an extended description; purely decorative images get no alt text at all.",
+            "de": "Vertauscht: Diagramme behalten ihren Alt-Text und bekommen eine erweiterte Beschreibung dazu; rein dekorative Bilder bekommen gar keinen Alt-Text."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "About 125 characters; charts also get an extended description, decorative images no alt text",
+            "de": "Etwa 125 Zeichen; Diagramme bekommen zusätzlich eine erweiterte Beschreibung, dekorative Bilder keinen Alt-Text"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: alt text stays short and purposeful, charts add the longer extended description, and purely decorative images are skipped.",
+            "de": "Korrekt: Alt-Text bleibt kurz und zweckorientiert, Diagramme bekommen die längere erweiterte Beschreibung, und rein dekorative Bilder werden übersprungen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Under 20 characters, much like a file name; charts and decorative images get the same short alt text",
+            "de": "Unter 20 Zeichen, ganz ähnlich einem Dateinamen; Diagramme und dekorative Bilder bekommen denselben kurzen Alt-Text"
+          },
+          "correct": false,
+          "why": {
+            "en": "Too short and too uniform: alt text conveys content and purpose in about 125 characters, charts add an extended description, decorative images get none.",
+            "de": "Zu kurz und zu einheitlich: Alt-Text vermittelt Inhalt und Zweck in etwa 125 Zeichen, Diagramme bekommen eine erweiterte Beschreibung, dekorative Bilder keine."
+          }
+        }
+      ]
     },
     {
       "id": "z-vision-chat-takeaway-5",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Treat text in images as data: OCR + Prompt Shields, a clear system message, least-privilege tools.",
         "de": "Behandle Bildtext als Daten: OCR + Prompt Shields, klare Systemnachricht, Tools mit minimalen Rechten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "OCR plus Prompt Shields, a clear system message and least-privilege tools",
+            "de": "OCR plus Prompt Shields, eine klare Systemnachricht und Tools mit minimalen Rechten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: OCR makes image text checkable by Prompt Shields, the system message declares image text as data, and minimal tool rights limit the damage.",
+            "de": "Richtig: OCR macht Bildtext für Prompt Shields prüfbar, die Systemnachricht erklärt Bildtext zu Daten, und minimale Tool-Rechte begrenzen den Schaden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`detail: \"low\"`, a lower `temperature` and a larger `max_output_tokens`",
+            "de": "`detail: \"low\"`, eine niedrigere `temperature` und ein größeres `max_output_tokens`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Detail and sampling settings neither detect nor stop injected instructions; that takes OCR plus Prompt Shields, a system message and least-privilege tools.",
+            "de": "Detail- und Sampling-Einstellungen erkennen und stoppen keine eingeschleusten Anweisungen; das leisten OCR plus Prompt Shields, Systemnachricht und Tools mit minimalen Rechten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Stripping EXIF metadata, renaming the files and resizing the images",
+            "de": "EXIF-Metadaten entfernen, Dateien umbenennen und Bilder verkleinern"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model ignores metadata and file names, so cleaning them stops nothing — the attack is the printed text itself.",
+            "de": "Das Modell ignoriert Metadaten und Dateinamen, also stoppt ihr Bereinigen nichts – der Angriff ist der gedruckte Text selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Prompt Shields on the raw image, a clear system message and least-privilege tools",
+            "de": "Prompt Shields auf dem Rohbild, eine klare Systemnachricht und Tools mit minimalen Rechten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Almost: Prompt Shields analyze text, not pixels — your app first extracts the image text with OCR and sends it to Prompt Shields as a document.",
+            "de": "Fast: Prompt Shields analysieren Text, keine Pixel – deine App extrahiert den Bildtext zuerst per OCR und schickt ihn als Dokument an Prompt Shields."
+          }
+        }
+      ]
     }
   ]
 }

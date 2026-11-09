@@ -8,7 +8,57 @@
       "front": {
         "en": "What does `prebuilt-read` extract, and what does `prebuilt-layout` add on top?",
         "de": "Was extrahiert `prebuilt-read`, und was ergänzt `prebuilt-layout`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Read: printed lines and words with confidence and polygons, but no handwriting; Layout adds tables, selection marks, paragraph roles, sections and figures.",
+            "de": "Read: gedruckte Zeilen und Wörter mit Konfidenz und Polygonen, aber keine Handschrift; Layout ergänzt Tabellen, Auswahlfelder, Absatzrollen, Abschnitte und Abbildungen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Layout's part is right, but Read already handles printed and handwritten text.",
+            "de": "Der Layout-Teil stimmt, aber Read erkennt bereits gedruckten und handschriftlichen Text."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Read: printed lines and words with confidence and polygons, but no handwriting; Layout adds the searchable-PDF output that Read can't produce.",
+            "de": "Read: gedruckte Zeilen und Wörter mit Konfidenz und Polygonen, aber keine Handschrift; Layout ergänzt die durchsuchbare PDF-Ausgabe, die Read nicht kann."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Read handles handwriting too, and searchable PDF output works only with `prebuilt-read`, while Layout adds tables, selection marks and structure.",
+            "de": "Doppelt falsch: Read erkennt auch Handschrift, und durchsuchbares PDF gibt es nur mit `prebuilt-read`, während Layout Tabellen, Auswahlfelder und Struktur ergänzt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Read: printed and handwritten lines and words with confidence and polygons; Layout adds tables, selection marks, paragraph roles, sections and figures.",
+            "de": "Read: gedruckte und handschriftliche Zeilen und Wörter mit Konfidenz und Polygonen; Layout ergänzt Tabellen, Auswahlfelder, Absatzrollen, Abschnitte und Abbildungen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Read is the OCR foundation, and Layout adds the document structure; it can also return Markdown and, with `keyValuePairs`, key-value pairs.",
+            "de": "Korrekt: Read ist die OCR-Grundlage, und Layout ergänzt die Dokumentstruktur; es kann zudem Markdown und mit `keyValuePairs` Schlüssel-Wert-Paare liefern."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Read: printed and handwritten lines and words with confidence and polygons; Layout adds the searchable-PDF output that Read can't produce.",
+            "de": "Read: gedruckte und handschriftliche Zeilen und Wörter mit Konfidenz und Polygonen; Layout ergänzt die durchsuchbare PDF-Ausgabe, die Read nicht kann."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: searchable PDF output works only with `prebuilt-read`; Layout adds tables, selection marks, paragraph roles, sections and figures.",
+            "de": "Umgekehrt: Durchsuchbares PDF gibt es nur mit `prebuilt-read`; Layout ergänzt Tabellen, Auswahlfelder, Absatzrollen, Abschnitte und Abbildungen."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which resource types, file formats and size limits apply to Document Intelligence input?",
         "de": "Welche Ressourcentypen, Dateiformate und Größengrenzen gelten für Eingaben in Document Intelligence?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A Foundry or single-service resource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office for Read/Layout); up to 500 MB on S0, 4 MB on F0, 2,000 pages.",
+            "de": "Eine Foundry- oder Einzeldienst-Ressource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office für Read/Layout); bis 500 MB in S0, 4 MB in F0, 2.000 Seiten."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the paid S0 tier allows 500 MB, the free F0 tier 4 MB, and password-protected PDFs aren't accepted on either.",
+            "de": "Korrekt: Der kostenpflichtige Tarif S0 erlaubt 500 MB, der kostenlose Tarif F0 4 MB, und passwortgeschützte PDFs gehen in keinem."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A Foundry or single-service resource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office for Read/Layout); up to 4 MB on S0, 500 MB on F0, 2,000 pages.",
+            "de": "Eine Foundry- oder Einzeldienst-Ressource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office für Read/Layout); bis 4 MB in S0, 500 MB in F0, 2.000 Seiten."
+          },
+          "correct": false,
+          "why": {
+            "en": "The tiers are swapped: the free F0 tier is the one capped at 4 MB, while the paid S0 tier takes files up to 500 MB.",
+            "de": "Die Tarife sind vertauscht: Der kostenlose Tarif F0 ist auf 4 MB begrenzt, der kostenpflichtige Tarif S0 nimmt Dateien bis 500 MB."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A Foundry resource only; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office for Read/Layout); up to 500 MB on S0, 4 MB on F0, 2,000 pages.",
+            "de": "Nur eine Foundry-Ressource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office für Read/Layout); bis 500 MB in S0, 4 MB in F0, 2.000 Seiten."
+          },
+          "correct": false,
+          "why": {
+            "en": "A single-service Document Intelligence resource works too; the Foundry resource simply gives you one endpoint for several Foundry Tools.",
+            "de": "Eine Einzeldienst-Ressource für Document Intelligence geht auch; die Foundry-Ressource bietet dir nur einen Endpoint für mehrere Foundry Tools."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A Foundry resource only; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office for Read/Layout); up to 4 MB on S0, 500 MB on F0, 2,000 pages.",
+            "de": "Nur eine Foundry-Ressource; PDF, JPEG, PNG, BMP, TIFF, HEIF (+ Office für Read/Layout); bis 4 MB in S0, 500 MB in F0, 2.000 Seiten."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a single-service Document Intelligence resource works too, and the free F0 tier is the one capped at 4 MB, while S0 takes up to 500 MB.",
+            "de": "Doppelt falsch: Eine Einzeldienst-Ressource für Document Intelligence geht auch, und der kostenlose Tarif F0 ist auf 4 MB begrenzt, S0 nimmt bis 500 MB."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which document types do prebuilt models cover, and how do they return a value such as `InvoiceDate`?",
         "de": "Welche Dokumenttypen decken Prebuilt-Modelle ab, und wie liefern sie einen Wert wie `InvoiceDate`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Invoices and receipts; every other document type needs a custom model; `InvoiceDate` has `content` as printed plus a typed `value_date`.",
+            "de": "Rechnungen und Belege; für jeden anderen Dokumenttyp brauchst du ein Custom-Modell; `InvoiceDate` liefert `content` wie gedruckt plus typisiertes `value_date`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The catalog is much wider: ID documents, bank statements, checks, pay stubs, contracts, US tax and mortgage forms and more have prebuilt models.",
+            "de": "Der Katalog ist viel breiter: Ausweise, Kontoauszüge, Schecks, Gehaltsabrechnungen, Verträge, US-Steuer- und Hypothekenformulare und mehr haben Prebuilt-Modelle."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Invoices, receipts, IDs, contracts, US tax and mortgage forms and more; `InvoiceDate` has `content` as printed plus a typed `value_date`.",
+            "de": "Rechnungen, Belege, Ausweise, Verträge, US-Steuer- und Hypothekenformulare und mehr; `InvoiceDate` liefert `content` wie gedruckt plus typisiertes `value_date`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: prebuilt models have fixed schemas, and each value comes back typed next to the printed text, with a confidence score.",
+            "de": "Korrekt: Prebuilt-Modelle haben feste Schemas, und jeder Wert kommt typisiert neben dem gedruckten Text zurück, mit Konfidenzwert."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Invoices, receipts, IDs, contracts, US tax and mortgage forms and more; `InvoiceDate` is only the printed string in `content`.",
+            "de": "Rechnungen, Belege, Ausweise, Verträge, US-Steuer- und Hypothekenformulare und mehr; `InvoiceDate` ist nur der gedruckte String in `content`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The catalog is right, but values come back typed too: `InvoiceDate` has `value_date` next to the printed `content`, so you don't parse it yourself.",
+            "de": "Der Katalog stimmt, aber Werte kommen auch typisiert zurück: `InvoiceDate` hat `value_date` neben dem gedruckten `content`, du parst also nicht selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Invoices and receipts; every other document type needs a custom model; `InvoiceDate` is only the printed string in `content`.",
+            "de": "Rechnungen und Belege; für jeden anderen Dokumenttyp brauchst du ein Custom-Modell; `InvoiceDate` ist nur der gedruckte String in `content`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: prebuilt models cover many more types, such as IDs, bank statements and US tax forms, and values come back typed, e.g. `value_date`, next to `content`.",
+            "de": "Doppelt falsch: Prebuilt-Modelle decken viel mehr Typen ab, etwa Ausweise, Kontoauszüge und US-Steuerformulare, und Werte kommen typisiert zurück, z. B. `value_date` neben `content`."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "When do you choose a custom template versus a custom neural model, and what if you have no labeled samples?",
         "de": "Wann nimmst du ein Template- und wann ein Neural-Modell, und was tust du ohne gelabelte Beispiele?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Template for varying or unstructured documents, neural for one fixed layout only; no labels → a Content Understanding custom analyzer.",
+            "de": "Template für wechselnde oder unstrukturierte Dokumente, Neural nur für ein festes Layout; ohne Labels → ein eigener Content-Understanding-Analyzer."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: template needs one consistent visual layout, while neural handles structured to unstructured documents and many variations.",
+            "de": "Vertauscht: Template braucht ein konsistentes visuelles Layout, Neural verarbeitet strukturierte bis unstrukturierte Dokumente und viele Varianten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Template for one fixed layout, neural for varying or unstructured documents; no labels → a neural model, since it learns from unlabeled files.",
+            "de": "Template für ein festes Layout, Neural für wechselnde oder unstrukturierte Dokumente; ohne Labels → ein Neural-Modell, das aus ungelabelten Dateien lernt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both custom types learn from labeled samples (at least five per document type); without labels, use a Content Understanding custom analyzer.",
+            "de": "Beide Custom-Typen lernen aus gelabelten Beispielen (mindestens fünf je Dokumenttyp); ohne Labels nimmst du einen eigenen Content-Understanding-Analyzer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Template for varying or unstructured documents, neural for one fixed layout only; no labels → a neural model, since it learns from unlabeled files.",
+            "de": "Template für wechselnde oder unstrukturierte Dokumente, Neural nur für ein festes Layout; ohne Labels → ein Neural-Modell, das aus ungelabelten Dateien lernt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: template needs one consistent layout while neural handles variations, and both learn from labeled samples; without labels, use a Content Understanding custom analyzer.",
+            "de": "Doppelt falsch: Template braucht ein konsistentes Layout, Neural verarbeitet Varianten, und beide lernen aus gelabelten Beispielen; ohne Labels nimmst du einen eigenen Content-Understanding-Analyzer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Template for one fixed layout, neural for varying or unstructured documents; no labels → a Content Understanding custom analyzer.",
+            "de": "Template für ein festes Layout, Neural für wechselnde oder unstrukturierte Dokumente; ohne Labels → ein eigener Content-Understanding-Analyzer."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: template trains fast on one consistent layout, neural covers variations and is recommended where your language is supported, and no labels means Content Understanding.",
+            "de": "Korrekt: Template trainiert schnell auf einem konsistenten Layout, Neural deckt Varianten ab und wird empfohlen, wenn deine Sprache unterstützt wird; ohne Labels hilft Content Understanding."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What does a custom classifier need, when does it split files, and what does a composed model do?",
         "de": "Was braucht ein Classifier, wann teilt er Dateien, und was macht ein Composed Model?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "At least two classes with five samples each; it splits only when `splitMode` is `auto` or `perPage`; a composed model routes to extraction models behind one ID.",
+            "de": "Mindestens zwei Klassen mit je fünf Beispielen; er teilt nur mit `splitMode` = `auto` oder `perPage`; ein Composed Model routet zu Extraktionsmodellen hinter einer ID."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: v4.0 classifiers don't split by default, and a composed model groups extraction models behind one model ID, routing through an explicit classifier.",
+            "de": "Korrekt: v4.0-Classifier teilen standardmäßig nicht, und ein Composed Model bündelt Extraktionsmodelle hinter einer Modell-ID und leitet über einen expliziten Classifier weiter."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "At least five classes with two samples each; it splits every bundled file by default; a composed model routes to extraction models behind one ID.",
+            "de": "Mindestens fünf Klassen mit je zwei Beispielen; er teilt jede gebündelte Datei standardmäßig; ein Composed Model routet zu Extraktionsmodellen hinter einer ID."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: a classifier needs at least two classes with five samples each, and in v4.0 `splitMode` defaults to `none`, so nothing is split by default.",
+            "de": "Zwei Fehler: Ein Classifier braucht mindestens zwei Klassen mit je fünf Beispielen, und in v4.0 steht `splitMode` standardmäßig auf `none`, geteilt wird also nichts."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "At least two classes with five samples each; it splits every bundled file by default; a composed model merges its models into one retrained model.",
+            "de": "Mindestens zwei Klassen mit je fünf Beispielen; er teilt jede gebündelte Datei standardmäßig; ein Composed Model verschmilzt seine Modelle zu einem neu trainierten."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `splitMode` defaults to `none` in v4.0, and a composed model keeps its extraction models behind one model ID instead of retraining them.",
+            "de": "Zwei Fehler: `splitMode` steht in v4.0 standardmäßig auf `none`, und ein Composed Model behält seine Extraktionsmodelle hinter einer Modell-ID, statt sie neu zu trainieren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "At least five classes with two samples each; it splits only when `splitMode` is `auto` or `perPage`; a composed model merges its models into one retrained model.",
+            "de": "Mindestens fünf Klassen mit je zwei Beispielen; er teilt nur mit `splitMode` = `auto` oder `perPage`; ein Composed Model verschmilzt seine Modelle zu einem neu trainierten."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: a classifier needs at least two classes with five samples each, and a composed model groups its extraction models behind one ID without retraining.",
+            "de": "Zwei Fehler: Ein Classifier braucht mindestens zwei Klassen mit je fünf Beispielen, und ein Composed Model bündelt seine Extraktionsmodelle hinter einer ID, ohne neu zu trainieren."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How do you enable add-ons, which ones are free or cost extra, and which files can't use them?",
         "de": "Wie aktivierst du Add-ons, welche sind kostenlos oder kosten extra, und welche Dateien unterstützen sie nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Once per model at training time; `ocrHighResolution`, `formulas`, `styleFont` are free, `barcodes`, `languages`, `keyValuePairs` cost extra; not for Office files.",
+            "de": "Einmal pro Modell beim Training; `ocrHighResolution`, `formulas`, `styleFont` sind kostenlos, `barcodes`, `languages`, `keyValuePairs` kosten extra; nicht für Office-Dateien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: you enable add-ons per request with `features`, and `barcodes`, `languages` and `keyValuePairs` are the free ones, while the other three cost extra.",
+            "de": "Zwei Fehler: Add-ons aktivierst du pro Anfrage mit `features`, und `barcodes`, `languages` und `keyValuePairs` sind die kostenlosen, die anderen drei kosten extra."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Per request via `features`; `ocrHighResolution`, `formulas`, `styleFont` are free, `barcodes`, `languages`, `keyValuePairs` cost extra; not for TIFF or HEIF images.",
+            "de": "Pro Anfrage über `features`; `ocrHighResolution`, `formulas`, `styleFont` sind kostenlos, `barcodes`, `languages`, `keyValuePairs` kosten extra; nicht für TIFF- oder HEIF-Bilder."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: free and paid are swapped, and add-ons do support TIFF and HEIF images; Microsoft Office files are the ones that can't use them.",
+            "de": "Zwei Fehler: Kostenlos und kostenpflichtig sind vertauscht, und Add-ons unterstützen sehr wohl TIFF- und HEIF-Bilder; Microsoft-Office-Dateien können sie nicht nutzen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Per request via `features`; `barcodes`, `languages`, `keyValuePairs` are free, `ocrHighResolution`, `formulas`, `styleFont` cost extra; not for Office files.",
+            "de": "Pro Anfrage über `features`; `barcodes`, `languages`, `keyValuePairs` sind kostenlos, `ocrHighResolution`, `formulas`, `styleFont` kosten extra; nicht für Office-Dateien."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct, and `queryFields` is a premium add-on for up to 20 extra fields without training; Office files support no add-ons at all.",
+            "de": "Korrekt, und `queryFields` ist ein Premium-Add-on für bis zu 20 Zusatzfelder ohne Training; Office-Dateien unterstützen gar keine Add-ons."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Once per model at training time; `barcodes`, `languages`, `keyValuePairs` are free, `ocrHighResolution`, `formulas`, `styleFont` cost extra; not for TIFF or HEIF images.",
+            "de": "Einmal pro Modell beim Training; `barcodes`, `languages`, `keyValuePairs` sind kostenlos, `ocrHighResolution`, `formulas`, `styleFont` kosten extra; nicht für TIFF- oder HEIF-Bilder."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: add-ons are switched on per request with `features`, not at training, and they support TIFF and HEIF; only Office files can't use them.",
+            "de": "Zwei Fehler: Add-ons schaltest du pro Anfrage mit `features` ein, nicht beim Training, und sie unterstützen TIFF und HEIF; nur Office-Dateien können sie nicht nutzen."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What can you do in Document Intelligence Studio, and what storage do custom projects need?",
         "de": "Was kannst du in Document Intelligence Studio tun, und welchen Speicher brauchen Custom-Projekte?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Test Read, Layout and prebuilt models, label samples, train custom models and classifiers; custom projects keep samples in an Azure AI Search index.",
+            "de": "Read, Layout und Prebuilt-Modelle testen, Beispiele labeln, Custom-Modelle und Classifier trainieren; Custom-Projekte speichern Beispiele in einem Azure-AI-Search-Index."
+          },
+          "correct": false,
+          "why": {
+            "en": "Training data lives in Azure Blob Storage: custom projects need a Blob Storage container with CORS configured so the Studio website can read it.",
+            "de": "Trainingsdaten liegen in Azure Blob Storage: Custom-Projekte brauchen einen Blob-Storage-Container mit konfiguriertem CORS, damit die Studio-Website ihn lesen darf."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Test Read, Layout and prebuilt models, label samples, train custom models and classifiers; custom projects need a Blob Storage container with CORS.",
+            "de": "Read, Layout und Prebuilt-Modelle testen, Beispiele labeln, Custom-Modelle und Classifier trainieren; Custom-Projekte brauchen einen Blob-Storage-Container mit CORS."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Studio spares you hand-written JSON label files, and CORS lets the Studio website read your Azure Blob Storage container.",
+            "de": "Korrekt: Studio erspart dir handgeschriebene JSON-Labeldateien, und CORS erlaubt der Studio-Website, deinen Azure-Blob-Storage-Container zu lesen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only test prebuilt models; labeling and training need hand-written JSON label files; custom projects need a Blob Storage container with CORS.",
+            "de": "Nur Prebuilt-Modelle testen; Labeln und Training brauchen handgeschriebene JSON-Labeldateien; Custom-Projekte brauchen einen Blob-Storage-Container mit CORS."
+          },
+          "correct": false,
+          "why": {
+            "en": "Studio does much more: you also test Read and Layout, label samples and train custom models and classifiers without writing JSON label files.",
+            "de": "Studio kann viel mehr: Du testest auch Read und Layout, labelst Beispiele und trainierst Custom-Modelle und Classifier, ohne JSON-Labeldateien zu schreiben."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only test prebuilt models; labeling and training need hand-written JSON label files; custom projects keep samples in an Azure AI Search index.",
+            "de": "Nur Prebuilt-Modelle testen; Labeln und Training brauchen handgeschriebene JSON-Labeldateien; Custom-Projekte speichern Beispiele in einem Azure-AI-Search-Index."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Studio also tests Read and Layout and trains custom models without hand-written label files, and custom projects need a Blob Storage container with CORS.",
+            "de": "Doppelt falsch: Studio testet auch Read und Layout und trainiert Custom-Modelle ohne handgeschriebene Labeldateien, und Custom-Projekte brauchen einen Blob-Storage-Container mit CORS."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "In Content Understanding, `prebuilt-document` is the base analyzer for custom document analyzers; in Document Intelligence it was the general document model, now deprecated — use `prebuilt-layout` with `keyValuePairs`. `prebuilt-read`, `prebuilt-layout` and `prebuilt-document` exist in both services: Content Understanding analyzers under `/contentunderstanding/analyzers/…`, Document Intelligence models under `/documentintelligence/documentModels/…`.",
         "de": "In Content Understanding ist `prebuilt-document` der Basis-Analyzer für eigene Dokument-Analyzer; in Document Intelligence war es das General-Document-Modell, inzwischen veraltet (deprecated) – nutze `prebuilt-layout` mit `keyValuePairs`. `prebuilt-read`, `prebuilt-layout` und `prebuilt-document` gibt es in beiden Diensten: Content-Understanding-Analyzer unter `/contentunderstanding/analyzers/…`, Document-Intelligence-Modelle unter `/documentintelligence/documentModels/…`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Content Understanding: the deprecated general document model; Document Intelligence: the deprecated general document model, use layout with `keyValuePairs`.",
+            "de": "Content Understanding: das veraltete General-Document-Modell; Document Intelligence: das veraltete General-Document-Modell, nutze Layout mit `keyValuePairs`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Document Intelligence part is right, but in Content Understanding `prebuilt-document` is the current base analyzer for custom document analyzers.",
+            "de": "Der Document-Intelligence-Teil stimmt, aber in Content Understanding ist `prebuilt-document` der aktuelle Basis-Analyzer für eigene Dokument-Analyzer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Content Understanding: base analyzer for custom document analyzers; Document Intelligence: the current GA model for key-value pairs, preferred over layout with `keyValuePairs`.",
+            "de": "Content Understanding: Basis-Analyzer für eigene Dokument-Analyzer; Document Intelligence: das aktuelle GA-Modell für Schlüssel-Wert-Paare, Layout mit `keyValuePairs` vorzuziehen."
+          },
+          "correct": false,
+          "why": {
+            "en": "In Document Intelligence the general document model is deprecated; key-value pairs now come from `prebuilt-layout` with the `keyValuePairs` feature.",
+            "de": "In Document Intelligence ist das General-Document-Modell veraltet; Schlüssel-Wert-Paare liefert jetzt `prebuilt-layout` mit dem Feature `keyValuePairs`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Content Understanding: the deprecated general document model; Document Intelligence: the current GA model for key-value pairs, preferred over layout with `keyValuePairs`.",
+            "de": "Content Understanding: das veraltete General-Document-Modell; Document Intelligence: das aktuelle GA-Modell für Schlüssel-Wert-Paare, Layout mit `keyValuePairs` vorzuziehen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: in Content Understanding it's the current base analyzer for custom document analyzers, and in Document Intelligence it's deprecated in favor of layout with `keyValuePairs`.",
+            "de": "Doppelt falsch: In Content Understanding ist es der aktuelle Basis-Analyzer für eigene Dokument-Analyzer, und in Document Intelligence ist es zugunsten von Layout mit `keyValuePairs` veraltet."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Content Understanding: base analyzer for custom document analyzers; Document Intelligence: the deprecated general document model, use layout with `keyValuePairs`.",
+            "de": "Content Understanding: Basis-Analyzer für eigene Dokument-Analyzer; Document Intelligence: das veraltete General-Document-Modell, nutze Layout mit `keyValuePairs`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the same ID lives under `/contentunderstanding/analyzers/…` and `/documentintelligence/documentModels/…`, with very different roles.",
+            "de": "Korrekt: Dieselbe ID gibt es unter `/contentunderstanding/analyzers/…` und `/documentintelligence/documentModels/…`, mit ganz unterschiedlichen Rollen."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Template models break when the layout varies. Different layouts need one template model each (combined in a composed model) or a single neural model.",
         "de": "Template-Modelle scheitern, wenn das Layout variiert. Unterschiedliche Layouts brauchen je ein eigenes Template-Modell (gebündelt in einem Composed Model) oder ein einzelnes Neural-Modell."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It breaks; use one template model per layout combined in a composed model, or one neural model for all of them.",
+            "de": "Es scheitert; nutze je Layout ein Template-Modell, gebündelt in einem Composed Model, oder ein einzelnes Neural-Modell für alle."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a template model relies on the layout of one template and loses accuracy when it changes, so variations need their own templates in a composed model, or one neural model.",
+            "de": "Richtig: Ein Template-Modell stützt sich auf das Layout einer Vorlage und verliert Genauigkeit, wenn es sich ändert; Varianten brauchen also eigene Templates in einem Composed Model oder ein Neural-Modell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It still finds each labeled field wherever it moves; use one template model per layout in a composed model, or one neural model.",
+            "de": "Es findet jedes gelabelte Feld weiterhin, egal wohin es wandert; nutze je Layout ein Template-Modell in einem Composed Model oder ein Neural-Modell."
+          },
+          "correct": false,
+          "why": {
+            "en": "No: template models use layout cues, so a changed layout lowers accuracy instead of being absorbed; that's exactly why the two setups exist.",
+            "de": "Nein: Template-Modelle nutzen Layout-Hinweise, ein geändertes Layout senkt also die Genauigkeit, statt aufgefangen zu werden; genau deshalb gibt es die beiden Lösungen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It breaks; train one template model on all layouts together, or let a custom classifier extract the fields.",
+            "de": "Es scheitert; trainiere ein Template-Modell auf alle Layouts zusammen, oder lass einen Custom Classifier die Felder extrahieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "One template can't cover several layouts, and a classifier only identifies document types; use per-layout templates in a composed model or one neural model.",
+            "de": "Ein Template deckt nicht mehrere Layouts ab, und ein Classifier erkennt nur Dokumenttypen; nimm Templates je Layout in einem Composed Model oder ein Neural-Modell."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It still finds each labeled field wherever it moves; train one template model on all layouts together, or let a custom classifier extract the fields.",
+            "de": "Es findet jedes gelabelte Feld weiterhin, egal wohin es wandert; trainiere ein Template-Modell auf alle Layouts zusammen, oder lass einen Custom Classifier die Felder extrahieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: template models use layout cues, so a changed layout lowers accuracy, and one template can't cover several layouts, while a classifier only identifies document types.",
+            "de": "Doppelt falsch: Template-Modelle nutzen Layout-Hinweise, ein geändertes Layout senkt also die Genauigkeit, ein Template deckt nicht mehrere Layouts ab, und ein Classifier erkennt nur Dokumenttypen."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "v4.0 classifiers don't split files by default (`splitMode` is `none`). For a PDF that bundles several documents, set `splitMode` to `auto`.",
         "de": "v4.0-Classifier teilen Dateien standardmäßig nicht (`splitMode` ist `none`). Für ein PDF mit mehreren gebündelten Dokumenten setzt du `splitMode` auf `auto`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It doesn't split the file (`splitMode` is `none`); keep the default setting.",
+            "de": "Er teilt die Datei nicht (`splitMode` ist `none`); behalte die Standardeinstellung."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default is right, but a bundled PDF stays one document until you set `splitMode` to `auto`.",
+            "de": "Der Standard stimmt, aber ein gebündeltes PDF bleibt ein Dokument, bis du `splitMode` auf `auto` setzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It splits every page into its own document (`splitMode` is `perPage`); set `splitMode` to `auto`.",
+            "de": "Er macht jede Seite zu einem eigenen Dokument (`splitMode` ist `perPage`); setz `splitMode` auf `auto`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The setting is right, but the v4.0 default is `none`, so nothing is split until you change it.",
+            "de": "Die Einstellung stimmt, aber der v4.0-Standard ist `none`, geteilt wird also erst, wenn du ihn änderst."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It doesn't split the file (`splitMode` is `none`); set `splitMode` to `auto`.",
+            "de": "Er teilt die Datei nicht (`splitMode` ist `none`); setz `splitMode` auf `auto`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: v4.0 classifiers don't split by default, and with `auto` the classifier splits a bundled file into its documents.",
+            "de": "Korrekt: v4.0-Classifier teilen standardmäßig nicht, und mit `auto` teilt der Classifier eine gebündelte Datei in ihre Dokumente."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It splits every page into its own document (`splitMode` is `perPage`); keep the default setting.",
+            "de": "Er macht jede Seite zu einem eigenen Dokument (`splitMode` ist `perPage`); behalte die Standardeinstellung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the v4.0 default is `none`, which doesn't split at all, so for a bundled PDF you set `splitMode` to `auto`.",
+            "de": "Doppelt falsch: Der v4.0-Standard ist `none` und teilt gar nicht, für ein gebündeltes PDF setzt du `splitMode` also auf `auto`."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Add-ons such as `ocrHighResolution` and `queryFields` cost extra and don't work on Office files; searchable PDF output works only with `prebuilt-read`.",
         "de": "Add-ons wie `ocrHighResolution` und `queryFields` kosten extra und funktionieren nicht mit Office-Dateien; durchsuchbares PDF gibt es nur mit `prebuilt-read`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They're free and work on every file type; searchable PDF output comes only from `prebuilt-read`.",
+            "de": "Sie sind kostenlos und funktionieren mit jedem Dateityp; durchsuchbares PDF liefert ausschließlich `prebuilt-read`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Read part is right, but such add-ons cost extra and don't work on Office files.",
+            "de": "Der Read-Teil stimmt, aber solche Add-ons kosten extra und funktionieren nicht mit Office-Dateien."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They cost extra and don't work on Office files; searchable PDF output comes only from `prebuilt-read`.",
+            "de": "Sie kosten extra und funktionieren nicht mit Office-Dateien; durchsuchbares PDF liefert ausschließlich `prebuilt-read`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: such add-ons are billed on top, Office files support no add-ons, and searchable PDF is available only with the Read model.",
+            "de": "Richtig: Solche Add-ons werden zusätzlich berechnet, Office-Dateien unterstützen keine Add-ons, und durchsuchbares PDF gibt es nur mit dem Read-Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They cost extra and don't work on Office files; only `prebuilt-layout` makes searchable PDFs.",
+            "de": "Sie kosten extra und funktionieren nicht mit Office-Dateien; durchsuchbares PDF liefert nur `prebuilt-layout`."
+          },
+          "correct": false,
+          "why": {
+            "en": "The catches are right, but searchable PDF output works only with `prebuilt-read`, not with layout.",
+            "de": "Die Haken stimmen, aber durchsuchbares PDF gibt es nur mit `prebuilt-read`, nicht mit Layout."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They're free and work on every file type; only `prebuilt-layout` makes searchable PDFs.",
+            "de": "Sie sind kostenlos und funktionieren mit jedem Dateityp; durchsuchbares PDF liefert nur `prebuilt-layout`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong on all counts: they cost extra, Office files can't use them, and searchable PDF output works only with `prebuilt-read`.",
+            "de": "In allen Punkten falsch: Sie kosten extra, Office-Dateien können sie nicht nutzen, und durchsuchbares PDF gibt es nur mit `prebuilt-read`."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Fixed-size chunks of OCR text can cut tables and sentences apart. For RAG, request Markdown from layout and chunk along headings.",
         "de": "Chunks fester Größe aus OCR-Text können Tabellen und Sätze zerschneiden. Für RAG forderst du Markdown von Layout an und zerlegst entlang der Überschriften."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They're fine, since OCR text has no structure to lose; still, request Markdown from layout and split it along headings.",
+            "de": "Sie sind unproblematisch, weil OCR-Text keine Struktur hat, die verloren gehen könnte; fordere trotzdem Markdown von Layout an und teile es an Überschriften."
+          },
+          "correct": false,
+          "why": {
+            "en": "The method is right, but the risk is real: fixed-size chunks can cut tables and sentences apart.",
+            "de": "Die Methode stimmt, aber das Risiko ist real: Chunks fester Größe können Tabellen und Sätze zerschneiden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They can cut tables and sentences apart; request Markdown from layout and split it every 500 tokens.",
+            "de": "Sie können Tabellen und Sätze zerschneiden; fordere Markdown von Layout an und teile es alle 500 Tokens."
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: fixed 500-token splits still cut tables and sentences, so split the Markdown along its headings instead.",
+            "de": "Teilweise richtig: Feste Schnitte alle 500 Tokens zerschneiden weiter Tabellen und Sätze, teile das Markdown also an seinen Überschriften."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They're fine, since OCR text has no structure to lose; request Markdown from layout and split it every 500 tokens.",
+            "de": "Sie sind unproblematisch, weil OCR-Text keine Struktur hat, die verloren gehen könnte; fordere Markdown von Layout an und teile es alle 500 Tokens."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: fixed-size chunks can cut tables and sentences apart, and splitting every 500 tokens does the same; split the Markdown along headings.",
+            "de": "Doppelt falsch: Chunks fester Größe können Tabellen und Sätze zerschneiden, und Schnitte alle 500 Tokens tun das auch; teile das Markdown an Überschriften."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They can cut tables and sentences apart; request Markdown from layout and split it along headings.",
+            "de": "Sie können Tabellen und Sätze zerschneiden; fordere Markdown von Layout an und teile es an Überschriften."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: with `outputContentFormat=markdown`, tables arrive as HTML blocks, so heading-based chunks keep each table inside its section.",
+            "de": "Korrekt: Mit `outputContentFormat=markdown` kommen Tabellen als HTML-Blöcke, Chunks an Überschriften halten also jede Tabelle in ihrem Abschnitt."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Read = text, Layout = text + structure, prebuilt = fields for known types, custom = your own fields.",
         "de": "Read = Text, Layout = Text + Struktur, Prebuilt = Felder für bekannte Typen, Custom = deine eigenen Felder."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Read: text; Layout: text plus structure; prebuilt: fields for known document types; custom: your own fields.",
+            "de": "Read: Text; Layout: Text plus Struktur; Prebuilt: Felder für bekannte Dokumenttypen; Custom: deine eigenen Felder."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Read gives OCR text, Layout adds structure, prebuilt models return fixed fields for known types, and custom models learn your own fields from labeled samples.",
+            "de": "Korrekt: Read liefert OCR-Text, Layout ergänzt Struktur, Prebuilt-Modelle liefern feste Felder für bekannte Typen, und Custom-Modelle lernen deine eigenen Felder aus gelabelten Beispielen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Read: text; Layout: text plus structure; prebuilt: your own fields; custom: fields for known document types.",
+            "de": "Read: Text; Layout: Text plus Struktur; Prebuilt: deine eigenen Felder; Custom: Felder für bekannte Dokumenttypen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The last two are swapped: prebuilt models bring fixed schemas for known types, and custom models learn your own fields from labeled samples.",
+            "de": "Die letzten beiden sind vertauscht: Prebuilt-Modelle bringen feste Schemas für bekannte Typen, Custom-Modelle lernen deine eigenen Felder aus gelabelten Beispielen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Read: text plus structure; Layout: text; prebuilt: fields for known document types; custom: your own fields.",
+            "de": "Read: Text plus Struktur; Layout: Text; Prebuilt: Felder für bekannte Dokumenttypen; Custom: deine eigenen Felder."
+          },
+          "correct": false,
+          "why": {
+            "en": "Read and Layout are swapped: Read returns the OCR text, and Layout adds structure such as tables, selection marks and sections.",
+            "de": "Read und Layout sind vertauscht: Read liefert den OCR-Text, und Layout ergänzt Struktur wie Tabellen, Auswahlfelder und Abschnitte."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Read: text plus structure; Layout: text; prebuilt: your own fields; custom: fields for known document types.",
+            "de": "Read: Text plus Struktur; Layout: Text; Prebuilt: deine eigenen Felder; Custom: Felder für bekannte Dokumenttypen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both pairs are swapped: Read gives text and Layout adds structure, while prebuilt models cover known types and custom models learn your own fields.",
+            "de": "Beide Paare sind vertauscht: Read liefert Text und Layout ergänzt Struktur, während Prebuilt-Modelle bekannte Typen abdecken und Custom-Modelle deine eigenen Felder lernen."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Always check the prebuilt catalog before you label and train anything.",
         "de": "Prüfe immer den Prebuilt-Katalog, bevor du labelst und trainierst."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Whether you have at least 50 labeled samples per document type, the minimum for custom training.",
+            "de": "Ob du mindestens 50 gelabelte Beispiele je Dokumenttyp hast, das Minimum für Custom-Training."
+          },
+          "correct": false,
+          "why": {
+            "en": "Custom models start with five labeled samples per type; the check that comes first is whether a prebuilt model already fits.",
+            "de": "Custom-Modelle starten mit fünf gelabelten Beispielen je Typ; zuerst prüfst du, ob schon ein Prebuilt-Modell passt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Whether `ocrHighResolution` is switched on, since custom training fails without it.",
+            "de": "Ob `ocrHighResolution` eingeschaltet ist, weil Custom-Training ohne es scheitert."
+          },
+          "correct": false,
+          "why": {
+            "en": "`ocrHighResolution` is an optional, paid add-on for small text on large documents; before labeling, check the prebuilt catalog.",
+            "de": "`ocrHighResolution` ist ein optionales, kostenpflichtiges Add-on für kleine Schrift auf großen Dokumenten; vor dem Labeln prüfst du den Prebuilt-Katalog."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Whether a prebuilt model in the catalog already covers your document type with a ready field schema.",
+            "de": "Ob ein Prebuilt-Modell im Katalog deinen Dokumenttyp schon mit fertigem Feldschema abdeckt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: invoices, receipts, IDs, tax forms and more already have prebuilt models, and `queryFields` can add a few fields without training.",
+            "de": "Richtig: Rechnungen, Belege, Ausweise, Steuerformulare und mehr haben schon Prebuilt-Modelle, und `queryFields` ergänzt ein paar Felder ohne Training."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Whether your samples are Office files, since custom models train only on Word and Excel documents.",
+            "de": "Ob deine Beispiele Office-Dateien sind, weil Custom-Modelle nur mit Word- und Excel-Dokumenten trainieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "Office files are supported only by Read and Layout; custom models work with PDFs and images, and the first check is the prebuilt catalog.",
+            "de": "Office-Dateien gehen nur mit Read und Layout; Custom-Modelle arbeiten mit PDFs und Bildern, und zuerst prüfst du den Prebuilt-Katalog."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Varying layouts → neural; one fixed layout → template (fast, most languages) or neural (usually more accurate); mixed files → classifier plus composed model.",
         "de": "Wechselnde Layouts → Neural; ein festes Layout → Template (schnell, die meisten Sprachen) oder Neural (meist genauer); gemischte Dateien → Classifier plus Composed Model."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Varying layouts → one template model; one fixed layout → template only, never neural; mixed files → classifier plus composed model.",
+            "de": "Wechselnde Layouts → ein Template-Modell; ein festes Layout → nur Template, nie Neural; gemischte Dateien → Classifier plus Composed Model."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: a single template breaks when layouts vary, so that's a job for neural, and neural also fits one fixed layout, usually more accurately.",
+            "de": "Zwei Fehler: Ein einzelnes Template scheitert bei wechselnden Layouts, das ist also ein Fall für Neural, und Neural passt auch zu einem festen Layout, meist genauer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Varying layouts → neural; one fixed layout → template or neural; mixed files → classifier plus composed model.",
+            "de": "Wechselnde Layouts → Neural; ein festes Layout → Template oder Neural; gemischte Dateien → Classifier plus Composed Model."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: template is fast and covers the most languages, neural is usually more accurate, and the classifier routes mixed files to the right model.",
+            "de": "Korrekt: Template ist schnell und deckt die meisten Sprachen ab, Neural ist meist genauer, und der Classifier leitet gemischte Dateien ans richtige Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Varying layouts → neural; one fixed layout → template only, never neural; mixed files → `prebuilt-layout` with `keyValuePairs`.",
+            "de": "Wechselnde Layouts → Neural; ein festes Layout → nur Template, nie Neural; gemischte Dateien → `prebuilt-layout` mit `keyValuePairs`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: neural fits a fixed layout too, and mixed files need a classifier that routes each document to its extraction model in a composed model.",
+            "de": "Zwei Fehler: Neural passt auch zu einem festen Layout, und gemischte Dateien brauchen einen Classifier, der jedes Dokument im Composed Model an sein Extraktionsmodell leitet."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Varying layouts → one template model; one fixed layout → template or neural; mixed files → `prebuilt-layout` with `keyValuePairs`.",
+            "de": "Wechselnde Layouts → ein Template-Modell; ein festes Layout → Template oder Neural; gemischte Dateien → `prebuilt-layout` mit `keyValuePairs`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: one template model breaks when layouts vary, and layout's generic key-value pairs can't route mixed files; a classifier plus composed model does.",
+            "de": "Zwei Fehler: Ein Template-Modell scheitert bei wechselnden Layouts, und die allgemeinen Schlüssel-Wert-Paare von Layout leiten keine gemischten Dateien; das leisten Classifier plus Composed Model."
+          }
+        }
+      ]
     },
     {
       "id": "z-document-intelligence-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Layout Markdown plus section-aware chunking gives RAG better grounding.",
         "de": "Layout-Markdown plus abschnittsbewusstes Chunking verbessert das Grounding in RAG."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Read's plain text output, chunked into fixed-size windows so each chunk has the same length.",
+            "de": "Die reine Textausgabe von Read, in Fenster fester Größe zerlegt, damit jeder Chunk gleich lang ist."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Read's plain text has no heading structure, and fixed-size windows can cut tables and sentences apart, which weakens grounding.",
+            "de": "Doppelt falsch: Reiner Read-Text hat keine Überschriftenstruktur, und Fenster fester Größe können Tabellen und Sätze zerschneiden – das schwächt das Grounding."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Layout's Markdown output, chunked into fixed-size windows so each chunk has the same length.",
+            "de": "Die Markdown-Ausgabe von Layout, in Fenster fester Größe zerlegt, damit jeder Chunk gleich lang ist."
+          },
+          "correct": false,
+          "why": {
+            "en": "The output is right, but fixed-size windows can cut tables and sentences apart; chunk the Markdown along headings instead.",
+            "de": "Die Ausgabe stimmt, aber Fenster fester Größe können Tabellen und Sätze zerschneiden; zerlege das Markdown stattdessen an Überschriften."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Read's plain text output, chunked along headings so each chunk follows a section.",
+            "de": "Die reine Textausgabe von Read, an Überschriften zerlegt, damit jeder Chunk einem Abschnitt folgt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Read returns lines and words without heading structure; layout's Markdown supplies the headings that section-aware chunking needs.",
+            "de": "Read liefert Zeilen und Wörter ohne Überschriftenstruktur; erst das Markdown von Layout bringt die Überschriften, die abschnittsbewusstes Chunking braucht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Layout's Markdown output, chunked along headings so each chunk follows a section.",
+            "de": "Die Markdown-Ausgabe von Layout, an Überschriften zerlegt, damit jeder Chunk einem Abschnitt folgt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: section-aware chunks keep headings, paragraphs and tables together, which gives RAG better grounding.",
+            "de": "Korrekt: Abschnittsbewusste Chunks halten Überschriften, Absätze und Tabellen zusammen, und das verbessert das Grounding in RAG."
+          }
+        }
+      ]
     }
   ]
 }

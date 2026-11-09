@@ -33,12 +33,21 @@ export default defineConfig({
       includeManifestIcons: false,
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
-        // All lessons and questions ship in one bundle (about 2.3 MB), above Workbox's 2 MiB default.
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        // Lessons and questions ship in one bundle (about 2.6 MB) and the Zettelkasten cards in another (about
+        // 1.3 MB), both above Workbox's 2 MiB default; the limit leaves room for the content to grow.
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         cleanupOutdatedCaches: true,
       },
     }),
   ],
+  build: {
+    rolldownOptions: {
+      output: {
+        // The Zettelkasten cards (four options with reasons each) get their own file, so the main bundle stays lean.
+        advancedChunks: { groups: [{ name: 'zettel-cards', test: /src[\\/]content[\\/]cards[\\/]/ }] },
+      },
+    },
+  },
   server: { port: 5173, strictPort: true },
   // The preview serves the production build with its offline service worker, so it gets its own address:
   // a service worker on 5173 would otherwise keep answering for the dev server.

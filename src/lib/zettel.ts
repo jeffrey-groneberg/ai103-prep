@@ -1,4 +1,4 @@
-import type { Zettel } from './types.ts'
+import type { ChoiceOption, Zettel } from './types.ts'
 
 /**
  * Zettelkasten = a Leitner card box with three compartments. Every card starts at the back in
@@ -17,13 +17,33 @@ export interface ZettelState {
   lastAt: string
 }
 
+/** An answer option on a card the learner wrote. */
+export interface OwnChoice {
+  text: string
+  correct: boolean
+  /** Why this option is wrong; the right one is explained by the card's back. */
+  why?: string
+}
+
 /** A card the learner wrote. */
 export interface OwnZettel {
   id: string
   module: string | null
   front: string
   back: string
+  /** Optional answer options: one correct and at least two wrong ones turn the card into a multiple-choice card. */
+  choices?: OwnChoice[]
   createdAt: string
+}
+
+const same = (s: string) => ({ en: s, de: s })
+
+/** Options of an own card, or undefined unless they form a valid set (one correct, at least two wrong). */
+export function ownChoices(choices: unknown): ChoiceOption[] | undefined {
+  if (!Array.isArray(choices)) return undefined
+  const valid = choices.filter((c): c is OwnChoice => typeof c?.text === 'string' && c.text.trim() !== '' && typeof c.correct === 'boolean').slice(0, 4)
+  if (valid.filter((c) => c.correct).length !== 1 || valid.length < 3) return undefined
+  return valid.map((c, i) => ({ id: 'abcd'[i], text: same(c.text.trim()), correct: c.correct, why: same(typeof c.why === 'string' ? c.why.trim() : '') }))
 }
 
 export type ZettelStates = Record<string, ZettelState | undefined>
@@ -51,7 +71,7 @@ export function countByFach(ids: Iterable<string>, states: ZettelStates): [numbe
 }
 
 export function ownToZettel(o: OwnZettel): Zettel {
-  return { id: o.id, module: o.module, kind: 'own', front: o.front, back: o.back }
+  return { id: o.id, module: o.module, kind: 'own', front: o.front, back: o.back, choices: ownChoices(o.choices) }
 }
 
 /** Starter cards the learner has not taken out of the box, followed by the learner's own cards. */

@@ -8,7 +8,57 @@
       "front": {
         "en": "Why does a Content Understanding client call a Foundry resource endpoint, and under which path?",
         "de": "Warum spricht ein Content-Understanding-Client mit dem Endpoint einer Foundry-Ressource, und unter welchem Pfad?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Content Understanding lives in each Foundry project; calls go to paths under `/api/projects/<project>/`",
+            "de": "Content Understanding gehört zu jedem Foundry-Projekt; Aufrufe gehen an Pfade unter `/api/projects/<project>/`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the client talks to the resource endpoint, not a project endpoint, and its paths start with `/contentunderstanding/`.",
+            "de": "Nein: Der Client spricht mit dem Endpoint der Ressource, nicht mit einem Project Endpoint, und seine Pfade beginnen mit `/contentunderstanding/`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Content Understanding lives in the Foundry resource; calls go to paths under `/openai/v1/`, just like model calls",
+            "de": "Content Understanding gehört zur Foundry-Ressource; Aufrufe gehen an Pfade unter `/openai/v1/`, genau wie Modellaufrufe"
+          },
+          "correct": false,
+          "why": {
+            "en": "`/openai/v1/` is the Azure OpenAI route for model calls; Content Understanding uses paths under `/contentunderstanding/`.",
+            "de": "`/openai/v1/` ist die Azure-OpenAI-Route für Modellaufrufe; Content Understanding nutzt Pfade unter `/contentunderstanding/`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Content Understanding lives in the Foundry resource; calls go to paths under `/contentunderstanding/`",
+            "de": "Content Understanding gehört zur Foundry-Ressource; Aufrufe gehen an Pfade unter `/contentunderstanding/`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Content Understanding is part of the Foundry resource, so the client uses `https://<resource>.services.ai.azure.com/` with paths under `/contentunderstanding/`.",
+            "de": "Richtig: Content Understanding gehört zur Foundry-Ressource, daher nutzt der Client `https://<resource>.services.ai.azure.com/` mit Pfaden unter `/contentunderstanding/`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Content Understanding lives in the Foundry resource; calls go to paths under `/language/`",
+            "de": "Content Understanding gehört zur Foundry-Ressource; Aufrufe gehen an Pfade unter `/language/`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`/language/` is the route of Azure Language, for example `/language/:analyze-text`; Content Understanding uses paths under `/contentunderstanding/`.",
+            "de": "`/language/` ist die Route von Azure Language, etwa `/language/:analyze-text`; Content Understanding nutzt Pfade unter `/contentunderstanding/`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "How are an analyzer's model names mapped to deployments, and which option is missing for byte uploads?",
         "de": "Wie werden die Modellnamen eines Analyzers Deployments zugeordnet, und welcher Weg fehlt bei Byte-Uploads?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Via the resource defaults or a per-request `modelDeployments`; `begin_analyze_binary` lacks `model_deployments`, so it needs the defaults",
+            "de": "Über die Defaults der Ressource oder `modelDeployments` pro Anfrage; `begin_analyze_binary` hat kein `model_deployments` und braucht die Defaults"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: at analyze time the service maps model names via the defaults or `modelDeployments`, and since byte uploads can't pass the latter, they need the defaults.",
+            "de": "Richtig: Beim Analysieren ordnet der Dienst Modellnamen über die Defaults oder `modelDeployments` zu; weil Byte-Uploads Letzteres nicht mitgeben können, brauchen sie die Defaults."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Via the resource defaults or a per-request `modelDeployments`; `begin_analyze` lacks `model_deployments`, so it needs the defaults",
+            "de": "Über die Defaults der Ressource oder `modelDeployments` pro Anfrage; `begin_analyze` hat kein `model_deployments` und braucht die Defaults"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `begin_analyze` accepts `model_deployments`; it's `begin_analyze_binary` that lacks it.",
+            "de": "Vertauscht: `begin_analyze` akzeptiert `model_deployments`; nur `begin_analyze_binary` hat es nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Via the analyzer's `models` entry, which already holds deployment names; byte uploads can't read that `models` entry",
+            "de": "Über den Eintrag `models` des Analyzers, der bereits Deployment-Namen enthält; Byte-Uploads können diesen Eintrag `models` nicht lesen"
+          },
+          "correct": false,
+          "why": {
+            "en": "`models` lists model names, not deployments; the mapping to deployments comes from the defaults or `modelDeployments`.",
+            "de": "`models` listet Modellnamen, keine Deployments; die Zuordnung zu Deployments kommt aus den Defaults oder aus `modelDeployments`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Via the resource defaults or a per-request `modelDeployments`; byte uploads ignore the defaults and must pass their own `modelDeployments` instead",
+            "de": "Über die Defaults der Ressource oder `modelDeployments` pro Anfrage; Byte-Uploads ignorieren die Defaults und müssen stattdessen `modelDeployments` mitgeben"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: byte uploads can't pass `modelDeployments`, so they rely on the defaults that you set once per resource.",
+            "de": "Umgekehrt: Byte-Uploads können kein `modelDeployments` mitgeben und brauchen daher die Defaults, die du einmal pro Ressource setzt."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which statuses end the polling of a long-running operation, and how do the SDK's `begin_*` methods help?",
         "de": "Bei welchen Statuswerten endet das Abfragen einer Long-Running Operation, und wie helfen die SDK-Methoden `begin_*`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`NotStarted` or `Running`; `begin_*` methods return pollers whose `.result()` waits for you",
+            "de": "`NotStarted` oder `Running`; `begin_*`-Methoden liefern Poller, deren `.result()` für dich wartet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are the in-progress statuses: while the operation is `NotStarted` or `Running`, you keep polling.",
+            "de": "Das sind die Zwischenstände: Solange die Operation `NotStarted` oder `Running` ist, fragst du weiter ab."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`NotStarted` or `Running`; `begin_*` methods block until the end and return the result directly",
+            "de": "`NotStarted` oder `Running`; `begin_*`-Methoden blockieren bis zum Ende und liefern direkt das Ergebnis"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `NotStarted` and `Running` mean you keep polling, and `begin_*` returns a poller whose `.result()` does the waiting.",
+            "de": "Doppelt falsch: Bei `NotStarted` und `Running` fragst du weiter ab, und `begin_*` liefert einen Poller, dessen `.result()` das Warten übernimmt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`Succeeded`, `Failed` or `Canceled`; `begin_*` methods return pollers whose `.result()` waits for you",
+            "de": "`Succeeded`, `Failed` oder `Canceled`; `begin_*`-Methoden liefern Poller, deren `.result()` für dich wartet"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: polling stops at a final status, and `begin_*` methods hand you a poller whose `.result()` does the waiting.",
+            "de": "Richtig: Das Abfragen endet bei einem finalen Status, und `begin_*`-Methoden liefern einen Poller, dessen `.result()` das Warten übernimmt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`Succeeded`, `Failed` or `Canceled`; `begin_*` methods block until the end and return the result directly",
+            "de": "`Succeeded`, `Failed` oder `Canceled`; `begin_*`-Methoden blockieren bis zum Ende und liefern direkt das Ergebnis"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `begin_*` returns a poller, not the result; you call `.result()` on it to wait.",
+            "de": "Teilweise richtig: `begin_*` liefert einen Poller, nicht das Ergebnis; erst `.result()` darauf wartet."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What video size and duration limits apply when you analyze by URL versus by raw-byte upload?",
         "de": "Welche Videolimits für Größe und Dauer gelten bei Analyse per URL und beim Upload roher Bytes?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "By URL: up to 200 MB and 30 minutes; as raw bytes: up to 4 GB and two hours",
+            "de": "Per URL: bis 200 MB und 30 Minuten; als rohe Bytes: bis 4 GB und zwei Stunden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the larger limits (4 GB, two hours) apply to URLs, while raw bytes are capped at 200 MB and 30 minutes.",
+            "de": "Vertauscht: Die größeren Grenzen (4 GB, zwei Stunden) gelten für URLs, rohe Bytes sind auf 200 MB und 30 Minuten begrenzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "By URL: up to 2 GB and one hour; as raw bytes: up to 200 MB and 30 minutes",
+            "de": "Per URL: bis 2 GB und eine Stunde; als rohe Bytes: bis 200 MB und 30 Minuten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the byte limits fit, but by URL a video may be up to 4 GB and two hours long.",
+            "de": "Teilweise richtig: Die Byte-Grenzen stimmen, aber per URL darf ein Video bis 4 GB groß und zwei Stunden lang sein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The same for both: up to 4 GB and two hours",
+            "de": "Für beide gleich: bis 4 GB und zwei Stunden"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the two operations have different limits, and raw-byte uploads stop at 200 MB and 30 minutes.",
+            "de": "Nein: Beide Operationen haben verschiedene Grenzen, und Byte-Uploads enden bei 200 MB und 30 Minuten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "By URL: up to 4 GB and two hours; as raw bytes: up to 200 MB and 30 minutes",
+            "de": "Per URL: bis 4 GB und zwei Stunden; als rohe Bytes: bis 200 MB und 30 Minuten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: URLs in `inputs` allow videos up to 4 GB and two hours, while raw-byte uploads via `:analyzeBinary` stop at 200 MB and 30 minutes.",
+            "de": "Richtig: URLs in `inputs` erlauben Videos bis 4 GB und zwei Stunden, Byte-Uploads über `:analyzeBinary` enden bei 200 MB und 30 Minuten."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What does each entry in `result.contents[]` hold, and when do document fields include `confidence` and `source`?",
         "de": "Was steckt in jedem Eintrag von `result.contents[]`, und wann enthalten Dokumentfelder `confidence` und `source`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`markdown`, typed `fields` and modality details; `confidence` and `source` appear only with `returnDetails: true`",
+            "de": "`markdown`, typisierte `fields` und Details je Modalität; `confidence` und `source` gibt es nur mit `returnDetails: true`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`returnDetails` adds paragraphs, tables, lines, words or transcript phrases; field `confidence` and `source` come from source and confidence estimation (`estimateFieldSourceAndConfidence`).",
+            "de": "`returnDetails` ergänzt Absätze, Tabellen, Zeilen, Wörter oder Transkript-Phrasen; `confidence` und `source` der Felder kommen aus der Quellen- und Konfidenzschätzung (`estimateFieldSourceAndConfidence`)."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`markdown`, typed `fields` and modality details; `confidence` and `source` appear when source and confidence estimation is on",
+            "de": "`markdown`, typisierte `fields` und Details je Modalität; `confidence` und `source` gibt es bei eingeschalteter Quellen- und Konfidenzschätzung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: each content object carries Markdown, typed fields and modality details, and document fields add `confidence`, `source` and `spans` once estimation is on.",
+            "de": "Richtig: Jedes Content-Objekt trägt Markdown, typisierte Felder und Details je Modalität, und Dokumentfelder ergänzen `confidence`, `source` und `spans`, sobald die Schätzung an ist."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The `usage` block with billable meters and tokens; `confidence` and `source` appear when source and confidence estimation is on",
+            "de": "Der `usage`-Block mit abrechenbaren Einheiten und Tokens; `confidence` und `source` gibt es bei eingeschalteter Quellen- und Konfidenzschätzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "`usage` sits next to `result` in the polling response; each `contents` entry holds `markdown`, `fields` and modality details.",
+            "de": "`usage` steht in der Abfrage-Antwort neben `result`; jeder `contents`-Eintrag enthält `markdown`, `fields` und Details je Modalität."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the `usage` block with billable meters and tokens; `confidence` and `source` appear only with `returnDetails: true`",
+            "de": "Nur der `usage`-Block mit abrechenbaren Einheiten und Tokens; `confidence` und `source` gibt es nur mit `returnDetails: true`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `usage` sits next to `result`, each entry holds `markdown`, `fields` and modality details, and field `confidence` and `source` come from source and confidence estimation.",
+            "de": "Doppelt falsch: `usage` steht neben `result`, jeder Eintrag enthält `markdown`, `fields` und Details je Modalität, und `confidence` und `source` der Felder kommen aus der Quellen- und Konfidenzschätzung."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How long does Content Understanding keep inputs and results, and how can you remove a result sooner?",
         "de": "Wie lange bewahrt Content Understanding Eingaben und Ergebnisse auf, und wie entfernst du ein Ergebnis früher?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Up to 24 hours in Microsoft-managed storage; delete a single result sooner with `delete_result(operation_id)`",
+            "de": "Bis zu 24 Stunden in von Microsoft verwaltetem Speicher; ein einzelnes Ergebnis löschst du früher mit `delete_result(operation_id)`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: inputs and results live up to 24 hours in Microsoft-managed storage, so persist what you need or remove a result early with Delete Result.",
+            "de": "Richtig: Eingaben und Ergebnisse liegen bis zu 24 Stunden in von Microsoft verwaltetem Speicher – sichere, was du brauchst, oder entferne ein Ergebnis früher mit Delete Result."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Up to 30 days in Microsoft-managed storage; delete a result sooner with `delete_result(operation_id)`",
+            "de": "Bis zu 30 Tage in von Microsoft verwaltetem Speicher; früher löschst du ein Ergebnis mit `delete_result(operation_id)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "30 days is the default retention for stored Responses API responses; Content Understanding keeps inputs and results for up to 24 hours.",
+            "de": "30 Tage gelten für gespeicherte Antworten der Responses API; Content Understanding bewahrt Eingaben und Ergebnisse bis zu 24 Stunden auf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Up to 24 hours in Microsoft-managed storage; delete a result sooner with `delete_analyzer(analyzer_id)`",
+            "de": "Bis zu 24 Stunden in von Microsoft verwaltetem Speicher; früher löschst du ein Ergebnis mit `delete_analyzer(analyzer_id)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`delete_analyzer` removes the analyzer definition; a single result goes away with `delete_result(operation_id)`.",
+            "de": "`delete_analyzer` entfernt die Analyzer-Definition; ein einzelnes Ergebnis löschst du mit `delete_result(operation_id)`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Up to 30 days in Microsoft-managed storage; delete a result sooner with `delete_analyzer(analyzer_id)`",
+            "de": "Bis zu 30 Tage in von Microsoft verwaltetem Speicher; früher löschst du ein Ergebnis mit `delete_analyzer(analyzer_id)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: inputs and results are kept for up to 24 hours, and `delete_analyzer` removes the analyzer definition, not a single result.",
+            "de": "Doppelt falsch: Eingaben und Ergebnisse bleiben bis zu 24 Stunden, und `delete_analyzer` entfernt die Analyzer-Definition, kein einzelnes Ergebnis."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-trap-1",
@@ -60,7 +360,57 @@
       "back": {
         "en": "Not the result: it returns `202 Accepted` and an `Operation-Location` that you must poll.",
         "de": "Nicht das Ergebnis, sondern `202 Accepted` und eine `Operation-Location`, die du abfragen musst."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`200 OK` with the full result JSON; read `result.contents` straight from the response",
+            "de": "`200 OK` mit dem kompletten Ergebnis-JSON; lies `result.contents` direkt aus der Antwort"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the `POST` returns `202 Accepted` and an `Operation-Location`, and the result comes from polling that URL.",
+            "de": "Nein: Der `POST` liefert `202 Accepted` und eine `Operation-Location`, und das Ergebnis holst du durch Abfragen dieser URL."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`202 Accepted` with an `Operation-Location`; poll that URL until the status is final",
+            "de": "`202 Accepted` mit einer `Operation-Location`; frag diese URL ab, bis der Status final ist"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the analyze call returns at once with `202 Accepted`; you poll the `Operation-Location` until the status is final and read `result` on `Succeeded`.",
+            "de": "Richtig: Der Analyseaufruf kehrt sofort mit `202 Accepted` zurück; du fragst die `Operation-Location` ab, bis der Status final ist, und liest bei `Succeeded` das `result`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`201 Created` with the analyzer definition; call `:analyze` again to get the result",
+            "de": "`201 Created` mit der Analyzer-Definition; ruf `:analyze` erneut auf, um das Ergebnis zu bekommen"
+          },
+          "correct": false,
+          "why": {
+            "en": "`201` belongs to creating an analyzer with `PUT`; the analyze `POST` answers `202 Accepted` with an `Operation-Location`.",
+            "de": "`201` gehört zum Anlegen eines Analyzers per `PUT`; der Analyse-`POST` antwortet mit `202 Accepted` und einer `Operation-Location`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`202 Accepted` with an `Operation-Location`; wait for a webhook that posts the result to your app",
+            "de": "`202 Accepted` mit einer `Operation-Location`; warte auf einen Webhook, der das Ergebnis an deine App schickt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Nothing posts back to you: you poll the `Operation-Location` every 1–2 seconds until the status is final.",
+            "de": "Nichts meldet sich von selbst: Du fragst die `Operation-Location` alle 1–2 Sekunden ab, bis der Status final ist."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-trap-2",
@@ -70,9 +420,59 @@
         "de": "Welche Operation lädt die Bytes einer Datei zur Analyse hoch, und was erwartet `:analyze` stattdessen?"
       },
       "back": {
-        "en": "`:analyzeBinary` (SDK: `begin_analyze_binary`) uploads the file itself. `:analyze` expects JSON with `inputs` (URLs).",
-        "de": "`:analyzeBinary` (SDK: `begin_analyze_binary`) lädt die Datei selbst hoch. `:analyze` erwartet JSON mit `inputs` (URLs)."
-      }
+        "en": "`:analyzeBinary` (SDK: `begin_analyze_binary`) uploads the file itself. `:analyze` expects JSON with `inputs` (usually URLs).",
+        "de": "`:analyzeBinary` (SDK: `begin_analyze_binary`) lädt die Datei selbst hoch. `:analyze` erwartet JSON mit `inputs` (meist URLs)."
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`PUT …/analyzers/{analyzerId}` with the file in the body; `:analyze` expects JSON with `inputs` that hold URLs",
+            "de": "`PUT …/analyzers/{analyzerId}` mit der Datei im Body; `:analyze` erwartet JSON mit `inputs`, die URLs enthalten"
+          },
+          "correct": false,
+          "why": {
+            "en": "`PUT …/analyzers/{analyzerId}` creates an analyzer from its definition; it doesn't analyze files.",
+            "de": "`PUT …/analyzers/{analyzerId}` legt einen Analyzer aus seiner Definition an; Dateien analysiert er nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`:analyzeBinary` (SDK: `begin_analyze_binary`); `:analyze` expects the analyzer's `fieldSchema` instead of files",
+            "de": "`:analyzeBinary` (SDK: `begin_analyze_binary`); `:analyze` erwartet statt Dateien das `fieldSchema` des Analyzers"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the bytes do go to `:analyzeBinary`, but the `fieldSchema` belongs to the analyzer definition; `:analyze` takes `inputs` with URLs.",
+            "de": "Teilweise richtig: Die Bytes gehen an `:analyzeBinary`, aber das `fieldSchema` gehört zur Analyzer-Definition; `:analyze` nimmt `inputs` mit URLs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`:analyzeBinary` (SDK: `begin_analyze_binary`); `:analyze` expects JSON with `inputs` that hold URLs",
+            "de": "`:analyzeBinary` (SDK: `begin_analyze_binary`); `:analyze` erwartet JSON mit `inputs`, die URLs enthalten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: raw bytes go to `:analyzeBinary` (SDK `begin_analyze_binary`), while `:analyze` takes JSON whose `inputs` list file URLs.",
+            "de": "Richtig: Rohe Bytes gehen an `:analyzeBinary` (SDK `begin_analyze_binary`), `:analyze` nimmt JSON, dessen `inputs` Datei-URLs enthalten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`PUT …/analyzers/{analyzerId}` with the file in the body; `:analyze` expects the analyzer's `fieldSchema` instead of files",
+            "de": "`PUT …/analyzers/{analyzerId}` mit der Datei im Body; `:analyze` erwartet statt Dateien das `fieldSchema` des Analyzers"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `PUT` creates an analyzer from its definition, and `:analyze` takes JSON whose `inputs` hold file URLs, not a `fieldSchema`.",
+            "de": "Doppelt falsch: `PUT` legt einen Analyzer aus seiner Definition an, und `:analyze` nimmt JSON, dessen `inputs` Datei-URLs enthalten, kein `fieldSchema`."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-trap-3",
@@ -84,7 +484,57 @@
       "back": {
         "en": "The defaults mapping is missing. It doesn't mean that the analyzer definition is wrong.",
         "de": "Die Defaults-Zuordnung fehlt. Er bedeutet nicht, dass die Analyzer-Definition falsch ist."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The `api-version` in the request URL is outdated; it also means that the analyzer's field schema is invalid",
+            "de": "Die `api-version` in der Anfrage-URL ist veraltet; zusätzlich ist damit das Feldschema des Analyzers ungültig"
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither part fits: the message means the defaults mapping is missing, and it says nothing against the analyzer's field schema.",
+            "de": "Beides passt nicht: Die Meldung bedeutet, dass die Defaults-Zuordnung fehlt, und sagt nichts gegen das Feldschema des Analyzers."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The `api-version` in the request URL is outdated; it doesn't mean that the analyzer definition is wrong",
+            "de": "Die `api-version` in der Anfrage-URL ist veraltet; eine falsche Analyzer-Definition ist damit nicht gemeint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the analyzer definition can indeed be fine, but the message points at the missing defaults mapping, not at the `api-version`.",
+            "de": "Teilweise richtig: Die Analyzer-Definition kann tatsächlich korrekt sein, aber die Meldung weist auf die fehlende Defaults-Zuordnung hin, nicht auf die `api-version`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The defaults mapping is missing; it doesn't mean that the analyzer definition is wrong",
+            "de": "Die Defaults-Zuordnung fehlt; eine falsche Analyzer-Definition ist damit nicht gemeint"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the service can't map the analyzer's model names to deployments, so set the defaults (or pass `modelDeployments`); the analyzer itself may be fine.",
+            "de": "Richtig: Der Dienst kann die Modellnamen des Analyzers keinen Deployments zuordnen – setz die Defaults (oder gib `modelDeployments` mit); der Analyzer selbst kann korrekt sein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The defaults mapping is missing; it also means that the analyzer's field schema is invalid",
+            "de": "Die Defaults-Zuordnung fehlt; zusätzlich ist damit das Feldschema des Analyzers ungültig"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the mapping is missing, but the message is about model deployments, not the field schema; the analyzer definition itself can be fine.",
+            "de": "Teilweise richtig: Die Zuordnung fehlt, aber die Meldung betrifft Modell-Deployments, nicht das Feldschema; die Analyzer-Definition selbst kann korrekt sein."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-trap-4",
@@ -96,7 +546,57 @@
       "back": {
         "en": "An analyzer's `models` lists model names; `modelDeployments` (defaults or per request) maps them to deployment names. Mixing the two breaks the mapping.",
         "de": "Der Eintrag `models` eines Analyzers enthält Modell-Namen; `modelDeployments` (Defaults oder pro Anfrage) ordnet sie Deployment-Namen zu. Wer beides vertauscht, bricht die Zuordnung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Deployment names such as `my-gpt52`; `modelDeployments` maps them to model names",
+            "de": "Deployment-Namen wie `my-gpt52`; `modelDeployments` ordnet sie Modellnamen zu"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `models` lists model names, and deployment names are the targets that `modelDeployments` maps them to.",
+            "de": "Vertauscht: `models` listet Modellnamen, und Deployment-Namen sind die Ziele, denen `modelDeployments` sie zuordnet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Model names such as `gpt-5.2`; `modelDeployments` maps them to your deployment names",
+            "de": "Modellnamen wie `gpt-5.2`; `modelDeployments` ordnet sie deinen Deployment-Namen zu"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `models` holds model names, and the defaults or a per-request `modelDeployments` map each name to the deployment name you chose.",
+            "de": "Richtig: `models` enthält Modellnamen, und die Defaults oder ein `modelDeployments` pro Anfrage ordnen jeden Namen deinem Deployment-Namen zu."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Model names such as `gpt-5.2`; `modelDeployments` maps them to analyzer IDs",
+            "de": "Modellnamen wie `gpt-5.2`; `modelDeployments` ordnet sie Analyzer-IDs zu"
+          },
+          "correct": false,
+          "why": {
+            "en": "Analyzer IDs aren't part of the mapping: `modelDeployments` maps model names to deployment names.",
+            "de": "Analyzer-IDs gehören nicht zur Zuordnung: `modelDeployments` ordnet Modellnamen Deployment-Namen zu."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Prebuilt analyzer IDs such as `prebuilt-document`; `modelDeployments` maps them to model versions",
+            "de": "Prebuilt-Analyzer-IDs wie `prebuilt-document`; `modelDeployments` ordnet sie Modellversionen zu"
+          },
+          "correct": false,
+          "why": {
+            "en": "`prebuilt-document` is a base analyzer (`baseAnalyzerId`); `models` lists model names, which are mapped to deployment names.",
+            "de": "`prebuilt-document` ist ein Basis-Analyzer (`baseAnalyzerId`); `models` listet Modellnamen, die Deployment-Namen zugeordnet werden."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-trap-5",
@@ -108,7 +608,57 @@
       "back": {
         "en": "`estimateSourceAndConfidence: true` (or the analyzer-wide `estimateFieldSourceAndConfidence`); without it the definition is invalid. `generate` and `classify` fields don't need it.",
         "de": "`estimateSourceAndConfidence: true` (oder das analyzerweite `estimateFieldSourceAndConfidence`) – ohne ist die Definition ungültig. `generate`- und `classify`-Felder brauchen das nicht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`returnDetails: true`, which returns layout details like words and tables; `generate` and `classify` fields don't need it",
+            "de": "`returnDetails: true`, das Layout-Details wie Wörter oder Tabellen liefert; `generate`- und `classify`-Felder brauchen es nicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "`returnDetails` only adds layout details such as paragraphs and words; an `extract` field needs `estimateSourceAndConfidence: true`.",
+            "de": "`returnDetails` ergänzt nur Layout-Details wie Absätze und Wörter; ein `extract`-Feld braucht `estimateSourceAndConfidence: true`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`estimateSourceAndConfidence: true` (or `estimateFieldSourceAndConfidence`); only `classify` fields can do without that setting",
+            "de": "`estimateSourceAndConfidence: true` (oder `estimateFieldSourceAndConfidence`); nur `classify`-Felder kommen ohne diese Einstellung aus"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the setting fits, but `generate` and `classify` fields can both do without it, not only `classify`.",
+            "de": "Teilweise richtig: Die Einstellung stimmt, aber `generate`- und `classify`-Felder kommen beide ohne aus, nicht nur `classify`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`returnDetails: true`, which returns layout details like words and tables; only `classify` fields can do without that setting",
+            "de": "`returnDetails: true`, das Layout-Details wie Wörter oder Tabellen liefert; nur `classify`-Felder kommen ohne diese Einstellung aus"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `returnDetails` only adds layout details, so `extract` still needs `estimateSourceAndConfidence: true`, and `generate` fields can do without it too.",
+            "de": "Doppelt falsch: `returnDetails` ergänzt nur Layout-Details, `extract` braucht also weiter `estimateSourceAndConfidence: true`, und auch `generate`-Felder kommen ohne aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`estimateSourceAndConfidence: true` (or `estimateFieldSourceAndConfidence`); `generate` and `classify` fields don't need it",
+            "de": "`estimateSourceAndConfidence: true` (oder `estimateFieldSourceAndConfidence`); `generate`- und `classify`-Felder brauchen es nicht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `extract` copies values exactly as printed, so it needs source and confidence estimation per field or analyzer-wide; `generate` and `classify` work without it.",
+            "de": "Richtig: `extract` übernimmt Werte exakt wie gedruckt und braucht daher die Quellen- und Konfidenzschätzung pro Feld oder analyzerweit; `generate` und `classify` funktionieren ohne."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-takeaway-1",
@@ -120,7 +670,57 @@
       "back": {
         "en": "Defaults once per resource → analyzer once per schema → analyze many times.",
         "de": "Defaults einmal pro Ressource → Analyzer einmal pro Schema → beliebig oft analysieren."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Defaults once per project → analyzer once per schema → analyze many times",
+            "de": "Defaults einmal pro Projekt → Analyzer einmal pro Schema → beliebig oft analysieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Defaults are a resource setting: you map deployments once per resource, not per project; the rest of the sequence fits.",
+            "de": "Defaults sind eine Einstellung der Ressource: Du ordnest Deployments einmal pro Ressource zu, nicht pro Projekt; der Rest der Reihenfolge stimmt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Defaults once per project → analyzer once per file → analyze once per analyzer",
+            "de": "Defaults einmal pro Projekt → Analyzer einmal pro Datei → einmal pro Analyzer analysieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: defaults are set once per resource, not per project, and one reusable analyzer per schema serves many analyze calls.",
+            "de": "Doppelt falsch: Defaults setzt du einmal pro Ressource, nicht pro Projekt, und ein wiederverwendbarer Analyzer pro Schema bedient viele Analyseaufrufe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Defaults once per resource → analyzer once per schema → analyze many times",
+            "de": "Defaults einmal pro Ressource → Analyzer einmal pro Schema → beliebig oft analysieren"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: map deployments once per resource, create one analyzer per schema, then send it as many files as you like.",
+            "de": "Richtig: Deployments einmal pro Ressource zuordnen, je Schema einen Analyzer anlegen und ihm dann beliebig viele Dateien schicken."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Defaults once per resource → analyzer once per file → analyze once per analyzer",
+            "de": "Defaults einmal pro Ressource → Analyzer einmal pro Datei → einmal pro Analyzer analysieren"
+          },
+          "correct": false,
+          "why": {
+            "en": "An analyzer is reusable: create it once per schema and analyze many files with it.",
+            "de": "Ein Analyzer ist wiederverwendbar: Leg ihn einmal pro Schema an und analysiere damit viele Dateien."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-takeaway-2",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Every create and analyze call is a long-running operation: follow `Operation-Location` or let the SDK poller wait.",
         "de": "Jeder Anlege- und Analyseaufruf ist eine Long-Running Operation: Folge der `Operation-Location` oder lass den SDK-Poller warten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "REST: poll the `Operation-Location`; SDK: call `.result()` on the poller that `begin_*` returns",
+            "de": "REST: die `Operation-Location` abfragen; SDK: `.result()` auf dem Poller aufrufen, den `begin_*` liefert"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: both calls are long-running operations, so REST clients follow the `Operation-Location` and SDK clients let the poller's `.result()` wait.",
+            "de": "Richtig: Beide Aufrufe sind Long-Running Operations – REST-Clients folgen der `Operation-Location`, SDK-Clients lassen `.result()` des Pollers warten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "REST: repeat the `POST` until it returns `200`; SDK: call `.result()` on the poller that `begin_*` returns",
+            "de": "REST: den `POST` wiederholen, bis er `200` liefert; SDK: `.result()` auf dem Poller aufrufen, den `begin_*` liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Each `POST` answers `202 Accepted` with an `Operation-Location`; repeating it never returns the result, so poll that URL instead.",
+            "de": "Jeder `POST` antwortet mit `202 Accepted` und einer `Operation-Location`; eine Wiederholung liefert nie das Ergebnis – frag stattdessen diese URL ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "REST: poll the `Operation-Location`; SDK: no waiting needed, because `begin_*` returns the finished result",
+            "de": "REST: die `Operation-Location` abfragen; SDK: kein Warten nötig, weil `begin_*` das fertige Ergebnis liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "`begin_*` returns a poller right away; only its `.result()` waits until the operation has finished.",
+            "de": "`begin_*` liefert sofort einen Poller; erst dessen `.result()` wartet, bis die Operation fertig ist."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "REST: repeat the `POST` until it returns `200`; SDK: no waiting needed, because `begin_*` returns the finished result",
+            "de": "REST: den `POST` wiederholen, bis er `200` liefert; SDK: kein Warten nötig, weil `begin_*` das fertige Ergebnis liefert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: repeating the `POST` never returns the result (poll its `Operation-Location` instead), and `begin_*` returns a poller whose `.result()` waits.",
+            "de": "Doppelt falsch: Ein wiederholter `POST` liefert nie das Ergebnis (frag stattdessen seine `Operation-Location` ab), und `begin_*` liefert einen Poller, dessen `.result()` wartet."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-takeaway-3",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Production uses Microsoft Entra ID (`DefaultAzureCredential`, managed identity); API keys are for quick tests only.",
         "de": "Produktion nutzt Microsoft Entra ID (`DefaultAzureCredential`, Managed Identity); API-Keys sind nur für schnelle Tests."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The `Ocp-Apim-Subscription-Key` header with a key in code; Entra ID only for quick tests",
+            "de": "Der Header `Ocp-Apim-Subscription-Key` mit einem Key im Code; Entra ID nur für schnelle Tests"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: keys are for quick tests only and never belong in code, while production uses Microsoft Entra ID.",
+            "de": "Vertauscht: Keys sind nur für schnelle Tests und gehören nie in den Code, die Produktion nutzt dagegen Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Microsoft Entra ID for interactive users only; API keys for production services",
+            "de": "Microsoft Entra ID nur für interaktive Nutzer; API-Keys für produktive Dienste"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: production services use Entra ID too, typically through a managed identity; API keys are for quick tests only.",
+            "de": "Nein: Auch produktive Dienste nutzen Entra ID, typischerweise über eine Managed Identity; API-Keys sind nur für schnelle Tests."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A shared API key stored in Azure Key Vault; Entra ID isn't supported for Content Understanding",
+            "de": "Ein gemeinsamer API-Key in Azure Key Vault; Entra ID wird für Content Understanding nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Content Understanding does support Microsoft Entra ID (`DefaultAzureCredential`), and that's the production choice.",
+            "de": "Content Understanding unterstützt Microsoft Entra ID (`DefaultAzureCredential`) sehr wohl, und das ist die Wahl für die Produktion."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Microsoft Entra ID via `DefaultAzureCredential` and a managed identity; API keys only for quick tests",
+            "de": "Microsoft Entra ID über `DefaultAzureCredential` und eine Managed Identity; API-Keys nur für schnelle Tests"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: production apps sign in keylessly with Entra ID, ideally a managed identity; keys are for quick tests and never belong in code.",
+            "de": "Richtig: Produktive Apps melden sich schlüssellos mit Entra ID an, am besten per Managed Identity; Keys sind für schnelle Tests und gehören nie in den Code."
+          }
+        }
+      ]
     },
     {
       "id": "z-cu-client-takeaway-4",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Read values by type — `valueString`, `valueNumber`, `valueDate` — or `.value` in the SDK.",
         "de": "Lies Werte typgerecht – `valueString`, `valueNumber`, `valueDate` – oder `.value` im SDK."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The verification details `confidence` and `source`; the SDK exposes `.spans`",
+            "de": "Die Prüfdetails `confidence` und `source`; das SDK bietet `.spans`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`confidence`, `source` and `spans` help verify a value; the value itself sits in `valueString`, `valueNumber` and so on.",
+            "de": "`confidence`, `source` und `spans` helfen beim Prüfen eines Werts; der Wert selbst steht in `valueString`, `valueNumber` usw."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Typed properties such as `valueString`, `valueNumber` and `valueDate`; the SDK offers nothing",
+            "de": "Typisierte Eigenschaften wie `valueString`, `valueNumber` und `valueDate`; das SDK bietet nichts"
+          },
+          "correct": false,
+          "why": {
+            "en": "It does: the SDK exposes each field's value as `.value`, whatever its type.",
+            "de": "Doch: Das SDK stellt den Wert jedes Felds als `.value` bereit, egal welcher Typ."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Typed properties such as `valueString`, `valueNumber` and `valueDate`; the SDK exposes `.value`",
+            "de": "Typisierte Eigenschaften wie `valueString`, `valueNumber` und `valueDate`; das SDK bietet `.value`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: raw JSON names the value property by type, such as `valueString` or `valueDate`, while the SDK gives you `.value` for any type.",
+            "de": "Richtig: Im rohen JSON trägt die Werteigenschaft den Typ im Namen, etwa `valueString` oder `valueDate`; das SDK liefert dir für jeden Typ `.value`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The `markdown` of the content object; the SDK exposes it as `.markdown`",
+            "de": "Das `markdown` des Content-Objekts; das SDK bietet es als `.markdown`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`markdown` is the readable text of the whole content object; field values sit in typed properties such as `valueString`.",
+            "de": "`markdown` ist der lesbare Text des ganzen Content-Objekts; Feldwerte stehen in typisierten Eigenschaften wie `valueString`."
+          }
+        }
+      ]
     }
   ]
 }

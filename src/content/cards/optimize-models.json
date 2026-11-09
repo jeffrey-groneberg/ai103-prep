@@ -8,7 +8,57 @@
       "front": {
         "en": "What should a good system message state, and why can't you rely on it alone?",
         "de": "Was sollte eine gute Systemnachricht festlegen, und warum reicht sie allein nicht aus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Role, boundaries, output format and a \"when unsure\" policy; it's enforced like a rule engine, so content filters and evaluation become optional extras.",
+            "de": "Rolle, Grenzen, Ausgabeformat und eine Regel für Unsicherheit; sie wird wie eine Regel-Engine durchgesetzt, Inhaltsfilter und Evaluierung sind also optional."
+          },
+          "correct": false,
+          "why": {
+            "en": "The checklist is right, but a system message only influences behavior and guarantees nothing, so you still layer content filtering and evaluation on top.",
+            "de": "Die Checkliste stimmt, aber eine Systemnachricht beeinflusst das Verhalten nur und garantiert nichts – Inhaltsfilter und Evaluierung brauchst du weiterhin."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Every fact the model may need to answer; it steers but can't guarantee behavior, so test it and add content filters and evaluation.",
+            "de": "Alle Fakten, die das Modell zum Antworten braucht; sie lenkt, garantiert aber nichts – teste sie und ergänze Inhaltsfilter und Evaluierung."
+          },
+          "correct": false,
+          "why": {
+            "en": "The second half is right, but a good system message sets role, boundaries, output format and a \"when unsure\" policy; facts come from RAG.",
+            "de": "Die zweite Hälfte stimmt, aber eine gute Systemnachricht legt Rolle, Grenzen, Ausgabeformat und eine Regel für Unsicherheit fest; Fakten liefert RAG."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Role, boundaries, output format and a \"when unsure\" policy; it steers but can't guarantee behavior, so test it and add content filters and evaluation.",
+            "de": "Rolle, Grenzen, Ausgabeformat und eine Regel für Unsicherheit; sie lenkt, garantiert aber nichts – teste sie und ergänze Inhaltsfilter und Evaluierung."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: these four elements make a solid system message, and because it only steers the model, you test it and layer it with content filtering and evaluation.",
+            "de": "Richtig: Diese vier Elemente machen eine solide Systemnachricht aus, und weil sie das Modell nur lenkt, testest du sie und kombinierst sie mit Inhaltsfiltern und Evaluierung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Every fact the model may need to answer; it's enforced like a rule engine, so content filters and evaluation become optional extras.",
+            "de": "Alle Fakten, die das Modell zum Antworten braucht; sie wird wie eine Regel-Engine durchgesetzt, Inhaltsfilter und Evaluierung sind also optional."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a good system message sets role, boundaries, format and a \"when unsure\" policy, and it only influences behavior, so filters and evaluation stay.",
+            "de": "Doppelt falsch: Eine gute Systemnachricht legt Rolle, Grenzen, Format und eine Regel für Unsicherheit fest, und sie beeinflusst das Verhalten nur – Filter und Evaluierung bleiben."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which classic prompt patterns are there, and for which models are they not recommended?",
         "de": "Welche klassischen Prompt-Techniken gibt es, und für welche Modelle empfiehlt die Doku sie nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Few-shot examples, chain-of-thought, delimiters, cues and repeating key instructions at the end; not recommended for reasoning models like `gpt-5-mini`.",
+            "de": "Few-Shot-Beispiele, Chain-of-Thought, Trennzeichen, Cues und die Kernanweisung am Ende wiederholen; nicht empfohlen für Reasoning-Modelle wie `gpt-5-mini`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: these classic patterns target non-reasoning models; reasoning models work best with a clear goal, firm constraints and an explicit output format.",
+            "de": "Korrekt: Diese klassischen Techniken zielen auf Nicht-Reasoning-Modelle; Reasoning-Modelle arbeiten am besten mit klarem Ziel, festen Vorgaben und explizitem Ausgabeformat."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Few-shot examples, chain-of-thought, delimiters, cues and repeating key instructions at the end; not recommended for non-reasoning models, only for reasoning ones.",
+            "de": "Few-Shot-Beispiele, Chain-of-Thought, Trennzeichen, Cues und die Kernanweisung am Ende wiederholen; nicht empfohlen für Nicht-Reasoning-Modelle, nur für Reasoning-Modelle."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: non-reasoning models are exactly where these patterns help; the docs advise against them for reasoning models such as `gpt-5-mini`.",
+            "de": "Verdreht: Gerade bei Nicht-Reasoning-Modellen helfen diese Techniken; für Reasoning-Modelle wie `gpt-5-mini` empfiehlt die Doku sie nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Retrieval, fine-tuning and model routing; the docs don't recommend them for reasoning models like `gpt-5-mini`.",
+            "de": "Retrieval, Fine-Tuning und Model Routing; für Reasoning-Modelle wie `gpt-5-mini` empfiehlt die Doku sie nicht."
+          },
+          "correct": false,
+          "why": {
+            "en": "The model type fits, but RAG, fine-tuning and model router are optimization strategies, not prompt patterns such as few-shot or delimiters.",
+            "de": "Der Modelltyp passt, aber RAG, Fine-Tuning und Model Router sind Optimierungsstrategien, keine Prompt-Techniken wie Few-Shot oder Trennzeichen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Retrieval, fine-tuning and model routing; the docs don't recommend them for non-reasoning models, only for reasoning ones.",
+            "de": "Retrieval, Fine-Tuning und Model Routing; für Nicht-Reasoning-Modelle empfiehlt die Doku sie nicht, nur für Reasoning-Modelle."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: RAG, fine-tuning and model router are optimization strategies, not prompt patterns, and the classic patterns are for non-reasoning models.",
+            "de": "Doppelt falsch: RAG, Fine-Tuning und Model Router sind Optimierungsstrategien, keine Prompt-Techniken, und die klassischen Techniken sind für Nicht-Reasoning-Modelle."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How should you set `temperature` and `top_p`, and what steers reasoning models such as `gpt-5-mini` instead?",
         "de": "Wie stellst du `temperature` und `top_p` ein, und womit steuerst du stattdessen Reasoning-Modelle wie `gpt-5-mini`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Change both together, low for facts and higher for creative text; reasoning models are steered with `reasoning.effort` instead.",
+            "de": "Beide gemeinsam ändern, niedrig für Fakten und höher für kreative Texte; Reasoning-Modelle steuerst du stattdessen mit `reasoning.effort`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Not both: tune `temperature` or `top_p`, not both at once; the mapping and the part about `reasoning.effort` are right.",
+            "de": "Nicht beide: Stimme `temperature` oder `top_p` ab, nicht beide zugleich; die Zuordnung und der Teil zu `reasoning.effort` stimmen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Change one, not both: high for facts, lower for creative text; reasoning models take the same two settings alongside `reasoning.effort`.",
+            "de": "Einen ändern, nicht beide: hoch für Fakten, niedriger für kreative Texte; Reasoning-Modelle nehmen dieselben zwei Parameter zusätzlich zu `reasoning.effort`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Backwards: low values suit facts and higher ones creative text, and reasoning models such as `gpt-5-mini` reject `temperature` and `top_p`.",
+            "de": "Umgekehrt: Niedrige Werte passen zu Fakten, höhere zu kreativen Texten, und Reasoning-Modelle wie `gpt-5-mini` lehnen `temperature` und `top_p` ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Change both together, high for facts and lower for creative text; reasoning models take the same two settings alongside `reasoning.effort`.",
+            "de": "Beide gemeinsam ändern, hoch für Fakten und niedriger für kreative Texte; Reasoning-Modelle nehmen dieselben zwei Parameter zusätzlich zu `reasoning.effort`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong on every count: change one, not both; use low values for facts; and reasoning models such as `gpt-5-mini` reject both and take only `reasoning.effort`.",
+            "de": "In jedem Punkt falsch: Ändere einen, nicht beide; nutze niedrige Werte für Fakten; und Reasoning-Modelle wie `gpt-5-mini` lehnen beide ab und nehmen nur `reasoning.effort`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Change one, not both: low for facts, higher for creative text; reasoning models are steered with `reasoning.effort` instead.",
+            "de": "Einen ändern, nicht beide: niedrig für Fakten, höher für kreative Texte; Reasoning-Modelle steuerst du stattdessen mit `reasoning.effort`."
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: on non-reasoning models you tune one of the two; reasoning models such as `gpt-5-mini` reject them and take `reasoning={\"effort\": …}`.",
+            "de": "Ja: Bei Nicht-Reasoning-Modellen stimmst du einen der beiden ab; Reasoning-Modelle wie `gpt-5-mini` lehnen sie ab und nehmen `reasoning={\"effort\": …}`."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does RAG do step by step, and for which kind of data is it the right choice?",
         "de": "Was macht RAG Schritt für Schritt, und für welche Daten ist es die richtige Wahl?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Retrains the model's weights on your documents, then answers from memory; right for private or changing data.",
+            "de": "Trainiert die Gewichte des Modells mit deinen Dokumenten neu und antwortet aus dem Gedächtnis; richtig für private oder wechselnde Daten."
+          },
+          "correct": false,
+          "why": {
+            "en": "That describes fine-tuning, which doesn't add fresh knowledge; RAG leaves the weights alone and pulls current content from an index at query time.",
+            "de": "Das beschreibt Fine-Tuning, und das bringt kein aktuelles Wissen; RAG lässt die Gewichte unverändert und holt aktuelle Inhalte zur Abfragezeit aus einem Index."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Retrieves relevant content from an index, adds it to the prompt, then generates a grounded answer with citations; right for private or changing data.",
+            "de": "Ruft relevante Inhalte aus einem Index ab, ergänzt den Prompt damit und erzeugt eine fundierte Antwort mit Quellen; richtig für private oder wechselnde Daten."
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: retrieve, augment, generate; because only the index needs updating, RAG suits private or frequently changing data.",
+            "de": "Genau: abrufen, anreichern, generieren; weil nur der Index aktualisiert werden muss, passt RAG zu privaten oder häufig wechselnden Daten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Retrieves relevant content from an index, adds it to the prompt, then generates a grounded answer with citations; mainly for fixing a model's tone and output format.",
+            "de": "Ruft relevante Inhalte aus einem Index ab, ergänzt den Prompt damit und erzeugt eine fundierte Antwort mit Quellen; vor allem, um Ton und Ausgabeformat zu korrigieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "The steps are right, the use isn't: tone and format are fixed with prompt engineering (or fine-tuning), while RAG fills knowledge gaps.",
+            "de": "Die Schritte stimmen, der Einsatz nicht: Ton und Format korrigierst du per Prompt Engineering (oder Fine-Tuning), RAG schließt dagegen Wissenslücken."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Retrains the model's weights on your documents, then answers from memory; mainly for fixing a model's tone and output format.",
+            "de": "Trainiert die Gewichte des Modells mit deinen Dokumenten neu und antwortet aus dem Gedächtnis; vor allem, um Ton und Ausgabeformat zu korrigieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "That's fine-tuning, not RAG: RAG retrieves content at query time and grounds the answer in it, which suits private or changing data.",
+            "de": "Das ist Fine-Tuning, nicht RAG: RAG ruft Inhalte zur Abfragezeit ab und stützt die Antwort darauf – das passt zu privaten oder wechselnden Daten."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What do SFT, DPO and RFT learn from, what are LoRA and distillation, and what can't fine-tuning replace?",
         "de": "Woraus lernen SFT, DPO und RFT, was sind LoRA und Destillation, und was kann Fine-Tuning nicht ersetzen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "SFT: a grader, DPO: demonstrations, RFT: preference pairs; LoRA retrains every weight of the model, distillation lets a big model teach a small one; can't replace RAG.",
+            "de": "SFT: ein Grader, DPO: Beispiele, RFT: Präferenzpaare; LoRA trainiert jedes Gewicht des Modells neu, bei Destillation lehrt ein großes Modell ein kleines; ersetzt kein RAG."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: SFT learns from demonstrations, DPO from preference pairs and RFT from a grader, and LoRA updates only a small set of parameters.",
+            "de": "Zwei Fehler: SFT lernt aus Beispielen, DPO aus Präferenzpaaren und RFT von einem Grader, und LoRA passt nur einen kleinen Teil der Parameter an."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "SFT: demonstrations, DPO: preference pairs, RFT: a grader; LoRA retrains every weight of the model, distillation lets a small model teach a big one; can't replace RAG.",
+            "de": "SFT: Beispiele, DPO: Präferenzpaare, RFT: ein Grader; LoRA trainiert jedes Gewicht des Modells neu, bei Destillation lehrt ein kleines Modell ein großes; ersetzt kein RAG."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: LoRA updates only a small set of important parameters, and in distillation a large teacher model's outputs train a smaller model.",
+            "de": "Zwei Fehler: LoRA passt nur einen kleinen Teil wichtiger Parameter an, und bei Destillation trainieren die Ausgaben eines großen Teacher-Modells ein kleineres."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "SFT: demonstrations, DPO: preference pairs, RFT: a grader; LoRA updates few parameters, distillation lets a big model teach a small one; can't replace RAG.",
+            "de": "SFT: Beispiele, DPO: Präferenzpaare, RFT: ein Grader; LoRA passt wenige Parameter an, bei Destillation lehrt ein großes Modell ein kleines; ersetzt kein RAG."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: each method has its own training signal, LoRA and distillation cut cost, and fresh facts still need retrieval (RAG) rather than training.",
+            "de": "Richtig: Jede Methode hat ihr eigenes Trainingssignal, LoRA und Destillation senken die Kosten, und aktuelle Fakten brauchen weiter Retrieval (RAG) statt Training."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "SFT: a grader, DPO: demonstrations, RFT: preference pairs; LoRA updates few parameters, distillation lets a small model teach a big one; can't replace RAG.",
+            "de": "SFT: ein Grader, DPO: Beispiele, RFT: Präferenzpaare; LoRA passt wenige Parameter an, bei Destillation lehrt ein kleines Modell ein großes; ersetzt kein RAG."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: SFT learns from demonstrations, DPO from preference pairs and RFT from a grader, and distillation runs from a large teacher model to a smaller one.",
+            "de": "Zwei Fehler: SFT lernt aus Beispielen, DPO aus Präferenzpaaren und RFT von einem Grader, und Destillation läuft von einem großen Teacher-Modell zu einem kleineren."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How does a reflection loop improve a draft, and what must you always limit?",
         "de": "Wie verbessert eine Reflexionsschleife einen Entwurf, und was musst du immer begrenzen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A judge scores each draft against explicit criteria and its reason feeds the next draft; always cap the number of iterations.",
+            "de": "Ein Judge bewertet jeden Entwurf anhand klarer Kriterien, und seine Begründung fließt in den nächsten Entwurf; begrenze immer die Zahl der Runden."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the judge's reason becomes feedback for the next attempt, and a hard iteration cap keeps the loop from running forever.",
+            "de": "Korrekt: Die Begründung des Judges wird zum Feedback für den nächsten Versuch, und ein festes Rundenlimit verhindert eine Endlosschleife."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The same prompt reruns at a higher `temperature` until a draft passes, so the loop needs no cap.",
+            "de": "Derselbe Prompt läuft mit höherer `temperature` erneut, bis ein Entwurf besteht; ein Limit braucht die Schleife nicht."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: reflection feeds a judge's reason back into the next draft instead of rerunning at random, and you always cap the iterations.",
+            "de": "Doppelt falsch: Reflexion gibt die Begründung eines Judges in den nächsten Entwurf, statt zufällig zu wiederholen, und die Runden begrenzt du immer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The same prompt reruns at a higher `temperature` and the longest draft wins; always cap the number of iterations.",
+            "de": "Derselbe Prompt läuft mit höherer `temperature` erneut, und der längste Entwurf gewinnt; begrenze immer die Zahl der Runden."
+          },
+          "correct": false,
+          "why": {
+            "en": "The cap is right, the mechanism isn't: reflection needs a judge that scores drafts against criteria and returns a reason as feedback, not random reruns.",
+            "de": "Das Limit stimmt, der Mechanismus nicht: Reflexion braucht einen Judge, der Entwürfe an Kriterien misst und eine Begründung als Feedback liefert, keine zufälligen Wiederholungen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A judge scores each draft against explicit criteria and its reason feeds the next draft; the loop ends once a draft passes, so no cap is needed.",
+            "de": "Ein Judge bewertet jeden Entwurf anhand klarer Kriterien, und seine Begründung fließt in den nächsten Entwurf; die Schleife endet, sobald einer besteht, ein Limit ist unnötig."
+          },
+          "correct": false,
+          "why": {
+            "en": "Risky: a draft might never pass, so always bound the loop with a maximum number of rounds, then stop and escalate when none are left.",
+            "de": "Riskant: Vielleicht besteht nie ein Entwurf – begrenze die Schleife also immer mit einer maximalen Rundenzahl und eskaliere, wenn keine Runden mehr übrig sind."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What does model router do for each prompt, which routing modes exist, and how does it work as an agent's model?",
         "de": "Was macht der Model Router bei jedem Prompt, welche Routing-Modi gibt es, und wie arbeitet er als Agent-Modell?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Spreads each prompt across copies of one model to balance load; modes Fast, Standard and Premium; for an agent it routes each request among models supporting its tools.",
+            "de": "Verteilt jeden Prompt zur Lastverteilung auf Kopien eines Modells; Modi Fast, Standard, Premium; für Agents je Anfrage eines, das deren Tools unterstützt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: model router picks a suitable model from a pool of different underlying models, and its modes are Balanced (default), Cost and Quality.",
+            "de": "Zwei Fehler: Model Router wählt ein passendes Modell aus einem Pool verschiedener zugrunde liegender Modelle, und seine Modi sind Balanced (Standard), Cost und Quality."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Picks a suitable underlying model per prompt; modes Balanced (default), Cost and Quality; for an agent it routes each request among models supporting its tools.",
+            "de": "Wählt pro Prompt ein passendes zugrunde liegendes Modell; Modi Balanced (Standard), Cost, Quality; für Agents je Anfrage eines, das deren Tools unterstützt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: one router deployment chooses per prompt, the mode trades cost against quality, and for an agent only models that support its tools are eligible.",
+            "de": "Ja: Ein Router-Deployment wählt pro Prompt, der Modus wägt Kosten gegen Qualität ab, und für einen Agent kommen nur Modelle infrage, die seine Tools unterstützen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Picks a suitable underlying model per prompt; modes Fast, Standard and Premium; for an agent it locks one model for the whole conversation.",
+            "de": "Wählt pro Prompt ein passendes zugrunde liegendes Modell; Modi Fast, Standard, Premium; für Agents ein festes Modell fürs ganze Gespräch."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: the modes are Balanced (default), Cost and Quality, and each agent request is routed separately among models that support its tools.",
+            "de": "Zwei Fehler: Die Modi heißen Balanced (Standard), Cost und Quality, und jede Anfrage eines Agents wird einzeln unter Modellen geroutet, die seine Tools unterstützen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Spreads each prompt across copies of one model to balance load; modes Balanced (default), Cost and Quality; for an agent it locks one model for the whole conversation.",
+            "de": "Verteilt jeden Prompt zur Lastverteilung auf Kopien eines Modells; Modi Balanced (Standard), Cost, Quality; für Agents ein festes Modell fürs ganze Gespräch."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: model router is a trained model that picks among different underlying models, and each agent request is routed separately.",
+            "de": "Zwei Fehler: Model Router ist ein trainiertes Modell, das zwischen verschiedenen zugrunde liegenden Modellen wählt, und jede Anfrage eines Agents wird einzeln geroutet."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Fine-tuning doesn't add fresh knowledge, and retraining for every data change is slow and expensive. For private or daily-changing data, use RAG.",
         "de": "Fine-Tuning bringt kein aktuelles Wissen, und Neutraining bei jeder Datenänderung ist langsam und teuer. Für private oder täglich wechselnde Daten nutzt du RAG."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It keeps the model current as long as you retrain it every night, but RAG is cheaper, so use RAG instead.",
+            "de": "Es hält das Modell aktuell, solange du es jede Nacht neu trainierst, aber RAG ist günstiger; nutze also stattdessen RAG."
+          },
+          "correct": false,
+          "why": {
+            "en": "The fix is right, the cause isn't: fine-tuning doesn't add fresh knowledge, however often you retrain.",
+            "de": "Die Lösung stimmt, die Ursache nicht: Fine-Tuning bringt kein aktuelles Wissen, egal wie oft du neu trainierst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It doesn't add fresh knowledge, and retraining on every change is slow and expensive, so switch to RFT and let a grader teach it the new data.",
+            "de": "Es bringt kein aktuelles Wissen, und Neutraining bei jeder Änderung ist langsam und teuer; wechsle also zu RFT und lass einen Grader ihm die neuen Daten beibringen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The diagnosis is right, the fix isn't: RFT is fine-tuning too, so it can't keep facts current either; retrieval (RAG) does that.",
+            "de": "Die Diagnose stimmt, die Lösung nicht: RFT ist auch Fine-Tuning und hält Fakten genauso wenig aktuell; das leistet Retrieval (RAG)."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It keeps the model current as long as you retrain it every night, so switch to RFT and let a grader teach it the new data.",
+            "de": "Es hält das Modell aktuell, solange du es jede Nacht neu trainierst; wechsle also zu RFT und lass einen Grader ihm die neuen Daten beibringen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: fine-tuning, RFT included, adds no fresh knowledge, and retraining on every change is slow and expensive; RAG just needs an index update.",
+            "de": "Doppelt falsch: Fine-Tuning, auch RFT, bringt kein aktuelles Wissen, und Neutraining bei jeder Änderung ist langsam und teuer; RAG braucht nur ein Index-Update."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It doesn't add fresh knowledge, and retraining on every change is slow and expensive, so use RAG instead.",
+            "de": "Es bringt kein aktuelles Wissen, und Neutraining bei jeder Änderung ist langsam und teuer; nutze stattdessen RAG."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: RAG retrieves current private content from an index at query time, so a data change means an index update, not retraining.",
+            "de": "Richtig: RAG holt aktuelle private Inhalte zur Abfragezeit aus einem Index, eine Datenänderung heißt also Index-Update statt Neutraining."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Chain-of-thought prompting is for non-reasoning models. Asking a reasoning model to print its raw reasoning isn't supported and may violate the Acceptable Use Policy — use `reasoning.summary` instead.",
         "de": "Chain-of-Thought-Prompting ist für Nicht-Reasoning-Modelle. Ein Reasoning-Modell aufzufordern, sein rohes Reasoning auszugeben, wird nicht unterstützt und kann gegen die Acceptable Use Policy verstoßen – nutze stattdessen `reasoning.summary`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Reasoning models; ask a reasoning model to print its raw reasoning between XML delimiters.",
+            "de": "Reasoning-Modelle; lass ein Reasoning-Modell sein rohes Reasoning zwischen XML-Trennzeichen ausgeben."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: chain-of-thought prompting is for non-reasoning models, and printing a reasoning model's raw reasoning isn't supported; use `reasoning.summary`.",
+            "de": "Doppelt falsch: Chain-of-Thought-Prompting ist für Nicht-Reasoning-Modelle, und rohes Reasoning ausgeben zu lassen wird nicht unterstützt; nutze `reasoning.summary`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Non-reasoning models; for a reasoning model, request `reasoning.summary`, not its raw reasoning.",
+            "de": "Nicht-Reasoning-Modelle; bei einem Reasoning-Modell forderst du `reasoning.summary` an, nicht sein rohes Reasoning."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `reasoning.summary` is the supported view of the thinking; asking for raw reasoning isn't supported and may violate the Acceptable Use Policy.",
+            "de": "Korrekt: `reasoning.summary` ist der unterstützte Blick auf das Denken; rohes Reasoning anzufordern wird nicht unterstützt und kann gegen die Acceptable Use Policy verstoßen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Non-reasoning models; ask a reasoning model to print its raw reasoning between XML delimiters.",
+            "de": "Nicht-Reasoning-Modelle; lass ein Reasoning-Modell sein rohes Reasoning zwischen XML-Trennzeichen ausgeben."
+          },
+          "correct": false,
+          "why": {
+            "en": "Delimiters don't change the rule: asking a reasoning model to print its raw reasoning isn't supported, so use `reasoning.summary`.",
+            "de": "Trennzeichen ändern nichts an der Regel: Ein Reasoning-Modell sein rohes Reasoning ausgeben zu lassen wird nicht unterstützt, nutze also `reasoning.summary`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Reasoning models; to see a reasoning model's thinking, request `reasoning.summary`, not its raw reasoning.",
+            "de": "Reasoning-Modelle; um das Denken eines Reasoning-Modells zu sehen, forderst du `reasoning.summary` an, nicht sein rohes Reasoning."
+          },
+          "correct": false,
+          "why": {
+            "en": "The second half is right, but chain-of-thought prompting is for non-reasoning models; reasoning models work best with a clear goal, firm constraints and an explicit output format.",
+            "de": "Die zweite Hälfte stimmt, aber Chain-of-Thought-Prompting ist für Nicht-Reasoning-Modelle; Reasoning-Modelle arbeiten am besten mit klarem Ziel, festen Vorgaben und explizitem Ausgabeformat."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Don't send `temperature` or `top_p` to `gpt-5-mini` or the other GPT-5 reasoning models, and don't use `max_tokens` (a Chat Completions parameter) — the Responses API limit is `max_output_tokens`. Set it too low and the response ends `incomplete` with no visible text, because reasoning tokens count toward it.",
         "de": "Schick `temperature` oder `top_p` nicht an `gpt-5-mini` oder die anderen GPT-5-Reasoning-Modelle und nutze kein `max_tokens` (ein Chat-Completions-Parameter) – das Limit der Responses API heißt `max_output_tokens`. Ist es zu niedrig, endet die Antwort als `incomplete` ohne sichtbaren Text, weil Reasoning-Tokens mitzählen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The system message (`instructions`) and `reasoning.effort`; if `max_output_tokens` is too low, reasoning tokens use it up and it ends `incomplete` with no visible text.",
+            "de": "Die Systemnachricht (`instructions`) und `reasoning.effort`; Reasoning-Tokens verbrauchen ein zu knappes `max_output_tokens`, die Antwort endet `incomplete` ohne sichtbaren Text."
+          },
+          "correct": false,
+          "why": {
+            "en": "The second half is right, but `gpt-5-mini` takes `instructions` and `reasoning.effort`; the parameters to leave out are `temperature`, `top_p` and `max_tokens`.",
+            "de": "Die zweite Hälfte stimmt, aber `gpt-5-mini` nimmt `instructions` und `reasoning.effort`; weglassen musst du `temperature`, `top_p` und `max_tokens`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`temperature`, `top_p` and `max_tokens`; if `max_output_tokens` is too low, only the hidden reasoning is cut and the answer stays complete.",
+            "de": "`temperature`, `top_p` und `max_tokens`; ist `max_output_tokens` zu niedrig, wird nur das verborgene Reasoning gekürzt, und die Antwort bleibt vollständig."
+          },
+          "correct": false,
+          "why": {
+            "en": "The parameter list is right, the effect isn't: reasoning tokens count toward `max_output_tokens` and can use it up before any visible text appears.",
+            "de": "Die Parameterliste stimmt, die Wirkung nicht: Reasoning-Tokens zählen zu `max_output_tokens` und können es aufbrauchen, bevor sichtbarer Text entsteht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`temperature`, `top_p` and `max_tokens`; if `max_output_tokens` is too low, reasoning tokens use it up and it ends `incomplete` with no visible text.",
+            "de": "`temperature`, `top_p` und `max_tokens`; Reasoning-Tokens verbrauchen ein zu knappes `max_output_tokens`, die Antwort endet `incomplete` ohne sichtbaren Text."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: GPT-5 reasoning models reject `temperature` and `top_p`, `max_tokens` is a Chat Completions parameter, and billed reasoning tokens count toward `max_output_tokens`.",
+            "de": "Richtig: GPT-5-Reasoning-Modelle lehnen `temperature` und `top_p` ab, `max_tokens` ist ein Chat-Completions-Parameter, und abgerechnete Reasoning-Tokens zählen zu `max_output_tokens`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The system message (`instructions`) and `reasoning.effort`; if `max_output_tokens` is too low, only the hidden reasoning is cut and the answer stays complete.",
+            "de": "Die Systemnachricht (`instructions`) und `reasoning.effort`; ist `max_output_tokens` zu niedrig, wird nur das verborgene Reasoning gekürzt, und die Antwort bleibt vollständig."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `gpt-5-mini` takes `instructions` and `reasoning.effort`, and reasoning tokens count toward `max_output_tokens`, so a low limit can leave no visible text.",
+            "de": "Doppelt falsch: `gpt-5-mini` nimmt `instructions` und `reasoning.effort`, und Reasoning-Tokens zählen zu `max_output_tokens` – ein niedriges Limit kann ohne sichtbaren Text enden."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Not in a prompt — a prompt can't guarantee a fixed business rule such as a refund limit. Enforce it in a deterministic code step of a workflow next to the LLM steps, and route high-risk cases to a human-in-the-loop step where a person approves.",
         "de": "Nicht im Prompt – ein Prompt kann eine feste Geschäftsregel wie eine Erstattungsgrenze nicht garantieren. Setz sie als deterministischen Codeschritt in einem Workflow neben den LLM-Schritten um und leite riskante Fälle an einen Human-in-the-Loop-Schritt, in dem eine Person freigibt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In a deterministic code step of a workflow beside the LLM steps; high-risk cases go to a human-in-the-loop step for approval.",
+            "de": "In einem deterministischen Codeschritt eines Workflows neben den LLM-Schritten; riskante Fälle gehen zur Freigabe an einen Human-in-the-Loop-Schritt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: code enforces the rule every time, which a prompt can't guarantee, and a person approves the risky cases.",
+            "de": "Korrekt: Code setzt die Regel jedes Mal durch, was ein Prompt nicht garantieren kann, und eine Person gibt die riskanten Fälle frei."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In the system message as a strict, repeated rule; high-risk cases go to a human-in-the-loop step for approval.",
+            "de": "In der Systemnachricht als strenge, wiederholte Regel; riskante Fälle gehen zur Freigabe an einen Human-in-the-Loop-Schritt."
+          },
+          "correct": false,
+          "why": {
+            "en": "A prompt only influences the model: even repeated, the rule can't guarantee a fixed limit, so the check belongs in a deterministic code step.",
+            "de": "Ein Prompt beeinflusst das Modell nur: Auch wiederholt garantiert die Regel kein festes Limit, die Prüfung gehört also in einen deterministischen Codeschritt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In a deterministic code step of a workflow beside the LLM steps; an LLM judge approves high-risk cases automatically.",
+            "de": "In einem deterministischen Codeschritt eines Workflows neben den LLM-Schritten; riskante Fälle gibt ein LLM-Judge automatisch frei."
+          },
+          "correct": false,
+          "why": {
+            "en": "The rule's place is right, but high-risk cases need a person: route them to a human-in-the-loop step instead of an automatic judge.",
+            "de": "Der Ort der Regel stimmt, aber riskante Fälle brauchen einen Menschen: Leite sie an einen Human-in-the-Loop-Schritt statt an einen automatischen Judge."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In the system message as a strict, repeated rule; an LLM judge approves high-risk cases automatically.",
+            "de": "In der Systemnachricht als strenge, wiederholte Regel; riskante Fälle gibt ein LLM-Judge automatisch frei."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a prompt can't guarantee a fixed limit, so it belongs in a deterministic code step, and a person approves high-risk cases in a human-in-the-loop step.",
+            "de": "Doppelt falsch: Ein Prompt garantiert kein festes Limit, es gehört also in einen deterministischen Codeschritt, und riskante Fälle gibt eine Person in einem Human-in-the-Loop-Schritt frei."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Model router's context window is limited by its smallest underlying model — use a model subset for long prompts. `temperature`/`top_p` are ignored when it picks a reasoning model.",
         "de": "Das Kontextfenster des Model Routers ist durch sein kleinstes zugrunde liegendes Modell begrenzt – nutze für lange Prompts ein Model Subset. `temperature`/`top_p` werden ignoriert, wenn er ein Reasoning-Modell wählt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Its largest underlying model, so long prompts always fit; it ignores them whenever it picks a reasoning model.",
+            "de": "Sein größtes zugrunde liegendes Modell, lange Prompts passen also immer; er ignoriert sie, wenn er ein Reasoning-Modell wählt."
+          },
+          "correct": false,
+          "why": {
+            "en": "The opposite: the smallest underlying model sets the effective context window, so long prompts call for a model subset.",
+            "de": "Im Gegenteil: Das kleinste zugrunde liegende Modell bestimmt das effektive Kontextfenster, für lange Prompts brauchst du also ein Model Subset."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Its smallest underlying model, so use a model subset for long prompts; it ignores them on every request.",
+            "de": "Sein kleinstes zugrunde liegendes Modell, nutze also für lange Prompts ein Model Subset; er ignoriert sie bei jeder Anfrage."
+          },
+          "correct": false,
+          "why": {
+            "en": "Only a reasoning model drops them: they're ignored when the router picks a reasoning model, not on every request.",
+            "de": "Nur bei einem Reasoning-Modell fallen sie weg: Ignoriert werden sie, wenn der Router ein Reasoning-Modell wählt, nicht bei jeder Anfrage."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Its largest underlying model, so long prompts always fit; it ignores them on every request.",
+            "de": "Sein größtes zugrunde liegendes Modell, lange Prompts passen also immer; er ignoriert sie bei jeder Anfrage."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the smallest underlying model caps the context window, and `temperature` and `top_p` are ignored only when a reasoning model is picked.",
+            "de": "Doppelt falsch: Das kleinste zugrunde liegende Modell begrenzt das Kontextfenster, und `temperature` und `top_p` werden nur ignoriert, wenn ein Reasoning-Modell gewählt wird."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Its smallest underlying model, so use a model subset for long prompts; it ignores them whenever it picks a reasoning model.",
+            "de": "Sein kleinstes zugrunde liegendes Modell, nutze also für lange Prompts ein Model Subset; er ignoriert sie, wenn er ein Reasoning-Modell wählt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the smallest underlying model caps the effective window, and when a reasoning model is picked, `temperature` and `top_p` are ignored.",
+            "de": "Korrekt: Das kleinste zugrunde liegende Modell begrenzt das effektive Fenster, und wählt der Router ein Reasoning-Modell, werden `temperature` und `top_p` ignoriert."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-trap-6",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Only the Claude models; the other underlying models need no deployment of their own. Deploy each Claude model in the same Foundry resource with a matching SKU (deployment type) before you add it to the model subset, or the router deployment fails with `InvalidResourceProperties`.",
         "de": "Nur die Claude-Modelle; die anderen zugrunde liegenden Modelle brauchen kein eigenes Deployment. Stelle jedes Claude-Modell zuerst in derselben Foundry-Ressource mit passender SKU (Deployment-Typ) bereit, bevor du es ins Model Subset aufnimmst, sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Every underlying model in the subset, in the same Foundry resource with a matching SKU; otherwise the router deployment fails with `InvalidResourceProperties`.",
+            "de": "Jedes zugrunde liegende Modell im Subset, in derselben Foundry-Ressource mit passender SKU; sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
+          },
+          "correct": false,
+          "why": {
+            "en": "Too broad: the other underlying models need no deployment of their own; only Claude models must be deployed first.",
+            "de": "Zu weit gefasst: Die anderen zugrunde liegenden Modelle brauchen kein eigenes Deployment; nur Claude-Modelle musst du vorher bereitstellen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only the Claude models, in the same Foundry resource with a matching SKU; otherwise the router deployment fails with `InvalidResourceProperties`.",
+            "de": "Nur die Claude-Modelle, in derselben Foundry-Ressource mit passender SKU; sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Claude is the exception; listing an undeployed Claude model in the model subset makes the router deployment fail with `InvalidResourceProperties`.",
+            "de": "Richtig: Claude ist die Ausnahme; ein nicht bereitgestelltes Claude-Modell im Model Subset lässt das Router-Deployment mit `InvalidResourceProperties` scheitern."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the Claude models, in a separate Foundry resource of their own; otherwise the router deployment fails with `InvalidResourceProperties`.",
+            "de": "Nur die Claude-Modelle, in einer eigenen, separaten Foundry-Ressource; sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong place: each Claude model must be deployed in the same Foundry resource as the router, with a matching SKU (deployment type).",
+            "de": "Falscher Ort: Jedes Claude-Modell muss in derselben Foundry-Ressource wie der Router und mit passender SKU (Deployment-Typ) bereitgestellt sein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Every underlying model in the subset, each in a separate Foundry resource of its own; otherwise the router deployment fails with `InvalidResourceProperties`.",
+            "de": "Jedes zugrunde liegende Modell im Subset, jeweils in einer eigenen, separaten Foundry-Ressource; sonst schlägt das Router-Deployment mit `InvalidResourceProperties` fehl."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: only Claude models need their own deployment, and they go into the same Foundry resource as the router, with a matching SKU.",
+            "de": "Doppelt falsch: Nur Claude-Modelle brauchen ein eigenes Deployment, und sie gehören in dieselbe Foundry-Ressource wie der Router, mit passender SKU."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-1",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Diagnose first: behavior → prompts, knowledge → RAG, consistency or prompt cost → fine-tuning.",
         "de": "Erst diagnostizieren: Verhalten → Prompts, Wissen → RAG, Konsistenz oder Prompt-Kosten → Fine-Tuning."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Behavior → fine-tuning; missing knowledge → RAG; inconsistency or prompt cost → prompt engineering.",
+            "de": "Verhalten → Fine-Tuning; fehlendes Wissen → RAG; Inkonsistenz oder Prompt-Kosten → Prompt Engineering."
+          },
+          "correct": false,
+          "why": {
+            "en": "Ends swapped: wrong behavior is fixed first with prompts, while fine-tuning handles drift that persists and shortens long, costly prompts.",
+            "de": "Enden vertauscht: Falsches Verhalten behebst du zuerst mit Prompts; Fine-Tuning hilft bei hartnäckiger Drift und kürzt lange, teure Prompts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Behavior → fine-tuning; missing knowledge → prompt engineering; inconsistency or prompt cost → RAG.",
+            "de": "Verhalten → Fine-Tuning; fehlendes Wissen → Prompt Engineering; Inkonsistenz oder Prompt-Kosten → RAG."
+          },
+          "correct": false,
+          "why": {
+            "en": "Every pairing is off: behavior starts with prompts, missing knowledge needs RAG, and fine-tuning handles lasting drift and long, costly prompts.",
+            "de": "Jede Zuordnung ist falsch: Verhalten beginnt bei Prompts, fehlendes Wissen braucht RAG, und Fine-Tuning hilft bei hartnäckiger Drift und langen, teuren Prompts."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Behavior → prompt engineering; missing knowledge → RAG; inconsistency or prompt cost → fine-tuning.",
+            "de": "Verhalten → Prompt Engineering; fehlendes Wissen → RAG; Inkonsistenz oder Prompt-Kosten → Fine-Tuning."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: diagnose the symptom first, then pick the matching layer: prompts, retrieval or training.",
+            "de": "Korrekt: Erst das Symptom diagnostizieren, dann die passende Schicht wählen: Prompts, Retrieval oder Training."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Behavior → RAG; missing knowledge → prompt engineering; inconsistency or prompt cost → fine-tuning.",
+            "de": "Verhalten → RAG; fehlendes Wissen → Prompt Engineering; Inkonsistenz oder Prompt-Kosten → Fine-Tuning."
+          },
+          "correct": false,
+          "why": {
+            "en": "Tone and format are a job for prompts, and missing private or changing facts need retrieval; RAG supplies facts, not behavior.",
+            "de": "Ton und Format sind Sache der Prompts, und fehlende private oder wechselnde Fakten brauchen Retrieval; RAG liefert Fakten, kein Verhalten."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-2",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Start with prompt engineering and a measured baseline; add RAG or fine-tuning only when evaluation shows a gap.",
         "de": "Starte mit Prompt Engineering und einer gemessenen Baseline; ergänze RAG oder Fine-Tuning erst, wenn die Evaluierung eine Lücke zeigt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Fine-tuning on a few hundred of your own examples; add prompt engineering or RAG only when evaluation shows a gap.",
+            "de": "Fine-Tuning mit ein paar Hundert eigenen Beispielen; ergänze Prompt Engineering oder RAG erst, wenn die Evaluierung eine Lücke zeigt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong starting point: fine-tuning is the costliest layer, so begin with prompt engineering, the cheap base under every other strategy.",
+            "de": "Falscher Startpunkt: Fine-Tuning ist die teuerste Schicht, beginne also mit Prompt Engineering, der günstigen Basis jeder anderen Strategie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Prompt engineering and a measured baseline; add RAG or fine-tuning as soon as even a single user complains.",
+            "de": "Prompt Engineering und eine gemessene Baseline; ergänze RAG oder Fine-Tuning, sobald sich auch nur ein einzelner Nutzer beschwert."
+          },
+          "correct": false,
+          "why": {
+            "en": "The start is right, but you add RAG or fine-tuning when evaluation against the baseline shows a gap, not after one complaint.",
+            "de": "Der Start stimmt, aber RAG oder Fine-Tuning ergänzt du, wenn die Evaluierung gegen die Baseline eine Lücke zeigt, nicht nach einer Beschwerde."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Fine-tuning on a few hundred of your own examples; add prompt engineering or RAG as soon as even a single user complains.",
+            "de": "Fine-Tuning mit ein paar Hundert eigenen Beispielen; ergänze Prompt Engineering oder RAG, sobald sich auch nur ein einzelner Nutzer beschwert."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: start with cheap prompt engineering and a measured baseline, and add layers only when evaluation shows a gap.",
+            "de": "Doppelt falsch: Starte mit günstigem Prompt Engineering und einer gemessenen Baseline, und ergänze Schichten erst, wenn die Evaluierung eine Lücke zeigt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Prompt engineering and a measured baseline; add RAG or fine-tuning only when evaluation shows a gap.",
+            "de": "Prompt Engineering und eine gemessene Baseline; ergänze RAG oder Fine-Tuning erst, wenn die Evaluierung eine Lücke zeigt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: prompts are cheap and instant, and the baseline lets you prove that each added layer really closes a measured gap.",
+            "de": "Ja: Prompts sind günstig und sofort wirksam, und mit der Baseline belegst du, dass jede weitere Schicht wirklich eine gemessene Lücke schließt."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-3",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Pick the method by your data: demonstrations → SFT, preference pairs → DPO, a reliable grader → RFT.",
         "de": "Wähle die Methode nach deinen Daten: Beispiele → SFT, Präferenzpaare → DPO, verlässlicher Grader → RFT."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Demonstrations → DPO; preference pairs → SFT; a reliable grader → RFT.",
+            "de": "Beispiele → DPO; Präferenzpaare → SFT; verlässlicher Grader → RFT."
+          },
+          "correct": false,
+          "why": {
+            "en": "First two swapped: SFT learns from demonstrations (prompt + ideal response), DPO from preferred vs. rejected answers.",
+            "de": "Die ersten beiden sind vertauscht: SFT lernt aus Beispielen (Prompt + ideale Antwort), DPO aus bevorzugten vs. abgelehnten Antworten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Demonstrations → SFT; preference pairs → DPO; a reliable grader → RFT.",
+            "de": "Beispiele → SFT; Präferenzpaare → DPO; verlässlicher Grader → RFT."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: let your training signal pick the method: ideal answers, preferred-vs-rejected pairs or a grader that scores outputs.",
+            "de": "Korrekt: Dein Trainingssignal bestimmt die Methode: ideale Antworten, Paare aus bevorzugter und abgelehnter Antwort oder ein Grader, der Ausgaben bewertet."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Demonstrations → DPO; preference pairs → RFT; a reliable grader → SFT.",
+            "de": "Beispiele → DPO; Präferenzpaare → RFT; verlässlicher Grader → SFT."
+          },
+          "correct": false,
+          "why": {
+            "en": "Every pairing is off: demonstrations feed SFT, preference pairs feed DPO, and a grader that scores outputs drives RFT.",
+            "de": "Jede Zuordnung ist falsch: Beispiele speisen SFT, Präferenzpaare speisen DPO, und ein Grader, der Ausgaben bewertet, treibt RFT an."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Demonstrations → RFT; preference pairs → SFT; a reliable grader → DPO.",
+            "de": "Beispiele → RFT; Präferenzpaare → SFT; verlässlicher Grader → DPO."
+          },
+          "correct": false,
+          "why": {
+            "en": "Every pairing is off: SFT learns from demonstrations, DPO from preferred vs. rejected answers, and RFT from a grader's scores.",
+            "de": "Jede Zuordnung ist falsch: SFT lernt aus Beispielen, DPO aus bevorzugten vs. abgelehnten Antworten und RFT aus den Scores eines Graders."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-4",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Bound every self-critique loop, and judge against explicit criteria.",
         "de": "Begrenze jede Selbstkritik-Schleife und bewerte gegen klare Kriterien."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Cap the number of rounds, and judge every draft against explicit criteria.",
+            "de": "Begrenze die Zahl der Runden und bewerte jeden Entwurf gegen klare Kriterien."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the cap keeps the loop safe, and explicit criteria make the judge's verdict and reason useful as feedback.",
+            "de": "Richtig: Das Limit hält die Schleife sicher, und klare Kriterien machen Urteil und Begründung des Judges als Feedback brauchbar."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Keep looping until the judge is satisfied, and judge every draft against explicit criteria.",
+            "de": "Lass die Schleife laufen, bis der Judge zufrieden ist, und bewerte jeden Entwurf gegen klare Kriterien."
+          },
+          "correct": false,
+          "why": {
+            "en": "An unbounded loop may never end: always set a maximum number of rounds, then stop and escalate.",
+            "de": "Eine unbegrenzte Schleife endet vielleicht nie: Setz immer eine maximale Rundenzahl, dann stoppe und eskaliere."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Cap the number of rounds, and let the judge score each draft freely, without fixed criteria.",
+            "de": "Begrenze die Zahl der Runden und lass den Judge jeden Entwurf frei bewerten, ohne feste Kriterien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Criteria are the second rule: the judge scores each draft against explicit criteria, such as groundedness or task adherence, so its reason is useful feedback.",
+            "de": "Kriterien sind die zweite Regel: Der Judge bewertet jeden Entwurf gegen klare Kriterien wie Groundedness oder Task Adherence, damit seine Begründung brauchbares Feedback ist."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Keep looping until the judge is satisfied, and let it score each draft freely, without fixed criteria.",
+            "de": "Lass die Schleife laufen, bis der Judge zufrieden ist, und lass ihn jeden Entwurf frei bewerten, ohne feste Kriterien."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: always cap the rounds so the loop can't run forever, and judge every draft against explicit criteria.",
+            "de": "Doppelt falsch: Begrenze immer die Runden, damit die Schleife nicht endlos läuft, und bewerte jeden Entwurf gegen klare Kriterien."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-5",
@@ -188,7 +1038,57 @@
       "back": {
         "en": "Use structured outputs when downstream code needs reliable JSON.",
         "de": "Nutze Structured Outputs, wenn nachgelagerter Code verlässliches JSON braucht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A system message saying \"always reply in valid JSON\", repeated once more at the end of the prompt to be safe.",
+            "de": "Eine Systemnachricht mit „antworte immer in gültigem JSON“, zur Sicherheit am Ende des Prompts noch einmal wiederholt."
+          },
+          "correct": false,
+          "why": {
+            "en": "A prompt influences the format but can't guarantee it; structured outputs enforce a strict JSON schema.",
+            "de": "Ein Prompt beeinflusst das Format, garantiert es aber nicht; Structured Outputs erzwingen ein striktes JSON-Schema."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A high `max_output_tokens` value, so a long JSON object isn't cut off before its closing brace.",
+            "de": "Ein hoher Wert für `max_output_tokens`, damit ein langes JSON-Objekt nicht vor der schließenden Klammer abbricht."
+          },
+          "correct": false,
+          "why": {
+            "en": "That only limits length and defines neither fields nor types; a strict schema via structured outputs does.",
+            "de": "Das begrenzt nur die Länge und legt weder Felder noch Typen fest; das leistet ein striktes Schema über Structured Outputs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Structured outputs: a strict JSON schema, for example `responses.parse` with a Pydantic class.",
+            "de": "Structured Outputs: ein striktes JSON-Schema, zum Beispiel `responses.parse` mit einer Pydantic-Klasse."
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the schema is sent as `text.format`, and `output_parsed` returns a typed object your code can rely on.",
+            "de": "Ja: Das Schema geht als `text.format` mit, und `output_parsed` liefert ein typisiertes Objekt, auf das sich dein Code verlassen kann."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Model router in Quality mode, so only the strongest underlying model writes the JSON for your code.",
+            "de": "Model Router im Modus Quality, damit nur das stärkste zugrunde liegende Modell das JSON für deinen Code schreibt."
+          },
+          "correct": false,
+          "why": {
+            "en": "The routing mode decides which model answers, not the shape of the output; structured outputs enforce the JSON schema.",
+            "de": "Der Routing-Modus bestimmt, welches Modell antwortet, nicht die Form der Ausgabe; das JSON-Schema erzwingen Structured Outputs."
+          }
+        }
+      ]
     },
     {
       "id": "z-optimize-models-takeaway-6",
@@ -200,7 +1100,57 @@
       "back": {
         "en": "Optimize the context (RAG) when knowledge is missing; optimize the model (fine-tuning) when format, style or tone must stay consistent. Prompt engineering underpins both, and you can combine them.",
         "de": "Optimiere den Kontext (RAG), wenn Wissen fehlt; optimiere das Modell (Fine-Tuning), wenn Format, Stil oder Ton konsistent bleiben müssen. Prompt Engineering ist die Basis für beides, und du kannst beides kombinieren."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Context (RAG) when format, style or tone must stay consistent; model (fine-tuning) when knowledge is missing; prompt engineering underpins both.",
+            "de": "Kontext (RAG), wenn Format, Stil oder Ton konsistent bleiben müssen; Modell (Fine-Tuning), wenn Wissen fehlt; Prompt Engineering ist die Basis für beides."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: missing knowledge calls for RAG, which optimizes the context, while consistent format, style or tone calls for fine-tuning.",
+            "de": "Vertauscht: Fehlendes Wissen verlangt RAG, das den Kontext optimiert; konsistentes Format, Stil oder Ton verlangt Fine-Tuning."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Context (RAG) when knowledge is missing; model (fine-tuning) when format, style or tone must stay consistent; model router underpins both.",
+            "de": "Kontext (RAG), wenn Wissen fehlt; Modell (Fine-Tuning), wenn Format, Stil oder Ton konsistent bleiben müssen; Model Router ist die Basis für beides."
+          },
+          "correct": false,
+          "why": {
+            "en": "Model router only picks a model per prompt; the base layer under both RAG and fine-tuning is prompt engineering.",
+            "de": "Model Router wählt nur pro Prompt ein Modell; die Basisschicht unter RAG und Fine-Tuning ist Prompt Engineering."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Context (RAG) when format, style or tone must stay consistent; model (fine-tuning) when knowledge is missing; model router underpins both.",
+            "de": "Kontext (RAG), wenn Format, Stil oder Ton konsistent bleiben müssen; Modell (Fine-Tuning), wenn Wissen fehlt; Model Router ist die Basis für beides."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: missing knowledge calls for RAG and consistency for fine-tuning, and prompt engineering, not model router, underpins both.",
+            "de": "Doppelt falsch: Fehlendes Wissen verlangt RAG und Konsistenz Fine-Tuning, und die Basis für beides ist Prompt Engineering, nicht Model Router."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Context (RAG) when knowledge is missing; model (fine-tuning) when format, style or tone must stay consistent; prompt engineering underpins both.",
+            "de": "Kontext (RAG), wenn Wissen fehlt; Modell (Fine-Tuning), wenn Format, Stil oder Ton konsistent bleiben müssen; Prompt Engineering ist die Basis für beides."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the two directions solve different problems, both rest on good prompts, and you can combine them.",
+            "de": "Korrekt: Die beiden Richtungen lösen verschiedene Probleme, beide bauen auf guten Prompts auf, und du kannst sie kombinieren."
+          }
+        }
+      ]
     }
   ]
 }

@@ -10,9 +10,59 @@
         "de": "Was geht in ein GPT-image-Modell hinein und was heraus, und welche dieser Modelle sind heute allgemein verfügbar?"
       },
       "back": {
-        "en": "Azure OpenAI image models: text and images in, image out. Generally available today: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare and gpt-image-2.5-sunburst. `dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired; gpt-image-1.5 retires on December 16, 2026.",
-        "de": "Azure-OpenAI-Bildmodelle: Text und Bilder rein, Bild raus. Heute allgemein verfügbar: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare und gpt-image-2.5-sunburst. `dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt; gpt-image-1.5 wird am 16. Dezember 2026 eingestellt."
-      }
+        "en": "Azure OpenAI image models: text and images in, image out. Generally available today: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare and gpt-image-2.5-sunburst, plus gpt-image-1.5 until it retires on December 16, 2026. `dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired.",
+        "de": "Azure-OpenAI-Bildmodelle: Text und Bilder rein, Bild raus. Heute allgemein verfügbar: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare und gpt-image-2.5-sunburst, dazu gpt-image-1.5 bis zu seiner Einstellung am 16. Dezember 2026. `dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt."
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text only in, an image out; GA today: gpt-image-1-mini, gpt-image-2, both gpt-image-2.5 models and, until December 16, 2026, gpt-image-1.5.",
+            "de": "Nur Text rein, Bild raus; heute GA: gpt-image-1-mini, gpt-image-2, beide gpt-image-2.5-Modelle und bis zum 16. Dezember 2026 gpt-image-1.5."
+          },
+          "correct": false,
+          "why": {
+            "en": "The model list is right, but GPT-image models also take input images; that's what `images.edit()` is for.",
+            "de": "Die Modellliste stimmt, aber GPT-image-Modelle nehmen auch Eingabebilder; genau dafür gibt es `images.edit()`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text and images in, an image out; GA today: gpt-image-1-mini, gpt-image-2, both gpt-image-2.5 models and, until December 16, 2026, gpt-image-1.5.",
+            "de": "Text und Bilder rein, Bild raus; heute GA: gpt-image-1-mini, gpt-image-2, beide gpt-image-2.5-Modelle und bis zum 16. Dezember 2026 gpt-image-1.5."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a prompt and optional input images go in, a new image comes out, and these five models are GA today; gpt-image-1.5 only until it retires on December 16, 2026.",
+            "de": "Korrekt: Prompt und optionale Eingabebilder gehen rein, ein neues Bild kommt raus, und diese fünf Modelle sind heute GA – gpt-image-1.5 nur bis zu seiner Einstellung am 16. Dezember 2026."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Text and images in, an image out; GA today: gpt-image-1-mini, gpt-image-2, both gpt-image-2.5 models and, until December 16, 2026, `dall-e-3`.",
+            "de": "Text und Bilder rein, Bild raus; heute GA: gpt-image-1-mini, gpt-image-2, beide gpt-image-2.5-Modelle und bis zum 16. Dezember 2026 `dall-e-3`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Not `dall-e-3`: it retired on March 4, 2026; the model that stays GA until December 16, 2026 is gpt-image-1.5.",
+            "de": "Nicht `dall-e-3`: Es wurde am 4. März 2026 eingestellt; bis zum 16. Dezember 2026 bleibt gpt-image-1.5 GA."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text only in, an image out; GA today: gpt-image-1-mini, gpt-image-2, both gpt-image-2.5 models and, until December 16, 2026, `dall-e-3`.",
+            "de": "Nur Text rein, Bild raus; heute GA: gpt-image-1-mini, gpt-image-2, beide gpt-image-2.5-Modelle und bis zum 16. Dezember 2026 `dall-e-3`."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: GPT-image models also take input images (`images.edit()`), and `dall-e-3` retired on March 4, 2026; gpt-image-1.5 is the one GA until December 16, 2026.",
+            "de": "Doppelt falsch: GPT-image-Modelle nehmen auch Eingabebilder (`images.edit()`), und `dall-e-3` wurde am 4. März 2026 eingestellt; bis zum 16. Dezember 2026 ist gpt-image-1.5 GA."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-2",
@@ -20,7 +70,57 @@
       "front": {
         "en": "When do you pick a FLUX model, and what must you add yourself because Foundry doesn't provide it?",
         "de": "Wann wählst du ein FLUX-Modell, und was musst du selbst ergänzen, weil Foundry es nicht mitbringt?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "For multi-reference edits, character consistency or fast, low-cost images; nothing, since the default guardrail filters FLUX just like GPT-image.",
+            "de": "Für Multi-Referenz-Bearbeitung, Figurentreue oder schnelle, günstige Bilder; nichts, denn die Standard-Guardrail filtert FLUX genau wie GPT-image."
+          },
+          "correct": false,
+          "why": {
+            "en": "Foundry provides no built-in content filtering for FLUX models, so you configure content safety in your app, for example Azure AI Content Safety.",
+            "de": "Foundry bringt für FLUX-Modelle keine eingebaute Inhaltsfilterung mit, du richtest Inhaltssicherheit also selbst in deiner App ein, etwa Azure AI Content Safety."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only for plain text-to-image, as FLUX models take no input images at all; you add content safety yourself, e.g. Azure AI Content Safety.",
+            "de": "Nur für reines Text-zu-Bild, weil FLUX-Modelle gar keine Eingabebilder nehmen; Inhaltssicherheit wie Azure AI Content Safety ergänzt du selbst."
+          },
+          "correct": false,
+          "why": {
+            "en": "FLUX does take images: FLUX.2 [pro] accepts up to 8 reference images, FLUX.2 [flex] up to 10, and FLUX.1 Kontext [pro] works with `images.edit`.",
+            "de": "FLUX nimmt sehr wohl Bilder: FLUX.2 [pro] akzeptiert bis zu 8 Referenzbilder, FLUX.2 [flex] bis zu 10, und FLUX.1 Kontext [pro] funktioniert mit `images.edit`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "For multi-reference edits, character consistency or fast, low-cost images; you add content safety yourself, e.g. Azure AI Content Safety.",
+            "de": "Für Multi-Referenz-Bearbeitung, Figurentreue oder schnelle, günstige Bilder; Inhaltssicherheit wie Azure AI Content Safety ergänzt du selbst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: these are FLUX's strengths, and because Foundry has no built-in content filtering for FLUX, safety checks are your app's job.",
+            "de": "Richtig: Das sind die Stärken von FLUX, und weil Foundry für FLUX keine eingebaute Inhaltsfilterung hat, ist die Sicherheitsprüfung Aufgabe deiner App."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only for plain text-to-image, as FLUX models take no input images at all; nothing, since the default guardrail filters FLUX just like GPT-image.",
+            "de": "Nur für reines Text-zu-Bild, weil FLUX-Modelle gar keine Eingabebilder nehmen; nichts, denn die Standard-Guardrail filtert FLUX genau wie GPT-image."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: FLUX handles multi-reference and character-consistent edits, and Foundry has no built-in content filtering for FLUX, so you add content safety yourself.",
+            "de": "Doppelt falsch: FLUX beherrscht Bearbeitung mit mehreren Referenzen und Figurentreue, und Foundry hat für FLUX keine eingebaute Inhaltsfilterung – Inhaltssicherheit ergänzt du selbst."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-3",
@@ -28,7 +128,57 @@
       "front": {
         "en": "How many images can `images.generate()` return, what does `images.edit()` take, and how does a `mask` work?",
         "de": "Wie viele Bilder liefert `images.generate()`, was nimmt `images.edit()` entgegen, und wie funktioniert eine `mask`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Exactly one image; a single input image only, plus a prompt; a same-size PNG mask whose transparent pixels mark the area to repaint in the first image.",
+            "de": "Genau ein Bild; nur ein einziges Eingabebild plus Prompt; eine gleich große PNG-Maske, deren transparente Pixel im ersten Bild den Bearbeitungsbereich markieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `images.generate()` returns 1–10 images per call, and `images.edit()` accepts one or more input images.",
+            "de": "Zwei Fehler: `images.generate()` liefert 1–10 Bilder pro Aufruf, und `images.edit()` akzeptiert ein oder mehrere Eingabebilder."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "1–10 images; a single input image only, plus a prompt; a mask of any size whose black pixels mark the area to repaint.",
+            "de": "1–10 Bilder; nur ein einziges Eingabebild plus Prompt; eine Maske beliebiger Größe, deren schwarze Pixel den Bearbeitungsbereich markieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `images.edit()` accepts one or more input images, and the mask is a same-size PNG whose fully transparent pixels mark the area.",
+            "de": "Zwei Fehler: `images.edit()` akzeptiert ein oder mehrere Eingabebilder, und die Maske ist ein gleich großes PNG, dessen vollständig transparente Pixel den Bereich markieren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Exactly one image; one or more input images plus a prompt; a mask of any size whose black pixels mark the area to repaint.",
+            "de": "Genau ein Bild; ein oder mehrere Eingabebilder plus Prompt; eine Maske beliebiger Größe, deren schwarze Pixel den Bearbeitungsbereich markieren."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `images.generate()` returns 1–10 images per call, and the mask is a same-size PNG whose fully transparent pixels mark the area.",
+            "de": "Zwei Fehler: `images.generate()` liefert 1–10 Bilder pro Aufruf, und die Maske ist ein gleich großes PNG, dessen vollständig transparente Pixel den Bereich markieren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "1–10 images; one or more input images plus a prompt; a same-size PNG mask whose transparent pixels mark the area to repaint in the first image.",
+            "de": "1–10 Bilder; ein oder mehrere Eingabebilder plus Prompt; eine gleich große PNG-Maske, deren transparente Pixel im ersten Bild den Bearbeitungsbereich markieren."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: generate returns up to 10 images, edit takes images plus a prompt as a multipart upload, and the mask applies to the first image.",
+            "de": "Korrekt: generate liefert bis zu 10 Bilder, edit nimmt Bilder plus Prompt als Multipart-Upload, und die Maske gilt für das erste Bild."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-4",
@@ -40,7 +190,57 @@
       "back": {
         "en": "`n` sets 1–10 images per call, `output_format` picks PNG (default) or JPEG, `output_compression` (0–100) sets the JPEG compression level, and `stream=True` with `partial_images` returns preview images while the image renders — it improves perceived latency only. Sizes, quality levels and transparency differ per model.",
         "de": "`n` legt 1–10 Bilder pro Aufruf fest, `output_format` wählt PNG (Standard) oder JPEG, `output_compression` (0–100) setzt die JPEG-Kompressionsstufe, und `stream=True` mit `partial_images` liefert Vorschaubilder während des Renderns – das verbessert nur die gefühlte Wartezeit. Größen, Qualitätsstufen und Transparenz unterscheiden sich je Modell."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`n`: 1–10 images per call; `output_format`: PNG (default) or JPEG; `output_compression`: JPEG level 0–100; `partial_images`: previews while rendering.",
+            "de": "`n`: 1–10 Bilder pro Aufruf; `output_format`: PNG (Standard) oder JPEG; `output_compression`: JPEG-Stufe 0–100; `partial_images`: Vorschauen beim Rendern."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: with `stream=True`, `partial_images` sends previews while the image renders, which only improves perceived latency.",
+            "de": "Richtig: Mit `stream=True` schickt `partial_images` Vorschauen während des Renderns, das verbessert nur die gefühlte Wartezeit."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`n`: number of edit rounds per call; `output_format`: PNG (default) or JPEG; `output_compression`: PNG transparency 0–100; `partial_images`: previews while rendering.",
+            "de": "`n`: Anzahl der Bearbeitungsrunden pro Aufruf; `output_format`: PNG (Standard) oder JPEG; `output_compression`: PNG-Transparenz 0–100; `partial_images`: Vorschauen beim Rendern."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `n` sets how many images a call returns (1–10), and `output_compression` sets the JPEG compression level (0–100).",
+            "de": "Zwei Fehler: `n` legt fest, wie viele Bilder ein Aufruf liefert (1–10), und `output_compression` setzt die JPEG-Kompressionsstufe (0–100)."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`n`: 1–10 images per call; `output_format`: PNG (default) or JPEG; `output_compression`: PNG transparency 0–100; `partial_images`: faster final rendering.",
+            "de": "`n`: 1–10 Bilder pro Aufruf; `output_format`: PNG (Standard) oder JPEG; `output_compression`: PNG-Transparenz 0–100; `partial_images`: schnelleres finales Rendern."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `output_compression` sets the JPEG compression level, and partial images are previews that only improve perceived latency.",
+            "de": "Zwei Fehler: `output_compression` setzt die JPEG-Kompressionsstufe, und Partial Images sind Vorschauen, die nur die gefühlte Wartezeit verbessern."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`n`: number of edit rounds per call; `output_format`: PNG (default) or JPEG; `output_compression`: JPEG level 0–100; `partial_images`: faster final rendering.",
+            "de": "`n`: Anzahl der Bearbeitungsrunden pro Aufruf; `output_format`: PNG (Standard) oder JPEG; `output_compression`: JPEG-Stufe 0–100; `partial_images`: schnelleres finales Rendern."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: `n` sets how many images a call returns (1–10), and partial images only improve perceived latency; the final image doesn't arrive sooner.",
+            "de": "Zwei Fehler: `n` legt fest, wie viele Bilder ein Aufruf liefert (1–10), und Partial Images verbessern nur die gefühlte Wartezeit; das finale Bild kommt nicht früher."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-5",
@@ -48,7 +248,57 @@
       "front": {
         "en": "What does the default guardrail screen in image prompts and generated images, and what happens when it blocks?",
         "de": "Was prüft die Standard-Guardrail in Bild-Prompts und erzeugten Bildern, und was passiert, wenn sie blockiert?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only the prompt, for hate, sexual, violence and self-harm; blocks return errors.",
+            "de": "Nur den Prompt auf Hass, sexuelle Inhalte, Gewalt und Selbstverletzung; Blocks liefern Fehler."
+          },
+          "correct": false,
+          "why": {
+            "en": "The error part is right, but generated images are screened too, and prompts are also checked for public figures, studio characters, profanity and jailbreaks.",
+            "de": "Der Fehler-Teil stimmt, aber auch erzeugte Bilder werden geprüft, und Prompts zusätzlich auf Prominente, Studio-Figuren, Obszönitäten und Jailbreaks."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Hate, sexual, violence, self-harm in both; public figures, political deception, studio characters, profanity, jailbreaks in prompts; blocks return errors.",
+            "de": "Hass, sexuelle Inhalte, Gewalt, Selbstverletzung in beiden; Prominente, politische Täuschung, Studio-Figuren, Obszönitäten, Jailbreaks in Prompts; Blocks liefern Fehler."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the four harm categories use a medium threshold, a blocked prompt fails before generation, and a filtered result returns an error instead of the image.",
+            "de": "Korrekt: Die vier Schadenskategorien nutzen die Schwelle Medium, ein blockierter Prompt scheitert vor der Generierung, und ein gefiltertes Ergebnis liefert statt des Bildes einen Fehler."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the prompt, for hate, sexual, violence and self-harm; blocks return an empty `data` list.",
+            "de": "Nur den Prompt auf Hass, sexuelle Inhalte, Gewalt und Selbstverletzung; Blocks liefern eine leere `data`-Liste."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: generated images are screened too, and a blocked prompt or filtered image comes back as an error, not an empty list.",
+            "de": "Doppelt falsch: Auch erzeugte Bilder werden geprüft, und ein blockierter Prompt oder ein gefiltertes Bild kommt als Fehler zurück, nicht als leere Liste."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Hate, sexual, violence, self-harm in both; public figures, political deception, studio characters, profanity, jailbreaks in prompts; blocks return an empty `data` list.",
+            "de": "Hass, sexuelle Inhalte, Gewalt, Selbstverletzung in beiden; Prominente, politische Täuschung, Studio-Figuren, Obszönitäten, Jailbreaks in Prompts; Blocks liefern eine leere `data`-Liste."
+          },
+          "correct": false,
+          "why": {
+            "en": "The categories are right, but blocks aren't silent: a blocked prompt or a filtered image comes back as an error that your app must handle.",
+            "de": "Die Kategorien stimmen, aber Blocks sind nicht still: Ein blockierter Prompt oder ein gefiltertes Bild kommt als Fehler zurück, den deine App behandeln muss."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-6",
@@ -56,7 +306,57 @@
       "front": {
         "en": "What is a custom blocklist, where do you create it, and what do you attach it to?",
         "de": "Was ist eine eigene Blockliste, wo legst du sie an, und woran hängst du sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Your own terms or regex patterns, e.g. competitor brands; made in Foundry under Guardrails → Blocklists, attached to a guardrail's input or output filter.",
+            "de": "Eigene Begriffe oder Regex-Muster, etwa Konkurrenzmarken; in Foundry unter Guardrails → Blocklists angelegt, an Eingabe- oder Ausgabefilter einer Guardrail gehängt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: it covers what the default guardrail can't know, such as your brand rules, and works through the guardrail on your Azure OpenAI deployment.",
+            "de": "Korrekt: Sie deckt ab, was die Standard-Guardrail nicht kennen kann, etwa deine Markenregeln, und wirkt über die Guardrail deines Azure-OpenAI-Deployments."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Your own allowlist of approved terms that blocks every other word; written into the system message and sent along with every prompt.",
+            "de": "Eine eigene Allowlist erlaubter Begriffe, die jedes andere Wort blockiert; in die Systemnachricht geschrieben und mit jedem Prompt mitgeschickt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a blocklist names terms to block rather than allowing only some, and it's a guardrail filter you attach in Foundry, not prompt text.",
+            "de": "Doppelt falsch: Eine Blockliste nennt zu blockierende Begriffe, statt nur bestimmte zu erlauben, und sie ist ein Guardrail-Filter, den du in Foundry anhängst, kein Prompt-Text."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Your own allowlist of approved terms that blocks every other word; made in Foundry under Guardrails → Blocklists, attached to a guardrail's input or output filter.",
+            "de": "Eine eigene Allowlist erlaubter Begriffe, die jedes andere Wort blockiert; in Foundry unter Guardrails → Blocklists angelegt, an Eingabe- oder Ausgabefilter einer Guardrail gehängt."
+          },
+          "correct": false,
+          "why": {
+            "en": "It works the other way round: a blocklist names the terms to block, as exact words or regex patterns; it doesn't limit prompts to approved words.",
+            "de": "Es ist andersherum: Eine Blockliste nennt die Begriffe, die blockiert werden, als exakte Wörter oder Regex-Muster; sie beschränkt Prompts nicht auf erlaubte Wörter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Your own terms or regex patterns, e.g. competitor brands; written into the system message and sent along with every prompt.",
+            "de": "Eigene Begriffe oder Regex-Muster, etwa Konkurrenzmarken; in die Systemnachricht geschrieben und mit jedem Prompt mitgeschickt."
+          },
+          "correct": false,
+          "why": {
+            "en": "A blocklist isn't prompt text: you create it in the Foundry portal under Guardrails → Blocklists and attach it to a guardrail's input or output filter.",
+            "de": "Eine Blockliste ist kein Prompt-Text: Du legst sie im Foundry-Portal unter Guardrails → Blocklists an und hängst sie an den Eingabe- oder Ausgabefilter einer Guardrail."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-concept-7",
@@ -64,7 +364,57 @@
       "front": {
         "en": "What do C2PA Content Credentials record, and how can you verify them on a generated image?",
         "de": "Was halten C2PA-Content-Credentials fest, und wie prüfst du sie bei einem erzeugten Bild?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An unsigned text tag that anyone can edit without a trace; you check it by running the image through the output filter.",
+            "de": "Ein unsigniertes Text-Tag, das jeder spurlos ändern kann; du prüfst es, indem du das Bild durch den Ausgabefilter schickst."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the manifest is cryptographically signed, and you check it with the Content Provenance Detection API or website, not a content filter.",
+            "de": "Doppelt falsch: Das Manifest ist kryptografisch signiert, und du prüfst es mit der Content Provenance Detection API oder Website, nicht mit einem Inhaltsfilter."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A signed manifest: the image is AI-generated, by which service and when; you check it by running the image through the output filter.",
+            "de": "Ein signiertes Manifest: dass das Bild KI-generiert ist, von welchem Dienst und wann; du prüfst es, indem du das Bild durch den Ausgabefilter schickst."
+          },
+          "correct": false,
+          "why": {
+            "en": "The output filter screens content for harm; provenance is checked with the Content Provenance Detection API or website.",
+            "de": "Der Ausgabefilter prüft Inhalte auf Schaden; den Herkunftsnachweis prüfst du mit der Content Provenance Detection API oder Website."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "An unsigned text tag that anyone can edit without a trace; you check it with the Content Provenance Detection API or website.",
+            "de": "Ein unsigniertes Text-Tag, das jeder spurlos ändern kann; du prüfst es mit der Content Provenance Detection API oder Website."
+          },
+          "correct": false,
+          "why": {
+            "en": "The tools are right, but the manifest is cryptographically signed, so recipients can verify it wasn't altered after creation.",
+            "de": "Die Werkzeuge stimmen, aber das Manifest ist kryptografisch signiert, sodass Empfänger prüfen können, dass es nach der Erstellung nicht verändert wurde."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A signed manifest: the image is AI-generated, by which service and when; you check it with the Content Provenance Detection API or website.",
+            "de": "Ein signiertes Manifest: dass das Bild KI-generiert ist, von welchem Dienst und wann; du prüfst es mit der Content Provenance Detection API oder Website."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the C2PA manifest records AI origin, service and time, and the free detection API or website reads it along with Microsoft's invisible watermarks.",
+            "de": "Richtig: Das C2PA-Manifest hält KI-Herkunft, Dienst und Zeitpunkt fest, und die kostenlose Detection API oder Website liest es, ebenso Microsofts unsichtbare Wasserzeichen."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-trap-1",
@@ -76,7 +426,57 @@
       "back": {
         "en": "`dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired, and gpt-image-1.5 retires on December 16, 2026. Build on gpt-image-2, gpt-image-1-mini or the gpt-image-2.5 models.",
         "de": "`dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt, gpt-image-1.5 folgt am 16. Dezember 2026. Setze auf gpt-image-2, gpt-image-1-mini oder die gpt-image-2.5-Modelle."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`dall-e-3` and gpt-image-1 are retired, gpt-image-1.5 retires December 16, 2026; build on gpt-image-2 only, as both gpt-image-2.5 models are previews.",
+            "de": "`dall-e-3` und gpt-image-1 sind eingestellt, gpt-image-1.5 folgt am 16. Dezember 2026; setze nur auf gpt-image-2, weil beide gpt-image-2.5-Modelle Preview sind."
+          },
+          "correct": false,
+          "why": {
+            "en": "The retirement dates are right, but gpt-image-2.5-flare and gpt-image-2.5-sunburst are GA, and gpt-image-1-mini is a current choice too.",
+            "de": "Die Einstellungsdaten stimmen, aber gpt-image-2.5-flare und gpt-image-2.5-sunburst sind GA, und auch gpt-image-1-mini ist eine aktuelle Wahl."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`dall-e-3`, gpt-image-1 and gpt-image-1-mini are retired; build on gpt-image-2 only, as both gpt-image-2.5 models are previews.",
+            "de": "`dall-e-3`, gpt-image-1 und gpt-image-1-mini sind eingestellt; setze nur auf gpt-image-2, weil beide gpt-image-2.5-Modelle Preview sind."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: gpt-image-1-mini isn't retired (it runs until April 7, 2027), and both gpt-image-2.5 models are GA too.",
+            "de": "Zwei Fehler: gpt-image-1-mini ist nicht eingestellt (es läuft bis 7. April 2027), und beide gpt-image-2.5-Modelle sind ebenfalls GA."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`dall-e-3` and gpt-image-1 are retired, gpt-image-1.5 retires December 16, 2026; build on gpt-image-2, gpt-image-1-mini or the gpt-image-2.5 models.",
+            "de": "`dall-e-3` und gpt-image-1 sind eingestellt, gpt-image-1.5 folgt am 16. Dezember 2026; setze auf gpt-image-2, gpt-image-1-mini oder die gpt-image-2.5-Modelle."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `dall-e-3` retired on March 4 and gpt-image-1 on October 23, 2026; gpt-image-2, gpt-image-1-mini and the gpt-image-2.5 models are GA.",
+            "de": "Korrekt: `dall-e-3` wurde am 4. März und gpt-image-1 am 23. Oktober 2026 eingestellt; gpt-image-2, gpt-image-1-mini und die gpt-image-2.5-Modelle sind GA."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`dall-e-3` and gpt-image-1 are retired, and gpt-image-2 retires December 16, 2026; build on gpt-image-1.5 for the long term.",
+            "de": "`dall-e-3` und gpt-image-1 sind eingestellt, gpt-image-2 folgt am 16. Dezember 2026; setze langfristig auf gpt-image-1.5."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: gpt-image-1.5 is the model retiring on December 16, 2026, while gpt-image-2 stays GA until October 21, 2027.",
+            "de": "Vertauscht: gpt-image-1.5 wird am 16. Dezember 2026 eingestellt, gpt-image-2 bleibt bis 21. Oktober 2027 GA."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-trap-2",
@@ -88,7 +488,57 @@
       "back": {
         "en": "Base64 only (`b64_json`). `response_format` isn't supported, so there is no image URL to download.",
         "de": "Nur Base64 (`b64_json`). `response_format` wird nicht unterstützt – es gibt also keine Bild-URL zum Herunterladen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Base64 only, in `b64_json`; there's no URL option, so you decode the bytes and store them yourself.",
+            "de": "Nur Base64, in `b64_json`; eine URL-Option gibt es nicht, also dekodierst du die Bytes und speicherst sie selbst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: these models return base64 only and offer no URL option, so your app writes the decoded bytes to a file or storage itself.",
+            "de": "Richtig: Diese Modelle liefern nur Base64 und keine URL-Option, also schreibt deine App die dekodierten Bytes selbst in eine Datei oder einen Speicher."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Base64 by default; set `response_format=\"url\"` and the response carries a temporary download link instead.",
+            "de": "Standardmäßig Base64; setz `response_format=\"url\"`, dann enthält die Antwort stattdessen einen temporären Download-Link."
+          },
+          "correct": false,
+          "why": {
+            "en": "`response_format` isn't supported on gpt-image-1-mini or gpt-image-2, so no setting turns the base64 into a URL.",
+            "de": "`response_format` wird bei gpt-image-1-mini und gpt-image-2 nicht unterstützt, keine Einstellung macht also aus Base64 eine URL."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "An image URL by default; read it from `data[0].url` and download the file from there.",
+            "de": "Standardmäßig eine Bild-URL; lies sie aus `data[0].url` und lade die Datei von dort herunter."
+          },
+          "correct": false,
+          "why": {
+            "en": "That's how FLUX models answer through the Images API; gpt-image-1-mini and gpt-image-2 return base64 in `b64_json` only.",
+            "de": "So antworten FLUX-Modelle über die Images API; gpt-image-1-mini und gpt-image-2 liefern nur Base64 in `b64_json`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Base64 in `b64_json`; set `output_format=\"url\"` and the response switches to a download link.",
+            "de": "Base64 in `b64_json`; setz `output_format=\"url\"`, dann wechselt die Antwort zu einem Download-Link."
+          },
+          "correct": false,
+          "why": {
+            "en": "`output_format` only picks the file type, PNG (default) or JPEG; there's no URL option for these models.",
+            "de": "`output_format` wählt nur den Dateityp, PNG (Standard) oder JPEG; eine URL-Option gibt es bei diesen Modellen nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-trap-3",
@@ -100,7 +550,57 @@
       "back": {
         "en": "Transparent pixels mark the edit area — not black or white ones. The mask must be a PNG with the same dimensions as the image.",
         "de": "Transparente Pixel markieren den Bearbeitungsbereich – nicht schwarze oder weiße. Die Maske muss ein PNG mit denselben Abmessungen wie das Bild sein."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Black pixels; a PNG with the same dimensions as the image.",
+            "de": "Schwarze Pixel; ein PNG mit denselben Abmessungen wie das Bild."
+          },
+          "correct": false,
+          "why": {
+            "en": "Not black: fully transparent pixels mark the area to edit, and everything else in the image is kept.",
+            "de": "Nicht schwarz: Vollständig transparente Pixel markieren den Bearbeitungsbereich, alles andere im Bild bleibt erhalten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Fully transparent pixels; a PNG with the same dimensions as the image.",
+            "de": "Vollständig transparente Pixel; ein PNG mit denselben Abmessungen wie das Bild."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: transparency marks the edit area, so the mask must be a PNG, sized exactly like the image it applies to.",
+            "de": "Korrekt: Transparenz markiert den Bearbeitungsbereich, die Maske muss also ein PNG sein, genau so groß wie das Bild, für das sie gilt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Black pixels; a JPEG the same size as the image.",
+            "de": "Schwarze Pixel; ein JPEG in derselben Größe wie das Bild."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: fully transparent pixels mark the area, and the mask must be a PNG, because a JPEG can't store transparency.",
+            "de": "Doppelt falsch: Vollständig transparente Pixel markieren den Bereich, und die Maske muss ein PNG sein, weil ein JPEG keine Transparenz speichern kann."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Fully transparent pixels; a JPEG the same size as the image.",
+            "de": "Vollständig transparente Pixel; ein JPEG in derselben Größe wie das Bild."
+          },
+          "correct": false,
+          "why": {
+            "en": "A JPEG can't store transparency, so the mask must be a PNG with the same dimensions as the image.",
+            "de": "Ein JPEG kann keine Transparenz speichern, die Maske muss also ein PNG mit denselben Abmessungen wie das Bild sein."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-trap-4",
@@ -112,7 +612,57 @@
       "back": {
         "en": "It needs `output_format=\"png\"`, because a JPEG can't store transparency. On gpt-image-2, transparent backgrounds are still in preview.",
         "de": "Es braucht `output_format=\"png\"`, denn ein JPEG kann keine Transparenz speichern. Bei gpt-image-2 sind transparente Hintergründe noch Preview."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`output_format=\"png\"`, since a JPEG can't store transparency; it's GA on gpt-image-2.",
+            "de": "`output_format=\"png\"`, weil ein JPEG keine Transparenz speichern kann; bei gpt-image-2 ist es GA."
+          },
+          "correct": false,
+          "why": {
+            "en": "The PNG part is right, but on gpt-image-2 transparent backgrounds are still in preview; gpt-image-1-mini and the gpt-image-2.5 models support them.",
+            "de": "Der PNG-Teil stimmt, aber bei gpt-image-2 sind transparente Hintergründe noch Preview; gpt-image-1-mini und die gpt-image-2.5-Modelle unterstützen sie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`output_format=\"jpeg\"` with `output_compression` set to 0; on gpt-image-2 it's still in preview.",
+            "de": "`output_format=\"jpeg\"` mit `output_compression` auf 0; bei gpt-image-2 ist es noch Preview."
+          },
+          "correct": false,
+          "why": {
+            "en": "A JPEG can't store transparency at any compression level; transparent backgrounds need `output_format=\"png\"`.",
+            "de": "Ein JPEG kann bei keiner Kompressionsstufe Transparenz speichern; transparente Hintergründe brauchen `output_format=\"png\"`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`output_format=\"jpeg\"` with `output_compression` set to 0; it's GA on gpt-image-2.",
+            "de": "`output_format=\"jpeg\"` mit `output_compression` auf 0; bei gpt-image-2 ist es GA."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: transparency needs PNG output because a JPEG can't store it, and on gpt-image-2 transparent backgrounds are still in preview.",
+            "de": "Doppelt falsch: Transparenz braucht PNG-Ausgabe, weil ein JPEG sie nicht speichern kann, und bei gpt-image-2 sind transparente Hintergründe noch Preview."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`output_format=\"png\"`, since a JPEG can't store transparency; on gpt-image-2 it's still in preview.",
+            "de": "`output_format=\"png\"`, weil ein JPEG keine Transparenz speichern kann; bei gpt-image-2 ist es noch Preview."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: transparency needs PNG output, and gpt-image-2 offers transparent backgrounds only as a preview so far.",
+            "de": "Korrekt: Transparenz braucht PNG-Ausgabe, und gpt-image-2 bietet transparente Hintergründe bisher nur als Preview."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-trap-5",
@@ -124,7 +674,57 @@
       "back": {
         "en": "Content Credentials live in the file metadata, and cropping, resizing or converting a generated image can strip them. Verify the file you actually publish.",
         "de": "Content Credentials stecken in den Dateimetadaten: Zuschneiden, Skalieren oder Konvertieren kann sie entfernen. Prüfe also die Datei, die du tatsächlich veröffentlichst."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They sit in the file metadata, which cropping, resizing or converting can strip; verify the original file the API returned.",
+            "de": "Sie stecken in den Dateimetadaten, die Zuschneiden, Skalieren oder Konvertieren entfernen kann; prüfe die Originaldatei, die die API zurückgegeben hat."
+          },
+          "correct": false,
+          "why": {
+            "en": "The cause is right, but the original says nothing about the published copy; verify the file you actually publish, after all processing.",
+            "de": "Die Ursache stimmt, aber das Original sagt nichts über die veröffentlichte Kopie; prüfe die Datei, die du nach aller Bearbeitung tatsächlich veröffentlichst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They're stored on Microsoft's servers instead of in the file, so broken links lose them for good; verify the file you actually publish.",
+            "de": "Sie liegen auf Microsofts Servern statt in der Datei und gehen bei kaputten Links ganz verloren; prüfe die Datei, die du tatsächlich veröffentlichst."
+          },
+          "correct": false,
+          "why": {
+            "en": "The check is right, but Content Credentials live in the file's own metadata, which post-processing can strip; they aren't stored on servers.",
+            "de": "Die Prüfung stimmt, aber Content Credentials stecken in den Metadaten der Datei selbst, die Nachbearbeitung entfernen kann; auf Servern liegen sie nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They sit in the file metadata, which cropping, resizing or converting can strip; verify the file you actually publish.",
+            "de": "Sie stecken in den Dateimetadaten, die Zuschneiden, Skalieren oder Konvertieren entfernen kann; prüfe die Datei, die du tatsächlich veröffentlichst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: post-processing can drop the metadata, so only a check of the final published file tells you whether the credentials survived.",
+            "de": "Richtig: Nachbearbeitung kann die Metadaten entfernen, nur eine Prüfung der final veröffentlichten Datei zeigt also, ob die Credentials erhalten sind."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They're stored on Microsoft's servers instead of in the file, so broken links lose them for good; verify the original file the API returned.",
+            "de": "Sie liegen auf Microsofts Servern statt in der Datei und gehen bei kaputten Links ganz verloren; prüfe die Originaldatei, die die API zurückgegeben hat."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Content Credentials live in the file metadata, and only a check of the file you publish shows whether processing stripped them.",
+            "de": "Doppelt falsch: Content Credentials stecken in den Dateimetadaten, und nur eine Prüfung der veröffentlichten Datei zeigt, ob die Bearbeitung sie entfernt hat."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-takeaway-1",
@@ -136,7 +736,57 @@
       "back": {
         "en": "Text only → images.generate; input images → images.edit; one area only → add a mask.",
         "de": "Nur Text → images.generate; Eingabebilder → images.edit; nur ein Bereich → Maske dazu."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text only → `images.edit`; input images → `images.generate`; one area only → add a mask.",
+            "de": "Nur Text → `images.edit`; Eingabebilder → `images.generate`; nur ein Bereich → Maske dazu."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `images.generate` turns text into images, and `images.edit` is the call that takes input images.",
+            "de": "Vertauscht: `images.generate` macht aus Text Bilder, und `images.edit` ist der Aufruf, der Eingabebilder nimmt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text only → `images.generate`; input images → `images.generate` too; one area only → set `background=\"transparent\"`.",
+            "de": "Nur Text → `images.generate`; Eingabebilder → ebenfalls `images.generate`; nur ein Bereich → `background=\"transparent\"` setzen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: input images go to `images.edit()`, and `background=\"transparent\"` only makes the output's background transparent; a mask limits a change to one area.",
+            "de": "Zwei Fehler: Eingabebilder gehen an `images.edit()`, und `background=\"transparent\"` macht nur den Hintergrund der Ausgabe transparent; eine Maske begrenzt die Änderung auf einen Bereich."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Text only → `images.edit`; input images → `images.edit`; one area only → set `background=\"transparent\"`.",
+            "de": "Nur Text → `images.edit`; Eingabebilder → `images.edit`; nur ein Bereich → `background=\"transparent\"` setzen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two errors: text alone goes to `images.generate`, and `background=\"transparent\"` only gives the output a transparent background; one area takes a mask.",
+            "de": "Zwei Fehler: Reiner Text geht an `images.generate`, und `background=\"transparent\"` macht nur den Hintergrund der Ausgabe transparent; für einen Bereich brauchst du eine Maske."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text only → `images.generate`; input images → `images.edit`; one area only → add a mask.",
+            "de": "Nur Text → `images.generate`; Eingabebilder → `images.edit`; nur ein Bereich → Maske dazu."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: text alone goes to `images.generate`, input images go to `images.edit`, and a mask limits the change to one area.",
+            "de": "Korrekt: Reiner Text geht an `images.generate`, Eingabebilder gehen an `images.edit`, und eine Maske begrenzt die Änderung auf einen Bereich."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-takeaway-2",
@@ -148,7 +798,57 @@
       "back": {
         "en": "Pick controls per model: size, quality, n, output_format, background, input_fidelity.",
         "de": "Wähle Parameter passend zum Modell: size, quality, n, output_format, background, input_fidelity."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`size`, `quality`, `n`, `output_format`, `background` and `input_fidelity`, set once, because every image model accepts the same values.",
+            "de": "`size`, `quality`, `n`, `output_format`, `background` und `input_fidelity`, einmal gesetzt, weil jedes Bildmodell genau dieselben Werte akzeptiert."
+          },
+          "correct": false,
+          "why": {
+            "en": "Values differ per model: gpt-image-1-mini has three fixed sizes and no `input_fidelity`, while gpt-image-2 also accepts custom sizes.",
+            "de": "Die Werte unterscheiden sich je Modell: gpt-image-1-mini hat drei feste Größen und kein `input_fidelity`, gpt-image-2 akzeptiert auch eigene Größen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`size`, `quality`, `n`, `output_format`, `background` and `input_fidelity`, chosen per model because supported values differ.",
+            "de": "`size`, `quality`, `n`, `output_format`, `background` und `input_fidelity`, je Modell gewählt, weil die unterstützten Werte abweichen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: sizes, quality levels, transparency and face preservation vary by model, so match each control to the model you deploy.",
+            "de": "Richtig: Größen, Qualitätsstufen, Transparenz und Gesichtserhaltung variieren je Modell, also stimmst du jeden Parameter auf dein Modell ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`temperature`, `top_p`, `max_output_tokens` and `reasoning.effort`, chosen per model because supported values differ.",
+            "de": "`temperature`, `top_p`, `max_output_tokens` und `reasoning.effort`, je Modell gewählt, weil die unterstützten Werte abweichen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Those steer text models; image requests are shaped by `size`, `quality`, `n`, `output_format`, `background` and `input_fidelity`.",
+            "de": "Diese steuern Textmodelle; Bildanfragen formst du mit `size`, `quality`, `n`, `output_format`, `background` und `input_fidelity`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`temperature`, `top_p`, `max_output_tokens` and `reasoning.effort`, set once, because every image model accepts the same values.",
+            "de": "`temperature`, `top_p`, `max_output_tokens` und `reasoning.effort`, einmal gesetzt, weil jedes Bildmodell genau dieselben Werte akzeptiert."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: those steer text models, not image requests, and image controls such as `size` and `quality` differ per model.",
+            "de": "Doppelt falsch: Diese steuern Textmodelle, keine Bildanfragen, und Bildparameter wie `size` und `quality` unterscheiden sich je Modell."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-takeaway-3",
@@ -160,7 +860,57 @@
       "back": {
         "en": "Both filter outcomes: a blocked prompt and a filtered image.",
         "de": "Beide Filterergebnisse: blockierter Prompt und gefiltertes Bild."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A blocked prompt, where nothing is generated, and a filtered image that comes back blurred with a warning field.",
+            "de": "Ein blockierter Prompt, bei dem nichts erzeugt wird, und ein gefiltertes Bild, das weichgezeichnet mit einem Warnfeld zurückkommt."
+          },
+          "correct": false,
+          "why": {
+            "en": "A filtered image never comes back altered; the call returns an error instead of the image.",
+            "de": "Ein gefiltertes Bild kommt nie verändert zurück; der Aufruf liefert stattdessen einen Fehler."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A prompt the filter quietly rewrote into a safer version, and a filtered image that returns an error.",
+            "de": "Ein Prompt, den der Filter still in eine sicherere Version umgeschrieben hat, und ein gefiltertes Bild, das einen Fehler liefert."
+          },
+          "correct": false,
+          "why": {
+            "en": "No rewriting happens: the input filter lets a prompt through or blocks it, and a blocked prompt fails with an error before anything is generated.",
+            "de": "Umgeschrieben wird nichts: Der Eingabefilter lässt einen Prompt durch oder blockiert ihn, und ein blockierter Prompt scheitert mit einem Fehler, bevor etwas erzeugt wird."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A blocked prompt, where nothing is generated, and a filtered image, where you get an error instead.",
+            "de": "Ein blockierter Prompt, bei dem nichts erzeugt wird, und ein gefiltertes Bild, bei dem du stattdessen einen Fehler bekommst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: both arrive as errors, so the app must tell \"prompt blocked\" apart from \"image filtered\" and react to each.",
+            "de": "Korrekt: Beide kommen als Fehler, also muss die App „Prompt blockiert“ von „Bild gefiltert“ unterscheiden und auf beides reagieren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A prompt the filter quietly rewrote into a safer version, and a filtered image that comes back blurred with a warning field.",
+            "de": "Ein Prompt, den der Filter still in eine sicherere Version umgeschrieben hat, und ein gefiltertes Bild, das weichgezeichnet mit einem Warnfeld zurückkommt."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the input filter lets a prompt through or blocks it with an error, and a filtered image is replaced by an error, never returned altered.",
+            "de": "Doppelt falsch: Der Eingabefilter lässt einen Prompt durch oder blockiert ihn mit einem Fehler, und ein gefiltertes Bild wird durch einen Fehler ersetzt, nie verändert zurückgegeben."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-takeaway-4",
@@ -172,7 +922,57 @@
       "back": {
         "en": "Provenance = C2PA Content Credentials + invisible watermarks; verify after processing.",
         "de": "Herkunftsnachweis = C2PA-Content-Credentials + unsichtbare Wasserzeichen; nach der Bearbeitung prüfen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "C2PA Content Credentials plus invisible watermarks; verify after processing, on the file you publish.",
+            "de": "C2PA-Content-Credentials plus unsichtbare Wasserzeichen; prüfe nach der Bearbeitung, an der Datei, die du veröffentlichst."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the signed manifest lives in metadata that processing can strip, while watermarks may survive, so check the final file.",
+            "de": "Richtig: Das signierte Manifest steckt in Metadaten, die Bearbeitung entfernen kann, Wasserzeichen können bleiben; prüfe also die finale Datei."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "C2PA Content Credentials plus invisible watermarks; verify once right after generation, since editing can't remove them.",
+            "de": "C2PA-Content-Credentials plus unsichtbare Wasserzeichen; prüfe einmal direkt nach der Generierung, weil Bearbeitung sie nicht entfernen kann."
+          },
+          "correct": false,
+          "why": {
+            "en": "Processing can strip the metadata: cropping, resizing or converting can remove the Content Credentials, so verify after processing.",
+            "de": "Bearbeitung kann die Metadaten entfernen: Zuschneiden, Skalieren oder Konvertieren kann die Content Credentials löschen, prüfe also nach der Bearbeitung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The default guardrail plus a custom blocklist; verify after processing, on the file you publish.",
+            "de": "Die Standard-Guardrail plus eine eigene Blockliste; prüfe nach der Bearbeitung, an der Datei, die du veröffentlichst."
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are content filters that block harmful prompts and images; provenance comes from Content Credentials and watermarks.",
+            "de": "Das sind Inhaltsfilter, die schädliche Prompts und Bilder blockieren; den Herkunftsnachweis liefern Content Credentials und Wasserzeichen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The default guardrail plus a custom blocklist; verify once right after generation, since editing can't remove them.",
+            "de": "Die Standard-Guardrail plus eine eigene Blockliste; prüfe einmal direkt nach der Generierung, weil Bearbeitung sie nicht entfernen kann."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: provenance comes from Content Credentials and invisible watermarks, and processing can strip the metadata, so verify after processing.",
+            "de": "Doppelt falsch: Den Herkunftsnachweis liefern Content Credentials und unsichtbare Wasserzeichen, und Bearbeitung kann die Metadaten entfernen, prüfe also nach der Bearbeitung."
+          }
+        }
+      ]
     },
     {
       "id": "z-image-generation-takeaway-5",
@@ -184,7 +984,57 @@
       "back": {
         "en": "Brand terms → custom blocklist; studio characters and public figures → default guardrail.",
         "de": "Markenbegriffe → eigene Blockliste; Studio-Figuren und Prominente → Standard-Guardrail."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Brand terms → an instruction in the prompt; studio characters and public figures → C2PA Content Credentials.",
+            "de": "Markenbegriffe → eine Anweisung im Prompt; Studio-Figuren und Prominente → C2PA-Content-Credentials."
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: brand terms go on a custom blocklist, and studio characters and public figures are built-in categories of the default guardrail; Content Credentials block nothing.",
+            "de": "Doppelt falsch: Markenbegriffe gehören auf eine eigene Blockliste, und Studio-Figuren und Prominente sind eingebaute Kategorien der Standard-Guardrail; Content Credentials blockieren nichts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Brand terms → a custom blocklist; studio characters and public figures → the default guardrail.",
+            "de": "Markenbegriffe → eigene Blockliste; Studio-Figuren und Prominente → Standard-Guardrail."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: your own terms need your own list, and the default guardrail already screens prompts for studio characters and public figures.",
+            "de": "Korrekt: Eigene Begriffe brauchen eine eigene Liste, und die Standard-Guardrail prüft Prompts schon auf Studio-Figuren und Prominente."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Brand terms → a custom blocklist; studio characters and public figures → C2PA Content Credentials.",
+            "de": "Markenbegriffe → eigene Blockliste; Studio-Figuren und Prominente → C2PA-Content-Credentials."
+          },
+          "correct": false,
+          "why": {
+            "en": "Content Credentials only record an image's AI origin and block nothing; studio characters and public figures are the default guardrail's job.",
+            "de": "Content Credentials halten nur die KI-Herkunft eines Bildes fest und blockieren nichts; Studio-Figuren und Prominente sind Sache der Standard-Guardrail."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Brand terms → an instruction in the prompt; studio characters and public figures → the default guardrail.",
+            "de": "Markenbegriffe → eine Anweisung im Prompt; Studio-Figuren und Prominente → Standard-Guardrail."
+          },
+          "correct": false,
+          "why": {
+            "en": "A prompt instruction can't reliably block anything; brand terms go on a custom blocklist attached to the guardrail.",
+            "de": "Eine Anweisung im Prompt blockiert nichts verlässlich; Markenbegriffe gehören auf eine eigene Blockliste an der Guardrail."
+          }
+        }
+      ]
     }
   ]
 }

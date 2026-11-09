@@ -8,7 +8,57 @@
       "front": {
         "en": "Which SDKs does Microsoft Agent Framework succeed, and what does it take from each?",
         "de": "Wessen Nachfolger ist Microsoft Agent Framework, und was übernimmt es von jedem Vorgänger?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Semantic Kernel and AutoGen: Semantic Kernel's simple agent abstractions plus AutoGen's enterprise features such as session-based state, middleware and telemetry",
+            "de": "Semantic Kernel und AutoGen: die einfachen Agent-Abstraktionen von Semantic Kernel plus die Enterprise-Features von AutoGen wie sessionbasierter Zustand, Middleware und Telemetrie"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the simple agent abstractions come from AutoGen, while session state, type safety, middleware and telemetry come from Semantic Kernel.",
+            "de": "Vertauscht: Die einfachen Agent-Abstraktionen stammen von AutoGen, sessionbasierter Zustand, Typsicherheit, Middleware und Telemetrie von Semantic Kernel."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Semantic Kernel and AutoGen: AutoGen's simple agent abstractions plus Semantic Kernel's enterprise features such as middleware and telemetry",
+            "de": "Semantic Kernel und AutoGen: die einfachen Agent-Abstraktionen von AutoGen plus die Enterprise-Features von Semantic Kernel wie Middleware und Telemetrie"
+          },
+          "correct": true,
+          "why": {
+            "en": "Built by the same teams, it joins AutoGen's simple agents with Semantic Kernel's session state, type safety, middleware and telemetry, and adds graph-based workflows.",
+            "de": "Von denselben Teams gebaut, verbindet es die einfachen Agents von AutoGen mit Zustand, Typsicherheit, Middleware und Telemetrie von Semantic Kernel und ergänzt graphbasierte Workflows."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "LangChain and AutoGen: LangChain's chain abstractions plus AutoGen's enterprise features such as middleware and telemetry",
+            "de": "LangChain und AutoGen: die Chain-Abstraktionen von LangChain plus die Enterprise-Features von AutoGen wie Middleware und Telemetrie"
+          },
+          "correct": false,
+          "why": {
+            "en": "The predecessors are Semantic Kernel and AutoGen, built by the same teams. LangChain isn't one of them, and the enterprise features come from Semantic Kernel.",
+            "de": "Die Vorgänger sind Semantic Kernel und AutoGen, gebaut von denselben Teams. LangChain gehört nicht dazu, und die Enterprise-Features stammen von Semantic Kernel."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Foundry Agent Service and AutoGen: the service's hosted agents plus AutoGen's enterprise features such as session-based state, middleware and telemetry",
+            "de": "Foundry Agent Service und AutoGen: die gehosteten Agents des Dienstes plus die Enterprise-Features von AutoGen wie sessionbasierter Zustand, Middleware und Telemetrie"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: Foundry Agent Service is a current service that Agent Framework reaches through `FoundryAgent`, not a predecessor; those are Semantic Kernel and AutoGen.",
+            "de": "Falsch: Foundry Agent Service ist ein aktueller Dienst, den Agent Framework über `FoundryAgent` erreicht, kein Vorgänger; das sind Semantic Kernel und AutoGen."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What do you pass to `Agent`, and why can you switch the model provider without changing agent logic?",
         "de": "Was übergibst du an `Agent`, und warum kannst du den Modellanbieter wechseln, ohne die Agent-Logik zu ändern?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A session plus instructions and tools; the session stores the provider settings, so switching providers means a new session",
+            "de": "Eine Session plus Instructions und Tools; die Session speichert die Anbietereinstellungen, also bedeutet ein Anbieterwechsel eine neue Session"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: an `AgentSession` isn't an `Agent(...)` argument and holds conversation state, not provider settings; you pass it to each `run()` call.",
+            "de": "Nein: Eine `AgentSession` ist kein Argument von `Agent(...)` und hält den Gesprächszustand, keine Anbietereinstellungen; du übergibst sie bei jedem `run()`-Aufruf."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A chat client plus instructions and tools; every client calls Chat Completions, so switching providers only changes the endpoint URL",
+            "de": "Einen Chat-Client plus Instructions und Tools; jeder Client ruft Chat Completions auf, also ändert ein Anbieterwechsel nur die Endpoint-URL"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong reason: clients use different APIs — `FoundryChatClient` and `OpenAIChatClient` call the Responses API. It works because `Agent` behaves the same with every client.",
+            "de": "Falscher Grund: Clients nutzen verschiedene APIs – `FoundryChatClient` und `OpenAIChatClient` rufen die Responses API auf. Es klappt, weil sich `Agent` mit jedem Client gleich verhält."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A chat client plus instructions and tools; each provider has its own agent class such as `ChatAgent`, so you change the class",
+            "de": "Einen Chat-Client plus Instructions und Tools; jeder Anbieter hat eine eigene Agent-Klasse wie `ChatAgent`, also tauschst du die Klasse"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not today: `ChatAgent` is a removed preview name. One unified `Agent` class works with every chat client, so only the client changes.",
+            "de": "Heute nicht mehr: `ChatAgent` ist ein entfernter Preview-Name. Eine einheitliche `Agent`-Klasse arbeitet mit jedem Chat-Client, es ändert sich also nur der Client."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A chat client plus instructions and tools; `Agent` behaves the same with every chat client, so you only swap the client",
+            "de": "Einen Chat-Client plus Instructions und Tools; `Agent` verhält sich mit jedem Chat-Client gleich, also tauschst du nur den Client"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `Agent(client=..., name=..., instructions=..., tools=[...])` is the unified class, and because it acts the same with every client, a provider change stays in the client.",
+            "de": "Korrekt: `Agent(client=..., name=..., instructions=..., tools=[...])` ist die einheitliche Klasse, und weil sie mit jedem Client gleich arbeitet, bleibt ein Anbieterwechsel im Client."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "When do you use `FoundryChatClient` and when `FoundryAgent`, and who owns instructions and tools in each?",
         "de": "Wann nutzt du `FoundryChatClient`, wann `FoundryAgent` – und wem gehören jeweils Instructions und Tools?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`FoundryChatClient` for inference on a model deployment (your app owns them); `FoundryAgent` for a prompt or hosted agent (Foundry owns them)",
+            "de": "`FoundryChatClient` für Inferenz auf einem Modell-Deployment (sie gehören deiner App); `FoundryAgent` für einen Prompt- oder Hosted Agent (sie gehören Foundry)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: with `FoundryChatClient` your app owns instructions, tools and sessions; with `FoundryAgent` the stored model, instructions and hosted tools are authoritative.",
+            "de": "Genau: Bei `FoundryChatClient` gehören Instructions, Tools und Sessions deiner App; bei `FoundryAgent` sind gespeichertes Modell, Instructions und gehostete Tools maßgeblich."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`FoundryChatClient` for inference on a model deployment (Foundry owns them); `FoundryAgent` for a prompt or hosted agent (your app owns them)",
+            "de": "`FoundryChatClient` für Inferenz auf einem Modell-Deployment (sie gehören Foundry); `FoundryAgent` für einen Prompt- oder Hosted Agent (sie gehören deiner App)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Owners swapped: with `FoundryChatClient` your app defines instructions and tools, while a `FoundryAgent` follows its stored definition in Foundry.",
+            "de": "Besitzer vertauscht: Bei `FoundryChatClient` legt deine App Instructions und Tools fest, ein `FoundryAgent` folgt seiner gespeicherten Definition in Foundry."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`FoundryChatClient` for a prompt or hosted agent (your app owns them); `FoundryAgent` for inference on a model deployment (Foundry owns them)",
+            "de": "`FoundryChatClient` für einen Prompt- oder Hosted Agent (sie gehören deiner App); `FoundryAgent` für Inferenz auf einem Modell-Deployment (sie gehören Foundry)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Targets swapped: `FoundryChatClient` gives direct inference on a model deployment, and `FoundryAgent` connects to a prompt or hosted agent.",
+            "de": "Ziele vertauscht: `FoundryChatClient` liefert direkte Inferenz auf einem Modell-Deployment, `FoundryAgent` verbindet sich mit einem Prompt- oder Hosted Agent."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`FoundryChatClient` for a prompt or hosted agent (Foundry owns them); `FoundryAgent` for inference on a model deployment (your app owns them)",
+            "de": "`FoundryChatClient` für einen Prompt- oder Hosted Agent (sie gehören Foundry); `FoundryAgent` für Inferenz auf einem Modell-Deployment (sie gehören deiner App)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Fully swapped: `FoundryChatClient` is app-owned inference on a model deployment, and `FoundryAgent` uses a prompt or hosted agent whose stored definition wins.",
+            "de": "Komplett vertauscht: `FoundryChatClient` ist app-eigene Inferenz auf einem Modell-Deployment, und `FoundryAgent` nutzt einen Prompt- oder Hosted Agent, dessen gespeicherte Definition gewinnt."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How do you create an `AgentSession`, and how can it keep and persist the conversation history?",
         "de": "Wie erstellst du eine `AgentSession`, und wie hält und speichert sie den Gesprächsverlauf?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As an argument of `Agent(session=...)`; it keeps the history only in process memory, so all of the history is lost whenever the app restarts",
+            "de": "Als Argument von `Agent(session=...)`; sie hält den Verlauf nur im Prozessspeicher, sodass bei jedem Neustart der App der gesamte Verlauf verloren geht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: a session isn't an `Agent(...)` argument — `agent.create_session()` creates it — and you can persist it with `to_dict()` or a `service_session_id`.",
+            "de": "Doppelt falsch: Eine Session ist kein Argument von `Agent(...)` – `agent.create_session()` erstellt sie –, und du kannst sie mit `to_dict()` oder einer `service_session_id` sichern."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "With `agent.create_session()`; it keeps the history only in process memory, so all of the history is lost whenever the app restarts",
+            "de": "Mit `agent.create_session()`; sie hält den Verlauf nur im Prozessspeicher, sodass bei jedem Neustart der App der gesamte Verlauf verloren geht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: you can persist the session with `to_dict()`/`from_dict()` or keep a `service_session_id` that points to history stored by the service.",
+            "de": "Teilweise richtig: Du kannst die Session mit `to_dict()`/`from_dict()` speichern oder eine `service_session_id` halten, die auf den vom Dienst gespeicherten Verlauf zeigt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "With `agent.create_session()`; it keeps local history or a `service_session_id`, saved with `to_dict()` or reopened with `get_session(...)`",
+            "de": "Mit `agent.create_session()`; sie hält lokalen Verlauf oder eine `service_session_id`, gesichert mit `to_dict()`, neu geöffnet mit `get_session(...)`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the session holds local history (for example via `InMemoryHistoryProvider`) or a service ID; `to_dict()`/`from_dict()` or `get_session(service_session_id=...)` restore it.",
+            "de": "Stimmt: Die Session hält lokalen Verlauf (etwa über `InMemoryHistoryProvider`) oder eine Dienst-ID; `to_dict()`/`from_dict()` oder `get_session(service_session_id=...)` stellen sie wieder her."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "As an argument of `Agent(session=...)`; it keeps local history or a `service_session_id`, saved with `to_dict()` or reopened with `get_session(...)`",
+            "de": "Als Argument von `Agent(session=...)`; sie hält lokalen Verlauf oder eine `service_session_id`, gesichert mit `to_dict()`, neu geöffnet mit `get_session(...)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong creation: a session isn't an `Agent(...)` argument; you create it with `agent.create_session()` and pass it to every `agent.run(..., session=session)`.",
+            "de": "Falsch erstellt: Eine Session ist kein Argument von `Agent(...)`; du erstellst sie mit `agent.create_session()` und übergibst sie bei jedem `agent.run(..., session=session)`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How does a Python function become a tool, what shapes its schema, and where does it run?",
         "de": "Wie wird eine Python-Funktion zum Tool, was formt ihr Schema, und wo läuft sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "You pass it in `tools`; type annotations with `Field` descriptions and the docstring shape the schema, and it runs at the provider like a hosted tool",
+            "de": "Du übergibst sie in `tools`; Typannotationen mit `Field`-Beschreibungen und der Docstring formen das Schema, und sie läuft wie ein gehostetes Tool beim Anbieter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong place: a function tool runs in your own process. Only hosted tools such as code interpreter run at the provider.",
+            "de": "Falscher Ort: Ein Funktionstool läuft in deinem eigenen Prozess. Nur gehostete Tools wie Code Interpreter laufen beim Anbieter."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "You pass it in `tools`; type annotations with `Field` descriptions and the docstring shape the schema, and it runs in your process",
+            "de": "Du übergibst sie in `tools`; Typannotationen mit `Field`-Beschreibungen und der Docstring formen das Schema, und sie läuft in deinem Prozess"
+          },
+          "correct": true,
+          "why": {
+            "en": "Any function in `tools` becomes a tool; `Annotated[..., Field(description=...)]` and the docstring build its schema, and `@tool(...)` adds explicit control.",
+            "de": "Jede Funktion in `tools` wird zum Tool; `Annotated[..., Field(description=...)]` und der Docstring bauen ihr Schema, und `@tool(...)` gibt dir explizite Kontrolle."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "You must use `@ai_function`; only the function name shapes the schema, and it runs in your process",
+            "de": "Du musst `@ai_function` nutzen; nur der Funktionsname formt das Schema, und sie läuft in deinem Prozess"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `@ai_function` is a removed preview name, and no decorator is required; the annotations and the docstring shape the schema too.",
+            "de": "Nein: `@ai_function` ist ein entfernter Preview-Name, und ein Decorator ist nicht nötig; auch Annotationen und Docstring formen das Schema."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "You must use `@ai_function`; only the function name shapes the schema, and it runs at the provider like a hosted tool",
+            "de": "Du musst `@ai_function` nutzen; nur der Funktionsname formt das Schema, und sie läuft wie ein gehostetes Tool beim Anbieter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong on all counts: no decorator is required (`@ai_function` is a removed name), annotations and docstring shape the schema, and the function runs in your process.",
+            "de": "In allen Punkten falsch: Ein Decorator ist nicht nötig (`@ai_function` ist ein entfernter Name), Annotationen und Docstring formen das Schema, und die Funktion läuft in deinem Prozess."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Who runs hosted tools, and how do you create one such as code interpreter?",
         "de": "Wer führt gehostete Tools aus, und wie erstellst du eines wie Code Interpreter?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The provider runs them; you instantiate `HostedCodeInterpreterTool()` and pass it in `tools`",
+            "de": "Der Anbieter führt sie aus; du instanziierst `HostedCodeInterpreterTool()` und übergibst es in `tools`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the provider runs them, but the `Hosted*Tool` classes were removed in favor of client factories such as `get_code_interpreter_tool()`.",
+            "de": "Teilweise richtig: Der Anbieter führt sie aus, aber die `Hosted*Tool`-Klassen wurden zugunsten von Client-Factories wie `get_code_interpreter_tool()` entfernt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Your own Python process runs them; you create one with `FoundryChatClient.get_code_interpreter_tool()` and pass it in `tools`",
+            "de": "Dein eigener Python-Prozess führt sie aus; du erstellst eines mit `FoundryChatClient.get_code_interpreter_tool()` und übergibst es in `tools`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong runner: the factory only declares the tool; when the model calls it, it runs in Foundry, while your own process runs function tools.",
+            "de": "Falscher Ausführer: Die Factory deklariert das Tool nur; ruft das Modell es auf, läuft es in Foundry – dein eigener Prozess führt Funktionstools aus."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The provider runs them; you create one with `FoundryChatClient.get_code_interpreter_tool()` and pass it in `tools`",
+            "de": "Der Anbieter führt sie aus; du erstellst eines mit `FoundryChatClient.get_code_interpreter_tool()` und übergibst es in `tools`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: hosted tools come from client class methods such as `get_code_interpreter_tool()`, `get_file_search_tool(...)` or `get_mcp_tool(...)` and run at the provider.",
+            "de": "Genau: Gehostete Tools kommen aus Klassenmethoden des Clients wie `get_code_interpreter_tool()`, `get_file_search_tool(...)` oder `get_mcp_tool(...)` und laufen beim Anbieter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Your own Python process runs them; you instantiate `HostedCodeInterpreterTool()` and pass it in `tools`",
+            "de": "Dein eigener Python-Prozess führt sie aus; du instanziierst `HostedCodeInterpreterTool()` und übergibst es in `tools`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the provider runs hosted tools, and the `Hosted*Tool` classes were replaced by factories such as `FoundryChatClient.get_code_interpreter_tool()`.",
+            "de": "Doppelt falsch: Gehostete Tools führt der Anbieter aus, und die `Hosted*Tool`-Klassen wurden durch Factories wie `FoundryChatClient.get_code_interpreter_tool()` ersetzt."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "How do you let one agent delegate a subtask to another, and who keeps responsibility for the conversation?",
         "de": "Wie lässt du einen Agent eine Teilaufgabe an einen anderen delegieren, und wer behält die Verantwortung?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Call `specialist.as_tool()` and add it to the coordinator's `tools`; the specialist then takes over the conversation and the responsibility",
+            "de": "Rufe `specialist.as_tool()` auf und füge es zu den `tools` des Koordinators hinzu; danach übernimmt der Spezialist das ganze Gespräch und auch die Verantwortung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong owner: with agent-as-tool the coordinator gets the result back and keeps responsibility. Taking over the conversation is what a handoff does.",
+            "de": "Falscher Besitzer: Bei Agent-as-Tool bekommt der Koordinator das Ergebnis zurück und behält die Verantwortung; eine Übernahme des Gesprächs gibt es beim Handoff."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Describe the specialist and its skills in the coordinator's `instructions`; the coordinator gets the result back and keeps responsibility",
+            "de": "Beschreibe den Spezialisten und seine Fähigkeiten in den `instructions` des Koordinators; der Koordinator bekommt das Ergebnis zurück und behält die Verantwortung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong wiring: instructions only steer the model and don't connect agents. The specialist must be callable, for example as a tool from `as_tool()`.",
+            "de": "Falsch verdrahtet: Instructions steuern nur das Modell und verbinden keine Agents. Der Spezialist muss aufrufbar sein, etwa als Tool aus `as_tool()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Describe the specialist and its skills in the coordinator's `instructions`; the specialist then takes over the conversation and the responsibility",
+            "de": "Beschreibe den Spezialisten und seine Fähigkeiten in den `instructions` des Koordinators; danach übernimmt der Spezialist das ganze Gespräch und auch die Verantwortung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: instructions don't connect agents — `as_tool()` does — and with agent-as-tool the coordinator keeps responsibility for the conversation.",
+            "de": "Doppelt falsch: Instructions verbinden keine Agents – das tut `as_tool()` –, und bei Agent-as-Tool behält der Koordinator die Verantwortung für das Gespräch."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Call `specialist.as_tool()` and add it to the coordinator's `tools`; the coordinator gets the result back and keeps responsibility",
+            "de": "Rufe `specialist.as_tool()` auf und füge es zu den `tools` des Koordinators hinzu; der Koordinator bekommt das Ergebnis zurück und behält die Verantwortung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `as_tool()` turns the agent into a function tool; the coordinating agent delegates, receives the result and stays responsible for the conversation.",
+            "de": "Richtig: `as_tool()` macht aus dem Agent ein Funktionstool; der koordinierende Agent delegiert, erhält das Ergebnis und bleibt für das Gespräch verantwortlich."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-concept-8",
@@ -64,7 +414,57 @@
       "front": {
         "en": "How do context providers give an agent memory, and what happens if `FoundryMemoryProvider` has no `scope`?",
         "de": "Wie geben Context Provider einem Agent ein Gedächtnis, und was passiert ohne `scope` bei `FoundryMemoryProvider`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They add context before each `run()` and save what they learned after it; without `scope` the session ID becomes the scope, so memories stay in one session",
+            "de": "Sie ergänzen vor jedem `run()` Kontext und speichern danach Gelerntes; ohne `scope` wird die Session-ID zum Scope, und Erinnerungen bleiben in einer Session"
+          },
+          "correct": true,
+          "why": {
+            "en": "Providers in `context_providers=[...]` run around every call; without a stable `scope` such as the user's ID, memories never reach a later session.",
+            "de": "Provider in `context_providers=[...]` laufen rund um jeden Aufruf; ohne stabilen `scope` wie die Nutzer-ID erreichen Erinnerungen keine spätere Session."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They add context before each `run()` and save what they learned after it; without `scope` all users of the memory store share the same memories",
+            "de": "Sie ergänzen vor jedem `run()` Kontext und speichern danach Gelerntes; ohne `scope` teilen sich alle Nutzer des Memory Stores dieselben Erinnerungen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: without `scope` the session ID becomes the scope, so memories stay inside that one session instead of being shared.",
+            "de": "Nein: Ohne `scope` wird die Session-ID zum Scope; die Erinnerungen bleiben also in dieser einen Session, statt geteilt zu werden."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They replace the `AgentSession` and keep every full transcript inside the memory store; without `scope` the session ID becomes the scope, so memories stay in one session",
+            "de": "Sie ersetzen die `AgentSession` und legen jedes ganze Transkript im Memory Store ab; ohne `scope` wird die Session-ID zum Scope, und Erinnerungen bleiben in einer Session"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong mechanism: providers run around each `run()` next to the session, and Foundry memory stores extracted facts and summaries, not full transcripts.",
+            "de": "Falscher Mechanismus: Provider laufen neben der Session rund um jedes `run()`, und Foundry Memory speichert extrahierte Fakten und Zusammenfassungen, keine ganzen Transkripte."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They replace the `AgentSession` and keep every full transcript inside the memory store; without `scope` all users of the memory store share the same memories",
+            "de": "Sie ersetzen die `AgentSession` und legen jedes ganze Transkript im Memory Store ab; ohne `scope` teilen sich alle Nutzer des Memory Stores dieselben Erinnerungen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: providers work alongside the session and store extracted facts, not transcripts, and without `scope` the session ID becomes the scope.",
+            "de": "Doppelt falsch: Provider arbeiten neben der Session und speichern extrahierte Fakten statt Transkripten, und ohne `scope` wird die Session-ID zum Scope."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-trap-1",
@@ -76,7 +476,57 @@
       "back": {
         "en": "Use `Agent` (not `ChatAgent`), `AgentSession` and `create_session()` (not threads), `run(..., stream=True)` (not `run_stream`) and `@tool` (not `@ai_function`). The early preview names are gone.",
         "de": "Nutze `Agent` (nicht `ChatAgent`), `AgentSession` und `create_session()` (keine Threads), `run(..., stream=True)` (nicht `run_stream`) und `@tool` (nicht `@ai_function`). Die frühen Preview-Namen sind weg."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`FoundryAgent`, `AgentSession` via `create_session()`, `run_stream()` and `@ai_function`",
+            "de": "`FoundryAgent`, `AgentSession` über `create_session()`, `run_stream()` und `@ai_function`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the session is right: `FoundryAgent` is for agents defined in Foundry (`Agent` replaces `ChatAgent`), and `run_stream`/`@ai_function` became `run(..., stream=True)`/`@tool`.",
+            "de": "Nur die Session stimmt: `FoundryAgent` ist für in Foundry definierte Agents (`Agent` ersetzt `ChatAgent`), und aus `run_stream`/`@ai_function` wurden `run(..., stream=True)`/`@tool`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`Agent`, `AgentSession` via `create_session()`, `run(..., stream=True)` and `@tool`",
+            "de": "`Agent`, `AgentSession` über `create_session()`, `run(..., stream=True)` und `@tool`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `Agent` replaces `ChatAgent`, `AgentSession` from `create_session()` replaces threads, `stream=True` replaces `run_stream`, and `@tool` replaces `@ai_function`.",
+            "de": "Richtig: `Agent` ersetzt `ChatAgent`, `AgentSession` aus `create_session()` ersetzt Threads, `stream=True` ersetzt `run_stream`, und `@tool` ersetzt `@ai_function`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`Agent`, `AgentThread` via `get_new_thread()`, `run_stream()` and `@tool`",
+            "de": "`Agent`, `AgentThread` über `get_new_thread()`, `run_stream()` und `@tool`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half outdated: `AgentThread`, `get_new_thread()` and `run_stream()` are removed names; use `AgentSession` from `create_session()` and `run(..., stream=True)`.",
+            "de": "Halb veraltet: `AgentThread`, `get_new_thread()` und `run_stream()` sind entfernte Namen; nutze `AgentSession` aus `create_session()` und `run(..., stream=True)`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`FoundryAgent`, `AgentThread` via `get_new_thread()`, `run(..., stream=True)` and `@ai_function`",
+            "de": "`FoundryAgent`, `AgentThread` über `get_new_thread()`, `run(..., stream=True)` und `@ai_function`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only streaming is right: `Agent` replaces `ChatAgent`, `AgentSession` from `create_session()` replaces threads, and `@tool` replaces `@ai_function`.",
+            "de": "Nur das Streaming stimmt: `Agent` ersetzt `ChatAgent`, `AgentSession` aus `create_session()` ersetzt Threads, und `@tool` ersetzt `@ai_function`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-trap-2",
@@ -88,7 +538,57 @@
       "back": {
         "en": "`AzureAIAgentClient` and `AzureAIClient` were removed from current Agent Framework: use `FoundryChatClient` for project inference and `FoundryAgent` for agents defined in Foundry.",
         "de": "`AzureAIAgentClient` und `AzureAIClient` wurden aus dem aktuellen Agent Framework entfernt: Nutze `FoundryChatClient` für Projekt-Inferenz und `FoundryAgent` für in Foundry definierte Agents."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`FoundryAgent` for inference on a project model and `FoundryChatClient` for agents defined in Foundry",
+            "de": "`FoundryAgent` für Inferenz auf einem Projektmodell und `FoundryChatClient` für in Foundry definierte Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `FoundryChatClient` gives project inference on a model deployment, and `FoundryAgent` connects to agents stored in Foundry.",
+            "de": "Vertauscht: `FoundryChatClient` liefert Projekt-Inferenz auf einem Modell-Deployment, und `FoundryAgent` verbindet sich mit in Foundry gespeicherten Agents."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`FoundryChatClient` both for inference on a project model and for agents defined in Foundry",
+            "de": "`FoundryChatClient` sowohl für Inferenz auf einem Projektmodell als auch für in Foundry definierte Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `FoundryChatClient` covers project inference, but agents defined in Foundry need `FoundryAgent`, which uses their stored definition.",
+            "de": "Teilweise richtig: `FoundryChatClient` deckt Projekt-Inferenz ab, aber in Foundry definierte Agents brauchen `FoundryAgent`, der ihre gespeicherte Definition nutzt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`FoundryAgent` both for inference on a project model and for agents defined in Foundry",
+            "de": "`FoundryAgent` sowohl für Inferenz auf einem Projektmodell als auch für in Foundry definierte Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `FoundryAgent` covers agents defined in Foundry, but plain inference on a project model is `FoundryChatClient`.",
+            "de": "Teilweise richtig: `FoundryAgent` deckt in Foundry definierte Agents ab, aber reine Inferenz auf einem Projektmodell läuft über `FoundryChatClient`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`FoundryChatClient` for inference on a project model and `FoundryAgent` for agents defined in Foundry",
+            "de": "`FoundryChatClient` für Inferenz auf einem Projektmodell und `FoundryAgent` für in Foundry definierte Agents"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: both old classes were removed; `FoundryChatClient` covers project inference, and `FoundryAgent` covers prompt and hosted agents defined in Foundry.",
+            "de": "Stimmt: Beide alten Klassen wurden entfernt; `FoundryChatClient` deckt Projekt-Inferenz ab, `FoundryAgent` die in Foundry definierten Prompt- und Hosted Agents."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-trap-3",
@@ -100,7 +600,57 @@
       "back": {
         "en": "With `FoundryAgent` the stored Foundry definition wins: `model` and `instructions` passed in code are ignored, you can't add new tools, and local Python functions run only if the Foundry agent already declares them. Use `Agent(client=FoundryChatClient(...))` when code must control them.",
         "de": "Bei `FoundryAgent` gewinnt die gespeicherte Foundry-Definition: `model` und `instructions` aus dem Code werden ignoriert, neue Tools kannst du nicht hinzufügen, und lokale Python-Funktionen laufen nur, wenn der Foundry-Agent sie bereits deklariert. Nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They're ignored because the stored Foundry definition wins; use `Agent(client=FoundryChatClient(...))` when code must control them",
+            "de": "Sie werden ignoriert, weil die gespeicherte Foundry-Definition gewinnt; nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: `FoundryAgent` uses the stored model, instructions and tools; you can't add new tools, and local functions run only if the agent already declares them.",
+            "de": "Genau: `FoundryAgent` nutzt gespeichertes Modell, Instructions und Tools; neue Tools kannst du nicht hinzufügen, und lokale Funktionen laufen nur, wenn der Agent sie schon deklariert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They're merged into the stored Foundry definition on every single run; use `Agent(client=FoundryChatClient(...))` when code must control them",
+            "de": "Sie werden bei jedem Lauf mit der gespeicherten Foundry-Definition zusammengeführt; nutze `Agent(client=FoundryChatClient(...))`, wenn der Code sie steuern muss"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not merged: with `FoundryAgent` the `model` and `instructions` from code are simply ignored; only the advice to use an app-owned `Agent` is right.",
+            "de": "Nicht zusammengeführt: Bei `FoundryAgent` werden `model` und `instructions` aus dem Code einfach ignoriert; nur der Rat zum app-eigenen `Agent` stimmt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They're ignored because the stored Foundry definition wins; use `AzureAIAgentClient(...)` with your own instructions when code must control them",
+            "de": "Sie werden ignoriert, weil die gespeicherte Foundry-Definition gewinnt; nutze `AzureAIAgentClient(...)` mit eigenen Instructions, wenn der Code sie steuern muss"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: they are ignored, but `AzureAIAgentClient` was removed from current Agent Framework; use `Agent(client=FoundryChatClient(...))` instead.",
+            "de": "Teilweise richtig: Sie werden ignoriert, aber `AzureAIAgentClient` wurde aus dem aktuellen Agent Framework entfernt; nutze stattdessen `Agent(client=FoundryChatClient(...))`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They're merged into the stored Foundry definition on every single run; use `AzureAIAgentClient(...)` with your own instructions when code must control them",
+            "de": "Sie werden bei jedem Lauf mit der gespeicherten Foundry-Definition zusammengeführt; nutze `AzureAIAgentClient(...)` mit eigenen Instructions, wenn der Code sie steuern muss"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: nothing is merged — the stored definition wins and code-side values are ignored — and `AzureAIAgentClient` no longer exists.",
+            "de": "Doppelt falsch: Nichts wird zusammengeführt – die gespeicherte Definition gewinnt, Werte aus dem Code werden ignoriert –, und `AzureAIAgentClient` gibt es nicht mehr."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-trap-4",
@@ -112,7 +662,57 @@
       "back": {
         "en": "Chat Completions clients such as `OpenAIChatCompletionClient` keep history only locally in the session, which is lost on restart unless you persist it with `session.to_dict()`. Responses-based clients (`FoundryChatClient`, `OpenAIChatClient`) and `FoundryAgent` can point to service-stored history through `service_session_id`.",
         "de": "Clients auf der Chat Completions API wie `OpenAIChatCompletionClient` halten den Verlauf nur lokal in der Session; er geht beim Neustart verloren, wenn du ihn nicht mit `session.to_dict()` speicherst. Responses-basierte Clients (`FoundryChatClient`, `OpenAIChatClient`) und `FoundryAgent` können über `service_session_id` auf dienstseitig gespeicherten Verlauf zeigen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Already after every single `run()`, since Chat Completions stores nothing; Responses-based clients can point to service-stored history via `service_session_id`",
+            "de": "Schon nach jedem einzelnen `run()`, weil Chat Completions nichts speichert; Responses-basierte Clients können über `service_session_id` auf dienstseitigen Verlauf zeigen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not after every run: the session keeps local history across runs in the same process. It's lost on restart unless you persist it with `session.to_dict()`.",
+            "de": "Nicht nach jedem Lauf: Die Session hält lokalen Verlauf über mehrere Läufe im selben Prozess. Verloren geht er beim Neustart, wenn du ihn nicht mit `session.to_dict()` speicherst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "On a restart, unless you saved it with `session.to_dict()`; Responses-based clients keep it in a local `InMemoryHistoryProvider`",
+            "de": "Beim Neustart, falls nicht mit `session.to_dict()` gespeichert; Responses-basierte Clients halten ihn im lokalen `InMemoryHistoryProvider`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: `InMemoryHistoryProvider` is local, in-process history. Responses-based clients can point to service-stored history through `service_session_id`.",
+            "de": "Die zweite Hälfte stimmt nicht: `InMemoryHistoryProvider` ist lokaler Verlauf im Prozess. Responses-basierte Clients können über `service_session_id` auf dienstseitig gespeicherten Verlauf zeigen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "On a restart, unless you saved it with `session.to_dict()`; Responses-based clients can point to service-stored history via `service_session_id`",
+            "de": "Beim Neustart, falls nicht mit `session.to_dict()` gespeichert; Responses-basierte Clients können über `service_session_id` auf dienstseitigen Verlauf zeigen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Chat Completions clients keep history only locally in the session, while `FoundryChatClient`, `OpenAIChatClient` and `FoundryAgent` can reference history stored by the service.",
+            "de": "Korrekt: Chat-Completions-Clients halten den Verlauf nur lokal in der Session, während `FoundryChatClient`, `OpenAIChatClient` und `FoundryAgent` dienstseitig gespeicherten Verlauf referenzieren können."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Already after every single `run()`, since Chat Completions stores nothing; Responses-based clients keep it in a local `InMemoryHistoryProvider`",
+            "de": "Schon nach jedem einzelnen `run()`, weil Chat Completions nichts speichert; Responses-basierte Clients halten ihn im lokalen `InMemoryHistoryProvider`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the session keeps local history until a restart, and Responses-based clients can use service-stored history through `service_session_id`.",
+            "de": "Doppelt falsch: Die Session hält lokalen Verlauf bis zum Neustart, und Responses-basierte Clients können über `service_session_id` dienstseitigen Verlauf nutzen."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-trap-5",
@@ -124,7 +724,57 @@
       "back": {
         "en": "The model chooses tools only from names, descriptions and parameter descriptions. Vague docstrings cause missing or wrong tool calls.",
         "de": "Das Modell wählt Tools nur anhand von Namen, Beschreibungen und Parameterbeschreibungen. Vage Docstrings führen zu fehlenden oder falschen Tool-Aufrufen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "On the function's source code, which the framework sends along each time; vague docstrings cause missing or wrong tool calls",
+            "de": "Auf den Quellcode der Funktion, den das Framework jedes Mal mitschickt; vage Docstrings führen zu fehlenden oder falschen Tool-Aufrufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong basis: the code runs locally and never reaches the model; the model picks tools from names, descriptions and parameter descriptions.",
+            "de": "Falsche Grundlage: Der Code läuft lokal und erreicht das Modell nie; das Modell wählt Tools anhand von Namen, Beschreibungen und Parameterbeschreibungen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only on tool names, descriptions and parameter descriptions; vague docstrings cause missing or wrong tool calls",
+            "de": "Nur auf Tool-Namen, Beschreibungen und Parameterbeschreibungen; vage Docstrings führen zu fehlenden oder falschen Tool-Aufrufen"
+          },
+          "correct": true,
+          "why": {
+            "en": "The model never sees a tool's code, only its generated schema, so clear docstrings and `Field` descriptions decide whether it calls the right tool.",
+            "de": "Den Code eines Tools sieht das Modell nie, nur sein generiertes Schema – klare Docstrings und `Field`-Beschreibungen entscheiden, ob es das richtige Tool aufruft."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "On the function's source code, which the framework sends along each time; vague docstrings make `run()` fail right away with a schema error",
+            "de": "Auf den Quellcode der Funktion, den das Framework jedes Mal mitschickt; vage Docstrings lassen `run()` sofort mit einem Schemafehler scheitern"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the model never sees the code, only names and descriptions, and a vague docstring is still valid — it just leads to missing or wrong calls.",
+            "de": "Doppelt falsch: Das Modell sieht nie den Code, nur Namen und Beschreibungen, und ein vager Docstring ist gültig – er führt nur zu fehlenden oder falschen Aufrufen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only on tool names, descriptions and parameter descriptions; vague docstrings make `run()` fail right away with a schema error",
+            "de": "Nur auf Tool-Namen, Beschreibungen und Parameterbeschreibungen; vage Docstrings lassen `run()` sofort mit einem Schemafehler scheitern"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: a vague docstring is still valid, so nothing fails at once — the model just misses calls or calls the wrong tool.",
+            "de": "Teilweise richtig: Ein vager Docstring ist trotzdem gültig, es scheitert also nichts sofort – das Modell lässt nur Aufrufe aus oder wählt das falsche Tool."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-takeaway-1",
@@ -136,7 +786,57 @@
       "back": {
         "en": "Your app owns the agent → `Agent(client=FoundryChatClient(...))`; Foundry owns it → `FoundryAgent`.",
         "de": "Deine App besitzt den Agent → `Agent(client=FoundryChatClient(...))`; Foundry besitzt ihn → `FoundryAgent`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "App owns it: `FoundryAgent`; Foundry owns it: `Agent(client=FoundryChatClient(...))`",
+            "de": "Die App besitzt ihn: `FoundryAgent`; Foundry besitzt ihn: `Agent(client=FoundryChatClient(...))`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `FoundryAgent` uses a definition stored in Foundry, while `Agent` with `FoundryChatClient` lets your code own instructions and tools.",
+            "de": "Vertauscht: `FoundryAgent` nutzt eine in Foundry gespeicherte Definition, während bei `Agent` mit `FoundryChatClient` dein Code Instructions und Tools besitzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "App owns it: `Agent(client=FoundryChatClient(...))`; Foundry owns it: `A2AAgent(url=...)`",
+            "de": "Die App besitzt ihn: `Agent(client=FoundryChatClient(...))`; Foundry besitzt ihn: `A2AAgent(url=...)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`A2AAgent` calls a remote agent over A2A; for prompt or hosted agents that Foundry owns, use `FoundryAgent`.",
+            "de": "`A2AAgent` ruft einen entfernten Agent über A2A auf; für Prompt- oder Hosted Agents, die Foundry besitzt, nutzt du `FoundryAgent`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "App owns it: `Agent(client=FoundryChatClient(...))`; Foundry owns it: `FoundryAgent`",
+            "de": "Die App besitzt ihn: `Agent(client=FoundryChatClient(...))`; Foundry besitzt ihn: `FoundryAgent`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: with `FoundryChatClient` your code defines instructions and tools; `FoundryAgent` connects to a stored definition that stays authoritative.",
+            "de": "Korrekt: Mit `FoundryChatClient` legt dein Code Instructions und Tools fest; `FoundryAgent` verbindet sich mit einer gespeicherten Definition, die maßgeblich bleibt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "App owns it: `FoundryAgent`; Foundry owns it: `A2AAgent(url=...)`",
+            "de": "Die App besitzt ihn: `FoundryAgent`; Foundry besitzt ihn: `A2AAgent(url=...)`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: an app-owned agent is `Agent(client=FoundryChatClient(...))`, and `A2AAgent` calls a remote A2A agent; Foundry-owned agents use `FoundryAgent`.",
+            "de": "Doppelt falsch: Ein app-eigener Agent ist `Agent(client=FoundryChatClient(...))`, und `A2AAgent` ruft einen entfernten A2A-Agent auf; Foundry-eigene Agents nutzen `FoundryAgent`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-takeaway-2",
@@ -148,7 +848,57 @@
       "back": {
         "en": "Role and goal go into `instructions`; context across turns lives in an `AgentSession`.",
         "de": "Rolle und Ziel gehören in `instructions`; Kontext über Runden lebt in einer `AgentSession`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Role and goal go into `instructions`; context across turns lives in an `AgentSession`",
+            "de": "Rolle und Ziel gehören in `instructions`; Kontext über Runden lebt in einer `AgentSession`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: `instructions` is the system prompt with role, goal and rules, and the session you pass to each `run()` carries the conversation.",
+            "de": "Genau: `instructions` ist der Systemprompt mit Rolle, Ziel und Regeln, und die Session, die du jedem `run()` übergibst, trägt das Gespräch."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Role and goal go into `name` and `description`; context across turns lives in an `AgentSession`",
+            "de": "Rolle und Ziel gehören in `name` und `description`; Kontext über Runden lebt in einer `AgentSession`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `name` and `description` only identify the agent, for example in multi-agent orchestrations. Role and goal belong in `instructions`.",
+            "de": "Nein: `name` und `description` identifizieren den Agent nur, etwa in Multi-Agent-Orchestrierungen. Rolle und Ziel gehören in `instructions`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Role and goal go into `instructions`; context across turns lives in the `Agent` object between calls",
+            "de": "Rolle und Ziel gehören in `instructions`; Kontext über Runden lebt zwischen den Aufrufen im `Agent`-Objekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: the conversation state lives in an `AgentSession` from `create_session()`, which you pass to every `run()`.",
+            "de": "Die zweite Hälfte stimmt nicht: Der Gesprächszustand lebt in einer `AgentSession` aus `create_session()`, die du jedem `run()` übergibst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Role and goal go into `name` and `description`; context across turns lives in the `Agent` object between calls",
+            "de": "Rolle und Ziel gehören in `name` und `description`; Kontext über Runden lebt zwischen den Aufrufen im `Agent`-Objekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `name` and `description` only identify the agent — role and goal go into `instructions` — and context lives in an `AgentSession`.",
+            "de": "Doppelt falsch: `name` und `description` identifizieren den Agent nur – Rolle und Ziel gehören in `instructions` –, und der Kontext lebt in einer `AgentSession`."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-takeaway-3",
@@ -160,7 +910,57 @@
       "back": {
         "en": "Function tools are typed, documented Python functions in `tools`; hosted tools come from `FoundryChatClient.get_*_tool()`.",
         "de": "Funktionstools sind typisierte, dokumentierte Python-Funktionen in `tools`; gehostete Tools kommen aus `FoundryChatClient.get_*_tool()`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Function tools as OpenAPI specs in Foundry; hosted tools as `Hosted*Tool` classes",
+            "de": "Funktionstools als OpenAPI-Spezifikationen in Foundry; gehostete Tools als `Hosted*Tool`-Klassen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: function tools are typed, documented Python functions in `tools`, and the `Hosted*Tool` classes were replaced by `get_*_tool()` factories.",
+            "de": "Doppelt falsch: Funktionstools sind typisierte, dokumentierte Python-Funktionen in `tools`, und die `Hosted*Tool`-Klassen wurden durch `get_*_tool()`-Factories ersetzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Function tools as typed, documented Python functions; hosted tools as `Hosted*Tool` classes",
+            "de": "Funktionstools als typisierte, dokumentierte Python-Funktionen; gehostete Tools als `Hosted*Tool`-Klassen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the function tools fit, but the `Hosted*Tool` classes were removed — hosted tools now come from `FoundryChatClient.get_*_tool()`.",
+            "de": "Teilweise richtig: Die Funktionstools passen, aber die `Hosted*Tool`-Klassen wurden entfernt – gehostete Tools kommen jetzt aus `FoundryChatClient.get_*_tool()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Function tools as OpenAPI specs in Foundry; hosted tools from `FoundryChatClient.get_*_tool()` factories",
+            "de": "Funktionstools als OpenAPI-Spezifikationen in Foundry; gehostete Tools aus `FoundryChatClient.get_*_tool()`-Factories"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: a function tool is a typed, documented Python function that you pass in `tools`; it runs in your process.",
+            "de": "Die erste Hälfte stimmt nicht: Ein Funktionstool ist eine typisierte, dokumentierte Python-Funktion, die du in `tools` übergibst; sie läuft in deinem Prozess."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Function tools as typed, documented Python functions; hosted tools from `FoundryChatClient.get_*_tool()` factories",
+            "de": "Funktionstools als typisierte, dokumentierte Python-Funktionen; gehostete Tools aus `FoundryChatClient.get_*_tool()`-Factories"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: annotations and docstrings turn functions into tools, and client factories such as `get_code_interpreter_tool()` declare hosted tools for the same `tools` list.",
+            "de": "Richtig: Annotationen und Docstrings machen Funktionen zu Tools, und Client-Factories wie `get_code_interpreter_tool()` deklarieren gehostete Tools für dieselbe `tools`-Liste."
+          }
+        }
+      ]
     },
     {
       "id": "z-agent-framework-takeaway-4",
@@ -172,7 +972,57 @@
       "back": {
         "en": "Declare sensitive tools with `@tool(approval_mode=\"always_require\")`, then resume in the same session.",
         "de": "Deklariere heikle Tools mit `@tool(approval_mode=\"always_require\")` und setze den Lauf dann in derselben Session fort."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Add an approval rule to the `instructions`, then continue in the same session with the approval response",
+            "de": "Schreib eine Freigaberegel in die `instructions` und setze den Lauf dann in derselben Session mit der Freigabeantwort fort"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong trigger: instructions only steer the model and can't hold back a call; `approval_mode=\"always_require\"` makes `run()` return `user_input_requests` instead.",
+            "de": "Falscher Auslöser: Instructions steuern nur das Modell und halten keinen Aufruf zurück; erst `approval_mode=\"always_require\"` lässt `run()` stattdessen `user_input_requests` liefern."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Declare it with `@tool(approval_mode=\"always_require\")`, then continue in the same session with the approval response",
+            "de": "Deklariere es mit `@tool(approval_mode=\"always_require\")` und setze den Lauf dann in derselben Session mit der Freigabeantwort fort"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the run ends with `user_input_requests` instead of calling the tool; a new `run()` in the same session with `to_function_approval_response(True)` executes it.",
+            "de": "Stimmt: Der Lauf endet mit `user_input_requests`, statt das Tool aufzurufen; ein neuer `run()` in derselben Session mit `to_function_approval_response(True)` führt es aus."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Add an approval rule to the `instructions`; the same `run()` call then waits until a reviewer approves",
+            "de": "Schreib eine Freigaberegel in die `instructions`; derselbe `run()`-Aufruf wartet dann, bis ein Prüfer zustimmt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: instructions can't enforce an approval, and the run doesn't wait for a reviewer — it ends with `user_input_requests`, and a new `run()` in the same session resumes.",
+            "de": "Doppelt falsch: Instructions erzwingen keine Freigabe, und der Lauf wartet nicht auf einen Prüfer – er endet mit `user_input_requests`, und ein neuer `run()` in derselben Session setzt fort."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Declare it with `@tool(approval_mode=\"always_require\")`; the same `run()` call then waits until a reviewer approves",
+            "de": "Deklariere es mit `@tool(approval_mode=\"always_require\")`; derselbe `run()`-Aufruf wartet dann, bis ein Prüfer zustimmt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not quite: the run doesn't wait. It ends and returns `user_input_requests`; your code asks the reviewer and starts a new `run()` in the same session.",
+            "de": "Nicht ganz: Der Lauf wartet nicht. Er endet und liefert `user_input_requests`; dein Code fragt den Prüfer und startet einen neuen `run()` in derselben Session."
+          }
+        }
+      ]
     }
   ]
 }

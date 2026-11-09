@@ -135,7 +135,7 @@ function ZettelPanel() {
           <p className="zk-home__tally">
             <strong>{counts[2]}</strong> von {cards.length} Zetteln vorne
           </p>
-          <p className="zk-home__rule">Vorderseite: Frage, Rückseite: Antwort. Gewusst: ein Fach nach vorn. Nicht gewusst: zurück in Fach 1.</p>
+          <p className="zk-home__rule">Fragen mit Antwortoptionen wie in der Prüfung, jede Antwort kurz erklärt. Richtig: ein Fach nach vorn. Falsch: zurück in Fach 1.</p>
           <div className="zk-home__actions">
             {round.length > 0 ? (
               <Link to="/zettel/lernen" className="btn btn--secondary btn--large">

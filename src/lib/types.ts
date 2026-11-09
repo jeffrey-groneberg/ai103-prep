@@ -295,6 +295,8 @@ export interface StarterCard {
    * answer; they carry one only when that text points at the page ("the table below").
    */
   back?: L10n
+  /** Exam-style answer options: four, exactly one correct, each with a short reason why it is right or wrong. */
+  choices: ChoiceOption[]
 }
 
 export interface CardFile {
@@ -312,4 +314,6 @@ export interface Zettel {
   back: Text
   /** Concept cards: the term, shown above the answer. */
   term?: string
+  /** Answer options for a multiple-choice round; cards without them are turned and rated by the learner. */
+  choices?: ChoiceOption[]
 }

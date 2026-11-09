@@ -64,16 +64,35 @@ describe('app routes render', () => {
     expect(screen.getByText(new RegExp(`von ${starterZettel.length} Zetteln vorne`))).toBeTruthy()
   })
 
-  it('a Zettelkasten round flips a card and moves it one compartment forward', () => {
+  it('a Zettelkasten round asks multiple choice, explains every option and moves the card', () => {
     store.importJson(JSON.stringify(initialState()))
     renderAt('/zettel/lernen?modul=a2a')
     expect(screen.getByText('Vorderseite · Frage')).toBeTruthy()
+    const plain = (s: string) => s.replace(/[`*\u200b]/g, '').replace(/\s+/g, ' ').trim()
+    const pick = (id: string, correct: boolean) => {
+      const option = starterZettel.find((z) => z.id === id)!.choices!.find((o) => o.correct === correct)!
+      const radio = (screen.getAllByRole('radio') as HTMLInputElement[]).find((r) => plain(r.closest('label')!.textContent!).includes(plain(option.text.de)))!
+      fireEvent.click(radio)
+      return option
+    }
+    expect(screen.getByRole('button', { name: 'Prüfen' })).toHaveProperty('disabled', true)
+    const right = pick('z-a2a-concept-1', true)
+    fireEvent.click(screen.getByRole('button', { name: 'Prüfen' }))
+    expect(screen.getByText('Richtig!')).toBeTruthy()
+    expect(screen.getByText(plain(right.why.de).slice(0, 40), { exact: false })).toBeTruthy()
+    expect(store.get().zettel['z-a2a-concept-1']?.fach).toBe(2)
+    fireEvent.click(screen.getByRole('button', { name: /Weiter/ }))
+    pick('z-a2a-concept-2', false)
+    fireEvent.click(screen.getByRole('button', { name: 'Prüfen' }))
+    expect(screen.getByText('Falsch')).toBeTruthy()
+    expect(store.get().zettel['z-a2a-concept-2']).toMatchObject({ fach: 1, wrong: 1 })
+  })
+
+  it('own cards without options are still turned and rated', () => {
+    store.importJson(JSON.stringify({ ...initialState(), ownZettel: [{ id: 'z-own-1', module: null, front: 'Meine Frage?', back: 'Meine Antwort.', createdAt: '2026-11-09T10:00:00Z' }] }))
+    renderAt('/zettel/lernen?eigene=1')
     fireEvent.click(screen.getByRole('button', { name: /Antwort zeigen/ }))
     fireEvent.click(screen.getByRole('button', { name: /^Gewusst/ }))
-    expect(store.get().zettel['z-a2a-concept-1']?.fach).toBe(2)
-    fireEvent.click(screen.getByRole('button', { name: /Antwort zeigen/ }))
-    fireEvent.click(screen.getByRole('button', { name: /Nicht gewusst/ }))
-    expect(store.get().zettel['z-a2a-concept-2']?.fach).toBe(1)
-    expect(store.get().zettel['z-a2a-concept-2']?.wrong).toBe(1)
+    expect(store.get().zettel['z-own-1']?.fach).toBe(2)
   })
 })

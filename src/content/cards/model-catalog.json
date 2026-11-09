@@ -8,7 +8,57 @@
       "front": {
         "en": "Who supports and bills Foundry Models sold by Azure, and how does that differ for partner and community models?",
         "de": "Wer unterstützt Foundry Models sold by Azure und rechnet sie ab, und wie ist das bei Partner- und Community-Modellen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Microsoft hosts and supports them under Azure SLAs and bills via Azure meters; partner and community models get the same Microsoft support and Azure SLAs.",
+            "de": "Microsoft hostet und unterstützt sie mit Azure-SLAs und rechnet über Azure-Meter ab; Partner- und Community-Modelle bekommen denselben Microsoft-Support und dieselben Azure-SLAs."
+          },
+          "correct": false,
+          "why": {
+            "en": "The first half fits, but partner and community models are supported by their providers, with varying SLAs, and many are billed through Azure Marketplace.",
+            "de": "Die erste Hälfte stimmt, aber Partner- und Community-Modelle unterstützt ihr Anbieter – mit unterschiedlichen SLAs –, und viele werden über Azure Marketplace abgerechnet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Microsoft hosts and supports them under Azure SLAs and bills via Azure meters; partner and community models get provider support, often billed via Marketplace.",
+            "de": "Microsoft hostet und unterstützt sie mit Azure-SLAs und rechnet über Azure-Meter ab; Partner- und Community-Modelle unterstützt der Anbieter, oft mit Abrechnung über Marketplace."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Foundry Models sold by Azure, including all Azure OpenAI models, are Microsoft's to host, bill and support; many partner models are billed through Azure Marketplace.",
+            "de": "Richtig: Foundry Models sold by Azure, darunter alle Azure-OpenAI-Modelle, hostet, berechnet und unterstützt Microsoft; viele Partnermodelle werden über Azure Marketplace abgerechnet."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Microsoft hosts them and bills via Azure meters, but their original providers support them; partner and community models get Microsoft support and Azure SLAs instead.",
+            "de": "Microsoft hostet sie und rechnet über Azure-Meter ab, den Support leistet aber der ursprüngliche Anbieter; Partner- und Community-Modelle bekommen stattdessen Microsoft-Support und Azure-SLAs."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: Microsoft supports Foundry Models sold by Azure under Azure SLAs, while partner and community models rely on their providers.",
+            "de": "Vertauscht: Foundry Models sold by Azure unterstützt Microsoft mit Azure-SLAs, Partner- und Community-Modelle betreut ihr Anbieter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Microsoft hosts them and bills via Azure meters, but their original providers support them; partner and community models get provider support, often billed via Marketplace.",
+            "de": "Microsoft hostet sie und rechnet über Azure-Meter ab, den Support leistet aber der ursprüngliche Anbieter; Partner- und Community-Modelle unterstützt der Anbieter, oft mit Abrechnung über Marketplace."
+          },
+          "correct": false,
+          "why": {
+            "en": "The partner half fits, but Microsoft itself supports Foundry Models sold by Azure, with enterprise-grade SLAs.",
+            "de": "Die Partner-Hälfte stimmt, aber Foundry Models sold by Azure unterstützt Microsoft selbst – mit SLAs auf Enterprise-Niveau."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "By which criteria do model leaderboards rank models, and what can public benchmarks not replace?",
         "de": "Nach welchen Kriterien ordnen Leaderboards die Katalogmodelle, und was ersetzen öffentliche Benchmarks nicht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Groundedness, relevance, coherence and fluency; public benchmarks don't replace tests on your own data.",
+            "de": "Groundedness, Relevance, Coherence und Fluency; öffentliche Benchmarks ersetzen keine Tests mit deinen eigenen Daten."
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are AI-assisted quality evaluators you run on your own dataset; leaderboards rank by quality index, safety, cost, latency and throughput.",
+            "de": "Das sind KI-gestützte Qualitäts-Evaluatoren für dein eigenes Dataset; Leaderboards ordnen nach Quality Index, Sicherheit, Kosten, Latenz und Durchsatz."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Quality index, safety, cost, latency and throughput; a model that ranks first needs no further tests on your own data.",
+            "de": "Quality Index, Sicherheit, Kosten, Latenz und Durchsatz; ein Modell auf Platz eins braucht keine weiteren Tests mit deinen Daten."
+          },
+          "correct": false,
+          "why": {
+            "en": "The criteria fit, but benchmarks only build the shortlist: they don't replace tests on your own data, which make the final decision.",
+            "de": "Die Kriterien stimmen, aber Benchmarks liefern nur die Shortlist: Sie ersetzen keine Tests mit deinen eigenen Daten – die treffen die Entscheidung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Quality index, safety, cost, latency and throughput; public benchmarks don't replace tests on your own data.",
+            "de": "Quality Index, Sicherheit, Kosten, Latenz und Durchsatz; öffentliche Benchmarks ersetzen keine Tests mit deinen eigenen Daten."
+          },
+          "correct": true,
+          "why": {
+            "en": "Latency means time to first token and throughput generated tokens per second — but only tests on your data confirm the choice.",
+            "de": "Latenz heißt Time to First Token, Durchsatz generierte Tokens pro Sekunde – bestätigen können die Wahl aber nur Tests mit deinen Daten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Groundedness, relevance, coherence and fluency; a model that ranks first needs no further tests on your own data.",
+            "de": "Groundedness, Relevance, Coherence und Fluency; ein Modell auf Platz eins braucht keine weiteren Tests mit deinen eigenen Daten."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts miss: those are evaluators you run on your own dataset, and a top rank only gets a model onto the shortlist — tests on your data still decide.",
+            "de": "Beides daneben: Das sind Evaluatoren für dein eigenes Dataset, und ein Spitzenplatz bringt ein Modell nur auf die Shortlist – entscheiden müssen Tests mit deinen Daten."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What does the deployment type of a Serverless API deployment decide, and what does managed compute host instead?",
         "de": "Was legt der Deployment-Typ eines Serverless-API-Deployments fest, und was hostet Managed Compute stattdessen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Which model version and guardrail the deployment uses; managed compute (preview) hosts open-source models such as Hugging Face ones on dedicated GPUs.",
+            "de": "Welche Modellversion und welchen Guardrail das Deployment nutzt; Managed Compute (Preview) hostet Open-Source-Modelle wie die von Hugging Face auf dedizierten GPUs."
+          },
+          "correct": false,
+          "why": {
+            "en": "Version and guardrail (RAI policy) are separate deployment settings; the deployment type decides where inference data is processed and how you pay.",
+            "de": "Version und Guardrail (RAI-Policy) sind eigene Deployment-Einstellungen; der Deployment-Typ legt fest, wo Inferenzdaten verarbeitet werden und wie du zahlst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Where inference data is processed and how you pay; managed compute (preview) runs the same catalog models on shared capacity, billed per token.",
+            "de": "Wo Inferenzdaten verarbeitet werden und wie du zahlst; Managed Compute (Preview) betreibt dieselben Katalogmodelle auf geteilter Kapazität, abgerechnet pro Token."
+          },
+          "correct": false,
+          "why": {
+            "en": "The first half fits, but managed compute uses dedicated GPUs billed per accelerator hour — for open-source models such as the Hugging Face collection.",
+            "de": "Die erste Hälfte stimmt, aber Managed Compute nutzt dedizierte GPUs, abgerechnet pro Beschleuniger-Stunde – für Open-Source-Modelle wie die Hugging-Face-Collection."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Which model version and guardrail the deployment uses; managed compute (preview) runs the same catalog models on shared capacity, billed per token.",
+            "de": "Welche Modellversion und welchen Guardrail das Deployment nutzt; Managed Compute (Preview) betreibt dieselben Katalogmodelle auf geteilter Kapazität, abgerechnet pro Token."
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither part fits: version and guardrail are separate settings, and managed compute uses dedicated GPUs billed per accelerator hour.",
+            "de": "Beides falsch: Version und Guardrail sind eigene Einstellungen, und Managed Compute nutzt dedizierte GPUs, abgerechnet pro Beschleuniger-Stunde."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Where inference data is processed and how you pay; managed compute (preview) hosts open-source models such as Hugging Face ones on dedicated GPUs.",
+            "de": "Wo Inferenzdaten verarbeitet werden und wie du zahlst; Managed Compute (Preview) hostet Open-Source-Modelle wie die von Hugging Face auf dedizierten GPUs."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the type (Global Standard, Data Zone, Standard, Provisioned, Batch, Developer) sets processing and billing; managed compute bills per accelerator hour.",
+            "de": "Stimmt: Der Typ (Global Standard, Data Zone, Standard, Provisioned, Batch, Developer) bestimmt Verarbeitung und Abrechnung; Managed Compute rechnet pro Beschleuniger-Stunde ab."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "Which three kinds of HTTP 429 can a deployment return, and what is the right response to each?",
         "de": "Welche drei Arten von HTTP 429 kann ein Deployment liefern, und wie reagierst du jeweils richtig?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Rate limit exceeded → retry after `retry-after-ms`; high demand → request more quota; lowered limit → retry with backoff, PTUs for steady load.",
+            "de": "Ratenlimit überschritten → nach `retry-after-ms` wiederholen; hohe Auslastung → mehr Kontingent beantragen; gesenktes Limit → mit Backoff wiederholen, PTUs für Dauerlast."
+          },
+          "correct": false,
+          "why": {
+            "en": "High demand means system capacity throttling — more quota doesn't help; retry after `retry-after-ms` and consider PTUs if it persists.",
+            "de": "Hohe Auslastung bedeutet Kapazitätsdrosselung des Systems – mehr Kontingent hilft nicht; wiederhole nach `retry-after-ms` und erwäge bei Dauerproblemen PTUs."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Rate limit exceeded → raise or rebalance TPM; high demand → retry after `retry-after-ms`; lowered limit → retry with backoff, PTUs for steady load.",
+            "de": "Ratenlimit überschritten → TPM erhöhen oder umverteilen; hohe Auslastung → nach `retry-after-ms` wiederholen; gesenktes Limit → mit Backoff wiederholen, PTUs für Dauerlast."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: only the first is about your TPM; capacity throttling and a temporarily lowered limit call for retries — and PTUs if you need steady throughput.",
+            "de": "Richtig: Nur der erste betrifft deine TPM; Kapazitätsdrosselung und ein vorübergehend gesenktes Limit verlangen Wiederholungen – und PTUs, wenn du gleichmäßigen Durchsatz brauchst."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Rate limit exceeded → raise or rebalance TPM; high demand → retry after `retry-after-ms`; lowered limit → file a quota increase request.",
+            "de": "Ratenlimit überschritten → TPM erhöhen oder umverteilen; hohe Auslastung → nach `retry-after-ms` wiederholen; gesenktes Limit → Kontingenterhöhung beantragen."
+          },
+          "correct": false,
+          "why": {
+            "en": "A limit below your configured TPM is a temporary adjustment by the service: retry with backoff or move steady traffic to PTUs instead of requesting quota.",
+            "de": "Ein Limit unter deinen konfigurierten TPM ist eine vorübergehende Anpassung durch den Dienst: Wiederhole mit Backoff oder verlege Dauerlast auf PTUs, statt Kontingent zu beantragen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Rate limit exceeded, high demand and a lowered limit all mean missing quota, so you file a quota increase request for each of them.",
+            "de": "Ratenlimit überschritten, hohe Auslastung und ein gesenktes Limit bedeuten alle fehlendes Kontingent – du beantragst also jeweils eine Kontingenterhöhung."
+          },
+          "correct": false,
+          "why": {
+            "en": "Not every 429 means you need more quota: high demand and a temporarily lowered limit call for retries, and PTUs if the problem persists.",
+            "de": "Nicht jeder 429 heißt, dass du mehr Kontingent brauchst: Hohe Auslastung und ein vorübergehend gesenktes Limit verlangen Wiederholungen, bei Dauerproblemen PTUs."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How do PTU quota and PTU capacity differ, and where does spillover send overflow traffic?",
         "de": "Worin unterscheiden sich PTU-Kontingent und PTU-Kapazität, und wohin schickt Spillover den Überlauf?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Quota permits up to N PTUs, capacity is the PTUs actually free in the region; spillover goes to a standard deployment of the same model and version.",
+            "de": "Kontingent erlaubt bis zu N PTUs, Kapazität sind die in der Region tatsächlich freien PTUs; Spillover geht an ein Standard-Deployment desselben Modells und derselben Version."
+          },
+          "correct": true,
+          "why": {
+            "en": "Quota doesn't guarantee capacity — without free PTUs the deployment fails — and spillover targets a standard deployment in the same Foundry resource.",
+            "de": "Kontingent garantiert keine Kapazität – ohne freie PTUs scheitert das Deployment –, und Spillover zielt auf ein Standard-Deployment in derselben Foundry-Ressource."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Quota reserves the PTUs for you, so the capacity is guaranteed; spillover goes to a standard deployment of the same model and version.",
+            "de": "Kontingent reserviert die PTUs für dich, Kapazität ist also garantiert; Spillover geht an ein Standard-Deployment desselben Modells und derselben Version."
+          },
+          "correct": false,
+          "why": {
+            "en": "Quota is only permission to deploy: capacity depends on the PTUs free in the region when you deploy, and the deployment fails without it.",
+            "de": "Kontingent ist nur die Erlaubnis zum Bereitstellen: Kapazität hängt von den beim Deployment freien PTUs in der Region ab, ohne sie scheitert es."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Quota permits up to N PTUs, capacity is the PTUs actually free in the region; spillover goes to a provisioned deployment of the same model in another region.",
+            "de": "Kontingent erlaubt bis zu N PTUs, Kapazität sind die in der Region tatsächlich freien PTUs; Spillover geht an ein Provisioned-Deployment desselben Modells in einer anderen Region."
+          },
+          "correct": false,
+          "why": {
+            "en": "The quota part fits, but spillover sends overflow to a standard deployment of the same model and version in the same Foundry resource.",
+            "de": "Der Kontingent-Teil stimmt, aber Spillover schickt Überlauf an ein Standard-Deployment desselben Modells und derselben Version in derselben Foundry-Ressource."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Quota reserves the PTUs for you, so the capacity is guaranteed; spillover goes to a provisioned deployment of the same model in another region.",
+            "de": "Kontingent reserviert die PTUs für dich, Kapazität ist also garantiert; Spillover geht an ein Provisioned-Deployment desselben Modells in einer anderen Region."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both parts are off: quota is only permission to deploy, and spillover targets a standard deployment of the same model and version in the same resource.",
+            "de": "Beides daneben: Kontingent ist nur die Erlaubnis zum Bereitstellen, und Spillover zielt auf ein Standard-Deployment desselben Modells und derselben Version in derselben Ressource."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What does model router do for each prompt, which routing modes does it offer, and what limits its context window?",
         "de": "Was macht der Model Router pro Prompt, welche Routing-Modi bietet er, und was begrenzt sein Kontextfenster?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Picks the most suitable underlying model; modes Quality (default), Balanced and Cost; the largest model in the routing set sets the window.",
+            "de": "Wählt das passendste zugrunde liegende Modell; Modi Quality (Standard), Balanced und Cost; das größte Modell im Routing-Set bestimmt das Fenster."
+          },
+          "correct": false,
+          "why": {
+            "en": "Two slips: Balanced is the default mode, and the smallest model in the routing set limits the context window.",
+            "de": "Zwei Fehler: Balanced ist der Standardmodus, und das kleinste Modell im Routing-Set begrenzt das Kontextfenster."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Sends the prompt to every model and keeps the best answer; modes Balanced (default), Cost and Quality; the largest model sets the window.",
+            "de": "Schickt den Prompt an jedes Modell und nimmt die beste Antwort; Modi Balanced (Standard), Cost und Quality; das größte Modell bestimmt das Fenster."
+          },
+          "correct": false,
+          "why": {
+            "en": "Model router picks one underlying model per prompt instead of fanning out, and the smallest model in the routing set limits the window.",
+            "de": "Der Model Router wählt pro Prompt ein zugrunde liegendes Modell, statt an alle zu verteilen, und das kleinste Modell im Routing-Set begrenzt das Fenster."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Picks the most suitable underlying model; modes Quality (default), Balanced and Cost; the smallest model in the routing set limits the window.",
+            "de": "Wählt das passendste zugrunde liegende Modell; Modi Quality (Standard), Balanced und Cost; das kleinste Modell im Routing-Set begrenzt das Fenster."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default routing mode is Balanced; Cost and Quality are the alternatives you choose explicitly.",
+            "de": "Der Standard-Routing-Modus ist Balanced; Cost und Quality sind die Alternativen, die du ausdrücklich wählst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Picks the most suitable underlying model; modes Balanced (default), Cost and Quality; the smallest model in the routing set limits the window.",
+            "de": "Wählt das passendste zugrunde liegende Modell; Modi Balanced (Standard), Cost und Quality; das kleinste Modell im Routing-Set begrenzt das Fenster."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: it routes each prompt to one suitable model, uses Balanced unless you choose otherwise, and inherits the smallest context window in the set.",
+            "de": "Stimmt: Er leitet jeden Prompt an ein passendes Modell, nutzt Balanced, solange du nichts anderes wählst, und erbt das kleinste Kontextfenster im Set."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What do AI-assisted quality evaluators, textual similarity metrics and risk and safety evaluators each need?",
         "de": "Was brauchen KI-gestützte Qualitäts-Evaluatoren, Textähnlichkeits-Metriken und Sicherheits-Evaluatoren jeweils?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Quality evaluators: ground truth; F1, BLEU, ROUGE: a judge deployment; risk and safety: query and response on hosted safety models.",
+            "de": "Qualitäts-Evaluatoren: Ground Truth; F1, BLEU, ROUGE: ein Richter-Deployment; Risiko und Sicherheit: Frage und Antwort auf gehosteten Sicherheitsmodellen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: AI-assisted quality evaluators use a judge model deployment without ground truth, while F1, BLEU and ROUGE compare against ground truth.",
+            "de": "Vertauscht: KI-gestützte Qualitäts-Evaluatoren nutzen ein Richter-Deployment ohne Ground Truth, F1, BLEU und ROUGE vergleichen dagegen mit Ground Truth."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Quality evaluators: a judge deployment, no ground truth; F1, BLEU, ROUGE: ground truth; risk and safety: query and response on hosted safety models.",
+            "de": "Qualitäts-Evaluatoren: ein Richter-Deployment, keine Ground Truth; F1, BLEU, ROUGE: Ground Truth; Risiko und Sicherheit: Frage und Antwort auf gehosteten Sicherheitsmodellen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: groundedness or relevance need a judge deployment, overlap metrics need the expected answer, and safety evaluators run on hosted models without your judge.",
+            "de": "Richtig: Groundedness oder Relevance brauchen ein Richter-Deployment, Überlappungsmetriken die erwartete Antwort, und Safety-Evaluatoren laufen auf gehosteten Modellen ohne deinen Richter."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Quality evaluators: a judge deployment, no ground truth; F1, BLEU, ROUGE: ground truth; risk and safety: your own judge deployment plus ground truth per row.",
+            "de": "Qualitäts-Evaluatoren: ein Richter-Deployment, keine Ground Truth; F1, BLEU, ROUGE: Ground Truth; Risiko und Sicherheit: dein eigenes Richter-Deployment plus Ground Truth je Zeile."
+          },
+          "correct": false,
+          "why": {
+            "en": "Risk and safety evaluators need only query and response and run on hosted safety models — no judge deployment and no ground truth.",
+            "de": "Risiko- und Sicherheits-Evaluatoren brauchen nur Frage und Antwort und laufen auf gehosteten Sicherheitsmodellen – ohne Richter-Deployment und ohne Ground Truth."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "All three need a judge deployment plus ground truth for every row of the test dataset.",
+            "de": "Alle drei brauchen ein Richter-Deployment plus Ground Truth für jede Zeile des Test-Datasets."
+          },
+          "correct": false,
+          "why": {
+            "en": "No: groundedness and relevance work without ground truth, and safety evaluators run on hosted safety models without your judge deployment.",
+            "de": "Nein: Groundedness und Relevance funktionieren ohne Ground Truth, und Safety-Evaluatoren laufen auf gehosteten Sicherheitsmodellen ohne dein Richter-Deployment."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-8",
@@ -64,7 +414,57 @@
       "front": {
         "en": "When do you pick an LLM, an SLM, a reasoning model, an embedding model or a multimodal model?",
         "de": "Wann wählst du ein LLM, ein SLM, ein Reasoning-Modell, ein Embedding-Modell oder ein multimodales Modell?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "LLM: common tasks, faster and cheaper; SLM: complex generation, long context; reasoning: hard multi-step problems; embedding: semantic search and RAG; multimodal: text plus images",
+            "de": "LLM: gängige Aufgaben, schneller und günstiger; SLM: komplexe Generierung, langer Kontext; Reasoning: schwierige mehrstufige Aufgaben; Embedding: semantische Suche und RAG; multimodal: Text plus Bilder"
+          },
+          "correct": false,
+          "why": {
+            "en": "LLM and SLM are swapped: LLMs handle complex generation and long context with more compute; SLMs cover common tasks faster and cheaper, even on edge devices.",
+            "de": "LLM und SLM sind vertauscht: LLMs schaffen komplexe Generierung und langen Kontext mit mehr Rechenleistung, SLMs erledigen gängige Aufgaben schneller und günstiger, sogar auf Edge-Geräten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "LLM: common tasks, faster and cheaper; SLM: complex generation, long context; reasoning: semantic search and RAG; embedding: hard multi-step problems; multimodal: text plus images",
+            "de": "LLM: gängige Aufgaben, schneller und günstiger; SLM: komplexe Generierung, langer Kontext; Reasoning: semantische Suche und RAG; Embedding: schwierige mehrstufige Aufgaben; multimodal: Text plus Bilder"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two swaps: LLMs take complex generation and long context while SLMs cover common tasks, and reasoning models solve hard multi-step problems while embeddings power search and RAG.",
+            "de": "Zwei Vertauschungen: LLMs übernehmen komplexe Generierung und langen Kontext, SLMs gängige Aufgaben; Reasoning-Modelle lösen schwierige mehrstufige Aufgaben, Embeddings tragen Suche und RAG."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "LLM: complex generation, long context; SLM: common tasks, faster and cheaper; reasoning: hard multi-step problems; embedding: semantic search and RAG; multimodal: text plus images",
+            "de": "LLM: komplexe Generierung, langer Kontext; SLM: gängige Aufgaben, schneller und günstiger; Reasoning: schwierige mehrstufige Aufgaben; Embedding: semantische Suche und RAG; multimodal: Text plus Bilder"
+          },
+          "correct": true,
+          "why": {
+            "en": "LLMs bring depth at more compute, SLMs speed and low cost (even on edge devices), reasoning models extra thinking time, embeddings vectors for RAG.",
+            "de": "LLMs bringen Tiefe bei mehr Rechenleistung, SLMs Tempo und niedrige Kosten (sogar auf Edge-Geräten), Reasoning-Modelle mehr Denkzeit, Embeddings Vektoren für RAG."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "LLM: complex generation, long context; SLM: common tasks, faster and cheaper; reasoning: semantic search and RAG; embedding: hard multi-step problems; multimodal: text plus images",
+            "de": "LLM: komplexe Generierung, langer Kontext; SLM: gängige Aufgaben, schneller und günstiger; Reasoning: semantische Suche und RAG; Embedding: schwierige mehrstufige Aufgaben; multimodal: Text plus Bilder"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reasoning and embedding are swapped: reasoning models spend more time on multi-step math, code or science; embedding models produce vectors for search and RAG.",
+            "de": "Reasoning und Embedding sind vertauscht: Reasoning-Modelle investieren mehr Zeit in mehrstufige Aufgaben aus Mathe, Code oder Naturwissenschaften; Embedding-Modelle erzeugen Vektoren für Suche und RAG."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-9",
@@ -72,7 +472,57 @@
       "front": {
         "en": "What does instant access (preview) let you skip, what are its preview limits, and when do you still deploy?",
         "de": "Was sparst du dir mit Instant Access (Preview), welche Grenzen hat die Preview, und wann brauchst du ein Deployment?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The deployment; the preview runs in any region and allows a custom guardrail per model; after that, no scenario needs a deployment anymore.",
+            "de": "Das Deployment; die Preview läuft in jeder Region und erlaubt einen eigenen Guardrail pro Modell; danach braucht kein Szenario mehr ein Deployment."
+          },
+          "correct": false,
+          "why": {
+            "en": "The preview needs a West US 3 project and applies default guardrails, and you still deploy for PTUs, residency, custom guardrails, fine-tuned models or split quota.",
+            "de": "Die Preview braucht ein Projekt in West US 3 und nutzt Standard-Guardrails, und für PTUs, Residenz, eigene Guardrails, feinabgestimmte Modelle oder geteiltes Kontingent brauchst du weiter ein Deployment."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The deployment; the preview needs a West US 3 project and applies default guardrails; deploy for PTUs, residency or fine-tuned models.",
+            "de": "Das Deployment; die Preview braucht ein Projekt in West US 3 und nutzt Standard-Guardrails; Deployment für PTUs, Residenz oder feinabgestimmte Modelle."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: you call the model by name through the same SDK; for PTUs, data residency, custom guardrails, fine-tuned models or split quota you still create a deployment.",
+            "de": "Stimmt: Du rufst das Modell per Namen über dasselbe SDK auf; für PTUs, Datenresidenz, eigene Guardrails, feinabgestimmte Modelle oder geteiltes Kontingent legst du weiter ein Deployment an."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The SDK, as you call each model's own REST endpoint; the preview runs in any region and allows a custom guardrail per model; deploy for PTUs, residency or fine-tuned models.",
+            "de": "Das SDK, weil du den eigenen REST-Endpunkt jedes Modells aufrufst; die Preview läuft in jeder Region und erlaubt einen eigenen Guardrail pro Modell; Deployment für PTUs, Residenz oder feinabgestimmte Modelle."
+          },
+          "correct": false,
+          "why": {
+            "en": "Instant access keeps the same SDK and API and skips the deployment; the preview needs a West US 3 project and applies default guardrails.",
+            "de": "Instant Access nutzt dasselbe SDK und dieselbe API und spart das Deployment; die Preview braucht ein Projekt in West US 3 und nutzt Standard-Guardrails."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The deployment; the preview needs a West US 3 project and applies default guardrails; after that, no scenario needs a deployment anymore.",
+            "de": "Das Deployment; die Preview braucht ein Projekt in West US 3 und nutzt Standard-Guardrails; danach braucht kein Szenario mehr ein Deployment."
+          },
+          "correct": false,
+          "why": {
+            "en": "You still need a deployment for PTUs, data residency, custom guardrails, fine-tuned models or quota split across teams.",
+            "de": "Ein Deployment brauchst du weiterhin für PTUs, Datenresidenz, eigene Guardrails, feinabgestimmte Modelle oder ein auf Teams aufgeteiltes Kontingent."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-concept-10",
@@ -80,7 +530,57 @@
       "front": {
         "en": "How does a rubric evaluator score a response, what's its default pass threshold, and what do you generate it from?",
         "de": "Wie bewertet ein Rubric-Evaluator eine Antwort, welcher Standard-Schwellenwert gilt, und woraus erzeugst du ihn?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An LLM judge scores weighted dimensions 1–5, normalized to 0–1; passes at 0.5 by default; generated from an agent, its system prompt or reference files.",
+            "de": "Ein LLM-Judge bewertet gewichtete Dimensionen mit 1–5, auf 0–1 normiert; Bestehen standardmäßig ab 0,5; erzeugt aus einem Agent, seinem System-Prompt oder Referenzdateien."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: 0.5 is the default pass threshold, and production traces can only be added on top of those generation inputs, never used alone.",
+            "de": "Richtig: 0,5 ist der Standard-Schwellenwert, und Produktions-Traces kommen nur ergänzend zu diesen Eingaben hinzu, nie allein."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "An LLM judge scores weighted dimensions 1–5, normalized to 0–1; passes at 0.8 by default; generated from production traces alone.",
+            "de": "Ein LLM-Judge bewertet gewichtete Dimensionen mit 1–5, auf 0–1 normiert; Bestehen standardmäßig ab 0,8; erzeugt allein aus Produktions-Traces."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default pass threshold is 0.5, and traces can't be used alone — pair them with a Foundry agent, an agent system prompt or reference files.",
+            "de": "Der Standard-Schwellenwert liegt bei 0,5, und Traces gehen nicht allein – kombiniere sie mit einem Foundry-Agent, einem System-Prompt des Agents oder Referenzdateien."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Exact match against the ground truth for each dimension, averaged to 0–1; passes at 0.8 by default; generated from an agent, its system prompt or reference files.",
+            "de": "Exakter Abgleich mit der Ground Truth für jede Dimension, gemittelt auf 0–1; Bestehen standardmäßig ab 0,8; erzeugt aus einem Agent, seinem System-Prompt oder Referenzdateien."
+          },
+          "correct": false,
+          "why": {
+            "en": "No exact matching: an LLM judge scores each applicable weighted dimension from 1 to 5, and the default pass threshold is 0.5.",
+            "de": "Kein exakter Abgleich: Ein LLM-Judge bewertet jede zutreffende gewichtete Dimension mit 1 bis 5, und der Standard-Schwellenwert liegt bei 0,5."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "An LLM judge scores weighted dimensions 1–5, normalized to 0–1; passes at 0.5 by default; generated from production traces alone.",
+            "de": "Ein LLM-Judge bewertet gewichtete Dimensionen mit 1–5, auf 0–1 normiert; Bestehen standardmäßig ab 0,5; erzeugt allein aus Produktions-Traces."
+          },
+          "correct": false,
+          "why": {
+            "en": "Traces can't be used alone — pair them with a Foundry agent, an agent system prompt or reference files, which auto-generation needs as its base.",
+            "de": "Traces gehen nicht allein – kombiniere sie mit einem Foundry-Agent, einem System-Prompt des Agents oder Referenzdateien, die die Auto-Generierung als Basis braucht."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-1",
@@ -92,7 +592,57 @@
       "back": {
         "en": "Your deployment name — not the catalog model name if you renamed the deployment, and never the asset ID that Azure Policy uses. Only instant access (preview) takes a plain model name, without any deployment.",
         "de": "Deinen Deployment-Namen – nicht den Katalog-Modellnamen, wenn du das Deployment umbenannt hast, und nie die Asset-ID, die Azure Policy verwendet. Nur Instant Access (Preview) nimmt einen reinen Modellnamen – ganz ohne Deployment."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Your deployment name, since a deployed model is called through its deployment.",
+            "de": "Deinen Deployment-Namen, denn ein bereitgestelltes Modell rufst du über sein Deployment auf."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `model` takes the name you chose when deploying; only instant access (preview) takes a plain model name, without any deployment.",
+            "de": "Richtig: `model` nimmt den Namen, den du beim Bereitstellen gewählt hast; nur Instant Access (Preview) nimmt einen reinen Modellnamen – ganz ohne Deployment."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The model's asset ID, which is the identifier that Azure Policy uses for catalog models.",
+            "de": "Die Asset-ID des Modells, also die Kennung, die Azure Policy für Katalogmodelle verwendet."
+          },
+          "correct": false,
+          "why": {
+            "en": "Never the asset ID: Azure Policy works with it, but your code passes the deployment name as `model`.",
+            "de": "Nie die Asset-ID: Azure Policy arbeitet damit, aber dein Code übergibt den Deployment-Namen als `model`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The catalog model name, since the service maps it to your renamed deployment automatically.",
+            "de": "Den Katalog-Modellnamen, denn der Dienst ordnet ihn automatisch deinem umbenannten Deployment zu."
+          },
+          "correct": false,
+          "why": {
+            "en": "For a deployed model, `model` takes your deployment name; the catalog name only works with instant access (preview), which uses no deployment.",
+            "de": "Bei einem bereitgestellten Modell erwartet `model` deinen Deployment-Namen; den Katalognamen nimmt nur Instant Access (Preview) – ganz ohne Deployment."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The catalog model name plus a date suffix such as `model-name-2025-04-01` to pin the version.",
+            "de": "Den Katalog-Modellnamen plus Datumssuffix wie `model-name-2025-04-01`, um die Version festzulegen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Date suffixes pin versions only with instant access; for a deployed model, `model` is the deployment name, and the version is set on the deployment.",
+            "de": "Datumssuffixe legen nur bei Instant Access eine Version fest; bei einem bereitgestellten Modell ist `model` der Deployment-Name, die Version steht im Deployment."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-2",
@@ -104,7 +654,57 @@
       "back": {
         "en": "The service has temporarily lowered your limit — not every 429 means you need more quota. Retry with backoff or move steady traffic to PTUs instead of filing a quota request.",
         "de": "Der Dienst hat dein Limit vorübergehend gesenkt – nicht jeder 429 bedeutet, dass du mehr Kontingent brauchst. Wiederhole mit Backoff oder verlege Dauerlast auf PTUs, statt Kontingent zu beantragen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Your quota for that model is used up; file a quota increase request for the region and model right away.",
+            "de": "Dein Kontingent für dieses Modell ist aufgebraucht; beantrage sofort eine Kontingenterhöhung für Region und Modell."
+          },
+          "correct": false,
+          "why": {
+            "en": "Not every 429 means you need more quota: a header below your configured TPM shows a temporary limit adjustment by the service.",
+            "de": "Nicht jeder 429 bedeutet, dass du mehr Kontingent brauchst: Ein Header unter deinen konfigurierten TPM zeigt eine vorübergehende Limitanpassung durch den Dienst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The header counts the tokens you have left this minute; wait until it resets to your full configured TPM.",
+            "de": "Der Header zählt die Tokens, die dir in dieser Minute bleiben; warte, bis er wieder auf deine vollen konfigurierten TPM springt."
+          },
+          "correct": false,
+          "why": {
+            "en": "`x-ratelimit-limit-tokens` reports the TPM limit currently enforced, not the tokens left — a lower value means the service lowered your limit.",
+            "de": "`x-ratelimit-limit-tokens` meldet das aktuell durchgesetzte TPM-Limit, nicht die Resttokens – ein niedrigerer Wert heißt, dass der Dienst dein Limit gesenkt hat."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The service has temporarily lowered your limit; retry with backoff or move steady traffic to PTUs.",
+            "de": "Der Dienst hat dein Limit vorübergehend gesenkt; wiederhole mit Backoff oder verlege Dauerlast auf PTUs."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the header reports the limit currently enforced, so a value below your configured TPM is a temporary adjustment — not a reason to request quota.",
+            "de": "Stimmt: Der Header meldet das aktuell durchgesetzte Limit; ein Wert unter deinen konfigurierten TPM ist eine vorübergehende Anpassung – kein Grund, Kontingent zu beantragen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The service has temporarily lowered your limit; file a quota increase request to get your full TPM back.",
+            "de": "Der Dienst hat dein Limit vorübergehend gesenkt; beantrage eine Kontingenterhöhung, um deine vollen TPM zurückzubekommen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The meaning fits, but a temporary adjustment isn't missing quota: retry with backoff or move steady traffic to PTUs instead of filing a quota request.",
+            "de": "Die Bedeutung stimmt, aber eine vorübergehende Anpassung ist kein fehlendes Kontingent: Wiederhole mit Backoff oder verlege Dauerlast auf PTUs, statt Kontingent zu beantragen."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-3",
@@ -116,7 +716,57 @@
       "back": {
         "en": "Create the provisioned deployment first, then buy the reservation to lock in the discount. Neither PTU quota nor an Azure Reservation guarantees capacity.",
         "de": "Lege zuerst das Provisioned-Deployment an und kaufe dann die Reservierung für den Rabatt. Weder PTU-Kontingent noch eine Azure Reservation garantiert Kapazität."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Reservation first, because only the reservation keeps the PTU capacity guaranteed for good.",
+            "de": "Zuerst die Reservierung, weil nur die Reservierung die PTU-Kapazität dauerhaft garantiert."
+          },
+          "correct": false,
+          "why": {
+            "en": "A reservation only lowers the price — it doesn't guarantee capacity, so create the deployment first and buy the reservation afterwards.",
+            "de": "Eine Reservierung senkt nur den Preis – Kapazität garantiert sie nicht; lege also zuerst das Deployment an und kaufe danach die Reservierung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Deployment first, then the reservation for the discount — neither PTU quota nor a reservation guarantees capacity.",
+            "de": "Zuerst das Deployment, dann die Reservierung für den Rabatt, denn weder PTU-Kontingent noch Reservierung garantiert Kapazität."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: only a successful deployment shows the PTUs were free in the region; the reservation then locks in the lower rate.",
+            "de": "Richtig: Erst ein erfolgreiches Deployment zeigt, dass die PTUs in der Region frei waren; die Reservierung sichert danach den günstigeren Preis."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Reservation first, to lock in the discount early — neither PTU quota nor a reservation guarantees the capacity anyway.",
+            "de": "Zuerst die Reservierung, um den Rabatt früh zu sichern – weder PTU-Kontingent noch eine Reservierung garantiert ohnehin Kapazität."
+          },
+          "correct": false,
+          "why": {
+            "en": "Because neither guarantees capacity, the deployment has to succeed first; buy the reservation afterwards to lock in the discount.",
+            "de": "Weil keins von beiden Kapazität garantiert, muss zuerst das Deployment gelingen; die Reservierung kaufst du danach für den Rabatt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Deployment first, then the reservation, because only the reservation keeps the deployment's PTU capacity guaranteed for good.",
+            "de": "Zuerst das Deployment, danach die Reservierung, weil nur die Reservierung die PTU-Kapazität des Deployments dauerhaft garantiert."
+          },
+          "correct": false,
+          "why": {
+            "en": "The order fits, but a reservation is a billing discount — it doesn't guarantee capacity.",
+            "de": "Die Reihenfolge stimmt, aber eine Reservierung ist ein Abrechnungsrabatt – Kapazität garantiert sie nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-4",
@@ -128,7 +778,57 @@
       "back": {
         "en": "Data Zone or Standard types, not Global ones. Global deployment types may process prompts in any Azure region.",
         "de": "Data-Zone- oder Standard-Typen, keine globalen. Globale Deployment-Typen dürfen Prompts in jeder Azure-Region verarbeiten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Developer or Standard types; Global types may process prompts in any Azure region.",
+            "de": "Developer- oder Standard-Typen; globale Typen dürfen Prompts in jeder Azure-Region verarbeiten."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Global part fits, but Developer gives no data residency guarantee and only serves tests of fine-tuned models; residency calls for Data Zone or Standard types.",
+            "de": "Der Teil zu globalen Typen stimmt, aber Developer gibt keine Datenresidenz-Garantie und dient nur Tests feinabgestimmter Modelle; Residenz verlangt Data-Zone- oder Standard-Typen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Data Zone or Standard types; Global types process prompts only inside your data zone.",
+            "de": "Data-Zone- oder Standard-Typen; globale Typen verarbeiten Prompts nur in deiner Datenzone."
+          },
+          "correct": false,
+          "why": {
+            "en": "The first half fits, but Global types may process prompts in any Azure region; staying inside one data zone is what Data Zone types guarantee.",
+            "de": "Die erste Hälfte stimmt, aber globale Typen dürfen Prompts in jeder Azure-Region verarbeiten; den Verbleib in einer Datenzone garantieren Data-Zone-Typen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Developer or Standard types; Global types process prompts only inside your data zone.",
+            "de": "Developer- oder Standard-Typen; globale Typen verarbeiten Prompts nur in deiner Datenzone."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both miss: Developer gives no residency guarantee, and Global types may process prompts in any Azure region, not just your data zone.",
+            "de": "Beides daneben: Developer gibt keine Residenz-Garantie, und globale Typen dürfen Prompts in jeder Azure-Region verarbeiten, nicht nur in deiner Datenzone."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Data Zone or Standard types; Global types may process prompts in any Azure region.",
+            "de": "Data-Zone- oder Standard-Typen; globale Typen dürfen Prompts in jeder Azure-Region verarbeiten."
+          },
+          "correct": true,
+          "why": {
+            "en": "Data Zone keeps inference in the US, EU or APAC zone and Standard in one Azure geography, while Global types use any region.",
+            "de": "Data Zone hält die Inferenz in der Zone US, EU oder APAC und Standard in einer Azure-Geografie, globale Typen nutzen jede Region."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-5",
@@ -140,7 +840,57 @@
       "back": {
         "en": "A higher WMDP score means more knowledge of hazardous capabilities — not a safer model. For HarmBench, a lower attack success rate is better.",
         "de": "Ein höherer WMDP-Score bedeutet mehr Wissen über gefährliche Fähigkeiten – kein sichereres Modell. Bei HarmBench ist eine niedrigere Attack Success Rate besser."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "More knowledge of hazardous capabilities; for HarmBench, a lower attack success rate is better.",
+            "de": "Mehr Wissen über gefährliche Fähigkeiten; bei HarmBench ist eine niedrigere Attack Success Rate besser."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a higher WMDP accuracy means more dangerous knowledge, not a safer model, and HarmBench counts how often harmful prompts succeed — lower is better.",
+            "de": "Richtig: Eine höhere WMDP-Accuracy heißt mehr gefährliches Wissen, kein sichereres Modell, und HarmBench zählt, wie oft schädliche Prompts Erfolg haben – niedriger ist besser."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A safer model that refuses more hazardous prompts; for HarmBench, a lower attack success rate is better.",
+            "de": "Ein sichereres Modell, das mehr gefährliche Prompts ablehnt; bei HarmBench ist eine niedrigere Attack Success Rate besser."
+          },
+          "correct": false,
+          "why": {
+            "en": "WMDP measures knowledge in hazardous domains such as biosecurity — a higher score means more dangerous knowledge, not more safety.",
+            "de": "WMDP misst Wissen in gefährlichen Bereichen wie Biosicherheit – ein höherer Score heißt mehr gefährliches Wissen, nicht mehr Sicherheit."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "More knowledge of hazardous capabilities; for HarmBench, a higher attack success rate is better.",
+            "de": "Mehr Wissen über gefährliche Fähigkeiten; bei HarmBench ist eine höhere Attack Success Rate besser."
+          },
+          "correct": false,
+          "why": {
+            "en": "The WMDP half fits, but the HarmBench attack success rate counts successful harmful prompts, so a lower rate is better.",
+            "de": "Die WMDP-Hälfte stimmt, aber die HarmBench-Attack-Success-Rate zählt erfolgreiche schädliche Prompts – niedriger ist besser."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A safer model that refuses more hazardous prompts; for HarmBench, a higher attack success rate is better.",
+            "de": "Ein sichereres Modell, das mehr gefährliche Prompts ablehnt; bei HarmBench ist eine höhere Attack Success Rate besser."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both reversed: a higher WMDP score means more hazardous knowledge, and a lower HarmBench attack success rate is better.",
+            "de": "Beides verdreht: Ein höherer WMDP-Score heißt mehr gefährliches Wissen, und bei HarmBench ist eine niedrigere Attack Success Rate besser."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-6",
@@ -152,7 +902,57 @@
       "back": {
         "en": "No — it's a pay-as-you-go service tier for lower, steadier latency on a Global Standard or Data Zone Standard (US) deployment, set for the whole deployment or per request with `service_tier: \"priority\"`. It uses the same quota as standard processing, and sharp ramps can push requests back to standard processing (billed at standard rates).",
         "de": "Nein – es ist ein nutzungsbasierter Service Tier für niedrigere, gleichmäßigere Latenz auf einem Global-Standard- oder Data-Zone-Standard-Deployment (US), aktiviert für das ganze Deployment oder pro Request mit `service_tier: \"priority\"`. Er nutzt dasselbe Kontingent wie die Standardverarbeitung, und steile Lastanstiege können Requests zurück in die Standardverarbeitung schieben (zum Standardpreis abgerechnet)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Yes, a deployment type of its own next to Provisioned; sharp ramps can push requests back to standard processing.",
+            "de": "Ja, ein eigener Deployment-Typ neben Provisioned; steile Anstiege können Requests in die Standardverarbeitung zurückschieben."
+          },
+          "correct": false,
+          "why": {
+            "en": "The ramp behavior fits, but priority processing isn't a deployment type: it's a pay-as-you-go service tier on Global Standard or Data Zone Standard (US).",
+            "de": "Das Verhalten bei Anstiegen stimmt, aber Priority Processing ist kein Deployment-Typ, sondern ein nutzungsbasierter Service Tier auf Global Standard oder Data Zone Standard (US)."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Yes, a deployment type of its own next to Provisioned; it runs on its own quota, so sharp traffic ramps never slow it down.",
+            "de": "Ja, ein eigener Deployment-Typ neben Provisioned; er läuft auf einem eigenen Kontingent, steile Lastanstiege bremsen ihn also nie."
+          },
+          "correct": false,
+          "why": {
+            "en": "It's a service tier, not a deployment type, and it uses the same quota as standard processing — sharp ramps can push requests back to standard.",
+            "de": "Es ist ein Service Tier, kein Deployment-Typ, und nutzt dasselbe Kontingent wie die Standardverarbeitung – steile Anstiege können Requests zurückstufen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "No, a pay-as-you-go service tier on Global Standard or Data Zone Standard (US); sharp ramps can push requests back to standard processing.",
+            "de": "Nein, ein nutzungsbasierter Service Tier auf Global Standard oder Data Zone Standard (US); steile Anstiege können Requests in die Standardverarbeitung zurückschieben."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: set it per deployment or per request with `service_tier: \"priority\"`; it shares the standard quota, and downgraded requests are billed at standard rates.",
+            "de": "Richtig: Du setzt ihn pro Deployment oder pro Request mit `service_tier: \"priority\"`; er teilt das Standardkontingent, und zurückgestufte Requests kosten den Standardpreis."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "No, a pay-as-you-go service tier on Global Standard or Data Zone Standard (US); it runs on its own quota, so sharp traffic ramps never slow it down.",
+            "de": "Nein, ein nutzungsbasierter Service Tier auf Global Standard oder Data Zone Standard (US); er läuft auf einem eigenen Kontingent, steile Lastanstiege bremsen ihn also nie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Priority processing uses the same quota as standard processing, and sharp traffic ramps can push requests back to standard processing.",
+            "de": "Priority Processing nutzt dasselbe Kontingent wie die Standardverarbeitung, und steile Lastanstiege können Requests zurück in die Standardverarbeitung schieben."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-trap-7",
@@ -164,7 +964,57 @@
       "back": {
         "en": "The same prompt can return a different answer each time, and many answers can be right, so you score qualities with evaluators instead. Overlap metrics such as F1 or BLEU fit when you have a definitive correct answer or a reference text (ground truth); they're less suitable for open-ended generation.",
         "de": "Derselbe Prompt kann jedes Mal eine andere Antwort liefern, und viele Antworten können richtig sein – deshalb bewertest du Eigenschaften mit Evaluatoren. Überlappungsmetriken wie F1 oder BLEU passen, wenn es eine eindeutige richtige Antwort oder einen Referenztext (Ground Truth) gibt; für offene Generierung eignen sie sich weniger."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The same prompt can give different answers and many can be right; F1 or BLEU fit when a definitive answer or reference text exists.",
+            "de": "Derselbe Prompt kann unterschiedliche Antworten liefern, und viele können richtig sein; F1 oder BLEU passen, wenn es eine eindeutige Antwort oder einen Referenztext gibt."
+          },
+          "correct": true,
+          "why": {
+            "en": "Score qualities with evaluators instead; overlap metrics compare against ground truth, so they suit tasks with one correct answer, not open-ended generation.",
+            "de": "Bewerte Eigenschaften stattdessen mit Evaluatoren; Überlappungsmetriken vergleichen mit Ground Truth und passen zu Aufgaben mit eindeutiger Antwort, nicht zu offener Generierung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The same prompt can give different answers and many can be right; F1 or BLEU fit open-ended generation, needing no reference text.",
+            "de": "Derselbe Prompt kann unterschiedliche Antworten liefern, und viele können richtig sein; F1 oder BLEU passen zu offener Generierung, weil sie keinen Referenztext brauchen."
+          },
+          "correct": false,
+          "why": {
+            "en": "F1 and BLEU need a definitive answer or a reference text (ground truth) and are less suitable for open-ended generation.",
+            "de": "F1 und BLEU brauchen eine eindeutige Antwort oder einen Referenztext (Ground Truth) und eignen sich weniger für offene Generierung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Exact-match tests are too slow at scale; F1 or BLEU fit when a definitive answer or reference text exists.",
+            "de": "Exakte Vergleichstests sind im großen Maßstab zu langsam; F1 oder BLEU passen, wenn es eine eindeutige Antwort oder einen Referenztext gibt."
+          },
+          "correct": false,
+          "why": {
+            "en": "The F1 and BLEU part fits, but speed isn't the problem: the same prompt can return different answers, and many answers can be right.",
+            "de": "Der Teil zu F1 und BLEU stimmt, aber Tempo ist nicht das Problem: Derselbe Prompt kann verschiedene Antworten liefern, und viele können richtig sein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Exact-match tests are too slow at scale; F1 or BLEU fit open-ended generation, as they need no reference text.",
+            "de": "Exakte Vergleichstests sind im großen Maßstab zu langsam; F1 oder BLEU passen zu offener Generierung, weil sie keinen Referenztext brauchen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Neither part holds: the issue is non-determinism with many valid answers, and F1 or BLEU need ground truth to compare against.",
+            "de": "Beides stimmt nicht: Das Problem ist Nichtdeterminismus mit vielen gültigen Antworten, und F1 oder BLEU brauchen Ground Truth zum Vergleich."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-1",
@@ -176,7 +1026,57 @@
       "back": {
         "en": "Start on Global Standard. Switch only for residency, reserved throughput, batch or fine-tuned tests.",
         "de": "Starte mit Global Standard; wechsle nur für Residenz, reservierten Durchsatz, Batch oder Fine-Tuning-Tests."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Standard; switch for data residency, reserved throughput, batch jobs or fine-tuned model tests.",
+            "de": "Standard; wechsle für Datenresidenz, reservierten Durchsatz, Batch-Jobs oder Tests feinabgestimmter Modelle."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default start is Global Standard (newest models, highest default quota); Standard is itself a residency option that keeps inference in one geography.",
+            "de": "Der Standardstart ist Global Standard (neueste Modelle, höchstes Standardkontingent); Standard ist selbst eine Residenz-Option, die Inferenz in einer Geografie hält."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Standard; switch for more quota, newer models, a lower real-time price or more regions.",
+            "de": "Standard; wechsle für mehr Kontingent, neuere Modelle, einen niedrigeren Echtzeitpreis oder mehr Regionen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The default start is Global Standard, and it already has the highest default quota, the newest models, the lowest real-time price and the broadest coverage.",
+            "de": "Der Standardstart ist Global Standard, und der hat schon das höchste Standardkontingent, die neuesten Modelle, den niedrigsten Echtzeitpreis und die breiteste Abdeckung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Global Standard; switch for data residency, reserved throughput, batch jobs or fine-tuned model tests.",
+            "de": "Global Standard; wechsle für Datenresidenz, reservierten Durchsatz, Batch-Jobs oder Tests feinabgestimmter Modelle."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: residency → Data Zone or Standard, steady load → Provisioned, async bulk work → Batch, fine-tuned checks → Developer.",
+            "de": "Stimmt: Residenz → Data Zone oder Standard, Dauerlast → Provisioned, asynchrone Massenarbeit → Batch, Fine-Tuning-Checks → Developer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Global Standard; switch for more quota, newer models, a lower real-time price or more regions.",
+            "de": "Global Standard; wechsle für mehr Kontingent, neuere Modelle, einen niedrigeren Echtzeitpreis oder mehr Regionen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Global Standard already has the highest default quota, the newest models, the lowest real-time pay-per-token price and the broadest region coverage.",
+            "de": "Global Standard hat schon das höchste Standardkontingent, die neuesten Modelle, den niedrigsten Pay-per-Token-Preis für Echtzeit-Traffic und die breiteste Regionsabdeckung."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-2",
@@ -188,7 +1088,57 @@
       "back": {
         "en": "Quota is TPM per subscription, region, model and deployment type — the deployments share it.",
         "de": "Kontingent ist TPM pro Abonnement, Region, Modell und Deployment-Typ – Deployments teilen es sich."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Per deployment; each new deployment you create brings its own full TPM quota, independent of the others.",
+            "de": "Pro Deployment; jedes neue Deployment, das du anlegst, bringt sein eigenes volles TPM-Kontingent mit – unabhängig von den anderen."
+          },
+          "correct": false,
+          "why": {
+            "en": "Quota is TPM per subscription, region, model and deployment type, and the deployments in that scope draw on the same pool.",
+            "de": "Kontingent ist TPM pro Abonnement, Region, Modell und Deployment-Typ, und die Deployments in diesem Bereich schöpfen aus demselben Topf."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Per Foundry project; deployments in other projects of the same subscription never count against it.",
+            "de": "Pro Foundry-Projekt; Deployments in anderen Projekten desselben Abonnements zählen nie gegen dieses Kontingent."
+          },
+          "correct": false,
+          "why": {
+            "en": "Quota isn't scoped to a project: it's TPM per subscription, region, model and deployment type, shared by the deployments in that scope.",
+            "de": "Kontingent hängt nicht am Projekt: Es ist TPM pro Abonnement, Region, Modell und Deployment-Typ, geteilt von den Deployments darin."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Per subscription and region for all models together; deployments of any model draw on one TPM pool.",
+            "de": "Pro Abonnement und Region für alle Modelle zusammen; Deployments jedes Modells schöpfen aus einem TPM-Topf."
+          },
+          "correct": false,
+          "why": {
+            "en": "TPM quota is also split by model and deployment type; a model-independent pool is how PTU quota works, not TPM.",
+            "de": "TPM-Kontingent ist zusätzlich nach Modell und Deployment-Typ getrennt; ein modellunabhängiger Topf ist das Prinzip von PTU-Kontingent, nicht von TPM."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Per subscription, region, model and deployment type; the deployments in that scope share it.",
+            "de": "Pro Abonnement, Region, Modell und Deployment-Typ; die Deployments in diesem Bereich teilen es sich."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the TPM you assign to a deployment comes out of that shared quota and becomes its TPM limit plus a proportional RPM limit.",
+            "de": "Richtig: Die TPM, die du einem Deployment zuweist, kommen aus diesem gemeinsamen Kontingent und werden sein TPM-Limit plus ein proportionales RPM-Limit."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-3",
@@ -200,7 +1150,57 @@
       "back": {
         "en": "Steady, latency-critical load → PTUs plus spillover; bulk async work → Batch; mixed prompt complexity → model router.",
         "de": "Dauerlast mit Latenzanspruch → PTUs plus Spillover; asynchrone Massenarbeit → Batch; gemischte Prompt-Komplexität → Model Router."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Steady load → PTUs plus spillover; bulk async work → Batch; mixed prompt complexity → model router.",
+            "de": "Dauerlast → PTUs plus Spillover; asynchrone Massenarbeit → Batch; gemischte Prompt-Komplexität → Model Router."
+          },
+          "correct": true,
+          "why": {
+            "en": "PTUs reserve throughput and spillover catches overflow, Batch costs 50 % less for async jobs, and model router picks a fitting model per prompt.",
+            "de": "PTUs reservieren Durchsatz und Spillover fängt Überlauf ab, Batch ist für asynchrone Jobs 50 % günstiger, und der Model Router wählt pro Prompt ein passendes Modell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Steady load → Batch; bulk async work → PTUs plus spillover; mixed prompt complexity → model router.",
+            "de": "Dauerlast → Batch; asynchrone Massenarbeit → PTUs plus Spillover; gemischte Prompt-Komplexität → Model Router."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: Batch suits asynchronous jobs with a 24-hour target, while PTUs plus spillover give steady, latency-critical load reserved throughput.",
+            "de": "Vertauscht: Batch passt zu asynchronen Jobs mit 24-Stunden-Ziel, PTUs plus Spillover geben latenzkritischer Dauerlast reservierten Durchsatz."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Steady load → Batch; bulk async work → model router; mixed prompt complexity → PTUs plus spillover.",
+            "de": "Dauerlast → Batch; asynchrone Massenarbeit → Model Router; gemischte Prompt-Komplexität → PTUs plus Spillover."
+          },
+          "correct": false,
+          "why": {
+            "en": "All three shifted: PTUs plus spillover serve steady load, Batch takes async bulk work, and model router handles mixed prompt complexity.",
+            "de": "Alles verschoben: PTUs plus Spillover tragen Dauerlast, Batch übernimmt asynchrone Massenarbeit, und der Model Router bedient gemischte Prompt-Komplexität."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Steady load → model router; bulk async work → PTUs plus spillover; mixed prompt complexity → Batch.",
+            "de": "Dauerlast → Model Router; asynchrone Massenarbeit → PTUs plus Spillover; gemischte Prompt-Komplexität → Batch."
+          },
+          "correct": false,
+          "why": {
+            "en": "All three shifted: steady load needs reserved PTUs plus spillover, bulk async work goes to Batch, and mixed prompt complexity to model router.",
+            "de": "Alles verschoben: Dauerlast braucht reservierte PTUs plus Spillover, asynchrone Massenarbeit geht an Batch, gemischte Prompt-Komplexität an den Model Router."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-4",
@@ -212,7 +1212,57 @@
       "back": {
         "en": "F1, BLEU, ROUGE and response completeness need ground truth. Groundedness and relevance work without it.",
         "de": "F1, BLEU, ROUGE und Response Completeness brauchen Ground Truth. Groundedness und Relevance funktionieren ohne sie."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Groundedness and relevance; F1, BLEU, ROUGE and response completeness all work without it.",
+            "de": "Groundedness und Relevance; F1, BLEU, ROUGE und Response Completeness funktionieren alle ohne sie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: groundedness checks the response against the retrieved context and relevance against the query; the other four need the expected answer.",
+            "de": "Umgekehrt: Groundedness prüft die Antwort gegen den abgerufenen Kontext, Relevance gegen die Frage; die anderen vier brauchen die erwartete Antwort."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only F1, BLEU and ROUGE; response completeness, groundedness and relevance work without it.",
+            "de": "Nur F1, BLEU und ROUGE; Response Completeness, Groundedness und Relevance funktionieren ohne sie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Response completeness needs ground truth too: it checks whether the response covers everything in the expected answer.",
+            "de": "Auch Response Completeness braucht Ground Truth: Dieser Evaluator prüft, ob die Antwort alles aus der erwarteten Antwort abdeckt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "F1, BLEU, ROUGE and response completeness; groundedness and relevance work without it.",
+            "de": "F1, BLEU, ROUGE und Response Completeness; Groundedness und Relevance funktionieren ohne sie."
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: these four compare the response with the expected answer, while groundedness uses the retrieved `context` and relevance the query.",
+            "de": "Stimmt: Diese vier vergleichen die Antwort mit der erwarteten Antwort, Groundedness nutzt dagegen den abgerufenen `context` und Relevance die Frage."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "F1, BLEU, ROUGE and groundedness; relevance and response completeness both work without it.",
+            "de": "F1, BLEU, ROUGE und Groundedness; Relevance und Response Completeness funktionieren beide ohne sie."
+          },
+          "correct": false,
+          "why": {
+            "en": "Groundedness compares the response with the retrieved `context`, not with ground truth, while response completeness needs the expected answer.",
+            "de": "Groundedness vergleicht die Antwort mit dem abgerufenen `context`, nicht mit Ground Truth, Response Completeness braucht dagegen die erwartete Antwort."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-5",
@@ -224,7 +1274,57 @@
       "back": {
         "en": "Shortlist with benchmarks, decide with evaluations on your own data, then ship the deployment name.",
         "de": "Shortlist mit Benchmarks, Entscheidung mit Evaluierungen auf deinen Daten, dann den Deployment-Namen ausliefern."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Evaluations on your data shortlist, benchmarks decide, and the app ships with the model's asset ID.",
+            "de": "Evaluierungen auf deinen Daten liefern die Shortlist, Benchmarks entscheiden, und die App nutzt die Asset-ID des Modells."
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: benchmarks shortlist and your own data decides, and the app passes the deployment name as `model` — the asset ID is for Azure Policy.",
+            "de": "Beides falsch: Benchmarks liefern die Shortlist, deine Daten entscheiden, und die App übergibt den Deployment-Namen als `model` – die Asset-ID ist für Azure Policy."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Benchmarks shortlist, evaluations on your data decide, and the app ships with the model's asset ID.",
+            "de": "Benchmarks liefern die Shortlist, Evaluierungen auf deinen Daten entscheiden, und die App nutzt die Asset-ID des Modells."
+          },
+          "correct": false,
+          "why": {
+            "en": "The first two parts fit, but the asset ID is what Azure Policy uses; your app passes the deployment name as `model`.",
+            "de": "Die ersten beiden Teile stimmen, aber die Asset-ID nutzt Azure Policy; deine App übergibt den Deployment-Namen als `model`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Evaluations on your data shortlist, benchmarks decide, and the app ships with the deployment name.",
+            "de": "Evaluierungen auf deinen Daten liefern die Shortlist, Benchmarks entscheiden, und die App nutzt den Deployment-Namen."
+          },
+          "correct": false,
+          "why": {
+            "en": "The order is reversed: public benchmarks shortlist candidates, and evaluations on your own data make the decision.",
+            "de": "Die Reihenfolge ist umgekehrt: Öffentliche Benchmarks liefern die Shortlist, Evaluierungen auf deinen eigenen Daten treffen die Entscheidung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Benchmarks shortlist, evaluations on your data decide, and the app ships with the deployment name.",
+            "de": "Benchmarks liefern die Shortlist, Evaluierungen auf deinen Daten entscheiden, und die App nutzt den Deployment-Namen."
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: public benchmarks narrow the field, your own data shows what works for your task, and your code passes the deployment name as `model`.",
+            "de": "Richtig: Öffentliche Benchmarks grenzen das Feld ein, deine eigenen Daten zeigen, was für deine Aufgabe funktioniert, und dein Code übergibt den Deployment-Namen als `model`."
+          }
+        }
+      ]
     },
     {
       "id": "z-model-catalog-takeaway-6",
@@ -236,7 +1336,57 @@
       "back": {
         "en": "Near real time: the Monitor tab of a model or agent in the Foundry portal (estimated cost, without discounts or PTUs). Billed cost, budgets and chargeback: Microsoft Cost Management.",
         "de": "Nahezu in Echtzeit: der Monitor-Tab eines Modells oder Agents im Foundry-Portal (geschätzte Kosten, ohne Rabatte und PTUs). Abgerechnete Kosten, Budgets und interne Verrechnung: Microsoft Cost Management."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Estimates: the Monitor tab of a model or agent in the Foundry portal; billed cost, budgets and chargeback: Microsoft Cost Management.",
+            "de": "Schätzungen: der Monitor-Tab eines Modells oder Agents im Foundry-Portal; abgerechnete Kosten, Budgets und Verrechnung: Microsoft Cost Management."
+          },
+          "correct": true,
+          "why": {
+            "en": "The Monitor tab shows near-real-time estimates without discounts or PTUs; Microsoft Cost Management holds the billed numbers and budgets.",
+            "de": "Der Monitor-Tab zeigt Schätzungen nahezu in Echtzeit, ohne Rabatte und PTUs; Microsoft Cost Management enthält die abgerechneten Zahlen und Budgets."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Estimates: Microsoft Cost Management; billed cost, budgets and chargeback: the Monitor tab of each model or agent in the Foundry portal.",
+            "de": "Schätzungen: Microsoft Cost Management; abgerechnete Kosten, Budgets und Verrechnung: der Monitor-Tab des jeweiligen Modells oder Agents im Foundry-Portal."
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the Foundry Monitor tab shows near-real-time estimates, while billed cost, budgets and chargeback live in Microsoft Cost Management.",
+            "de": "Vertauscht: Der Monitor-Tab in Foundry zeigt Schätzungen nahezu in Echtzeit, abgerechnete Kosten, Budgets und Verrechnung liegen in Microsoft Cost Management."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Estimates: the Monitor tab, including discounts and PTUs; billed cost and budgets: the same Monitor tab.",
+            "de": "Schätzungen: der Monitor-Tab, inklusive Rabatten und PTUs; abgerechnete Kosten und Budgets: derselbe Monitor-Tab."
+          },
+          "correct": false,
+          "why": {
+            "en": "The Monitor tab's estimates leave out discounts and PTUs, and billed cost, budgets and chargeback live in Microsoft Cost Management.",
+            "de": "Die Schätzungen im Monitor-Tab enthalten keine Rabatte und PTUs, und abgerechnete Kosten, Budgets und Verrechnung liegen in Microsoft Cost Management."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Estimates: the cost view of the model leaderboards in the Foundry portal; billed cost, budgets and chargeback: Microsoft Cost Management.",
+            "de": "Schätzungen: die Kostenansicht der Modell-Leaderboards im Foundry-Portal; abgerechnete Kosten, Budgets und interne Verrechnung: Microsoft Cost Management."
+          },
+          "correct": false,
+          "why": {
+            "en": "Leaderboards compare the cost of catalog models before you choose; your own estimated spend shows on the Monitor tab of a model or agent.",
+            "de": "Leaderboards vergleichen die Kosten von Katalogmodellen vor der Auswahl; deine eigenen geschätzten Ausgaben zeigt der Monitor-Tab eines Modells oder Agents."
+          }
+        }
+      ]
     }
   ]
 }

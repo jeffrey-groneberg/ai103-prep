@@ -8,7 +8,57 @@
       "front": {
         "en": "How does a function tool definition differ from a hosted one, and how long may a tool description be?",
         "de": "Was braucht ein Function-Tool in `tools` mehr als ein gehostetes Tool, und wie lang darf die Beschreibung sein?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It adds a `name`, a `description` and JSON-schema `parameters`; descriptions may have up to 256 characters each",
+            "de": "`name`, `description` und JSON-Schema-`parameters`; jede einzelne Beschreibung darf bis zu 256 Zeichen lang sein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong limit: a tool description may be up to 1,024 characters long, not 256.",
+            "de": "Falsche Grenze: Eine Tool-Beschreibung darf bis zu 1.024 Zeichen lang sein, nicht 256."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It adds `container` settings plus `vector_store_ids` and `max_num_results`; descriptions may have up to 1,024 characters",
+            "de": "`container`-Einstellungen sowie `vector_store_ids` und `max_num_results`; die Beschreibung darf bis zu 1.024 Zeichen lang sein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those are settings of the hosted tools `code_interpreter` and `file_search`; a function tool adds `name`, `description` and `parameters`.",
+            "de": "Das sind Einstellungen der gehosteten Tools `code_interpreter` und `file_search`; ein Function-Tool ergänzt `name`, `description` und `parameters`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It adds a `name`, a `description` and JSON-schema `parameters`; descriptions may have up to 1,024 characters",
+            "de": "`name`, `description` und JSON-Schema-`parameters`; die Beschreibung darf bis zu 1.024 Zeichen lang sein"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a hosted tool needs only a `type` plus settings, while a function tool must describe itself, with each description capped at 1,024 characters.",
+            "de": "Richtig: Ein gehostetes Tool braucht nur einen `type` plus Einstellungen, ein Function-Tool muss sich selbst beschreiben – jede Beschreibung mit höchstens 1.024 Zeichen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It adds `container` settings plus `vector_store_ids` and `max_num_results`; descriptions may have up to 256 characters each",
+            "de": "`container`-Einstellungen sowie `vector_store_ids` und `max_num_results`; jede einzelne Beschreibung darf bis zu 256 Zeichen lang sein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `container`, `vector_store_ids` and `max_num_results` are hosted-tool settings, and a tool description may hold up to 1,024 characters, not 256.",
+            "de": "Doppelt falsch: `container`, `vector_store_ids` und `max_num_results` sind Einstellungen gehosteter Tools, und eine Tool-Beschreibung darf bis zu 1.024 Zeichen haben, nicht 256."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Where do hosted, `mcp` and `function` tools run, and what does a `function` tool wait for?",
         "de": "Wo laufen gehostete, `mcp`- und `function`-Tools, und worauf wartet ein `function`-Tool?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Hosted in the platform, `mcp` on a remote MCP server, `function` in your code; it waits for your `function_call_output`",
+            "de": "Gehostete Tools in der Plattform, `mcp` auf einem entfernten MCP-Server, `function` in deinem Code; es wartet auf dein `function_call_output`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the platform runs hosted tools, `mcp` calls a server someone else runs, and a function call waits until your code returns `function_call_output`.",
+            "de": "Richtig: Die Plattform führt gehostete Tools aus, `mcp` ruft einen Server auf, den jemand anderes betreibt, und ein Function-Call wartet, bis dein Code `function_call_output` zurückgibt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Hosted in the platform, `mcp` on a remote MCP server, `function` in the platform; it waits for an `mcp_approval_response`",
+            "de": "Gehostete Tools in der Plattform, `mcp` auf einem entfernten MCP-Server, `function` in der Plattform; es wartet auf ein `mcp_approval_response`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: approvals belong to `mcp`; a function tool runs in your code and waits for your `function_call_output`.",
+            "de": "Nein: Freigaben gehören zu `mcp`; ein Function-Tool läuft in deinem Code und wartet auf dein `function_call_output`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Hosted in the platform, `mcp` in your code, `function` in the platform; it waits for an `mcp_approval_response`",
+            "de": "Gehostete Tools in der Plattform, `mcp` in deinem Code, `function` in der Plattform; es wartet auf ein `mcp_approval_response`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `mcp` calls a remote MCP server that someone else runs, while a function runs in your code and waits for your `function_call_output`.",
+            "de": "Vertauscht: `mcp` ruft einen entfernten MCP-Server auf, den jemand anderes betreibt, eine Funktion dagegen läuft in deinem Code und wartet auf dein `function_call_output`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Hosted in the platform, `mcp` and `function` in your code; it waits for your `function_call_output`",
+            "de": "Gehostete Tools in der Plattform, `mcp` und `function` in deinem Code; es wartet auf dein `function_call_output`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the function runs in your code, but with `mcp` the service calls a remote MCP server that someone else runs.",
+            "de": "Teilweise richtig: Die Funktion läuft in deinem Code, aber bei `mcp` ruft der Dienst einen entfernten MCP-Server auf, den jemand anderes betreibt."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What can the model do with `code_interpreter`, how is a session billed, and how long does it stay alive?",
         "de": "Was kann das Modell mit `code_interpreter` tun, wie wird eine Sitzung abgerechnet, und wie lange bleibt sie aktiv?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Run Python in a sandbox to calculate, analyze files and create charts; billed per minute, five-minute minimum; alive for a full 24 hours after the last call",
+            "de": "Python in einer Sandbox ausführen – rechnen, Dateien analysieren, Diagramme erstellen; minutengenau, mindestens fünf Minuten; noch 24 Stunden nach dem letzten Aufruf aktiv"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a session stays alive only within a 20-minute idle timeout, not for a whole day.",
+            "de": "Nein: Eine Sitzung bleibt nur bis zu 20 Minuten Leerlauf aktiv, nicht einen ganzen Tag."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Run Python in a sandbox to calculate, analyze files and create charts; included in token costs; alive for a full 24 hours after the last call",
+            "de": "Python in einer Sandbox ausführen – rechnen, Dateien analysieren, Diagramme erstellen; in den Token-Kosten enthalten; noch 24 Stunden nach dem letzten Aufruf aktiv"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: sessions are billed on top of tokens, per minute with a five-minute minimum, and they idle out after 20 minutes, not a day.",
+            "de": "Doppelt falsch: Sitzungen kosten zusätzlich zu den Tokens, minutengenau mit mindestens fünf Minuten, und enden nach 20 Minuten Leerlauf, nicht nach einem Tag."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Run Python in a sandbox to calculate, analyze files and create charts; included in token costs; 20-minute idle timeout",
+            "de": "Python in einer Sandbox ausführen – rechnen, Dateien analysieren, Diagramme erstellen; in den Token-Kosten enthalten; 20 Minuten Leerlauf"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not covered by tokens: sessions are billed on top, per minute with a five-minute minimum.",
+            "de": "Nicht in den Tokens enthalten: Sitzungen kosten zusätzlich, minutengenau mit mindestens fünf Minuten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Run Python in a sandbox to calculate, analyze files and create charts; billed per minute, five-minute minimum; 20-minute idle timeout",
+            "de": "Python in einer Sandbox ausführen – rechnen, Dateien analysieren, Diagramme erstellen; minutengenau, mindestens fünf Minuten; 20 Minuten Leerlauf"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the model writes and runs Python in a sandboxed container (retrying on errors); sessions cost extra per minute, at least five, and idle out after 20 minutes.",
+            "de": "Richtig: Das Modell schreibt und startet Python in einem abgeschotteten Container (mit neuem Versuch bei Fehlern); Sitzungen kosten extra pro Minute, mindestens fünf, und enden nach 20 Minuten Leerlauf."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does `web_search` return, which options can you set, and what happens to your compliance and geo boundary?",
         "de": "Was liefert `web_search`, welche Optionen kannst du setzen, und was passiert mit deiner Compliance- und Geo-Grenze?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`file_citation` annotations; options such as `vector_store_ids` and `max_num_results`; data stays in your vector store",
+            "de": "`file_citation`-Annotationen; Optionen wie `vector_store_ids` und `max_num_results`; Daten bleiben in deinem Vector Store"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those belong to `file_search`; `web_search` returns `url_citation` annotations and sends queries to Grounding with Bing.",
+            "de": "Das gehört zu `file_search`; `web_search` liefert `url_citation`-Annotationen und schickt Anfragen an Grounding with Bing."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`url_citation` annotations; options such as `filters.allowed_domains` and `user_location`; data leaves your boundary via Grounding with Bing",
+            "de": "`url_citation`-Annotationen; Optionen wie `filters.allowed_domains` und `user_location`; Daten verlassen über Grounding with Bing deine Grenze"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: answers carry `url_citation` annotations, and because queries go to Grounding with Bing, data leaves your compliance and geo boundary.",
+            "de": "Richtig: Antworten tragen `url_citation`-Annotationen, und weil Anfragen an Grounding with Bing gehen, verlassen Daten deine Compliance- und Geo-Grenze."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`url_citation` annotations; options such as `filters.allowed_domains` and `user_location`; data never leaves your compliance boundary",
+            "de": "`url_citation`-Annotationen; Optionen wie `filters.allowed_domains` und `user_location`; Daten verlassen nie deine Compliance-Grenze"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Grounding with Bing sits outside your compliance and geo boundary, and the Data Protection Addendum doesn't apply to it.",
+            "de": "Nein: Grounding with Bing liegt außerhalb deiner Compliance- und Geo-Grenze, und das Data Protection Addendum gilt dafür nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`url_citation` annotations; setting `filters.allowed_domains` keeps your queries inside the compliance boundary",
+            "de": "`url_citation`-Annotationen; mit `filters.allowed_domains` bleiben deine Anfragen innerhalb der Compliance-Grenze"
+          },
+          "correct": false,
+          "why": {
+            "en": "Domain filters only limit which sites are searched; the queries still go to Grounding with Bing, outside your boundary.",
+            "de": "Domain-Filter begrenzen nur, welche Websites durchsucht werden; die Anfragen gehen trotzdem an Grounding with Bing, außerhalb deiner Grenze."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What does a vector store do with your files, what does file_search add, and which setting do you provide?",
         "de": "Was macht ein Vector Store mit deinen Dateien, was ergänzt file_search, und welche Einstellung setzt du?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It keeps each file whole as one piece; file_search adds keyword-only search; you set only `vector_store_ids`",
+            "de": "Er speichert jede Datei ganz am Stück; file_search ergänzt eine reine Stichwortsuche; du setzt nur `vector_store_ids`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the store splits files into chunks and embeds them, and file_search searches by keyword and by meaning (hybrid search).",
+            "de": "Nein: Der Store zerlegt Dateien in Chunks und bettet sie ein, und file_search sucht per Stichwort und nach Bedeutung (hybride Suche)."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It chunks and embeds each file; file_search adds current public web results; you set `filters.allowed_domains`",
+            "de": "Er zerlegt jede Datei und bettet sie ein; file_search ergänzt aktuelle öffentliche Webtreffer; du setzt `filters.allowed_domains`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Web results and domain filters belong to `web_search`; file_search searches only the stores listed in `vector_store_ids`.",
+            "de": "Webtreffer und Domain-Filter gehören zu `web_search`; file_search durchsucht nur die Stores in `vector_store_ids`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It keeps each file whole as one piece; file_search adds current public web results; you set `filters.allowed_domains`",
+            "de": "Er speichert jede Datei ganz am Stück; file_search ergänzt aktuelle öffentliche Webtreffer; du setzt `filters.allowed_domains`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong on all three: the store chunks and embeds files, file_search searches them by keyword and meaning, and domain filters belong to `web_search`.",
+            "de": "In allen drei Punkten falsch: Der Store zerlegt und bettet Dateien ein, file_search durchsucht sie per Stichwort und Bedeutung, und Domain-Filter gehören zu `web_search`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It chunks and embeds each file; file_search adds hybrid search and reranking; you set only `vector_store_ids`",
+            "de": "Er zerlegt jede Datei und bettet sie ein; file_search ergänzt hybride Suche und Reranking; du setzt nur `vector_store_ids`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: it's managed RAG, so the store parses, chunks and embeds, file_search runs hybrid search plus reranking, and you only list the store IDs.",
+            "de": "Richtig: Das ist verwaltetes RAG – der Store parst, zerlegt und bettet ein, file_search sucht hybrid mit Reranking, und du gibst nur die Store-IDs an."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How does the function-calling round trip work, and what guarantees arguments that match your schema?",
         "de": "Wie läuft der Function-Calling-Ablauf, und was garantiert Argumente, die zu deinem Schema passen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`function_call` items → your code runs them → one `function_call_output` per `call_id`; `tool_choice=\"required\"` guarantees the schema",
+            "de": "`function_call`-Items → dein Code führt sie aus → ein `function_call_output` pro `call_id`; `tool_choice=\"required\"` garantiert das Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "`tool_choice=\"required\"` only forces a tool call; arguments that always fit your schema come from `\"strict\": true`.",
+            "de": "`tool_choice=\"required\"` erzwingt nur einen Tool-Aufruf; Argumente, die immer zum Schema passen, liefert `\"strict\": true`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`function_call` items → your code runs them → one `function_call_output` per `call_id`; `\"strict\": true` guarantees the schema",
+            "de": "`function_call`-Items → dein Code führt sie aus → ein `function_call_output` pro `call_id`; `\"strict\": true` garantiert das Schema"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: each `call_id` gets its own output, and with `\"strict\": true`, `\"additionalProperties\": false` and every field required, the arguments always match.",
+            "de": "Richtig: Jede `call_id` bekommt ihr eigenes Ergebnis, und mit `\"strict\": true`, `\"additionalProperties\": false` und allen Feldern in `required` passen die Argumente immer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The model runs the function and returns a `function_call_output`; `tool_choice=\"required\"` guarantees the schema",
+            "de": "Das Modell führt die Funktion aus und liefert ein `function_call_output`; `tool_choice=\"required\"` garantiert das Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the model never runs functions, and `tool_choice=\"required\"` only forces a call; schema-true arguments come from `\"strict\": true`.",
+            "de": "Doppelt falsch: Das Modell führt nie Funktionen aus, und `tool_choice=\"required\"` erzwingt nur einen Aufruf; schematreue Argumente liefert `\"strict\": true`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model runs the function and returns a `function_call_output`; `\"strict\": true` guarantees the schema",
+            "de": "Das Modell führt die Funktion aus und liefert ein `function_call_output`; `\"strict\": true` garantiert das Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model never runs functions: it returns `function_call` items, and your code sends back each `function_call_output`.",
+            "de": "Das Modell führt nie Funktionen aus: Es liefert `function_call`-Items, und dein Code schickt jedes `function_call_output` zurück."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Which values does `tool_choice` accept, and how do you approve an `mcp` call under the default `require_approval`?",
         "de": "Welche Werte kennt `tool_choice`, und wie gibst du einen `mcp`-Aufruf beim Standard von `require_approval` frei?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`always` or `never`; reply with an `mcp_approval_response` plus `previous_response_id`",
+            "de": "`always` oder `never`; antworte mit einem `mcp_approval_response` plus `previous_response_id`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`always` and `never` are `require_approval` values; `tool_choice` takes `auto`, `required`, `none` or a named tool.",
+            "de": "`always` und `never` sind Werte von `require_approval`; `tool_choice` kennt `auto`, `required`, `none` oder ein benanntes Tool."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`auto`, `required`, `none` or a named tool; return a `function_call_output` with the request's `call_id`",
+            "de": "`auto`, `required`, `none` oder ein benanntes Tool; gib ein `function_call_output` mit der `call_id` der Anfrage zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "A `function_call_output` completes a function call; an `mcp` call is approved with an `mcp_approval_response`.",
+            "de": "Ein `function_call_output` schließt einen Function-Call ab; einen `mcp`-Aufruf gibst du mit einem `mcp_approval_response` frei."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`auto`, `required`, `none` or a named tool; reply with an `mcp_approval_response` plus `previous_response_id`",
+            "de": "`auto`, `required`, `none` oder ein benanntes Tool; antworte mit einem `mcp_approval_response` plus `previous_response_id`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `tool_choice` takes `auto`, `required`, `none` or a named tool, and under `require_approval: \"always\"` your next request approves with `mcp_approval_response` plus `previous_response_id`.",
+            "de": "Richtig: `tool_choice` kennt `auto`, `required`, `none` oder ein benanntes Tool, und bei `require_approval: \"always\"` gibt deine nächste Anfrage mit `mcp_approval_response` plus `previous_response_id` frei."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`always` or `never`; return a `function_call_output` with the request's `call_id`",
+            "de": "`always` oder `never`; gib ein `function_call_output` mit der `call_id` der Anfrage zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `always`/`never` are `require_approval` values, and an `mcp` call is approved with an `mcp_approval_response`, not a `function_call_output`.",
+            "de": "Doppelt falsch: `always`/`never` sind Werte von `require_approval`, und einen `mcp`-Aufruf gibst du mit einem `mcp_approval_response` frei, nicht mit einem `function_call_output`."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "The model never runs your function. If your code doesn't send a `function_call_output` with the matching `call_id`, there is no final answer.",
         "de": "Das Modell führt deine Funktion nie selbst aus. Schickt dein Code kein `function_call_output` mit passender `call_id`, gibt es keine finale Antwort."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The platform runs the function but holds the result back until you send an `mcp_approval_response`",
+            "de": "Die Plattform führt die Funktion aus, hält das Ergebnis aber zurück, bis du ein `mcp_approval_response` sendest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Approval requests belong to `mcp`; a function never runs in the platform, because your code runs it and returns `function_call_output`.",
+            "de": "Freigabeanfragen gehören zu `mcp`; eine Funktion läuft nie in der Plattform, denn dein Code führt sie aus und gibt `function_call_output` zurück."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The model runs the function, but you must fetch the result with `responses.retrieve(id)`",
+            "de": "Das Modell führt die Funktion aus, aber du musst das Ergebnis mit `responses.retrieve(id)` abholen"
+          },
+          "correct": false,
+          "why": {
+            "en": "There's nothing to fetch: the model never ran the function, so your code must send the result back as `function_call_output`.",
+            "de": "Da gibt es nichts abzuholen: Das Modell hat die Funktion nie ausgeführt, also schickt dein Code das Ergebnis als `function_call_output` zurück."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The model runs the function itself, but it only writes a final answer when you set `tool_choice` to `required`",
+            "de": "Das Modell führt die Funktion selbst aus, schreibt eine finale Antwort aber nur, wenn du `tool_choice` auf `required` setzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "`tool_choice=\"required\"` only forces a tool call; the function still runs in your code, and the answer needs your `function_call_output`.",
+            "de": "`tool_choice=\"required\"` erzwingt nur einen Tool-Aufruf; die Funktion läuft trotzdem in deinem Code, und die Antwort braucht dein `function_call_output`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model doesn't run your function; no final answer until you send `function_call_output` for that `call_id`",
+            "de": "Das Modell führt die Funktion nicht aus: Ohne dein `function_call_output` zu dieser `call_id` kommt keine finale Antwort"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a `function_call` is only a request; your code runs the function and returns the result as `function_call_output` with the same `call_id`.",
+            "de": "Richtig: Ein `function_call` ist nur eine Anforderung; dein Code führt die Funktion aus und gibt das Ergebnis als `function_call_output` mit derselben `call_id` zurück."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "Domain filters restrict the sources, not the data flow: `web_search` uses Grounding with Bing, so data flows outside your compliance and geo boundary. Admins can block the tool per subscription.",
         "de": "Domain-Filter begrenzen die Quellen, nicht den Datenfluss: `web_search` nutzt Grounding with Bing, Daten fließen also aus deiner Compliance- und Geo-Grenze heraus. Admins können das Tool pro Subscription sperren."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The data flow, so queries stay inside your boundary; admins can block the tool per subscription",
+            "de": "Den Datenfluss, sodass Anfragen in deiner Grenze bleiben; Admins können das Tool pro Subscription sperren"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: filters narrow the sources only, and queries still flow to Grounding with Bing, outside your compliance and geo boundary.",
+            "de": "Nein: Filter grenzen nur die Quellen ein, und Anfragen fließen weiter an Grounding with Bing, außerhalb deiner Compliance- und Geo-Grenze."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only the sources searched, not the data flow; admins can block the tool per subscription",
+            "de": "Nur die durchsuchten Quellen, nicht den Datenfluss; Admins können das Tool pro Subscription sperren"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `filters.allowed_domains` narrows which sites are searched, but queries still reach Grounding with Bing; admins can switch the tool off per subscription.",
+            "de": "Richtig: `filters.allowed_domains` grenzt die durchsuchten Websites ein, doch Anfragen erreichen trotzdem Grounding with Bing; Admins können das Tool pro Subscription abschalten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The data flow, so queries stay inside your boundary; admins can't block it, only developers can leave it out",
+            "de": "Den Datenfluss, sodass Anfragen in deiner Grenze bleiben; Admins können es nicht sperren, nur Entwickler können es weglassen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: filters narrow the sources, not the data flow, and admins can disable the web search tool for all accounts in a subscription.",
+            "de": "Doppelt falsch: Filter grenzen die Quellen ein, nicht den Datenfluss, und Admins können das Web-Search-Tool für alle Accounts einer Subscription deaktivieren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the sources searched, not the data flow; admins can't block it, only developers can leave it out",
+            "de": "Nur die durchsuchten Quellen, nicht den Datenfluss; Admins können es nicht sperren, nur Entwickler können es weglassen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Admins do have a switch: they can disable the web search tool for all accounts in a subscription.",
+            "de": "Admins haben sehr wohl einen Schalter: Sie können das Web-Search-Tool für alle Accounts einer Subscription deaktivieren."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "file_search ignores a fresh upload until ingestion has finished. Use `upload_and_poll` (or wait for the vector store status `completed`) and make sure the store ID is in `vector_store_ids`.",
         "de": "file_search ignoriert einen frischen Upload, bis die Verarbeitung fertig ist. Nutze `upload_and_poll` (oder warte auf den Vector-Store-Status `completed`) und achte darauf, dass die Store-ID in `vector_store_ids` steht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Ingestion isn't done; use `upload_and_poll` (or wait for `completed`) and put the store ID in `vector_store_ids`",
+            "de": "Die Verarbeitung läuft noch; nutze `upload_and_poll` (oder warte auf `completed`) und setz die Store-ID in `vector_store_ids`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a file counts only once parsing, chunking and embedding are done, which `upload_and_poll` waits for, and only stores in `vector_store_ids` are searched.",
+            "de": "Richtig: Eine Datei zählt erst, wenn Parsen, Chunking und Embedding fertig sind – darauf wartet `upload_and_poll` –, und durchsucht werden nur Stores in `vector_store_ids`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Ingestion hasn't finished; poll every few seconds until the store status reads `ready`, then name the store ID in `tool_choice`",
+            "de": "Die Verarbeitung läuft noch; frag alle paar Sekunden ab, bis der Store-Status `ready` lautet, und nenne die Store-ID dann in `tool_choice`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: you wait for the vector store status `completed`, and the store ID belongs in `vector_store_ids`, not in `tool_choice`.",
+            "de": "Teilweise richtig: Du wartest auf den Vector-Store-Status `completed`, und die Store-ID gehört in `vector_store_ids`, nicht in `tool_choice`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "New uploads stay hidden for 24 hours while the service indexes them; re-upload the file under a new name to skip the wait",
+            "de": "Neue Uploads bleiben 24 Stunden unsichtbar, während der Dienst sie indexiert; lade die Datei unter neuem Namen erneut hoch, um nicht zu warten"
+          },
+          "correct": false,
+          "why": {
+            "en": "There's no 24-hour delay: once `upload_and_poll` returns, ingestion is done and the very first question can find the file.",
+            "de": "Es gibt keine 24-Stunden-Sperre: Sobald `upload_and_poll` zurückkehrt, ist die Verarbeitung fertig, und schon die erste Frage findet die Datei."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "file_search reads only files attached in `input`; attach the file to every single request instead of adding it to a store",
+            "de": "file_search liest nur Dateien, die in `input` angehängt sind; hänge die Datei an jede einzelne Anfrage an, statt sie in einen Store zu legen"
+          },
+          "correct": false,
+          "why": {
+            "en": "file_search searches the vector stores listed in `vector_store_ids`; the file doesn't have to ride along with each request.",
+            "de": "file_search durchsucht die Vector Stores in `vector_store_ids`; die Datei muss nicht an jede Anfrage angehängt werden."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Two simultaneous calls in different conversations create two sessions. Each session is billed per minute with a five-minute minimum — `code_interpreter` costs more than tokens.",
         "de": "Zwei gleichzeitige Aufrufe in verschiedenen Gesprächen erzeugen zwei Sitzungen. Jede Sitzung wird minutengenau mit mindestens fünf Minuten abgerechnet – `code_interpreter` kostet mehr als Tokens."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They share one session, which is billed per minute with a five-minute minimum on top of tokens",
+            "de": "Sie teilen sich eine Sitzung, die minutengenau mit mindestens fünf Minuten zusätzlich zu den Tokens berechnet wird"
+          },
+          "correct": false,
+          "why": {
+            "en": "No sharing across conversations: two simultaneous calls in different conversations create two sessions, and each one is billed.",
+            "de": "Kein Teilen über Gespräche hinweg: Zwei gleichzeitige Aufrufe in verschiedenen Gesprächen erzeugen zwei Sitzungen, und jede wird berechnet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Two separate sessions start, both covered by the token price with no extra session fee",
+            "de": "Es entstehen zwei getrennte Sitzungen, beide im Token-Preis enthalten, ohne extra Sitzungsgebühr"
+          },
+          "correct": false,
+          "why": {
+            "en": "Sessions cost more than tokens: each one is billed per minute with a five-minute minimum.",
+            "de": "Sitzungen kosten mehr als Tokens: Jede wird minutengenau mit mindestens fünf Minuten abgerechnet."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Two separate sessions start, each billed per minute with a five-minute minimum on top of tokens",
+            "de": "Es entstehen zwei getrennte Sitzungen, jede minutengenau mit mindestens fünf Minuten zusätzlich zu den Tokens berechnet"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: simultaneous calls in different conversations each get their own session, and every session adds per-minute charges beyond tokens.",
+            "de": "Richtig: Gleichzeitige Aufrufe in verschiedenen Gesprächen bekommen je eine eigene Sitzung, und jede Sitzung kostet minutengenau zusätzlich zu den Tokens."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They share one session, which is covered by the token price with no extra session fee",
+            "de": "Sie teilen sich eine Sitzung, die im Token-Preis enthalten ist, ohne extra Sitzungsgebühr"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: each conversation gets its own session, and every session is billed per minute with a five-minute minimum on top of tokens.",
+            "de": "Doppelt falsch: Jedes Gespräch bekommt eine eigene Sitzung, und jede Sitzung kostet minutengenau mit mindestens fünf Minuten zusätzlich zu den Tokens."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "`require_approval` defaults to `\"always\"`, so an `mcp` tool does nothing until you approve — handle each `mcp_approval_request`. Set `\"never\"` only for servers you trust.",
         "de": "`require_approval` ist standardmäßig `\"always\"`, ein `mcp`-Tool tut also nichts ohne deine Freigabe – beantworte jedes `mcp_approval_request`. Setze `\"never\"` nur bei Servern, denen du vertraust."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`tool_choice` defaults to `none` for `mcp`; set it to `required` to skip approval on any server",
+            "de": "`tool_choice` steht bei `mcp` standardmäßig auf `none`; setze es auf `required`, um die Freigabe bei jedem Server zu überspringen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `tool_choice` defaults to `auto`; the pause comes from `require_approval`, whose default is `\"always\"`.",
+            "de": "Nein: `tool_choice` ist standardmäßig `auto`; die Pause kommt von `require_approval`, dessen Standard `\"always\"` ist."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`require_approval` defaults to `\"always\"`; set `\"never\"` for any server once its first call was approved",
+            "de": "`require_approval` steht standardmäßig auf `\"always\"`; setze `\"never\"` bei jedem Server, sobald sein erster Aufruf freigegeben ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the default is `\"always\"`, but one approved call doesn't make a server trustworthy; `\"never\"` is only for servers you trust.",
+            "de": "Teilweise richtig: Der Standard ist `\"always\"`, aber ein freigegebener Aufruf macht einen Server nicht vertrauenswürdig; `\"never\"` gilt nur für Server, denen du vertraust."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`require_approval` defaults to `\"never\"`; the tool idles until you pass a `previous_response_id`",
+            "de": "`require_approval` steht standardmäßig auf `\"never\"`; das Tool wartet, bis du eine `previous_response_id` übergibst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong default: `require_approval` is `\"always\"`, so the tool waits for your `mcp_approval_response`, not for an id alone.",
+            "de": "Falscher Standard: `require_approval` ist `\"always\"`, das Tool wartet also auf dein `mcp_approval_response`, nicht bloß auf eine ID."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`require_approval` defaults to `\"always\"`; set `\"never\"` only for MCP servers you trust",
+            "de": "`require_approval` steht standardmäßig auf `\"always\"`; setze `\"never\"` nur bei MCP-Servern, denen du vertraust"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: by default each `mcp` call waits until you answer its `mcp_approval_request`, and skipping that is only reasonable for servers you trust.",
+            "de": "Richtig: Standardmäßig wartet jeder `mcp`-Aufruf, bis du sein `mcp_approval_request` beantwortest; darauf zu verzichten ist nur bei vertrauenswürdigen Servern vertretbar."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Hosted tools run in the platform; function tools run in your code.",
         "de": "Gehostete Tools laufen in der Plattform, Function-Tools in deinem Code."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Your code runs hosted tools; the platform runs function tools",
+            "de": "Dein Code führt gehostete Tools aus; die Plattform führt Function-Tools aus"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: hosted tools run in the platform, and function tools run in your code.",
+            "de": "Vertauscht: Gehostete Tools laufen in der Plattform, Function-Tools in deinem Code."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The platform runs hosted tools; your own code runs function tools",
+            "de": "Die Plattform führt gehostete Tools aus; dein eigener Code führt Function-Tools aus"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: hosted tools such as `code_interpreter` run inside the platform, while a function tool only yields a `function_call` that your code executes.",
+            "de": "Richtig: Gehostete Tools wie `code_interpreter` laufen in der Plattform, ein Function-Tool liefert nur einen `function_call`, den dein Code ausführt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The platform runs both; for a function tool it simply calls your endpoint",
+            "de": "Die Plattform führt beide aus; bei einem Function-Tool ruft sie einfach deinen Endpoint auf"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: for a function tool the platform calls nothing; the model returns a `function_call` item, and your code runs the function.",
+            "de": "Nein: Bei einem Function-Tool ruft die Plattform nichts auf; das Modell liefert ein `function_call`-Item, und dein Code führt die Funktion aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The model runs both itself, inside its own context window",
+            "de": "Das Modell führt beide selbst aus, innerhalb seines Kontextfensters"
+          },
+          "correct": false,
+          "why": {
+            "en": "A model only generates text and tool calls; the platform runs hosted tools, and your code runs functions.",
+            "de": "Ein Modell erzeugt nur Text und Tool-Aufrufe; gehostete Tools führt die Plattform aus, Funktionen dein Code."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Calculations → code_interpreter, fresh public facts → web_search, your documents → file_search, your systems → function.",
         "de": "Berechnungen → code_interpreter, aktuelle öffentliche Fakten → web_search, eigene Dokumente → file_search, eigene Systeme → function."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Calculations: `function`; public facts: `web_search`; documents: `file_search`; systems: `code_interpreter`",
+            "de": "Berechnungen: `function`; öffentliche Fakten: `web_search`; Dokumente: `file_search`; Systeme: `code_interpreter`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: calculations belong to `code_interpreter`, and your business systems are reached through a `function` tool in your code.",
+            "de": "Vertauscht: Berechnungen gehören zu `code_interpreter`, und deine Geschäftssysteme erreichst du über ein `function`-Tool in deinem Code."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Calculations: `function`; public facts: `file_search`; documents: `web_search`; systems: `code_interpreter`",
+            "de": "Berechnungen: `function`; öffentliche Fakten: `file_search`; Dokumente: `web_search`; Systeme: `code_interpreter`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped twice: calculations go to `code_interpreter` and your systems to `function`, while public facts come from `web_search` and documents from `file_search`.",
+            "de": "Doppelt vertauscht: Berechnungen gehören zu `code_interpreter`, deine Systeme zu `function`, aktuelle Fakten liefert `web_search` und Dokumente `file_search`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Calculations: `code_interpreter`; public facts: `file_search`; documents: `web_search`; systems: `function`",
+            "de": "Berechnungen: `code_interpreter`; öffentliche Fakten: `file_search`; Dokumente: `web_search`; Systeme: `function`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `file_search` reads your own vector stores, while `web_search` brings in current public facts.",
+            "de": "Vertauscht: `file_search` liest deine eigenen Vector Stores, `web_search` liefert aktuelle öffentliche Fakten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Calculations: `code_interpreter`; public facts: `web_search`; documents: `file_search`; systems: `function`",
+            "de": "Berechnungen: `code_interpreter`; öffentliche Fakten: `web_search`; Dokumente: `file_search`; Systeme: `function`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: exact math runs in the sandbox, fresh facts come via Grounding with Bing, your files via a vector store, your systems via your own code.",
+            "de": "Richtig: Exakte Rechnungen laufen in der Sandbox, aktuelle Fakten kommen über Grounding with Bing, deine Dateien über einen Vector Store, deine Systeme über deinen eigenen Code."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "`function_call` → run it → `function_call_output` with the same `call_id` → final answer.",
         "de": "`function_call` → ausführen → `function_call_output` mit derselben `call_id` → finale Antwort."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`function_call` → your code runs it → `function_call_output` → final answer; the shared `call_id` links them",
+            "de": "`function_call` → dein Code führt aus → `function_call_output` → finale Antwort; die gemeinsame `call_id` verknüpft beides"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the model requests, your code executes, and the `function_call_output` with the same `call_id` lets the model write the final answer.",
+            "de": "Richtig: Das Modell fordert an, dein Code führt aus, und das `function_call_output` mit derselben `call_id` lässt das Modell die finale Antwort schreiben."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`function_call_output` → your code runs it → `function_call` → final answer; the shared `call_id` links them",
+            "de": "`function_call_output` → dein Code führt aus → `function_call` → finale Antwort; die gemeinsame `call_id` verknüpft beides"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: the model's `function_call` comes first, and your `function_call_output` answers it afterwards.",
+            "de": "Vertauscht: Zuerst kommt der `function_call` des Modells, und dein `function_call_output` beantwortet ihn danach."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`function_call` → your code runs it → `function_call_output` → final answer; the function `name` in each item links them",
+            "de": "`function_call` → dein Code führt aus → `function_call_output` → finale Antwort; der Funktionsname (`name`) in jedem Item verknüpft beides"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: outputs are matched by `call_id`, one per call, which also keeps parallel calls apart.",
+            "de": "Nein: Ergebnisse werden über die `call_id` zugeordnet, eines pro Aufruf – so bleiben auch parallele Aufrufe auseinander."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`function_call_output` → your code runs it → `function_call` → final answer; the function `name` in each item links them",
+            "de": "`function_call_output` → dein Code führt aus → `function_call` → finale Antwort; der Funktionsname (`name`) in jedem Item verknüpft beides"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the model's `function_call` comes first and your `function_call_output` answers it, matched by `call_id`, not by the function name.",
+            "de": "Doppelt falsch: Zuerst kommt der `function_call` des Modells, dein `function_call_output` beantwortet ihn, zugeordnet über die `call_id`, nicht über den Funktionsnamen."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Steer tool use with `tool_choice`, and validate every argument before you act on it.",
         "de": "Steuere die Tool-Nutzung mit `tool_choice` und prüfe jedes Argument, bevor du danach handelst."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`include`; skip validation, since the model already ran the function with them",
+            "de": "`include`; nicht prüfen, weil das Modell die Funktion damit schon ausgeführt hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `include` only adds extra data such as file_search results, and the model never runs your function, so validate every argument first.",
+            "de": "Doppelt falsch: `include` ergänzt nur Zusatzdaten wie file_search-Ergebnisse, und das Modell führt deine Funktion nie aus – prüf also jedes Argument zuerst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`include`; validate every argument before you act on it",
+            "de": "`include`; jedes Argument prüfen, bevor du danach handelst"
+          },
+          "correct": false,
+          "why": {
+            "en": "`include` only adds extra data to the response, such as retrieved file_search results; `tool_choice` steers tool use.",
+            "de": "`include` ergänzt nur zusätzliche Daten in der Antwort, etwa abgerufene file_search-Ergebnisse; die Tool-Nutzung steuert `tool_choice`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`tool_choice`; validate every argument before you act on it",
+            "de": "`tool_choice`; jedes Argument prüfen, bevor du danach handelst"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `tool_choice` decides whether and which tool is used, and arguments come from the model, so check them before your code acts.",
+            "de": "Richtig: `tool_choice` bestimmt, ob und welches Tool genutzt wird, und Argumente stammen vom Modell – prüf sie, bevor dein Code handelt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`tool_choice`; skip validation, since the model already ran the function with them",
+            "de": "`tool_choice`; nicht prüfen, weil das Modell die Funktion damit schon ausgeführt hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "The model never runs your function; your code does, and it must validate the arguments first.",
+            "de": "Das Modell führt deine Funktion nie aus; das macht dein Code – und der muss die Argumente zuerst prüfen."
+          }
+        }
+      ]
     },
     {
       "id": "z-genai-tools-takeaway-5",
@@ -176,7 +976,57 @@
       "back": {
         "en": "Instructions only steer tool use: describe what each tool is for and when to use it. To force a call in a request, set `tool_choice` to `required` or a named tool.",
         "de": "Anweisungen lenken die Tool-Nutzung nur: Beschreib, wofür jedes Tool da ist und wann es zum Einsatz kommen soll. Um in einer Anfrage einen Aufruf zu erzwingen, setzt du `tool_choice` auf `required` oder ein benanntes Tool."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "They force a call when they say \"always use the tool\"; `tool_choice` only sets the order of calls",
+            "de": "Sie erzwingen den Aufruf, wenn sie „nutze immer das Tool“ sagen; `tool_choice` legt dann nur die Reihenfolge der einzelnen Aufrufe fest"
+          },
+          "correct": false,
+          "why": {
+            "en": "Instructions can't force anything, and `tool_choice` doesn't order calls; it decides whether and which tool is used.",
+            "de": "Anweisungen erzwingen nichts, und `tool_choice` legt keine Reihenfolge fest, sondern ob und welches Tool genutzt wird."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "They only steer it by describing each tool; to force a call, set `tool_choice` to its default, `auto`",
+            "de": "Sie lenken nur, indem sie jedes Tool beschreiben; zum Erzwingen setzt du `tool_choice` auf den Standard `auto`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`auto` is the default and leaves the decision to the model; `required` or a named tool forces a call.",
+            "de": "`auto` ist der Standard und überlässt die Entscheidung dem Modell; `required` oder ein benanntes Tool erzwingt einen Aufruf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "They only steer it by describing each tool; to force a call, set `parallel_tool_calls=True` in the same request",
+            "de": "Sie lenken nur, indem sie jedes Tool beschreiben; zum Erzwingen setzt du `parallel_tool_calls=True` in derselben Anfrage"
+          },
+          "correct": false,
+          "why": {
+            "en": "`parallel_tool_calls` only allows several calls at once; forcing a call takes `tool_choice` set to `required` or a named tool.",
+            "de": "`parallel_tool_calls` erlaubt nur mehrere Aufrufe gleichzeitig; erzwingen kannst du einen Aufruf nur mit `tool_choice` auf `required` oder einem benannten Tool."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "They only steer it by describing each tool; to force a call, set `tool_choice` to `required` or a named tool",
+            "de": "Sie lenken nur, indem sie jedes Tool beschreiben; zum Erzwingen setzt du `tool_choice` auf `required` oder ein benanntes Tool"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: instructions guide the model's choice, but only `tool_choice` set to `required` or a named tool forces a call in that request.",
+            "de": "Richtig: Anweisungen lenken die Wahl des Modells, aber nur `tool_choice` mit `required` oder einem benannten Tool erzwingt den Aufruf in dieser Anfrage."
+          }
+        }
+      ]
     }
   ]
 }

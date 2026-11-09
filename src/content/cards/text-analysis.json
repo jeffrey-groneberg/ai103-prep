@@ -8,7 +8,57 @@
       "front": {
         "en": "Which SDK client and endpoint do you call Azure Language with, and what does Microsoft Entra ID need?",
         "de": "Mit welchem SDK-Client und Endpoint rufst du Azure Language auf, und was braucht Microsoft Entra ID?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`TextAnalyticsClient` on the Foundry project endpoint; Entra ID needs an API key as a fallback",
+            "de": "`TextAnalyticsClient` am Project Endpoint von Foundry; Entra ID braucht einen API-Key als Rückfall"
+          },
+          "correct": false,
+          "why": {
+            "en": "The project endpoint serves the Foundry SDK, not `TextAnalyticsClient`, and keyless Entra ID calls need a role, not a key.",
+            "de": "Der Project Endpoint dient dem Foundry SDK, nicht `TextAnalyticsClient`, und schlüssellose Entra-ID-Aufrufe brauchen eine Rolle, keinen Key."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`AIProjectClient` on the project endpoint; Entra ID works on any regional endpoint with Cognitive Services User",
+            "de": "`AIProjectClient` am Project Endpoint; Entra ID funktioniert mit Cognitive Services User an jedem regionalen Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "`AIProjectClient` is the Foundry SDK client; Language calls go through `TextAnalyticsClient`, and Entra ID never works on regional endpoints.",
+            "de": "`AIProjectClient` ist der Client des Foundry SDK; Language-Aufrufe laufen über `TextAnalyticsClient`, und Entra ID funktioniert nie an regionalen Endpoints."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`TextAnalyticsClient` on the resource's custom-subdomain endpoint; Entra ID needs that endpoint plus a role such as Cognitive Services User",
+            "de": "`TextAnalyticsClient` am Custom-Subdomain-Endpoint der Ressource; Entra ID braucht diesen Endpoint plus eine Rolle wie Cognitive Services User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `azure-ai-textanalytics` calls the custom subdomain `https://<resource>.cognitiveservices.azure.com`, where Entra ID works (regional endpoints don't support it), and the identity needs a role such as Cognitive Services User.",
+            "de": "Korrekt: `azure-ai-textanalytics` ruft die Custom Subdomain `https://<resource>.cognitiveservices.azure.com` auf, an der Entra ID funktioniert (regionale Endpoints unterstützen es nicht), und die Identität braucht eine Rolle wie Cognitive Services User."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`TextAnalyticsClient` on a regional endpoint such as `westus.api.cognitive.microsoft.com`; Entra ID needs only `DefaultAzureCredential`",
+            "de": "`TextAnalyticsClient` an einem regionalen Endpoint wie `westus.api.cognitive.microsoft.com`; Entra ID braucht nur `DefaultAzureCredential`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Regional endpoints take keys only; Entra ID needs the custom subdomain plus a role such as Cognitive Services User.",
+            "de": "Regionale Endpoints nehmen nur Keys an; Entra ID braucht die Custom Subdomain plus eine Rolle wie Cognitive Services User."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which Azure Language features are core for new work, and which are legacy and retiring?",
         "de": "Welche Funktionen von Azure Language sind Kern für neue Lösungen, und welche sind Legacy und laufen aus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Core: language detection, NER, PII, Text Analytics for health; legacy: sentiment, key phrases, summarization, entity linking",
+            "de": "Kern: Sprachenerkennung, NER, PII, Text Analytics for health; Legacy: Stimmung, Schlüsselwörter, Zusammenfassung, Entity Linking"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: detection, NER, PII and health entities stay core, while sentiment, key phrases, summarization and entity linking are legacy, supported only for existing apps.",
+            "de": "Richtig: Sprachenerkennung, NER, PII und Gesundheitsentitäten bleiben Kern, Stimmung, Schlüsselwörter, Zusammenfassung und Entity Linking sind Legacy und nur noch für bestehende Apps unterstützt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Core: sentiment, key phrases, summarization; legacy: language detection, NER, PII detection",
+            "de": "Kern: Stimmung, Schlüsselwörter, Zusammenfassung; Legacy: Sprachenerkennung, NER, PII-Erkennung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: language detection, NER and PII are the core features, while sentiment, key phrases and summarization are the legacy ones.",
+            "de": "Umgekehrt: Sprachenerkennung, NER und PII sind die Kernfunktionen, Stimmung, Schlüsselwörter und Zusammenfassung die Legacy-Funktionen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Core: language detection, NER, sentiment analysis; legacy: PII detection, Text Analytics for health, summarization",
+            "de": "Kern: Sprachenerkennung, NER, Stimmungsanalyse; Legacy: PII-Erkennung, Text Analytics for health, Zusammenfassung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Sentiment analysis is legacy, while PII detection and Text Analytics for health are core features for new work.",
+            "de": "Die Stimmungsanalyse ist Legacy, PII-Erkennung und Text Analytics for health sind dagegen Kernfunktionen für neue Lösungen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Core: language detection, NER, PII detection, entity linking; legacy: Text Analytics for health, sentiment, key phrases",
+            "de": "Kern: Sprachenerkennung, NER, PII-Erkennung, Entity Linking; Legacy: Text Analytics for health, Stimmung, Schlüsselwörter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Entity linking is legacy, while Text Analytics for health is core — it extracts medical entities, their relations and links to medical vocabularies.",
+            "de": "Entity Linking ist Legacy, Text Analytics for health dagegen Kern – es extrahiert medizinische Entitäten, ihre Beziehungen und Verweise auf medizinische Vokabulare."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What does `detect_language()` return, and what helps it with ambiguous text?",
         "de": "Was liefert `detect_language()` zurück, und was hilft bei mehrdeutigem Text?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`primary_language` with `name`, `iso6391_name` and a `confidence_score` from 0 to 1; a `language` hint such as `\"en\"` helps",
+            "de": "`primary_language` mit `name`, `iso6391_name` und einem `confidence_score` von 0 bis 1; ein `language`-Hinweis wie `\"en\"` hilft"
+          },
+          "correct": false,
+          "why": {
+            "en": "`language` is what NER and PII take after detection; for ambiguous text, language detection uses `country_hint`, a country or region code.",
+            "de": "`language` übergibst du nach der Erkennung an NER und PII; bei mehrdeutigem Text nutzt die Sprachenerkennung `country_hint`, einen Länder- oder Regionscode."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Every language found in the text with its share in percent; a `categories_filter` with the expected languages helps",
+            "de": "Jede im Text gefundene Sprache mit ihrem Anteil in Prozent; ein `categories_filter` mit den erwarteten Sprachen hilft"
+          },
+          "correct": false,
+          "why": {
+            "en": "Detection returns one `primary_language` — mixed text gives the dominant language with a lower score — and `categories_filter` narrows PII detection.",
+            "de": "Die Erkennung liefert eine `primary_language` – gemischter Text ergibt die dominante Sprache mit niedrigerem Score –, und `categories_filter` grenzt die PII-Erkennung ein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`primary_language` with `name` and a `category`; an optional `domain_filter` set to the expected region helps",
+            "de": "`primary_language` mit `name` und einer `category`; ein optionaler `domain_filter` mit der erwarteten Region hilft"
+          },
+          "correct": false,
+          "why": {
+            "en": "`category` belongs to NER entities and `domain_filter` to PII detection; language detection returns `iso6391_name` and a score, helped by `country_hint`.",
+            "de": "`category` gehört zu NER-Entitäten und `domain_filter` zur PII-Erkennung; die Sprachenerkennung liefert `iso6391_name` und einen Score, unterstützt von `country_hint`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`primary_language` with `name`, `iso6391_name` and a `confidence_score` from 0 to 1; an optional `country_hint` helps",
+            "de": "`primary_language` mit `name`, `iso6391_name` und einem `confidence_score` von 0 bis 1; ein optionaler `country_hint` hilft"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: detection returns the primary language's name, ISO 639-1 code and a score from 0 to 1, and `country_hint` steers ambiguous text.",
+            "de": "Korrekt: Die Erkennung liefert für die Hauptsprache Name, ISO-639-1-Code und einen Score von 0 bis 1, und `country_hint` hilft bei mehrdeutigem Text."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does `recognize_entities()` return for each entity, and which REST options tailor the returned tags?",
         "de": "Was liefert `recognize_entities()` je Entität, und welche REST-Optionen steuern, welche Entitäts-Tags zurückkommen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`text`, `category`, offsets and a confidence score; `piiCategories`, `redactionPolicies` and `redactionCharacter` tailor the tags",
+            "de": "`text`, `category`, Offsets und ein Konfidenzwert; `piiCategories`, `redactionPolicies` und `redactionCharacter` steuern die Tags"
+          },
+          "correct": false,
+          "why": {
+            "en": "`piiCategories`, redaction policies and `redactionCharacter` belong to PII redaction; NER tags are tailored with `inclusionList`, `exclusionList` and `overlapPolicy`.",
+            "de": "`piiCategories`, Schwärzungsrichtlinien und `redactionCharacter` gehören zur PII-Schwärzung; NER-Tags steuerst du mit `inclusionList`, `exclusionList` und `overlapPolicy`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`text`, `category`, offsets and a confidence score; `inclusionList`, `exclusionList` and `overlapPolicy` tailor the tags",
+            "de": "`text`, `category`, Offsets und ein Konfidenzwert; `inclusionList`, `exclusionList` und `overlapPolicy` steuern die Tags"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: prebuilt NER tags each entity with its text, a category such as Person or Location, offsets and confidence, and the REST options choose which tags come back.",
+            "de": "Richtig: Die vorgefertigte NER versieht jede Entität mit Text, einer Kategorie wie Person oder Location, Offsets und Konfidenz, und die REST-Optionen bestimmen, welche Tags zurückkommen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`text` plus a Wikipedia link and the name of its data source; `inclusionList`, `exclusionList` and `overlapPolicy` tailor the tags",
+            "de": "`text` plus einen Wikipedia-Link und den Namen seiner Datenquelle; `inclusionList`, `exclusionList` und `overlapPolicy` steuern die Tags"
+          },
+          "correct": false,
+          "why": {
+            "en": "Linking entities to Wikipedia is entity linking, a separate legacy feature; `recognize_entities()` returns categories, offsets and confidence.",
+            "de": "Entitäten mit Wikipedia zu verknüpfen ist Entity Linking, eine eigene Legacy-Funktion; `recognize_entities()` liefert Kategorien, Offsets und Konfidenz."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`text` plus a Wikipedia link and the name of its data source; `piiCategories`, `redactionPolicies` and `redactionCharacter` tailor the tags",
+            "de": "`text` plus einen Wikipedia-Link und den Namen seiner Datenquelle; `piiCategories`, `redactionPolicies` und `redactionCharacter` steuern die Tags"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wikipedia links come from entity linking, a separate legacy feature, and `piiCategories`, redaction policies and `redactionCharacter` belong to PII redaction.",
+            "de": "Wikipedia-Links liefert Entity Linking, eine eigene Legacy-Funktion, und `piiCategories`, Schwärzungsrichtlinien und `redactionCharacter` gehören zur PII-Schwärzung."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What does `recognize_pii_entities()` return, how do you narrow it, and which three PII feature types exist?",
         "de": "Was liefert `recognize_pii_entities()` zurück, wie grenzt du es ein, und welche drei PII-Feature-Typen gibt es?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "PII entities only, never a redacted copy; narrow it with `country_hint`; Text, Conversation and Document-based PII",
+            "de": "Nur PII-Entitäten, nie eine geschwärzte Kopie; eingrenzen mit `country_hint`; Text, Conversation und Document-based PII"
+          },
+          "correct": false,
+          "why": {
+            "en": "The result includes `redacted_text` unless the `noMask` policy is set, and `country_hint` belongs to language detection.",
+            "de": "Das Ergebnis enthält `redacted_text`, außer die Richtlinie `noMask` ist gesetzt, und `country_hint` gehört zur Sprachenerkennung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "PII entities plus `redacted_text`; narrow it with `categories_filter` or `domain_filter=\"phi\"`; Text, Image and Audio PII",
+            "de": "PII-Entitäten plus `redacted_text`; eingrenzen mit `categories_filter` oder `domain_filter=\"phi\"`; Text, Image und Audio PII"
+          },
+          "correct": false,
+          "why": {
+            "en": "The three types are Text PII, Conversation PII for chats and transcripts, and Document-based PII for .pdf, .docx or .txt files.",
+            "de": "Die drei Typen sind Text PII, Conversation PII für Chats und Transkripte sowie Document-based PII für .pdf-, .docx- oder .txt-Dateien."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "PII entities plus `redacted_text`; narrow it with `categories_filter` or `domain_filter=\"phi\"`; Text, Conversation and Document-based PII",
+            "de": "PII-Entitäten plus `redacted_text`; eingrenzen mit `categories_filter` oder `domain_filter=\"phi\"`; Text, Conversation und Document-based PII"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the call returns the entities and a redacted copy, `categories_filter` or the PHI domain narrows it, and Conversation and Document-based PII run as asynchronous jobs.",
+            "de": "Korrekt: Der Aufruf liefert die Entitäten und eine geschwärzte Kopie, `categories_filter` oder die PHI-Domäne grenzen ein, und Conversation sowie Document-based PII laufen als asynchrone Jobs."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Harm categories such as hate or violence, each with a severity score; narrow it with `categories_filter` or a severity threshold; Text, Image and Audio PII",
+            "de": "Schadenskategorien wie Hass oder Gewalt, je mit Schweregrad; eingrenzen mit `categories_filter` oder einer Schweregrad-Schwelle; Text, Image und Audio PII"
+          },
+          "correct": false,
+          "why": {
+            "en": "Harm categories come from Azure AI Content Safety; PII detection returns personal data entities plus a redacted copy, as Text, Conversation or Document-based PII.",
+            "de": "Schadenskategorien liefert Azure AI Content Safety; die PII-Erkennung liefert Entitäten mit personenbezogenen Daten plus eine geschwärzte Kopie, als Text, Conversation oder Document-based PII."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "How do you make a Foundry model return JSON in your schema, and how does that differ from JSON mode?",
         "de": "Wie liefert ein Foundry-Modell JSON nach deinem Schema, und was unterscheidet das vom JSON-Modus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Structured outputs via `responses.parse(text_format=Model)`; JSON mode only guarantees valid JSON, not your schema",
+            "de": "Structured Outputs über `responses.parse(text_format=Model)`; der JSON-Modus garantiert nur gültiges JSON, nicht dein Schema"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: structured outputs bind the answer to your JSON schema and return a typed object in `output_parsed`, while JSON mode only guarantees valid JSON.",
+            "de": "Richtig: Structured Outputs binden die Antwort an dein JSON-Schema und liefern ein typisiertes Objekt in `output_parsed`, der JSON-Modus garantiert nur gültiges JSON."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "JSON mode with the schema in the instructions; structured outputs only guarantee valid JSON, not your schema",
+            "de": "JSON-Modus mit dem Schema in den Anweisungen; Structured Outputs garantieren nur gültiges JSON, nicht dein Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: JSON mode is the one that only guarantees valid JSON, while structured outputs enforce your schema.",
+            "de": "Umgekehrt: Der JSON-Modus garantiert nur gültiges JSON, Structured Outputs erzwingen dagegen dein Schema."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Structured outputs via `responses.parse(text_format=Model)`; JSON mode enforces that schema too",
+            "de": "Structured Outputs über `responses.parse(text_format=Model)`; der JSON-Modus erzwingt dieses Schema ebenfalls"
+          },
+          "correct": false,
+          "why": {
+            "en": "JSON mode enforces no schema at all, so fields can be missing or extra; only structured outputs follow your schema.",
+            "de": "Der JSON-Modus erzwingt gar kein Schema, Felder können also fehlen oder hinzukommen; nur Structured Outputs folgen deinem Schema."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Few-shot JSON examples in the instructions; JSON mode then enforces the fields shown in the examples",
+            "de": "Few-Shot-Beispiele in JSON in den Anweisungen; der JSON-Modus erzwingt dann die Felder aus den Beispielen"
+          },
+          "correct": false,
+          "why": {
+            "en": "JSON mode never enforces fields, whatever the examples show; only structured outputs bind the answer to your schema.",
+            "de": "Der JSON-Modus erzwingt nie Felder, egal was die Beispiele zeigen; nur Structured Outputs binden die Antwort an dein Schema."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "Which per-request settings adapt prebuilt PII to your vocabulary, and what do new entity types need?",
         "de": "Welche Einstellungen pro Anfrage passen die PII-Erkennung an dein Vokabular an, und was brauchen neue Entitätstypen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`entitySynonyms` and `valueExclusionPolicy`; new entity types just need another synonym list instead of training",
+            "de": "`entitySynonyms` und `valueExclusionPolicy`; neue Entitätstypen brauchen statt eines Trainings nur noch eine weitere Synonymliste"
+          },
+          "correct": false,
+          "why": {
+            "en": "Synonyms only map your words to an existing entity type; a brand-new type needs custom NER trained on labeled text.",
+            "de": "Synonyme ordnen deine Begriffe nur einem vorhandenen Entitätstyp zu; ein ganz neuer Typ braucht Custom NER, trainiert auf beschrifteten Texten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`inclusionList` and `overlapPolicy`; new entity types need custom NER trained on labeled text",
+            "de": "`inclusionList` und `overlapPolicy`; neue Entitätstypen brauchen Custom NER, trainiert auf beschrifteten Texten"
+          },
+          "correct": false,
+          "why": {
+            "en": "`inclusionList` and `overlapPolicy` tailor the tags of prebuilt NER; PII vocabulary comes from `entitySynonyms` and `valueExclusionPolicy`.",
+            "de": "`inclusionList` und `overlapPolicy` steuern die Tags der vorgefertigten NER; das PII-Vokabular kommt über `entitySynonyms` und `valueExclusionPolicy`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`inclusionList` and `overlapPolicy`; new entity types just need another synonym list instead of training",
+            "de": "`inclusionList` und `overlapPolicy`; neue Entitätstypen brauchen statt eines Trainings nur noch eine weitere Synonymliste"
+          },
+          "correct": false,
+          "why": {
+            "en": "`inclusionList` and `overlapPolicy` tailor prebuilt NER tags, and synonyms only map words to an existing entity type — new types need custom NER trained on labeled text.",
+            "de": "`inclusionList` und `overlapPolicy` steuern Tags der vorgefertigten NER, und Synonyme ordnen Begriffe nur einem vorhandenen Entitätstyp zu – neue Typen brauchen Custom NER, trainiert auf beschrifteten Texten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`entitySynonyms` and `valueExclusionPolicy`; new entity types need custom NER trained on labeled text",
+            "de": "`entitySynonyms` und `valueExclusionPolicy`; neue Entitätstypen brauchen Custom NER, trainiert auf beschrifteten Texten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: synonyms map your terms to an entity type and exclusions skip listed values per request, while new entity types need custom NER.",
+            "de": "Korrekt: Synonyme ordnen deine Begriffe einem Entitätstyp zu, Ausschlüsse überspringen gelistete Werte pro Anfrage, und neue Entitätstypen brauchen Custom NER."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "For a *new* solution, the expected answer is a Foundry model — not the legacy API. Sentiment analysis, key phrase extraction and summarization still run in Azure Language but are **legacy** (retiring March 31, 2029).",
         "de": "Für eine *neue* Lösung ist ein Foundry-Modell die erwartete Antwort – nicht die Legacy-API. Stimmungsanalyse, Schlüsselwortextraktion und Zusammenfassung laufen noch in Azure Language, sind aber **Legacy** (Einstellung am 31. März 2029)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Azure Language sentiment, key phrase and summarization APIs, because they are core features that are never going to retire",
+            "de": "Die APIs für Stimmung, Schlüsselwörter und Zusammenfassung in Azure Language, weil sie Kernfunktionen sind, die nie eingestellt werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Those three features still run but are legacy, retiring on March 31, 2029 — not core features for new work.",
+            "de": "Diese drei Funktionen laufen noch, sind aber Legacy und werden am 31. März 2029 eingestellt – keine Kernfunktionen für Neues."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A Foundry model with structured outputs, because those Azure Language features are legacy and retire on March 31, 2029",
+            "de": "Ein Foundry-Modell mit Structured Outputs, weil diese Azure-Language-Funktionen Legacy sind und am 31. März 2029 enden"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: sentiment, key phrases and summaries are legacy in Azure Language, so a new solution prompts a Foundry model, and structured outputs keep the JSON shape fixed.",
+            "de": "Richtig: Stimmung, Schlüsselwörter und Zusammenfassungen sind in Azure Language Legacy, also promptet eine neue Lösung ein Foundry-Modell, und Structured Outputs halten das JSON-Format fest."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The legacy Azure Language APIs until 2029, because a Foundry model can't return a fixed sentiment label such as positive or negative",
+            "de": "Die Legacy-APIs von Azure Language bis 2029, weil ein Foundry-Modell kein festes Stimmungslabel wie positive oder negative liefern kann"
+          },
+          "correct": false,
+          "why": {
+            "en": "A Foundry model can: with structured outputs, a `Literal` field becomes an enum, so the sentiment can only take the allowed values.",
+            "de": "Ein Foundry-Modell kann das: Mit Structured Outputs wird ein `Literal`-Feld zum Enum, die Stimmung kann also nur erlaubte Werte annehmen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text Analytics for health, because it is the core feature that replaces sentiment analysis and summarization",
+            "de": "Text Analytics for health, weil es die Kernfunktion ist, die Stimmungsanalyse und Zusammenfassung ersetzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Text Analytics for health extracts medical entities, their relations and vocabulary links; it doesn't replace sentiment analysis or summarization.",
+            "de": "Text Analytics for health extrahiert medizinische Entitäten, ihre Beziehungen und Vokabularverweise; Stimmungsanalyse oder Zusammenfassung ersetzt es nicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "`TextAnalyticsClient` takes the **resource** endpoint (`*.cognitiveservices.azure.com`), not the project endpoint — and Entra ID only works on that custom-subdomain endpoint, never on regional endpoints such as `westus.api.cognitive.microsoft.com`.",
         "de": "`TextAnalyticsClient` erwartet den **Ressourcen**-Endpoint (`*.cognitiveservices.azure.com`), nicht den Project Endpoint – und Entra ID funktioniert nur an diesem Custom-Subdomain-Endpoint, nie an regionalen Endpoints wie `westus.api.cognitive.microsoft.com`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The project endpoint `*.services.ai.azure.com/api/projects/…`; Entra ID fails on regional endpoints",
+            "de": "Den Project Endpoint `*.services.ai.azure.com/api/projects/…`; Entra ID scheitert an regionalen Endpoints"
+          },
+          "correct": false,
+          "why": {
+            "en": "The project endpoint serves the Foundry SDK; `TextAnalyticsClient` takes the resource endpoint on `cognitiveservices.azure.com`.",
+            "de": "Der Project Endpoint dient dem Foundry SDK; `TextAnalyticsClient` erwartet den Ressourcen-Endpoint auf `cognitiveservices.azure.com`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The resource endpoint `*.cognitiveservices.azure.com`; Entra ID fails precisely on the custom subdomain",
+            "de": "Den Ressourcen-Endpoint `*.cognitiveservices.azure.com`; Entra ID scheitert genau an der Custom Subdomain"
+          },
+          "correct": false,
+          "why": {
+            "en": "The custom subdomain is exactly where Entra ID works; the regional endpoints are the ones that need a key.",
+            "de": "Genau an der Custom Subdomain funktioniert Entra ID; einen Key brauchen die regionalen Endpoints."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A regional endpoint such as `westus.api.cognitive.microsoft.com`; Entra ID fails precisely on the custom subdomain",
+            "de": "Einen regionalen Endpoint wie `westus.api.cognitive.microsoft.com`; Entra ID scheitert genau an der Custom Subdomain"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: regional endpoints work only with keys, while the custom subdomain supports Entra ID.",
+            "de": "Umgekehrt: Regionale Endpoints funktionieren nur mit Keys, die Custom Subdomain unterstützt dagegen Entra ID."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The resource endpoint `*.cognitiveservices.azure.com`; Entra ID fails on regional endpoints",
+            "de": "Den Ressourcen-Endpoint `*.cognitiveservices.azure.com`; Entra ID scheitert an regionalen Endpoints"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `TextAnalyticsClient` needs the Foundry resource's custom-subdomain endpoint, and only there does Entra ID work — regional endpoints such as `westus.api.cognitive.microsoft.com` take keys only.",
+            "de": "Korrekt: `TextAnalyticsClient` braucht den Custom-Subdomain-Endpoint der Foundry-Ressource, und nur dort funktioniert Entra ID – regionale Endpoints wie `westus.api.cognitive.microsoft.com` nehmen nur Keys."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Without a `language` value, NER and PII assume English. Detect the language first and pass the code for non-English text.",
         "de": "Ohne `language` nehmen NER und PII Englisch an. Erkenne zuerst die Sprache und übergib den Code bei nicht englischen Texten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The service assumes English; detect the language first and pass its code as `language`",
+            "de": "Der Dienst nimmt Englisch an; erkenne zuerst die Sprache und übergib ihren Code als `language`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: NER and PII default to English, so call `detect_language()` first and pass `iso6391_name` as `language`.",
+            "de": "Richtig: NER und PII nehmen standardmäßig Englisch an, also ruf zuerst `detect_language()` auf und übergib `iso6391_name` als `language`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The service detects the language itself; nothing to do, since NER and PII auto-detect it",
+            "de": "Der Dienst erkennt die Sprache selbst; nichts zu tun, denn NER und PII erkennen sie automatisch"
+          },
+          "correct": false,
+          "why": {
+            "en": "NER and PII don't detect the language on their own — without `language`, they assume English.",
+            "de": "NER und PII erkennen die Sprache nicht selbst – ohne `language` nehmen sie Englisch an."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The request fails with an error; set `country_hint` on the NER or PII call",
+            "de": "Die Anfrage scheitert mit einem Fehler; setz `country_hint` beim NER- oder PII-Aufruf"
+          },
+          "correct": false,
+          "why": {
+            "en": "No error: the service quietly assumes English, and `country_hint` belongs to language detection.",
+            "de": "Kein Fehler: Der Dienst nimmt still Englisch an, und `country_hint` gehört zur Sprachenerkennung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The service reuses the `language` of the previous request; send one language per batch",
+            "de": "Der Dienst übernimmt die `language` der vorigen Anfrage; schick eine Sprache pro Batch"
+          },
+          "correct": false,
+          "why": {
+            "en": "Without a `language` value, NER and PII always assume English — not the language of an earlier request.",
+            "de": "Ohne `language` nehmen NER und PII immer Englisch an – nicht die Sprache einer früheren Anfrage."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "Synchronous requests allow 5,120 characters per document and only 5 documents per NER or PII request (1,000 for language detection). Larger inputs need chunking or the asynchronous API.",
         "de": "Synchrone Anfragen erlauben 5.120 Zeichen pro Dokument und nur 5 Dokumente pro NER- oder PII-Anfrage (1.000 bei der Sprachenerkennung). Größere Eingaben brauchen Chunking oder die asynchrone API."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "5,120 characters per document; 1,000 documents per NER or PII request, 5 for detection; chunk or use the asynchronous API",
+            "de": "5.120 Zeichen pro Dokument; 1.000 Dokumente pro NER- oder PII-Anfrage, 5 bei der Erkennung; Chunking oder die asynchrone API"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: NER and PII accept only 5 documents per synchronous request, language detection up to 1,000.",
+            "de": "Vertauscht: NER und PII nehmen pro synchroner Anfrage nur 5 Dokumente an, die Sprachenerkennung bis zu 1.000."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "1,000 characters per document; 5 documents per NER or PII request, 1,000 for detection; buy more text records",
+            "de": "1.000 Zeichen pro Dokument; 5 Dokumente pro NER- oder PII-Anfrage, 1.000 bei der Erkennung; mehr Textdatensätze kaufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "1,000 characters is a billing text record; the synchronous limit is 5,120 characters per document, and larger input needs chunking or the asynchronous API.",
+            "de": "1.000 Zeichen sind ein Textdatensatz für die Abrechnung; synchron gelten 5.120 Zeichen pro Dokument, und größere Eingaben brauchen Chunking oder die asynchrone API."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "5,120 characters per document; 5 documents per NER or PII request, 1,000 for detection; chunk or use the asynchronous API",
+            "de": "5.120 Zeichen pro Dokument; 5 Dokumente pro NER- oder PII-Anfrage, 1.000 bei der Erkennung; Chunking oder die asynchrone API"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: synchronous calls cap each document at 5,120 characters and NER or PII at 5 documents per request (detection 1,000); split larger input or go async.",
+            "de": "Korrekt: Synchron ist jedes Dokument auf 5.120 Zeichen begrenzt und NER oder PII auf 5 Dokumente pro Anfrage (Erkennung 1.000); größere Eingaben teilst du auf oder nutzt die asynchrone API."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "5,120 characters per document; 1,000 documents per NER or PII request, 5 for detection; buy more text records",
+            "de": "5.120 Zeichen pro Dokument; 1.000 Dokumente pro NER- oder PII-Anfrage, 5 bei der Erkennung; mehr Textdatensätze kaufen"
+          },
+          "correct": false,
+          "why": {
+            "en": "The document limits are swapped — NER and PII take 5 per synchronous request, detection up to 1,000 — and larger input needs chunking or the asynchronous API, not more text records.",
+            "de": "Die Dokumentgrenzen sind vertauscht – NER und PII nehmen 5 pro synchroner Anfrage, die Erkennung bis zu 1.000 –, und größere Eingaben brauchen Chunking oder die asynchrone API, keine weiteren Textdatensätze."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "PII detection is not content moderation: hate, sexual, violence and self-harm are detected by Azure AI Content Safety, which powers Foundry guardrails.",
         "de": "PII-Erkennung ist keine Inhaltsmoderation: Hass, sexuelle Inhalte, Gewalt und Selbstverletzung erkennt Azure AI Content Safety, das die Foundry-Guardrails antreibt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "PII detection with `domain_filter=\"phi\"`, which flags harmful health content",
+            "de": "PII-Erkennung mit `domain_filter=\"phi\"`, die schädliche Gesundheitsinhalte markiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "`domain_filter=\"phi\"` keeps only protected health information in PII detection; it doesn't detect harmful content.",
+            "de": "`domain_filter=\"phi\"` behält bei der PII-Erkennung nur geschützte Gesundheitsdaten; schädliche Inhalte erkennt es nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Azure AI Content Safety, which powers Foundry guardrails — not PII detection",
+            "de": "Azure AI Content Safety, das die Foundry-Guardrails antreibt – nicht die PII-Erkennung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: PII detection isn't content moderation — hate, sexual, violence and self-harm are Azure AI Content Safety's job, and Foundry guardrails build on it.",
+            "de": "Richtig: PII-Erkennung ist keine Inhaltsmoderation – Hass, sexuelle Inhalte, Gewalt und Selbstverletzung sind Sache von Azure AI Content Safety, und darauf bauen die Foundry-Guardrails auf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Prebuilt NER, which tags hate and violence as entity categories",
+            "de": "Die vorgefertigte NER, die Hass und Gewalt als Entitätskategorien markiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Prebuilt NER tags people, places, organizations, dates and more, not harm categories.",
+            "de": "Die vorgefertigte NER markiert Personen, Orte, Organisationen, Datumsangaben und mehr, keine Schadenskategorien."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text Analytics for health, which flags self-harm and violence in clinical notes",
+            "de": "Text Analytics for health, das Selbstverletzung und Gewalt in klinischen Notizen markiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Text Analytics for health extracts medical entities such as medications and diagnoses; harmful content is detected by Azure AI Content Safety.",
+            "de": "Text Analytics for health extrahiert medizinische Entitäten wie Medikamente und Diagnosen; schädliche Inhalte erkennt Azure AI Content Safety."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Language, entities, PII → Azure Language core features.",
         "de": "Sprache, Entitäten, PII → Kernfunktionen von Azure Language."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Sentiment analysis, key phrase extraction and text summarization",
+            "de": "Stimmungsanalyse, Schlüsselwortextraktion und Textzusammenfassung"
+          },
+          "correct": false,
+          "why": {
+            "en": "These are legacy features that retire on March 31, 2029; a new solution handles them with a Foundry model.",
+            "de": "Das sind Legacy-Funktionen, die am 31. März 2029 eingestellt werden; eine neue Lösung erledigt sie mit einem Foundry-Modell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Tone, custom fields and summaries returned in your own JSON schema",
+            "de": "Tonalität, eigene Felder und Zusammenfassungen, geliefert in deinem eigenen JSON-Schema"
+          },
+          "correct": false,
+          "why": {
+            "en": "Your own JSON shape with tone or custom fields comes from a Foundry model with structured outputs.",
+            "de": "Ein eigenes JSON-Format mit Tonalität oder eigenen Feldern liefert ein Foundry-Modell mit Structured Outputs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Detecting hate, sexual, violence and self-harm content",
+            "de": "Hass, sexuelle Inhalte, Gewalt und Selbstverletzung erkennen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Harm categories are detected by Azure AI Content Safety, which powers Foundry guardrails, not by Azure Language.",
+            "de": "Schadenskategorien erkennt Azure AI Content Safety, das die Foundry-Guardrails antreibt, nicht Azure Language."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Language detection, named entity recognition and PII detection",
+            "de": "Sprachenerkennung, Named Entity Recognition und PII-Erkennung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: language, entities and PII are core Azure Language features that return fixed JSON — no prompt writing and no model training needed.",
+            "de": "Korrekt: Sprache, Entitäten und PII sind Kernfunktionen von Azure Language, die festes JSON liefern – ohne Prompts und ohne Modelltraining."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "Summaries, key phrases, sentiment, tone, custom fields → Foundry model + structured outputs.",
         "de": "Zusammenfassungen, Schlüsselwörter, Stimmung, Tonalität, eigene Felder → Foundry-Modell + Structured Outputs."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A Foundry model with structured outputs",
+            "de": "Ein Foundry-Modell mit Structured Outputs"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a Foundry model handles these generative tasks, and structured outputs make it return them as JSON in your schema.",
+            "de": "Richtig: Ein Foundry-Modell übernimmt diese generativen Aufgaben, und Structured Outputs lassen es sie als JSON in deinem Schema liefern."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Azure Language core features with `categories_filter`",
+            "de": "Kernfunktionen von Azure Language mit `categories_filter`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Core features cover language, entities and PII; `categories_filter` only narrows PII detection.",
+            "de": "Die Kernfunktionen decken Sprache, Entitäten und PII ab; `categories_filter` grenzt nur die PII-Erkennung ein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Custom NER trained on your own labeled text",
+            "de": "Custom NER, trainiert auf deinen eigenen beschrifteten Texten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Custom NER adds new entity types from labeled text; it doesn't write summaries or judge sentiment and tone.",
+            "de": "Custom NER ergänzt neue Entitätstypen aus beschrifteten Texten; es schreibt keine Zusammenfassungen und bewertet weder Stimmung noch Tonalität."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The legacy Azure Language APIs, which also cover tone and custom fields",
+            "de": "Die Legacy-APIs von Azure Language, die auch Tonalität und eigene Felder abdecken"
+          },
+          "correct": false,
+          "why": {
+            "en": "Tone has no prebuilt feature at all, and sentiment, key phrases and summaries are legacy; a new solution uses a Foundry model.",
+            "de": "Für Tonalität gibt es gar keine vorgefertigte Funktion, und Stimmung, Schlüsselwörter und Zusammenfassungen sind Legacy; eine neue Lösung nutzt ein Foundry-Modell."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "PII: categories decide *what* is hidden, the redaction policy decides *how*.",
         "de": "PII: Kategorien bestimmen, *was* verborgen wird, die Schwärzungsrichtlinie, *wie*."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Categories decide how values are hidden, such as `entityMask`; the policy decides which data is hidden",
+            "de": "Kategorien bestimmen, wie Werte verborgen werden, etwa mit `entityMask`; die Richtlinie bestimmt, welche Daten verborgen werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: categories pick the entity types, and a policy such as `entityMask` or `characterMask` sets how they're hidden.",
+            "de": "Umgekehrt: Kategorien wählen die Entitätstypen, und eine Richtlinie wie `entityMask` oder `characterMask` legt fest, wie sie verborgen werden."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Categories decide which data is hidden; the policy decides who may still see the original, unmasked text",
+            "de": "Kategorien bestimmen, welche Daten verborgen werden; die Richtlinie bestimmt, wer den originalen, ungeschwärzten Text noch sehen darf"
+          },
+          "correct": false,
+          "why": {
+            "en": "A redaction policy only changes how detected values appear in the redacted text; it doesn't manage access to the original.",
+            "de": "Eine Schwärzungsrichtlinie ändert nur, wie erkannte Werte im geschwärzten Text erscheinen; den Zugriff auf das Original regelt sie nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Categories decide which data is hidden; the policy decides how it's hidden, such as `entityMask`",
+            "de": "Kategorien bestimmen, welche Daten verborgen werden; die Richtlinie bestimmt, wie, etwa mit `entityMask`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `piiCategories` (Python: `categories_filter`) sets what is detected, and the policy — `characterMask`, `entityMask`, `syntheticReplacement` or `noMask` — how it's hidden.",
+            "de": "Korrekt: `piiCategories` (Python: `categories_filter`) legt fest, was erkannt wird, und die Richtlinie – `characterMask`, `entityMask`, `syntheticReplacement` oder `noMask` –, wie es verborgen wird."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Categories decide which documents are scanned; the policy decides which entity types are detected",
+            "de": "Kategorien bestimmen, welche Dokumente geprüft werden; die Richtlinie bestimmt, welche Entitätstypen erkannt werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Categories pick the entity types to detect, not documents, and the policy decides how detected values are hidden.",
+            "de": "Kategorien wählen die zu erkennenden Entitätstypen, keine Dokumente, und die Richtlinie bestimmt, wie erkannte Werte verborgen werden."
+          }
+        }
+      ]
     },
     {
       "id": "z-text-analysis-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Keyless: `DefaultAzureCredential` + custom-subdomain endpoint + a role such as Cognitive Services User.",
         "de": "Schlüssellos: `DefaultAzureCredential` + Custom-Subdomain-Endpoint + eine Rolle wie Cognitive Services User."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`DefaultAzureCredential`, a regional endpoint such as `westus.api.cognitive.microsoft.com` and Cognitive Services User",
+            "de": "`DefaultAzureCredential`, ein regionaler Endpoint wie `westus.api.cognitive.microsoft.com` und Cognitive Services User"
+          },
+          "correct": false,
+          "why": {
+            "en": "Regional endpoints accept keys only; Entra ID works solely on the resource's custom-subdomain endpoint.",
+            "de": "Regionale Endpoints nehmen nur Keys an; Entra ID funktioniert ausschließlich am Custom-Subdomain-Endpoint der Ressource."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`DefaultAzureCredential`, the custom-subdomain endpoint and a role such as Cognitive Services User",
+            "de": "`DefaultAzureCredential`, der Custom-Subdomain-Endpoint und eine Rolle wie Cognitive Services User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Entra ID needs a token credential, the resource's custom-subdomain endpoint and a role such as Cognitive Services User.",
+            "de": "Richtig: Entra ID braucht ein Token-Credential, den Custom-Subdomain-Endpoint der Ressource und eine Rolle wie Cognitive Services User."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`DefaultAzureCredential`, the custom-subdomain endpoint and an API key as a fallback",
+            "de": "`DefaultAzureCredential`, der Custom-Subdomain-Endpoint und ein API-Key als Rückfall"
+          },
+          "correct": false,
+          "why": {
+            "en": "Keyless means no key at all — instead, the identity needs a role such as Cognitive Services User.",
+            "de": "Schlüssellos heißt: gar kein Key – stattdessen braucht die Identität eine Rolle wie Cognitive Services User."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`AzureKeyCredential`, a regional endpoint such as `westus.api.cognitive.microsoft.com` and a role such as Foundry User",
+            "de": "`AzureKeyCredential`, ein regionaler Endpoint wie `westus.api.cognitive.microsoft.com` und eine Rolle wie Foundry User"
+          },
+          "correct": false,
+          "why": {
+            "en": "`AzureKeyCredential` sends a key, so the call isn't keyless — and Entra ID doesn't work on regional endpoints anyway.",
+            "de": "`AzureKeyCredential` schickt einen Key, der Aufruf ist also nicht schlüssellos – und an regionalen Endpoints funktioniert Entra ID ohnehin nicht."
+          }
+        }
+      ]
     }
   ]
 }

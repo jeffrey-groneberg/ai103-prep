@@ -8,7 +8,57 @@
       "front": {
         "en": "Which roles do host, client and server play in MCP, and why can tools change without changing the agent?",
         "de": "Was machen Host, Client und Server bei MCP, und warum können sich Tools ändern, ohne dass du den Agent änderst?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The server runs the agent and its client connects to hosts that expose tools; the tools are hardcoded in the agent's code at build time",
+            "de": "Der Server führt den Agent aus, sein Client verbindet sich mit Hosts, die Tools bereitstellen; die Tools sind beim Erstellen fest im Code des Agents verdrahtet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: the host runs the agent and its client connects to servers that expose tools, and the agent discovers those tools at runtime instead of hardcoding them.",
+            "de": "Beides falsch: Der Host führt den Agent aus, sein Client verbindet sich mit Servern, die Tools bereitstellen, und der Agent entdeckt die Tools zur Laufzeit, statt sie fest zu verdrahten."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The host runs the agent and its client connects to servers that expose tools; the agent discovers the tool catalog at runtime",
+            "de": "Der Host führt den Agent aus, sein Client verbindet sich mit Servern, die Tools bereitstellen; der Agent entdeckt den Tool-Katalog zur Laufzeit"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: host, client and server split the work, and dynamic tool discovery means new or changed tools appear without editing the agent.",
+            "de": "Richtig: Host, Client und Server teilen sich die Arbeit, und dank dynamischer Tool-Erkennung erscheinen neue oder geänderte Tools, ohne dass du den Agent bearbeitest."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The host runs the agent and its client connects to servers that expose tools; the tools are hardcoded in the agent's code at build time",
+            "de": "Der Host führt den Agent aus, sein Client verbindet sich mit Servern, die Tools bereitstellen; die Tools sind beim Erstellen fest im Code des Agents verdrahtet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong half: the agent discovers the server's tools at runtime instead of hardcoding them (dynamic tool discovery), so tools can change without changing the agent's code.",
+            "de": "Falsche Hälfte: Der Agent entdeckt die Tools des Servers zur Laufzeit, statt sie fest zu verdrahten (dynamische Tool-Erkennung), daher können sich Tools ändern, ohne dass du den Code des Agents änderst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The server runs the agent and its client connects to hosts that expose tools; the agent discovers the tool catalog at runtime",
+            "de": "Der Server führt den Agent aus, sein Client verbindet sich mit Hosts, die Tools bereitstellen; der Agent entdeckt den Tool-Katalog zur Laufzeit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: tools are discovered at runtime, but the roles are swapped — the host runs the agent, and its client connects to MCP servers that expose the tools.",
+            "de": "Teilweise richtig: Tools werden zur Laufzeit entdeckt, aber die Rollen sind vertauscht – der Host führt den Agent aus, und sein Client verbindet sich mit MCP-Servern, die die Tools bereitstellen."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which two tools does the Azure Speech MCP server expose, and whose speech capabilities does it use?",
         "de": "Welche zwei Tools stellt der Azure Speech MCP Server bereit, und wessen Sprachfunktionen nutzt er?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "recognize (speech to text) and synthesize (text to speech), using the speech capabilities of your Foundry resource",
+            "de": "recognize (Speech to Text) und synthesize (Text to Speech), mit den Sprachfunktionen deiner Foundry-Ressource"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the remote server exposes Azure Speech as two tools and uses the speech capabilities of your own Foundry resource.",
+            "de": "Richtig: Der Remote-Server stellt Azure Speech als zwei Tools bereit und nutzt die Sprachfunktionen deiner eigenen Foundry-Ressource."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "recognize (speech to text) and translate (speech to another language), using the speech capabilities of your Foundry resource",
+            "de": "recognize (Speech to Text) und translate (Speech Translation), mit den Sprachfunktionen deiner Foundry-Ressource"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the server uses your Foundry resource, but its second tool is synthesize (text to speech), not a translation tool.",
+            "de": "Teilweise richtig: Der Server nutzt deine Foundry-Ressource, aber sein zweites Tool ist synthesize (Text to Speech), kein Übersetzungs-Tool."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "recognize (speech to text) and synthesize (text to speech), using the speech capabilities of the model deployed for your agent",
+            "de": "recognize (Speech to Text) und synthesize (Text to Speech), mit den Sprachfunktionen des Modells, das für deinen Agent bereitgestellt ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the tools fit, but Azure Speech in your Foundry resource does the work — the agent's model only decides which tool to call.",
+            "de": "Teilweise richtig: Die Tools stimmen, aber Azure Speech in deiner Foundry-Ressource erledigt die Arbeit – das Modell des Agents entscheidet nur, welches Tool es aufruft."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "recognize (speech to text) and translate (speech to another language), using the speech capabilities of the model deployed for your agent",
+            "de": "recognize (Speech to Text) und translate (Speech Translation), mit den Sprachfunktionen des Modells, das für deinen Agent bereitgestellt ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: the second tool is synthesize (text to speech), and Azure Speech in your Foundry resource does the work, not the agent's model.",
+            "de": "Beides falsch: Das zweite Tool ist synthesize (Text to Speech), und Azure Speech in deiner Foundry-Ressource erledigt die Arbeit, nicht das Modell des Agents."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which SAS permissions do `X-Blob-Container-Url` and the input audio need, and what goes into `Bearer`?",
         "de": "Welche SAS-Rechte brauchen `X-Blob-Container-Url` und das Eingabeaudio, und was gehört in `Bearer`?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Container SAS with read only; input audio a file SAS with write; `Bearer` holds the access key of the storage account",
+            "de": "Container-SAS nur mit Leserecht; Eingabeaudio eine Datei-SAS mit Schreibrecht; `Bearer` enthält den Zugriffsschlüssel des Storage-Kontos"
+          },
+          "correct": false,
+          "why": {
+            "en": "Everything wrong: the container needs read and write, input audio only read, and `Bearer` takes the Foundry resource key, not a storage account key.",
+            "de": "Alles falsch: Der Container braucht Lese- und Schreibrechte, Eingabeaudio nur Leserecht, und `Bearer` nimmt den Key der Foundry-Ressource, nicht den des Storage-Kontos."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Container SAS with read and write; input audio a file SAS with read; `Bearer` holds the access key of the storage account",
+            "de": "Container-SAS mit Lese- und Schreibrechten; Eingabeaudio eine Datei-SAS mit Leserecht; `Bearer` enthält den Zugriffsschlüssel des Storage-Kontos"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the SAS permissions fit, but `Bearer` takes KEY1 or KEY2 of the Foundry resource — the storage side only gets SAS URLs.",
+            "de": "Teilweise richtig: Die SAS-Rechte stimmen, aber `Bearer` nimmt KEY1 oder KEY2 der Foundry-Ressource – die Storage-Seite bekommt nur SAS-URLs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Container SAS with read only; input audio a file SAS with write; `Bearer` holds the Foundry resource key",
+            "de": "Container-SAS nur mit Leserecht; Eingabeaudio eine Datei-SAS mit Schreibrecht; `Bearer` enthält den Key der Foundry-Ressource"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `Bearer` fits, but the permissions are reversed — the tool writes WAV files into the container (read and write) and only reads input audio.",
+            "de": "Teilweise richtig: `Bearer` stimmt, aber die Rechte sind verdreht – das Tool schreibt WAV-Dateien in den Container (Lesen und Schreiben) und liest Eingabeaudio nur."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Container SAS with read and write; input audio a file SAS with read; `Bearer` holds the Foundry resource key",
+            "de": "Container-SAS mit Lese- und Schreibrechten; Eingabeaudio eine Datei-SAS mit Leserecht; `Bearer` enthält den Key der Foundry-Ressource"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: generated WAV files land in the container (read and write), input audio is fetched via a read SAS, and `Bearer` takes KEY1 or KEY2.",
+            "de": "Richtig: Erzeugte WAV-Dateien landen im Container (Lesen und Schreiben), Eingabeaudio wird über eine SAS mit Leserecht geholt, und `Bearer` nimmt KEY1 oder KEY2."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How does your app approve an MCP tool call when `require_approval` keeps its default?",
         "de": "Wie gibt deine App einen MCP-Tool-Aufruf frei, wenn `require_approval` auf dem Standardwert bleibt?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It doesn't need to, because the default `never` runs every MCP tool call without approval",
+            "de": "Gar nicht, denn der Standard `never` führt jeden MCP-Tool-Aufruf ohne Freigabe aus"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `require_approval` defaults to `always`, so every MCP tool call pauses until your app approves it.",
+            "de": "Nein: `require_approval` steht standardmäßig auf `always`, daher pausiert jeder MCP-Tool-Aufruf, bis deine App ihn freigibt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It answers each `mcp_approval_request` with an `mcp_approval_response` (`approve=True`) in a new conversation",
+            "de": "Sie beantwortet jeden `mcp_approval_request` per `mcp_approval_response` (`approve=True`) in einer neuen Konversation"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong place: approvals go into the same conversation, and each new request in a later response needs its own answer there.",
+            "de": "Falscher Ort: Freigaben gehören in dieselbe Konversation, und jede neue Anfrage in einer späteren Antwort braucht dort eine eigene Antwort."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It answers each `mcp_approval_request` with an `mcp_approval_response` (`approve=True`) in the same conversation",
+            "de": "Sie beantwortet jeden `mcp_approval_request` mit einer `mcp_approval_response` (`approve=True`) in derselben Konversation"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the default is `always`, so each request item needs a response with its `approval_request_id` — again for new requests in the next response.",
+            "de": "Richtig: Standard ist `always`, also braucht jede Anfrage eine Antwort mit ihrer `approval_request_id` – auch neue Anfragen in der nächsten Antwort."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It lists the approved tool names in `allowed_tools`, which approves all their future calls up front",
+            "de": "Sie trägt die freigegebenen Tool-Namen in `allowed_tools` ein, was alle künftigen Aufrufe vorab freigibt"
+          },
+          "correct": false,
+          "why": {
+            "en": "`allowed_tools` only limits which tools the agent may call; each call still needs approval while `require_approval` is `always`.",
+            "de": "`allowed_tools` begrenzt nur, welche Tools der Agent aufrufen darf; jeder Aufruf braucht trotzdem eine Freigabe, solange `require_approval` auf `always` steht."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "Which fields does every MCP tool need, what does `allowed_tools` limit, and where do the auth details live?",
         "de": "Welche Felder braucht jedes MCP-Tool, was begrenzt `allowed_tools`, und wo liegen die Anmeldedaten?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only a `server_url`; which tools the agent may call; in the settings of the model deployment",
+            "de": "Nur eine `server_url`; welche Tools der Agent aufrufen darf; in den Einstellungen des Modell-Deployments"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `allowed_tools` does limit the callable tools, but every MCP tool also needs a unique `server_label`, and the auth details sit in a project connection.",
+            "de": "Teilweise richtig: `allowed_tools` begrenzt die aufrufbaren Tools, aber jedes MCP-Tool braucht auch ein eindeutiges `server_label`, und die Anmeldedaten liegen in einer Projektverbindung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A unique `server_label` and a `server_url`; which tools the agent may call; in a project connection",
+            "de": "Ein eindeutiges `server_label` und eine `server_url`; welche Tools der Agent aufrufen darf; in einer Projektverbindung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: label and URL identify the server, `allowed_tools` restricts the callable tools (an empty list allows all), and `project_connection_id` points to the connection that holds the secrets.",
+            "de": "Richtig: Label und URL identifizieren den Server, `allowed_tools` beschränkt die aufrufbaren Tools (eine leere Liste erlaubt alle), und `project_connection_id` verweist auf die Verbindung mit den Geheimnissen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A unique `server_label` and a `server_url`; which tools need approval; in the settings of the model deployment",
+            "de": "Ein eindeutiges `server_label` und eine `server_url`; welche Tools eine Freigabe brauchen; in den Einstellungen des Modell-Deployments"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the fields are right: approval is what `require_approval` controls, `allowed_tools` limits the callable tools, and a project connection holds the auth details.",
+            "de": "Nur die Felder stimmen: Freigaben steuert `require_approval`, `allowed_tools` begrenzt die aufrufbaren Tools, und eine Projektverbindung hält die Anmeldedaten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only a `server_url`; which tools need approval; in a project connection",
+            "de": "Nur eine `server_url`; welche Tools eine Freigabe brauchen; in einer Projektverbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the place for the auth details is right: every MCP tool also needs a unique `server_label`, and `allowed_tools` limits callable tools — approval is `require_approval`.",
+            "de": "Nur der Ort der Anmeldedaten stimmt: Jedes MCP-Tool braucht auch ein eindeutiges `server_label`, und `allowed_tools` begrenzt aufrufbare Tools – Freigaben regelt `require_approval`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-6",
@@ -48,15 +298,115 @@
       "front": {
         "en": "Which model capability does a speech agent need, and what happens without it?",
         "de": "Welche Modellfähigkeit braucht ein Speech-Agent, und was passiert ohne sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Tool calling; without it, the agent can't invoke the Speech MCP server and doesn't even list speech capabilities",
+            "de": "Tool Calling; ohne diese Fähigkeit kann der Agent den Speech-MCP-Server nicht aufrufen und nennt nicht einmal Sprachfunktionen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the model reaches the speech tools only through tool calls, so pick a current tool-calling model such as `gpt-5-mini`.",
+            "de": "Richtig: Das Modell erreicht die Sprach-Tools nur über Tool-Aufrufe, wähle also ein aktuelles Modell mit Tool Calling wie `gpt-5-mini`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Native audio input and output; without it, the agent can't invoke the Speech MCP server and doesn't even list speech capabilities",
+            "de": "Native Audio-Ein- und -Ausgabe; ohne sie kann der Agent den Speech-MCP-Server nicht aufrufen und nennt nicht einmal Sprachfunktionen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: that is what happens, but the cause is missing tool calling — Azure Speech does the audio work behind the MCP tools.",
+            "de": "Teilweise richtig: Genau das passiert, aber die Ursache ist fehlendes Tool Calling – Azure Speech erledigt die Audioarbeit hinter den MCP-Tools."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Tool calling; without it, adding the tool fails with the error `Invalid tool value(s): mcp`",
+            "de": "Tool Calling; ohne diese Fähigkeit scheitert das Hinzufügen des Tools mit dem Fehler `Invalid tool value(s): mcp`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: tool calling is the capability, but that error means the resource doesn't support MCP tools; without tool calling the agent simply never uses them.",
+            "de": "Teilweise richtig: Tool Calling ist die Fähigkeit, aber dieser Fehler bedeutet, dass die Ressource keine MCP-Tools unterstützt; ohne Tool Calling nutzt der Agent sie einfach nie."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Native audio input and output; without it, adding the tool fails with the error `Invalid tool value(s): mcp`",
+            "de": "Native Audio-Ein- und -Ausgabe; ohne sie scheitert das Hinzufügen des Tools mit dem Fehler `Invalid tool value(s): mcp`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: the model needs tool calling, not audio, and that error means the resource lacks MCP support (Agent Service Enterprise tier).",
+            "de": "Beides falsch: Das Modell braucht Tool Calling, kein Audio, und dieser Fehler bedeutet, dass der Ressource die MCP-Unterstützung fehlt (Enterprise-Tarif des Agent Service)."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-concept-7",
       "source": { "kind": "concept", "index": 6 },
       "front": {
         "en": "Which roles let you build and test agents, create a project connection, and upload audio and generate SAS URLs?",
-        "de": "Welche Rollen brauchst du zum Erstellen und Testen von Agents, für eine Projektverbindung und für SAS-URLs?"
-      }
+        "de": "Welche Rollen brauchst du, um Agents zu erstellen und zu testen, eine Projektverbindung anzulegen sowie Audio hochzuladen und SAS-URLs zu erzeugen?"
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Agents: Foundry User; connection: Foundry User; audio and SAS URLs: Storage Blob Data Reader",
+            "de": "Agents: Foundry User; Verbindung: Foundry User; Audio und SAS-URLs: Storage Blob Data Reader"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the agent role is right: the Speech MCP setup names Foundry Project Manager for the project connection, and Storage Blob Data Reader can't upload audio.",
+            "de": "Nur die Agent-Rolle stimmt: Das Speech-MCP-Setup nennt für die Projektverbindung Foundry Project Manager, und Storage Blob Data Reader kann kein Audio hochladen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Agents: Cognitive Services Speech User; connection: Foundry Project Manager; audio and SAS URLs: Storage Blob Data Reader",
+            "de": "Agents: Cognitive Services Speech User; Verbindung: Foundry Project Manager; Audio und SAS-URLs: Storage Blob Data Reader"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the connection role is right: Cognitive Services Speech User serves the speech APIs such as the Speech SDK, not agents, and uploading audio needs Storage Blob Data Contributor.",
+            "de": "Nur die Rolle für die Verbindung stimmt: Cognitive Services Speech User dient den Speech-APIs wie dem Speech SDK, nicht Agents, und zum Hochladen brauchst du Storage Blob Data Contributor."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Agents: Cognitive Services Speech User; connection: Foundry User; audio and SAS URLs: Storage Blob Data Contributor",
+            "de": "Agents: Cognitive Services Speech User; Verbindung: Foundry User; Audio und SAS-URLs: Storage Blob Data Contributor"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the storage role is right: building and testing agents takes Foundry User, and the Speech MCP setup names Foundry Project Manager for the project connection.",
+            "de": "Nur die Storage-Rolle stimmt: Zum Erstellen und Testen von Agents brauchst du Foundry User, und das Speech-MCP-Setup nennt für die Projektverbindung Foundry Project Manager."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Agents: Foundry User; connection: Foundry Project Manager; audio and SAS URLs: Storage Blob Data Contributor",
+            "de": "Agents: Foundry User; Verbindung: Foundry Project Manager; Audio und SAS-URLs: Storage Blob Data Contributor"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Foundry User lets you build and test agents, Foundry Project Manager lets you create the project connection, and Storage Blob Data Contributor lets you upload audio and create SAS URLs.",
+            "de": "Richtig: Mit Foundry User erstellst und testest du Agents, mit Foundry Project Manager legst du die Projektverbindung an, und mit Storage Blob Data Contributor lädst du Audio hoch und erzeugst SAS-URLs."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "Not as audio bytes in the chat: the tool writes a WAV file into the container from `X-Blob-Container-Url`, and the agent answers with a link.",
         "de": "Nicht als Audiobytes im Chat: Das Tool schreibt eine WAV-Datei in den Container aus `X-Blob-Container-Url`, und der Agent antwortet mit einem Link."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As base64-encoded audio bytes inside the `output_text` of the agent's response to your app",
+            "de": "Als Base64-codierte Audiobytes im `output_text` der Antwort, die der Agent an deine App zurückgibt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `output_text` carries text; the synthesized speech lands as a WAV file in Blob Storage, and you get a link.",
+            "de": "Nein: `output_text` transportiert Text; die synthetisierte Sprache landet als WAV-Datei im Blob Storage, und du bekommst einen Link."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "As a live audio stream over an open WebSocket connection, just like in a Voice Live session",
+            "de": "Als Live-Audiostream über eine offene WebSocket-Verbindung, genau wie in einer Voice-Live-Session"
+          },
+          "correct": false,
+          "why": {
+            "en": "Streaming audio over a WebSocket is Voice Live; the Speech MCP tool works with files in Blob Storage.",
+            "de": "Audiostreaming über einen WebSocket ist Voice Live; das Speech-MCP-Tool arbeitet mit Dateien im Blob Storage."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "As a link to a WAV file the tool wrote into the container from `X-Blob-Container-Url`",
+            "de": "Als Link auf eine WAV-Datei, die das Tool im Container aus `X-Blob-Container-Url` ablegt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: audio never travels in the chat — synthesize saves a WAV file in your Blob container, and the reply contains a link to it.",
+            "de": "Richtig: Audio reist nie im Chat – synthesize speichert eine WAV-Datei in deinem Blob-Container, und die Antwort enthält einen Link darauf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "As an MP3 file that the agent attaches directly to the conversation as a separate file item",
+            "de": "Als MP3-Datei, die der Agent direkt als eigenes Datei-Element an die Konversation anhängt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: nothing is attached — the tool writes a WAV file into the container from `X-Blob-Container-Url`, and the agent replies with a link.",
+            "de": "Nein: Nichts wird angehängt – das Tool schreibt eine WAV-Datei in den Container aus `X-Blob-Container-Url`, und der Agent antwortet mit einem Link."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "A URL the service can read — a public URL or a SAS URL with read permission. A local path such as `./call.wav` doesn’t work with the remote server.",
         "de": "Eine URL, die der Dienst lesen kann – eine öffentliche URL oder eine SAS-URL mit Leserecht. Ein lokaler Pfad wie `./call.wav` funktioniert mit dem Remote-Server nicht."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A local file path like `./call.wav`, which the MCP client uploads for you",
+            "de": "Einen lokalen Dateipfad wie `./call.wav`, den der MCP-Client für dich hochlädt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the remote server can't reach files on your machine, and nothing uploads them for you — upload first, then pass a readable URL.",
+            "de": "Nein: Der Remote-Server erreicht keine Dateien auf deinem Rechner, und nichts lädt sie für dich hoch – erst hochladen, dann eine lesbare URL übergeben."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A URL the service can read: a public URL or a SAS URL with read permission",
+            "de": "Eine URL, die der Dienst lesen kann: eine öffentliche URL oder eine SAS-URL mit Leserecht"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the remote server fetches the audio itself, so it needs a public URL or a SAS URL that grants read.",
+            "de": "Richtig: Der Remote-Server holt das Audio selbst ab, daher braucht er eine öffentliche URL oder eine SAS-URL mit Leserecht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The audio itself as base64-encoded bytes inside the prompt text",
+            "de": "Das Audio selbst als Base64-codierte Bytes im Prompt-Text"
+          },
+          "correct": false,
+          "why": {
+            "en": "Audio doesn't travel inside the chat; the tool reads its input from a public URL or a SAS URL with read permission.",
+            "de": "Audio reist nicht im Chat; das Tool liest seine Eingabe von einer öffentlichen URL oder einer SAS-URL mit Leserecht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A SAS URL with write permission, so that the tool can store the transcript next to the audio",
+            "de": "Eine SAS-URL mit Schreibrecht, damit das Tool das Transkript neben dem Audio speichern kann"
+          },
+          "correct": false,
+          "why": {
+            "en": "Speech to text only needs to read the input, so a SAS URL with read permission does it; the transcript shows up as text in the chat.",
+            "de": "Speech to Text muss die Eingabe nur lesen, eine SAS-URL mit Leserecht genügt also; das Transkript erscheint als Text im Chat."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "The model: it must support tool calling (for example `gpt-5-mini`).",
         "de": "Das Modell: Es muss Tool Calling unterstützen (zum Beispiel `gpt-5-mini`)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The agent's model: it must support tool calling, for example `gpt-5-mini`",
+            "de": "Das Modell des Agents: Es muss Tool Calling unterstützen, zum Beispiel `gpt-5-mini`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a model without tool calling can't invoke the Speech MCP server and won't even mention speech capabilities.",
+            "de": "Richtig: Ein Modell ohne Tool Calling kann den Speech-MCP-Server nicht aufrufen und erwähnt nicht einmal Sprachfunktionen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The resource tier: MCP tools need the Enterprise tier of the Agent Service",
+            "de": "Den Tarif der Ressource: Die MCP-Tools brauchen den Enterprise-Tarif des Agent Service"
+          },
+          "correct": false,
+          "why": {
+            "en": "Without MCP support, connecting the tool fails with `Invalid tool value(s): mcp`; here the connection works, so look at the model.",
+            "de": "Ohne MCP-Unterstützung scheitert schon das Verbinden mit `Invalid tool value(s): mcp`; hier funktioniert die Verbindung, also prüfe das Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The SAS URL: it must grant read and write permissions on the whole blob container",
+            "de": "Die SAS-URL: Sie muss Lese- und Schreibrechte auf den ganzen Blob-Container gewähren"
+          },
+          "correct": false,
+          "why": {
+            "en": "The SAS URL governs reading and writing audio files; it doesn't decide whether the model lists or calls the tools.",
+            "de": "Die SAS-URL regelt das Lesen und Schreiben von Audiodateien; ob das Modell die Tools nennt oder aufruft, entscheidet sie nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The `Bearer` key: it must be KEY1 of the Foundry resource, because KEY2 only grants read access",
+            "de": "Den `Bearer`-Key: Er muss KEY1 der Foundry-Ressource sein, weil KEY2 nur Lesezugriff gewährt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: KEY1 and KEY2 of the Foundry resource both work in `Bearer`, and a wrong key would make the connection fail.",
+            "de": "Nein: KEY1 und KEY2 der Foundry-Ressource funktionieren beide in `Bearer`, und ein falscher Key würde die Verbindung scheitern lassen."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "It doesn’t block anything — an empty list allows all tools. And `require_approval` defaults to `always`.",
         "de": "Es blockiert nichts – eine leere Liste erlaubt alle Tools. Und `require_approval` steht standardmäßig auf `always`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It blocks all tools; `require_approval` defaults to `always`",
+            "de": "Es sperrt alle Tools; `require_approval` steht standardmäßig auf `always`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: an empty `allowed_tools` list blocks nothing — it allows every tool the server exposes.",
+            "de": "Halb falsch: Eine leere `allowed_tools`-Liste blockiert nichts – sie erlaubt jedes Tool, das der Server anbietet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It allows all tools; `require_approval` defaults to `never`",
+            "de": "Es erlaubt alle Tools; `require_approval` steht standardmäßig auf `never`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: `require_approval` defaults to `always`, so each MCP tool call waits for your approval.",
+            "de": "Halb falsch: `require_approval` steht standardmäßig auf `always`, daher wartet jeder MCP-Tool-Aufruf auf deine Freigabe."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It blocks all tools; `require_approval` defaults to `never`",
+            "de": "Es sperrt alle Tools; `require_approval` steht standardmäßig auf `never`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both halves wrong: an empty list allows all tools, and `require_approval` defaults to `always`.",
+            "de": "Beide Hälften falsch: Eine leere Liste erlaubt alle Tools, und `require_approval` steht standardmäßig auf `always`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It allows all tools; `require_approval` defaults to `always`",
+            "de": "Es erlaubt alle Tools; `require_approval` steht standardmäßig auf `always`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: an empty list restricts nothing, and every MCP tool call waits for approval unless you change `require_approval`.",
+            "de": "Richtig: Eine leere Liste schränkt nichts ein, und jeder MCP-Tool-Aufruf wartet auf Freigabe, solange du `require_approval` nicht änderst."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "The resource doesn’t support MCP tools — they need the Agent Service Enterprise tier. The Speech MCP tool also isn’t supported in network-secured Foundry.",
         "de": "Die Ressource unterstützt keine MCP-Tools – sie brauchen den Enterprise-Tarif des Agent Service. Außerdem wird das Speech-MCP-Tool in netzwerkgesichertem Foundry nicht unterstützt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The agent's model lacks tool calling; the tool isn't supported in network-secured Foundry",
+            "de": "Dem Modell des Agents fehlt Tool Calling; in netzwerkgesichertem Foundry wird das Tool nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong half: a model without tool calling just never lists or uses the tools; this error means the resource doesn't support MCP tools.",
+            "de": "Falsche Hälfte: Ein Modell ohne Tool Calling nennt und nutzt die Tools einfach nie; dieser Fehler bedeutet, dass die Ressource keine MCP-Tools unterstützt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The agent's model lacks tool calling; the tool isn't supported with key authentication",
+            "de": "Dem Modell des Agents fehlt Tool Calling; mit Key-Authentifizierung wird das Tool nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: this error means the resource doesn't support MCP tools, and the Speech MCP connection is key-based — network-secured Foundry is where it's unsupported.",
+            "de": "Beides falsch: Dieser Fehler bedeutet, dass die Ressource keine MCP-Tools unterstützt, und die Speech-MCP-Verbindung ist Key-basiert – nicht unterstützt wird das Tool in netzwerkgesichertem Foundry."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The resource doesn't support MCP tools (Enterprise tier needed); the tool isn't supported in network-secured Foundry",
+            "de": "Die Ressource unterstützt keine MCP-Tools (Enterprise-Tarif nötig); in netzwerkgesichertem Foundry wird das Tool nicht unterstützt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: MCP tools need the Agent Service Enterprise tier, and the Speech MCP tool doesn't work in network-secured Foundry.",
+            "de": "Richtig: MCP-Tools brauchen den Enterprise-Tarif des Agent Service, und das Speech-MCP-Tool funktioniert nicht in netzwerkgesichertem Foundry."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The resource doesn't support MCP tools (Enterprise tier needed); the tool isn't supported with key authentication",
+            "de": "Die Ressource unterstützt keine MCP-Tools (Enterprise-Tarif nötig); mit Key-Authentifizierung wird das Tool nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong half: the Speech MCP connection is key-based (`Bearer` holds KEY1 or KEY2); network-secured Foundry is where the tool isn't supported.",
+            "de": "Falsche Hälfte: Die Speech-MCP-Verbindung ist Key-basiert (`Bearer` enthält KEY1 oder KEY2); nicht unterstützt wird das Tool in netzwerkgesichertem Foundry."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "Speech as on-demand agent tools. The model picks recognize or synthesize from the prompt.",
         "de": "Sprache als Agent-Tools auf Abruf. Das Modell wählt recognize oder synthesize anhand des Prompts."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A live speech-to-speech session; your client code picks recognize or synthesize for each request",
+            "de": "Eine Live-Speech-to-Speech-Session; dein Client-Code wählt pro Anfrage recognize oder synthesize"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: a live speech-to-speech session is Voice Live, and with Speech MCP the agent's model, not your code, picks the tool.",
+            "de": "Beides falsch: Eine Live-Speech-to-Speech-Session ist Voice Live, und bei Speech MCP wählt das Modell des Agents das Tool, nicht dein Code."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Speech as on-demand agent tools; the agent's model picks recognize or synthesize from the prompt",
+            "de": "Sprache als Agent-Tools bei Bedarf; das Modell des Agents wählt recognize oder synthesize anhand des Prompts"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the server's tools are discovered at runtime, and the model matches each request to the right tool — no routing code needed.",
+            "de": "Richtig: Die Tools des Servers werden zur Laufzeit entdeckt, und das Modell ordnet jede Anfrage dem passenden Tool zu – ohne Routing-Code."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Speech as on-demand agent tools; your client code picks recognize or synthesize for each request",
+            "de": "Sprache als Agent-Tools bei Bedarf; dein Client-Code wählt pro Anfrage recognize oder synthesize"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: there's no routing logic in your code — the agent's model matches the prompt to recognize or synthesize.",
+            "de": "Teilweise richtig: In deinem Code steckt keine Routing-Logik – das Modell des Agents ordnet den Prompt recognize oder synthesize zu."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A live speech-to-speech session; the agent's model picks recognize or synthesize from the prompt",
+            "de": "Eine Live-Speech-to-Speech-Session; das Modell des Agents wählt recognize oder synthesize anhand des Prompts"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the model does pick the tool, but a live speech-to-speech session is Voice Live — Speech MCP offers file-based tools on demand.",
+            "de": "Teilweise richtig: Das Modell wählt das Tool, aber eine Live-Speech-to-Speech-Session ist Voice Live – Speech MCP bietet dateibasierte Tools auf Abruf."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "The resource name, the resource key in `Bearer` and the container SAS URL in `X-Blob-Container-Url`.",
         "de": "Der Ressourcenname, der Ressourcen-Key in `Bearer` und die Container-SAS-URL in `X-Blob-Container-Url`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The Foundry resource name, the resource key in `Bearer` and the container SAS URL in `X-Blob-Container-Url`",
+            "de": "Der Name der Foundry-Ressource, der Ressourcen-Key in `Bearer` und die Container-SAS-URL in `X-Blob-Container-Url`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `foundry-resource-name` picks the resource, KEY1 or KEY2 authenticates, and the read-write container SAS receives the audio output.",
+            "de": "Richtig: `foundry-resource-name` bestimmt die Ressource, KEY1 oder KEY2 authentifiziert, und die Container-SAS mit Lese- und Schreibrechten nimmt die Audioausgabe auf."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The project endpoint, the storage account key in `Bearer` and the container SAS URL in `X-Blob-Container-Url`",
+            "de": "Der Endpoint des Projekts, der Key des Storage-Kontos in `Bearer` und die Container-SAS-URL in `X-Blob-Container-Url`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the container SAS URL is right: the connection takes the Foundry resource name, not the project endpoint, and `Bearer` holds the Foundry resource key, not a storage key.",
+            "de": "Nur die Container-SAS-URL stimmt: Die Verbindung nimmt den Namen der Foundry-Ressource, nicht den Project Endpoint, und `Bearer` enthält den Key der Foundry-Ressource, keinen Storage-Key."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The Foundry resource name, the storage account key in `Bearer` and the storage account name in `X-Blob-Container-Url`",
+            "de": "Der Name der Foundry-Ressource, der Key des Storage-Kontos in `Bearer` und der Storage-Kontoname in `X-Blob-Container-Url`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the resource name is right: `Bearer` takes KEY1 or KEY2 of the Foundry resource, and `X-Blob-Container-Url` needs a container SAS URL with read and write.",
+            "de": "Nur der Ressourcenname stimmt: `Bearer` nimmt KEY1 oder KEY2 der Foundry-Ressource, und `X-Blob-Container-Url` braucht eine Container-SAS-URL mit Lese- und Schreibrechten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The project endpoint, the resource key in `Bearer` and the storage account name in `X-Blob-Container-Url`",
+            "de": "Der Endpoint des Projekts, der Ressourcen-Key in `Bearer` und der Storage-Kontoname in `X-Blob-Container-Url`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only `Bearer` is right: the connection takes the Foundry resource name, not the project endpoint, and `X-Blob-Container-Url` needs a container SAS URL.",
+            "de": "Nur `Bearer` stimmt: Die Verbindung nimmt den Namen der Foundry-Ressource, nicht den Project Endpoint, und `X-Blob-Container-Url` braucht eine Container-SAS-URL."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Audio comes in via URL; speech goes out as a WAV file in Blob Storage plus a link.",
         "de": "Audio kommt per URL hinein; Sprache kommt als WAV-Datei im Blob Storage plus Link heraus."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In via a local file path; out as a live audio stream over a WebSocket connection",
+            "de": "Rein über einen lokalen Dateipfad; raus als Live-Audiostream über eine WebSocket-Verbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: the remote server can't open a local path — it needs a readable URL — and it writes a WAV file to Blob Storage instead of streaming audio.",
+            "de": "Beides falsch: Der Remote-Server kann keinen lokalen Pfad öffnen – er braucht eine lesbare URL –, und er schreibt eine WAV-Datei in den Blob Storage, statt Audio zu streamen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In via a URL the service can read; out as a live audio stream over a WebSocket connection",
+            "de": "Rein über eine URL, die der Dienst lesen kann; raus als Live-Audiostream über eine WebSocket-Verbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: input is a URL, but output isn't streamed — WebSocket audio streaming is Voice Live; Speech MCP writes a WAV file, and the agent replies with a link.",
+            "de": "Teilweise richtig: Die Eingabe ist eine URL, aber die Ausgabe wird nicht gestreamt – Audiostreaming per WebSocket ist Voice Live; Speech MCP schreibt eine WAV-Datei, und der Agent antwortet mit einem Link."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In via a local file path; out as a WAV file in Blob Storage plus a link",
+            "de": "Rein über einen lokalen Dateipfad; raus als WAV-Datei im Blob Storage plus Link"
+          },
+          "correct": false,
+          "why": {
+            "en": "Half wrong: the remote server can't open a local path like `./call.wav`; input audio needs a public URL or a SAS URL with read permission.",
+            "de": "Halb falsch: Der Remote-Server kann keinen lokalen Pfad wie `./call.wav` öffnen; Eingabeaudio braucht eine öffentliche URL oder eine SAS-URL mit Leserecht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In via a URL the service can read; out as a WAV file in Blob Storage plus a link",
+            "de": "Rein über eine URL, die der Dienst lesen kann; raus als WAV-Datei im Blob Storage plus Link"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: recognize reads from a public or SAS URL, and synthesize writes a WAV file into your container, which the agent's reply links to.",
+            "de": "Richtig: recognize liest von einer öffentlichen oder SAS-URL, und synthesize schreibt eine WAV-Datei in deinen Container, auf die die Antwort des Agents verlinkt."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-mcp-agent-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Approve MCP tool calls in the same conversation, and restrict the tools with `allowed_tools`.",
         "de": "MCP-Tool-Aufrufe gibst du in derselben Konversation frei; Tools schränkst du mit `allowed_tools` ein."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In a new conversation for each approval; you restrict the tools with `require_approval`",
+            "de": "In einer neuen Konversation pro Freigabe; die Tools schränkst du mit `require_approval` ein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both wrong: approvals belong in the same conversation, and `require_approval` controls approval, not which tools are callable.",
+            "de": "Beides falsch: Freigaben gehören in dieselbe Konversation, und `require_approval` steuert die Freigabe, nicht welche Tools aufrufbar sind."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In a new conversation for each approval; you restrict the tools with `allowed_tools`",
+            "de": "In einer neuen Konversation pro Freigabe; die Tools schränkst du mit `allowed_tools` ein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `allowed_tools` restricts the tools, but approvals go back into the same conversation — otherwise the agent never continues.",
+            "de": "Teilweise richtig: `allowed_tools` schränkt die Tools ein, aber Freigaben gehen in dieselbe Konversation zurück – sonst macht der Agent nie weiter."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In the same conversation; you restrict the tools with `allowed_tools`",
+            "de": "In derselben Konversation; die Tools schränkst du mit `allowed_tools` ein"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: approval responses go back into the same conversation, and `allowed_tools` lists the tools the agent may call.",
+            "de": "Richtig: Freigaben gehen in dieselbe Konversation zurück, und `allowed_tools` listet die Tools, die der Agent aufrufen darf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In the same conversation; you restrict the tools with `require_approval`",
+            "de": "In derselben Konversation; die Tools schränkst du mit `require_approval` ein"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: approvals do go into the same conversation, but `require_approval` only decides whether calls need approval — `allowed_tools` restricts which tools are callable.",
+            "de": "Teilweise richtig: Freigaben gehören in dieselbe Konversation, aber `require_approval` legt nur fest, ob Aufrufe eine Freigabe brauchen – `allowed_tools` begrenzt die aufrufbaren Tools."
+          }
+        }
+      ]
     }
   ]
 }

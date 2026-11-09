@@ -8,7 +8,57 @@
       "front": {
         "en": "What does the A2A protocol enable, and when does an agent reply with a task instead of a message?",
         "de": "Was ermöglicht das A2A-Protokoll, und wann antwortet ein Agent mit einem Task statt mit einer Nachricht?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Agents of different vendors and frameworks must share one model and one tool set to talk over HTTP; a task comes back only when the agent fails",
+            "de": "Agents verschiedener Anbieter und Frameworks müssen sich ein Modell und einen Tool-Satz teilen, um über HTTP zu sprechen; ein Task kommt nur zurück, wenn der Agent scheitert"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: each agent keeps its own model and tools, and a task with a state and artifacts signals longer work, not failure.",
+            "de": "Nein: Jeder Agent behält sein eigenes Modell und seine Tools, und ein Task mit Status und Artefakten steht für längere Arbeit, nicht für einen Fehler."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Agents of different vendors and frameworks find each other via agent cards and work together over HTTP; longer work returns a task",
+            "de": "Agents verschiedener Anbieter und Frameworks finden einander über Agent Cards und arbeiten über HTTP zusammen; längere Arbeit liefert einen Task"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a simple agent answers a message with a message, while longer work returns a task with a state, such as input required, and artifacts.",
+            "de": "Richtig: Ein einfacher Agent beantwortet eine Nachricht mit einer Nachricht, längere Arbeit liefert einen Task mit Status, etwa „input required“, und Artefakten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "An agent calls the tools of a remote MCP server; every reply is a task, even a one-line answer",
+            "de": "Ein Agent ruft die Tools eines Remote-MCP-Servers auf; jede Antwort ist ein Task, selbst eine einzeilige"
+          },
+          "correct": false,
+          "why": {
+            "en": "That describes MCP tool calls; A2A connects whole agents, and a simple agent replies to a message with a message.",
+            "de": "Das beschreibt MCP-Tool-Aufrufe; A2A verbindet ganze Agents, und ein einfacher Agent antwortet auf eine Nachricht mit einer Nachricht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Agents of different vendors and frameworks find each other via agent cards and work together over HTTP; a task comes back only for streaming requests",
+            "de": "Agents verschiedener Anbieter und Frameworks finden einander über Agent Cards und arbeiten über HTTP zusammen; ein Task kommt nur bei Streaming-Anfragen zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "Whether you get a task depends on the work, not on streaming: longer work returns a task, and a simple answer is a message.",
+            "de": "Ob du einen Task bekommst, hängt von der Arbeit ab, nicht vom Streaming: Längere Arbeit liefert einen Task, eine einfache Antwort ist eine Nachricht."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What does an agent card contain, what is a skill for, and where do clients find the card?",
         "de": "Was enthält eine Agent Card, wozu dient ein Skill, und wo finden Clients die Card?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Name, version, endpoint, capabilities, auth and skills; each skill is a `SKILL.md` package that teaches the agent a task; at `/.well-known/agent-card.json`",
+            "de": "Name, Version, Endpoint, Fähigkeiten, Authentifizierung und Skills; jeder Skill ist ein `SKILL.md`-Paket, das dem Agent eine Aufgabe beibringt; unter `/.well-known/agent-card.json`"
+          },
+          "correct": false,
+          "why": {
+            "en": "A `SKILL.md` package is an Agent Skill; an A2A `AgentSkill` in the card only advertises a capability.",
+            "de": "Ein `SKILL.md`-Paket ist ein Agent Skill; ein A2A-`AgentSkill` in der Card bewirbt nur eine Fähigkeit."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Name, version, endpoint, capabilities, auth and skills; each skill advertises a capability for picking a target; at the URL listed in `supported_interfaces`",
+            "de": "Name, Version, Endpoint, Fähigkeiten, Authentifizierung und Skills; jeder Skill bewirbt eine Fähigkeit zur Zielauswahl; unter der URL aus `supported_interfaces`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`supported_interfaces` lists the endpoint the client calls afterwards; the card itself sits at `/.well-known/agent-card.json`.",
+            "de": "`supported_interfaces` nennt den Endpoint, den der Client danach aufruft; die Card selbst liegt unter `/.well-known/agent-card.json`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Name, version, endpoint, capabilities, auth and skills; each skill is a `SKILL.md` package that teaches the agent a task; at the URL listed in `supported_interfaces`",
+            "de": "Name, Version, Endpoint, Fähigkeiten, Authentifizierung und Skills; jeder Skill ist ein `SKILL.md`-Paket, das dem Agent eine Aufgabe beibringt; unter der URL aus `supported_interfaces`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: an A2A `AgentSkill` only advertises a capability, and the card sits at `/.well-known/agent-card.json` — `supported_interfaces` names the endpoint you call next.",
+            "de": "Gleich doppelt falsch: Ein A2A-`AgentSkill` bewirbt nur eine Fähigkeit, und die Card liegt unter `/.well-known/agent-card.json` – `supported_interfaces` nennt den Endpoint, den du danach aufrufst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Name, version, endpoint, capabilities, auth and skills; each skill advertises a capability for picking a target; at `/.well-known/agent-card.json`",
+            "de": "Name, Version, Endpoint, Fähigkeiten, Authentifizierung und Skills; jeder Skill bewirbt eine Fähigkeit zur Zielauswahl; unter `/.well-known/agent-card.json`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: clients and routing agents read the skills (id, name, description, tags, examples) to decide which agent to call.",
+            "de": "Richtig: Clients und Routing-Agents lesen die Skills (ID, Name, Beschreibung, Tags, Beispiele), um zu entscheiden, welchen Agent sie aufrufen."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What does the A2A agent executor do on the server, and which two methods does it provide?",
         "de": "Was macht der Agent Executor auf einem A2A-Server, und welche zwei Methoden stellt er bereit?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It bridges protocol and logic: `execute()` runs the agent and publishes events to the `EventQueue`; `cancel()` handles cancellation",
+            "de": "Er verbindet Protokoll und Logik: `execute()` führt den Agent aus und veröffentlicht Events in der `EventQueue`; `cancel()` behandelt Abbrüche"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `execute()` reads the request from the `RequestContext` and publishes messages, task status and artifacts; Agent Framework's `A2AExecutor` implements it for any agent.",
+            "de": "Richtig: `execute()` liest die Anfrage aus dem `RequestContext` und veröffentlicht Nachrichten, Task-Status und Artefakte; `A2AExecutor` aus Agent Framework implementiert das für jeden Agent."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It routes incoming JSON-RPC requests to the agent and tracks every task's state in the task store: `send_message()` and `get_task()`",
+            "de": "Er leitet eingehende JSON-RPC-Anfragen an den Agent weiter und verfolgt den Status jedes Tasks im Task Store: `send_message()` und `get_task()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Routing and the task lifecycle are the request handler's job; the executor's two methods are `execute()` and `cancel()`.",
+            "de": "Weiterleiten und Task-Lebenszyklus übernimmt der Request Handler; die zwei Methoden des Executors sind `execute()` und `cancel()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It serves the agent card and the JSON-RPC routes over HTTP for incoming clients: `run()` and `stop()`",
+            "de": "Er liefert Agent Card und JSON-RPC-Routen über HTTP an eingehende Clients aus: `run()` und `stop()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Starlette routes on Uvicorn serve the card and JSON-RPC; the executor runs the agent logic through `execute()` and `cancel()`.",
+            "de": "Card und JSON-RPC liefern Starlette-Routen auf Uvicorn aus; der Executor führt die Agent-Logik über `execute()` und `cancel()` aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It wraps an agent as a node inside a workflow graph and passes results along its edges: `execute()` and `cancel()`",
+            "de": "Er bettet einen Agent als Knoten in einen Workflow-Graphen ein und gibt Ergebnisse über dessen Edges weiter: `execute()` und `cancel()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's Agent Framework's workflow `AgentExecutor`, a different class from the A2A SDK's server-side executor.",
+            "de": "Das ist der Workflow-`AgentExecutor` aus Agent Framework – eine andere Klasse als der serverseitige Executor des A2A SDK."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does `DefaultRequestHandler` do, and which task store do you need when replicas restart or scale out?",
         "de": "Was macht `DefaultRequestHandler`, und welchen Task Store brauchst du, wenn Replikate neu starten oder skalieren?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It routes requests to the executor and manages the task lifecycle; `InMemoryTaskStore` survives restarts and is shared by replicas",
+            "de": "Er leitet Anfragen an den Executor und verwaltet den Task-Lebenszyklus; `InMemoryTaskStore` übersteht Neustarts und wird von Replikaten geteilt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The in-memory store keeps tasks only in memory and loses them on restart — use a durable store when replicas restart or scale out.",
+            "de": "Der In-Memory-Store hält Tasks nur im Arbeitsspeicher und verliert sie beim Neustart – nutze einen dauerhaften Store, wenn Replikate neu starten oder skalieren."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It runs the agent logic and publishes artifacts to the event queue; only streaming agents need a task store",
+            "de": "Er führt die Agent-Logik aus und veröffentlicht Artefakte in der Event Queue; einen Task Store brauchen nur Streaming-Agents"
+          },
+          "correct": false,
+          "why": {
+            "en": "Running the logic is the executor's job, and even a simple, non-streaming server needs a task store for the task lifecycle.",
+            "de": "Die Logik führt der Executor aus, und selbst ein einfacher Server ohne Streaming braucht einen Task Store für den Task-Lebenszyklus."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It routes requests to the executor and manages the task lifecycle; restarts and scale-out call for a durable task store",
+            "de": "Er leitet Anfragen an den Executor und verwaltet den Task-Lebenszyklus; Neustarts und Skalierung verlangen einen dauerhaften Task Store"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `InMemoryTaskStore` keeps tasks only in memory, so it loses them on restart and doesn't fit scaled-out replicas.",
+            "de": "Richtig: `InMemoryTaskStore` hält Tasks nur im Arbeitsspeicher, verliert sie also beim Neustart und passt nicht zu skalierten Replikaten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It serves the agent card at the well-known path; restarts and scale-out need no task store at all",
+            "de": "Er liefert die Agent Card unter dem Well-known-Pfad aus; Neustarts und Skalierung brauchen gar keinen Task Store"
+          },
+          "correct": false,
+          "why": {
+            "en": "The card has its own routes; the request handler tracks tasks, and durable stores keep them across restarts and replicas.",
+            "de": "Die Card hat eigene Routen; der Request Handler verfolgt Tasks, und dauerhafte Stores bewahren sie über Neustarts und Replikate hinweg."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "When does Foundry send credentials to fetch a remote agent card, and how does its incoming endpoint answer?",
         "de": "Wann sendet Foundry Anmeldedaten für eine entfernte Agent Card, und wie antwortet sein eingehender Endpoint?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Never, because agent cards must always be public, so Agent Service fetches every card anonymously; the incoming endpoint streams answers as server-sent events",
+            "de": "Nie, weil Agent Cards immer öffentlich sein müssen, also holt Agent Service jede Card anonym; der eingehende Endpoint streamt Antworten als Server-Sent Events"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: an endpoint can protect its card — then the tool sets `send_credentials_for_agent_card: true` — and Foundry's incoming endpoint answers in text without streaming.",
+            "de": "Gleich doppelt falsch: Ein Endpoint kann seine Card schützen – dann setzt das Tool `send_credentials_for_agent_card: true` –, und der eingehende Foundry-Endpoint antwortet in Text ohne Streaming."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only when the A2A tool sets `send_credentials_for_agent_card: true`; the incoming endpoint answers in text, without streaming",
+            "de": "Nur wenn das A2A-Tool `send_credentials_for_agent_card: true` setzt; der eingehende Endpoint antwortet in Text, ohne Streaming"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: otherwise Agent Service reads the remote card anonymously, and the incoming endpoint supports neither other modalities nor streamed responses.",
+            "de": "Richtig: Sonst liest Agent Service die entfernte Card anonym, und der eingehende Endpoint unterstützt weder andere Modalitäten noch gestreamte Antworten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only when the A2A tool sets `send_credentials_for_agent_card: true`; the incoming endpoint streams answers as server-sent events",
+            "de": "Nur wenn das A2A-Tool `send_credentials_for_agent_card: true` setzt; der eingehende Endpoint streamt Antworten als Server-Sent Events"
+          },
+          "correct": false,
+          "why": {
+            "en": "The card part is right, but Foundry's incoming A2A endpoint doesn't stream — it answers in text without server-sent events.",
+            "de": "Der Teil zur Card stimmt, aber der eingehende A2A-Endpoint von Foundry streamt nicht – er antwortet in Text ohne Server-Sent Events."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Never, because agent cards must always be public, so Agent Service fetches every card anonymously; the incoming endpoint answers in text, without streaming",
+            "de": "Nie, weil Agent Cards immer öffentlich sein müssen, also holt Agent Service jede Card anonym; der eingehende Endpoint antwortet in Text, ohne Streaming"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Foundry's own agent cards even require Microsoft Entra ID (a Foundry target needs no extra flag), and for any other endpoint that protects its card, the tool sets `send_credentials_for_agent_card: true`.",
+            "de": "Nein: Die eigenen Agent Cards von Foundry verlangen sogar Microsoft Entra ID (ein Foundry-Ziel braucht kein zusätzliches Flag), und für jeden anderen Endpoint, der seine Card schützt, setzt das Tool `send_credentials_for_agent_card: true`."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which Foundry role do the admin, the developer and an external calling agent each need for A2A?",
         "de": "Welche Foundry-Rolle brauchen Admin, Entwickler und ein externer aufrufender Agent jeweils für A2A?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Admin: **Foundry Project Manager**; developer: **Foundry User**; external caller: **Foundry Agent Consumer** on the project or agent",
+            "de": "Admin: **Foundry Project Manager**; Entwickler: **Foundry User**; externer Aufrufer: **Foundry Agent Consumer** auf Projekt oder Agent"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the admin creates the RemoteA2A connection, the developer builds and tests the agent, and the caller only needs endpoint access.",
+            "de": "Richtig: Der Admin legt die RemoteA2A-Verbindung an, der Entwickler baut und testet den Agent, und der Aufrufer braucht nur Zugriff auf den Endpoint."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Admin: **Foundry User**; developer: **Foundry Project Manager**; external caller: **Foundry Agent Consumer** on the project or agent",
+            "de": "Admin: **Foundry User**; Entwickler: **Foundry Project Manager**; externer Aufrufer: **Foundry Agent Consumer** auf Projekt oder Agent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Creating the RemoteA2A project connection takes **Foundry Project Manager**; **Foundry User** is the developer's role for building and testing.",
+            "de": "Die RemoteA2A-Projektverbindung anzulegen erfordert **Foundry Project Manager**; **Foundry User** ist die Rolle des Entwicklers zum Bauen und Testen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Admin: **Foundry Project Manager**; developer: **Foundry Agent Consumer**; external caller: no role, a project API key is enough",
+            "de": "Admin: **Foundry Project Manager**; Entwickler: **Foundry Agent Consumer**; externer Aufrufer: keine Rolle, ein Projekt-API-Key genügt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Foundry Agent Consumer only calls agent endpoints and can't create agents, and incoming A2A accepts only Microsoft Entra ID — no keys.",
+            "de": "Gleich doppelt falsch: Foundry Agent Consumer ruft nur Agent-Endpoints auf und kann keine Agents erstellen, und eingehendes A2A akzeptiert nur Microsoft Entra ID – keine Keys."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Admin: **Foundry User**; developer: **Foundry User**; external caller: no role, a project API key is enough",
+            "de": "Admin: **Foundry User**; Entwickler: **Foundry User**; externer Aufrufer: keine Rolle, ein Projekt-API-Key genügt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the developer part fits: creating the RemoteA2A connection takes **Foundry Project Manager**, and incoming A2A accepts only Entra ID tokens, no keys.",
+            "de": "Nur der Teil zum Entwickler passt: Die RemoteA2A-Verbindung anzulegen erfordert **Foundry Project Manager**, und eingehendes A2A akzeptiert nur Entra-ID-Tokens, keine Keys."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-1",
@@ -60,7 +360,57 @@
       "back": {
         "en": "They are two different things: the A2A SDK's `AgentExecutor` works on the server side (`execute`/`cancel`), while Agent Framework's workflow `AgentExecutor` wraps an agent inside a workflow graph.",
         "de": "Es sind zwei verschiedene Dinge: Der `AgentExecutor` des A2A SDK arbeitet auf der Serverseite (`execute`/`cancel`), der Workflow-`AgentExecutor` aus Agent Framework bettet dagegen einen Agent in einen Workflow-Graphen ein."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Not at all: Agent Framework re-exports the A2A SDK's `AgentExecutor` so that workflows can use it",
+            "de": "Gar nicht: Agent Framework exportiert den `AgentExecutor` des A2A SDK erneut, damit Workflows ihn nutzen können"
+          },
+          "correct": false,
+          "why": {
+            "en": "They're two different classes: one serves A2A requests with `execute`/`cancel`, the other wraps an agent in a workflow graph.",
+            "de": "Es sind zwei verschiedene Klassen: Die eine bedient A2A-Anfragen mit `execute`/`cancel`, die andere bettet einen Agent in einen Workflow-Graphen ein."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The A2A one runs on the client and calls remote agents; the workflow one hosts the A2A server with Starlette and Uvicorn",
+            "de": "Der A2A-Executor läuft auf dem Client und ruft entfernte Agents auf; der Workflow-Executor hostet den A2A-Server mit Starlette und Uvicorn"
+          },
+          "correct": false,
+          "why": {
+            "en": "Clients use `A2ACardResolver` and `A2AAgent`, the A2A executor works on the server side, and the workflow `AgentExecutor` wraps an agent in a graph — it hosts nothing.",
+            "de": "Clients nutzen `A2ACardResolver` und `A2AAgent`, der A2A-Executor arbeitet auf der Serverseite, und der Workflow-`AgentExecutor` bettet einen Agent in einen Graphen ein – er hostet nichts."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The A2A one wraps an agent inside a workflow graph; the workflow one serves protocol requests on the server (`execute`/`cancel`)",
+            "de": "Der A2A-Executor bettet einen Agent in einen Workflow-Graphen ein; der Workflow-Executor bedient Protokollanfragen auf dem Server (`execute`/`cancel`)"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the A2A SDK's class is the server-side `execute`/`cancel` bridge, and the workflow class wraps an agent in a graph.",
+            "de": "Vertauscht: Die Klasse des A2A SDK ist die serverseitige Brücke mit `execute`/`cancel`, die Workflow-Klasse bettet einen Agent in einen Graphen ein."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The A2A one serves protocol requests on the server (`execute`/`cancel`); the workflow one wraps an agent inside a workflow graph",
+            "de": "Der A2A-Executor bedient Protokollanfragen auf dem Server (`execute`/`cancel`); der Workflow-Executor bettet einen Agent in einen Workflow-Graphen ein"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: same name, different jobs — one bridges A2A requests to your agent, the other makes an agent a node in a workflow.",
+            "de": "Richtig: Gleicher Name, andere Aufgabe – der eine verbindet A2A-Anfragen mit deinem Agent, der andere macht einen Agent zum Knoten eines Workflows."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-2",
@@ -72,7 +422,57 @@
       "back": {
         "en": "The URL listed in the card's `supported_interfaces` — the agent card is not the endpoint. Clients fetch the card from `/.well-known/agent-card.json` (Foundry agents: `…/protocols/a2a/agentCard/v1.0`).",
         "de": "Die URL aus `supported_interfaces` – die Agent Card ist nicht der Endpoint. Clients holen die Card von `/.well-known/agent-card.json` (Foundry-Agents: `…/protocols/a2a/agentCard/v1.0`)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The card's own URL, `/.well-known/agent-card.json`, which also accepts the JSON-RPC messages",
+            "de": "Die URL der Card selbst, `/.well-known/agent-card.json`, die auch die JSON-RPC-Nachrichten annimmt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The agent card is not the endpoint: it's only the discovery document, and it names the endpoint to call.",
+            "de": "Die Agent Card ist nicht der Endpoint: Sie ist nur das Dokument für die Erkennung und nennt den Endpoint, den du aufrufst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The base URL plus the chosen skill's `id` as an extra path segment",
+            "de": "Die Basis-URL plus die `id` des gewählten Skills als zusätzliches Pfadsegment"
+          },
+          "correct": false,
+          "why": {
+            "en": "Skills only advertise capabilities and don't define URLs — the client calls the endpoint from `supported_interfaces`.",
+            "de": "Skills bewerben nur Fähigkeiten und legen keine URLs fest – der Client ruft den Endpoint aus `supported_interfaces` auf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The endpoint URL listed in the card's `supported_interfaces`",
+            "de": "Die Endpoint-URL aus `supported_interfaces` der Card"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the card comes from the well-known path (Foundry: `…/protocols/a2a/agentCard/v1.0`), and the client then calls the listed interface.",
+            "de": "Richtig: Die Card kommt vom Well-known-Pfad (Foundry: `…/protocols/a2a/agentCard/v1.0`), danach ruft der Client die dort genannte Schnittstelle auf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The project connection's endpoint, which relays every call to the agent",
+            "de": "Den Endpoint der Projektverbindung, der jeden Aufruf an den Agent weiterleitet"
+          },
+          "correct": false,
+          "why": {
+            "en": "A project connection only stores endpoint and credential and isn't a network hop; the client calls the URL from `supported_interfaces`.",
+            "de": "Eine Projektverbindung speichert nur Endpoint und Anmeldedaten und ist keine Zwischenstation; der Client ruft die URL aus `supported_interfaces` auf."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-3",
@@ -84,7 +484,57 @@
       "back": {
         "en": "The request handler uses it to manage task lifecycles. The default in-memory store loses everything on restart.",
         "de": "Der Request Handler verwaltet damit den Task-Lebenszyklus. Der Standard-Speicher im Arbeitsspeicher verliert beim Neustart alles."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The request handler manages task lifecycles in it; the default in-memory store loses everything on restart",
+            "de": "Der Request Handler verwaltet darin den Task-Lebenszyklus; der Standard-Speicher im Arbeitsspeicher verliert beim Neustart alles"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: `DefaultRequestHandler` takes a task store, and `InMemoryTaskStore` keeps nothing once the process restarts.",
+            "de": "Richtig: `DefaultRequestHandler` erwartet einen Task Store, und `InMemoryTaskStore` behält nach einem Neustart des Prozesses nichts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The request handler manages task lifecycles in it; the default store writes every task to disk, which slows the server",
+            "de": "Der Request Handler verwaltet darin den Task-Lebenszyklus; der Standard-Store schreibt jeden Task auf die Festplatte und bremst den Server"
+          },
+          "correct": false,
+          "why": {
+            "en": "The default `InMemoryTaskStore` keeps tasks only in memory — the risk is losing them on restart, not slow disk writes.",
+            "de": "Der Standard-`InMemoryTaskStore` hält Tasks nur im Arbeitsspeicher – das Risiko ist ihr Verlust beim Neustart, nicht langsames Schreiben."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only streaming servers need one; the default store keeps tasks for 60 days, which fills up the disk",
+            "de": "Nur Streaming-Server brauchen einen; der Standard-Store hält Tasks 60 Tage lang und füllt so die Festplatte"
+          },
+          "correct": false,
+          "why": {
+            "en": "Every server needs a task store, and the 60-day retention belongs to Foundry's incoming A2A endpoint, not to the in-memory store.",
+            "de": "Jeder Server braucht einen Task Store, und die 60-tägige Aufbewahrung gehört zum eingehenden A2A-Endpoint von Foundry, nicht zum In-Memory-Store."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The executor keeps the agent card in it for clients; the default in-memory store is shared by all the replicas",
+            "de": "Der Executor hält darin die Agent Card für Clients bereit; der Standard-Store im Arbeitsspeicher wird von allen Replikaten geteilt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The card has its own routes, and an in-memory store isn't shared — use a durable store when replicas restart or scale out.",
+            "de": "Die Card hat eigene Routen, und ein In-Memory-Store wird nicht geteilt – nutze einen dauerhaften Store, wenn Replikate neu starten oder skalieren."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-4",
@@ -96,7 +546,57 @@
       "back": {
         "en": "Calling out is not the same as exposing: the A2A tool plus a project connection calls a remote agent; incoming A2A (agent card plus `a2a` protocol) lets others call your agent.",
         "de": "Aufrufen ist nicht dasselbe wie Bereitstellen: Das A2A-Tool plus Projektverbindung ruft einen entfernten Agent auf; eingehendes A2A (Agent Card plus `a2a`-Protokoll) lässt andere deinen Agent aufrufen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Calling out: an MCP tool that is pointed at the remote agent card; being called: the A2A tool, which also opens an endpoint",
+            "de": "Aufrufen: ein MCP-Tool, das auf die entfernte Agent Card zeigt; aufgerufen werden: das A2A-Tool, das zugleich einen Endpoint öffnet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: remote A2A agents are called through the A2A tool and a project connection, and being called needs incoming A2A, not a tool.",
+            "de": "Gleich doppelt falsch: Entfernte A2A-Agents rufst du über das A2A-Tool und eine Projektverbindung auf, und um aufgerufen zu werden, brauchst du eingehendes A2A, kein Tool."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Calling out: the A2A tool with a project connection; being called: incoming A2A, an agent card plus the `a2a` protocol",
+            "de": "Aufrufen: das A2A-Tool mit Projektverbindung; aufgerufen werden: eingehendes A2A, also Agent Card plus `a2a`-Protokoll"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: calling out and exposing are separate features, and incoming A2A also needs the `responses` protocol enabled.",
+            "de": "Richtig: Aufrufen und Bereitstellen sind getrennte Funktionen, und eingehendes A2A braucht zusätzlich das aktivierte `responses`-Protokoll."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Calling out: the A2A tool with a project connection; being called: the A2A tool, which also opens an endpoint",
+            "de": "Aufrufen: das A2A-Tool mit Projektverbindung; aufgerufen werden: das A2A-Tool, das zugleich einen Endpoint öffnet"
+          },
+          "correct": false,
+          "why": {
+            "en": "The A2A tool only calls out; to be called, you enable incoming A2A with an agent card and the `a2a` protocol.",
+            "de": "Das A2A-Tool ruft nur nach außen; um aufgerufen zu werden, aktivierst du eingehendes A2A mit Agent Card und `a2a`-Protokoll."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Calling out: an MCP tool that is pointed at the remote agent card; being called: incoming A2A, an agent card plus the `a2a` protocol",
+            "de": "Aufrufen: ein MCP-Tool, das auf die entfernte Agent Card zeigt; aufgerufen werden: eingehendes A2A, also Agent Card plus `a2a`-Protokoll"
+          },
+          "correct": false,
+          "why": {
+            "en": "An MCP tool connects to MCP servers, not A2A agents; remote A2A agents are called through the A2A tool and a project connection.",
+            "de": "Ein MCP-Tool verbindet sich mit MCP-Servern, nicht mit A2A-Agents; entfernte A2A-Agents rufst du über das A2A-Tool und eine Projektverbindung auf."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-5",
@@ -108,7 +608,57 @@
       "back": {
         "en": "Only Microsoft Entra ID. When a request names no version, it serves preview v0.3 — select v1.0 through the v1.0 card, the `A2A-Version` header or the query string.",
         "de": "Nur Microsoft Entra ID. Nennt eine Anfrage keine Version, liefert es die Preview-Version 0.3 – wähle v1.0 über die v1.0-Card, den Header `A2A-Version` oder den Query-String."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Microsoft Entra ID or a project API key; v1.0 by default; preview v0.3 through the v0.3 card, the `A2A-Version` header or the query string",
+            "de": "Microsoft Entra ID oder ein API-Key des Projekts; standardmäßig v1.0; Preview v0.3 über die v0.3-Card, den Header `A2A-Version` oder den Query-String"
+          },
+          "correct": false,
+          "why": {
+            "en": "Keys aren't accepted — only Microsoft Entra ID — and a request without a version gets preview v0.3.",
+            "de": "Keys werden nicht akzeptiert – nur Microsoft Entra ID –, und eine Anfrage ohne Version erhält die Preview-Version 0.3."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only Microsoft Entra ID; v1.0 unless a request names a version; preview v0.3 through the v0.3 card, the `A2A-Version` header or the query string",
+            "de": "Nur Microsoft Entra ID; v1.0, wenn eine Anfrage keine Version nennt; Preview v0.3 über die v0.3-Card, den Header `A2A-Version` oder den Query-String"
+          },
+          "correct": false,
+          "why": {
+            "en": "The default is the other way round: without a version Foundry serves preview v0.3, so production clients must select v1.0.",
+            "de": "Der Standard ist umgekehrt: Ohne Versionsangabe liefert Foundry die Preview-Version 0.3, Produktions-Clients müssen also v1.0 wählen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Anonymous card access, Entra ID for messages; preview v0.3 by default; v1.0 through the `a2a_version` field in the JSON-RPC request body",
+            "de": "Anonymer Zugriff auf die Card, Entra ID für Nachrichten; standardmäßig Preview v0.3; v1.0 über das Feld `a2a_version` im Body der JSON-RPC-Anfrage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Every A2A URL, the card included, requires Entra ID, and you pick v1.0 via the v1.0 card, the `A2A-Version` header or the query string.",
+            "de": "Jede A2A-URL, auch die Card, verlangt Entra ID, und v1.0 wählst du über die v1.0-Card, den Header `A2A-Version` oder den Query-String."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only Microsoft Entra ID; preview v0.3 when no version is named; v1.0 via the v1.0 card, the `A2A-Version` header or the query string",
+            "de": "Nur Microsoft Entra ID; Preview v0.3, wenn keine Version genannt wird; v1.0 über die v1.0-Card, den Header `A2A-Version` oder den Query-String"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: keys and anonymous access aren't supported, and the v0.3 default follows the A2A specification — so name v1.0 explicitly.",
+            "de": "Richtig: Keys und anonymer Zugriff werden nicht unterstützt, und der Standard v0.3 folgt der A2A-Spezifikation – nenne v1.0 also ausdrücklich."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-trap-6",
@@ -120,7 +670,57 @@
       "back": {
         "en": "Three different things: an A2A `AgentSkill` only advertises a capability in the agent card; an Agent Skill is a `SKILL.md` package that teaches an agent how to do a task (skills in Foundry are preview); an Azure AI Search skill is an enrichment step in a skillset (skills-outline item 5.1.3).",
         "de": "Drei verschiedene Dinge: Ein A2A-`AgentSkill` bewirbt nur eine Fähigkeit in der Agent Card; ein Agent Skill ist ein `SKILL.md`-Paket, das einem Agent beibringt, wie er eine Aufgabe erledigt (Skills in Foundry sind Preview); ein Azure-AI-Search-Skill ist ein Anreicherungsschritt in einem Skillset (Punkt 5.1.3 des Skills-Katalogs)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Card: a `SKILL.md` package that teaches a task; Agent Skills: an advertised capability; AI Search: an enrichment step in a skillset",
+            "de": "Card: ein `SKILL.md`-Paket, das eine Aufgabe beibringt; Agent Skills: eine beworbene Fähigkeit; AI Search: ein Anreicherungsschritt in einem Skillset"
+          },
+          "correct": false,
+          "why": {
+            "en": "The first two are swapped: an A2A `AgentSkill` advertises a capability, while an Agent Skill is a `SKILL.md` package.",
+            "de": "Die ersten beiden sind vertauscht: Ein A2A-`AgentSkill` bewirbt eine Fähigkeit, ein Agent Skill ist ein `SKILL.md`-Paket."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Card: an advertised capability; Agent Skills: an advertised capability; AI Search: a query-time ranking rule",
+            "de": "Card: eine beworbene Fähigkeit; Agent Skills: eine beworbene Fähigkeit; AI Search: eine Ranking-Regel zur Abfragezeit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the card part fits: an Agent Skill teaches an agent how to do a task, and an AI Search skill enriches content in a skillset.",
+            "de": "Nur der Teil zur Card passt: Ein Agent Skill bringt einem Agent bei, wie er eine Aufgabe erledigt, ein AI-Search-Skill reichert Inhalte in einem Skillset an."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Card: an advertised capability; Agent Skills: a `SKILL.md` package that teaches a task; AI Search: an enrichment step in a skillset",
+            "de": "Card: eine beworbene Fähigkeit; Agent Skills: ein `SKILL.md`-Paket, das eine Aufgabe beibringt; AI Search: ein Anreicherungsschritt in einem Skillset"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: one word, three meanings — advertise in the card, teach an agent (skills in Foundry are preview), enrich data in a search skillset.",
+            "de": "Richtig: Ein Wort, drei Bedeutungen – in der Card bewerben, einem Agent etwas beibringen (Skills in Foundry sind Preview), Daten in einem Such-Skillset anreichern."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Card: code the client downloads and runs; Agent Skills: a `SKILL.md` package that teaches a task; AI Search: a query-time ranking rule",
+            "de": "Card: Code, den der Client herunterlädt und ausführt; Agent Skills: ein `SKILL.md`-Paket, das eine Aufgabe beibringt; AI Search: eine Ranking-Regel zur Abfragezeit"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: an A2A `AgentSkill` contains no code — it only advertises a capability — and an AI Search skill is an enrichment step in a skillset.",
+            "de": "Gleich doppelt falsch: Ein A2A-`AgentSkill` enthält keinen Code – er bewirbt nur eine Fähigkeit –, und ein AI-Search-Skill ist ein Anreicherungsschritt in einem Skillset."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-takeaway-1",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Agent card and skills = discovery; executor = logic; request handler and task store = lifecycle; Starlette and Uvicorn = hosting.",
         "de": "Agent Card und Skills = Erkennung; Executor = Logik; Request Handler und Task Store = Lebenszyklus; Starlette und Uvicorn = Hosting."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Discovery: agent card and skills; logic: request handler; lifecycle: executor and task store; hosting: Starlette and Uvicorn",
+            "de": "Erkennung: Agent Card und Skills; Logik: Request Handler; Lebenszyklus: Executor und Task Store; Hosting: Starlette und Uvicorn"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the executor runs the agent logic, while the request handler and task store manage the task lifecycle.",
+            "de": "Vertauscht: Der Executor führt die Agent-Logik aus, Request Handler und Task Store verwalten den Task-Lebenszyklus."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Discovery: agent card and skills; logic: executor; lifecycle: request handler and task store; hosting: Starlette and Uvicorn",
+            "de": "Erkennung: Agent Card und Skills; Logik: Executor; Lebenszyklus: Request Handler und Task Store; Hosting: Starlette und Uvicorn"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right — and that's also the hosting order: skill, card, executor, request handler with task store, Starlette routes, Uvicorn.",
+            "de": "Richtig – und das ist auch die Reihenfolge beim Hosten: Skill, Card, Executor, Request Handler mit Task Store, Starlette-Routen, Uvicorn."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Discovery: Starlette and Uvicorn; logic: executor; lifecycle: request handler and task store; hosting: agent card and skills",
+            "de": "Erkennung: Starlette und Uvicorn; Logik: Executor; Lebenszyklus: Request Handler und Task Store; Hosting: Agent Card und Skills"
+          },
+          "correct": false,
+          "why": {
+            "en": "Discovery and hosting are swapped: clients discover an agent through its card and skills, while Starlette and Uvicorn serve the app over HTTP.",
+            "de": "Erkennung und Hosting sind vertauscht: Clients finden einen Agent über Card und Skills, Starlette und Uvicorn stellen die App per HTTP bereit."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Discovery: Starlette and Uvicorn; logic: request handler; lifecycle: executor and task store; hosting: agent card and skills",
+            "de": "Erkennung: Starlette und Uvicorn; Logik: Request Handler; Lebenszyklus: Executor und Task Store; Hosting: Agent Card und Skills"
+          },
+          "correct": false,
+          "why": {
+            "en": "Both pairs are swapped: card and skills handle discovery, Starlette and Uvicorn the hosting, the executor the logic, and handler plus task store the lifecycle.",
+            "de": "Beide Paare sind vertauscht: Card und Skills dienen der Erkennung, Starlette und Uvicorn dem Hosting, der Executor der Logik, Handler plus Task Store dem Lebenszyklus."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-takeaway-2",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Clients resolve the card from the base URL, then send messages. They handle either direct messages or tasks.",
         "de": "Clients lösen die Card über die Basis-URL auf und senden dann Nachrichten. Sie verarbeiten direkte Nachrichten oder Tasks."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It resolves the card from the server's base URL, then handles either direct messages or tasks",
+            "de": "Er löst die Card über die Basis-URL des Servers auf und verarbeitet dann direkte Nachrichten oder Tasks"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `A2ACardResolver` needs only the base URL, and a reply is either a message or a task the client can follow up on.",
+            "de": "Richtig: `A2ACardResolver` braucht nur die Basis-URL, und eine Antwort ist entweder eine Nachricht oder ein Task, den der Client weiterverfolgen kann."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It fetches the card from the URL in `supported_interfaces`, then handles either direct messages or tasks",
+            "de": "Er holt die Card von der URL aus `supported_interfaces` und verarbeitet dann direkte Nachrichten oder Tasks"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: replies are messages or tasks, but `supported_interfaces` sits inside the card and names the endpoint to call next; the card itself comes from the server's base URL.",
+            "de": "Teilweise richtig: Antworten sind Nachrichten oder Tasks, aber `supported_interfaces` steht in der Card und nennt den Endpoint, den der Client danach aufruft; die Card selbst kommt über die Basis-URL des Servers."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It resolves the card from the server's base URL, then handles tasks only",
+            "de": "Er löst die Card über die Basis-URL des Servers auf und verarbeitet dann nur Tasks"
+          },
+          "correct": false,
+          "why": {
+            "en": "A simple agent answers a message with a message, so a client must handle direct messages as well as tasks.",
+            "de": "Ein einfacher Agent beantwortet eine Nachricht mit einer Nachricht – ein Client muss also direkte Nachrichten ebenso wie Tasks verarbeiten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It needs the full JSON-RPC endpoint URL up front, then handles only direct messages",
+            "de": "Er braucht vorab die vollständige JSON-RPC-Endpoint-URL und verarbeitet dann nur direkte Nachrichten"
+          },
+          "correct": false,
+          "why": {
+            "en": "The base URL is enough because the card names the endpoint, and longer work comes back as a task, not only as messages.",
+            "de": "Die Basis-URL genügt, weil die Card den Endpoint nennt, und längere Arbeit kommt als Task zurück, nicht nur als Nachricht."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-takeaway-3",
@@ -156,7 +856,57 @@
       "back": {
         "en": "To call out: the GA `a2a` tool (v1.0) through a project connection. To be called: incoming A2A with Entra ID and Foundry Agent Consumer.",
         "de": "Zum Aufrufen: das GA-Tool `a2a` (v1.0) über eine Projektverbindung. Um aufgerufen zu werden: eingehendes A2A mit Entra ID und Foundry Agent Consumer."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Outbound: the `a2a_preview` tool (v0.3) with the key in code; inbound: an API key from the project's Keys page",
+            "de": "Ausgehend: das Tool `a2a_preview` (v0.3) mit dem Key im Code; eingehend: ein API-Key von der Keys-Seite des Projekts"
+          },
+          "correct": false,
+          "why": {
+            "en": "New work uses the GA `a2a` tool (v1.0) through a project connection, and incoming A2A accepts only Microsoft Entra ID.",
+            "de": "Neue Integrationen nutzen das GA-Tool `a2a` (v1.0) über eine Projektverbindung, und eingehendes A2A akzeptiert nur Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Outbound: the GA `a2a` tool (v1.0) via a project connection; inbound: an anonymous agent card, then Entra ID only for the messages",
+            "de": "Ausgehend: das GA-Tool `a2a` (v1.0) über eine Projektverbindung; eingehend: eine anonyme Agent Card, danach Entra ID nur für die Nachrichten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Outbound is right, but inbound every A2A URL, the card included, requires Entra ID, and callers need **Foundry Agent Consumer**.",
+            "de": "Ausgehend stimmt, aber eingehend verlangt jede A2A-URL, auch die Card, Entra ID, und Aufrufer brauchen **Foundry Agent Consumer**."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Outbound: incoming A2A with an agent card; inbound: the GA `a2a` tool (v1.0) via a project connection",
+            "de": "Ausgehend: eingehendes A2A mit Agent Card; eingehend: das GA-Tool `a2a` (v1.0) über eine Projektverbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the `a2a` tool calls out to remote agents, while incoming A2A lets others call your agent.",
+            "de": "Vertauscht: Das Tool `a2a` ruft entfernte Agents auf, eingehendes A2A lässt andere deinen Agent aufrufen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Outbound: the GA `a2a` tool (v1.0) via a project connection; inbound: Entra ID plus **Foundry Agent Consumer** for callers",
+            "de": "Ausgehend: das GA-Tool `a2a` (v1.0) über eine Projektverbindung; eingehend: Entra ID plus **Foundry Agent Consumer** für Aufrufer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the connection keeps endpoint and credential out of code, and inbound callers need Entra ID tokens with endpoint access.",
+            "de": "Richtig: Die Verbindung hält Endpoint und Anmeldedaten aus dem Code heraus, und eingehende Aufrufer brauchen Entra-ID-Tokens mit Endpoint-Zugriff."
+          }
+        }
+      ]
     },
     {
       "id": "z-a2a-takeaway-4",
@@ -168,7 +918,57 @@
       "back": {
         "en": "As untrusted input: connect only to trusted providers and enforce permissions outside the model's decisions.",
         "de": "Als nicht vertrauenswürdige Eingabe: Verbinde dich nur mit vertrauenswürdigen Anbietern und erzwinge Berechtigungen außerhalb der Modellentscheidungen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "As trusted configuration — the card's auth section grants your agent the permissions it needs",
+            "de": "Als vertrauenswürdige Konfiguration – der Auth-Abschnitt der Card gewährt deinem Agent die nötigen Berechtigungen"
+          },
+          "correct": false,
+          "why": {
+            "en": "A remote card is untrusted input, and its auth section only states what the remote agent requires — it grants nothing.",
+            "de": "Eine entfernte Card ist nicht vertrauenswürdige Eingabe, und ihr Auth-Abschnitt nennt nur, was der entfernte Agent verlangt – er gewährt nichts."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "As untrusted input — but let the model decide from the card's skills which actions and data it may access",
+            "de": "Als nicht vertrauenswürdige Eingabe – aber lass das Modell anhand der Skills der Card entscheiden, auf welche Aktionen und Daten es zugreifen darf"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: permissions must be enforced outside the model's decisions, not left to what a remote card suggests.",
+            "de": "Teilweise richtig: Berechtigungen müssen außerhalb der Modellentscheidungen durchgesetzt werden, nicht nach dem, was eine entfernte Card nahelegt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "As untrusted input — use only trusted providers and enforce permissions outside the model's decisions",
+            "de": "Als nicht vertrauenswürdige Eingabe – nutze nur vertrauenswürdige Anbieter und erzwinge Berechtigungen außerhalb der Modellentscheidungen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: remote cards come from outside your control, so trust the provider, not the card, and check permissions where the model can't override them.",
+            "de": "Richtig: Entfernte Cards liegen außerhalb deiner Kontrolle – vertraue dem Anbieter, nicht der Card, und prüfe Berechtigungen dort, wo das Modell sie nicht aushebeln kann."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "As trusted once fetched over HTTPS with a valid certificate — the remote agent's card then sets the permissions",
+            "de": "Als vertrauenswürdig, sobald sie per HTTPS mit gültigem Zertifikat geholt wurde – die Card des entfernten Agents legt dann die Berechtigungen fest"
+          },
+          "correct": false,
+          "why": {
+            "en": "HTTPS protects the transport, not the content: treat remote cards as untrusted input and enforce permissions yourself.",
+            "de": "HTTPS schützt den Transport, nicht den Inhalt: Behandle entfernte Cards als nicht vertrauenswürdige Eingabe und setze Berechtigungen selbst durch."
+          }
+        }
+      ]
     }
   ]
 }

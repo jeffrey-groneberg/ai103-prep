@@ -8,7 +8,57 @@
       "front": {
         "en": "Through which resources can you use Azure Translator, and which one also hosts LLM deployments?",
         "de": "Über welche Ressourcen nutzt du Azure Translator, und welche hostet auch LLM-Deployments?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A Translator resource or a Foundry resource; only the Translator resource also hosts the LLM deployments for LLM translation",
+            "de": "Eine Translator-Ressource oder eine Foundry-Ressource; nur die Translator-Ressource hostet auch die LLM-Deployments für die LLM-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the Translator resource covers NMT and Custom Translator, while the Foundry resource is the type that can host model deployments.",
+            "de": "Vertauscht: Die Translator-Ressource deckt NMT und Custom Translator ab, die Foundry-Ressource ist der Typ, der Modell-Deployments hosten kann."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A Translator resource or a Foundry resource; both host LLM deployments, so either one supports LLM translation",
+            "de": "Eine Translator-Ressource oder eine Foundry-Ressource; beide hosten LLM-Deployments, also unterstützt jede die LLM-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: LLM translation needs a Foundry resource. A Translator resource offers NMT and Custom Translator but no model deployments.",
+            "de": "Nein: LLM-Übersetzung braucht eine Foundry-Ressource. Eine Translator-Ressource bietet NMT und Custom Translator, aber keine Modell-Deployments."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A Translator resource or a Language resource; only the Language resource also hosts the LLM deployments for LLM translation",
+            "de": "Eine Translator-Ressource oder eine Language-Ressource; nur die Language-Ressource hostet auch die LLM-Deployments für die LLM-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong resource: besides a Translator resource you use a Foundry resource, and that's the one that hosts the LLM deployments.",
+            "de": "Falsche Ressource: Neben der Translator-Ressource nutzt du eine Foundry-Ressource, und genau die hostet die LLM-Deployments."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A Translator resource or a Foundry resource; only the Foundry resource also hosts the LLM deployments for LLM translation",
+            "de": "Eine Translator-Ressource oder eine Foundry-Ressource; nur die Foundry-Ressource hostet auch die LLM-Deployments für die LLM-Übersetzung"
+          },
+          "correct": true,
+          "why": {
+            "en": "A Translator resource (Global or one region) serves NMT and Custom Translator; a Foundry resource can also host the deployments LLM translation needs.",
+            "de": "Eine Translator-Ressource (Global oder eine Region) bedient NMT und Custom Translator; eine Foundry-Ressource kann zusätzlich die Deployments für LLM-Übersetzung hosten."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Which values can `deploymentName` take in API `2026-06-06`, and what does only LLM translation support?",
         "de": "Welche Werte kann `deploymentName` in API `2026-06-06` haben, und was unterstützt nur die LLM-Übersetzung?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only names of LLM deployments, as NMT and custom models still use `category`; only LLM translation supports `tone`, `gender` and adaptive custom translation",
+            "de": "Nur Namen von LLM-Deployments, da NMT und Custom-Modelle weiter `category` nutzen; nur die LLM-Übersetzung unterstützt `tone`, `gender` und adaptive Custom Translation"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: `category` is the v3.0 parameter. In `2026-06-06`, `deploymentName` also takes `general` for NMT or a custom model ID.",
+            "de": "Die erste Hälfte stimmt nicht: `category` ist der v3.0-Parameter. In `2026-06-06` nimmt `deploymentName` auch `general` für NMT oder eine Custom-Modell-ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`general` (NMT, the default), a custom model ID or your LLM deployment; only LLM translation supports `tone`, `gender` and adaptive custom translation",
+            "de": "`general` (NMT, Standard), eine Custom-Modell-ID oder dein LLM-Deployment; nur die LLM-Übersetzung unterstützt `tone`, `gender` und adaptive Custom Translation"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: per-target settings live in `targets`; picking an LLM deployment unlocks `tone`, `gender` and adaptive custom translation but needs a Foundry resource.",
+            "de": "Stimmt: Einstellungen pro Ziel stehen in `targets`; ein LLM-Deployment schaltet `tone`, `gender` und adaptive Custom Translation frei, braucht aber eine Foundry-Ressource."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only names of LLM deployments, as NMT and custom models still use `category`; NMT supports `tone` too, only `gender` needs an LLM",
+            "de": "Nur Namen von LLM-Deployments, da NMT und Custom-Modelle weiter `category` nutzen; NMT unterstützt auch `tone`, nur `gender` braucht ein LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `deploymentName` also takes `general` or a custom model ID (`category` is v3.0), and NMT supports neither `tone` nor `gender`.",
+            "de": "Doppelt falsch: `deploymentName` nimmt auch `general` oder eine Custom-Modell-ID (`category` ist v3.0), und NMT unterstützt weder `tone` noch `gender`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`general` (NMT, the default), a custom model ID or your LLM deployment; NMT supports `tone` too, only `gender` needs an LLM",
+            "de": "`general` (NMT, Standard), eine Custom-Modell-ID oder dein LLM-Deployment; NMT unterstützt auch `tone`, nur `gender` braucht ein LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: NMT supports neither `tone` nor `gender`; both, plus adaptive custom translation, need an LLM deployment.",
+            "de": "Die zweite Hälfte stimmt nicht: NMT unterstützt weder `tone` noch `gender`; beides und adaptive Custom Translation brauchen ein LLM-Deployment."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "What does transliteration change, and how do you call it in Python for Japanese text?",
         "de": "Was ändert die Transliteration, und wie rufst du sie in Python für japanischen Text auf?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The language, not the script: `client.translate(body=[...], to_language=[\"en\"])`",
+            "de": "Die Sprache, nicht die Schrift: `client.translate(body=[...], to_language=[\"en\"])`"
+          },
+          "correct": false,
+          "why": {
+            "en": "That's translation, not transliteration: transliteration keeps the language and changes only the script, for example from `Jpan` to `Latn`.",
+            "de": "Das ist Übersetzung, keine Transliteration: Transliteration behält die Sprache und ändert nur die Schrift, etwa von `Jpan` zu `Latn`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The language, not the script: `client.transliterate(body=[...], language=\"ja\", from_script=\"Jpan\", to_script=\"Latn\")`",
+            "de": "Die Sprache, nicht die Schrift: `client.transliterate(body=[...], language=\"ja\", from_script=\"Jpan\", to_script=\"Latn\")`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: transliteration never changes the language; this call converts Japanese text from `Jpan` to `Latn` characters.",
+            "de": "Die erste Hälfte stimmt nicht: Transliteration ändert nie die Sprache; dieser Aufruf überträgt japanischen Text von `Jpan`- in `Latn`-Zeichen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The script, not the language: `client.transliterate(body=[...], language=\"ja\", from_script=\"Jpan\", to_script=\"Latn\")`",
+            "de": "Die Schrift, nicht die Sprache: `client.transliterate(body=[...], language=\"ja\", from_script=\"Jpan\", to_script=\"Latn\")`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: transliteration maps Japanese text from `Jpan` to `Latn` characters; it returns how the text is written, not what it means.",
+            "de": "Richtig: Transliteration überträgt japanischen Text von `Jpan`- in `Latn`-Zeichen; sie liefert, wie der Text geschrieben wird, nicht seine Bedeutung."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The script, not the language: `client.translate(body=[...], to_language=[\"en\"])`",
+            "de": "Die Schrift, nicht die Sprache: `client.translate(body=[...], to_language=[\"en\"])`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong call: `translate` changes the language. Transliteration uses `client.transliterate(...)` with `language`, `from_script` and `to_script`, all required.",
+            "de": "Falscher Aufruf: `translate` ändert die Sprache. Transliteration nutzt `client.transliterate(...)` mit `language`, `from_script` und `to_script`, alle Pflicht."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does document translation keep, and how do the synchronous and batch APIs differ?",
         "de": "Was behält die Dokumentübersetzung bei, und wie unterscheiden sich synchrone API und Batch-Übersetzung?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The file's layout; sync translates one file and returns it directly, batch handles many or large files in Blob Storage containers",
+            "de": "Das Layout der Datei; synchron wird eine Datei übersetzt und direkt zurückgegeben, Batch verarbeitet viele oder große Dateien in Blob-Storage-Containern"
+          },
+          "correct": true,
+          "why": {
+            "en": "The synchronous API needs no storage account, while batch jobs work on containers authorized by SAS tokens or a managed identity.",
+            "de": "Die synchrone API braucht kein Speicherkonto, Batch-Jobs arbeiten mit Containern, autorisiert per SAS-Token oder Managed Identity."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The file's layout; sync needs Blob Storage containers, batch translates one file and returns it directly",
+            "de": "Das Layout der Datei; synchron braucht Blob-Storage-Container, Batch übersetzt eine Datei und gibt sie direkt zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the synchronous API handles one file without storage, and batch translation works on containers in Azure Blob Storage.",
+            "de": "Vertauscht: Die synchrone API verarbeitet eine Datei ohne Speicher, und die Batch-Übersetzung arbeitet mit Containern in Azure Blob Storage."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the plain text, not the layout; sync translates one file and returns it directly, batch handles many or large files in Blob Storage containers",
+            "de": "Nur den reinen Text, nicht das Layout; synchron wird eine Datei übersetzt und direkt zurückgegeben, Batch verarbeitet viele oder große Dateien in Blob-Storage-Containern"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: document translation keeps the layout of the original file, so you get the same document back in the target language.",
+            "de": "Die erste Hälfte stimmt nicht: Die Dokumentübersetzung behält das Layout der Originaldatei, du bekommst also dasselbe Dokument in der Zielsprache zurück."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only the plain text, not the layout; sync needs Blob Storage containers, batch translates one file and returns it directly",
+            "de": "Nur den reinen Text, nicht das Layout; synchron braucht Blob-Storage-Container, Batch übersetzt eine Datei und gibt sie direkt zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: document translation keeps the layout, and it's the batch variant that works on Blob Storage containers while sync returns one file directly.",
+            "de": "Doppelt falsch: Die Dokumentübersetzung behält das Layout, und mit Blob-Storage-Containern arbeitet die Batch-Variante, während synchron eine Datei direkt zurückkommt."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "How does Custom Translator differ from adaptive custom translation, and which limits apply to the latter?",
         "de": "Was unterscheidet Custom Translator von adaptiver Custom Translation, und welche Grenzen gelten für Letztere?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Custom Translator steers an LLM with reference pairs; adaptive translation trains an NMT model on up to 10,000 parallel sentences",
+            "de": "Custom Translator steuert ein LLM mit Referenzpaaren; adaptiv trainierst du ein NMT-Modell mit bis zu 10.000 Parallelsätzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: Custom Translator trains NMT models on parallel sentences, while adaptive custom translation steers an LLM with examples.",
+            "de": "Vertauscht: Custom Translator trainiert NMT-Modelle mit Parallelsätzen, adaptive Custom Translation steuert ein LLM mit Beispielen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Custom Translator trains an NMT model on parallel sentences; adaptive translation steers an LLM with up to 5 reference pairs or a dataset of 5–10,000 pairs",
+            "de": "Custom Translator trainiert ein NMT-Modell mit Parallelsätzen; adaptiv steuerst du ein LLM mit bis zu 5 Referenzpaaren oder einem Dataset aus 5–10.000 Paaren"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: you call Custom Translator models by category ID, and adaptive translation uses `referenceTextPairs` (up to five) or an `adaptiveDatasetId`.",
+            "de": "Genau: Custom-Translator-Modelle rufst du über ihre Kategorie-ID auf, adaptive Übersetzung nutzt `referenceTextPairs` (bis zu fünf) oder eine `adaptiveDatasetId`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Custom Translator trains an NMT model on parallel sentences; adaptive translation steers an LLM with up to 50 reference pairs or a 50,000-pair dataset",
+            "de": "Custom Translator trainiert ein NMT-Modell mit Parallelsätzen; adaptiv steuerst du ein LLM mit bis zu 50 Referenzpaaren oder einem Dataset mit 50.000 Paaren"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong limits: 50 is the number of texts per LLM request. Adaptive translation takes up to five `referenceTextPairs` or a dataset of 5 to 10,000 segment pairs.",
+            "de": "Falsche Grenzen: 50 ist die Zahl der Texte pro LLM-Anfrage. Adaptive Übersetzung nimmt bis zu fünf `referenceTextPairs` oder ein Dataset aus 5 bis 10.000 Segmentpaaren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Custom Translator trains an NMT model on parallel sentences; adaptive translation needs no examples, only the `tone` and `gender` settings",
+            "de": "Custom Translator trainiert ein NMT-Modell mit Parallelsätzen; adaptiv brauchst du keine Beispiele, nur die Einstellungen `tone` und `gender`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`tone` and `gender` are separate LLM options; adaptive custom translation needs example pairs or an adaptive dataset to steer the LLM.",
+            "de": "`tone` und `gender` sind eigene LLM-Optionen; adaptive Custom Translation braucht Beispielpaare oder ein adaptives Dataset, um das LLM zu steuern."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "What do you set on `SpeechTranslationConfig` for a `TranslationRecognizer`, and where do you read the translations?",
         "de": "Was setzt du in `SpeechTranslationConfig` für einen `TranslationRecognizer`, und wo liest du die Übersetzungen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`speech_recognition_language` as a code like `en` and `add_target_language()` with locales like `fr-FR`; read the translation in `result.text`",
+            "de": "`speech_recognition_language` als Code wie `en` und `add_target_language()` mit Locales wie `fr-FR`; lies die Übersetzung in `result.text`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the source is a locale such as `en-US` and targets are codes such as `fr`, and `result.text` holds the source transcript, not the translation.",
+            "de": "Doppelt falsch: Die Quelle ist ein Locale wie `en-US`, Ziele sind Codes wie `fr`, und `result.text` enthält das Quelltranskript, nicht die Übersetzung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`speech_recognition_language` as a locale and `add_target_language()` with codes like `fr`; read the translation in `result.text`",
+            "de": "`speech_recognition_language` als Locale und `add_target_language()` mit Codes wie `fr`; lies die Übersetzung in `result.text`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the settings fit, but `result.text` is the source transcript; the translations sit in `result.translations`, keyed by language code.",
+            "de": "Teilweise richtig: Die Einstellungen passen, aber `result.text` ist das Quelltranskript; die Übersetzungen stehen in `result.translations`, nach Sprachcode."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`speech_recognition_language` as a code like `en` and `add_target_language()` with locales like `fr-FR`; read `result.translations` by code",
+            "de": "`speech_recognition_language` als Code wie `en` und `add_target_language()` mit Locales wie `fr-FR`; lies `result.translations` nach Code"
+          },
+          "correct": false,
+          "why": {
+            "en": "Formats swapped: `speech_recognition_language` takes a locale such as `en-US`, while `add_target_language()` takes language codes such as `fr`.",
+            "de": "Formate vertauscht: `speech_recognition_language` erwartet ein Locale wie `en-US`, `add_target_language()` dagegen Sprachcodes wie `fr`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`speech_recognition_language` as a locale and `add_target_language()` with codes like `fr`; read `result.translations` by code",
+            "de": "`speech_recognition_language` als Locale und `add_target_language()` mit Codes wie `fr`; lies `result.translations` nach Code"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the source locale such as `en-US` drives recognition, each added code is a target, and `result.translations` maps each code to its text.",
+            "de": "Korrekt: Das Quell-Locale wie `en-US` steuert die Erkennung, jeder hinzugefügte Code ist ein Ziel, und `result.translations` ordnet jedem Code seinen Text zu."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "How do you make Azure LLM Speech translate a recorded file, and what does GPT Realtime Translate return?",
         "de": "Wie lässt du Azure LLM Speech eine Aufnahme übersetzen, und was liefert GPT Realtime Translate?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Set `task` to `translate` with a `targetLanguage` on the fast transcription endpoint; GPT Realtime Translate returns translated speech plus a transcript",
+            "de": "Setz `task` auf `translate` mit einer `targetLanguage` am Fast-Transcription-Endpoint; GPT Realtime Translate liefert übersetzte Sprache plus Transkript"
+          },
+          "correct": true,
+          "why": {
+            "en": "LLM Speech's enhanced mode translates recorded files to text, while `gpt-realtime-translate` on the Realtime API translates live audio continuously.",
+            "de": "Der Enhanced Mode von LLM Speech übersetzt aufgezeichnete Dateien in Text, `gpt-realtime-translate` über die Realtime API übersetzt Live-Audio kontinuierlich."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Send the file to Azure Translator with an LLM `deploymentName`; GPT Realtime Translate returns translated speech plus a transcript",
+            "de": "Schick die Datei an Azure Translator mit einem LLM-`deploymentName`; GPT Realtime Translate liefert übersetzte Sprache plus Transkript"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: Translator translates text and documents, not audio. Azure LLM Speech translates recordings with `task` set to `translate`.",
+            "de": "Die erste Hälfte stimmt nicht: Translator übersetzt Text und Dokumente, kein Audio. Azure LLM Speech übersetzt Aufnahmen mit `task` gleich `translate`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Set `task` to `translate` with a `targetLanguage` on the fast transcription endpoint; GPT Realtime Translate returns only translated text, once the stream has ended",
+            "de": "Setz `task` auf `translate` mit einer `targetLanguage` am Fast-Transcription-Endpoint; GPT Realtime Translate liefert nur übersetzten Text, erst wenn der Stream endet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: GPT Realtime Translate works continuously during the stream and returns translated speech as well as a transcript.",
+            "de": "Die zweite Hälfte stimmt nicht: GPT Realtime Translate arbeitet kontinuierlich während des Streams und liefert übersetzte Sprache und ein Transkript."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Send the file to Azure Translator with an LLM `deploymentName`; GPT Realtime Translate returns only translated text, once the stream has ended",
+            "de": "Schick die Datei an Azure Translator mit einem LLM-`deploymentName`; GPT Realtime Translate liefert nur übersetzten Text, erst wenn der Stream endet"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Translator translates text and documents, not audio — LLM Speech uses `task` set to `translate` — and GPT Realtime Translate streams speech plus a transcript.",
+            "de": "Doppelt falsch: Translator übersetzt Text und Dokumente, kein Audio – LLM Speech nutzt `task` gleich `translate` –, und GPT Realtime Translate liefert laufend Sprache plus Transkript."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "`2026-06-06` isn't a drop-in upgrade from v3.0: a `targets` array replaces `to`, and the separate Detect, BreakSentence and Dictionary Lookup operations are gone. Detect languages with Azure Language — the translate call itself still auto-detects its source.",
         "de": "`2026-06-06` ist kein Drop-in-Upgrade: Ein `targets`-Array ersetzt `to`, und die separaten Operationen Detect, BreakSentence und Dictionary Lookup entfallen. Sprachen erkennst du mit Azure Language – der Translate-Aufruf selbst erkennt seine Quellsprache weiterhin."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only `api-version` changes, and `to`, Detect and Dictionary Lookup keep working; detect languages with Azure Language",
+            "de": "Nur `api-version` ändert sich, und `to`, Detect und Dictionary Lookup funktionieren weiter; Sprachen erkennst du mit Azure Language"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not a drop-in upgrade: a `targets` array replaces `to`, and the Detect, BreakSentence and Dictionary Lookup operations are gone in `2026-06-06`.",
+            "de": "Kein Drop-in-Upgrade: Ein `targets`-Array ersetzt `to`, und die Operationen Detect, BreakSentence und Dictionary Lookup entfallen in `2026-06-06`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A `targets` array replaces `to`, and Detect, BreakSentence and Dictionary Lookup are gone; translate stops detecting, so `language` is now required",
+            "de": "Ein `targets`-Array ersetzt `to`, und Detect, BreakSentence und Dictionary Lookup entfallen; Translate erkennt nichts mehr, also ist `language` jetzt Pflicht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: if you omit the source `language`, the translate call still detects it; only the separate Detect operation is gone.",
+            "de": "Die zweite Hälfte stimmt nicht: Lässt du die Quell-`language` weg, erkennt der Translate-Aufruf sie weiterhin; nur die separate Detect-Operation entfällt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A `targets` array replaces `to`, and Detect, BreakSentence and Dictionary Lookup are gone; detect languages with Azure Language",
+            "de": "Ein `targets`-Array ersetzt `to`, und Detect, BreakSentence und Dictionary Lookup entfallen; Sprachen erkennst du mit Azure Language"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the separate operations were removed, so language detection moves to Azure Language — the translate call itself still auto-detects its source.",
+            "de": "Stimmt: Die separaten Operationen wurden entfernt, die Sprachenerkennung wandert zu Azure Language – der Translate-Aufruf erkennt seine Quellsprache weiterhin selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Only `api-version` changes, and `to`, Detect and Dictionary Lookup keep working; translate stops detecting, so always send `language`",
+            "de": "Nur `api-version` ändert sich, und `to`, Detect und Dictionary Lookup funktionieren weiter; Translate erkennt nichts mehr, also sendest du immer `language`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `2026-06-06` replaces `to` with `targets` and drops Detect, BreakSentence and Dictionary Lookup, and translate still detects an omitted source `language`.",
+            "de": "Doppelt falsch: `2026-06-06` ersetzt `to` durch `targets` und streicht Detect, BreakSentence und Dictionary Lookup, und Translate erkennt eine fehlende Quell-`language` weiterhin."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "`tone`, `gender` and adaptive custom translation only apply to LLM translation, which needs a Foundry resource and isn't available when the Translator resource uses a private endpoint.",
         "de": "`tone`, `gender` und adaptive Custom Translation gelten nur für die LLM-Übersetzung, die eine Foundry-Ressource braucht und nicht verfügbar ist, wenn die Translator-Ressource einen Private Endpoint nutzt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "When a single request carries more than one target language; they need a Custom Translator model trained on your own parallel data",
+            "de": "Wenn eine einzelne Anfrage mehr als nur eine Zielsprache enthält; sie brauchen ein Custom-Translator-Modell, das mit deinen Daten trainiert ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: one request can hold several LLM targets, and Custom Translator trains NMT models; these options need LLM translation, and LLM translation isn't available when the Translator resource uses a private endpoint.",
+            "de": "Doppelt falsch: Eine Anfrage kann mehrere LLM-Ziele enthalten, und Custom Translator trainiert NMT-Modelle; die Optionen brauchen LLM-Übersetzung, und die ist nicht verfügbar, wenn die Translator-Ressource einen Private Endpoint nutzt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "When the Translator resource uses a private endpoint; they need LLM translation, which requires a Foundry resource",
+            "de": "Wenn die Translator-Ressource einen Private Endpoint nutzt; sie brauchen LLM-Übersetzung, die eine Foundry-Ressource voraussetzt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: all three exist only for LLM translation; it needs a Foundry resource, and it isn't available when the Translator resource uses a private endpoint.",
+            "de": "Richtig: Alle drei gibt es nur bei der LLM-Übersetzung; sie braucht eine Foundry-Ressource und ist nicht verfügbar, wenn die Translator-Ressource einen Private Endpoint nutzt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "When a single request carries more than one target language; they need LLM translation, which requires a Foundry resource",
+            "de": "Wenn eine einzelne Anfrage mehr als nur eine Zielsprache enthält; sie brauchen LLM-Übersetzung, die eine Foundry-Ressource voraussetzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong condition: one request can hold several LLM targets, each with its own `tone` and `gender`; LLM translation is unavailable when the Translator resource uses a private endpoint.",
+            "de": "Falsche Bedingung: Eine Anfrage kann mehrere LLM-Ziele enthalten, jedes mit eigenem `tone` und `gender`; LLM-Übersetzung ist nicht verfügbar, wenn die Translator-Ressource einen Private Endpoint nutzt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "When the Translator resource uses a private endpoint; they need a Custom Translator model trained on your own parallel data",
+            "de": "Wenn die Translator-Ressource einen Private Endpoint nutzt; sie brauchen ein Custom-Translator-Modell, das mit deinen Daten trainiert ist"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the private-endpoint limit is correct, but Custom Translator trains NMT models; these options need an LLM deployment on a Foundry resource.",
+            "de": "Teilweise richtig: Die Grenze beim Private Endpoint stimmt, aber Custom Translator trainiert NMT-Modelle; diese Optionen brauchen ein LLM-Deployment auf einer Foundry-Ressource."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Event-based synthesis (`voice_name` plus the `synthesizing` event) supports **one** target language. For several targets, synthesize each translation with a `SpeechSynthesizer`.",
         "de": "Ereignisbasierte Synthese (`voice_name` plus Event `synthesizing`) unterstützt **eine** Zielsprache. Bei mehreren Zielen synthetisierst du jede Übersetzung mit einem `SpeechSynthesizer`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Up to two, the number the price covers; for more targets, add a second `voice_name`",
+            "de": "Bis zu zwei, so viele wie der Preis abdeckt; für mehr Ziele ergänzt du einen zweiten `voice_name`"
+          },
+          "correct": false,
+          "why": {
+            "en": "The price covering two targets is only a billing detail. Event-based synthesis supports exactly one target; for more, synthesize each translation yourself.",
+            "de": "Dass der Preis zwei Ziele abdeckt, betrifft nur die Abrechnung. Ereignisbasierte Synthese unterstützt genau ein Ziel; bei mehr synthetisierst du jede Übersetzung selbst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Up to 10, like the candidate languages; you set one `voice_name` for every single target language you add",
+            "de": "Bis zu 10, wie bei den Kandidatensprachen; du setzt für jede hinzugefügte Zielsprache einen eigenen `voice_name`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: 10 is the limit for candidate source languages. Event-based synthesis supports one target; several need a `SpeechSynthesizer` per translation.",
+            "de": "Falsch: 10 ist die Grenze für Kandidaten-Quellsprachen. Ereignisbasierte Synthese unterstützt ein Ziel; mehrere brauchen einen `SpeechSynthesizer` pro Übersetzung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Any number; the `synthesizing` event then delivers one audio stream for each target",
+            "de": "Beliebig viele; das Event `synthesizing` liefert dann einen Audiostream pro Ziel"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: event-based synthesis doesn't support multiple targets. With several targets, loop over `translations` and call `speak_text_async()` per language.",
+            "de": "Nein: Ereignisbasierte Synthese unterstützt keine mehreren Ziele. Bei mehreren Zielen iterierst du über `translations` und rufst pro Sprache `speak_text_async()` auf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Exactly one; for several targets, synthesize each translation yourself with a `SpeechSynthesizer`",
+            "de": "Genau eine; bei mehreren Zielen synthetisierst du jede Übersetzung selbst mit einem `SpeechSynthesizer`"
+          },
+          "correct": true,
+          "why": {
+            "en": "`voice_name` plus the `synthesizing` event covers one target; for more, set a voice per language and call `speak_text_async()` after recognition.",
+            "de": "`voice_name` plus Event `synthesizing` deckt ein Ziel ab; bei mehr setzt du pro Sprache eine Stimme und rufst nach der Erkennung `speak_text_async()` auf."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "`speech_recognition_language` takes a locale (`en-US`), while target languages take language codes (`de`, `zh-Hans`). Mixing them up is a classic error.",
         "de": "`speech_recognition_language` erwartet ein Locale (`en-US`), Zielsprachen erwarten Sprachcodes (`de`, `zh-Hans`). Beides zu verwechseln ist ein Klassiker."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A locale such as `en-US`; target languages take codes such as `de` or `zh-Hans`",
+            "de": "Ein Locale wie `en-US`; Zielsprachen erwarten Codes wie `de` oder `zh-Hans`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: recognition runs in a source locale, while `add_target_language()` takes language codes — mixing the two formats up is a classic error.",
+            "de": "Genau: Die Erkennung läuft in einem Quell-Locale, während `add_target_language()` Sprachcodes nimmt – die beiden Formate zu verwechseln ist ein Klassiker."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A language code such as `en`; target languages take locales such as `de-DE` or `zh-CN`",
+            "de": "Ein Sprachcode wie `en`; Zielsprachen erwarten dagegen Locales wie `de-DE` oder `zh-CN`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `speech_recognition_language` needs a locale such as `en-US`, and targets are language codes such as `de` or `zh-Hans`.",
+            "de": "Vertauscht: `speech_recognition_language` braucht ein Locale wie `en-US`, und Ziele sind Sprachcodes wie `de` oder `zh-Hans`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A locale such as `en-US`; target languages take locales too, such as `de-DE` or `zh-CN`",
+            "de": "Ein Locale wie `en-US`; auch die Zielsprachen erwarten Locales wie `de-DE` oder `zh-CN`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the source is a locale, but target languages take language codes such as `de` or `zh-Hans`.",
+            "de": "Teilweise richtig: Die Quelle ist ein Locale, aber Zielsprachen erwarten Sprachcodes wie `de` oder `zh-Hans`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A language code such as `en`; target languages take codes too, such as `de` or `zh-Hans`",
+            "de": "Ein Sprachcode wie `en`; auch Zielsprachen erwarten Codes wie `de` oder `zh-Hans`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: targets are language codes, but `speech_recognition_language` expects a full locale such as `en-US`.",
+            "de": "Teilweise richtig: Ziele sind Sprachcodes, aber `speech_recognition_language` erwartet ein vollständiges Locale wie `en-US`."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Batch document translation needs Azure Blob Storage containers; the synchronous single-file API doesn't. The Foundry portal only offers the synchronous variant.",
         "de": "Die Batch-Dokumentübersetzung braucht Azure-Blob-Storage-Container, die synchrone Einzeldatei-API nicht. Das Foundry-Portal bietet nur die synchrone Variante."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The synchronous single-file API needs Blob Storage containers; the Foundry portal offers only batch translation",
+            "de": "Die synchrone Einzeldatei-API braucht Blob-Storage-Container; das Foundry-Portal bietet nur die Batch-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: batch translation works with Blob Storage containers, the synchronous API returns one file directly, and the portal offers only the synchronous variant.",
+            "de": "Vertauscht: Die Batch-Übersetzung arbeitet mit Blob-Storage-Containern, die synchrone API gibt eine Datei direkt zurück, und das Portal bietet nur die synchrone Variante."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Both variants need Blob Storage containers, and the Foundry portal offers each of them",
+            "de": "Beide Varianten brauchen Blob-Storage-Container, und das Foundry-Portal bietet jede davon an"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the synchronous API needs no storage account, and the Foundry portal only offers the synchronous variant.",
+            "de": "Doppelt falsch: Die synchrone API braucht kein Speicherkonto, und das Foundry-Portal bietet nur die synchrone Variante."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Batch translation needs Blob Storage containers; the Foundry portal offers only the synchronous single-file variant",
+            "de": "Die Batch-Übersetzung braucht Blob-Storage-Container; das Foundry-Portal bietet nur die synchrone Einzeldatei-Variante"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: batch jobs read from and write to Azure Blob Storage containers, while the synchronous API returns the translated file directly — the portal's only option.",
+            "de": "Korrekt: Batch-Jobs lesen aus Azure-Blob-Storage-Containern und schreiben hinein, die synchrone API gibt die übersetzte Datei direkt zurück – die einzige Option im Portal."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Batch translation needs Blob Storage containers; the Foundry portal offers only batch translation",
+            "de": "Die Batch-Übersetzung braucht Blob-Storage-Container; das Foundry-Portal bietet nur die Batch-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: batch does need containers, but the Foundry portal offers only the synchronous variant.",
+            "de": "Teilweise richtig: Batch braucht tatsächlich Container, aber das Foundry-Portal bietet nur die synchrone Variante."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-trap-6",
@@ -128,7 +728,57 @@
       "back": {
         "en": "No — `region` (`Ocp-Apim-Subscription-Region`) only names your resource's region for authentication. For NMT the endpoint decides: the global endpoint uses the closest datacenter and can fail over outside your geography; `api-eur`, `api-nam` and `api-apc` keep processing in Europe, the Americas or Asia Pacific. LLM translation follows its deployment type.",
         "de": "Nein – `region` (`Ocp-Apim-Subscription-Region`) nennt nur die Region deiner Ressource für die Authentifizierung. Bei NMT entscheidet der Endpoint: Der globale Endpoint nutzt das nächstgelegene Rechenzentrum und kann bei einem Ausfall außerhalb deiner Geografie verarbeiten; `api-eur`, `api-nam` und `api-apc` halten die Verarbeitung in Europa, Amerika bzw. im asiatisch-pazifischen Raum. LLM-Übersetzung folgt ihrem Deployment-Typ."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "No, it only names your resource's region for authentication; the endpoint decides, such as `api-eur` for Europe",
+            "de": "Nein, er nennt nur die Region deiner Ressource für die Authentifizierung; der Endpoint entscheidet, etwa `api-eur` für Europa"
+          },
+          "correct": true,
+          "why": {
+            "en": "The global endpoint uses the closest datacenter and can fail over outside your geography; `api-eur`, `api-nam` and `api-apc` keep NMT in their geography.",
+            "de": "Der globale Endpoint nutzt das nächstgelegene Rechenzentrum und kann bei einem Ausfall außerhalb deiner Geografie verarbeiten; `api-eur`, `api-nam` und `api-apc` halten NMT in ihrer Geografie."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Yes, text is always processed in the region named in the header, whichever endpoint you call",
+            "de": "Ja, Text wird immer in der Region aus dem Header verarbeitet, egal welchen Endpoint du aufrufst"
+          },
+          "correct": false,
+          "why": {
+            "en": "`Ocp-Apim-Subscription-Region` only identifies your resource's region for authentication; for NMT the endpoint decides where processing happens.",
+            "de": "`Ocp-Apim-Subscription-Region` nennt nur die Region deiner Ressource für die Authentifizierung; bei NMT entscheidet der Endpoint, wo verarbeitet wird."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "No, it only names your resource's region for authentication; the global endpoint always keeps text in that region",
+            "de": "Nein, er nennt nur die Region deiner Ressource für die Authentifizierung; der globale Endpoint hält Text immer in dieser Region"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the header only names the region, but the global endpoint uses the closest datacenter and can fail over outside your geography.",
+            "de": "Teilweise richtig: Der Header nennt nur die Region, aber der globale Endpoint nutzt das nächstgelegene Rechenzentrum und kann bei einem Ausfall außerhalb deiner Geografie verarbeiten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "No, it only names your resource's region for authentication; the deployment type decides, as it does for LLM translation",
+            "de": "Nein, er nennt nur die Region deiner Ressource für die Authentifizierung; der Deployment-Typ entscheidet, wie bei der LLM-Übersetzung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong for NMT: the deployment type governs LLM translation only. For NMT the endpoint decides, for example `api-eur` for Europe.",
+            "de": "Falsch für NMT: Der Deployment-Typ gilt nur für die LLM-Übersetzung. Bei NMT entscheidet der Endpoint, zum Beispiel `api-eur` für Europa."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-takeaway-1",
@@ -140,7 +790,57 @@
       "back": {
         "en": "High-volume text → Translator NMT; tone, gender or adaptive needs → Translator with an LLM deployment.",
         "de": "Text in großen Mengen → Translator NMT; Ton, Gender oder adaptive Anforderungen → Translator mit LLM-Deployment."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "High-volume text: Translator with an LLM deployment; tone, gender or adaptive needs: Translator NMT",
+            "de": "Text in großen Mengen: Translator mit LLM-Deployment; Ton, Gender oder adaptive Anforderungen: Translator NMT"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: NMT is billed per character and suits bulk text, while only LLM translation offers `tone`, `gender` and adaptive custom translation.",
+            "de": "Vertauscht: NMT wird pro Zeichen abgerechnet und passt zu Massentext, und nur die LLM-Übersetzung bietet `tone`, `gender` und adaptive Custom Translation."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "High-volume text: Translator NMT; tone, gender or adaptive needs: Translator with an LLM deployment",
+            "de": "Text in großen Mengen: Translator NMT; Ton, Gender oder adaptive Anforderungen: Translator mit LLM-Deployment"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: NMT handles bulk text at the lowest cost per character, and an LLM deployment in `targets` unlocks tone, gender and adaptive translation.",
+            "de": "Stimmt: NMT übersetzt Massentext zu den niedrigsten Kosten pro Zeichen, und ein LLM-Deployment in `targets` schaltet Ton, Gender und adaptive Übersetzung frei."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "High-volume text: Translator NMT; tone, gender or adaptive needs: a Custom Translator model",
+            "de": "Text in großen Mengen: Translator NMT; Ton, Gender oder adaptive Anforderungen: ein Custom-Translator-Modell"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: Custom Translator trains NMT models for terminology; `tone`, `gender` and adaptive custom translation need an LLM deployment.",
+            "de": "Die zweite Hälfte stimmt nicht: Custom Translator trainiert NMT-Modelle für Terminologie; `tone`, `gender` und adaptive Custom Translation brauchen ein LLM-Deployment."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "High-volume text: a chat model (Responses API); tone, gender or adaptive needs: Translator NMT",
+            "de": "Text in großen Mengen: Chatmodell per Responses API; Ton, Gender oder adaptive Anforderungen: Translator NMT"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a chat model is billed per token and needs your own pipeline, and NMT supports neither `tone` nor `gender`.",
+            "de": "Nein: Ein Chatmodell wird pro Token abgerechnet und braucht eine eigene Pipeline, und NMT unterstützt weder `tone` noch `gender`."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-takeaway-2",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Files → document translation: sync for one file, async batch with Blob Storage.",
         "de": "Dateien → Dokumentübersetzung: synchron für eine Datei, asynchroner Batch mit Blob Storage."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Document translation: asynchronous batch for one file, synchronous for many or large files in Blob Storage",
+            "de": "Dokumentübersetzung: asynchroner Batch für eine Datei, synchron für viele oder große Dateien in Blob Storage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the synchronous API handles one file without storage, and asynchronous batch handles many or large files in Blob Storage.",
+            "de": "Vertauscht: Die synchrone API verarbeitet eine Datei ohne Speicher, der asynchrone Batch viele oder große Dateien in Blob Storage."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Text translation with NMT: synchronous for one file, asynchronous batch for many or large files in Blob Storage",
+            "de": "Textübersetzung mit NMT: synchron für eine Datei, asynchroner Batch für viele oder große Dateien in Blob Storage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong option: text translation takes strings, not files. Files go to document translation, which keeps their layout.",
+            "de": "Falsche Option: Textübersetzung nimmt Strings, keine Dateien. Dateien gehören zur Dokumentübersetzung, die ihr Layout behält."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Text translation with NMT: asynchronous batch for one file, synchronous for many or large files in Blob Storage",
+            "de": "Textübersetzung mit NMT: asynchroner Batch für eine Datei, synchron für viele oder große Dateien in Blob Storage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: files go to document translation, not text translation, and its synchronous API handles one file while batch covers many or large files.",
+            "de": "Doppelt falsch: Dateien gehören zur Dokumentübersetzung, nicht zur Textübersetzung, und deren synchrone API verarbeitet eine Datei, Batch viele oder große Dateien."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Document translation: synchronous for one file, asynchronous batch for many or large files in Blob Storage",
+            "de": "Dokumentübersetzung: synchron für eine Datei, asynchroner Batch für viele oder große Dateien in Blob Storage"
+          },
+          "correct": true,
+          "why": {
+            "en": "Document translation keeps the layout; the synchronous API returns one file directly, and batch jobs process containers in Blob Storage.",
+            "de": "Die Dokumentübersetzung behält das Layout; die synchrone API gibt eine Datei direkt zurück, und Batch-Jobs verarbeiten Container in Blob Storage."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-takeaway-3",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Live speech in an app → `TranslationRecognizer`; unknown or switching languages → Live Interpreter.",
         "de": "Live-Sprache in einer App → `TranslationRecognizer`; unbekannte oder wechselnde Sprachen → Live Interpreter."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Live speech in an app: `TranslationRecognizer`; unknown or switching languages: Live Interpreter",
+            "de": "Live-Sprache in einer App: `TranslationRecognizer`; unbekannte oder wechselnde Sprachen: Live Interpreter"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: a `TranslationRecognizer` translates speech in real time when you know the likely languages; Live Interpreter adds automatic language detection.",
+            "de": "Genau: Ein `TranslationRecognizer` übersetzt Sprache in Echtzeit, wenn du die wahrscheinlichen Sprachen kennst; Live Interpreter ergänzt automatische Sprachenerkennung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Live speech in an app: `TranslationRecognizer`; unknown or switching languages: one fixed `speech_recognition_language`",
+            "de": "Live-Sprache in einer App: `TranslationRecognizer`; unbekannte oder wechselnde Sprachen: ein festes `speech_recognition_language`"
+          },
+          "correct": false,
+          "why": {
+            "en": "One fixed source locale can't follow a speaker who switches languages; Live Interpreter detects the input language automatically.",
+            "de": "Ein festes Quell-Locale kann einem Sprecher, der die Sprache wechselt, nicht folgen; Live Interpreter erkennt die Eingabesprache automatisch."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Live speech in an app: batch transcription; unknown or switching languages: one fixed `speech_recognition_language`",
+            "de": "Live-Sprache in einer App: Batch-Transkription; unbekannte oder wechselnde Sprachen: ein festes `speech_recognition_language`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: batch transcription processes stored files asynchronously, and a fixed source locale can't follow switching languages; use `TranslationRecognizer` and Live Interpreter.",
+            "de": "Doppelt falsch: Die Batch-Transkription verarbeitet gespeicherte Dateien asynchron, und ein festes Quell-Locale folgt keinem Sprachwechsel; nutze `TranslationRecognizer` und Live Interpreter."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Live speech in an app: batch transcription; unknown or switching languages: Live Interpreter",
+            "de": "Live-Sprache in einer App: Batch-Transkription; unbekannte oder wechselnde Sprachen: Live Interpreter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: batch transcription processes stored files asynchronously, so it doesn't fit live speech; use a `TranslationRecognizer`.",
+            "de": "Die erste Hälfte stimmt nicht: Die Batch-Transkription verarbeitet gespeicherte Dateien asynchron und passt nicht zu Live-Sprache; nutze einen `TranslationRecognizer`."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-takeaway-4",
@@ -176,7 +976,57 @@
       "back": {
         "en": "LLM speech translation: Azure LLM Speech for recordings, GPT Realtime Translate for live streams.",
         "de": "LLM-Sprachübersetzung: Azure LLM Speech für Aufnahmen, GPT Realtime Translate für Live-Streams."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Recordings: batch transcription with a custom speech model; live streams: Translator with an LLM deployment",
+            "de": "Aufnahmen: Batch-Transkription mit einem Custom-Speech-Modell; Live-Streams: Translator mit LLM-Deployment"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: custom speech improves recognition and isn't LLM-based translation, and Translator translates text, not audio streams; use Azure LLM Speech and GPT Realtime Translate.",
+            "de": "Doppelt falsch: Custom Speech verbessert die Erkennung und ist keine LLM-basierte Übersetzung, und Translator übersetzt Text, keine Audiostreams; nutze Azure LLM Speech und GPT Realtime Translate."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Recordings: Azure LLM Speech; live streams: Translator with an LLM deployment",
+            "de": "Aufnahmen: Azure LLM Speech; Live-Streams: Translator mit LLM-Deployment"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: Translator translates text, not audio streams. Live streams need GPT Realtime Translate on the Realtime API.",
+            "de": "Die zweite Hälfte stimmt nicht: Translator übersetzt Text, keine Audiostreams. Live-Streams brauchen GPT Realtime Translate über die Realtime API."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Recordings: Azure LLM Speech; live streams: GPT Realtime Translate",
+            "de": "Aufnahmen: Azure LLM Speech; Live-Streams: GPT Realtime Translate"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Azure LLM Speech runs `task: translate` on recorded files and returns text; `gpt-realtime-translate` returns translated speech plus a transcript live.",
+            "de": "Richtig: Azure LLM Speech führt `task: translate` auf Aufnahmen aus und liefert Text; `gpt-realtime-translate` liefert live übersetzte Sprache plus Transkript."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Recordings: batch transcription with a custom speech model; live streams: GPT Realtime Translate",
+            "de": "Aufnahmen: Batch-Transkription mit einem Custom-Speech-Modell; Live-Streams: GPT Realtime Translate"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: custom speech improves recognition in the source language and isn't LLM-based translation; recordings go to Azure LLM Speech.",
+            "de": "Die erste Hälfte stimmt nicht: Custom Speech verbessert die Erkennung in der Quellsprache und ist keine LLM-basierte Übersetzung; Aufnahmen gehen an Azure LLM Speech."
+          }
+        }
+      ]
     },
     {
       "id": "z-translation-takeaway-5",
@@ -188,7 +1038,57 @@
       "back": {
         "en": "An Entra token plus Cognitive Services User. A custom-domain endpoint needs only the token; the global endpoint also needs the resource ID (and the region if the resource is regional).",
         "de": "Ein Entra-Token plus Cognitive Services User. Beim Custom-Domain-Endpoint reicht das Token; der globale Endpoint braucht zusätzlich die Ressourcen-ID (und die Region, wenn die Ressource regional ist)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "An Entra token plus Cognitive Services User; the global endpoint also needs the resource ID (plus region if regional)",
+            "de": "Ein Entra-Token plus Cognitive Services User; der globale Endpoint braucht zusätzlich die Ressourcen-ID (plus Region, wenn regional)"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a custom-domain endpoint needs only the token, while global Entra calls also send `Ocp-Apim-ResourceId` and, for a regional resource, the region.",
+            "de": "Korrekt: Beim Custom-Domain-Endpoint reicht das Token; globale Entra-Aufrufe senden zusätzlich `Ocp-Apim-ResourceId` und bei einer regionalen Ressource die Region."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "An Entra token plus Cognitive Services User; the custom-domain endpoint also needs the resource ID, while the global one needs nothing more",
+            "de": "Ein Entra-Token plus Cognitive Services User; der Custom-Domain-Endpoint braucht zusätzlich die Ressourcen-ID, der globale Endpoint dagegen nichts weiter"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: with the custom-domain endpoint the token is enough; the global endpoint is the one that also needs the resource ID (and region if regional).",
+            "de": "Vertauscht: Beim Custom-Domain-Endpoint reicht das Token; der globale Endpoint ist es, der zusätzlich die Ressourcen-ID braucht (und bei regionaler Ressource die Region)."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "An API key in `Ocp-Apim-Subscription-Key`; the global endpoint also needs the resource's region in `Ocp-Apim-Subscription-Region`",
+            "de": "Ein API-Key in `Ocp-Apim-Subscription-Key`; der globale Endpoint braucht zusätzlich die Region der Ressource in `Ocp-Apim-Subscription-Region`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Not keyless: that's key authentication. A keyless call sends an Entra token in the `Authorization` header and needs a role such as Cognitive Services User.",
+            "de": "Nicht schlüssellos: Das ist Key-Authentifizierung. Ein schlüsselloser Aufruf sendet ein Entra-Token im Header `Authorization` und braucht eine Rolle wie Cognitive Services User."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "An Entra token plus Cognitive Services User; the global endpoint needs nothing more, because the token already names the resource",
+            "de": "Ein Entra-Token plus Cognitive Services User; der globale Endpoint braucht nichts weiter, weil das Token die Ressource bereits benennt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: on the global endpoint, Entra calls must also send the resource ID (`Ocp-Apim-ResourceId`), plus the region for a regional resource.",
+            "de": "Die zweite Hälfte stimmt nicht: Am globalen Endpoint müssen Entra-Aufrufe zusätzlich die Ressourcen-ID (`Ocp-Apim-ResourceId`) senden, bei regionaler Ressource auch die Region."
+          }
+        }
+      ]
     }
   ]
 }

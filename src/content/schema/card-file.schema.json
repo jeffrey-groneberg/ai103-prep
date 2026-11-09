@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/jeffrey-groneberg/ai103-prep/schema/card-file.schema.json",
   "title": "AI-103 Prep Zettelkasten card file",
-  "description": "One file per course module: one card per concept, exam trap and takeaway of the module's lesson. The front asks a question; the back answers it from the lesson text (concept cards take the lesson's concept text unless they carry their own back).",
+  "description": "One file per course module: one card per concept, exam trap and takeaway of the module's lesson. The front asks a question and offers four exam-style answer options (exactly one correct, each with a short reason why it is right or wrong); the back answers it from the lesson text (concept cards take the lesson's concept text unless they carry their own back).",
   "type": "object",
   "required": ["module", "cards"],
   "additionalProperties": false,
@@ -25,9 +25,20 @@
         "de": { "type": "string", "minLength": 2 }
       }
     },
+    "choice": {
+      "type": "object",
+      "required": ["id", "text", "correct", "why"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-d]$" },
+        "text": { "$ref": "#/$defs/l10n" },
+        "correct": { "type": "boolean" },
+        "why": { "$ref": "#/$defs/l10n" }
+      }
+    },
     "card": {
       "type": "object",
-      "required": ["id", "source", "front"],
+      "required": ["id", "source", "front", "choices"],
       "additionalProperties": false,
       "properties": {
         "id": { "type": "string", "pattern": "^z-[a-z0-9-]+-(concept|trap|takeaway)-[0-9]+$" },
@@ -41,7 +52,8 @@
           }
         },
         "front": { "$ref": "#/$defs/l10n" },
-        "back": { "$ref": "#/$defs/l10n" }
+        "back": { "$ref": "#/$defs/l10n" },
+        "choices": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/choice" } }
       }
     }
   }

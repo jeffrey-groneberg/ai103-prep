@@ -12,8 +12,9 @@ import type {
   SingleQuestion,
 } from '../lib/types.ts'
 import type { Answer } from '../lib/scoring.ts'
-import { requiredSelections, scoreQuestion } from '../lib/scoring.ts'
+import { scoreQuestion } from '../lib/scoring.ts'
 import { createRng, hashSeed, shuffle, shuffleAwayFrom } from '../lib/random.ts'
+import { orderChoices, type ChoiceSet } from '../lib/choices.ts'
 import { DIFFICULTY_LABEL, QUESTION_TYPE_LABEL, tx } from '../lib/i18n.ts'
 import { sourceLabel } from '../content/sources.ts'
 import { bulletById } from '../content/domains.ts'
@@ -54,24 +55,28 @@ export function QuestionMeta({ q }: { q: Question }) {
   )
 }
 
-function ChoiceList({
+export function ChoiceList({
   q,
   lang,
   answer,
   onChange,
   revealed,
   seed,
+  ownText = false,
 }: {
-  q: SingleQuestion | MultiQuestion
+  q: ChoiceSet | SingleQuestion | MultiQuestion
   lang: Lang
   answer: Answer
   onChange: (a: Answer) => void
   revealed: boolean
   seed: number
+  /** The learner wrote these options: they carry no content language. */
+  ownText?: boolean
 }) {
-  const options = useMemo(() => shuffle(q.options, createRng(hashSeed(q.id) ^ seed)), [q, seed])
+  const options = useMemo(() => orderChoices(q, seed), [q, seed])
   const multi = q.type === 'multi'
-  const need = requiredSelections(q)
+  const need = multi ? q.options.filter((o) => o.correct).length : 1
+  const textLang = ownText ? undefined : lang
   const chosen = new Set(answer.type === 'single' ? (answer.choice ? [answer.choice] : []) : answer.type === 'multi' ? answer.choices : [])
   const name = `q-${q.id}`
 
@@ -119,7 +124,7 @@ function ChoiceList({
               <span className="choice__letter" aria-hidden="true">
                 {LETTERS[i]}
               </span>
-              <span className="choice__text" lang={lang}>
+              <span className="choice__text" lang={textLang}>
                 {renderInline(tx(o.text, lang))}
               </span>
               {revealed && (o.correct || picked) && (
@@ -129,8 +134,8 @@ function ChoiceList({
                 </span>
               )}
             </label>
-            {revealed && (
-              <p className="choice__why" lang={lang}>
+            {revealed && tx(o.why, lang) && (
+              <p className="choice__why" lang={textLang}>
                 {renderInline(tx(o.why, lang))}
               </p>
             )}

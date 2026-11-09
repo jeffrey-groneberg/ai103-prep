@@ -8,7 +8,57 @@
       "front": {
         "en": "What are the steps of RAG, and how does classic RAG differ from agentic retrieval in Azure AI Search?",
         "de": "Welche Schritte hat RAG, und wie unterscheidet sich klassisches RAG von Agentic Retrieval in Azure AI Search?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Fine-tune, augment, generate; classic RAG runs one hybrid query you orchestrate, agentic retrieval plans several queries for you",
+            "de": "Fine-tunen, anreichern, generieren; klassisches RAG führt eine Hybridabfrage aus, die du orchestrierst, Agentic Retrieval plant mehrere Abfragen für dich"
+          },
+          "correct": false,
+          "why": {
+            "en": "The comparison is right, but RAG needs no fine-tuning: it retrieves current content at query time, augments the prompt and generates.",
+            "de": "Der Vergleich stimmt, aber RAG braucht kein Fine-Tuning: Es ruft zur Abfragezeit aktuelle Inhalte ab, reichert den Prompt an und generiert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Retrieve, augment, generate; classic RAG runs one hybrid query you orchestrate, agentic retrieval plans several queries for you",
+            "de": "Abrufen, anreichern, generieren; klassisches RAG führt eine Hybridabfrage aus, die du orchestrierst, Agentic Retrieval plant mehrere Abfragen für dich"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: RAG grounds answers in retrieved content; classic RAG is one hybrid query plus semantic ranking, agentic retrieval a planned multi-query pipeline for agents.",
+            "de": "Korrekt: RAG stützt Antworten auf abgerufene Inhalte; klassisches RAG ist eine Hybridabfrage plus Semantic Ranking, Agentic Retrieval eine geplante Mehrfachabfrage-Pipeline für Agents."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Retrieve, augment, generate; classic RAG plans several subqueries for you, agentic retrieval runs one hybrid query you orchestrate",
+            "de": "Abrufen, anreichern, generieren; klassisches RAG plant mehrere Teilabfragen für dich, Agentic Retrieval führt eine Hybridabfrage aus, die du orchestrierst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: classic RAG is the single hybrid query you orchestrate yourself, while agentic retrieval plans the subqueries.",
+            "de": "Vertauscht: Klassisches RAG ist die einzelne Hybridabfrage, die du selbst orchestrierst, Agentic Retrieval plant dagegen die Teilabfragen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Fine-tune, augment, generate; classic RAG plans several subqueries for you, agentic retrieval runs one hybrid query you orchestrate",
+            "de": "Fine-tunen, anreichern, generieren; klassisches RAG plant mehrere Teilabfragen für dich, Agentic Retrieval führt eine Hybridabfrage aus, die du orchestrierst"
+          },
+          "correct": false,
+          "why": {
+            "en": "RAG retrieves content instead of fine-tuning the model, and the roles are swapped: classic RAG is the single hybrid query you orchestrate, agentic retrieval plans the subqueries.",
+            "de": "RAG ruft Inhalte ab, statt das Modell zu fine-tunen, und die Rollen sind vertauscht: Klassisches RAG ist die einzelne Hybridabfrage, die du orchestrierst, Agentic Retrieval plant die Teilabfragen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What is Foundry IQ built on, and what does its knowledge base group, store and expose?",
         "de": "Worauf baut Foundry IQ auf, und was bündelt, speichert und bietet eine Knowledge Base?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Foundry Agent Service; it groups agents, stores their conversations and exposes the Responses API",
+            "de": "Foundry Agent Service; sie bündelt Agents, speichert ihre Conversations und bietet die Responses API"
+          },
+          "correct": false,
+          "why": {
+            "en": "Foundry IQ is built on Azure AI Search, not on Foundry Agent Service, which is optional; its knowledge base groups knowledge sources.",
+            "de": "Foundry IQ baut auf Azure AI Search auf, nicht auf Foundry Agent Service, der optional ist; die Knowledge Base bündelt Knowledge Sources."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Azure AI Search agentic retrieval; it groups search indexes, stores your documents itself and exposes only a `search` call",
+            "de": "Agentic Retrieval von Azure AI Search; sie bündelt Suchindizes, speichert deine Dokumente selbst und bietet nur einen `search`-Aufruf"
+          },
+          "correct": false,
+          "why": {
+            "en": "A knowledge base stores retrieval settings, not documents, and exposes a `retrieve` action plus an MCP endpoint with `knowledge_base_retrieve`.",
+            "de": "Eine Knowledge Base speichert Retrieval-Einstellungen, keine Dokumente, und bietet eine `retrieve`-Aktion plus einen MCP-Endpoint mit `knowledge_base_retrieve`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "File search vector stores; it groups the files users upload, stores their embeddings and exposes the file search tool",
+            "de": "Vector Stores von File Search; sie bündelt die von Nutzern hochgeladenen Dateien, speichert ihre Embeddings und bietet das File-Search-Tool"
+          },
+          "correct": false,
+          "why": {
+            "en": "File search handles documents a user provides in the conversation; Foundry IQ is built on Azure AI Search agentic retrieval.",
+            "de": "File Search verarbeitet Dokumente, die ein Nutzer im Gespräch bereitstellt; Foundry IQ baut auf Agentic Retrieval von Azure AI Search auf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Azure AI Search; it groups knowledge sources, stores retrieval settings and exposes `retrieve` plus an MCP endpoint",
+            "de": "Azure AI Search; sie bündelt Knowledge Sources, speichert Retrieval-Einstellungen und bietet `retrieve` plus einen MCP-Endpoint"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Foundry IQ is built on Azure AI Search agentic retrieval, and the knowledge base bundles sources behind one endpoint, keeps effort, output mode and optional LLM, and offers `retrieve` and MCP.",
+            "de": "Richtig: Foundry IQ baut auf Agentic Retrieval von Azure AI Search auf, und die Knowledge Base bündelt Quellen hinter einem Endpoint, hält Effort, Output Mode und optionales LLM und bietet `retrieve` und MCP."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How do indexed and remote knowledge sources differ in ingestion and freshness?",
         "de": "Wie unterscheiden sich indexierte und Remote-Knowledge-Sources bei Aufnahme und Aktualität?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Indexed sources are ingested ahead of time and refreshed on an indexer schedule; remote sources store nothing and are queried live",
+            "de": "Indexierte Quellen werden vorab aufgenommen und nach Indexer-Zeitplan aktualisiert; Remote-Quellen speichern nichts und werden live abgefragt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: indexed content lands in search indexes before any query and refreshes by indexer schedule, while remote sources are queried live and always current.",
+            "de": "Korrekt: Indexierte Inhalte landen vor jeder Abfrage in Suchindizes und werden nach Indexer-Zeitplan aktualisiert, Remote-Quellen werden live abgefragt und sind immer aktuell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Blob or OneLake sources need your own chunking and vectorization code plus a custom indexer; remote sources are ingested too but refresh every few minutes",
+            "de": "Blob- oder OneLake-Quellen brauchen deinen eigenen Code für Chunking und Vektorisierung plus einen eigenen Indexer; Remote-Quellen werden auch aufgenommen, aber alle paar Minuten aktualisiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Azure AI Search generates the indexer pipeline with chunking and vectorization for Blob or OneLake, and remote sources aren’t ingested at all — they’re queried live.",
+            "de": "Für Blob oder OneLake erzeugt Azure AI Search die Indexer-Pipeline samt Chunking und Vektorisierung, und Remote-Quellen werden gar nicht aufgenommen – sie werden live abgefragt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Indexed sources are ingested ahead of time and refreshed on an indexer schedule; remote sources are ingested too but refresh every few minutes",
+            "de": "Indexierte Quellen werden vorab aufgenommen und nach Indexer-Zeitplan aktualisiert; Remote-Quellen werden auch aufgenommen, aber alle paar Minuten aktualisiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "The indexed half is right, but remote sources aren’t ingested at all — they store nothing and are queried live.",
+            "de": "Die Hälfte zu indexierten Quellen stimmt, aber Remote-Quellen werden gar nicht aufgenommen – sie speichern nichts und werden live abgefragt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Blob or OneLake sources need your own chunking and vectorization code plus a custom indexer; remote sources store nothing and are queried live",
+            "de": "Blob- oder OneLake-Quellen brauchen deinen eigenen Code für Chunking und Vektorisierung plus einen eigenen Indexer; Remote-Quellen speichern nichts und werden live abgefragt"
+          },
+          "correct": false,
+          "why": {
+            "en": "The remote half is right, but for Blob, OneLake or SharePoint, Azure AI Search generates the indexer pipeline with chunking and vectorization for you.",
+            "de": "Die Hälfte zu Remote-Quellen stimmt, aber für Blob, OneLake oder SharePoint erzeugt Azure AI Search die Indexer-Pipeline samt Chunking und Vektorisierung für dich."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-4",
@@ -36,7 +186,57 @@
       "back": {
         "en": "How much LLM work agentic retrieval does: `minimal`, `low`, `medium` or `auto`. Set it on the knowledge base; a retrieve request can override it. `low` is the default of the preview API (`2026-08-01-preview`) and needs an LLM on the knowledge base; without one, use `minimal`. `auto` exists only in `2026-08-01-preview` and also needs a model: the service starts with a lightweight retrieval pass and adds LLM query planning, up to `medium`, only when that pass doesn’t ground the answer. The GA API (`2026-04-01`) always retrieves at the minimal, extractive level.",
         "de": "Wie viel LLM-Arbeit Agentic Retrieval leistet: `minimal`, `low`, `medium` oder `auto`. Du setzt ihn auf der Knowledge Base; ein Retrieve-Request kann ihn überschreiben. `low` ist der Standard der Preview-API (`2026-08-01-preview`) und braucht ein LLM auf der Knowledge Base; ohne LLM nutzt du `minimal`. `auto` gibt es nur in `2026-08-01-preview`, und es braucht ebenfalls ein Modell: Der Dienst startet mit einem leichtgewichtigen Retrieval-Durchgang und plant nur dann per LLM nach – bis `medium` –, wenn dieser Durchgang die Antwort nicht ausreichend stützt. Die GA-API (`2026-04-01`) ruft immer auf minimaler, extraktiver Stufe ab."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "How much LLM work retrieval does; set on the knowledge base, a retrieve request can override it; `low`, the preview default, works without an LLM",
+            "de": "Wie viel LLM-Arbeit das Retrieval leistet; auf der Knowledge Base gesetzt, ein Retrieve-Request kann ihn überschreiben; `low`, der Preview-Standard, geht ohne LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "`low`, the preview default, plans subqueries with the knowledge base’s LLM — without an LLM you need `minimal`.",
+            "de": "`low`, der Preview-Standard, plant Teilabfragen mit dem LLM der Knowledge Base – ohne LLM brauchst du `minimal`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "How much LLM work retrieval does; set on the agent’s model deployment only; `low` works without an LLM",
+            "de": "Wie viel LLM-Arbeit das Retrieval leistet; nur auf dem Modell-Deployment des Agents gesetzt; `low` geht ohne LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "The effort is set on the knowledge base, with a per-request override, and `low` plans subqueries with the knowledge base’s LLM — only `minimal` skips it.",
+            "de": "Der Effort wird auf der Knowledge Base gesetzt, mit Override pro Anfrage, und `low` plant Teilabfragen mit dem LLM der Knowledge Base – nur `minimal` kommt ohne aus."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "How much LLM work retrieval does; set on the knowledge base, a retrieve request can override it; `minimal` works without an LLM",
+            "de": "Wie viel LLM-Arbeit das Retrieval leistet; auf der Knowledge Base gesetzt, ein Retrieve-Request kann ihn überschreiben; `minimal` geht ohne LLM"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the effort sets the depth of LLM query planning, lives on the knowledge base with a per-request override, and only `minimal` skips the LLM.",
+            "de": "Richtig: Der Effort bestimmt die Tiefe der LLM-Abfrageplanung, liegt auf der Knowledge Base mit Override pro Anfrage, und nur `minimal` kommt ohne LLM aus."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "How many documents each source returns; set on every knowledge source separately; `medium` works without an LLM",
+            "de": "Wie viele Dokumente jede Quelle liefert; auf jeder Knowledge Source einzeln gesetzt; `medium` geht ohne LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reasoning effort controls the LLM work, is set on the knowledge base, and `medium` does the most LLM work of all levels.",
+            "de": "Der Reasoning Effort steuert die LLM-Arbeit, wird auf der Knowledge Base gesetzt, und `medium` leistet die meiste LLM-Arbeit aller Stufen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-5",
@@ -44,7 +244,57 @@
       "front": {
         "en": "When should a knowledge base return extractive data, when answer synthesis, and what’s special about web sources?",
         "de": "Wann liefert eine Knowledge Base Extractive Data, wann Answer Synthesis, und was ist bei Web-Quellen anders?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Answer synthesis for agents so they skip reasoning, extractive data for standalone apps; web content arrives as raw chunks",
+            "de": "Answer Synthesis für Agents, damit sie nicht nachdenken müssen, Extractive Data für eigenständige Apps; Web-Inhalte kommen als rohe Chunks"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: extractive data is the recommended output for agents, and web content is the exception — it always arrives as LLM-written cited summaries.",
+            "de": "Umgekehrt: Extractive Data ist die empfohlene Ausgabe für Agents, und Web-Inhalte sind die Ausnahme – sie kommen immer als vom LLM geschriebene, zitierte Zusammenfassungen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Extractive data for agents, answer synthesis for standalone apps; web content always comes as cited LLM summaries",
+            "de": "Extractive Data für Agents, Answer Synthesis für eigenständige Apps; Web-Inhalte kommen immer als zitierte LLM-Zusammenfassungen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: agents get raw citable chunks, synthesis with `[ref_id:n]` citations suits apps that show the output directly, and web results are always summarized.",
+            "de": "Korrekt: Agents bekommen rohe, zitierbare Chunks, Synthesis mit `[ref_id:n]`-Zitaten passt zu Apps, die die Ausgabe direkt zeigen, und Web-Ergebnisse sind immer zusammengefasst."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Extractive data for agents, answer synthesis for standalone apps; web sources need no LLM configured on the knowledge base",
+            "de": "Extractive Data für Agents, Answer Synthesis für eigenständige Apps; Web-Quellen brauchen kein auf der Knowledge Base konfiguriertes LLM"
+          },
+          "correct": false,
+          "why": {
+            "en": "Web content is always summarized by an LLM, so a knowledge base with a web source needs a model configured — even with extractive output.",
+            "de": "Web-Inhalte fasst immer ein LLM zusammen, deshalb braucht eine Knowledge Base mit Web-Quelle ein konfiguriertes Modell – auch bei extraktiver Ausgabe."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Extractive data for agents, answer synthesis for standalone apps; web sources return the page text verbatim",
+            "de": "Extractive Data für Agents, Answer Synthesis für eigenständige Apps; Web-Quellen liefern den Seitentext wörtlich"
+          },
+          "correct": false,
+          "why": {
+            "en": "Web content never arrives verbatim: an LLM always summarizes it first, so the results are cited summaries.",
+            "de": "Web-Inhalte kommen nie wörtlich: Ein LLM fasst sie immer zuerst zusammen, die Ergebnisse sind also zitierte Zusammenfassungen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-6",
@@ -52,7 +302,57 @@
       "front": {
         "en": "What does a memory store in Foundry Agent Service remember, which agent type uses it, and how are users separated?",
         "de": "Was merkt sich ein Memory Store in Foundry Agent Service, welcher Agent-Typ nutzt ihn, und wie trennst du Nutzer?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "User profile, chat summary and procedural memories across sessions; a prompt agent via the memory search tool; `scope=\"{{$userId}}\"` per user",
+            "de": "Nutzerprofil-, Chat-Summary- und prozedurale Memories über Sitzungen hinweg; ein Prompt Agent über das Memory-Search-Tool; `scope=\"{{$userId}}\"` pro Nutzer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the memory store extracts and consolidates long-term memories across sessions, a prompt agent reads them through the memory search tool, and `scope` isolates users.",
+            "de": "Richtig: Der Memory Store extrahiert und konsolidiert Langzeit-Memories über Sitzungen hinweg, ein Prompt Agent liest sie über das Memory-Search-Tool, und `scope` trennt die Nutzer."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Every file a user uploads, as vector embeddings; a hosted agent via file search; one conversation per user",
+            "de": "Jede hochgeladene Datei eines Nutzers als Vektor-Embeddings; ein Hosted Agent über File Search; eine Conversation pro Nutzer"
+          },
+          "correct": false,
+          "why": {
+            "en": "That describes file search, which handles documents a user provides in the conversation; memory stores learned, user-specific facts, separated per user by `scope`.",
+            "de": "Das beschreibt File Search, das Dokumente aus dem Gespräch verarbeitet; Memory speichert gelernte, nutzerspezifische Fakten, pro Nutzer getrennt über `scope`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "User profile, chat summary and procedural memories, but only within one session; a prompt agent; `scope=\"{{$userId}}\"` per user",
+            "de": "Nutzerprofil-, Chat-Summary- und prozedurale Memories, aber nur innerhalb einer Sitzung; ein Prompt Agent; `scope=\"{{$userId}}\"` pro Nutzer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Memory is long-term: the store extracts and retrieves memories across sessions, not just within one.",
+            "de": "Memory ist ein Langzeitgedächtnis: Der Store extrahiert und liefert Memories über Sitzungen hinweg, nicht nur innerhalb einer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "User profile, chat summary and procedural memories across sessions; a prompt agent via the memory search tool; one conversation per user",
+            "de": "Nutzerprofil-, Chat-Summary- und prozedurale Memories über Sitzungen hinweg; ein Prompt Agent über das Memory-Search-Tool; eine Conversation pro Nutzer"
+          },
+          "correct": false,
+          "why": {
+            "en": "A conversation only holds the items of one chat; memories are separated per user with `scope=\"{{$userId}}\"`.",
+            "de": "Eine Conversation hält nur die Items eines Chats; Memories trennst du pro Nutzer mit `scope=\"{{$userId}}\"`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-concept-7",
@@ -60,7 +360,57 @@
       "front": {
         "en": "How do you choose between Foundry IQ, the Azure AI Search tool, file search, memory, Web IQ, Work IQ and Fabric IQ?",
         "de": "Wie wählst du zwischen Foundry IQ, Azure AI Search Tool, File Search, Memory, Web IQ, Work IQ und Fabric IQ?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Multi-source content → Azure AI Search tool; one existing index → Foundry IQ; chat uploads → memory; learned user facts → file search; public web → Web IQ; M365 mail → Work IQ; Fabric data → Fabric IQ",
+            "de": "Inhalte aus mehreren Quellen → Azure AI Search Tool; ein bestehender Index → Foundry IQ; Chat-Uploads → Memory; Nutzerfakten → File Search; Web → Web IQ; M365-Mails → Work IQ; Fabric-Daten → Fabric IQ"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two swaps: curated multi-source content fits Foundry IQ and one existing index the Azure AI Search tool; chat uploads go to file search and learned user facts to memory.",
+            "de": "Zwei Vertauschungen: Kuratierte Inhalte aus mehreren Quellen passen zu Foundry IQ, ein bestehender Index zum Azure AI Search Tool; Chat-Uploads gehören zu File Search, gelernte Nutzerfakten in Memory."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Multi-source content → Foundry IQ; one existing index → Azure AI Search tool; chat uploads → memory; learned user facts → file search; public web → Work IQ; M365 mail → Web IQ; Fabric data → Fabric IQ",
+            "de": "Inhalte aus mehreren Quellen → Foundry IQ; ein bestehender Index → Azure AI Search Tool; Chat-Uploads → Memory; Nutzerfakten → File Search; Web → Work IQ; M365-Mails → Web IQ; Fabric-Daten → Fabric IQ"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two swaps: chat uploads go to file search and learned user facts to memory; Web IQ covers the public web and Work IQ the user’s Microsoft 365 mail.",
+            "de": "Zwei Vertauschungen: Chat-Uploads gehören zu File Search, gelernte Nutzerfakten in Memory; Web IQ deckt das öffentliche Web ab, Work IQ die Microsoft-365-Mails des Nutzers."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Multi-source content → Foundry IQ; one existing index → Azure AI Search tool; chat uploads → file search; learned user facts → memory; public web → Web IQ; M365 mail → Work IQ; Fabric data → Fabric IQ",
+            "de": "Inhalte aus mehreren Quellen → Foundry IQ; ein bestehender Index → Azure AI Search Tool; Chat-Uploads → File Search; Nutzerfakten → Memory; Web → Web IQ; M365-Mails → Work IQ; Fabric-Daten → Fabric IQ"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: each integration fits one kind of knowledge — curated shared content, one fixed index, files from the chat, learned user facts, the public web, Microsoft 365 or Fabric.",
+            "de": "Korrekt: Jede Anbindung passt zu einer Art Wissen – kuratierte geteilte Inhalte, ein fester Index, Dateien aus dem Chat, gelernte Nutzerfakten, das öffentliche Web, Microsoft 365 oder Fabric."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Multi-source content → Azure AI Search tool; one existing index → Foundry IQ; chat uploads → file search; learned user facts → memory; public web → Work IQ; M365 mail → Web IQ; Fabric data → Fabric IQ",
+            "de": "Inhalte aus mehreren Quellen → Azure AI Search Tool; ein bestehender Index → Foundry IQ; Chat-Uploads → File Search; Nutzerfakten → Memory; Web → Work IQ; M365-Mails → Web IQ; Fabric-Daten → Fabric IQ"
+          },
+          "correct": false,
+          "why": {
+            "en": "Two swaps: curated multi-source content fits Foundry IQ and one existing index the Azure AI Search tool; Web IQ covers the public web and Work IQ the user’s Microsoft 365 mail.",
+            "de": "Zwei Vertauschungen: Kuratierte Inhalte aus mehreren Quellen passen zu Foundry IQ, ein bestehender Index zum Azure AI Search Tool; Web IQ deckt das öffentliche Web ab, Work IQ die Microsoft-365-Mails des Nutzers."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-trap-1",
@@ -72,7 +422,57 @@
       "back": {
         "en": "Azure AI Search is mandatory — the knowledge base lives on the search service. Foundry Agent Service, however, is optional: Agent Framework or any app can call the knowledge base.",
         "de": "Azure AI Search ist Pflicht – die Knowledge Base liegt auf dem Suchdienst. Foundry Agent Service ist dagegen optional: Agent Framework oder jede App kann die Knowledge Base aufrufen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Foundry Agent Service is mandatory; Azure AI Search is optional when all knowledge sources are remote, such as SharePoint",
+            "de": "Foundry Agent Service ist Pflicht; Azure AI Search ist optional, wenn alle Knowledge Sources remote sind, etwa SharePoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Even remote sources are queried through the knowledge base, which lives on Azure AI Search — Foundry IQ can’t run without it.",
+            "de": "Auch Remote-Quellen werden über die Knowledge Base abgefragt, und die liegt auf Azure AI Search – ohne den Dienst läuft Foundry IQ nicht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Both are mandatory, because only Foundry Agent Service may call a knowledge base on Azure AI Search",
+            "de": "Beide sind Pflicht, weil nur Foundry Agent Service eine Knowledge Base auf Azure AI Search aufrufen darf"
+          },
+          "correct": false,
+          "why": {
+            "en": "Any app can call the knowledge base, for example through `retrieve` or its MCP endpoint, so Foundry Agent Service isn’t required.",
+            "de": "Jede App kann die Knowledge Base aufrufen, etwa über `retrieve` oder ihren MCP-Endpoint – Foundry Agent Service ist also nicht nötig."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Azure AI Search is mandatory; Foundry Agent Service is optional, but only if the agent runs as a hosted agent",
+            "de": "Azure AI Search ist Pflicht; Foundry Agent Service ist optional, aber nur, wenn der Agent als Hosted Agent läuft"
+          },
+          "correct": false,
+          "why": {
+            "en": "Hosted agents run in Foundry Agent Service themselves; the service is optional because Agent Framework or any app can call the knowledge base.",
+            "de": "Hosted Agents laufen selbst in Foundry Agent Service; der Dienst ist optional, weil Agent Framework oder jede App die Knowledge Base aufrufen kann."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Azure AI Search is mandatory; Foundry Agent Service is optional, since any app can call the knowledge base",
+            "de": "Azure AI Search ist Pflicht; Foundry Agent Service ist optional, denn jede App kann die Knowledge Base aufrufen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the knowledge base lives on the search service, but any client — Agent Framework, workflow code or your own app — can call it without Foundry Agent Service.",
+            "de": "Korrekt: Die Knowledge Base liegt auf dem Suchdienst, aber jeder Client – Agent Framework, Workflow-Code oder deine eigene App – kann sie ohne Foundry Agent Service aufrufen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-trap-2",
@@ -82,9 +482,59 @@
         "de": "Worauf verzichtest du mit `minimal` Reasoning Effort, und wann ist es die falsche Wahl?"
       },
       "back": {
-        "en": "`minimal` means no query planning, no answer synthesis and no web knowledge source. Don’t pick it when multi-part questions must be decomposed.",
-        "de": "`minimal` heißt: keine Abfrageplanung, keine Answer Synthesis und keine Web-Knowledge-Source. Wähle es nicht, wenn mehrteilige Fragen zerlegt werden müssen."
-      }
+        "en": "Setting `minimal` (preview API) means no query planning, no answer synthesis and no web knowledge source. Don’t pick it when multi-part questions must be decomposed.",
+        "de": "`minimal` (Preview-API) heißt: keine Abfrageplanung, keine Answer Synthesis und keine Web-Knowledge-Source. Wähle es nicht, wenn mehrteilige Fragen zerlegt werden müssen."
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Searching more than one knowledge source — wrong as soon as the knowledge base has several sources",
+            "de": "Die Suche in mehr als einer Knowledge Source – falsch, sobald die Knowledge Base mehrere Quellen hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "`minimal` always searches every knowledge source in the knowledge base; it only skips LLM planning, answer synthesis and the web source.",
+            "de": "`minimal` durchsucht immer jede Knowledge Source der Knowledge Base; es verzichtet nur auf LLM-Planung, Answer Synthesis und die Web-Quelle."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Query planning, answer synthesis and web knowledge sources — wrong when multi-part questions must be decomposed",
+            "de": "Abfrageplanung, Answer Synthesis und Web-Knowledge-Sources – falsch, wenn mehrteilige Fragen zerlegt werden müssen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: `minimal` skips LLM planning and sends the query straight to every source, so it can’t synthesize answers, use web sources or split multi-part questions.",
+            "de": "Richtig: `minimal` überspringt die LLM-Planung und schickt die Abfrage direkt an jede Quelle – Answer Synthesis, Web-Quellen und das Zerlegen mehrteiliger Fragen entfallen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Extractive data output — wrong whenever an agent must cite its sources",
+            "de": "Die Ausgabe als Extractive Data – falsch, sobald ein Agent seine Quellen zitieren muss"
+          },
+          "correct": false,
+          "why": {
+            "en": "`minimal` returns exactly extractive data — its output mode must be `extractiveData` — so an agent can still cite the raw chunks it retrieved.",
+            "de": "`minimal` liefert genau Extractive Data – der Output Mode muss `extractiveData` sein –, ein Agent kann die abgerufenen Chunks also weiterhin zitieren."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Query planning, answer synthesis and web knowledge sources — wrong when you need the lowest cost and latency per query",
+            "de": "Abfrageplanung, Answer Synthesis und Web-Knowledge-Sources – falsch, wenn du die geringsten Kosten und Latenz pro Abfrage brauchst"
+          },
+          "correct": false,
+          "why": {
+            "en": "The losses are right, but lowest cost and latency is exactly when `minimal` fits; it’s the wrong choice for multi-part questions.",
+            "de": "Die Verluste stimmen, aber für geringste Kosten und Latenz ist `minimal` genau richtig; falsch ist es bei mehrteiligen Fragen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-trap-3",
@@ -96,7 +546,57 @@
       "back": {
         "en": "Both halves: permission metadata ingested with `ingestionPermissionOptions` and the user’s token on the request. Missing either one returns results unfiltered.",
         "de": "Beide Hälften: mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten und das Token des Nutzers in der Anfrage. Fehlt eines davon, kommen die Ergebnisse ungefiltert."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Permission metadata ingested with `ingestionPermissionOptions` plus the user’s token on the request; without either, results come back unfiltered",
+            "de": "Mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten plus das Token des Nutzers in der Anfrage; fehlt eins, kommen die Ergebnisse ungefiltert"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: trimming needs permissions ingested at indexing time and the user’s token at query time — if either half is missing, results return unfiltered.",
+            "de": "Korrekt: Die Filterung braucht beim Indexieren aufgenommene Berechtigungen und das Token des Nutzers bei der Abfrage – fehlt eine Hälfte, kommen die Ergebnisse ungefiltert."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Permission metadata ingested with `ingestionPermissionOptions` plus the user’s token on the request; without either, the request fails with a 403 error",
+            "de": "Mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten plus das Token des Nutzers in der Anfrage; fehlt eins, scheitert die Anfrage mit einem 403-Fehler"
+          },
+          "correct": false,
+          "why": {
+            "en": "No error is raised: a missing half makes the knowledge base return results unfiltered, which is exactly why it’s a trap.",
+            "de": "Es kommt kein Fehler: Fehlt eine Hälfte, liefert die Knowledge Base die Ergebnisse ungefiltert – genau deshalb ist es eine Falle."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The user’s token on the request plus `minimal` reasoning effort; without either, the request fails with a 403 error",
+            "de": "Das Token des Nutzers in der Anfrage plus `minimal` Reasoning Effort; fehlt eins, scheitert die Anfrage mit einem 403-Fehler"
+          },
+          "correct": false,
+          "why": {
+            "en": "Trimming needs permission metadata ingested with `ingestionPermissionOptions`, not a reasoning effort — and a missing half returns unfiltered results, not a 403.",
+            "de": "Die Filterung braucht mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten, keinen bestimmten Reasoning Effort – und eine fehlende Hälfte liefert ungefilterte Ergebnisse, keinen 403."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The user’s token on the request plus `minimal` reasoning effort; without either, results come back unfiltered",
+            "de": "Das Token des Nutzers in der Anfrage plus `minimal` Reasoning Effort; fehlt eins, kommen die Ergebnisse ungefiltert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reasoning effort has nothing to do with trimming; the other half is permission metadata ingested with `ingestionPermissionOptions`.",
+            "de": "Der Reasoning Effort hat mit der Filterung nichts zu tun; die andere Hälfte sind mit `ingestionPermissionOptions` aufgenommene Berechtigungsmetadaten."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-trap-4",
@@ -108,7 +608,57 @@
       "back": {
         "en": "The identity the connection authenticates with — the project’s managed identity or the agent identity — lacks **Search Index Data Reader**. **Cognitive Services User** is a different assignment: the search service’s identity on the Foundry resource, needed whenever the knowledge base has an LLM configured (`low`, `medium`, answer synthesis, web sources).",
         "de": "Der Identität, mit der sich die Verbindung anmeldet – Managed Identity des Projekts oder Agent-Identität –, fehlt **Search Index Data Reader**. **Cognitive Services User** ist eine andere Zuweisung: die Identität des Suchdienstes auf der Foundry-Ressource, nötig, sobald auf der Knowledge Base ein LLM konfiguriert ist (`low`, `medium`, Answer Synthesis, Web-Quellen)."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Cognitive Services User for the connection’s identity; Search Index Data Reader for the search service’s identity once the knowledge base has an LLM",
+            "de": "Cognitive Services User für die Identität der Verbindung; Search Index Data Reader für die Identität des Suchdienstes, sobald die Knowledge Base ein LLM hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: the 403 means the connection’s identity lacks Search Index Data Reader; Cognitive Services User goes to the search service’s identity on the Foundry resource.",
+            "de": "Vertauscht: Der 403 heißt, der Identität der Verbindung fehlt Search Index Data Reader; Cognitive Services User bekommt die Identität des Suchdienstes auf der Foundry-Ressource."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Search Index Data Reader for every signed-in user; Cognitive Services User for the agent identity at `minimal` effort",
+            "de": "Search Index Data Reader für jeden angemeldeten Nutzer; Cognitive Services User für die Agent-Identität bei `minimal` Effort"
+          },
+          "correct": false,
+          "why": {
+            "en": "The identity the connection authenticates as — project managed identity or agent identity — needs the reader role, and `minimal` uses no LLM at all.",
+            "de": "Die Reader-Rolle braucht die Identität, mit der sich die Verbindung anmeldet – Managed Identity des Projekts oder Agent-Identität –, und `minimal` nutzt gar kein LLM."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Search Index Data Reader for the connection’s identity; Cognitive Services User for the search service’s identity once the knowledge base has an LLM",
+            "de": "Search Index Data Reader für die Identität der Verbindung; Cognitive Services User für die Identität des Suchdienstes, sobald die Knowledge Base ein LLM hat"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the identity the project connection authenticates as must read the index, and the search service calls the knowledge base’s LLM with its own identity.",
+            "de": "Richtig: Die Identität, mit der sich die Projektverbindung anmeldet, muss den Index lesen, und der Suchdienst ruft das LLM der Knowledge Base mit seiner eigenen Identität auf."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Search Index Data Reader for the connection’s identity; Cognitive Services User for the agent identity, only for answer synthesis",
+            "de": "Search Index Data Reader für die Identität der Verbindung; Cognitive Services User für die Agent-Identität, nur für Answer Synthesis"
+          },
+          "correct": false,
+          "why": {
+            "en": "Cognitive Services User goes to the search service’s identity on the Foundry resource and is needed for any LLM use: `low`, `medium`, answer synthesis or web sources.",
+            "de": "Cognitive Services User bekommt die Identität des Suchdienstes auf der Foundry-Ressource, nötig bei jeder LLM-Nutzung: `low`, `medium`, Answer Synthesis oder Web-Quellen."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-trap-5",
@@ -120,7 +670,57 @@
       "back": {
         "en": "Memory is not a knowledge base: it stores learned, user-specific facts. Foundry IQ grounds on curated organizational content, and file search handles documents a user provides in the conversation.",
         "de": "Memory ist keine Knowledge Base: Es speichert gelernte, nutzerspezifische Fakten. Foundry IQ stützt sich auf kuratierte Unternehmensinhalte, und File Search verarbeitet Dokumente, die ein Nutzer im Gespräch bereitstellt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Memory: curated organizational content; Foundry IQ: documents a user provides in the conversation; file search: learned, user-specific facts",
+            "de": "Memory: kuratierte Unternehmensinhalte; Foundry IQ: Dokumente, die ein Nutzer im Gespräch bereitstellt; File Search: gelernte, nutzerspezifische Fakten"
+          },
+          "correct": false,
+          "why": {
+            "en": "All three are shifted: memory keeps learned user facts, Foundry IQ grounds on curated organizational content, and file search handles documents from the conversation.",
+            "de": "Alle drei sind verschoben: Memory behält gelernte Nutzerfakten, Foundry IQ stützt sich auf kuratierte Unternehmensinhalte, und File Search verarbeitet Dokumente aus dem Gespräch."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Memory: learned, user-specific facts; Foundry IQ: curated organizational content; file search: documents a user provides in the conversation",
+            "de": "Memory: gelernte, nutzerspezifische Fakten; Foundry IQ: kuratierte Unternehmensinhalte; File Search: Dokumente, die ein Nutzer im Gespräch bereitstellt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: memory keeps what it learned about a user, Foundry IQ grounds answers in curated company content, and file search covers files shared in the chat.",
+            "de": "Korrekt: Memory behält, was es über einen Nutzer gelernt hat, Foundry IQ stützt Antworten auf kuratierte Unternehmensinhalte, und File Search deckt Dateien aus dem Chat ab."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Memory: curated organizational content; Foundry IQ: learned, user-specific facts; file search: documents a user provides in the conversation",
+            "de": "Memory: kuratierte Unternehmensinhalte; Foundry IQ: gelernte, nutzerspezifische Fakten; File Search: Dokumente, die ein Nutzer im Gespräch bereitstellt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: memory isn’t a knowledge base — it keeps learned user facts, while Foundry IQ grounds on curated organizational content.",
+            "de": "Umgekehrt: Memory ist keine Knowledge Base – es behält gelernte Nutzerfakten, während sich Foundry IQ auf kuratierte Unternehmensinhalte stützt."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Memory: documents a user provides in the conversation; Foundry IQ: learned, user-specific facts; file search: curated organizational content",
+            "de": "Memory: Dokumente, die ein Nutzer im Gespräch bereitstellt; Foundry IQ: gelernte, nutzerspezifische Fakten; File Search: kuratierte Unternehmensinhalte"
+          },
+          "correct": false,
+          "why": {
+            "en": "None of the three fits: memory holds learned, user-specific facts, Foundry IQ curated company content, and file search the files a user shares in the chat.",
+            "de": "Keine der drei Zuordnungen passt: Memory hält gelernte, nutzerspezifische Fakten, Foundry IQ kuratierte Unternehmensinhalte und File Search die Dateien, die ein Nutzer im Chat teilt."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-takeaway-1",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Start with Foundry IQ and agentic retrieval. Keep classic RAG when you must preserve your own query orchestration.",
         "de": "Starte mit Foundry IQ und Agentic Retrieval. Behalte klassisches RAG, wenn du deine eigene Abfrage-Orchestrierung erhalten musst."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Classic RAG with one hybrid query; switch to Foundry IQ only when you must keep your own query orchestration",
+            "de": "Klassisches RAG mit einer Hybridabfrage; zu Foundry IQ wechseln nur, wenn du deine eigene Abfrage-Orchestrierung behalten musst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: new agent RAG starts with Foundry IQ, while classic RAG is the option where you orchestrate the query yourself.",
+            "de": "Umgekehrt: Neues RAG für Agents startet mit Foundry IQ, klassisches RAG ist die Variante, bei der du die Abfrage selbst orchestrierst."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Foundry IQ with agentic retrieval; keep classic RAG whenever answers must cite the exact passages of their sources",
+            "de": "Foundry IQ mit Agentic Retrieval; klassisches RAG behalten, sobald Antworten die genauen Passagen ihrer Quellen zitieren müssen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Foundry IQ also returns citable results with references, so citations are no reason to keep classic RAG.",
+            "de": "Auch Foundry IQ liefert zitierbare Ergebnisse mit Referenzen – Zitate sind also kein Grund, klassisches RAG zu behalten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Foundry IQ with agentic retrieval; keep classic RAG when you must preserve your own query orchestration",
+            "de": "Foundry IQ mit Agentic Retrieval; klassisches RAG behalten, wenn du deine eigene Abfrage-Orchestrierung erhalten musst"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: agentic retrieval is recommended for agents and complex questions, while classic RAG fits when your own query orchestration has to stay.",
+            "de": "Richtig: Agentic Retrieval wird für Agents und komplexe Fragen empfohlen, klassisches RAG passt, wenn deine eigene Abfrage-Orchestrierung bleiben muss."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Fine-tuning the model on your documents; keep classic RAG for content that changes daily",
+            "de": "Fine-Tuning des Modells auf deine Dokumente; klassisches RAG für Inhalte behalten, die sich täglich ändern"
+          },
+          "correct": false,
+          "why": {
+            "en": "Fine-tuning isn’t RAG: retrieval keeps answers current without retraining, and new agent RAG starts with Foundry IQ.",
+            "de": "Fine-Tuning ist kein RAG: Retrieval hält Antworten ohne Neutraining aktuell, und neues RAG für Agents startet mit Foundry IQ."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-takeaway-2",
@@ -144,7 +794,57 @@
       "back": {
         "en": "Knowledge sources first, then the knowledge base. Wire agents with `MCPTool` + `knowledge_base_retrieve` + a `RemoteTool` project connection.",
         "de": "Erst Knowledge Sources, dann die Knowledge Base. Agents verdrahtest du mit `MCPTool` + `knowledge_base_retrieve` + einer `RemoteTool`-Projektverbindung."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Knowledge sources first, then the knowledge base; wire the agent with `MCPTool`, `knowledge_base_retrieve` and a `RemoteTool` connection",
+            "de": "Erst Knowledge Sources, dann die Knowledge Base; den Agent verdrahtest du mit `MCPTool`, `knowledge_base_retrieve` und einer `RemoteTool`-Verbindung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: a knowledge base references existing knowledge sources, and the agent reaches its MCP endpoint through `MCPTool` with `knowledge_base_retrieve` and a `RemoteTool` project connection.",
+            "de": "Korrekt: Eine Knowledge Base referenziert vorhandene Knowledge Sources, und der Agent erreicht ihren MCP-Endpoint über `MCPTool` mit `knowledge_base_retrieve` und einer `RemoteTool`-Projektverbindung."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The knowledge base first, then its knowledge sources; wire the agent with `MCPTool`, `knowledge_base_retrieve` and a `RemoteTool` connection",
+            "de": "Erst die Knowledge Base, dann ihre Knowledge Sources; den Agent verdrahtest du mit `MCPTool`, `knowledge_base_retrieve` und einer `RemoteTool`-Verbindung"
+          },
+          "correct": false,
+          "why": {
+            "en": "A knowledge base references its knowledge sources, so the sources have to exist first.",
+            "de": "Eine Knowledge Base referenziert ihre Knowledge Sources, also müssen die Quellen zuerst existieren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Knowledge sources first, then the knowledge base; wire the agent with the Azure AI Search tool and a fixed `index_name`, `query_type` and `filter`",
+            "de": "Erst Knowledge Sources, dann die Knowledge Base; den Agent verdrahtest du mit dem Azure AI Search Tool und einem festen `index_name`, `query_type` und `filter`"
+          },
+          "correct": false,
+          "why": {
+            "en": "The Azure AI Search tool queries one existing index; a knowledge base is reached as an MCP server through `knowledge_base_retrieve`.",
+            "de": "Das Azure AI Search Tool fragt einen bestehenden Index ab; eine Knowledge Base erreichst du als MCP-Server über `knowledge_base_retrieve`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The knowledge base first, then its knowledge sources; wire the agent with the Azure AI Search tool and a fixed `index_name`, `query_type` and `filter`",
+            "de": "Erst die Knowledge Base, dann ihre Knowledge Sources; den Agent verdrahtest du mit dem Azure AI Search Tool und einem festen `index_name`, `query_type` und `filter`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Sources come first because a knowledge base references them, and the Azure AI Search tool queries one existing index — a knowledge base is reached through `MCPTool` and `knowledge_base_retrieve`.",
+            "de": "Die Quellen kommen zuerst, weil eine Knowledge Base sie referenziert, und das Azure AI Search Tool fragt einen bestehenden Index ab – eine Knowledge Base erreichst du über `MCPTool` und `knowledge_base_retrieve`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-takeaway-3",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Reasoning effort trades cost and latency for depth: `minimal` < `low` (preview default) < `medium`. `auto` (preview) lets the service pick the depth per request, up to `medium`.",
         "de": "Der Reasoning Effort tauscht Kosten und Latenz gegen Tiefe: `minimal` < `low` (Preview-Standard) < `medium`. Mit `auto` (Preview) wählt der Dienst die Tiefe pro Anfrage, bis `medium`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Cost and latency for depth: `minimal` < `low` (preview default) < `medium`; `auto` always runs at `medium`",
+            "de": "Kosten und Latenz gegen Tiefe: `minimal` < `low` (Preview-Standard) < `medium`; `auto` läuft immer auf `medium`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`auto` starts with a lightweight retrieval pass and adds LLM query planning, up to `medium`, only when that pass doesn’t ground the answer.",
+            "de": "`auto` startet mit einem leichtgewichtigen Retrieval-Durchgang und plant nur dann per LLM nach – bis `medium` –, wenn dieser Durchgang die Antwort nicht stützt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Cost and latency for depth: `minimal` < `low` < `medium` (preview default); `auto` falls back to `minimal` when no LLM is set",
+            "de": "Kosten und Latenz gegen Tiefe: `minimal` < `low` < `medium` (Preview-Standard); `auto` fällt ohne LLM auf `minimal` zurück"
+          },
+          "correct": false,
+          "why": {
+            "en": "`low` is the preview default, not `medium`, and `auto` needs a model too — without an LLM you set `minimal` yourself.",
+            "de": "`low` ist der Preview-Standard, nicht `medium`, und auch `auto` braucht ein Modell – ohne LLM setzt du selbst `minimal`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Cost and latency for depth: `minimal` < `low` < `medium`; `auto` is the GA API’s default and picks the depth itself",
+            "de": "Kosten und Latenz gegen Tiefe: `minimal` < `low` < `medium`; `auto` ist der Standard der GA-API und wählt die Tiefe selbst"
+          },
+          "correct": false,
+          "why": {
+            "en": "`auto` exists only in the `2026-08-01-preview` API; the GA API `2026-04-01` always retrieves at the minimal level.",
+            "de": "`auto` gibt es nur in der API `2026-08-01-preview`; die GA-API `2026-04-01` ruft immer auf minimaler Stufe ab."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Cost and latency for depth: `minimal` < `low` (preview default) < `medium`; `auto` picks the depth per request, up to `medium`",
+            "de": "Kosten und Latenz gegen Tiefe: `minimal` < `low` (Preview-Standard) < `medium`; `auto` wählt die Tiefe pro Anfrage, bis `medium`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: deeper levels add LLM planning at higher cost and latency, and `auto` starts light and adds planning only when needed, up to `medium`.",
+            "de": "Richtig: Tiefere Stufen ergänzen LLM-Planung zu höheren Kosten und mehr Latenz, und `auto` startet leicht und plant nur bei Bedarf nach, bis `medium`."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-takeaway-4",
@@ -168,7 +918,57 @@
       "back": {
         "en": "For agents, return extractive data and let the agent cite. Answer synthesis is for standalone apps.",
         "de": "Für Agents Extractive Data zurückgeben und den Agent zitieren lassen. Answer Synthesis ist für eigenständige Apps."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Answer synthesis, so the agent can pass the finished answer on; extractive data belongs in standalone apps",
+            "de": "Answer Synthesis, damit der Agent die fertige Antwort weitergeben kann; Extractive Data gehört in eigenständige Apps"
+          },
+          "correct": false,
+          "why": {
+            "en": "Reversed: agents should get extractive data, while answer synthesis is meant for standalone apps that show the output directly.",
+            "de": "Umgekehrt: Agents sollten Extractive Data bekommen, Answer Synthesis ist dagegen für eigenständige Apps gedacht, die die Ausgabe direkt zeigen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Extractive data that the agent reasons over and cites; answer synthesis belongs in standalone apps",
+            "de": "Extractive Data, über die der Agent nachdenkt und die er zitiert; Answer Synthesis gehört in eigenständige Apps"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: raw citable chunks let the agent reason and cite on its own, while synthesis suits apps that show the retrieval output directly to users.",
+            "de": "Korrekt: Rohe, zitierbare Chunks lassen den Agent selbst nachdenken und zitieren, Synthesis passt zu Apps, die das Retrieval-Ergebnis direkt anzeigen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Extractive data that the agent reasons over and cites; answer synthesis belongs in the `minimal` effort level",
+            "de": "Extractive Data, über die der Agent nachdenkt und die er zitiert; Answer Synthesis gehört zur Effort-Stufe `minimal`"
+          },
+          "correct": false,
+          "why": {
+            "en": "`minimal` doesn’t support answer synthesis at all; synthesis needs an LLM on the knowledge base and suits standalone apps.",
+            "de": "`minimal` unterstützt gar keine Answer Synthesis; Synthesis braucht ein LLM auf der Knowledge Base und passt zu eigenständigen Apps."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Whole source documents that the agent reads from start to finish; answer synthesis belongs in agents that need citations",
+            "de": "Ganze Quelldokumente, die der Agent von vorn bis hinten liest; Answer Synthesis gehört in Agents, die Zitate brauchen"
+          },
+          "correct": false,
+          "why": {
+            "en": "A knowledge base returns the best merged chunks, not whole documents, and extractive data already carries references for citing.",
+            "de": "Eine Knowledge Base liefert die besten zusammengeführten Chunks, keine ganzen Dokumente, und Extractive Data bringt die Referenzen zum Zitieren schon mit."
+          }
+        }
+      ]
     },
     {
       "id": "z-foundry-iq-takeaway-5",
@@ -180,7 +980,57 @@
       "back": {
         "en": "Test with factual, multi-document, out-of-scope and ambiguous questions. In production, watch citation and “I don’t know” rates and refine instructions or content.",
         "de": "Teste mit Fakten-, Mehrdokument-, themenfremden und mehrdeutigen Fragen. Beobachte in Produktion die Quote von Zitaten und „Ich weiß es nicht“ und schärfe Instructions oder Inhalte nach."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Factual, multi-document, out-of-scope and ambiguous questions; in production, citation and “I don’t know” rates",
+            "de": "Fakten-, Mehrdokument-, themenfremde und mehrdeutige Fragen; in Produktion die Quote von Zitaten und „Ich weiß es nicht“"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: these four types cover direct facts, answers across documents, questions outside the content and unclear ones; in production you watch citation and “I don’t know” rates.",
+            "de": "Richtig: Diese vier Typen decken direkte Fakten, Antworten über mehrere Dokumente, Fragen außerhalb der Inhalte und unklare Fragen ab; in Produktion beobachtest du Zitat- und „Ich weiß es nicht“-Quote."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only factual questions the knowledge base can answer; in production, the index size and indexer run time",
+            "de": "Nur Faktenfragen, die die Knowledge Base beantworten kann; in Produktion Indexgröße und Laufzeit des Indexers"
+          },
+          "correct": false,
+          "why": {
+            "en": "Testing only answerable facts misses multi-document, out-of-scope and ambiguous cases, and in production you watch citation and “I don’t know” rates.",
+            "de": "Nur beantwortbare Fakten zu testen verfehlt Mehrdokument-, themenfremde und mehrdeutige Fälle, und in Produktion beobachtest du Zitat- und „Ich weiß es nicht“-Quote."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Factual, multi-document, out-of-scope and ambiguous questions; in production, token usage and latency instead of citation rates",
+            "de": "Fakten-, Mehrdokument-, themenfremde und mehrdeutige Fragen; in Produktion Token-Verbrauch und Latenz statt der Zitatquote"
+          },
+          "correct": false,
+          "why": {
+            "en": "The test set is right, but token usage and latency don't show whether answers are grounded; in production you watch citation and “I don’t know” rates.",
+            "de": "Die Testfragen stimmen, aber Token-Verbrauch und Latenz zeigen nicht, ob Antworten belegt sind; in Produktion beobachtest du Zitat- und „Ich weiß es nicht“-Quote."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Factual and multi-document questions only; in production, answer length and the number of tool calls",
+            "de": "Nur Fakten- und Mehrdokumentfragen; in Produktion Antwortlänge und Zahl der Tool-Aufrufe"
+          },
+          "correct": false,
+          "why": {
+            "en": "Out-of-scope and ambiguous questions belong in the test set too, and the production signals are citation and “I don’t know” rates.",
+            "de": "Themenfremde und mehrdeutige Fragen gehören ebenfalls in den Test, und die Signale in Produktion sind Zitat- und „Ich weiß es nicht“-Quote."
+          }
+        }
+      ]
     }
   ]
 }

@@ -8,7 +8,57 @@
       "front": {
         "en": "What role does `SpeechConfig` play in the Speech SDK, and which connection details and settings does it hold?",
         "de": "Welche Rolle spielt `SpeechConfig` im Speech SDK, und welche Verbindungsdaten und Einstellungen enthält sie?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It’s the starting object: endpoint or region with a key or Entra token, plus the microphone, a file or the speaker that audio comes from or goes to",
+            "de": "Sie ist das Startobjekt: Endpoint oder Region mit Key oder Entra-Token, plus Mikrofon, Datei oder Lautsprecher, aus denen Audio kommt oder in die es geht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong settings: input and output devices belong to `AudioConfig` and `AudioOutputConfig`; `SpeechConfig` holds language, voice, output format and `endpoint_id`.",
+            "de": "Falsche Einstellungen: Ein- und Ausgabegeräte gehören zu `AudioConfig` und `AudioOutputConfig`; `SpeechConfig` hält Sprache, Stimme, Ausgabeformat und `endpoint_id`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It’s the starting object: endpoint or region with a key or Entra token, plus recognition language, voice name, output format and `endpoint_id`",
+            "de": "Sie ist das Startobjekt: Endpoint oder Region mit Key oder Entra-Token, plus Erkennungssprache, Stimmname, Ausgabeformat und `endpoint_id`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Recognizers and synthesizers are built from it, and it carries `speech_recognition_language`, `speech_synthesis_voice_name`, the output format and `endpoint_id` for a custom model.",
+            "de": "Recognizer und Synthesizer entstehen daraus, und sie trägt `speech_recognition_language`, `speech_synthesis_voice_name`, das Ausgabeformat und `endpoint_id` für ein Custom-Modell."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It’s the starting object: endpoint or region for key access only, never an Entra token, plus recognition language, voice name, output format and `endpoint_id`",
+            "de": "Sie ist das Startobjekt: Endpoint oder Region nur für Key-Zugriff, nie mit Entra-Token, plus Erkennungssprache, Stimmname, Ausgabeformat und `endpoint_id`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong connection: `SpeechConfig` also takes a `token_credential` for Microsoft Entra ID, used together with a custom-domain endpoint.",
+            "de": "Falsche Verbindung: `SpeechConfig` nimmt auch eine `token_credential` für Microsoft Entra ID, zusammen mit einem Custom-Domain-Endpoint."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It’s the starting object: endpoint or region for key access only, never an Entra token, plus the microphone, a file or the speaker that audio comes from or goes to",
+            "de": "Sie ist das Startobjekt: Endpoint oder Region nur für Key-Zugriff, nie mit Entra-Token, plus Mikrofon, Datei oder Lautsprecher, aus denen Audio kommt oder in die es geht"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `SpeechConfig` accepts an Entra `token_credential` too, and microphone, file or speaker are set with `AudioConfig` and `AudioOutputConfig`.",
+            "de": "Doppelt falsch: `SpeechConfig` akzeptiert auch eine Entra-`token_credential`, und Mikrofon, Datei oder Lautsprecher legst du mit `AudioConfig` und `AudioOutputConfig` fest."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "What do `AudioConfig` and `AudioOutputConfig` control, and how do you keep synthesized audio in the result?",
         "de": "Was steuern `AudioConfig` und `AudioOutputConfig`, und wie bleibt synthetisiertes Audio im Ergebnis?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`AudioConfig` sets the output, `AudioOutputConfig` the input; pass `audio_config=None` to keep the audio in the result",
+            "de": "`AudioConfig` legt die Ausgabe fest, `AudioOutputConfig` die Eingabe; mit `audio_config=None` bleibt das Audio im Ergebnis"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `AudioConfig` is the input (default microphone or `filename=`), and `AudioOutputConfig` decides where synthesized audio goes.",
+            "de": "Vertauscht: `AudioConfig` ist die Eingabe (Standardmikrofon oder `filename=`), und `AudioOutputConfig` bestimmt, wohin synthetisiertes Audio geht."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`AudioConfig` sets the input, `AudioOutputConfig` the output; set `use_default_speaker=True` to keep the audio in the result",
+            "de": "`AudioConfig` legt die Eingabe fest, `AudioOutputConfig` die Ausgabe; mit `use_default_speaker=True` bleibt das Audio im Ergebnis"
+          },
+          "correct": false,
+          "why": {
+            "en": "`use_default_speaker=True` plays the audio on the speaker; passing `audio_config=None` to the synthesizer keeps it in the result.",
+            "de": "`use_default_speaker=True` spielt das Audio über den Lautsprecher ab; mit `audio_config=None` am Synthesizer bleibt es im Ergebnis."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`AudioConfig` sets the output, `AudioOutputConfig` the input; set `use_default_speaker=True` to keep the audio in the result",
+            "de": "`AudioConfig` legt die Ausgabe fest, `AudioOutputConfig` die Eingabe; mit `use_default_speaker=True` bleibt das Audio im Ergebnis"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: `AudioConfig` is the input and `AudioOutputConfig` the output, and `use_default_speaker=True` plays the audio instead of keeping it.",
+            "de": "Doppelt falsch: `AudioConfig` ist die Eingabe und `AudioOutputConfig` die Ausgabe, und `use_default_speaker=True` spielt das Audio ab, statt es zu behalten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`AudioConfig` sets the input, `AudioOutputConfig` the output; pass `audio_config=None` to keep the audio in the result",
+            "de": "`AudioConfig` legt die Eingabe fest, `AudioOutputConfig` die Ausgabe; mit `audio_config=None` bleibt das Audio im Ergebnis"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: input is the microphone or a file, output the speaker or a file, and `audio_config=None` keeps the bytes for `AudioDataStream`.",
+            "de": "Korrekt: Eingabe ist Mikrofon oder Datei, Ausgabe Lautsprecher oder Datei, und `audio_config=None` behält die Bytes für `AudioDataStream`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "How do real-time, fast and batch transcription deliver results, and which files suit fast transcription?",
         "de": "Wie liefern Echtzeit-, Fast- und Batch-Transkription Ergebnisse, und für welche Dateien eignet sich Fast Transcription?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Real-time streams interim results, fast returns synchronously, batch writes to storage later; fast fits files under 5 hours and 500 MB",
+            "de": "Echtzeit streamt Zwischenergebnisse, Fast liefert synchron, Batch schreibt später in einen Storage; Fast passt zu Dateien unter 5 Stunden und 500 MB"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: real-time runs through the Speech SDK, fast transcription answers per file with diarization and phrase lists, and batch jobs run asynchronously.",
+            "de": "Genau: Echtzeit läuft über das Speech SDK, Fast Transcription antwortet pro Datei mit Diarisierung und Phrasenlisten, und Batch-Jobs laufen asynchron."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Real-time streams interim results, fast writes to storage later, batch returns synchronously; fast fits files under 5 hours and 500 MB",
+            "de": "Echtzeit streamt Zwischenergebnisse, Fast schreibt später in einen Storage, Batch liefert synchron; Fast passt zu Dateien unter 5 Stunden und 500 MB"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: fast transcription returns the transcript synchronously, while batch transcription processes large volumes asynchronously into storage.",
+            "de": "Vertauscht: Fast Transcription liefert das Transkript synchron, die Batch-Transkription verarbeitet große Mengen asynchron in einen Storage."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Real-time streams interim results, fast writes to storage later, batch returns synchronously; fast fits only clips under 60 seconds",
+            "de": "Echtzeit streamt Zwischenergebnisse, Fast schreibt später in einen Storage, Batch liefert synchron; Fast passt nur zu Clips unter 60 Sekunden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: fast transcription returns synchronously while batch writes to storage, and fast handles files under 5 hours and 500 MB.",
+            "de": "Doppelt falsch: Fast Transcription liefert synchron, Batch schreibt in einen Storage, und Fast verarbeitet Dateien unter 5 Stunden und 500 MB."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Real-time streams interim results, fast returns synchronously, batch writes to storage later; fast fits only clips under 60 seconds",
+            "de": "Echtzeit streamt Zwischenergebnisse, Fast liefert synchron, Batch schreibt später in einen Storage; Fast passt nur zu Clips unter 60 Sekunden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong limit: fast transcription handles files under 5 hours and 500 MB, such as voicemail or meeting recordings.",
+            "de": "Falsche Grenze: Fast Transcription verarbeitet Dateien unter 5 Stunden und 500 MB, etwa Voicemails oder Besprechungsaufnahmen."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "How are neural voice names built, what makes HD voices different, and what does custom voice require?",
         "de": "Wie sind Namen neuronaler Stimmen aufgebaut, was ist an HD-Stimmen anders, und was setzt Custom Voice voraus?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Azure region plus name, like `westeurope-JennyNeural`; HD voices are LLM-based and accept `temperature`; custom voice only needs your training audio",
+            "de": "Azure-Region plus Name, etwa `westeurope-JennyNeural`; HD-Stimmen basieren auf LLMs und akzeptieren `temperature`; Custom Voice braucht nur deine Trainingsaudios"
+          },
+          "correct": false,
+          "why": {
+            "en": "Name format and approval are wrong: voice names use the locale, such as `en-US-JennyNeural`, and custom voice is limited access that Microsoft must approve.",
+            "de": "Namensformat und Genehmigung falsch: Stimmnamen nutzen das Gebietsschema, etwa `en-US-JennyNeural`, und Custom Voice ist Limited Access, den Microsoft genehmigen muss."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Locale plus name, like `en-US-JennyNeural`; HD voices only raise the sample rate and ignore emotional cues; custom voice only needs your training audio",
+            "de": "Gebietsschema plus Name, etwa `en-US-JennyNeural`; HD-Stimmen erhöhen nur die Abtastrate und ignorieren emotionale Hinweise; Custom Voice braucht nur deine Trainingsaudios"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the name format fits: HD voices are LLM-based, pick up emotional cues and accept `temperature`, and custom voice needs Microsoft’s approval first.",
+            "de": "Nur das Namensformat stimmt: HD-Stimmen basieren auf LLMs, erkennen emotionale Hinweise und akzeptieren `temperature`, und Custom Voice braucht erst Microsofts Genehmigung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Locale plus name, like `en-US-JennyNeural`; HD voices are LLM-based and accept `temperature`; custom voice needs Microsoft’s approval",
+            "de": "Gebietsschema plus Name, etwa `en-US-JennyNeural`; HD-Stimmen basieren auf LLMs und akzeptieren `temperature`; Custom Voice braucht Microsofts Genehmigung"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: HD voices pick up emotional cues from the text, and custom voice is limited access — Microsoft must approve your use case through an intake form.",
+            "de": "Richtig: HD-Stimmen erkennen emotionale Hinweise im Text, und Custom Voice ist Limited Access – Microsoft muss deinen Anwendungsfall per Antragsformular genehmigen."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Azure region plus name, like `westeurope-JennyNeural`; HD voices raise the sample rate but ignore emotional cues; custom voice needs Microsoft’s approval",
+            "de": "Azure-Region plus Name, etwa `westeurope-JennyNeural`; HD-Stimmen erhöhen die Abtastrate, ignorieren aber emotionale Hinweise; Custom Voice braucht Microsofts Genehmigung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the approval fits: names combine locale and name, such as `en-US-JennyNeural`, and HD voices are LLM-based with emotional cues and `temperature`.",
+            "de": "Nur die Genehmigung stimmt: Namen kombinieren Gebietsschema und Namen, etwa `en-US-JennyNeural`, und HD-Stimmen basieren auf LLMs mit emotionalen Hinweisen und `temperature`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-5",
@@ -40,7 +240,57 @@
       "front": {
         "en": "What is SSML for, which elements does it offer, and which method sends it?",
         "de": "Wofür ist SSML da, welche Elemente bietet es, und mit welcher Methode sendest du es?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "XML for fine control of synthesis with `speak`, `voice`, `prosody`, `break`, `say-as` and more; you send it with `speak_ssml_async()`",
+            "de": "XML zur Feinsteuerung der Synthese mit `speak`, `voice`, `prosody`, `break`, `say-as` und mehr; du sendest es mit `speak_ssml_async()`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Speech Synthesis Markup Language also offers `mstts:express-as`, `phoneme` and `audio`, and `speak_ssml_async()` sends the document.",
+            "de": "Speech Synthesis Markup Language bietet außerdem `mstts:express-as`, `phoneme` und `audio`, und `speak_ssml_async()` sendet das Dokument."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "XML for fine control of synthesis with `speak`, `voice`, `prosody`, `break`, `say-as` and more; you send it with `speak_text_async()`",
+            "de": "XML zur Feinsteuerung der Synthese mit `speak`, `voice`, `prosody`, `break`, `say-as` und mehr; du sendest es mit `speak_text_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong method: `speak_text_async()` reads plain text with the configured voice. SSML documents go through `speak_ssml_async()`.",
+            "de": "Falsche Methode: `speak_text_async()` liest Klartext mit der eingestellten Stimme vor. SSML-Dokumente gehen über `speak_ssml_async()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "JSON for fine control of synthesis with fields such as `voice`, `style`, `rate`, `pitch` and `pause`; you send it with `speak_text_async()`",
+            "de": "JSON zur Feinsteuerung der Synthese mit Feldern wie `voice`, `style`, `rate`, `pitch` und `pause`; du sendest es mit `speak_text_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: SSML is XML with elements inside a `speak` root, and `speak_text_async()` reads plain text — SSML goes through `speak_ssml_async()`.",
+            "de": "Doppelt falsch: SSML ist XML mit Elementen unter einer Wurzel `speak`, und `speak_text_async()` liest Klartext – SSML geht über `speak_ssml_async()`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "JSON for fine control of synthesis with fields such as `voice`, `style`, `rate`, `pitch` and `pause`; you send it with `speak_ssml_async()`",
+            "de": "JSON zur Feinsteuerung der Synthese mit Feldern wie `voice`, `style`, `rate`, `pitch` und `pause`; du sendest es mit `speak_ssml_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong format: SSML is XML, with elements such as `voice`, `mstts:express-as` and `prosody` inside a `speak` root.",
+            "de": "Falsches Format: SSML ist XML, mit Elementen wie `voice`, `mstts:express-as` und `prosody` unter einer Wurzel `speak`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-6",
@@ -48,7 +298,57 @@
       "front": {
         "en": "Which data does custom speech train on, how do you measure the result, and how does it differ from a phrase list?",
         "de": "Welche Daten nutzt Custom Speech, wie misst du das Ergebnis, und worin unterscheidet es sich von einer Phrasenliste?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Text, pronunciation data or audio with transcripts; you measure BLEU; like a phrase list, it applies instantly without training",
+            "de": "Text, Aussprachedaten oder Audio mit Transkripten; du misst den BLEU-Wert; wie eine Phrasenliste wirkt es sofort, ganz ohne Training"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the data fits: you compare models by word error rate (WER), not BLEU, and unlike a per-request phrase list, custom speech trains and hosts a model.",
+            "de": "Nur die Daten stimmen: Modelle vergleichst du über die Wortfehlerrate (WER), nicht BLEU, und anders als eine Phrasenliste pro Request trainiert und hostet Custom Speech ein Modell."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Recordings of a voice talent for a new synthetic voice; you measure WER; like a phrase list, it applies instantly without training",
+            "de": "Aufnahmen eines Sprechers für eine neue synthetische Stimme; du misst die WER; wie eine Phrasenliste wirkt es sofort, ganz ohne Training"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only WER fits: building a synthetic voice is custom voice, while custom speech trains on text, pronunciation data or audio with transcripts — and needs training and hosting.",
+            "de": "Nur die WER stimmt: Eine synthetische Stimme baut Custom Voice, Custom Speech trainiert mit Text, Aussprachedaten oder Audio mit Transkripten – und braucht Training und Hosting."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Recordings of a voice talent for a new synthetic voice; you measure BLEU; unlike an instant per-request phrase list, it trains and hosts a model",
+            "de": "Aufnahmen eines Sprechers für eine neue synthetische Stimme; du misst den BLEU-Wert; anders als eine sofortige Phrasenliste pro Request trainiert und hostet es ein Modell"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the phrase-list contrast fits: custom speech trains on text, pronunciation data or audio with transcripts, and you measure word error rate (WER), not BLEU.",
+            "de": "Nur der Vergleich mit der Phrasenliste stimmt: Custom Speech trainiert mit Text, Aussprachedaten oder Audio mit Transkripten, und du misst die Wortfehlerrate (WER), nicht BLEU."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Text, pronunciation data or audio with transcripts; you measure WER; unlike an instant per-request phrase list, it trains and hosts a model",
+            "de": "Text, Aussprachedaten oder Audio mit Transkripten; du misst die WER; anders als eine sofortige Phrasenliste pro Request trainiert und hostet es ein Modell"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: text fixes vocabulary, pronunciation data unusual words, labeled audio accents and noise; compare word error rates, then deploy to a custom endpoint.",
+            "de": "Stimmt: Text hilft beim Vokabular, Aussprachedaten bei ungewöhnlichen Wörtern, Audio mit Transkripten bei Akzenten und Störgeräuschen; vergleiche die WER und stelle das Modell dann auf einem Custom-Endpoint bereit."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-concept-7",
@@ -56,7 +356,57 @@
       "front": {
         "en": "What does keyless Entra ID access to Speech require, and which roles does Voice Live need instead?",
         "de": "Was braucht schlüsselloser Entra-ID-Zugriff auf Speech, und welche Rollen braucht Voice Live stattdessen?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "The regional endpoint plus the Owner or Contributor role that already manages the resource; Voice Live needs Cognitive Services User and Foundry User",
+            "de": "Den regionalen Endpoint plus die Rolle Owner oder Contributor, die die Ressource schon verwaltet; Voice Live braucht Cognitive Services User und Foundry User"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: keyless access needs a custom-domain endpoint and a data-plane role such as Cognitive Services Speech User; Owner and Contributor can’t call the speech APIs.",
+            "de": "Die erste Hälfte stimmt nicht: Schlüsselloser Zugriff braucht einen Custom-Domain-Endpoint und eine Data-Plane-Rolle wie Cognitive Services Speech User; Owner und Contributor können die Speech-APIs nicht aufrufen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A custom-domain endpoint plus Cognitive Services Speech User or Speech Contributor; Voice Live needs Cognitive Services User and Foundry User",
+            "de": "Einen Custom-Domain-Endpoint plus Cognitive Services Speech User oder Speech Contributor; Voice Live braucht Cognitive Services User und Foundry User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: Entra ID needs the `https://<name>.cognitiveservices.azure.com` endpoint and a Speech data-plane role; roles differ by API, so Voice Live uses other ones.",
+            "de": "Richtig: Entra ID braucht den Endpoint `https://<name>.cognitiveservices.azure.com` und eine Speech-Data-Plane-Rolle; die Rollen unterscheiden sich je API, Voice Live nutzt andere."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The regional endpoint plus the Owner or Contributor role that already manages the resource; Voice Live needs Owner on the project",
+            "de": "Den regionalen Endpoint plus die Rolle Owner oder Contributor, die die Ressource schon verwaltet; Voice Live braucht Owner am Projekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: Speech needs a custom-domain endpoint plus a Speech data-plane role, and Voice Live needs Cognitive Services User and Foundry User.",
+            "de": "Doppelt falsch: Speech braucht einen Custom-Domain-Endpoint plus eine Speech-Data-Plane-Rolle, und Voice Live braucht Cognitive Services User und Foundry User."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A custom-domain endpoint plus Cognitive Services Speech User or Speech Contributor; Voice Live needs Owner on the project",
+            "de": "Einen Custom-Domain-Endpoint plus Cognitive Services Speech User oder Speech Contributor; Voice Live braucht Owner am Projekt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: keyless access to Voice Live needs the Cognitive Services User and Foundry User roles, because roles differ by API.",
+            "de": "Die zweite Hälfte stimmt nicht: Schlüsselloser Zugriff auf Voice Live braucht die Rollen Cognitive Services User und Foundry User, weil sich die Rollen je API unterscheiden."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-trap-1",
@@ -68,7 +418,57 @@
       "back": {
         "en": "It stops after one utterance — at the first silence or after about 30 seconds (SDK reference; one how-to page still says 15). Everything after the first pause is lost, so use continuous recognition or batch transcription.",
         "de": "Es stoppt nach einer Äußerung – bei der ersten Stille oder nach etwa 30 Sekunden (laut SDK-Referenz; eine How-to-Seite nennt noch 15). Alles nach der ersten Pause geht verloren – nutze kontinuierliche Erkennung oder Batch-Transkription."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It returns the whole call as one single long result, only more slowly than other methods; use continuous recognition or batch transcription",
+            "de": "Es liefert den ganzen Anruf als ein einziges langes Ergebnis, nur langsamer als andere Wege; nutze kontinuierliche Erkennung oder Batch-Transkription"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong first half: it ends after one utterance, at the first silence or after about 30 seconds, so everything after the first pause is lost.",
+            "de": "Die erste Hälfte stimmt nicht: Es endet nach einer Äußerung, bei der ersten Stille oder nach etwa 30 Sekunden – alles nach der ersten Pause geht verloren."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It stops after one utterance, at the first silence or after about 30 seconds; use a custom speech model on a deployed custom endpoint",
+            "de": "Es stoppt nach einer Äußerung, bei der ersten Stille oder nach etwa 30 Sekunden; nutze ein Custom-Speech-Modell auf einem bereitgestellten Custom-Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong fix: a custom model improves vocabulary or acoustics, not the single-utterance behavior. Long audio needs continuous recognition or batch transcription.",
+            "de": "Falsche Lösung: Ein Custom-Modell verbessert Vokabular oder Akustik, nicht das Verhalten bei einer Äußerung. Langes Audio braucht kontinuierliche Erkennung oder Batch-Transkription."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It returns the whole call as one single long result, only more slowly than other methods; use a custom speech model on a deployed custom endpoint",
+            "de": "Es liefert den ganzen Anruf als ein einziges langes Ergebnis, nur langsamer als andere Wege; nutze ein Custom-Speech-Modell auf einem bereitgestellten Custom-Endpoint"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: it stops after the first utterance, and a custom model only improves vocabulary or acoustics; long audio needs continuous recognition or batch.",
+            "de": "Doppelt falsch: Es stoppt nach der ersten Äußerung, und ein Custom-Modell verbessert nur Vokabular oder Akustik; langes Audio braucht kontinuierliche Erkennung oder Batch."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It stops after one utterance, at the first silence or after about 30 seconds; use continuous recognition or batch transcription",
+            "de": "Es stoppt nach einer Äußerung, bei der ersten Stille oder nach etwa 30 Sekunden; nutze kontinuierliche Erkennung oder Batch-Transkription"
+          },
+          "correct": true,
+          "why": {
+            "en": "Everything after the first pause is lost. Continuous recognition raises a `recognized` event per utterance, and batch transcription handles stored recordings.",
+            "de": "Alles nach der ersten Pause geht verloren. Kontinuierliche Erkennung meldet ein `recognized`-Event pro Äußerung, und Batch-Transkription verarbeitet gespeicherte Aufnahmen."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-trap-2",
@@ -80,7 +480,57 @@
       "back": {
         "en": "A custom-domain endpoint and a data-plane role such as Cognitive Services Speech User. The generic Owner or Contributor roles don’t grant access to the speech APIs.",
         "de": "Einen Custom-Domain-Endpoint und eine Data-Plane-Rolle wie Cognitive Services Speech User. Die allgemeinen Rollen Owner oder Contributor geben keinen Zugriff auf die Speech-APIs."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A custom-domain endpoint plus a data-plane role such as Cognitive Services Speech User",
+            "de": "Einen Custom-Domain-Endpoint plus eine Data-Plane-Rolle wie Cognitive Services Speech User"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: Owner and Contributor manage the resource but don’t grant access to the speech APIs, and Entra ID calls also need the custom-domain endpoint.",
+            "de": "Genau: Owner und Contributor verwalten die Ressource, geben aber keinen Zugriff auf die Speech-APIs, und Entra-ID-Aufrufe brauchen außerdem den Custom-Domain-Endpoint."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A custom-domain endpoint plus the Contributor role on top of Owner, which adds data-plane access",
+            "de": "Einen Custom-Domain-Endpoint plus die Rolle Contributor zusätzlich zu Owner, die Data-Plane-Zugriff ergänzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the custom-domain endpoint is needed, but Contributor is a management role too and adds no data-plane access; add Cognitive Services Speech User.",
+            "de": "Teilweise richtig: Der Custom-Domain-Endpoint ist nötig, aber auch Contributor ist eine Verwaltungsrolle ohne Data-Plane-Zugriff; ergänze Cognitive Services Speech User."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The regional endpoint as it is plus a data-plane role such as Cognitive Services Speech User",
+            "de": "Den regionalen Endpoint unverändert plus eine Data-Plane-Rolle wie Cognitive Services Speech User"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the role is needed, but keyless Entra ID access to Speech also requires a custom-domain endpoint, which you can generate under Networking.",
+            "de": "Teilweise richtig: Die Rolle ist nötig, aber schlüsselloser Entra-ID-Zugriff auf Speech braucht auch einen Custom-Domain-Endpoint, den du unter Networking erzeugen kannst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The regional endpoint as it is plus the Contributor role on top of Owner, which adds data-plane access",
+            "de": "Den regionalen Endpoint unverändert plus die Rolle Contributor zusätzlich zu Owner, die Data-Plane-Zugriff ergänzt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: keyless access needs a custom-domain endpoint, and Contributor adds no data-plane access; you need a role like Cognitive Services Speech User.",
+            "de": "Doppelt falsch: Schlüsselloser Zugriff braucht einen Custom-Domain-Endpoint, und Contributor ergänzt keinen Data-Plane-Zugriff; du brauchst eine Rolle wie Cognitive Services Speech User."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-trap-3",
@@ -92,7 +542,57 @@
       "back": {
         "en": "Real-time recognition with a custom speech model needs a deployed custom endpoint (`endpoint_id`). Batch transcription can use the custom model without one — and without its hosting cost.",
         "de": "Echtzeiterkennung mit einem Custom-Speech-Modell braucht einen bereitgestellten Custom-Endpoint (`endpoint_id`). Die Batch-Transkription kann das Custom-Modell ohne Endpoint nutzen – und ohne dessen Hosting-Kosten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Batch transcription needs one (`endpoint_id`); real-time recognition can use the custom model without any endpoint and its hosting cost",
+            "de": "Die Batch-Transkription braucht einen (`endpoint_id`); die Echtzeiterkennung kann das Custom-Modell ohne jeden Endpoint und dessen Hosting-Kosten nutzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: real-time recognition reaches a custom model only through a deployed endpoint (`endpoint_id`); batch transcription can use it without one.",
+            "de": "Vertauscht: Die Echtzeiterkennung erreicht ein Custom-Modell nur über einen bereitgestellten Endpoint (`endpoint_id`); die Batch-Transkription nutzt es auch ohne."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Real-time recognition needs one (`endpoint_id`); you avoid the hosting cost only by going back to the base model",
+            "de": "Die Echtzeiterkennung braucht einen (`endpoint_id`); die Hosting-Kosten vermeidest du nur, indem du zum Basismodell zurückgehst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: real-time does need the endpoint, but batch transcription can use the custom model without one, so you keep its accuracy and skip the cost.",
+            "de": "Teilweise richtig: Echtzeit braucht den Endpoint, aber die Batch-Transkription kann das Custom-Modell ohne nutzen – du behältst die Genauigkeit und sparst die Kosten."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Real-time recognition needs one (`endpoint_id`); batch transcription can use the custom model without an endpoint and its hosting cost",
+            "de": "Die Echtzeiterkennung braucht einen (`endpoint_id`); die Batch-Transkription kann das Custom-Modell ohne Endpoint und dessen Hosting-Kosten nutzen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: set `speech_config.endpoint_id` for real-time use; a batch job references the custom model directly, so no endpoint has to be hosted.",
+            "de": "Korrekt: Für Echtzeit setzt du `speech_config.endpoint_id`; ein Batch-Job referenziert das Custom-Modell direkt, also muss kein Endpoint gehostet werden."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Batch transcription needs one (`endpoint_id`); you avoid the hosting cost only by going back to the base model",
+            "de": "Die Batch-Transkription braucht einen (`endpoint_id`); die Hosting-Kosten vermeidest du nur, indem du zum Basismodell zurückgehst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: only real-time recognition needs a deployed endpoint, and batch transcription can use the custom model without one — and without its cost.",
+            "de": "Doppelt falsch: Nur die Echtzeiterkennung braucht einen bereitgestellten Endpoint, und die Batch-Transkription nutzt das Custom-Modell auch ohne – und ohne dessen Kosten."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-trap-4",
@@ -104,7 +604,57 @@
       "back": {
         "en": "`mstts:express-as` styles exist only for some voices; with a missing or invalid style, the service ignores the element and speaks the text in the default neutral style. HD voices don’t support every SSML element, for example `mstts:silence` or `bookmark`.",
         "de": "`mstts:express-as`-Stile gibt es nur für manche Stimmen; bei fehlendem oder ungültigem Stil ignoriert der Dienst das Element und spricht den Text im neutralen Standardstil. HD-Stimmen unterstützen nicht jedes SSML-Element, zum Beispiel `mstts:silence` oder `bookmark`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "It rejects the whole SSML document with an error and speaks nothing; HD voices don’t support every SSML element, like `mstts:silence`",
+            "de": "Er lehnt das ganze SSML-Dokument mit einem Fehler ab und spricht nichts; HD-Stimmen unterstützen nicht jedes SSML-Element, etwa `mstts:silence`"
+          },
+          "correct": false,
+          "why": {
+            "en": "No error: with a missing or invalid style the service ignores the element and speaks the text in the default neutral style.",
+            "de": "Kein Fehler: Bei fehlendem oder ungültigem Stil ignoriert der Dienst das Element und spricht den Text im neutralen Standardstil."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "It ignores the element and speaks in the default neutral style; HD voices don’t support every SSML element, like `mstts:silence`",
+            "de": "Er ignoriert das Element und spricht im neutralen Standardstil; HD-Stimmen unterstützen nicht jedes SSML-Element, etwa `mstts:silence`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Styles exist only for some voices, so an invalid one falls back to neutral; HD voices also lack elements such as `mstts:silence` and `bookmark`.",
+            "de": "Stile gibt es nur für manche Stimmen, bei einem ungültigen bleibt es beim neutralen Stil; außerdem unterstützen HD-Stimmen Elemente wie `mstts:silence` und `bookmark` nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "It rejects the whole SSML document with an error and speaks nothing; HD voices accept only plain text, not SSML",
+            "de": "Er lehnt das ganze SSML-Dokument mit einem Fehler ab und spricht nichts; HD-Stimmen akzeptieren nur Klartext, kein SSML"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: an invalid style is ignored and the text is spoken in the neutral default, and HD voices do take SSML, just not every element.",
+            "de": "Doppelt falsch: Ein ungültiger Stil wird ignoriert und der Text neutral gesprochen, und HD-Stimmen nehmen durchaus SSML an, nur nicht jedes Element."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "It ignores the element and speaks in the default neutral style; HD voices accept only plain text, not SSML",
+            "de": "Er ignoriert das Element und spricht im neutralen Standardstil; HD-Stimmen akzeptieren nur Klartext, kein SSML"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: HD voices do take SSML; they just don’t support every element, such as `mstts:silence` or `bookmark`.",
+            "de": "Die zweite Hälfte stimmt nicht: HD-Stimmen nehmen durchaus SSML an; sie unterstützen nur nicht jedes Element, etwa `mstts:silence` oder `bookmark`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-trap-5",
@@ -116,7 +666,57 @@
       "back": {
         "en": "Custom speech improves *recognition*; custom voice changes *synthesis* and requires approved limited access.",
         "de": "Custom Speech verbessert die *Erkennung*; Custom Voice verändert die *Synthese* und erfordert einen genehmigten eingeschränkten Zugang."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Custom speech changes synthesis; custom voice improves recognition and needs approved limited access",
+            "de": "Custom Speech verändert die Synthese; Custom Voice verbessert die Erkennung und braucht einen genehmigten eingeschränkten Zugang"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: custom speech fine-tunes speech to text, and custom voice creates a voice for text to speech.",
+            "de": "Vertauscht: Custom Speech stimmt Speech to Text fein ab, und Custom Voice erstellt eine Stimme für Text to Speech."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Custom speech improves recognition and needs approved limited access; custom voice changes synthesis",
+            "de": "Custom Speech verbessert die Erkennung und braucht einen genehmigten eingeschränkten Zugang; Custom Voice verändert die Synthese"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixed up: custom voice, not custom speech, is limited access — Microsoft must approve the use case first.",
+            "de": "Verwechselt: Custom Voice, nicht Custom Speech, ist Limited Access – Microsoft muss den Anwendungsfall erst genehmigen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Custom speech changes synthesis and needs approved limited access; custom voice improves recognition",
+            "de": "Custom Speech verändert die Synthese und braucht einen genehmigten eingeschränkten Zugang; Custom Voice verbessert die Erkennung"
+          },
+          "correct": false,
+          "why": {
+            "en": "Fully swapped: custom speech improves recognition without an approval step, while custom voice changes synthesis and is the limited-access one.",
+            "de": "Komplett vertauscht: Custom Speech verbessert die Erkennung ohne Genehmigungsschritt, Custom Voice verändert die Synthese und ist der Dienst mit Limited Access."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Custom speech improves recognition; custom voice changes synthesis and needs approved limited access",
+            "de": "Custom Speech verbessert die Erkennung; Custom Voice verändert die Synthese und braucht einen genehmigten eingeschränkten Zugang"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: custom speech adapts a speech-to-text model to your domain, while custom voice creates your own text-to-speech voice and needs Microsoft’s approval of your use case.",
+            "de": "Richtig: Custom Speech passt ein Speech-to-Text-Modell an deine Domäne an, Custom Voice erstellt eine eigene Stimme für Text to Speech und braucht Microsofts Genehmigung deines Anwendungsfalls."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-takeaway-1",
@@ -128,7 +728,57 @@
       "back": {
         "en": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` or `SpeechSynthesizer` → check `result.reason`.",
         "de": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` oder `SpeechSynthesizer` → `result.reason` prüfen."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` or `SpeechSynthesizer` → check `result.reason`",
+            "de": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` oder `SpeechSynthesizer` → `result.reason` prüfen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the recognizer or synthesizer is built from both configs, and `result.reason` tells `RecognizedSpeech` or `SynthesizingAudioCompleted` apart from `NoMatch` or `Canceled`.",
+            "de": "Stimmt: Recognizer oder Synthesizer entstehen aus beiden Configs, und `result.reason` unterscheidet `RecognizedSpeech` oder `SynthesizingAudioCompleted` von `NoMatch` oder `Canceled`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`SpeechRecognizer` or `SpeechSynthesizer` → `SpeechConfig` → `AudioConfig` → check `result.reason`",
+            "de": "`SpeechRecognizer` oder `SpeechSynthesizer` → `SpeechConfig` → `AudioConfig` → `result.reason` prüfen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong order: you create the recognizer or synthesizer from a `SpeechConfig` and an `AudioConfig`, so both must exist first.",
+            "de": "Falsche Reihenfolge: Recognizer oder Synthesizer erstellst du aus einer `SpeechConfig` und einer `AudioConfig` – beide müssen also zuerst existieren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` or `SpeechSynthesizer` → check `result.text`",
+            "de": "`SpeechConfig` → `AudioConfig` → `SpeechRecognizer` oder `SpeechSynthesizer` → `result.text` prüfen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong check: `result.text` can’t tell you whether nothing matched or the call was canceled — `result.reason` can.",
+            "de": "Falsche Prüfung: `result.text` verrät nicht, ob nichts erkannt oder der Aufruf abgebrochen wurde – `result.reason` schon."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`SpeechRecognizer` or `SpeechSynthesizer` → `SpeechConfig` → `AudioConfig` → check `result.text`",
+            "de": "`SpeechRecognizer` oder `SpeechSynthesizer` → `SpeechConfig` → `AudioConfig` → `result.text` prüfen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong twice: the recognizer or synthesizer is built from both configs, so they come first, and only `result.reason` shows `NoMatch` or `Canceled`.",
+            "de": "Doppelt falsch: Recognizer oder Synthesizer entstehen aus beiden Configs, die also zuerst kommen, und nur `result.reason` zeigt `NoMatch` oder `Canceled`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-takeaway-2",
@@ -140,7 +790,57 @@
       "back": {
         "en": "One utterance: `recognize_once_async()`. Long audio: continuous recognition or batch transcription.",
         "de": "Eine Äußerung: `recognize_once_async()`. Langes Audio: kontinuierliche Erkennung oder Batch-Transkription."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "One utterance: continuous recognition; long audio: batch transcription or `recognize_once_async()`",
+            "de": "Eine Äußerung: kontinuierliche Erkennung; langes Audio: Batch-Transkription oder `recognize_once_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Mixed up: `recognize_once_async()` stops after one utterance, so it suits short input, not long audio; long audio needs continuous recognition or batch transcription.",
+            "de": "Verwechselt: `recognize_once_async()` stoppt nach einer Äußerung und passt zu kurzer Eingabe, nicht zu langem Audio; das braucht kontinuierliche Erkennung oder Batch-Transkription."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "One utterance: batch transcription; long audio: one `recognize_once_async()` call on the file",
+            "de": "Eine Äußerung: Batch-Transkription; langes Audio: ein `recognize_once_async()`-Aufruf für die Datei"
+          },
+          "correct": false,
+          "why": {
+            "en": "One call to `recognize_once_async()` ends at the first silence or after about 30 seconds, so the rest of the file is lost.",
+            "de": "Ein Aufruf von `recognize_once_async()` endet bei der ersten Stille oder nach etwa 30 Sekunden, der Rest der Datei geht verloren."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "One utterance: `recognize_once_async()`; long audio: continuous recognition or batch transcription",
+            "de": "Eine Äußerung: `recognize_once_async()`; langes Audio: kontinuierliche Erkennung oder Batch-Transkription"
+          },
+          "correct": true,
+          "why": {
+            "en": "A single call returns one utterance, while continuous recognition raises an event per utterance and batch handles stored files.",
+            "de": "Ein einzelner Aufruf liefert eine Äußerung, kontinuierliche Erkennung meldet ein Event pro Äußerung, und Batch verarbeitet gespeicherte Dateien."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "One utterance: `recognize_once_async()`; long audio: the same call with a phrase list attached",
+            "de": "Eine Äußerung: `recognize_once_async()`; langes Audio: derselbe Aufruf mit angehängter Phrasenliste"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong tool: a phrase list boosts recognition of specific words; it doesn’t make a single-shot call cover more than one utterance.",
+            "de": "Falsches Werkzeug: Eine Phrasenliste verbessert die Erkennung bestimmter Wörter; sie lässt einen Einzelaufruf nicht mehr als eine Äußerung abdecken."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-takeaway-3",
@@ -152,7 +852,57 @@
       "back": {
         "en": "Plain text: `speak_text_async()`. Styles, pauses and pronunciation: SSML with `speak_ssml_async()`.",
         "de": "Klartext: `speak_text_async()`. Stile, Pausen und Aussprache: SSML mit `speak_ssml_async()`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Plain text: `speak_ssml_async()`; styles, pauses or pronunciation: SSML with `speak_text_async()`",
+            "de": "Klartext: `speak_ssml_async()`; Stile, Pausen oder Aussprache: SSML mit `speak_text_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: `speak_text_async()` reads plain text, and SSML with styles, pauses or pronunciation goes through `speak_ssml_async()`.",
+            "de": "Vertauscht: `speak_text_async()` liest Klartext vor, und SSML mit Stilen, Pausen oder Aussprache geht über `speak_ssml_async()`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Plain text: `speak_text_async()`; styles, pauses or pronunciation: SSML with `speak_ssml_async()`",
+            "de": "Klartext: `speak_text_async()`; Stile, Pausen oder Aussprache: SSML mit `speak_ssml_async()`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: plain text uses the configured voice as is, while SSML elements such as `mstts:express-as`, `break` and `phoneme` need `speak_ssml_async()`.",
+            "de": "Richtig: Klartext nutzt die eingestellte Stimme unverändert, SSML-Elemente wie `mstts:express-as`, `break` und `phoneme` brauchen `speak_ssml_async()`."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Plain text: `speak_text_async()`; styles, pauses or pronunciation: just set `speech_synthesis_voice_name` on `SpeechConfig`",
+            "de": "Klartext: `speak_text_async()`; Stile, Pausen oder Aussprache: nur `speech_synthesis_voice_name` an der `SpeechConfig` setzen"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `speech_synthesis_voice_name` only picks the voice. Speaking styles, pauses and pronunciation need SSML sent with `speak_ssml_async()`.",
+            "de": "Nein: `speech_synthesis_voice_name` wählt nur die Stimme. Sprechstile, Pausen und Aussprache brauchen SSML über `speak_ssml_async()`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Plain text: `speak_text_async()`; styles, pauses or pronunciation: SSML sent through `speak_text_async()` as well",
+            "de": "Klartext: `speak_text_async()`; Stile, Pausen oder Aussprache: SSML ebenfalls über `speak_text_async()`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `speak_text_async()` fits plain text, but an SSML document with styles, pauses or pronunciation goes through `speak_ssml_async()`.",
+            "de": "Teilweise richtig: `speak_text_async()` passt zu Klartext, aber ein SSML-Dokument mit Stilen, Pausen oder Aussprache geht über `speak_ssml_async()`."
+          }
+        }
+      ]
     },
     {
       "id": "z-speech-service-takeaway-4",
@@ -164,7 +914,57 @@
       "back": {
         "en": "Vocabulary problems → text data for custom speech. Accents and noise → audio with human-labeled transcripts.",
         "de": "Vokabularprobleme → Textdaten für Custom Speech. Akzente und Störgeräusche → Audio mit menschlich erstellten Transkripten."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Vocabulary problems: text data; accents and noise: audio with human-labeled transcripts",
+            "de": "Vokabularprobleme: Textdaten; Akzente und Störgeräusche: Audio mit menschlich erstellten Transkripten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: plain or structured text teaches domain words, while audio with human-labeled transcripts shows the model how your speakers and environments sound.",
+            "de": "Genau: Klartext oder strukturierter Text bringt Fachwörter bei, Audio mit menschlich erstellten Transkripten zeigt dem Modell, wie deine Sprecher und Umgebungen klingen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Vocabulary problems: audio with human-labeled transcripts; accents and noise: text data",
+            "de": "Vokabularprobleme: Audio mit menschlich erstellten Transkripten; Akzente und Störgeräusche: Textdaten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Swapped: text can’t teach acoustics. Text data targets vocabulary, and audio with transcripts targets accents and noise.",
+            "de": "Vertauscht: Text kann keine Akustik vermitteln. Textdaten zielen auf Vokabular, Audio mit Transkripten auf Akzente und Störgeräusche."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Vocabulary problems: text data; accents and noise: pronunciation data for each speaker and accent",
+            "de": "Vokabularprobleme: Textdaten; Akzente und Störgeräusche: Aussprachedaten für jeden einzelnen Sprecher und Akzent"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong second half: pronunciation data covers unusual words, not accents or noise; those need audio with human-labeled transcripts.",
+            "de": "Die zweite Hälfte stimmt nicht: Aussprachedaten helfen bei ungewöhnlichen Wörtern, nicht bei Akzenten oder Störgeräuschen; die brauchen Audio mit menschlich erstellten Transkripten."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Vocabulary problems: text data; accents and noise: a phrase list sent along with each request",
+            "de": "Vokabularprobleme: Textdaten; Akzente und Störgeräusche: eine Phrasenliste, die jeden einzelnen Request begleitet"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a phrase list boosts specific words per request and isn’t training data. Accents and noise need audio with human-labeled transcripts.",
+            "de": "Nein: Eine Phrasenliste stärkt bestimmte Wörter pro Request und gehört nicht zu den Trainingsdaten. Akzente und Störgeräusche brauchen Audio mit menschlich erstellten Transkripten."
+          }
+        }
+      ]
     }
   ]
 }

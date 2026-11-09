@@ -101,6 +101,11 @@ if (!quiet) {
   console.log('Questions per domain:', domains.map((d) => `${d.id} ${report.domainCounts[d.id] ?? 0}`).join(' · '))
   console.log('Question types:', Object.entries(report.typeCounts).map(([k, v]) => `${k} ${v}`).join(' · '))
   console.log('Difficulty:', Object.entries(report.difficultyCounts).map(([k, v]) => `${k} ${v}`).join(' · '))
+  if (report.cues) {
+    const pct = (x: number) => `${Math.round(x * 100)} %`
+    const [l1, l2, l3, l4] = report.cues.lengthRanks
+    console.log(`Card answer cues: key by length longest ${pct(l1)} · 2nd ${pct(l2)} · 3rd ${pct(l3)} · shortest ${pct(l4)} · central option is the key in ${pct(report.cues.centralKey)} of ${report.cues.centralCards} (chance 25 % each)`)
+  }
   if (only) {
     console.log(`Scope: ${only.join(', ')}`)
     for (const m of only) console.log(`  ${m}: ${report.moduleCounts[m] ?? 0} questions, ${cardsPerModule.get(m) ?? 0} cards, lesson ${lessons.some((l) => l.lesson.module === m) ? '✓' : '✗'}`)

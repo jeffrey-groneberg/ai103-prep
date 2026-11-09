@@ -8,7 +8,57 @@
       "front": {
         "en": "What is web grounding, and how should an agent treat the web results it gets?",
         "de": "Was ist Web-Grounding, und wie sollte ein Agent die gelieferten Webergebnisse behandeln?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Giving the agent current public web evidence — weighing results as evidence, checking dates and treating retrieved text as data",
+            "de": "Dem Agent aktuelle öffentliche Webbelege geben – Ergebnisse als Belege gewichten, Datumsangaben prüfen und abgerufenen Text als Daten behandeln"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: web grounding hands the agent public evidence beyond the model’s knowledge cutoff, with sources users can verify — evidence, not certainty, and retrieved text stays data, never instructions.",
+            "de": "Richtig: Web-Grounding gibt dem Agent öffentliche Belege jenseits des Wissensstichtags des Modells, mit Quellen, die Nutzer prüfen können – Belege, keine Gewissheit, und abgerufener Text bleibt Daten, nie Anweisungen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Giving the agent current public web evidence — following instructions in retrieved pages when the source looks authoritative",
+            "de": "Dem Agent aktuelle öffentliche Webbelege geben – Anweisungen aus abgerufenen Seiten befolgen, wenn die Quelle maßgeblich wirkt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: that’s web grounding, but retrieved text is data, never instructions — even from an authoritative source.",
+            "de": "Teilweise richtig: Das ist Web-Grounding, aber abgerufenen Text behandelst du als Daten, nie als Anweisungen – auch aus einer maßgeblichen Quelle."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Retraining the agent’s model on fresh web pages — weighing results as evidence, checking dates and treating retrieved text as data",
+            "de": "Das Modell des Agents mit frischen Webseiten nachtrainieren – Ergebnisse als Belege gewichten, Datumsangaben prüfen und abgerufenen Text als Daten behandeln"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the handling fits, but web grounding doesn’t retrain the model — it hands the agent current evidence with sources users can verify.",
+            "de": "Teilweise richtig: Der Umgang stimmt, aber Web-Grounding trainiert das Modell nicht nach – es gibt dem Agent aktuelle Belege mit Quellen, die Nutzer prüfen können."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Retraining the agent’s model on fresh web pages — following instructions in retrieved pages when the source looks authoritative",
+            "de": "Das Modell des Agents mit frischen Webseiten nachtrainieren – Anweisungen aus abgerufenen Seiten befolgen, wenn die Quelle maßgeblich wirkt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: grounding doesn’t retrain the model, and retrieved text is data, never instructions — whatever the source.",
+            "de": "Nein: Grounding trainiert das Modell nicht nach, und abgerufenen Text behandelst du als Daten, nie als Anweisungen – egal aus welcher Quelle."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-2",
@@ -16,7 +66,57 @@
       "front": {
         "en": "Through which interfaces can you reach Microsoft Web IQ, and what kind of content does it retrieve?",
         "de": "Über welche Schnittstellen erreichst du Microsoft Web IQ, und welche Inhalte ruft es ab?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "REST, an MCP server and SDKs for Python and TypeScript — it retrieves public web content plus the signed-in user’s mail and files",
+            "de": "REST, einen MCP-Server und SDKs für Python und TypeScript – es ruft öffentliche Webinhalte plus Mails und Dateien des angemeldeten Nutzers ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the interfaces fit, but Web IQ never reaches private data — the signed-in user’s mail and files are Work IQ’s territory.",
+            "de": "Teilweise richtig: Die Schnittstellen stimmen, aber Web IQ erreicht keine privaten Daten – Mails und Dateien des angemeldeten Nutzers sind Sache von Work IQ."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Only through a private endpoint of your Azure Web IQ resource — it retrieves public web content only, never private company data",
+            "de": "Nur über einen Private Endpoint deiner Azure-Web-IQ-Ressource – es ruft nur öffentliche Webinhalte ab, nie private Firmendaten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the content fits, but Web IQ offers no Private Link — you call `api.microsoft.ai` over REST, MCP or an SDK.",
+            "de": "Teilweise richtig: Die Inhalte stimmen, aber Private Link bietet Web IQ nicht – du rufst `api.microsoft.ai` per REST, MCP oder SDK auf."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only through a private endpoint of your Azure Web IQ resource — it retrieves public web content plus the signed-in user’s mail and files",
+            "de": "Nur über einen Private Endpoint deiner Azure-Web-IQ-Ressource – es ruft öffentliche Webinhalte plus Mails und Dateien des angemeldeten Nutzers ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: there’s no Private Link — calls go to `api.microsoft.ai` — and mail and files in Microsoft 365 belong to Work IQ, not Web IQ.",
+            "de": "Falsch: Private Link gibt es nicht – Aufrufe gehen an `api.microsoft.ai` –, und Mails und Dateien in Microsoft 365 gehören zu Work IQ, nicht zu Web IQ."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "REST, an MCP server and SDKs for Python and TypeScript — it retrieves public web content only, never private company data",
+            "de": "REST, einen MCP-Server und SDKs für Python und TypeScript – es ruft nur öffentliche Webinhalte ab, nie private Firmendaten"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: REST at `https://api.microsoft.ai/v3`, MCP at `https://api.microsoft.ai/v3/mcp`, SDKs for Python (`webiq`) and TypeScript — and only public web content.",
+            "de": "Korrekt: REST unter `https://api.microsoft.ai/v3`, MCP unter `https://api.microsoft.ai/v3/mcp`, SDKs für Python (`webiq`) und TypeScript – und nur öffentliche Webinhalte."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-3",
@@ -24,7 +124,57 @@
       "front": {
         "en": "Which Web IQ methods exist, and which one reads a URL you already know?",
         "de": "Welche Web-IQ-Methoden gibt es, und welche liest eine URL, die du schon kennst?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Web Search, News, Images, Videos and Browse — News reads a URL you already know",
+            "de": "Web Search, News, Images, Videos und Browse – News liest eine URL, die du schon kennst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the methods fit, but News finds coverage of current events — a URL you already know is read with Browse.",
+            "de": "Teilweise richtig: Die Methoden stimmen, aber News findet Berichte zu aktuellen Ereignissen – eine bekannte URL liest du mit Browse."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Web Search, News, Weather, Finance and Browse — Browse reads a URL you already know",
+            "de": "Web Search, News, Weather, Finance und Browse – Browse liest eine URL, die du schon kennst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: Browse does read a known URL, but Web IQ has no Weather or Finance methods — the other two are Images and Videos.",
+            "de": "Teilweise richtig: Browse liest zwar eine bekannte URL, aber Weather- oder Finance-Methoden hat Web IQ nicht – die anderen beiden heißen Images und Videos."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Web Search, News, Images, Videos and Browse — Browse reads a URL you already know",
+            "de": "Web Search, News, Images, Videos und Browse – Browse liest eine URL, die du schon kennst"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: Web Search finds pages, News covers current events, Images and Videos return media, and Browse reads a known URL — Auto exists as a beta extra.",
+            "de": "Ja: Web Search findet Seiten, News deckt aktuelle Ereignisse ab, Images und Videos liefern Medien, und Browse liest eine bekannte URL – Auto gibt es zusätzlich als Beta."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Web Search, News, Weather, Finance and Browse — News reads a URL you already know",
+            "de": "Web Search, News, Weather, Finance und Browse – News liest eine URL, die du schon kennst"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Web IQ has no Weather or Finance methods, and News covers current events — Browse reads a URL you already know.",
+            "de": "Nein: Web IQ hat keine Weather- oder Finance-Methoden, und News deckt aktuelle Ereignisse ab – eine bekannte URL liest Browse."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-4",
@@ -32,7 +182,57 @@
       "front": {
         "en": "What does the Web IQ AppID hold, and how do you authenticate for a quick start versus in production?",
         "de": "Was enthält die Web IQ AppID, und wie authentifizierst du dich für den schnellen Start und in Produktion?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Allowed APIs, rate limit, API keys and bound Entra client IDs — a Microsoft Entra token to start, an API key in `x-apikey` in production",
+            "de": "Erlaubte APIs, Ratenlimit, API-Keys und gebundene Entra-Client-IDs – zum Start ein Microsoft-Entra-Token, in Produktion ein API-Key in `x-apikey`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: that’s what the AppID holds, but the order is reversed — the API key is the quick start, Microsoft Entra ID the production choice.",
+            "de": "Teilweise richtig: Das enthält die AppID, aber die Reihenfolge ist vertauscht – der API-Key ist der schnelle Start, Microsoft Entra ID die Wahl für Produktion."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The metering and billing data of your Azure resource — an API key in `x-apikey` to start, a Microsoft Entra token in production",
+            "de": "Die Mess- und Abrechnungsdaten deiner Azure-Ressource – zum Start ein API-Key in `x-apikey`, in Produktion ein Microsoft-Entra-Token"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the sign-in order fits, but metering and billing belong to the Azure Web IQ resource — the AppID holds allowed APIs, rate limit, keys and client IDs.",
+            "de": "Teilweise richtig: Die Reihenfolge der Anmeldung stimmt, aber Messung und Abrechnung gehören zur Azure-Web-IQ-Ressource – die AppID enthält erlaubte APIs, Ratenlimit, Keys und Client-IDs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Allowed APIs, rate limit, API keys and bound Entra client IDs — an API key in `x-apikey` to start, a Microsoft Entra token in production",
+            "de": "Erlaubte APIs, Ratenlimit, API-Keys und gebundene Entra-Client-IDs – zum Start ein API-Key in `x-apikey`, in Produktion ein Microsoft-Entra-Token"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: the AppID is your app’s identity in Web IQ; a key in `x-apikey` is the quick start, an Entra token (scope `https://api.microsoft.ai/.default`) the production choice.",
+            "de": "Genau: Die AppID ist die Identität deiner App in Web IQ; ein Key in `x-apikey` ist der schnelle Start, ein Entra-Token (Scope `https://api.microsoft.ai/.default`) die Wahl für Produktion."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "The metering and billing data of your Azure resource — a Microsoft Entra token to start, an API key in `x-apikey` in production",
+            "de": "Die Mess- und Abrechnungsdaten deiner Azure-Ressource – zum Start ein Microsoft-Entra-Token, in Produktion ein API-Key in `x-apikey`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: metering and billing are the Azure resource’s job, and the order is reversed — key to start, Microsoft Entra ID in production.",
+            "de": "Falsch: Messung und Abrechnung übernimmt die Azure-Ressource, und die Reihenfolge ist vertauscht – Key zum Start, Microsoft Entra ID in Produktion."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-5",
@@ -44,7 +244,57 @@
       "back": {
         "en": "`passage` (the default content format unless your app has full document access) returns only the query-relevant parts of each result — at most 3,000 characters per result without full document access — so the model reads less noise and fewer tokens. `text`, `html` and `markdown` return whole documents and need **full document access**, which you request through a Web IQ Support request; without it they fail with HTTP 403.",
         "de": "`passage` (das Standard-Inhaltsformat, sofern deine App keinen Volldokumentzugriff hat) liefert nur die abfragerelevanten Teile jedes Treffers – ohne Volldokumentzugriff höchstens 3.000 Zeichen pro Treffer –, sodass das Modell weniger Rauschen und weniger Tokens liest. `text`, `html` und `markdown` liefern ganze Dokumente und brauchen **Volldokumentzugriff**, den du per Web-IQ-Supportanfrage beantragst; ohne ihn scheitern sie mit HTTP 403."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Only the query-relevant parts of each result — `text`, `html` and `markdown` just need a higher `maxLength` per result",
+            "de": "Nur die abfragerelevanten Teile jedes Treffers – `text`, `html` und `markdown` brauchen nur ein höheres `maxLength` pro Treffer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: passages are right, but `maxLength` only caps characters per result — whole-document formats need full document access.",
+            "de": "Teilweise richtig: Passagen stimmen, aber `maxLength` begrenzt nur die Zeichen pro Treffer – Formate mit ganzen Dokumenten brauchen Volldokumentzugriff."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A summary of each result that Web IQ’s own LLM writes from the page — `text`, `html` and `markdown` need full document access from a Web IQ Support request",
+            "de": "Eine Zusammenfassung jedes Treffers, die das eigene LLM von Web IQ aus der Seite schreibt – `text`, `html` und `markdown` brauchen Volldokumentzugriff per Web-IQ-Supportanfrage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the access rule fits, but Web IQ isn’t an LLM — `passage` returns the query-relevant parts of each result.",
+            "de": "Teilweise richtig: Die Zugriffsregel stimmt, aber Web IQ ist kein LLM – `passage` liefert die abfragerelevanten Teile jedes Treffers."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Only the query-relevant parts of each result — `text`, `html` and `markdown` need full document access from a Web IQ Support request",
+            "de": "Nur die abfragerelevanten Teile jedes Treffers – `text`, `html` und `markdown` brauchen Volldokumentzugriff per Web-IQ-Supportanfrage"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: passages (at most 3,000 characters per result without full document access) cut noise and tokens; without that access the whole-document formats fail with HTTP 403.",
+            "de": "Richtig: Passagen (ohne Volldokumentzugriff höchstens 3.000 Zeichen pro Treffer) sparen Rauschen und Tokens; ohne diesen Zugriff scheitern die Formate mit ganzen Dokumenten mit HTTP 403."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A summary of each result that Web IQ’s own LLM writes from the page — `text`, `html` and `markdown` just need a higher `maxLength` per result",
+            "de": "Eine Zusammenfassung jedes Treffers, die das eigene LLM von Web IQ aus der Seite schreibt – `text`, `html` und `markdown` brauchen nur ein höheres `maxLength` pro Treffer"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Web IQ writes no summaries, and `maxLength` only caps characters per result — whole-document formats need full document access.",
+            "de": "Nein: Web IQ schreibt keine Zusammenfassungen, und `maxLength` begrenzt nur die Zeichen pro Treffer – Formate mit ganzen Dokumenten brauchen Volldokumentzugriff."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-6",
@@ -52,7 +302,57 @@
       "front": {
         "en": "What must you do about citations, caching and personal data when you use Web IQ results?",
         "de": "Was musst du bei Zitaten, Caching und personenbezogenen Daten beachten, wenn du Web-IQ-Ergebnisse nutzt?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Show sources only on request, store no results beyond narrow exceptions, and scrub personal data first, since Web IQ doesn’t mask it",
+            "de": "Quellen nur auf Nachfrage zeigen, Ergebnisse nur in engen Ausnahmen speichern und personenbezogene Daten vorher bereinigen, weil Web IQ sie nicht maskiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: caching and personal data fit, but citations aren’t optional — a link to each source used must stay visible next to the answer.",
+            "de": "Teilweise richtig: Caching und personenbezogene Daten stimmen, aber Zitate sind nicht optional – ein Link zu jeder genutzten Quelle muss sichtbar bei der Antwort stehen."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Link each source used next to the answer, store no results beyond narrow exceptions, and scrub personal data first, since Web IQ doesn’t mask it",
+            "de": "Jede genutzte Quelle direkt bei der Antwort verlinken, Ergebnisse nur in engen Ausnahmen speichern und personenbezogene Daten vorher bereinigen, weil Web IQ sie nicht maskiert"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: visible links to the sources used, no caching outside narrow exceptions and no PII masking — Web IQ isn’t covered by the Data Protection Addendum.",
+            "de": "Korrekt: Sichtbare Links zu den genutzten Quellen, kein Caching außerhalb enger Ausnahmen und keine PII-Maskierung – Web IQ fällt nicht unter das Data Protection Addendum."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Link each source used next to the answer, keep all results in a shared database for reuse, and let Web IQ mask personal data under the Data Protection Addendum",
+            "de": "Jede genutzte Quelle direkt bei der Antwort verlinken, alle Ergebnisse in einer gemeinsamen Datenbank wiederverwenden und personenbezogene Daten von Web IQ laut Data Protection Addendum maskieren lassen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the citations fit: a shared database of results is prohibited, and Web IQ neither masks personal data nor falls under the Data Protection Addendum.",
+            "de": "Nur die Zitate stimmen: Eine gemeinsame Datenbank aus Ergebnissen ist verboten, und Web IQ maskiert weder personenbezogene Daten, noch fällt es unter das Data Protection Addendum."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Show sources only on request, keep all results in a shared database for reuse, and scrub personal data first, since Web IQ doesn’t mask it",
+            "de": "Quellen nur auf Nachfrage zeigen, alle Ergebnisse in einer gemeinsamen Datenbank wiederverwenden und personenbezogene Daten vorher bereinigen, weil Web IQ sie nicht maskiert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Only the personal-data part fits: citations must stay visible next to the answer, and a shared database of results is prohibited.",
+            "de": "Nur der Teil zu personenbezogenen Daten stimmt: Zitate müssen sichtbar bei der Antwort stehen, und eine gemeinsame Datenbank aus Ergebnissen ist verboten."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-concept-7",
@@ -60,7 +360,57 @@
       "front": {
         "en": "When do you choose the Grounding with Bing Search tool over the Web Search tool in Foundry?",
         "de": "Wann wählst du in Foundry das Tool Grounding with Bing Search statt des Web Search Tools?"
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "When you need `count`, `freshness`, `market` or `set_lang`, or a non-OpenAI model sold by Azure",
+            "de": "Wenn du `count`, `freshness`, `market` oder `set_lang` brauchst oder ein Nicht-OpenAI-Modell, das Azure verkauft"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the tool needs your own Grounding with Bing resource and connection, but adds those parameters and supports non-OpenAI models sold by Azure.",
+            "de": "Ja: Das Tool braucht eine eigene Grounding-with-Bing-Ressource samt Verbindung, bietet dafür diese Parameter und unterstützt Nicht-OpenAI-Modelle, die Azure verkauft."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "When you want Microsoft to manage the Bing resource and you need only the `user_location` and `search_context_size` parameters",
+            "de": "Wenn Microsoft die Bing-Ressource verwalten soll und du nur die Parameter `user_location` und `search_context_size` brauchst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: a Microsoft-managed Bing resource with `user_location` and `search_context_size` describes the Web Search tool, the recommended start.",
+            "de": "Falsch: Eine von Microsoft verwaltete Bing-Ressource mit `user_location` und `search_context_size` beschreibt das Web Search Tool, den empfohlenen Einstieg."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "When the grounding data must stay inside the Azure compliance boundary because you own the Grounding with Bing resource",
+            "de": "Wenn die Grounding-Daten in der Azure-Compliance-Grenze bleiben müssen, weil dir die Grounding-with-Bing-Ressource gehört"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: with both tools, data flows outside the Azure compliance boundary — owning the Grounding with Bing resource doesn’t change that.",
+            "de": "Nein: Bei beiden Tools fließen Daten aus der Azure-Compliance-Grenze hinaus – eine eigene Grounding-with-Bing-Ressource ändert daran nichts."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "When Bing results must be merged with enterprise sources into cited summaries in one retrieval call",
+            "de": "Wenn Bing-Ergebnisse in einem Retrieval-Aufruf mit Unternehmensquellen zu zitierten Zusammenfassungen gemergt werden sollen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: merging Bing results with enterprise sources in one retrieval call is what a Foundry IQ web knowledge source does.",
+            "de": "Falsch: Bing-Ergebnisse in einem Retrieval-Aufruf mit Unternehmensquellen zu mergen, ist die Aufgabe einer Foundry-IQ-Web-Knowledge-Source."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-trap-1",
@@ -72,7 +422,57 @@
       "back": {
         "en": "Your agent’s model writes it from the returned evidence. Web IQ is not an LLM and doesn’t generate the answer.",
         "de": "Das Modell deines Agents schreibt sie aus den gelieferten Belegen. Web IQ ist kein LLM und erzeugt keine Antwort."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Web IQ itself, which writes a finished answer for the agent to show",
+            "de": "Web IQ selbst, das eine fertige Antwort zum Anzeigen schreibt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Web IQ isn’t an LLM and never generates the answer — it returns ranked, citation-ready JSON evidence.",
+            "de": "Nein: Web IQ ist kein LLM und erzeugt nie die Antwort – es liefert gerankte, zitierfertige JSON-Belege."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "The Web IQ MCP server, which summarizes the results before it returns them",
+            "de": "Der Web-IQ-MCP-Server, der die Ergebnisse zusammenfasst, bevor er sie zurückgibt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: the MCP server only exposes Web IQ’s tools — results come back ranked, with titles, URLs and passages, not as summaries.",
+            "de": "Falsch: Der MCP-Server stellt nur die Tools von Web IQ bereit – Ergebnisse kommen gerankt mit Titeln, URLs und Passagen zurück, nicht als Zusammenfassungen."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "The agent’s own model, which writes it from the evidence Web IQ returns",
+            "de": "Das Modell des Agents selbst, das sie aus den Belegen von Web IQ schreibt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: Web IQ only retrieves and ranks evidence; the model behind your agent writes the answer and shows the source links.",
+            "de": "Genau: Web IQ ruft Belege nur ab und rankt sie; das Modell hinter deinem Agent schreibt die Antwort und zeigt die Quellenlinks."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A knowledge base’s LLM, which turns the Web IQ results into a cited answer",
+            "de": "Das LLM einer Knowledge Base, das aus den Web-IQ-Ergebnissen eine zitierte Antwort macht"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a knowledge base’s LLM belongs to a Foundry IQ web knowledge source — with Web IQ, your agent’s model writes the answer.",
+            "de": "Nein: Das LLM einer Knowledge Base gehört zu einer Foundry-IQ-Web-Knowledge-Source – mit Web IQ schreibt das Modell deines Agents die Antwort."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-trap-2",
@@ -84,7 +484,57 @@
       "back": {
         "en": "With a Microsoft Entra token whose client ID is bound to several AppIDs — otherwise you get HTTP 400. An API key already belongs to one AppID, so sending `APPID` with a key returns HTTP 401. Keep them apart: AppID ≠ Entra application (client) ID ≠ API key.",
         "de": "Bei einem Microsoft-Entra-Token, dessen Client-ID an mehrere AppIDs gebunden ist – sonst kommt HTTP 400. Ein API-Key gehört bereits zu genau einer AppID, daher liefert `APPID` zusammen mit einem Key HTTP 401. Halte sie auseinander: AppID ≠ Entra Application (Client) ID ≠ API-Key."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "With an Entra token whose client ID is bound to several AppIDs, or you get HTTP 400 — sent with an API key, it’s simply ignored",
+            "de": "Bei einem Entra-Token, dessen Client-ID an mehrere AppIDs gebunden ist, sonst kommt HTTP 400 – zusammen mit einem API-Key wird es ignoriert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the token rule fits, but `APPID` sent with an API key isn’t ignored — it returns HTTP 401.",
+            "de": "Teilweise richtig: Die Token-Regel stimmt, aber `APPID` mit einem API-Key wird nicht ignoriert – es liefert HTTP 401."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "With an Entra token whose client ID is bound to only one AppID, or you get HTTP 403 — sent with an API key, it returns HTTP 401",
+            "de": "Bei einem Entra-Token, dessen Client-ID an nur eine AppID gebunden ist, sonst kommt HTTP 403 – zusammen mit einem API-Key liefert es HTTP 401"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the key rule fits, but a token bound to only one AppID works without `APPID` — the parameter becomes required once several AppIDs are bound.",
+            "de": "Teilweise richtig: Die Key-Regel stimmt, aber ein an nur eine AppID gebundenes Token funktioniert ohne `APPID` – Pflicht wird der Parameter erst bei mehreren gebundenen AppIDs."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "With an Entra token whose client ID is bound to only one AppID, or you get HTTP 403 — sent with an API key, it’s simply ignored",
+            "de": "Bei einem Entra-Token, dessen Client-ID an nur eine AppID gebunden ist, sonst kommt HTTP 403 – zusammen mit einem API-Key wird es ignoriert"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: a token bound to one AppID needs no `APPID`, and `APPID` with an API key returns HTTP 401 instead of being ignored.",
+            "de": "Falsch: Ein an nur eine AppID gebundenes Token braucht kein `APPID`, und `APPID` mit einem API-Key liefert HTTP 401, statt ignoriert zu werden."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "With an Entra token whose client ID is bound to several AppIDs, or you get HTTP 400 — sent with an API key, it returns HTTP 401",
+            "de": "Bei einem Entra-Token, dessen Client-ID an mehrere AppIDs gebunden ist, sonst kommt HTTP 400 – zusammen mit einem API-Key liefert es HTTP 401"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: a token bound to several AppIDs is ambiguous without `APPID` (HTTP 400), while each API key already belongs to one AppID — so `APPID` with a key returns HTTP 401.",
+            "de": "Richtig: Ein an mehrere AppIDs gebundenes Token ist ohne `APPID` mehrdeutig (HTTP 400), ein API-Key gehört dagegen schon zu genau einer AppID – `APPID` mit Key liefert HTTP 401."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-trap-3",
@@ -96,7 +546,57 @@
       "back": {
         "en": "Per AppID — there’s no Private Link, VNet integration or Azure RBAC on the API. The Azure resource only handles metering and billing; calls go straight to `api.microsoft.ai`.",
         "de": "Pro AppID – es gibt kein Private Link, keine VNet-Integration und kein Azure RBAC auf der API. Die Azure-Ressource übernimmt nur Messung und Abrechnung; Aufrufe gehen direkt an `api.microsoft.ai`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Per AppID — the Azure resource hosts the API endpoint, so you can lock it down with a Private Link",
+            "de": "Pro AppID – die Azure-Ressource hostet den API-Endpoint, daher kannst du ihn per Private Link abschotten"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: access is per AppID, but Web IQ is Microsoft-hosted at `api.microsoft.ai` and offers no Private Link — the resource only meters and bills.",
+            "de": "Teilweise richtig: Der Zugriff läuft pro AppID, aber Web IQ wird von Microsoft unter `api.microsoft.ai` gehostet und bietet kein Private Link – die Ressource misst nur und rechnet ab."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Per AppID — the Azure resource only meters and bills, and calls go straight to `api.microsoft.ai`",
+            "de": "Pro AppID – die Azure-Ressource misst nur und rechnet ab, und Aufrufe gehen direkt an `api.microsoft.ai`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: Web IQ authorizes requests per AppID, and the Azure resource stays out of the request path — it only handles metering and billing.",
+            "de": "Korrekt: Web IQ autorisiert Anfragen pro AppID, und die Azure-Ressource liegt nicht im Anfragepfad – sie übernimmt nur Messung und Abrechnung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Through Azure RBAC roles on the resource — the Azure resource only meters and bills, and calls go straight to `api.microsoft.ai`",
+            "de": "Über Azure-RBAC-Rollen auf der Ressource – die Azure-Ressource misst nur und rechnet ab, und Aufrufe gehen direkt an `api.microsoft.ai`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the resource’s role fits, but there’s no Azure RBAC on the Web IQ API — access is controlled per AppID.",
+            "de": "Teilweise richtig: Die Rolle der Ressource stimmt, aber auf der Web-IQ-API gibt es kein Azure RBAC – der Zugriff wird pro AppID gesteuert."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Through Azure RBAC roles on the resource — the Azure resource hosts the API endpoint, so you can lock it down with a Private Link",
+            "de": "Über Azure-RBAC-Rollen auf der Ressource – die Azure-Ressource hostet den API-Endpoint, daher kannst du ihn per Private Link abschotten"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the Web IQ API has neither Azure RBAC nor Private Link — access is per AppID, and the resource only meters and bills.",
+            "de": "Nein: Die Web-IQ-API kennt weder Azure RBAC noch Private Link – der Zugriff läuft pro AppID, und die Ressource misst nur und rechnet ab."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-trap-4",
@@ -108,7 +608,57 @@
       "back": {
         "en": "A paid Azure subscription. Subscriptions funded by Azure credits aren’t supported.",
         "de": "Ein kostenpflichtiges Azure-Abonnement. Abonnements mit Azure-Guthaben werden nicht unterstützt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Any Azure subscription, including credit-funded ones — Web IQ bills each AppID outside Azure",
+            "de": "Jedes Azure-Abonnement, auch eines mit Guthaben – Web IQ rechnet jede AppID außerhalb von Azure ab"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: credit-funded subscriptions aren’t supported, and usage is metered and billed through the Web IQ resource in your Azure subscription.",
+            "de": "Falsch: Abonnements mit Guthaben werden nicht unterstützt, und die Nutzung wird über die Web-IQ-Ressource in deinem Azure-Abonnement gemessen und abgerechnet."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A subscription funded by Azure credits — paid subscriptions aren’t supported",
+            "de": "Ein Abonnement mit Azure-Guthaben – kostenpflichtige Abonnements werden nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong — it’s the other way round: Web IQ needs a paid subscription, and Azure credits don’t work for it.",
+            "de": "Falsch – genau umgekehrt: Web IQ braucht ein kostenpflichtiges Abonnement, und Azure-Guthaben funktioniert dafür nicht."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A paid Azure subscription — subscriptions funded by Azure credits aren’t supported",
+            "de": "Ein kostenpflichtiges Azure-Abonnement – Abonnements mit Azure-Guthaben werden nicht unterstützt"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: the Web IQ resource needs a paid Azure subscription; Azure credits don’t work for Web IQ.",
+            "de": "Ja: Die Web-IQ-Ressource braucht ein kostenpflichtiges Azure-Abonnement; Azure-Guthaben funktioniert für Web IQ nicht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A Microsoft 365 subscription with Copilot licenses — Azure isn’t supported",
+            "de": "Ein Microsoft-365-Abonnement mit Copilot-Lizenzen – Azure wird nicht unterstützt"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: Web IQ needs a Web IQ resource in a paid Azure subscription; Copilot Credits bill Work IQ, not Web IQ.",
+            "de": "Nein: Web IQ braucht eine Web-IQ-Ressource in einem kostenpflichtigen Azure-Abonnement; über Copilot Credits wird Work IQ abgerechnet, nicht Web IQ."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-trap-5",
@@ -120,7 +670,57 @@
       "back": {
         "en": "A link back to each source used, next to the answer — citations aren’t optional. Don’t build a database of results, and don’t use returned images or videos as grounding input.",
         "de": "Einen Link zu jeder genutzten Quelle, direkt bei der Antwort – Zitate sind nicht optional. Baue keine Datenbank aus Ergebnissen auf und nutze zurückgelieferte Bilder oder Videos nicht als Grounding-Input."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "A link to each source used, next to the answer — no summaries in internal reports, and no image metadata as grounding input",
+            "de": "Einen Link zu jeder genutzten Quelle direkt bei der Antwort – keine Zusammenfassungen in internen Berichten und keine Bild-Metadaten als Grounding-Input"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the citation rule fits, but summaries may stay in internal work products, and image metadata and alt text count as grounding content.",
+            "de": "Teilweise richtig: Die Zitierregel stimmt, aber Zusammenfassungen dürfen in internen Arbeitsergebnissen stehen, und Bild-Metadaten samt Alt-Text zählen als Grounding-Inhalt."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "A link to every result Web IQ returned — no database of results, and no returned images or videos as grounding input",
+            "de": "Einen Link zu jedem Treffer, den Web IQ geliefert hat – keine Datenbank aus Ergebnissen und keine gelieferten Bilder oder Videos als Grounding-Input"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the two bans fit, but cite only the sources the model actually used, not every result.",
+            "de": "Teilweise richtig: Die beiden Verbote stimmen, aber zitiere nur die Quellen, die das Modell wirklich genutzt hat, nicht jeden Treffer."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A link to every result Web IQ returned — no summaries in internal reports, and no image metadata as grounding input",
+            "de": "Einen Link zu jedem Treffer, den Web IQ geliefert hat – keine Zusammenfassungen in internen Berichten und keine Bild-Metadaten als Grounding-Input"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: cite only the sources actually used; summaries may stay in internal work products, and image metadata counts as grounding content — only the media themselves are off-limits.",
+            "de": "Falsch: Zitiere nur wirklich genutzte Quellen; Zusammenfassungen dürfen in internen Arbeitsergebnissen stehen, und Bild-Metadaten zählen als Grounding-Inhalt – tabu sind nur die Medien selbst."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A link to each source used, next to the answer — no database of results, and no returned images or videos as grounding input",
+            "de": "Einen Link zu jeder genutzten Quelle direkt bei der Antwort – keine Datenbank aus Ergebnissen und keine gelieferten Bilder oder Videos als Grounding-Input"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: citations next to the answer are mandatory, and the terms forbid a database of results or grounding on the returned images and videos themselves.",
+            "de": "Genau: Zitate bei der Antwort sind Pflicht, und die Nutzungsbedingungen verbieten eine Datenbank aus Ergebnissen und Grounding auf den gelieferten Bildern und Videos selbst."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-takeaway-1",
@@ -132,7 +732,57 @@
       "back": {
         "en": "Start with Foundry’s Web Search tool. Choose Web IQ for News, Images, Videos, Browse and fine-grained retrieval control.",
         "de": "Starte mit dem Web Search Tool von Foundry; wähle Web IQ für News, Images, Videos, Browse und feine Kontrolle über das Retrieval."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Foundry’s built-in Web Search tool — Web IQ when web results must merge with enterprise sources in one call",
+            "de": "Das eingebaute Web Search Tool von Foundry – Web IQ, wenn Webergebnisse in einem Aufruf mit Unternehmensquellen gemergt werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the Web Search tool is the start, but merging web results with enterprise sources in one retrieval call is what a Foundry IQ web knowledge source does.",
+            "de": "Teilweise richtig: Das Web Search Tool ist der Einstieg, aber Webergebnisse in einem Retrieval-Aufruf mit Unternehmensquellen zu mergen, leistet eine Foundry-IQ-Web-Knowledge-Source."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Foundry’s built-in Web Search tool — Web IQ when you need News, Images, Videos, Browse or fine-grained retrieval control",
+            "de": "Das eingebaute Web Search Tool von Foundry – Web IQ, wenn du News, Images, Videos, Browse oder feine Kontrolle über das Retrieval brauchst"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: the Web Search tool is the recommended start; Web IQ adds dedicated methods and control over result count, format and length.",
+            "de": "Richtig: Das Web Search Tool ist der empfohlene Einstieg; Web IQ bringt eigene Methoden und Kontrolle über Trefferzahl, Format und Länge."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "A Foundry IQ web knowledge source — Web IQ when you need News, Images, Videos, Browse or fine-grained retrieval control",
+            "de": "Eine Foundry-IQ-Web-Knowledge-Source – Web IQ, wenn du News, Images, Videos, Browse oder feine Kontrolle über das Retrieval brauchst"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: those are Web IQ’s strengths, but the recommended start is Foundry’s Web Search tool, not a Foundry IQ knowledge source.",
+            "de": "Teilweise richtig: Das sind die Stärken von Web IQ, aber der empfohlene Einstieg ist das Web Search Tool von Foundry, keine Foundry-IQ-Knowledge-Source."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "A Foundry IQ web knowledge source — Web IQ when web results must merge with enterprise sources in one call",
+            "de": "Eine Foundry-IQ-Web-Knowledge-Source – Web IQ, wenn Webergebnisse in einem Aufruf mit Unternehmensquellen gemergt werden"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: the recommended start is the Web Search tool, and merging with enterprise sources is the job of a Foundry IQ web knowledge source, not Web IQ.",
+            "de": "Nein: Der empfohlene Einstieg ist das Web Search Tool, und das Mergen mit Unternehmensquellen ist Aufgabe einer Foundry-IQ-Web-Knowledge-Source, nicht von Web IQ."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-takeaway-2",
@@ -144,7 +794,57 @@
       "back": {
         "en": "`https://api.microsoft.ai/v3/mcp` — with the tools `web`, `news`, `images`, `videos` and `browse`.",
         "de": "`https://api.microsoft.ai/v3/mcp` – mit den Tools `web`, `news`, `images`, `videos` und `browse`."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`https://api.microsoft.ai/v3/mcp` — with the tools `search`, `fetch_url` and `images`",
+            "de": "`https://api.microsoft.ai/v3/mcp` – mit den Tools `search`, `fetch_url` und `images`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the endpoint fits, but there are no `search` or `fetch_url` tools — web results come from `web`, a known URL from `browse`.",
+            "de": "Teilweise richtig: Der Endpoint stimmt, aber Tools namens `search` oder `fetch_url` gibt es nicht – Webtreffer kommen von `web`, eine bekannte URL von `browse`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`https://api.microsoft.ai/v3/mcp` — with the tools `web`, `news`, `images`, `videos` and `browse`",
+            "de": "`https://api.microsoft.ai/v3/mcp` – mit den Tools `web`, `news`, `images`, `videos` und `browse`"
+          },
+          "correct": true,
+          "why": {
+            "en": "Correct: the MCP server at `https://api.microsoft.ai/v3/mcp` exposes `web`, `news`, `images`, `videos` and `browse` — as far as your AppID allows them.",
+            "de": "Korrekt: Der MCP-Server unter `https://api.microsoft.ai/v3/mcp` stellt `web`, `news`, `images`, `videos` und `browse` bereit – soweit deine AppID sie erlaubt."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`https://api.microsoft.ai/v3/search/web` — with the tools `web`, `news`, `images`, `videos` and `browse`",
+            "de": "`https://api.microsoft.ai/v3/search/web` – mit den Tools `web`, `news`, `images`, `videos` und `browse`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the tools fit, but `https://api.microsoft.ai/v3/search/web` is the Web Search REST endpoint — the MCP server is `https://api.microsoft.ai/v3/mcp`.",
+            "de": "Teilweise richtig: Die Tools stimmen, aber `https://api.microsoft.ai/v3/search/web` ist der REST-Endpoint von Web Search – der MCP-Server liegt unter `https://api.microsoft.ai/v3/mcp`."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`https://api.microsoft.ai/v3/search/web` — with the tools `search`, `fetch_url` and `images`",
+            "de": "`https://api.microsoft.ai/v3/search/web` – mit den Tools `search`, `fetch_url` und `images`"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: that’s the Web Search REST endpoint, and `search` and `fetch_url` aren’t Web IQ tools — the MCP server at `https://api.microsoft.ai/v3/mcp` offers `web`, `news`, `images`, `videos` and `browse`.",
+            "de": "Falsch: Das ist der REST-Endpoint von Web Search, und `search` und `fetch_url` sind keine Web-IQ-Tools – der MCP-Server unter `https://api.microsoft.ai/v3/mcp` bietet `web`, `news`, `images`, `videos` und `browse`."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-takeaway-3",
@@ -156,7 +856,57 @@
       "back": {
         "en": "Use `contentFormat=passage` and set `maxLength` to keep the context small and relevant.",
         "de": "Nutze `contentFormat=passage` und setze `maxLength`, damit der Kontext klein und relevant bleibt."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "`contentFormat=passage` plus `search_context_size=low` per request",
+            "de": "`contentFormat=passage` plus `search_context_size=low` pro Anfrage"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `passage` fits, but `search_context_size` is a parameter of Foundry’s Web Search tool — Web IQ caps each result with `maxLength`.",
+            "de": "Teilweise richtig: `passage` stimmt, aber `search_context_size` ist ein Parameter des Web Search Tools von Foundry – Web IQ begrenzt jeden Treffer mit `maxLength`."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "`contentFormat=markdown` plus a `maxLength` per result",
+            "de": "`contentFormat=markdown` plus ein `maxLength` pro Treffer"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: `maxLength` fits, but `markdown` returns whole documents and needs full document access — `passage` keeps the context small.",
+            "de": "Teilweise richtig: `maxLength` stimmt, aber `markdown` liefert ganze Dokumente und braucht Volldokumentzugriff – `passage` hält den Kontext klein."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "`contentFormat=passage` plus a `maxLength` per result",
+            "de": "`contentFormat=passage` plus ein `maxLength` pro Treffer"
+          },
+          "correct": true,
+          "why": {
+            "en": "Yes: passages carry only the query-relevant parts of each result, and `maxLength` caps the characters per result.",
+            "de": "Ja: Passagen enthalten nur die abfragerelevanten Teile jedes Treffers, und `maxLength` begrenzt die Zeichen pro Treffer."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "`contentFormat=markdown` plus `search_context_size=low` per request",
+            "de": "`contentFormat=markdown` plus `search_context_size=low` pro Anfrage"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: `markdown` returns whole documents, and `search_context_size` belongs to Foundry’s Web Search tool — use `passage` and `maxLength`.",
+            "de": "Nein: `markdown` liefert ganze Dokumente, und `search_context_size` gehört zum Web Search Tool von Foundry – nutze `passage` und `maxLength`."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-takeaway-4",
@@ -168,7 +918,57 @@
       "back": {
         "en": "Keys belong in a connection or secret store; in production, prefer Microsoft Entra ID.",
         "de": "Keys gehören in eine Verbindung oder einen Secret Store; in Produktion bevorzugst du Microsoft Entra ID."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "In a connection or secret store — in production, prefer Azure RBAC roles on the Web IQ resource",
+            "de": "In eine Verbindung oder einen Secret Store – in Produktion bevorzugst du Azure-RBAC-Rollen auf der Web-IQ-Ressource"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the storage fits, but the Web IQ API has no Azure RBAC — prefer Microsoft Entra ID in production.",
+            "de": "Teilweise richtig: Der Speicherort stimmt, aber die Web-IQ-API kennt kein Azure RBAC – in Produktion bevorzugst du Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "In the agent’s instructions — in production, prefer Microsoft Entra ID",
+            "de": "In die Instructions des Agents – in Produktion bevorzugst du Microsoft Entra ID"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: Entra ID is the production choice, but keys never go into instructions — Agent Service reads them from the tool connection.",
+            "de": "Teilweise richtig: Entra ID ist die Wahl für Produktion, aber Keys gehören nie in Instructions – Agent Service liest sie aus der Tool-Verbindung."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "In the agent’s instructions — in production, prefer Azure RBAC roles on the Web IQ resource",
+            "de": "In die Instructions des Agents – in Produktion bevorzugst du Azure-RBAC-Rollen auf der Web-IQ-Ressource"
+          },
+          "correct": false,
+          "why": {
+            "en": "Wrong: keys never go into instructions, and the Web IQ API has no Azure RBAC — use a connection or secret store, then Microsoft Entra ID.",
+            "de": "Falsch: Keys gehören nie in Instructions, und die Web-IQ-API kennt kein Azure RBAC – nutze eine Verbindung oder einen Secret Store, dann Microsoft Entra ID."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "In a connection or secret store — in production, prefer Microsoft Entra ID",
+            "de": "In eine Verbindung oder einen Secret Store – in Produktion bevorzugst du Microsoft Entra ID"
+          },
+          "correct": true,
+          "why": {
+            "en": "Exactly: a connection or secret store keeps the key out of code; in production, Entra tokens (scope `https://api.microsoft.ai/.default`) are preferred.",
+            "de": "Genau: Eine Verbindung oder ein Secret Store hält den Key aus dem Code heraus; in Produktion sind Entra-Tokens (Scope `https://api.microsoft.ai/.default`) die bevorzugte Wahl."
+          }
+        }
+      ]
     },
     {
       "id": "z-web-iq-takeaway-5",
@@ -180,7 +980,57 @@
       "back": {
         "en": "Evaluate retrieval and generation separately, and check the traces to confirm Web IQ was really called.",
         "de": "Bewerte Retrieval und Generierung getrennt und prüfe in den Traces, ob Web IQ wirklich aufgerufen wurde."
-      }
+      },
+      "choices": [
+        {
+          "id": "a",
+          "text": {
+            "en": "Evaluate retrieval and generation separately, and look for the Web IQ tool call in the traces",
+            "de": "Retrieval und Generierung getrennt bewerten und in den Traces nach dem Web-IQ-Tool-Aufruf suchen"
+          },
+          "correct": true,
+          "why": {
+            "en": "Right: separate scores show whether a weak answer stems from retrieval or from generation, and the traces prove the tool call.",
+            "de": "Richtig: Getrennte Bewertungen zeigen, ob eine schwache Antwort am Retrieval oder an der Generierung liegt, und die Traces belegen den Tool-Aufruf."
+          }
+        },
+        {
+          "id": "b",
+          "text": {
+            "en": "Evaluate retrieval and generation separately, and ask the agent in the chat whether it called Web IQ",
+            "de": "Retrieval und Generierung getrennt bewerten und den Agent im Chat fragen, ob er Web IQ aufgerufen hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: separate evaluation fits, but the model’s own claim proves nothing — the traces show whether Web IQ was called.",
+            "de": "Teilweise richtig: Die getrennte Bewertung stimmt, aber die eigene Aussage des Modells beweist nichts – die Traces zeigen, ob Web IQ aufgerufen wurde."
+          }
+        },
+        {
+          "id": "c",
+          "text": {
+            "en": "Score only the final answer, end to end, in one metric, and look for the Web IQ tool call in the traces",
+            "de": "Nur die finale Antwort Ende-zu-Ende in einer Metrik bewerten und in den Traces nach dem Web-IQ-Tool-Aufruf suchen"
+          },
+          "correct": false,
+          "why": {
+            "en": "Partly right: the traces are right, but a single end-to-end score hides whether a failure starts in retrieval or in generation.",
+            "de": "Teilweise richtig: Die Traces stimmen, aber eine einzige Ende-zu-Ende-Bewertung verdeckt, ob ein Fehler im Retrieval oder in der Generierung entsteht."
+          }
+        },
+        {
+          "id": "d",
+          "text": {
+            "en": "Score only the final answer, end to end, in one metric, and ask the agent in the chat whether it called Web IQ",
+            "de": "Nur die finale Antwort Ende-zu-Ende in einer Metrik bewerten und den Agent im Chat fragen, ob er Web IQ aufgerufen hat"
+          },
+          "correct": false,
+          "why": {
+            "en": "No: a single end-to-end score hides where a failure starts, and the model’s own claim proves nothing — check the traces.",
+            "de": "Nein: Eine einzige Ende-zu-Ende-Bewertung verdeckt, wo ein Fehler entsteht, und die eigene Aussage des Modells beweist nichts – prüfe die Traces."
+          }
+        }
+      ]
     }
   ]
 }
