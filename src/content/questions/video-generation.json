@@ -151,7 +151,7 @@
         "en": "A completed Sora 2 video (`original`) needs a warmer color palette while its framing and motion stay the same. Complete the code.",
         "de": "Ein fertiges Sora-2-Video (`original`) braucht eine wärmere Farbpalette, Bildausschnitt und Bewegung sollen gleich bleiben. Vervollständige den Code."
       },
-      "template": "edited = client.videos.{{b1}}(\n    video_id=original.id,\n    prompt=\"Same shot, but shift the palette to warm sunset tones\",\n)\nwhile edited.status not in (\"completed\", \"failed\", \"cancelled\"):\n    time.sleep(20)\n    edited = client.videos.{{b2}}(edited.id)\n\nclient.videos.download_content(edited.id, variant=\"video\").write_to_file(\"sunset.mp4\")",
+      "template": "edited = client.videos.{{b1}}(\n    video_id=original.id,\n    prompt=\"Same shot, but shift the palette to warm sunset tones\",\n)\nwhile edited.status not in (\"completed\", \"failed\"):\n    time.sleep(20)\n    edited = client.videos.{{b2}}(edited.id)\n\nclient.videos.download_content(edited.id, variant=\"video\").write_to_file(\"sunset.mp4\")",
       "blanks": [
         {
           "id": "b1",

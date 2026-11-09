@@ -151,8 +151,8 @@ export const lesson: Lesson = {
     {
       term: 'Version selector',
       text: {
-        en: 'Decides which agent version the endpoint serves: **Always use latest** (default — every new version goes live at once, also in Teams and Microsoft 365 Copilot) or a pinned active version. Only one version receives traffic at a time; there’s no traffic splitting.',
-        de: 'Bestimmt, welche Agent-Version der Endpoint ausliefert: **Always use latest** (Standard – jede neue Version ist sofort live, auch in Teams und Microsoft 365 Copilot) oder eine gepinnte aktive Version. Es bekommt immer nur eine Version Traffic; Traffic-Splitting gibt es nicht.',
+        en: 'Decides which agent version the endpoint serves: **Always use latest** (default — every new version goes live at once, also in Teams and Microsoft 365 Copilot) or a pinned active version. The endpoint routes all default traffic to that one version, with no traffic splitting; callers with invoke access can still request another version with `x-agent-version-override`.',
+        de: 'Bestimmt, welche Agent-Version der Endpoint ausliefert: **Always use latest** (Standard – jede neue Version ist sofort live, auch in Teams und Microsoft 365 Copilot) oder eine gepinnte aktive Version. Der Endpoint leitet den gesamten Standard-Traffic an diese eine Version, ohne Traffic-Splitting; Aufrufer mit Aufrufrechten können per `x-agent-version-override` trotzdem eine andere Version anfordern.',
       },
     },
     {

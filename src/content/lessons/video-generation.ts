@@ -160,8 +160,8 @@ export const lesson: Lesson = {
     {
       term: 'Asynchronous video job',
       text: {
-        en: '`videos.create()` returns a video object with an `id` and status `queued`. You poll `videos.retrieve()` through `in_progress` until `completed`, `failed` or `cancelled`. Rendering takes about 1–5 minutes. Limit: at most two creation jobs can run at the same time — wait until one finishes before you create another.',
-        de: '`videos.create()` liefert ein Video-Objekt mit `id` und Status `queued`. Du fragst `videos.retrieve()` über `in_progress` ab, bis `completed`, `failed` oder `cancelled` erreicht ist. Das Rendern dauert etwa 1–5 Minuten. Limit: Höchstens zwei Erstellungsjobs laufen gleichzeitig – warte, bis einer fertig ist, bevor du den nächsten anlegst.',
+        en: '`videos.create()` returns a video object with an `id` and status `queued`. You poll `videos.retrieve()` through `in_progress` until `completed` or `failed`. Rendering takes about 1–5 minutes. Limit: at most two creation jobs can run at the same time — wait until one finishes before you create another.',
+        de: '`videos.create()` liefert ein Video-Objekt mit `id` und Status `queued`. Du fragst `videos.retrieve()` über `in_progress` ab, bis `completed` oder `failed` erreicht ist. Das Rendern dauert etwa 1–5 Minuten. Limit: Höchstens zwei Erstellungsjobs laufen gleichzeitig – warte, bis einer fertig ist, bevor du den nächsten anlegst.',
       },
     },
     {
@@ -240,7 +240,7 @@ try:
 except BadRequestError as err:                 # rejected at once, e.g. unsupported size
     raise SystemExit(f"Request rejected: {err}")
 
-while video.status not in ("completed", "failed", "cancelled"):
+while video.status not in ("completed", "failed"):
     time.sleep(20)
     video = client.videos.retrieve(video.id)
 
@@ -265,7 +265,7 @@ client = OpenAI(
 )
 
 def wait(video):
-    while video.status not in ("completed", "failed", "cancelled"):
+    while video.status not in ("completed", "failed"):
         time.sleep(20)
         video = client.videos.retrieve(video.id)
     return video

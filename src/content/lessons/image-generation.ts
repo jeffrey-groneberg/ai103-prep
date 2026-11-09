@@ -165,8 +165,8 @@ export const lesson: Lesson = {
     {
       term: 'GPT-image models',
       text: {
-        en: 'Azure OpenAI image models: text and images in, image out. Generally available today: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare and gpt-image-2.5-sunburst (see the table). `dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired; gpt-image-1.5 retires on December 16, 2026.',
-        de: 'Azure-OpenAI-Bildmodelle: Text und Bilder rein, Bild raus. Heute allgemein verfügbar: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare und gpt-image-2.5-sunburst (siehe Tabelle). `dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt; gpt-image-1.5 wird am 16. Dezember 2026 eingestellt.',
+        en: 'Azure OpenAI image models: text and images in, image out. Generally available today: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare and gpt-image-2.5-sunburst (see the table), plus gpt-image-1.5 until it retires on December 16, 2026. `dall-e-3` (March 4, 2026) and gpt-image-1 (October 23, 2026) are retired.',
+        de: 'Azure-OpenAI-Bildmodelle: Text und Bilder rein, Bild raus. Heute allgemein verfügbar: gpt-image-1-mini, gpt-image-2, gpt-image-2.5-flare und gpt-image-2.5-sunburst (siehe Tabelle), dazu gpt-image-1.5 bis zu seiner Einstellung am 16. Dezember 2026. `dall-e-3` (4. März 2026) und gpt-image-1 (23. Oktober 2026) sind eingestellt.',
       },
     },
     {

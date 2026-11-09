@@ -179,8 +179,8 @@ export const lesson: Lesson = {
     {
       term: 'A2A in Foundry',
       text: {
-        en: 'Call out: the GA `a2a` tool (protocol 1.0) on a prompt agent, through a project connection; Foundry reads the remote card anonymously unless the tool sets `send_credentials_for_agent_card: true`. Be called: incoming A2A (agent card plus `a2a` protocol) on a prompt agent; every URL, including the card, requires Microsoft Entra ID, and the endpoint answers in text without streaming.',
-        de: 'Nach außen: das GA-Tool `a2a` (Protokoll 1.0) an einem Prompt Agent, über eine Projektverbindung; Foundry liest die entfernte Card anonym, außer das Tool setzt `send_credentials_for_agent_card: true`. Aufgerufen werden: eingehendes A2A (Agent Card plus `a2a`-Protokoll) an einem Prompt Agent; jede URL, auch die Card, verlangt Microsoft Entra ID, und der Endpoint antwortet in Text ohne Streaming.',
+        en: 'Call out: the GA `a2a` tool (protocol 1.0) on a prompt agent, through a project connection; Foundry reads the remote card anonymously unless the tool sets `send_credentials_for_agent_card: true` (not needed when the target is a Foundry agent: Foundry resolves its card and protocol version itself). Be called: incoming A2A (agent card plus `a2a` protocol) on a prompt agent; every URL, including the card, requires Microsoft Entra ID, and the endpoint answers in text without streaming.',
+        de: 'Nach außen: das GA-Tool `a2a` (Protokoll 1.0) an einem Prompt Agent, über eine Projektverbindung; Foundry liest die entfernte Card anonym, außer das Tool setzt `send_credentials_for_agent_card: true` (bei einem Foundry Agent als Ziel unnötig: Foundry findet dessen Card und Protokollversion selbst). Aufgerufen werden: eingehendes A2A (Agent Card plus `a2a`-Protokoll) an einem Prompt Agent; jede URL, auch die Card, verlangt Microsoft Entra ID, und der Endpoint antwortet in Text ohne Streaming.',
       },
     },
     {

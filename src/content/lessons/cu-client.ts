@@ -7,8 +7,8 @@ export const lesson: Lesson = {
     de: 'Eine Content-Understanding-Client-App spricht mit dem **Endpoint deiner Foundry-Ressource** (`https://<resource>.services.ai.azure.com/`) – entweder mit einfachen REST-Aufrufen oder mit dem Python SDK `azure-ai-contentunderstanding`. Kurz zur Erinnerung: Ein **Analyzer** ist eine wiederverwendbare Definition – Basis-Analyzer, **Feldschema** (die gewünschten Werte) und Modellnamen –, die du einmal anlegst und der du dann Dateien schickst; jedes Feld wird per `generate`, `classify` oder bei Dokumenten per `extract` (Wert exakt wie gedruckt übernehmen) gefüllt. Beim Analysieren ordnet der Dienst die Modellnamen des Analyzers deinen Deployments zu – über eine einmalige **Defaults**-Zuordnung der Ressource oder über ein `modelDeployments`-Objekt in der Anfrage. Jede Operation ist **asynchron**: Das Anlegen eines Analyzers (`PUT`) und das Analysieren einer Datei (`POST …:analyze`) liefern jeweils eine `Operation-Location`, die du abfragst, bis der Status final ist – das SDK kapselt das in Pollern wie `begin_create_analyzer` und `begin_analyze`. Das Ergebnis-JSON enthält `contents[]`, jeweils mit `markdown`, typisierten `fields` und bei Dokumenten dem OCR-Layout (Seiten, Wörter, Zeilen, Absätze).',
   },
   examFocus: {
-    en: 'Expect sequencing questions (defaults → create analyzer → analyze → poll), the difference between `:analyze` (URLs in `inputs`) and `:analyzeBinary` (raw bytes), status values (`NotStarted`, `Running`, `Succeeded`, `Failed`, `Canceled`), authentication (Microsoft Entra ID with `DefaultAzureCredential` or the `Ocp-Apim-Subscription-Key` header) and reading results (`valueString` or `.value`, `confidence`, `source`, `spans`). Code items often show an SDK call with a missing method or argument.',
-    de: 'Rechne mit Fragen zur Reihenfolge (Defaults → Analyzer anlegen → analysieren → abfragen), zum Unterschied zwischen `:analyze` (URLs in `inputs`) und `:analyzeBinary` (rohe Bytes), zu Statuswerten (`NotStarted`, `Running`, `Succeeded`, `Failed`, `Canceled`), zur Authentifizierung (Microsoft Entra ID mit `DefaultAzureCredential` oder Header `Ocp-Apim-Subscription-Key`) und zum Lesen der Ergebnisse (`valueString` bzw. `.value`, `confidence`, `source`, `spans`). Code-Aufgaben zeigen oft einen SDK-Aufruf mit fehlender Methode oder fehlendem Argument.',
+    en: 'Expect sequencing questions (defaults → create analyzer → analyze → poll), the difference between `:analyze` (usually URLs in `inputs`) and `:analyzeBinary` (raw bytes), status values (`NotStarted`, `Running`, `Succeeded`, `Failed`, `Canceled`), authentication (Microsoft Entra ID with `DefaultAzureCredential` or the `Ocp-Apim-Subscription-Key` header) and reading results (`valueString` or `.value`, `confidence`, `source`, `spans`). Code items often show an SDK call with a missing method or argument.',
+    de: 'Rechne mit Fragen zur Reihenfolge (Defaults → Analyzer anlegen → analysieren → abfragen), zum Unterschied zwischen `:analyze` (meist URLs in `inputs`) und `:analyzeBinary` (rohe Bytes), zu Statuswerten (`NotStarted`, `Running`, `Succeeded`, `Failed`, `Canceled`), zur Authentifizierung (Microsoft Entra ID mit `DefaultAzureCredential` oder Header `Ocp-Apim-Subscription-Key`) und zum Lesen der Ergebnisse (`valueString` bzw. `.value`, `confidence`, `source`, `spans`). Code-Aufgaben zeigen oft einen SDK-Aufruf mit fehlender Methode oder fehlendem Argument.',
   },
   diagrams: [
     {
@@ -69,8 +69,8 @@ export const lesson: Lesson = {
         {
           title: { en: 'Submit content', de: 'Inhalt einreichen' },
           text: {
-            en: '`POST …/analyzers/{analyzerId}:analyze` takes JSON with `inputs` (file URLs); `:analyzeBinary` takes the raw bytes in the body. Both answer `202 Accepted` with an `Operation-Location` and a status of `NotStarted`.',
-            de: '`POST …/analyzers/{analyzerId}:analyze` nimmt JSON mit `inputs` (Datei-URLs); `:analyzeBinary` nimmt die rohen Bytes im Body. Beide antworten mit `202 Accepted`, einer `Operation-Location` und dem Status `NotStarted`.',
+            en: '`POST …/analyzers/{analyzerId}:analyze` takes JSON with `inputs` (usually file URLs); `:analyzeBinary` takes the raw bytes in the body. Both answer `202 Accepted` with an `Operation-Location` and a status of `NotStarted`.',
+            de: '`POST …/analyzers/{analyzerId}:analyze` nimmt JSON mit `inputs` (meist Datei-URLs); `:analyzeBinary` nimmt die rohen Bytes im Body. Beide antworten mit `202 Accepted`, einer `Operation-Location` und dem Status `NotStarted`.',
           },
           focus: ['a3', 'e3', 's3'],
         },
@@ -171,8 +171,8 @@ export const lesson: Lesson = {
     {
       term: 'analyze vs analyzeBinary',
       text: {
-        en: '`:analyze` / `begin_analyze` take `inputs` with URLs (videos up to 4 GB and two hours). `:analyzeBinary` / `begin_analyze_binary` upload raw bytes (videos up to 200 MB and 30 minutes). Both accept a range of pages or milliseconds to analyze.',
-        de: '`:analyze` / `begin_analyze` nehmen `inputs` mit URLs (Videos bis 4 GB und zwei Stunden). `:analyzeBinary` / `begin_analyze_binary` laden rohe Bytes hoch (Videos bis 200 MB und 30 Minuten). Beide akzeptieren einen Bereich aus Seiten oder Millisekunden.',
+        en: '`:analyze` / `begin_analyze` take `inputs`, usually file URLs (videos by URL up to 4 GB and two hours). `:analyzeBinary` / `begin_analyze_binary` upload raw bytes (videos up to 200 MB and 30 minutes). Both accept a range of pages or milliseconds to analyze.',
+        de: '`:analyze` / `begin_analyze` nehmen `inputs`, meist Datei-URLs (Videos per URL bis 4 GB und zwei Stunden). `:analyzeBinary` / `begin_analyze_binary` laden rohe Bytes hoch (Videos bis 200 MB und 30 Minuten). Beide akzeptieren einen Bereich aus Seiten oder Millisekunden.',
       },
     },
     {
@@ -293,8 +293,8 @@ print(contact["valueString"], contact.get("confidence"), contact.get("source"))`
       de: 'Der Analyse-`POST` liefert nicht das Ergebnis. Er liefert `202 Accepted` und eine `Operation-Location`, die du abfragen musst.',
     },
     {
-      en: '`:analyze` expects JSON with `inputs` (URLs). To upload the file itself, call `:analyzeBinary` (SDK: `begin_analyze_binary`).',
-      de: '`:analyze` erwartet JSON mit `inputs` (URLs). Um die Datei selbst hochzuladen, rufst du `:analyzeBinary` auf (SDK: `begin_analyze_binary`).',
+      en: '`:analyze` expects JSON with `inputs` (usually URLs). To upload the file itself, call `:analyzeBinary` (SDK: `begin_analyze_binary`).',
+      de: '`:analyze` erwartet JSON mit `inputs` (meist URLs). Um die Datei selbst hochzuladen, rufst du `:analyzeBinary` auf (SDK: `begin_analyze_binary`).',
     },
     {
       en: 'Errors such as “default model deployment not configured” mean the defaults mapping is missing — not that the analyzer definition is wrong.',

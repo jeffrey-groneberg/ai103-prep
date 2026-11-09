@@ -367,8 +367,8 @@ print(result.response[0].content[0].text)   # JSON chunks, each with a ref_id fo
       de: 'Foundry IQ läuft nicht ohne Azure AI Search – die Knowledge Base liegt auf dem Suchdienst. Foundry Agent Service ist dagegen optional: Agent Framework oder jede App kann die Knowledge Base aufrufen.',
     },
     {
-      en: '`minimal` reasoning effort means no query planning, no answer synthesis and no web knowledge source. Don’t pick it when multi-part questions must be decomposed.',
-      de: '`minimal` Reasoning Effort heißt: keine Abfrageplanung, keine Answer Synthesis und keine Web-Knowledge-Source. Wähle es nicht, wenn mehrteilige Fragen zerlegt werden müssen.',
+      en: 'Setting `minimal` reasoning effort (preview API) means no query planning, no answer synthesis and no web knowledge source. Don’t pick it when multi-part questions must be decomposed.',
+      de: '`minimal` als Reasoning Effort (Preview-API) heißt: keine Abfrageplanung, keine Answer Synthesis und keine Web-Knowledge-Source. Wähle es nicht, wenn mehrteilige Fragen zerlegt werden müssen.',
     },
     {
       en: 'For indexed sources, permission trimming needs both halves: permission metadata ingested with `ingestionPermissionOptions` and the user’s token on the request. Missing either one returns results unfiltered.',
