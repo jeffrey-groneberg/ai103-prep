@@ -266,6 +266,8 @@ Fragen liegen als JSON pro Modul in `src/content/questions/<modul>.json`, Lektio
 }
 ```
 
+Neue Kernkonzepte, Prüfungsfallen und Merksätze hängst du in der Lektion **hinten an** die jeweilige Liste an und legst in `src/content/cards/<modul>.json` den passenden Zettel an (`z-<modul>-<concept|trap|takeaway>-<n>`, Frage auf der Vorderseite, bei Prüfungsfallen und Merksätzen auch die Rückseite): Zettel verweisen über ihre Position auf die Lektion, deshalb nichts einfügen, umsortieren oder löschen, ohne die Zettel anzupassen. Änderst du den Text eines Eintrags, prüfe, ob sein Zettel noch passt.
+
 Danach `npm run sources:titles` (bei neuen Quellen) und `npm run validate -- --matrix` ausführen und die Zahlen in dieser README anpassen.
 
 ## Lernstand und Datenschutz
